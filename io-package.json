@@ -41,13 +41,8 @@
 			"pl": "Alternatywna implementacja Z-Wave",
 			"zh-cn": "替代Z-Wave实施"
 		},
-		"authors": [
-			"AlCalzone <d.griesel@gmx.net>"
-		],
-		"keywords": [
-			"zwave",
-			"z-wave"
-		],
+		"authors": ["AlCalzone <d.griesel@gmx.net>"],
+		"keywords": ["zwave", "z-wave"],
 		"license": "MIT",
 		"platform": "Javascript/Node.js",
 		"main": "build/main.js",
@@ -70,8 +65,7 @@
 		]
 	},
 	"native": {
-		"option1": true,
-		"option2": "42"
+		"serialport": "COM3"
 	},
 	"objects": [],
 	"instanceObjects": [

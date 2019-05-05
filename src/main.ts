@@ -1,25 +1,12 @@
-/*
- * Created with @iobroker/create-adapter v1.12.1
- */
-
-// The adapter-core module gives you access to the core ioBroker functions
-// you need to create an adapter
 import * as utils from "@iobroker/adapter-core";
-
-// Load your modules here, e.g.:
-// import * as fs from "fs";
+import { Driver } from "zwave-js";
 
 // Augment the adapter.config object with the actual types
-// TODO: delete this in the next version
 declare global {
 	// eslint-disable-next-line @typescript-eslint/no-namespace
 	namespace ioBroker {
 		interface AdapterConfig {
-			// Define the shape of your options here (recommended)
-			option1: boolean;
-			option2: string;
-			// Or use a catch-all approach
-			[key: string]: any;
+			serialport: string;
 		}
 	}
 }
@@ -37,71 +24,27 @@ class Zwave2 extends utils.Adapter {
 		this.on("unload", this.onUnload.bind(this));
 	}
 
+	private driver!: Driver;
+
 	/**
 	 * Is called when databases are connected and adapter received configuration.
 	 */
 	private async onReady(): Promise<void> {
-		// Initialize your adapter here
-
-		// Reset the connection indicator during startup
 		this.setState("info.connection", false, true);
 
-		// The adapters config (in the instance object everything under the attribute "native") is accessible via
-		// this.config:
-		this.log.info("config option1: " + this.config.option1);
-		this.log.info("config option2: " + this.config.option2);
-
-		/*
-		For every state in the system there has to be also an object of type state
-		Here a simple template for a boolean variable named "testVariable"
-		Because every adapter instance uses its own unique namespace variable names can't collide with other adapters variables
-		*/
-		await this.setObjectAsync("testVariable", {
-			type: "state",
-			common: {
-				name: "testVariable",
-				type: "boolean",
-				role: "indicator",
-				read: true,
-				write: true,
-			},
-			native: {},
+		this.driver = new Driver(this.config.serialport);
+		this.driver.once("driver ready", () => {
+			this.setState("info.connection", true, true);
 		});
-
-		// in this template all states changes inside the adapters namespace are subscribed
-		this.subscribeStates("*");
-
-		/*
-		setState examples
-		you will notice that each setState will cause the stateChange event to fire (because of above subscribeStates cmd)
-		*/
-		// the variable testVariable is set to true as command (ack=false)
-		await this.setStateAsync("testVariable", true);
-
-		// same thing, but the value is flagged "ack"
-		// ack should be always set to true if the value is received from or acknowledged from the target system
-		await this.setStateAsync("testVariable", { val: true, ack: true });
-
-		// same thing, but the state is deleted after 30s (getState will return null afterwards)
-		await this.setStateAsync("testVariable", {
-			val: true,
-			ack: true,
-			expire: 30,
-		});
-
-		// examples for the checkPassword/checkGroup functions
-		let result = await this.checkPasswordAsync("admin", "iobroker");
-		this.log.info("check user admin pw ioboker: " + result);
-
-		result = await this.checkGroupAsync("admin", "admin");
-		this.log.info("check group user admin group admin: " + result);
+		await this.driver.start();
 	}
 
 	/**
 	 * Is called when adapter shuts down - callback has to be called under any circumstances!
 	 */
-	private onUnload(callback: () => void): void {
+	private async onUnload(callback: () => void): Promise<void> {
 		try {
+			await this.driver.destroy();
 			this.log.info("cleaned everything up...");
 			callback();
 		} catch (e) {
@@ -118,10 +61,10 @@ class Zwave2 extends utils.Adapter {
 	): void {
 		if (obj) {
 			// The object was changed
-			this.log.info(`object ${id} changed: ${JSON.stringify(obj)}`);
+			this.log.debug(`object ${id} changed: ${JSON.stringify(obj)}`);
 		} else {
 			// The object was deleted
-			this.log.info(`object ${id} deleted`);
+			this.log.debug(`object ${id} deleted`);
 		}
 	}
 
@@ -134,12 +77,12 @@ class Zwave2 extends utils.Adapter {
 	): void {
 		if (state) {
 			// The state was changed
-			this.log.info(
+			this.log.debug(
 				`state ${id} changed: ${state.val} (ack = ${state.ack})`,
 			);
 		} else {
 			// The state was deleted
-			this.log.info(`state ${id} deleted`);
+			this.log.debug(`state ${id} deleted`);
 		}
 	}
 
