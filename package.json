@@ -20,6 +20,8 @@
     "@iobroker/adapter-core": "^1.0.3"
   },
   "devDependencies": {
+    "@fimbul/mithotyn": "^0.18.0",
+    "@fimbul/wotan": "^0.20.0",
     "@iobroker/testing": "^1.2.0",
     "@types/chai": "^4.1.7",
     "@types/chai-as-promised": "^7.1.0",
@@ -35,9 +37,12 @@
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "eslint": "^5.16.0",
+    "eslint-config-prettier": "^4.1.0",
+    "eslint-plugin-prettier": "^3.0.1",
     "gulp": "^4.0.1",
     "mocha": "^6.1.4",
     "nyc": "^14.1.0",
+    "prettier": "^1.17.0",
     "proxyquire": "^2.1.0",
     "rimraf": "^2.6.3",
     "sinon": "^7.3.2",
@@ -59,7 +64,9 @@
     "test:integration": "mocha test/integration --exit",
     "test": "npm run test:ts && npm run test:package",
     "coverage": "nyc npm run test:ts",
-    "lint": "eslint --ext .ts src"
+    "lint:ts": "eslint --ext .ts src",
+    "lint:wotan": "wotan",
+    "lint": "npm run lint:ts && npm run lint:wotan"
   },
   "nyc": {
     "include": [

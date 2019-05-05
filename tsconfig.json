@@ -1,6 +1,13 @@
 {
 	"compileOnSave": true,
 	"compilerOptions": {
+		"plugins": [
+			{
+				"name": "@fimbul/mithotyn",
+				"displayErrorsAsWarnings": true
+			}
+		],
+
 		// do not compile anything, this file is just to configure type checking
 		// the compilation is configured in tsconfig.build.json
 		"noEmit": true,
@@ -34,13 +41,6 @@
 		"inlineSourceMap": false,
 		"watch": false
 	},
-	"include": [
-		"**/*.js",
-		"**/*.d.ts"
-	],
-	"exclude": [
-		"build/**",
-		"node_modules/**",
-		"admin/**"
-	]
+	"include": ["**/*.js", "**/*.d.ts"],
+	"exclude": ["build/**", "node_modules/**", "admin/**"]
 }

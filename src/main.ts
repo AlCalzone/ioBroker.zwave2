@@ -25,7 +25,6 @@ declare global {
 }
 
 class Zwave2 extends utils.Adapter {
-
 	public constructor(options: Partial<ioBroker.AdapterOptions> = {}) {
 		super({
 			...options,
@@ -84,7 +83,11 @@ class Zwave2 extends utils.Adapter {
 		await this.setStateAsync("testVariable", { val: true, ack: true });
 
 		// same thing, but the state is deleted after 30s (getState will return null afterwards)
-		await this.setStateAsync("testVariable", { val: true, ack: true, expire: 30 });
+		await this.setStateAsync("testVariable", {
+			val: true,
+			ack: true,
+			expire: 30,
+		});
 
 		// examples for the checkPassword/checkGroup functions
 		let result = await this.checkPasswordAsync("admin", "iobroker");
@@ -109,7 +112,10 @@ class Zwave2 extends utils.Adapter {
 	/**
 	 * Is called if a subscribed object changes
 	 */
-	private onObjectChange(id: string, obj: ioBroker.Object | null | undefined): void {
+	private onObjectChange(
+		id: string,
+		obj: ioBroker.Object | null | undefined,
+	): void {
 		if (obj) {
 			// The object was changed
 			this.log.info(`object ${id} changed: ${JSON.stringify(obj)}`);
@@ -122,10 +128,15 @@ class Zwave2 extends utils.Adapter {
 	/**
 	 * Is called if a subscribed state changes
 	 */
-	private onStateChange(id: string, state: ioBroker.State | null | undefined): void {
+	private onStateChange(
+		id: string,
+		state: ioBroker.State | null | undefined,
+	): void {
 		if (state) {
 			// The state was changed
-			this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
+			this.log.info(
+				`state ${id} changed: ${state.val} (ack = ${state.ack})`,
+			);
 		} else {
 			// The state was deleted
 			this.log.info(`state ${id} deleted`);
@@ -147,12 +158,12 @@ class Zwave2 extends utils.Adapter {
 	// 		}
 	// 	}
 	// }
-
 }
 
 if (module.parent) {
 	// Export the constructor in compact mode
-	module.exports = (options: Partial<ioBroker.AdapterOptions> | undefined) => new Zwave2(options);
+	module.exports = (options: Partial<ioBroker.AdapterOptions> | undefined) =>
+		new Zwave2(options);
 } else {
 	// otherwise start the instance directly
 	(() => new Zwave2())();
