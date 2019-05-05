@@ -1,0 +1,100 @@
+{
+	"common": {
+		"name": "zwave2",
+		"version": "0.0.1",
+		"news": {
+			"0.0.1": {
+				"en": "initial release",
+				"de": "Erstveröffentlichung",
+				"ru": "Начальная версия",
+				"pt": "lançamento inicial",
+				"nl": "Eerste uitgave",
+				"fr": "Première version",
+				"it": "Versione iniziale",
+				"es": "Versión inicial",
+				"pl": "Pierwsze wydanie",
+				"zh-cn": "首次出版"
+			}
+		},
+		"title": "Z-Wave",
+		"titleLang": {
+			"en": "Z-Wave",
+			"de": "Z-Wave",
+			"ru": "Z-Wave",
+			"pt": "Z-Wave",
+			"nl": "Z-Wave",
+			"fr": "Z-Wave",
+			"it": "Z-Wave",
+			"es": "Onda z",
+			"pl": "Z-Wave",
+			"zh-cn": "Z-波"
+		},
+		"desc": {
+			"en": "Alternative Z-Wave implementation",
+			"de": "Alternative Z-Wave-Implementierung",
+			"ru": "Альтернативная реализация Z-Wave",
+			"pt": "Implementação alternativa de Z-Wave",
+			"nl": "Alternatieve Z-Wave-implementatie",
+			"fr": "Mise en œuvre alternative de Z-Wave",
+			"it": "Implementazione Z-Wave alternativa",
+			"es": "Implementación alternativa de Z-Wave",
+			"pl": "Alternatywna implementacja Z-Wave",
+			"zh-cn": "替代Z-Wave实施"
+		},
+		"authors": [
+			"AlCalzone <d.griesel@gmx.net>"
+		],
+		"keywords": [
+			"zwave",
+			"z-wave"
+		],
+		"license": "MIT",
+		"platform": "Javascript/Node.js",
+		"main": "build/main.js",
+		"icon": "zwave2.png",
+		"enabled": true,
+		"extIcon": "https://raw.githubusercontent.com/AlCalzone/ioBroker.zwave2/master/admin/zwave2.png",
+		"readme": "https://github.com/AlCalzone/ioBroker.zwave2/blob/master/README.md",
+		"loglevel": "info",
+		"mode": "daemon",
+		"type": "hardware",
+		"compact": true,
+		"materialize": true,
+		"dependencies": [
+			{
+				"admin": ">=3.0.0"
+			},
+			{
+				"js-controller": ">=1.4.2"
+			}
+		]
+	},
+	"native": {
+		"option1": true,
+		"option2": "42"
+	},
+	"objects": [],
+	"instanceObjects": [
+		{
+			"_id": "info",
+			"type": "channel",
+			"common": {
+				"name": "Information"
+			},
+			"native": {}
+		},
+		{
+			"_id": "info.connection",
+			"type": "state",
+			"common": {
+				"role": "indicator.connected",
+				"name": "Device or service connected",
+				"type": "boolean",
+				"read": true,
+				"write": false,
+				"def": false
+			},
+			"native": {}
+		}
+	]
+}
