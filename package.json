@@ -67,7 +67,8 @@
     "coverage": "nyc npm run test:ts",
     "lint:ts": "eslint --ext .ts src",
     "lint:wotan": "wotan",
-    "lint": "npm run lint:ts && npm run lint:wotan"
+    "lint": "npm run lint:ts && npm run lint:wotan",
+    "update_iob": "start update_iob.bat"
   },
   "nyc": {
     "include": [

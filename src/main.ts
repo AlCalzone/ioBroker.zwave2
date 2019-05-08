@@ -1,5 +1,5 @@
 import * as utils from "@iobroker/adapter-core";
-import { Driver } from "zwave-js";
+import { Driver, ZWaveNode } from "zwave-js";
 
 // Augment the adapter.config object with the actual types
 declare global {
@@ -31,12 +31,51 @@ class Zwave2 extends utils.Adapter {
 	 */
 	private async onReady(): Promise<void> {
 		this.setState("info.connection", false, true);
-
 		this.driver = new Driver(this.config.serialport);
 		this.driver.once("driver ready", () => {
 			this.setState("info.connection", true, true);
+
+			this.log.info(
+				`The driver is ready. Found ${
+					this.driver.controller!.nodes.size
+				} nodes.`,
+			);
+			this.driver.controller!.nodes.forEach(
+				this.addNodeEventHandlers.bind(this),
+			);
 		});
 		await this.driver.start();
+	}
+
+	private addNodeEventHandlers(node: ZWaveNode): void {
+		node.once(
+			"interview completed",
+			this.onNodeInterviewCompleted.bind(this),
+		)
+			.on("wake up", this.onNodeWakeUp.bind(this))
+			.on("sleep", this.onNodeSleep.bind(this))
+			.on("alive", this.onNodeAlive.bind(this))
+			.on("dead", this.onNodeDead.bind(this));
+	}
+
+	private onNodeInterviewCompleted(node: ZWaveNode): void {
+		this.log.info(`Node ${node.id}: interview completed`);
+	}
+
+	private onNodeWakeUp(node: ZWaveNode): void {
+		this.log.info(`Node ${node.id}: is now awake`);
+	}
+
+	private onNodeSleep(node: ZWaveNode): void {
+		this.log.info(`Node ${node.id}: is now asleep`);
+	}
+
+	private onNodeAlive(node: ZWaveNode): void {
+		this.log.info(`Node ${node.id}: has returned from the dead`);
+	}
+
+	private onNodeDead(node: ZWaveNode): void {
+		this.log.info(`Node ${node.id}: is now dead`);
 	}
 
 	/**

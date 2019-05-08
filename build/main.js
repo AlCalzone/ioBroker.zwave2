@@ -19,8 +19,32 @@ class Zwave2 extends utils.Adapter {
         this.driver = new zwave_js_1.Driver(this.config.serialport);
         this.driver.once("driver ready", () => {
             this.setState("info.connection", true, true);
+            this.log.info(`The driver is ready. Found ${this.driver.controller.nodes.size} nodes.`);
+            this.driver.controller.nodes.forEach(this.addNodeEventHandlers.bind(this));
         });
         await this.driver.start();
+    }
+    addNodeEventHandlers(node) {
+        node.once("interview completed", this.onNodeInterviewCompleted.bind(this))
+            .on("wake up", this.onNodeWakeUp.bind(this))
+            .on("sleep", this.onNodeSleep.bind(this))
+            .on("alive", this.onNodeAlive.bind(this))
+            .on("dead", this.onNodeDead.bind(this));
+    }
+    onNodeInterviewCompleted(node) {
+        this.log.info(`Node ${node.id}: interview completed`);
+    }
+    onNodeWakeUp(node) {
+        this.log.info(`Node ${node.id}: is now awake`);
+    }
+    onNodeSleep(node) {
+        this.log.info(`Node ${node.id}: is now asleep`);
+    }
+    onNodeAlive(node) {
+        this.log.info(`Node ${node.id}: has returned from the dead`);
+    }
+    onNodeDead(node) {
+        this.log.info(`Node ${node.id}: is now dead`);
     }
     /**
      * Is called when adapter shuts down - callback has to be called under any circumstances!
