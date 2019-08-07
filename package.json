@@ -21,7 +21,7 @@
     "zwave-js": "github:AlCalzone/node-zwave-js#master"
   },
   "devDependencies": {
-    "@fimbul/mithotyn": "^0.18.0",
+    "@fimbul/mithotyn": "^0.21.0",
     "@fimbul/wotan": "^0.20.0",
     "@iobroker/testing": "^1.2.0",
     "@types/chai": "^4.1.7",
