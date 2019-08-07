@@ -82,7 +82,7 @@
 			"type": "state",
 			"common": {
 				"role": "indicator.connected",
-				"name": "Device or service connected",
+				"name": "Whether the Z-Wave driver is ready",
 				"type": "boolean",
 				"read": true,
 				"write": false,

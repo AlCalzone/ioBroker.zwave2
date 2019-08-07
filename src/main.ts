@@ -1,5 +1,12 @@
 import * as utils from "@iobroker/adapter-core";
 import { Driver, ZWaveNode } from "zwave-js";
+import {
+	ZWaveNodeValueAddedArgs,
+	ZWaveNodeValueRemovedArgs,
+	ZWaveNodeValueUpdatedArgs,
+} from "zwave-js/build/lib/node/Node";
+import { Global as _ } from "./lib/global";
+import { extendValue, removeValue } from "./lib/objects";
 
 // Augment the adapter.config object with the actual types
 declare global {
@@ -30,6 +37,9 @@ class Zwave2 extends utils.Adapter {
 	 * Is called when databases are connected and adapter received configuration.
 	 */
 	private async onReady(): Promise<void> {
+		// Make adapter instance global
+		_.adapter = this;
+
 		this.setState("info.connection", false, true);
 		this.driver = new Driver(this.config.serialport);
 		this.driver.once("driver ready", () => {
@@ -37,10 +47,10 @@ class Zwave2 extends utils.Adapter {
 
 			this.log.info(
 				`The driver is ready. Found ${
-					this.driver.controller!.nodes.size
+					this.driver.controller.nodes.size
 				} nodes.`,
 			);
-			this.driver.controller!.nodes.forEach(
+			this.driver.controller.nodes.forEach(
 				this.addNodeEventHandlers.bind(this),
 			);
 		});
@@ -55,7 +65,10 @@ class Zwave2 extends utils.Adapter {
 			.on("wake up", this.onNodeWakeUp.bind(this))
 			.on("sleep", this.onNodeSleep.bind(this))
 			.on("alive", this.onNodeAlive.bind(this))
-			.on("dead", this.onNodeDead.bind(this));
+			.on("dead", this.onNodeDead.bind(this))
+			.on("value added", this.onNodeValueAdded.bind(this))
+			.on("value updated", this.onNodeValueUpdated.bind(this))
+			.on("value removed", this.onNodeValueRemoved.bind(this));
 	}
 
 	private onNodeInterviewCompleted(node: ZWaveNode): void {
@@ -78,13 +91,46 @@ class Zwave2 extends utils.Adapter {
 		this.log.info(`Node ${node.id}: is now dead`);
 	}
 
+	private async onNodeValueAdded(
+		node: ZWaveNode,
+		args: ZWaveNodeValueAddedArgs,
+	): Promise<void> {
+		this.log.info(
+			`Node ${node.id}: value added: ${args.propertyName} => ${
+				args.newValue
+			}`,
+		);
+		await extendValue(node.id, args);
+	}
+
+	private async onNodeValueUpdated(
+		node: ZWaveNode,
+		args: ZWaveNodeValueUpdatedArgs,
+	): Promise<void> {
+		this.log.info(
+			`Node ${node.id}: value updated: ${args.propertyName} => ${
+				args.newValue
+			}`,
+		);
+		await extendValue(node.id, args);
+	}
+
+	private async onNodeValueRemoved(
+		node: ZWaveNode,
+		args: ZWaveNodeValueRemovedArgs,
+	): Promise<void> {
+		this.log.info(`Node ${node.id}: value removed: ${args.propertyName}`);
+		await removeValue(node.id, args);
+	}
+
 	/**
 	 * Is called when adapter shuts down - callback has to be called under any circumstances!
 	 */
 	private async onUnload(callback: () => void): Promise<void> {
 		try {
+			this.log.info("Shutting down driver...");
 			await this.driver.destroy();
-			this.log.info("cleaned everything up...");
+			this.log.info("Cleaned everything up!");
 			callback();
 		} catch (e) {
 			callback();
