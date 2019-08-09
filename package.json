@@ -25,7 +25,7 @@
     "@fimbul/wotan": "^0.20.0",
     "@iobroker/testing": "^1.2.0",
     "@types/chai": "^4.1.7",
-    "@types/chai-as-promised": "^7.1.1",
+    "@types/chai-as-promised": "^7.1.2",
     "@types/gulp": "^4.0.6",
     "@types/mocha": "^5.2.6",
     "@types/node": "^12.7.1",
