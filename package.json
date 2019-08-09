@@ -23,7 +23,7 @@
   "devDependencies": {
     "@fimbul/mithotyn": "^0.21.0",
     "@fimbul/wotan": "^0.21.1",
-    "@iobroker/testing": "^1.2.0",
+    "@iobroker/testing": "^1.2.5",
     "@types/chai": "^4.1.7",
     "@types/chai-as-promised": "^7.1.2",
     "@types/gulp": "^4.0.6",
