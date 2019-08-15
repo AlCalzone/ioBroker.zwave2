@@ -100,7 +100,7 @@ class Zwave2 extends utils.Adapter {
 				args.newValue
 			}`,
 		);
-		await extendValue(node.id, args);
+		await extendValue(node, args);
 	}
 
 	private async onNodeValueUpdated(
@@ -112,7 +112,7 @@ class Zwave2 extends utils.Adapter {
 				args.newValue
 			}`,
 		);
-		await extendValue(node.id, args);
+		await extendValue(node, args);
 	}
 
 	private async onNodeValueRemoved(
@@ -196,3 +196,7 @@ if (module.parent) {
 	// otherwise start the instance directly
 	(() => new Zwave2())();
 }
+
+process.on("unhandledRejection", r => {
+	throw r;
+});

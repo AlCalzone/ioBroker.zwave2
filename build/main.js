@@ -55,11 +55,11 @@ class Zwave2 extends utils.Adapter {
     }
     async onNodeValueAdded(node, args) {
         this.log.info(`Node ${node.id}: value added: ${args.propertyName} => ${args.newValue}`);
-        await objects_1.extendValue(node.id, args);
+        await objects_1.extendValue(node, args);
     }
     async onNodeValueUpdated(node, args) {
         this.log.info(`Node ${node.id}: value updated: ${args.propertyName} => ${args.newValue}`);
-        await objects_1.extendValue(node.id, args);
+        await objects_1.extendValue(node, args);
     }
     async onNodeValueRemoved(node, args) {
         this.log.info(`Node ${node.id}: value removed: ${args.propertyName}`);
@@ -114,4 +114,7 @@ else {
     // otherwise start the instance directly
     (() => new Zwave2())();
 }
+process.on("unhandledRejection", r => {
+    throw r;
+});
 //# sourceMappingURL=main.js.map
