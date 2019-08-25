@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const utils = require("@iobroker/adapter-core");
 const zwave_js_1 = require("zwave-js");
+const CommandClasses_1 = require("zwave-js/build/lib/commandclass/CommandClasses");
 const global_1 = require("./lib/global");
 const objects_1 = require("./lib/objects");
 class Zwave2 extends utils.Adapter {
@@ -19,6 +20,7 @@ class Zwave2 extends utils.Adapter {
     async onReady() {
         // Make adapter instance global
         global_1.Global.adapter = this;
+        await this.subscribeStatesAsync("*");
         this.setState("info.connection", false, true);
         this.driver = new zwave_js_1.Driver(this.config.serialport);
         this.driver.once("driver ready", () => {
@@ -36,10 +38,16 @@ class Zwave2 extends utils.Adapter {
             .on("dead", this.onNodeDead.bind(this))
             .on("value added", this.onNodeValueAdded.bind(this))
             .on("value updated", this.onNodeValueUpdated.bind(this))
-            .on("value removed", this.onNodeValueRemoved.bind(this));
+            .on("value removed", this.onNodeValueRemoved.bind(this))
+            .on("metadata updated", this.onNodeMetadataUpdated.bind(this));
     }
-    onNodeInterviewCompleted(node) {
+    async onNodeInterviewCompleted(node) {
         this.log.info(`Node ${node.id}: interview completed`);
+        // Prepare data points for all the node's values
+        for (const valueId of node.getDefinedValueIDs()) {
+            const value = node.getValue(valueId);
+            await objects_1.extendValue(node, Object.assign({}, valueId, { newValue: value, commandClassName: CommandClasses_1.getCCName(valueId.commandClass) }));
+        }
     }
     onNodeWakeUp(node) {
         this.log.info(`Node ${node.id}: is now awake`);
@@ -64,6 +72,10 @@ class Zwave2 extends utils.Adapter {
     async onNodeValueRemoved(node, args) {
         this.log.info(`Node ${node.id}: value removed: ${args.propertyName}`);
         await objects_1.removeValue(node.id, args);
+    }
+    async onNodeMetadataUpdated(node, args) {
+        this.log.info(`Node ${node.id}: metadata updated: ${args.propertyName}`);
+        await objects_1.extendMetadata(node, args);
     }
     /**
      * Is called when adapter shuts down - callback has to be called under any circumstances!
@@ -95,10 +107,35 @@ class Zwave2 extends utils.Adapter {
     /**
      * Is called if a subscribed state changes
      */
-    onStateChange(id, state) {
+    async onStateChange(id, state) {
         if (state) {
             // The state was changed
             this.log.debug(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
+            if (!state.ack) {
+                const { native } = (await this.getObjectAsync(id));
+                const nodeId = native.nodeId;
+                if (!nodeId) {
+                    this.log.error(`Node ID missing from object definition ${id}!`);
+                    return;
+                }
+                const valueId = native.valueId;
+                if (!(valueId && valueId.commandClass && valueId.propertyName)) {
+                    this.log.error(`Value ID missing or incomplete in object definition ${id}!`);
+                    return;
+                }
+                const node = this.driver.controller.nodes.get(nodeId);
+                if (!node) {
+                    this.log.error(`Node ${nodeId} does not exist!`);
+                    return;
+                }
+                try {
+                    await node.setValue(valueId, state.val);
+                    await this.setStateAsync(id, state.val, true);
+                }
+                catch (e) {
+                    this.log.error(e.message);
+                }
+            }
         }
         else {
             // The state was deleted

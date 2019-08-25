@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const strings_1 = require("alcalzone-shared/strings");
 const global_1 = require("./global");
-const tools_1 = require("./tools");
 function computeId(nodeId, args) {
     return [
         `Node_${strings_1.padStart(nodeId.toString(), 3, "0")}`,
@@ -20,8 +19,13 @@ function computeId(nodeId, args) {
 exports.computeId = computeId;
 async function extendValue(node, args) {
     const stateId = computeId(node.id, args);
-    const metadata = node.getValueMetadata(args.commandClass, args.endpoint || 0, args.propertyName, args.propertyKey);
-    // Create object if it doesn't exist
+    await extendMetadata(node, args);
+    await global_1.Global.adapter.setStateAsync(stateId, args.newValue, true);
+}
+exports.extendValue = extendValue;
+async function extendMetadata(node, args) {
+    const stateId = computeId(node.id, args);
+    const metadata = ("metadata" in args && args.metadata) || node.getValueMetadata(args);
     const objectDefinition = {
         type: "state",
         common: {
@@ -30,34 +34,44 @@ async function extendValue(node, args) {
             write: metadata.writeable,
             name: metadata.label || stateId,
             desc: metadata.description,
-            type: getCommonType(args.newValue),
+            type: valueTypeToIOBrokerType(metadata.type),
+            min: metadata.min,
+            max: metadata.max,
+            def: metadata.default,
+            states: metadata.states,
         },
-        native: {},
+        native: {
+            nodeId: node.id,
+            valueId: {
+                commandClass: args.commandClass,
+                endpoint: args.endpoint,
+                propertyName: args.propertyName,
+                propertyKey: args.propertyKey,
+            },
+            steps: metadata.steps,
+        },
     };
-    if ("min" in metadata)
-        objectDefinition.common.min = metadata.min;
-    if ("max" in metadata)
-        objectDefinition.common.max = metadata.max;
-    await global_1.Global.adapter.setObjectNotExistsAsync(stateId, objectDefinition);
-    await global_1.Global.adapter.setStateAsync(stateId, args.newValue, true);
+    // FIXME: Only set the object when it changed
+    await global_1.Global.adapter.setObjectAsync(stateId, objectDefinition);
 }
-exports.extendValue = extendValue;
+exports.extendMetadata = extendMetadata;
 async function removeValue(nodeId, args) {
     const stateId = computeId(nodeId, args);
     await global_1.Global.adapter.delObjectAsync(stateId);
 }
 exports.removeValue = removeValue;
-function getCommonType(value) {
-    if (typeof value === "number")
-        return "number";
-    if (typeof value === "boolean")
-        return "boolean";
-    if (typeof value === "string")
-        return "string";
-    if (tools_1.isArray(value))
-        return "array";
-    if (tools_1.isObject(value))
-        return "object";
+function valueTypeToIOBrokerType(valueType) {
+    switch (valueType) {
+        case "number":
+        case "boolean":
+        case "string":
+            return valueType;
+        case "any":
+            return "mixed";
+        default:
+            if (valueType.endsWith("[]"))
+                return "array";
+    }
     return "mixed";
 }
 //# sourceMappingURL=objects.js.map

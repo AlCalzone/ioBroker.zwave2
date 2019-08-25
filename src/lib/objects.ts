@@ -1,17 +1,22 @@
 import { padStart } from "alcalzone-shared/strings";
 import {
 	ZWaveNode,
+	ZWaveNodeMetadataUpdatedArgs,
 	ZWaveNodeValueAddedArgs,
 	ZWaveNodeValueRemovedArgs,
 	ZWaveNodeValueUpdatedArgs,
 } from "zwave-js/build/lib/node/Node";
+import {
+	ValueMetadataNumeric,
+	ValueType,
+} from "zwave-js/build/lib/values/Metadata";
 import { Global as _ } from "./global";
-import { isArray, isObject } from "./tools";
 
 type ZWaveNodeArgs =
 	| ZWaveNodeValueAddedArgs
 	| ZWaveNodeValueUpdatedArgs
-	| ZWaveNodeValueRemovedArgs;
+	| ZWaveNodeValueRemovedArgs
+	| ZWaveNodeMetadataUpdatedArgs;
 
 export function computeId(nodeId: number, args: ZWaveNodeArgs): string {
 	return [
@@ -33,14 +38,19 @@ export async function extendValue(
 	args: ZWaveNodeValueAddedArgs | ZWaveNodeValueUpdatedArgs,
 ): Promise<void> {
 	const stateId = computeId(node.id, args);
-	const metadata = node.getValueMetadata(
-		args.commandClass,
-		args.endpoint || 0,
-		args.propertyName,
-		args.propertyKey,
-	);
 
-	// Create object if it doesn't exist
+	await extendMetadata(node, args);
+	await _.adapter.setStateAsync(stateId, args.newValue as any, true);
+}
+
+export async function extendMetadata(
+	node: ZWaveNode,
+	args: ZWaveNodeArgs,
+): Promise<void> {
+	const stateId = computeId(node.id, args);
+	const metadata =
+		("metadata" in args && args.metadata) || node.getValueMetadata(args);
+
 	const objectDefinition: ioBroker.SettableObjectWorker<
 		ioBroker.StateObject
 	> = {
@@ -51,15 +61,26 @@ export async function extendValue(
 			write: metadata.writeable,
 			name: metadata.label || stateId,
 			desc: metadata.description,
-			type: getCommonType(args.newValue),
+			type: valueTypeToIOBrokerType(metadata.type),
+			min: (metadata as ValueMetadataNumeric).min,
+			max: (metadata as ValueMetadataNumeric).max,
+			def: (metadata as ValueMetadataNumeric).default,
+			states: (metadata as any).states,
 		},
-		native: {},
+		native: {
+			nodeId: node.id,
+			valueId: {
+				commandClass: args.commandClass,
+				endpoint: args.endpoint,
+				propertyName: args.propertyName,
+				propertyKey: args.propertyKey,
+			},
+			steps: (metadata as ValueMetadataNumeric).steps,
+		},
 	};
-	if ("min" in metadata) objectDefinition.common.min = metadata.min;
-	if ("max" in metadata) objectDefinition.common.max = metadata.max;
 
-	await _.adapter.setObjectNotExistsAsync(stateId, objectDefinition);
-	await _.adapter.setStateAsync(stateId, args.newValue as any, true);
+	// FIXME: Only set the object when it changed
+	await _.adapter.setObjectAsync(stateId, objectDefinition);
 }
 
 export async function removeValue(
@@ -70,11 +91,18 @@ export async function removeValue(
 	await _.adapter.delObjectAsync(stateId);
 }
 
-function getCommonType(value: unknown): ioBroker.StateCommon["type"] {
-	if (typeof value === "number") return "number";
-	if (typeof value === "boolean") return "boolean";
-	if (typeof value === "string") return "string";
-	if (isArray(value)) return "array";
-	if (isObject(value)) return "object";
+function valueTypeToIOBrokerType(
+	valueType: ValueType,
+): ioBroker.StateCommon["type"] {
+	switch (valueType) {
+		case "number":
+		case "boolean":
+		case "string":
+			return valueType;
+		case "any":
+			return "mixed";
+		default:
+			if (valueType.endsWith("[]")) return "array";
+	}
 	return "mixed";
 }

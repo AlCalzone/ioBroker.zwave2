@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@iobroker/adapter-core": "^1.0.3",
-    "zwave-js": "github:AlCalzone/node-zwave-js#master"
+    "zwave-js": "^1.1.0"
   },
   "devDependencies": {
     "@fimbul/mithotyn": "^0.21.0",
@@ -68,7 +68,8 @@
     "lint:ts": "eslint --ext .ts src",
     "lint:wotan": "wotan",
     "lint": "npm run lint:ts && npm run lint:wotan",
-    "update_iob": "start update_iob.bat"
+    "update_iob": "start update_iob.bat",
+    "start": "NO_CACHE=true LOGLEVEL=info node --inspect build/main.js --force --logs"
   },
   "nyc": {
     "include": [
