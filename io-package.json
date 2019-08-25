@@ -1,7 +1,7 @@
 {
 	"common": {
 		"name": "zwave2",
-		"version": "0.0.1",
+		"version": "0.0.2",
 		"news": {
 			"0.0.1": {
 				"en": "initial release",
