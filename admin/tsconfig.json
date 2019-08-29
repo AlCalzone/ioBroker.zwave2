@@ -1,7 +1,16 @@
 {
 	"extends": "../tsconfig.json",
+	"compilerOptions": {
+		"noEmit": false,
+		"outDir": "./build/",
+		"sourceMap": true,
+		"sourceRoot": "./src/",
+		"noImplicitAny": false
+	},
 	"include": [
-		"./**/*.d.ts",
-		"./**/*.js"
-	]
+		"./**/*.ts*",
+		"../src/lib/adapter-config.d.ts",
+		"./src/lib/admin.d.ts"
+	],
+	"exclude": ["./**/*.test.ts*"]
 }
