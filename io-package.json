@@ -55,6 +55,7 @@
 		"type": "hardware",
 		"compact": true,
 		"materialize": true,
+		"messagebox": true,
 		"dependencies": [
 			{
 				"admin": ">=3.0.0"

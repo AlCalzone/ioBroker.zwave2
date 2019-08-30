@@ -7,11 +7,11 @@ const global_1 = require("./lib/global");
 const objects_1 = require("./lib/objects");
 class Zwave2 extends utils.Adapter {
     constructor(options = {}) {
-        super(Object.assign({}, options, { name: "zwave2" }));
+        super(Object.assign(Object.assign({}, options), { name: "zwave2" }));
         this.on("ready", this.onReady.bind(this));
         this.on("objectChange", this.onObjectChange.bind(this));
         this.on("stateChange", this.onStateChange.bind(this));
-        // this.on("message", this.onMessage.bind(this));
+        this.on("message", this.onMessage.bind(this));
         this.on("unload", this.onUnload.bind(this));
     }
     /**
@@ -46,7 +46,7 @@ class Zwave2 extends utils.Adapter {
         // Prepare data points for all the node's values
         for (const valueId of node.getDefinedValueIDs()) {
             const value = node.getValue(valueId);
-            await objects_1.extendValue(node, Object.assign({}, valueId, { newValue: value, commandClassName: CommandClasses_1.getCCName(valueId.commandClass) }));
+            await objects_1.extendValue(node, Object.assign(Object.assign({}, valueId), { newValue: value, commandClassName: CommandClasses_1.getCCName(valueId.commandClass) }));
         }
     }
     onNodeWakeUp(node) {
@@ -140,6 +140,56 @@ class Zwave2 extends utils.Adapter {
         else {
             // The state was deleted
             this.log.debug(`state ${id} deleted`);
+        }
+    }
+    /**
+     * Some message was sent to this instance over message box. Used by email, pushover, text2speech, ...
+     * Using this method requires "common.message" property to be set to true in io-package.json
+     */
+    async onMessage(obj) {
+        // responds to the adapter that sent the original message
+        const respond = (response) => {
+            if (obj.callback)
+                this.sendTo(obj.from, obj.command, response, obj.callback);
+        };
+        // some predefined responses so we only have to define them once
+        const responses = {
+            ACK: { error: null },
+            OK: { error: null, result: "ok" },
+            ERROR_UNKNOWN_COMMAND: { error: "Unknown command!" },
+            MISSING_PARAMETER: (paramName) => {
+                return { error: 'missing parameter "' + paramName + '"!' };
+            },
+            COMMAND_RUNNING: { error: "command running" },
+            RESULT: (result) => ({ error: null, result }),
+            ERROR: (error) => ({ error }),
+        };
+        // make required parameters easier
+        function requireParams(...params) {
+            if (!(params && params.length))
+                return true;
+            for (const param of params) {
+                if (!(obj.message && obj.message.hasOwnProperty(param))) {
+                    respond(responses.MISSING_PARAMETER(param));
+                    return false;
+                }
+            }
+            return true;
+        }
+        if (obj) {
+            switch (obj.command) {
+                case "getNetworkMap": {
+                    this.log.info("getNetworkMap");
+                    const map = [...this.driver.controller.nodes.values()].map(node => ({
+                        id: node.id,
+                        name: `Node ${node.id}`,
+                        neighbors: node.neighbors,
+                    }));
+                    this.log.info(JSON.stringify(map));
+                    respond(responses.RESULT(map));
+                    return;
+                }
+            }
         }
     }
 }

@@ -1,9 +1,15 @@
 import * as React from "react";
-declare function showNetworkMap(): void;
+import { drawNetworkMap } from "../lib/networkMap";
 
 export class NetworkMap extends React.Component {
 	public componentDidMount() {
-		showNetworkMap();
+		sendTo(null, "getNetworkMap", null, ({ error, result: nodes }) => {
+			if (error) {
+				console.error(error);
+			} else {
+				drawNetworkMap("#map", nodes);
+			}
+		});
 	}
 
 	public render() {
