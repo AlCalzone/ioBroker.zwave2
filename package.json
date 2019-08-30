@@ -26,7 +26,7 @@
     "@iobroker/testing": "^1.2.5",
     "@types/chai": "^4.2.0",
     "@types/chai-as-promised": "^7.1.2",
-    "@types/d3": "^4.13.2",
+    "@types/d3": "^5.7.2",
     "@types/gulp": "^4.0.6",
     "@types/jquery": "^3.3.29",
     "@types/materialize-css": "^1.0.6",
