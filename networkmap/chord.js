@@ -8,8 +8,8 @@ const names = [
 	"Aeon Labs Multisensor Gen 6"
 ];
 
-const numNodes = 28;
-const numLinks = 25;
+const numNodes = 50;
+const numLinks = 30;
 
 // Generated with https://vis4.net/palettes
 const colors = ['#0005a5', '#3c33b0', '#5957bb', '#7279c4', '#899ccb', '#a3bfd0', '#c3e2cf', '#ffffbb', '#ffb987', '#fc967c', '#f07674', '#de576d', '#c63c68', '#a62966', '#7d2367']
@@ -30,18 +30,25 @@ for (let i = 0; i < numLinks; i++) {
 	if (source !== target) addLink(source, target);
 }
 // Scale the flows for equal sized nodes
+const sum = arr => arr.reduce((acc, cur) => acc + cur, 0);
+const maxSum = Math.max(...matrix.map(sum));
+const minSum = Math.min(...matrix.map(sum).filter(v => v > 0))
+
+const disconnected = new Set();
 for (let i = 0; i < matrix.length; i++) {
 	const row = matrix[i];
-	const sum = row.reduce((acc, cur) => acc + cur, 0);
-	if (sum === 0) {
-		row[i] = 1;
+	const rowSum = sum(row);
+	if (rowSum === 0) {
+		row[i] = 1 / maxSum;
+		disconnected.add(i);
 	}
-	else if (sum !== 1) {
-		matrix[i] = row.map(val => val / sum);
+	else {
+		matrix[i] = row.map(val => val / maxSum);
 	}
 }
 // Make Node 1 twice as large
-matrix[0] = matrix[0].map(val => val * 2);
+const row0Sum = sum(matrix[0]);
+matrix[0] = matrix[0].map(val => val * 2 / row0Sum);
 
 // chart dimensions
 const body = document.body;
@@ -49,10 +56,11 @@ const width = body.clientWidth;
 const height = body.clientHeight;
 const outerRadius = Math.min(width, height) * 0.5 - 200;
 const innerRadius = outerRadius - 20;
+const gap = 0.01;
 
 // We rotate by one group so node 1 is at the top
 // The first group has the double size, so we add one fake group in the calculation
-const rotation = 360 / (matrix.length + 1) - 0.05 / Math.PI * 180
+const rotation = 360 / (matrix.length + 1) - gap / Math.PI * 180
 
 const svg = d3
 	.select("body")
@@ -66,9 +74,9 @@ const svg = d3
 
 const chord = d3
 	.chord()
-	.padAngle(0.05)
+	.padAngle(gap)
 	.sortChords(d3.ascending)
-	.sortGroups(d3.descending)
+	// .sortGroups(d3.descending)
 	.sortSubgroups(() => 1)(matrix);
 
 var arcs = d3
@@ -165,9 +173,10 @@ node.append("path")
 // Create the labels
 node.append("text")
 	.each(d => d.angle = (d.startAngle + d.endAngle) / 2)
-	.attr("dy", "-0.25em")
-	.attr("class", "node-id")
+	// .attr("dy", "-0.25em")
+	.attr("class", (d, i) => `node-id${disconnected.has(i) ? " disconnected": ""}`)
 	.attr("text-anchor", d => d.angle > Math.PI ? "end" : null)
+	.attr("dominant-baseline", "middle")
 	.attr("transform", d => {
 		return "rotate(" + (d.angle * 180 / Math.PI - 90) + ")"
 			+ "translate(" + (outerRadius + 10) + ")"
@@ -175,17 +184,17 @@ node.append("text")
 	})
 	.text((d, i) => `Node ${i + 1}`);
 //
-node.append("text")
-	.each(d => d.angle = (d.startAngle + d.endAngle) / 2)
-	.attr("dy", "0.6em")
-	.attr("class","node-name")
-	.attr("text-anchor", d => d.angle > Math.PI ? "end" : null)
-	.attr("transform", d => {
-		return "rotate(" + (d.angle * 180 / Math.PI - 90) + ")"
-			+ "translate(" + (outerRadius + 10) + ")"
-			+ (d.angle > Math.PI ? "rotate(180)" : "");
-	})
-	.text((d, i) => names[i % names.length]);
+// node.append("text")
+// 	.each(d => d.angle = (d.startAngle + d.endAngle) / 2)
+// 	.attr("dy", "0.6em")
+// 	.attr("class", "node-name")
+// 	.attr("text-anchor", d => d.angle > Math.PI ? "end" : null)
+// 	.attr("transform", d => {
+// 		return "rotate(" + (d.angle * 180 / Math.PI - 90) + ")"
+// 			+ "translate(" + (outerRadius + 10) + ")"
+// 			+ (d.angle > Math.PI ? "rotate(180)" : "");
+// 	})
+// 	.text((d, i) => names[i % names.length]);
 
 // Add the links between groups
 svg.datum(chord)
