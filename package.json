@@ -1,6 +1,6 @@
 {
   "name": "iobroker.zwave2",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Alternative Z-Wave implementation",
   "author": {
     "name": "AlCalzone",
@@ -16,6 +16,14 @@
     "type": "git",
     "url": "https://github.com/AlCalzone/ioBroker.zwave2"
   },
+  "main": "build/main.js",
+  "files": [
+    "admin/build",
+    "admin/script",
+    "admin/*.html",
+    "admin/*.css"
+
+  ],
   "dependencies": {
     "@iobroker/adapter-core": "^1.0.3",
     "zwave-js": "^1.1.1"
@@ -63,7 +71,6 @@
     "ts-node": "^8.3.0",
     "typescript": "^3.5.3"
   },
-  "main": "build/main.js",
   "scripts": {
     "prebuild": "rimraf ./build",
     "build:parcel": "parcel build admin/src/index.tsx -d admin/build",

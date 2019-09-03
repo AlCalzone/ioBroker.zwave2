@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import { Tooltip } from "iobroker-react-components";
+import { Dropdown } from "../components/dropdown";
 
 export type OnSettingsChangedCallback = (
 	newSettings: Record<string, unknown>,
@@ -9,6 +10,11 @@ export type OnSettingsChangedCallback = (
 interface SettingsProps {
 	onChange: OnSettingsChangedCallback;
 	settings: Record<string, unknown>;
+}
+
+interface SettingsState {
+	[key: string]: unknown;
+	serialports?: string[];
 }
 
 interface LabelProps {
@@ -46,10 +52,7 @@ function CheckboxLabel(props: CheckboxLabelProps) {
 	);
 }
 
-export class Settings extends React.Component<
-	SettingsProps,
-	Record<string, unknown>
-> {
+export class Settings extends React.Component<SettingsProps, SettingsState> {
 	constructor(props: SettingsProps) {
 		super(props);
 		// settings are our state
@@ -78,13 +81,15 @@ export class Settings extends React.Component<
 	private handleChange(event: React.FormEvent<HTMLElement>) {
 		const target = event.target as (HTMLInputElement | HTMLSelectElement); // TODO: more types
 		const value = this.parseChangedSetting(target);
+		return this.doHandleChange(target.id, value);
+	}
 
+	private doHandleChange(setting: string, value: unknown): boolean {
 		// store the setting
-		this.putSetting(target.id, value, () => {
+		this.putSetting(setting, value, () => {
 			// and notify the admin UI about changes
 			this.props.onChange(this.state);
 		});
-
 		return false;
 	}
 
@@ -111,6 +116,20 @@ export class Settings extends React.Component<
 	public componentDidMount() {
 		// update floating labels in materialize design
 		M.updateTextFields();
+
+		// Try to retrieve a list of serial ports
+		sendTo(null, "getSerialPorts", null, ({ error, result }) => {
+			if (error) {
+				console.error(error);
+			} else if (result && result.length) {
+				this.setState({ serialports: result });
+			}
+		});
+	}
+
+	public componentDidUpdate() {
+		// update floating labels in materialize design
+		M.updateTextFields();
 	}
 
 	public render() {
@@ -118,14 +137,27 @@ export class Settings extends React.Component<
 			<>
 				<div className="row">
 					<div className="col s4 input-field">
+						{this.state.serialports &&
+						this.state.serialports.length ? (
+							<Dropdown
+								id="serialport"
+								options={this.state.serialports}
+								checkedOption={this.state.serialport as string}
+								emptySelectionText={_("none selected")}
+								checkedChanged={newValue =>
+									this.doHandleChange("serialport", newValue)
+								}
+							/>
+						) : (
+							<input
+								className="value"
+								id="serialport"
+								type="text"
+								value={this.getSetting("serialport") as any}
+								onChange={this.handleChange}
+							/>
+						)}
 						<Label for="serialport" text="Select serial port" />
-						<input
-							className="value"
-							id="serialport"
-							type="text"
-							value={this.getSetting("serialport") as any}
-							onChange={this.handleChange}
-						/>
 					</div>
 				</div>
 			</>

@@ -22,6 +22,10 @@ class Zwave2 extends utils.Adapter {
         global_1.Global.adapter = this;
         await this.subscribeStatesAsync("*");
         this.setState("info.connection", false, true);
+        if (!this.config.serialport) {
+            this.log.warn("No serial port configured. Please select one in the adapter settings!");
+            return;
+        }
         this.driver = new zwave_js_1.Driver(this.config.serialport);
         this.driver.once("driver ready", () => {
             this.setState("info.connection", true, true);
@@ -166,7 +170,7 @@ class Zwave2 extends utils.Adapter {
         };
         // make required parameters easier
         function requireParams(...params) {
-            if (!(params && params.length))
+            if (!params.length)
                 return true;
             for (const param of params) {
                 if (!(obj.message && obj.message.hasOwnProperty(param))) {
@@ -179,14 +183,24 @@ class Zwave2 extends utils.Adapter {
         if (obj) {
             switch (obj.command) {
                 case "getNetworkMap": {
-                    this.log.info("getNetworkMap");
-                    const map = [...this.driver.controller.nodes.values()].map(node => ({
+                    let controller;
+                    try {
+                        controller = this.driver.controller;
+                    }
+                    catch (e) {
+                        return respond(responses.ERROR("The driver is not yet ready to show the network map!"));
+                    }
+                    const map = [...controller.nodes.values()].map(node => ({
                         id: node.id,
                         name: `Node ${node.id}`,
                         neighbors: node.neighbors,
                     }));
-                    this.log.info(JSON.stringify(map));
                     respond(responses.RESULT(map));
+                    return;
+                }
+                case "getSerialPorts": {
+                    const ports = await zwave_js_1.Driver.enumerateSerialPorts();
+                    respond(responses.RESULT(ports));
                     return;
                 }
             }

@@ -30766,7 +30766,242 @@ exports.Tooltip = tooltip_1.Tooltip;
 var cancelable_input_1 = require("./components/cancelable-input");
 exports.CancelableInput = cancelable_input_1.CancelableInput;
 
-},{"./components/label":"../../node_modules/iobroker-react-components/build/components/label.js","./components/multi-dropdown":"../../node_modules/iobroker-react-components/build/components/multi-dropdown.js","./components/tabs":"../../node_modules/iobroker-react-components/build/components/tabs.js","./components/tooltip":"../../node_modules/iobroker-react-components/build/components/tooltip.js","./components/cancelable-input":"../../node_modules/iobroker-react-components/build/components/cancelable-input.js"}],"pages/settings.tsx":[function(require,module,exports) {
+},{"./components/label":"../../node_modules/iobroker-react-components/build/components/label.js","./components/multi-dropdown":"../../node_modules/iobroker-react-components/build/components/multi-dropdown.js","./components/tabs":"../../node_modules/iobroker-react-components/build/components/tabs.js","./components/tooltip":"../../node_modules/iobroker-react-components/build/components/tooltip.js","./components/cancelable-input":"../../node_modules/iobroker-react-components/build/components/cancelable-input.js"}],"../../node_modules/alcalzone-shared/typeguards/index.js":[function(require,module,exports) {
+"use strict";
+/** @module typeguards */
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+/**
+ * Tests whether the given variable is a real object and not an Array
+ * @param it The variable to test
+ */
+
+function isObject(it) {
+  // This is necessary because:
+  // typeof null === 'object'
+  // typeof [] === 'object'
+  // [] instanceof Object === true
+  return Object.prototype.toString.call(it) === "[object Object]";
+}
+
+exports.isObject = isObject;
+/**
+ * Tests whether the given variable is really an Array
+ * @param it The variable to test
+ */
+
+function isArray(it) {
+  if (Array.isArray != null) return Array.isArray(it);
+  return Object.prototype.toString.call(it) === "[object Array]";
+}
+
+exports.isArray = isArray;
+},{}],"../../node_modules/alcalzone-shared/objects/index.js":[function(require,module,exports) {
+"use strict";
+/** @module objects */
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function (obj) { return typeof obj; }; } else { _typeof = function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+/** Provides a polyfill for Object.entries */
+
+function entries(obj) {
+  return Object.keys(obj).map(key => [key, obj[key]]);
+}
+
+exports.entries = entries;
+/** Provides a polyfill for Object.values */
+
+function values(obj) {
+  return Object.keys(obj).map(key => obj[key]);
+}
+
+exports.values = values;
+/**
+ * Returns a subset of an object, whose properties match the given predicate
+ * @param obj The object whose properties should be filtered
+ * @param predicate A predicate function which is applied to the object's properties
+ */
+
+function filter(obj, predicate) {
+  return composeObject(entries(obj).filter(([key, value]) => predicate(value, key)));
+}
+
+exports.filter = filter;
+/**
+ * Combines multiple key value pairs into an object
+ * @param properties The key value pairs to combine into an object
+ */
+
+function composeObject(properties) {
+  return properties.reduce((acc, [key, value]) => {
+    acc[key] = value;
+    return acc;
+  }, {});
+}
+
+exports.composeObject = composeObject;
+/**
+ * Deep merges multiple objects onto the target object.
+ * This modifies the target object, so pass undefined or {}
+ * to create a new object.
+ */
+
+function extend(target, // tslint:disable-next-line:trailing-comma
+...sources) {
+  if (target == null) target = {};
+
+  for (const source of sources) {
+    for (const [prop, val] of entries(source)) {
+      if (val === null) {
+        // copy null values
+        target[prop] = val;
+      } else if (_typeof(target[prop]) === "object" && _typeof(val) === "object") {
+        // merge objects if both properties are objects
+        target[prop] = extend(target[prop], val);
+      } else if (_typeof(val) === "object") {
+        // create a copy of the source object if the target is primitive
+        target[prop] = extend({}, val);
+      } else {
+        // copy primitive values
+        target[prop] = val;
+      }
+    }
+  }
+
+  return target;
+}
+
+exports.extend = extend; // // Kopiert Eigenschaften rekursiv von einem Objekt auf ein anderes
+// export function extend(target: any, source: any) {
+// 	target = target || {};
+// 	for (const [prop, val] of entries(source)) {
+// 		if (val instanceof Object) {
+// 			target[prop] = extend(target[prop], val);
+// 		} else {
+// 			target[prop] = val;
+// 		}
+// 	}
+// 	return target;
+// }
+},{}],"components/dropdown.tsx":[function(require,module,exports) {
+"use strict";
+
+var __extends = this && this.__extends || function () {
+  var _extendStatics = function extendStatics(d, b) {
+    _extendStatics = Object.setPrototypeOf || {
+      __proto__: []
+    } instanceof Array && function (d, b) {
+      d.__proto__ = b;
+    } || function (d, b) {
+      for (var p in b) {
+        if (b.hasOwnProperty(p)) d[p] = b[p];
+      }
+    };
+
+    return _extendStatics(d, b);
+  };
+
+  return function (d, b) {
+    _extendStatics(d, b);
+
+    function __() {
+      this.constructor = d;
+    }
+
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+}();
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+  }
+  result["default"] = mod;
+  return result;
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+}); // Renders some components in jQuery UI tabs
+
+var React = __importStar(require("react"));
+
+var typeguards_1 = require("alcalzone-shared/typeguards");
+
+var objects_1 = require("alcalzone-shared/objects");
+
+var M_Select = M.FormSelect || M.Select;
+
+var Dropdown =
+/** @class */
+function (_super) {
+  __extends(Dropdown, _super);
+
+  function Dropdown(props) {
+    var _this = _super.call(this, props) || this;
+
+    _this.readStateFromUI = _this.readStateFromUI.bind(_this);
+    return _this;
+  }
+
+  Dropdown.prototype.componentDidMount = function () {
+    if (this.dropdown != null) {
+      $(this.dropdown).on("change", this.readStateFromUI);
+      this.mcssSelect = M_Select.getInstance(this.dropdown) || new M_Select(this.dropdown);
+    }
+  };
+
+  Dropdown.prototype.componentWillUnmount = function () {
+    if (this.dropdown != null) {
+      $(this.dropdown).off("change", this.readStateFromUI);
+    }
+  };
+
+  Dropdown.prototype.readStateFromUI = function (event) {
+    if (!this.mcssSelect) return; // update the adapter settings
+
+    this.props.checkedChanged(event.target.value);
+  };
+
+  Dropdown.prototype.render = function () {
+    var _this = this;
+
+    var options = typeguards_1.isArray(this.props.options) ? objects_1.composeObject(this.props.options.map(function (o) {
+      return [o, o];
+    })) : typeguards_1.isObject(this.props.options) ? this.props.options : {};
+    return React.createElement("select", {
+      id: this.props.id,
+      ref: function ref(me) {
+        return _this.dropdown = me;
+      },
+      defaultValue: this.props.checkedOption || ""
+    }, React.createElement("option", {
+      value: "",
+      disabled: true
+    }, this.props.emptySelectionText), Object.keys(options).map(function (k) {
+      return React.createElement("option", {
+        key: k,
+        value: k
+      }, options[k]);
+    }));
+  };
+
+  Dropdown.defaultProps = {
+    emptySelectionText: "Select an option",
+    checkedOption: undefined
+  };
+  return Dropdown;
+}(React.Component);
+
+exports.Dropdown = Dropdown;
+},{"react":"../../node_modules/react/index.js","alcalzone-shared/typeguards":"../../node_modules/alcalzone-shared/typeguards/index.js","alcalzone-shared/objects":"../../node_modules/alcalzone-shared/objects/index.js"}],"pages/settings.tsx":[function(require,module,exports) {
 "use strict";
 
 var __extends = this && this.__extends || function () {
@@ -30828,6 +31063,8 @@ Object.defineProperty(exports, "__esModule", {
 var React = __importStar(require("react"));
 
 var iobroker_react_components_1 = require("iobroker-react-components");
+
+var dropdown_1 = require("../components/dropdown");
 /** Helper component for a settings label */
 
 
@@ -30876,13 +31113,17 @@ function (_super) {
 
 
   Settings.prototype.handleChange = function (event) {
-    var _this = this;
-
     var target = event.target; // TODO: more types
 
-    var value = this.parseChangedSetting(target); // store the setting
+    var value = this.parseChangedSetting(target);
+    return this.doHandleChange(target.id, value);
+  };
 
-    this.putSetting(target.id, value, function () {
+  Settings.prototype.doHandleChange = function (setting, value) {
+    var _this = this; // store the setting
+
+
+    this.putSetting(setting, value, function () {
       // and notify the admin UI about changes
       _this.props.onChange(_this.state);
     });
@@ -30911,24 +31152,54 @@ function (_super) {
   };
 
   Settings.prototype.componentDidMount = function () {
+    var _this = this; // update floating labels in materialize design
+
+
+    M.updateTextFields(); // Try to retrieve a list of serial ports
+
+    sendTo(null, "getSerialPorts", null, function (_a) {
+      var error = _a.error,
+          result = _a.result;
+
+      if (error) {
+        console.error(error);
+      } else if (result && result.length) {
+        _this.setState({
+          serialports: result
+        });
+      }
+    });
+  };
+
+  Settings.prototype.componentDidUpdate = function () {
     // update floating labels in materialize design
     M.updateTextFields();
   };
 
   Settings.prototype.render = function () {
+    var _this = this;
+
     return React.createElement(React.Fragment, null, React.createElement("div", {
       className: "row"
     }, React.createElement("div", {
       className: "col s4 input-field"
-    }, React.createElement(Label, {
-      for: "serialport",
-      text: "Select serial port"
-    }), React.createElement("input", {
+    }, this.state.serialports && this.state.serialports.length ? React.createElement(dropdown_1.Dropdown, {
+      id: "serialport",
+      options: this.state.serialports,
+      checkedOption: this.state.serialport,
+      emptySelectionText: _("none selected"),
+      checkedChanged: function checkedChanged(newValue) {
+        return _this.doHandleChange("serialport", newValue);
+      }
+    }) : React.createElement("input", {
       className: "value",
       id: "serialport",
       type: "text",
       value: this.getSetting("serialport"),
       onChange: this.handleChange
+    }), React.createElement(Label, {
+      for: "serialport",
+      text: "Select serial port"
     }))));
   };
 
@@ -30936,7 +31207,7 @@ function (_super) {
 }(React.Component);
 
 exports.Settings = Settings;
-},{"react":"../../node_modules/react/index.js","iobroker-react-components":"../../node_modules/iobroker-react-components/build/index.js"}],"../../node_modules/d3-array/src/ascending.js":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","iobroker-react-components":"../../node_modules/iobroker-react-components/build/index.js","../components/dropdown":"components/dropdown.tsx"}],"../../node_modules/d3-array/src/ascending.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -45047,7 +45318,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63149" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "4971" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
