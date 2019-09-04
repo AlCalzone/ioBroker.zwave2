@@ -21,7 +21,7 @@
     "build/",
     "admin/build/",
     "admin/script/",
-    "admin/*.{html,css,js,png}",
+    "admin/*.{html,css,js,png,svg}",
     "LICENSE",
     "io-package.json"
   ],

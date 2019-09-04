@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "zwave2",
-		"version": "0.0.2",
+		"version": "0.1.0",
 		"news": {
+			"0.1.0": {
+				"en": "Added functioning configuration menu",
+				"de": "Funktionsfähiges Konfigurationsmenü hinzugefügt",
+				"ru": "Добавлено функционирующее меню конфигурации",
+				"pt": "Adicionado menu de configuração de funcionamento",
+				"nl": "Werkend configuratiemenu toegevoegd",
+				"fr": "Ajout du menu de configuration fonctionnelle",
+				"it": "Aggiunto menu di configurazione funzionante",
+				"es": "Menú de configuración de funcionamiento agregado",
+				"pl": "Dodano funkcjonujące menu konfiguracji",
+				"zh-cn": "添加了功能配置菜单"
+			},
 			"0.0.1": {
 				"en": "initial release",
 				"de": "Erstveröffentlichung",
@@ -46,7 +58,7 @@
 		"license": "MIT",
 		"platform": "Javascript/Node.js",
 		"main": "build/main.js",
-		"icon": "zwave2.png",
+		"icon": "zwave2.svg",
 		"enabled": true,
 		"extIcon": "https://raw.githubusercontent.com/AlCalzone/ioBroker.zwave2/master/admin/zwave2.png",
 		"readme": "https://github.com/AlCalzone/ioBroker.zwave2/blob/master/README.md",
