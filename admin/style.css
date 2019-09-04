@@ -1,10 +1,63 @@
 /* You can delete those if you want. I just found them very helpful */
 * {
-	box-sizing: border-box
+	box-sizing: border-box;
 }
 .m {
 	/* Don't cut off dropdowns! */
 	overflow: initial;
 }
+.m.adapter-container {
+	height: 100%;
+	width: 100%;
+	position: relative;
+}
+
+#tabs {
+	height: 100%;
+	overflow: hidden;
+}
+#tabs > [id^="tabs"] {
+	height: calc(100% - 48px);
+}
+
+#map {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	text-align: center;
+}
+#map > svg {
+	display: inline-block;
+	height: 100%;
+}
 
 /* Add your styles here */
+.node path {
+	stroke: black;
+	fill: grey;
+}
+.chord {
+	fill-opacity: 0.8;
+	stroke: black;
+	stroke-opacity: 0.15;
+}
+.node-id {
+	font-family: Arial;
+	font-size: 18px;
+}
+.node-name {
+	font-family: Arial;
+	font-size: 11px;
+	max-width: 100px;
+}
+text.controller {
+	fill: #696969;
+}
+text.connected {
+	fill: #699669;
+}
+text.disconnected {
+	fill: #c90f0f;
+	font-weight: bold;
+}

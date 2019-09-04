@@ -1,4 +1,5 @@
-![Logo](admin/zwave2.png)
+![Logo](admin/zwave2.svg)
+
 # ioBroker.zwave2
 
 [![NPM version](http://img.shields.io/npm/v/iobroker.zwave2.svg)](https://www.npmjs.com/package/iobroker.zwave2)
@@ -16,10 +17,16 @@ Alternative Z-Wave implementation
 
 ## Changelog
 
+### 0.1.0
+
+-   (AlCalzone) Several bugfixes and working admin menu
+
 ### 0.0.1
-* (AlCalzone) initial release
+
+-   (AlCalzone) initial release
 
 ## License
+
 MIT License
 
 Copyright (c) 2019 AlCalzone
