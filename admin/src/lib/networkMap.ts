@@ -17,12 +17,18 @@ export function drawNetworkMap(selector: string, nodes: NodeInfo[]) {
 		.fill(0)
 		.map(() => new Array(nodes.length).fill(0));
 	function addLink(from, to) {
-		matrix[from - 1][to - 1] = matrix[to - 1][from - 1] = 1;
+		matrix[from][to] = matrix[to][from] = 1;
+	}
+
+	// Maps the node ID to index in the matrix
+	const nodeIndizes = new Map<number, number>();
+	for (let i = 0; i < nodes.length; i++) {
+		nodeIndizes.set(nodes[i].id, i);
 	}
 
 	for (const node of nodes) {
-		for (const neighbor of node.neighbors) {
-			addLink(node.id, neighbor);
+		for (const neighborId of node.neighbors) {
+			addLink(nodeIndizes.get(node.id), nodeIndizes.get(neighborId));
 		}
 	}
 
