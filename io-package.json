@@ -1,9 +1,9 @@
 {
 	"common": {
 		"name": "zwave2",
-		"version": "0.1.1",
+		"version": "0.1.2",
 		"news": {
-			"0.1.1": {
+			"0.1.2": {
 				"en": "Added functioning configuration menu",
 				"de": "Funktionsfähiges Konfigurationsmenü hinzugefügt",
 				"ru": "Добавлено функционирующее меню конфигурации",
