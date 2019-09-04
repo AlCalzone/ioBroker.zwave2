@@ -1,4 +1,4 @@
-![Logo](admin/zwave2.png)
+![Logo](admin/zwave2.svg)
 
 # ioBroker.zwave2
 
