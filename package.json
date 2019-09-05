@@ -74,10 +74,10 @@
   },
   "scripts": {
     "prebuild": "rimraf ./build",
-    "build:parcel": "parcel build admin/src/index.tsx -d admin/build",
+    "build:parcel": "parcel build admin/src/index.tsx -d admin/build --public-url .",
     "build:ts": "tsc -p tsconfig.build.json",
-    "build": "npm run build:ts",
-    "watch:parcel": "parcel admin/src/index.tsx -d admin/build",
+    "build": "npm run build:ts && npm run build:parcel",
+    "watch:parcel": "parcel admin/src/index.tsx -d admin/build --public-url .",
     "watch:ts": "tsc -p tsconfig.build.json --watch",
     "watch": "npm run watch:ts",
     "test:ts": "mocha --opts test/mocha.custom.opts",
