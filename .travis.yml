@@ -26,7 +26,11 @@ before_script:
     - "if [[ $NPMVERSION == 5 ]]; then npm install -g npm; fi"
     - npm -v
 script:
-    - npm run lint
+    - | # Don't lint on Windows because git.autocrlf=true will make Prettier complain
+        if [[ "$TRAVIS_OS_NAME" != "windows" ]]
+        then
+            npm run lint
+        fi
     - npm run test:package
     - npm run test:unit
     - export DEBUG=testing:*
