@@ -17,6 +17,7 @@ export function isObject(it: any): it is object {
  * @param it The variable to test
  */
 export function isArray(it: any): it is any[] {
+	// wotan-disable-next-line no-useless-predicate
 	if (Array.isArray != null) return Array.isArray(it);
 	return Object.prototype.toString.call(it) === "[object Array]";
 }

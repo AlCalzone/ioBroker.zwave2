@@ -1,3 +1,5 @@
+// wotan-disable async-function-assignability
+
 import * as utils from "@iobroker/adapter-core";
 import { Driver, ZWaveNode } from "zwave-js";
 import { getCCName } from "zwave-js/build/lib/commandclass/CommandClasses";
@@ -236,6 +238,7 @@ class Zwave2 extends utils.Adapter {
 	private async onMessage(obj: ioBroker.Message): Promise<void> {
 		// responds to the adapter that sent the original message
 		const respond = (response: any): void => {
+			// wotan-disable-next-line no-useless-predicate
 			if (obj.callback)
 				this.sendTo(obj.from, obj.command, response, obj.callback);
 		};
@@ -252,16 +255,17 @@ class Zwave2 extends utils.Adapter {
 			ERROR: (error: string) => ({ error }),
 		};
 		// make required parameters easier
-		function requireParams(...params: string[]): boolean {
-			if (!params.length) return true;
-			for (const param of params) {
-				if (!(obj.message && obj.message.hasOwnProperty(param))) {
-					respond(responses.MISSING_PARAMETER(param));
-					return false;
-				}
-			}
-			return true;
-		}
+		// function requireParams(...params: string[]): boolean {
+		// 	if (!params.length) return true;
+		// 	for (const param of params) {
+		// 		if (!(obj.message && obj.message.hasOwnProperty(param))) {
+		// 			respond(responses.MISSING_PARAMETER(param));
+		// 			return false;
+		// 		}
+		// 	}
+		// 	return true;
+		// }
+		// wotan-disable-next-line no-useless-predicate
 		if (obj) {
 			switch (obj.command) {
 				case "getNetworkMap": {

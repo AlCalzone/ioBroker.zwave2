@@ -60,7 +60,7 @@
 		"main": "build/main.js",
 		"icon": "zwave2.svg",
 		"enabled": true,
-		"extIcon": "https://raw.githubusercontent.com/AlCalzone/ioBroker.zwave2/master/admin/zwave2.png",
+		"extIcon": "https://raw.githubusercontent.com/AlCalzone/ioBroker.zwave2/master/admin/zwave2.svg",
 		"readme": "https://github.com/AlCalzone/ioBroker.zwave2/blob/master/README.md",
 		"loglevel": "info",
 		"mode": "daemon",
