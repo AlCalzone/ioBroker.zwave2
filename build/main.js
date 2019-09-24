@@ -423,8 +423,22 @@ class Zwave2 extends utils.Adapter {
                     return;
                 }
                 case "getSerialPorts": {
-                    const ports = await zwave_js_1.Driver.enumerateSerialPorts();
-                    respond(responses.RESULT(ports));
+                    try {
+                        const ports = await zwave_js_1.Driver.enumerateSerialPorts();
+                        respond(responses.RESULT(ports));
+                    }
+                    catch (e) {
+                        if (e.code === "ENOENT" && /udevadm/.test(e.message)) {
+                            // This can happen on linux, however serialport does not handle the error
+                            respond(responses.ERROR("udevadm was not found on PATH"));
+                            this.log.warn(`Cannot list serial ports because "udevadm" was not found on PATH!`);
+                            this.log.warn(`If it is installed, add it to the PATH env variable.`);
+                            this.log.warn(`Otherwise, install it using "apt install udev"`);
+                        }
+                        else {
+                            respond(responses.ERROR(e.message));
+                        }
+                    }
                     return;
                 }
                 case "beginHealingNetwork": {
