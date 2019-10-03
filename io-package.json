@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "zwave2",
-		"version": "0.1.2",
+		"version": "0.1.3",
 		"news": {
+			"0.1.3": {
+				"en": "* Dependencies updated\n* `zwave-js` now supports TimeCC and TimeParametersCC, as well as BatteryCC V2",
+				"de": "* Abhängigkeiten aktualisiert\n* `zwave-js` unterstützt jetzt TimeCC und TimeParametersCC sowie BatteryCC V2",
+				"ru": "* Зависимости обновлены\n* `zwave-js` теперь поддерживает TimeCC и TimeParametersCC, а также BatteryCC V2",
+				"pt": "* Dependências atualizadas\n* `zwave-js` agora suporta TimeCC e TimeParametersCC, bem como BatteryCC V2",
+				"nl": "* Afhankelijkheden bijgewerkt\n* `zwave-js` ondersteunt nu TimeCC en TimeParametersCC, evenals BatteryCC V2",
+				"fr": "* Dépendances mises à jour\n* `zwave-js` prend désormais en charge TimeCC et TimeParametersCC, ainsi que BatteryCC V2",
+				"it": "* Dipendenze aggiornate\n* `zwave-js` ora supporta TimeCC e TimeParametersCC, oltre a BatteryCC V2",
+				"es": "* Dependencias actualizadas\n* `zwave-js` ahora es compatible con TimeCC y TimeParametersCC, así como con BatteryCC V2",
+				"pl": "* Zależności zaktualizowane\n* `zwave-js` obsługuje teraz TimeCC i TimeParametersCC, a także BatteryCC V2",
+				"zh-cn": "*依赖关系已更新\n*`zwave-js`现在支持TimeCC和TimeParametersCC以及BatteryCC V2"
+			},
 			"0.1.2": {
 				"en": "Added functioning configuration menu",
 				"de": "Funktionsfähiges Konfigurationsmenü hinzugefügt",
