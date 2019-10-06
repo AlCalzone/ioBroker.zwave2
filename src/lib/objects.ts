@@ -26,7 +26,7 @@ export function computeId(nodeId: number, args: ZWaveNodeArgs): string {
 			args.endpoint &&
 				`Endpoint_${padStart(args.endpoint.toString(), 2, "0")}`,
 			args.propertyName,
-			args.propertyKey,
+			args.propertyKeyName && args.propertyKeyName.replace(/[\s]+/g, "_"),
 		]
 			.filter(s => !!s)
 			.join("_"),

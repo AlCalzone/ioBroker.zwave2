@@ -27,7 +27,7 @@
   ],
   "dependencies": {
     "@iobroker/adapter-core": "^1.0.3",
-    "zwave-js": "^1.4.0"
+    "zwave-js": "^1.5.0"
   },
   "devDependencies": {
     "@fimbul/mithotyn": "^0.21.0",
@@ -90,7 +90,7 @@
     "lint:wotan": "wotan",
     "lint": "npm run lint:ts && npm run lint:wotan",
     "update_iob": "start update_iob.bat",
-    "start": "NO_CACHE=true LOGLEVEL=info node --inspect build/main.js --force --logs"
+    "start": "NO_CACHE=true LOGLEVEL=debug node --inspect build/main.js --force --logs"
   },
   "nyc": {
     "include": [

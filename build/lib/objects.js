@@ -10,7 +10,7 @@ function computeId(nodeId, args) {
             args.endpoint &&
                 `Endpoint_${strings_1.padStart(args.endpoint.toString(), 2, "0")}`,
             args.propertyName,
-            args.propertyKey,
+            args.propertyKeyName && args.propertyKeyName.replace(/[\s]+/g, "_"),
         ]
             .filter(s => !!s)
             .join("_"),
