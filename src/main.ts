@@ -11,7 +11,12 @@ import {
 } from "zwave-js/build/lib/node/Node";
 import { ValueID } from "zwave-js/build/lib/node/ValueDB";
 import { Global as _ } from "./lib/global";
-import { extendMetadata, extendValue, removeValue } from "./lib/objects";
+import {
+	computeId,
+	extendMetadata,
+	extendValue,
+	removeValue,
+} from "./lib/objects";
 
 // Augment the adapter.config object with the actual types
 declare global {
@@ -117,8 +122,10 @@ class Zwave2 extends utils.Adapter {
 		node: ZWaveNode,
 		args: ZWaveNodeValueAddedArgs,
 	): Promise<void> {
-		this.log.info(
-			`Node ${node.id}: value added: ${args.propertyName} => ${args.newValue}`,
+		let propertyName = computeId(node.id, args);
+		propertyName = propertyName.substr(propertyName.lastIndexOf(".") + 1);
+		this.log.debug(
+			`Node ${node.id}: value added: ${propertyName} => ${args.newValue}`,
 		);
 		await extendValue(node, args);
 	}
@@ -127,8 +134,10 @@ class Zwave2 extends utils.Adapter {
 		node: ZWaveNode,
 		args: ZWaveNodeValueUpdatedArgs,
 	): Promise<void> {
-		this.log.info(
-			`Node ${node.id}: value updated: ${args.propertyName} => ${args.newValue}`,
+		let propertyName = computeId(node.id, args);
+		propertyName = propertyName.substr(propertyName.lastIndexOf(".") + 1);
+		this.log.debug(
+			`Node ${node.id}: value updated: ${propertyName} => ${args.newValue}`,
 		);
 		await extendValue(node, args);
 	}
@@ -137,7 +146,9 @@ class Zwave2 extends utils.Adapter {
 		node: ZWaveNode,
 		args: ZWaveNodeValueRemovedArgs,
 	): Promise<void> {
-		this.log.info(`Node ${node.id}: value removed: ${args.propertyName}`);
+		let propertyName = computeId(node.id, args);
+		propertyName = propertyName.substr(propertyName.lastIndexOf(".") + 1);
+		this.log.debug(`Node ${node.id}: value removed: ${propertyName}`);
 		await removeValue(node.id, args);
 	}
 
@@ -145,9 +156,9 @@ class Zwave2 extends utils.Adapter {
 		node: ZWaveNode,
 		args: ZWaveNodeMetadataUpdatedArgs,
 	): Promise<void> {
-		this.log.info(
-			`Node ${node.id}: metadata updated: ${args.propertyName}`,
-		);
+		let propertyName = computeId(node.id, args);
+		propertyName = propertyName.substr(propertyName.lastIndexOf(".") + 1);
+		this.log.debug(`Node ${node.id}: metadata updated: ${propertyName}`);
 		await extendMetadata(node, args);
 	}
 
