@@ -65,6 +65,7 @@ export async function extendMetadata(
 			min: (metadata as ValueMetadataNumeric).min,
 			max: (metadata as ValueMetadataNumeric).max,
 			def: (metadata as ValueMetadataNumeric).default,
+			unit: (metadata as ValueMetadataNumeric).unit,
 			states: (metadata as any).states,
 		},
 		native: {
