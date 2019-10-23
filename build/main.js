@@ -67,19 +67,27 @@ class Zwave2 extends utils.Adapter {
         this.log.info(`Node ${node.id}: is now dead`);
     }
     async onNodeValueAdded(node, args) {
-        this.log.info(`Node ${node.id}: value added: ${args.propertyName} => ${args.newValue}`);
+        let propertyName = objects_1.computeId(node.id, args);
+        propertyName = propertyName.substr(propertyName.lastIndexOf(".") + 1);
+        this.log.debug(`Node ${node.id}: value added: ${propertyName} => ${args.newValue}`);
         await objects_1.extendValue(node, args);
     }
     async onNodeValueUpdated(node, args) {
-        this.log.info(`Node ${node.id}: value updated: ${args.propertyName} => ${args.newValue}`);
+        let propertyName = objects_1.computeId(node.id, args);
+        propertyName = propertyName.substr(propertyName.lastIndexOf(".") + 1);
+        this.log.debug(`Node ${node.id}: value updated: ${propertyName} => ${args.newValue}`);
         await objects_1.extendValue(node, args);
     }
     async onNodeValueRemoved(node, args) {
-        this.log.info(`Node ${node.id}: value removed: ${args.propertyName}`);
+        let propertyName = objects_1.computeId(node.id, args);
+        propertyName = propertyName.substr(propertyName.lastIndexOf(".") + 1);
+        this.log.debug(`Node ${node.id}: value removed: ${propertyName}`);
         await objects_1.removeValue(node.id, args);
     }
     async onNodeMetadataUpdated(node, args) {
-        this.log.info(`Node ${node.id}: metadata updated: ${args.propertyName}`);
+        let propertyName = objects_1.computeId(node.id, args);
+        propertyName = propertyName.substr(propertyName.lastIndexOf(".") + 1);
+        this.log.debug(`Node ${node.id}: metadata updated: ${propertyName}`);
         await objects_1.extendMetadata(node, args);
     }
     /**

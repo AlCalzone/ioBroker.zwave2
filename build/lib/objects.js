@@ -38,6 +38,7 @@ async function extendMetadata(node, args) {
             min: metadata.min,
             max: metadata.max,
             def: metadata.default,
+            unit: metadata.unit,
             states: metadata.states,
         },
         native: {
