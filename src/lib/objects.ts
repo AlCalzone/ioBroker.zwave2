@@ -23,9 +23,8 @@ export function computeId(nodeId: number, args: ZWaveNodeArgs): string {
 		`Node_${padStart(nodeId.toString(), 3, "0")}`,
 		args.commandClassName.replace(/[\s]+/g, "_"),
 		[
-			args.endpoint &&
-				`Endpoint_${padStart(args.endpoint.toString(), 2, "0")}`,
 			args.propertyName,
+			args.endpoint && padStart(args.endpoint.toString(), 3, "0"),
 			args.propertyKeyName && args.propertyKeyName.replace(/[\s]+/g, "_"),
 		]
 			.filter(s => !!s)
@@ -59,7 +58,11 @@ export async function extendMetadata(
 			role: "value", // TODO: Determine based on the CC type
 			read: metadata.readable,
 			write: metadata.writeable,
-			name: metadata.label || stateId,
+			name: metadata.label
+				? `${metadata.label}${
+						args.endpoint ? ` (Endpoint ${args.endpoint})` : ""
+				  }`
+				: stateId,
 			desc: metadata.description,
 			type: valueTypeToIOBrokerType(metadata.type),
 			min: (metadata as ValueMetadataNumeric).min,
