@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "zwave2",
-		"version": "0.1.3",
+		"version": "0.2.0",
 		"news": {
+			"0.2.0": {
+				"en": "* `zwave-js` dependency updated for complete `Multi Channel` support and improved `Multilevel Switch` support\n* Removed some unnecessary log outputs\n* Improved naming of some objects\n",
+				"de": "* Die `zwave-js`-Abhängigkeit wurde aktualisiert, um die vollständige` Multi Channel`-Unterstützung und die verbesserte `Multilevel Switch`-Unterstützung zu gewährleisten\n* Einige unnötige Logausgaben wurden entfernt\n* Benennung einiger Objekte verbessert\n",
+				"ru": "* Зависимость zwave-js обновлена для полной поддержки «Multi Channel» и улучшена поддержка «Multilevel Switch».\n* Удалены некоторые ненужные логи выходов\n* Улучшено именование некоторых объектов\n",
+				"pt": "* Dependência do `zwave-js` atualizada para suporte completo ao` Multi Channel` e suporte aprimorado ao `Multilevel Switch`\n* Removidas algumas saídas de log desnecessárias\n* Melhor nomeação de alguns objetos\n",
+				"nl": "* `zwave-js` afhankelijkheid bijgewerkt voor volledige` Multi Channel`-ondersteuning en verbeterde `Multilevel Switch`-ondersteuning\n* Enkele onnodige log-uitgangen verwijderd\n* Verbeterde naamgeving van sommige objecten\n",
+				"fr": "* Dépendance de `zwave-js` mise à jour pour une prise en charge complète de` Multi Channel` et une prise en charge améliorée de `Multilevel Switch`\n* Suppression de certaines sorties de journal inutiles\n* Amélioration de la dénomination de certains objets\n",
+				"it": "* Aggiornamento della dipendenza `zwave-js` per il supporto completo` Multi Channel` e supporto `Switch multilivello migliorato\n* Rimossi alcuni output di log non necessari\n* Miglioramento della denominazione di alcuni oggetti\n",
+				"es": "* Se actualizó la dependencia `zwave-js` para un soporte completo de` Multi Channel` y un soporte mejorado de `Multilevel Switch`\n* Se eliminaron algunas salidas de registro innecesarias\n* Nombramiento mejorado de algunos objetos\n",
+				"pl": "* Zaktualizowano zależność `zwave-js` dla pełnej obsługi` Multi Channel` i ulepszonej obsługi `Multilevel Switch`\n* Usunięto niepotrzebne dane wyjściowe dziennika\n* Ulepszone nazewnictwo niektórych obiektów\n",
+				"zh-cn": "*更新了`zwave-js`依赖性，以提供完整的`多通道`支持和改进的`多级开关`支持\n*删除了一些不必要的日志输出\n*改进了某些对象的命名\n"
+			},
 			"0.1.3": {
 				"en": "* Dependencies updated\n* `zwave-js` now supports TimeCC and TimeParametersCC, as well as BatteryCC V2",
 				"de": "* Abhängigkeiten aktualisiert\n* `zwave-js` unterstützt jetzt TimeCC und TimeParametersCC sowie BatteryCC V2",
