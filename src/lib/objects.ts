@@ -1,5 +1,6 @@
 import { padStart } from "alcalzone-shared/strings";
 import {
+	TranslatedValueID,
 	ZWaveNode,
 	ZWaveNodeMetadataUpdatedArgs,
 	ZWaveNodeValueAddedArgs,
@@ -18,9 +19,14 @@ type ZWaveNodeArgs =
 	| ZWaveNodeValueRemovedArgs
 	| ZWaveNodeMetadataUpdatedArgs;
 
-export function computeId(nodeId: number, args: ZWaveNodeArgs): string {
+/** Returns the id of the device object for the given node id */
+export function computeDeviceId(nodeId: number): string {
+	return `Node_${padStart(nodeId.toString(), 3, "0")}`;
+}
+
+export function computeId(nodeId: number, args: TranslatedValueID): string {
 	return [
-		`Node_${padStart(nodeId.toString(), 3, "0")}`,
+		computeDeviceId(nodeId),
 		args.commandClassName.replace(/[\s]+/g, "_"),
 		[
 			args.propertyName,
