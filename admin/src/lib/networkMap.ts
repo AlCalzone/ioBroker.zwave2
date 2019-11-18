@@ -37,7 +37,6 @@ export function drawNetworkMap(selector: string, nodes: NodeInfo[]) {
 	const maxSum = Math.max(...matrix.map(sum));
 
 	// Remember which nodes are not connected
-
 	const disconnected = new Set<number>();
 	for (let i = 0; i < matrix.length; i++) {
 		const row = matrix[i];
@@ -180,7 +179,10 @@ export function drawNetworkMap(selector: string, nodes: NodeInfo[]) {
 		// .attr("dy", "-0.25em")
 		.attr(
 			"class",
-			(d, i) => `node-id${disconnected.has(i) ? " disconnected" : ""}`,
+			(d, i) =>
+				`node-id${
+					disconnected.has(nodes[i].id) ? " disconnected" : ""
+				}`,
 		)
 		.attr("text-anchor", d =>
 			d.angle - firstNodeRotation > Math.PI ? "end" : null,
@@ -197,7 +199,7 @@ export function drawNetworkMap(selector: string, nodes: NodeInfo[]) {
 				(d.angle - firstNodeRotation > Math.PI ? "rotate(180)" : "")
 			);
 		})
-		.text((d, i) => `Node ${i + 1}`);
+		.text((d, i) => `Node ${nodes[i].id}`);
 	//
 	// node.append("text")
 	// 	.each(d => d.angle = (d.startAngle + d.endAngle) / 2)
