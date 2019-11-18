@@ -132,7 +132,7 @@ class Zwave2 extends utils.Adapter {
                     return;
                 }
                 const valueId = native.valueId;
-                if (!(valueId && valueId.commandClass && valueId.propertyName)) {
+                if (!(valueId && valueId.commandClass && valueId.property)) {
                     this.log.error(`Value ID missing or incomplete in object definition ${id}!`);
                     return;
                 }

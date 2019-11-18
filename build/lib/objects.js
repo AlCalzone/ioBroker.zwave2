@@ -47,7 +47,7 @@ async function extendMetadata(node, args) {
             valueId: {
                 commandClass: args.commandClass,
                 endpoint: args.endpoint,
-                propertyName: args.propertyName,
+                property: args.property,
                 propertyKey: args.propertyKey,
             },
             steps: metadata.steps,

@@ -50,7 +50,9 @@ export async function extendMetadata(
 	const metadata =
 		("metadata" in args && args.metadata) || node.getValueMetadata(args);
 
-	const objectDefinition: ioBroker.SettableObjectWorker<ioBroker.StateObject> = {
+	const objectDefinition: ioBroker.SettableObjectWorker<
+		ioBroker.StateObject
+	> = {
 		type: "state",
 		common: {
 			role: "value", // TODO: Determine based on the CC type
@@ -74,7 +76,7 @@ export async function extendMetadata(
 			valueId: {
 				commandClass: args.commandClass,
 				endpoint: args.endpoint,
-				propertyName: args.propertyName,
+				property: args.property,
 				propertyKey: args.propertyKey,
 			},
 			steps: (metadata as ValueMetadataNumeric).steps,
