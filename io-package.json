@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "zwave2",
-		"version": "0.2.0",
+		"version": "0.2.1",
 		"news": {
+			"0.2.1": {
+				"en": "The network map now correctly displays the nodes' IDs",
+				"de": "Die Netzwerkkarte zeigt nun die IDs der Knoten korrekt an",
+				"ru": "Карта сети теперь правильно отображает идентификаторы узла",
+				"pt": "O mapa de rede agora exibe corretamente os IDs do nó",
+				"nl": "De netwerkmap geeft nu correct de ID's van het knooppunt weer",
+				"fr": "La carte du réseau affiche maintenant correctement les ID du nœud",
+				"it": "La mappa di rete ora visualizza correttamente gli ID del nodo",
+				"es": "El mapa de red ahora muestra correctamente las ID del nodo",
+				"pl": "Mapa sieci poprawnie wyświetla teraz identyfikatory węzła",
+				"zh-cn": "网络图现在可以正确显示节点的ID"
+			},
 			"0.2.0": {
 				"en": "* `zwave-js` dependency updated for complete `Multi Channel` support and improved `Multilevel Switch` support\n* Removed some unnecessary log outputs\n* Improved naming of some objects\n",
 				"de": "* Die `zwave-js`-Abhängigkeit wurde aktualisiert, um die vollständige` Multi Channel`-Unterstützung und die verbesserte `Multilevel Switch`-Unterstützung zu gewährleisten\n* Einige unnötige Logausgaben wurden entfernt\n* Benennung einiger Objekte verbessert\n",
