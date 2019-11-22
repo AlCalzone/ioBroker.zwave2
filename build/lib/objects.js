@@ -2,14 +2,39 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const strings_1 = require("alcalzone-shared/strings");
 const global_1 = require("./global");
+/** Converts a device label to a valid filename */
+function nameToStateId(label) {
+    const safeName = label
+        // Remove trailing, leading and multiple whitespace
+        .trim()
+        .replace(/\s+/g, " ")
+        // Replace all unsafe chars
+        .replace(/[^a-zA-Z0-9\-_ ]+/g, "_")
+        // Replace spaces surrounded by unsafe chars with a space
+        .replace(/_\s/g, " ")
+        .replace(/\s_/g, " ")
+        // Remove trailing and leading underscores
+        .replace(/^_\s*/, "")
+        .replace(/\s*_$/, "");
+    return camelCase(safeName);
+}
+function camelCase(str) {
+    return str
+        .split(" ")
+        .map((substr, i) => i === 0
+        ? substr.toLowerCase()
+        : substr[0].toUpperCase() + substr.slice(1).toLowerCase())
+        .join("");
+}
 function computeId(nodeId, args) {
+    var _a, _b;
     return [
         `Node_${strings_1.padStart(nodeId.toString(), 3, "0")}`,
         args.commandClassName.replace(/[\s]+/g, "_"),
         [
-            args.propertyName,
+            ((_a = args.propertyName) === null || _a === void 0 ? void 0 : _a.trim()) && nameToStateId(args.propertyName),
             args.endpoint && strings_1.padStart(args.endpoint.toString(), 3, "0"),
-            args.propertyKeyName && args.propertyKeyName.replace(/[\s]+/g, "_"),
+            ((_b = args.propertyKeyName) === null || _b === void 0 ? void 0 : _b.trim()) && nameToStateId(args.propertyKeyName),
         ]
             .filter(s => !!s)
             .join("_"),
