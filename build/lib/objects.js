@@ -26,10 +26,15 @@ function camelCase(str) {
         : substr[0].toUpperCase() + substr.slice(1).toLowerCase())
         .join("");
 }
+/** Returns the id of the device object for the given node id */
+function computeDeviceId(nodeId) {
+    return `Node_${strings_1.padStart(nodeId.toString(), 3, "0")}`;
+}
+exports.computeDeviceId = computeDeviceId;
 function computeId(nodeId, args) {
     var _a, _b;
     return [
-        `Node_${strings_1.padStart(nodeId.toString(), 3, "0")}`,
+        computeDeviceId(nodeId),
         args.commandClassName.replace(/[\s]+/g, "_"),
         [
             ((_a = args.propertyName) === null || _a === void 0 ? void 0 : _a.trim()) && nameToStateId(args.propertyName),

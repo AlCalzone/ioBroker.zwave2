@@ -3,7 +3,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const utils = require("@iobroker/adapter-core");
 const zwave_js_1 = require("zwave-js");
-const CommandClasses_1 = require("zwave-js/build/lib/commandclass/CommandClasses");
 const global_1 = require("./lib/global");
 const objects_1 = require("./lib/objects");
 class Zwave2 extends utils.Adapter {
@@ -48,10 +47,22 @@ class Zwave2 extends utils.Adapter {
     }
     async onNodeInterviewCompleted(node) {
         this.log.info(`Node ${node.id}: interview completed`);
+        // Find out which states we need to exist
+        const allValueIDs = node.getDefinedValueIDs();
+        const desiredStateIds = new Set(allValueIDs.map(vid => `${this.namespace}.${objects_1.computeId(node.id, vid)}`));
+        const existingStateIds = Object.keys(await global_1.Global.$$(`${this.namespace}.${objects_1.computeDeviceId(node.id)}.*`));
+        // Clean up unused states
+        // TODO: Handle channels (when we use them)
+        const unusedStates = existingStateIds.filter(id => !desiredStateIds.has(id));
+        for (const id of unusedStates) {
+            this.log.warn(`Deleting orphaned state ${id}`);
+            await this.delStateAsync(id);
+            await this.delObjectAsync(id);
+        }
         // Prepare data points for all the node's values
-        for (const valueId of node.getDefinedValueIDs()) {
+        for (const valueId of allValueIDs) {
             const value = node.getValue(valueId);
-            await objects_1.extendValue(node, Object.assign(Object.assign({}, valueId), { newValue: value, commandClassName: CommandClasses_1.getCCName(valueId.commandClass) }));
+            await objects_1.extendValue(node, Object.assign(Object.assign({}, valueId), { newValue: value }));
         }
     }
     onNodeWakeUp(node) {

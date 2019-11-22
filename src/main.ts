@@ -95,7 +95,9 @@ class Zwave2 extends utils.Adapter {
 		// Find out which states we need to exist
 		const allValueIDs = node.getDefinedValueIDs();
 		const desiredStateIds = new Set(
-			allValueIDs.map(vid => computeId(node.id, vid)),
+			allValueIDs.map(
+				vid => `${this.namespace}.${computeId(node.id, vid)}`,
+			),
 		);
 		const existingStateIds = Object.keys(
 			await _.$$(`${this.namespace}.${computeDeviceId(node.id)}.*`),
