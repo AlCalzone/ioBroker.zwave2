@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "zwave2",
-		"version": "0.2.1",
+		"version": "0.3.0",
 		"news": {
+			"0.3.0": {
+				"en": "* Updated `zwave-js` from to v2.0.0 for improved support of older devices, named configuration parameters and fixed `Binary Sensor` support\n* Improved generation of state names for complex property names",
+				"de": "* `Zwave-js` wurde von v2.0.0 aktualisiert, um die Unterstützung älterer Geräte, benannter Konfigurationsparameter und der Unterstützung von` Binärsensoren` zu verbessern\n* Verbesserte Erzeugung von Zustandsnamen für komplexe Eigenschaftsnamen",
+				"ru": "* Обновлен `zwave-js` с версии 2.0.0 для улучшенной поддержки старых устройств, именованных параметров конфигурации и исправлена поддержка` Binary Sensor`\n* Улучшена генерация имен состояний для сложных имен свойств",
+				"pt": "* Zwave-js` atualizado da v2.0.0 para suporte aprimorado a dispositivos mais antigos, parâmetros de configuração nomeados e suporte fixo ao `Binary Sensor`\n* Geração aprimorada de nomes de estados para nomes de propriedades complexas",
+				"nl": "* Bijgewerkt `zwave-js` van naar v2.0.0 voor verbeterde ondersteuning van oudere apparaten, benoemde configuratieparameters en vaste` Binaire sensor` ondersteuning\n* Verbeterde generatie van statusnamen voor complexe eigenschapsnamen",
+				"fr": "* Mise à jour de `zwave-js` de v2.0.0 pour une meilleure prise en charge des périphériques plus anciens, des paramètres de configuration nommés et une prise en charge fixe de` Capteur binaire`\n* Génération améliorée de noms d'états pour les noms de propriétés complexes",
+				"it": "* Aggiornato `zwave-js` da v2.0.0 per un supporto migliorato dei dispositivi più vecchi, parametri di configurazione nominati e supporto fisso` Sensore binario`\n* Migliorata generazione di nomi di stato per nomi di proprietà complessi",
+				"es": "* Se actualizó `zwave-js` de v2.0.0 para mejorar el soporte de dispositivos más antiguos, parámetros de configuración con nombre y soporte fijo de` Sensor binario`\n* Generación mejorada de nombres de estado para nombres de propiedad complejos",
+				"pl": "* Zaktualizowano `zwave-js` do v2.0.0 w celu poprawy obsługi starszych urządzeń, nazwanych parametrów konfiguracyjnych i stałej obsługi` Binary Sensor`\n* Poprawione generowanie nazw stanów dla złożonych nazw właściwości",
+				"zh-cn": "*将“ zwave-js”从v2.0.0更新为改进的对旧设备的支持，命名的配置参数和固定的“二进制传感器”支持\n*改进了复杂属性名称的状态名称的生成"
+			},
 			"0.2.1": {
 				"en": "The network map now correctly displays the nodes' IDs",
 				"de": "Die Netzwerkkarte zeigt nun die IDs der Knoten korrekt an",
