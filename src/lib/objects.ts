@@ -1,5 +1,6 @@
 import { padStart } from "alcalzone-shared/strings";
 import {
+	TranslatedValueID,
 	ZWaveNode,
 	ZWaveNodeMetadataUpdatedArgs,
 	ZWaveNodeValueAddedArgs,
@@ -18,14 +19,47 @@ type ZWaveNodeArgs =
 	| ZWaveNodeValueRemovedArgs
 	| ZWaveNodeMetadataUpdatedArgs;
 
-export function computeId(nodeId: number, args: ZWaveNodeArgs): string {
+/** Converts a device label to a valid filename */
+function nameToStateId(label: string): string {
+	const safeName = label
+		// Remove trailing, leading and multiple whitespace
+		.trim()
+		.replace(/\s+/g, " ")
+		// Replace all unsafe chars
+		.replace(/[^a-zA-Z0-9\-_ ]+/g, "_")
+		// Replace spaces surrounded by unsafe chars with a space
+		.replace(/_\s/g, " ")
+		.replace(/\s_/g, " ")
+		// Remove trailing and leading underscores
+		.replace(/^_\s*/, "")
+		.replace(/\s*_$/, "");
+	return camelCase(safeName);
+}
+
+function camelCase(str: string): string {
+	return str
+		.split(" ")
+		.map((substr, i) =>
+			i === 0
+				? substr.toLowerCase()
+				: substr[0].toUpperCase() + substr.slice(1).toLowerCase(),
+		)
+		.join("");
+}
+
+/** Returns the id of the device object for the given node id */
+export function computeDeviceId(nodeId: number): string {
+	return `Node_${padStart(nodeId.toString(), 3, "0")}`;
+}
+
+export function computeId(nodeId: number, args: TranslatedValueID): string {
 	return [
-		`Node_${padStart(nodeId.toString(), 3, "0")}`,
+		computeDeviceId(nodeId),
 		args.commandClassName.replace(/[\s]+/g, "_"),
 		[
-			args.propertyName,
+			args.propertyName?.trim() && nameToStateId(args.propertyName),
 			args.endpoint && padStart(args.endpoint.toString(), 3, "0"),
-			args.propertyKeyName && args.propertyKeyName.replace(/[\s]+/g, "_"),
+			args.propertyKeyName?.trim() && nameToStateId(args.propertyKeyName),
 		]
 			.filter(s => !!s)
 			.join("_"),
@@ -74,7 +108,7 @@ export async function extendMetadata(
 			valueId: {
 				commandClass: args.commandClass,
 				endpoint: args.endpoint,
-				propertyName: args.propertyName,
+				property: args.property,
 				propertyKey: args.propertyKey,
 			},
 			steps: (metadata as ValueMetadataNumeric).steps,

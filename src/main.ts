@@ -2,7 +2,6 @@
 
 import * as utils from "@iobroker/adapter-core";
 import { Driver, ZWaveNode } from "zwave-js";
-import { getCCName } from "zwave-js/build/lib/commandclass/CommandClasses";
 import {
 	ZWaveNodeMetadataUpdatedArgs,
 	ZWaveNodeValueAddedArgs,
@@ -12,6 +11,7 @@ import {
 import { ValueID } from "zwave-js/build/lib/node/ValueDB";
 import { Global as _ } from "./lib/global";
 import {
+	computeDeviceId,
 	computeId,
 	extendMetadata,
 	extendValue,
@@ -91,13 +91,34 @@ class Zwave2 extends utils.Adapter {
 
 	private async onNodeInterviewCompleted(node: ZWaveNode): Promise<void> {
 		this.log.info(`Node ${node.id}: interview completed`);
+
+		// Find out which states we need to exist
+		const allValueIDs = node.getDefinedValueIDs();
+		const desiredStateIds = new Set(
+			allValueIDs.map(
+				vid => `${this.namespace}.${computeId(node.id, vid)}`,
+			),
+		);
+		const existingStateIds = Object.keys(
+			await _.$$(`${this.namespace}.${computeDeviceId(node.id)}.*`),
+		);
+		// Clean up unused states
+		// TODO: Handle channels (when we use them)
+		const unusedStates = existingStateIds.filter(
+			id => !desiredStateIds.has(id),
+		);
+		for (const id of unusedStates) {
+			this.log.warn(`Deleting orphaned state ${id}`);
+			await this.delStateAsync(id);
+			await this.delObjectAsync(id);
+		}
+
 		// Prepare data points for all the node's values
-		for (const valueId of node.getDefinedValueIDs()) {
+		for (const valueId of allValueIDs) {
 			const value = node.getValue(valueId);
 			await extendValue(node, {
 				...valueId,
 				newValue: value,
-				commandClassName: getCCName(valueId.commandClass),
 			});
 		}
 	}
@@ -215,9 +236,7 @@ class Zwave2 extends utils.Adapter {
 					return;
 				}
 				const valueId: ValueID | undefined = native.valueId;
-				if (
-					!(valueId && valueId.commandClass && valueId.propertyName)
-				) {
+				if (!(valueId && valueId.commandClass && valueId.property)) {
 					this.log.error(
 						`Value ID missing or incomplete in object definition ${id}!`,
 					);
