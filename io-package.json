@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "zwave2",
-		"version": "0.3.0",
+		"version": "0.3.1",
 		"news": {
+			"0.3.1": {
+				"en": "Fixed a crash from v0.3.0",
+				"de": "Absturz von v0.3.0 behoben",
+				"ru": "Исправлен вылет из v0.3.0",
+				"pt": "Corrigida uma falha da v0.3.0",
+				"nl": "Een crash van v0.3.0 opgelost",
+				"fr": "Correction d'un crash de v0.3.0",
+				"it": "Risolto un crash dalla v0.3.0",
+				"es": "Se corrigió un bloqueo de v0.3.0",
+				"pl": "Naprawiono awarię z wersji 0.3.0",
+				"zh-cn": "修复了v0.3.0起的崩溃"
+			},
 			"0.3.0": {
 				"en": "* Updated `zwave-js` from to v2.0.0 for improved support of older devices, named configuration parameters and fixed `Binary Sensor` support\n* Improved generation of state names for complex property names",
 				"de": "* `Zwave-js` wurde von v2.0.0 aktualisiert, um die Unterstützung älterer Geräte, benannter Konfigurationsparameter und der Unterstützung von` Binärsensoren` zu verbessern\n* Verbesserte Erzeugung von Zustandsnamen für komplexe Eigenschaftsnamen",

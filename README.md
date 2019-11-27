@@ -17,6 +17,10 @@ Alternative Z-Wave implementation
 
 ## Changelog
 
+### 0.3.1
+
+-   Fixed a crash from v0.3.0
+
 ### 0.3.0
 
 -   Updated `zwave-js` from to v2.0.0. For the full list of changes, see [here](https://github.com/AlCalzone/node-zwave-js/blob/master/CHANGELOG.md#200-2019-11-26). Notable improvements include:
