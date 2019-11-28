@@ -16,6 +16,13 @@
 Alternative Z-Wave implementation
 
 ## Changelog
+<!-- 
+	Placeholder for next versions:
+	### __WORK IN PROGRESS__
+-->
+
+### __WORK IN PROGRESS__
+* Fixed a crash when property(Key) names contain weird punctuation
 
 ### 0.3.1
 * Fixed a crash from v0.3.0
