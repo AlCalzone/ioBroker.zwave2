@@ -19,8 +19,11 @@ type ZWaveNodeArgs =
 	| ZWaveNodeValueRemovedArgs
 	| ZWaveNodeMetadataUpdatedArgs;
 
+const isCamelCasedSafeNameRegex = /^(?!.*[\-_]$)[a-z]([a-zA-Z0-9\-_]+)$/;
+
 /** Converts a device label to a valid filename */
 export function nameToStateId(label: string): string {
+	if (isCamelCasedSafeNameRegex.test(label)) return label;
 	let safeName = label;
 	// Since these rules influence each other, we need to do multiple passes
 	while (true) {
@@ -33,7 +36,7 @@ export function nameToStateId(label: string): string {
 		// Replace spaces surrounded by unsafe chars with a space
 		replaced = replaced.replace(/_\s/g, " ");
 		replaced = replaced.replace(/\s_/g, " ");
-		// Remove trailing and leading underscores
+		// Remove trailing and leading dashes and underscores
 		replaced = replaced.replace(/^_\s*/, "");
 		replaced = replaced.replace(/\s*_$/, "");
 		// If nothing changed, we're done

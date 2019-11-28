@@ -38,4 +38,11 @@ describe("lib/objects => nameToStateId()", () => {
 			expect(nameToStateId(input)).toBe(expected);
 		}
 	});
+
+	it("does not change safe names", () => {
+		const tests = ["fooBar", "fooBarBaz-Boop"];
+		for (const name of tests) {
+			expect(nameToStateId(name)).toBe(name);
+		}
+	});
 });
