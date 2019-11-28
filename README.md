@@ -21,7 +21,7 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
-### __WORK IN PROGRESS__
+### 0.3.2 (2019-11-28)
 * Fixed a crash when property(Key) names contain weird punctuation
 
 ### 0.3.1

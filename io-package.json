@@ -1,164 +1,169 @@
 {
-	"common": {
-		"name": "zwave2",
-		"version": "0.3.1",
-		"news": {
-			"0.3.1": {
-				"en": "Fixed a crash from v0.3.0",
-				"de": "Absturz von v0.3.0 behoben",
-				"ru": "Исправлен вылет из v0.3.0",
-				"pt": "Corrigida uma falha da v0.3.0",
-				"nl": "Een crash van v0.3.0 opgelost",
-				"fr": "Correction d'un crash de v0.3.0",
-				"it": "Risolto un crash dalla v0.3.0",
-				"es": "Se corrigió un bloqueo de v0.3.0",
-				"pl": "Naprawiono awarię z wersji 0.3.0",
-				"zh-cn": "修复了v0.3.0起的崩溃"
-			},
-			"0.3.0": {
-				"en": "* Updated `zwave-js` to v2.0.0 for improved support of older devices, named configuration parameters and fixed `Binary Sensor` support\n* Improved generation of state names for complex property names",
-				"de": "* `Zwave-js` wurde auf v2.0.0 aktualisiert, um die Unterstützung älterer Geräte, benannter Konfigurationsparameter und der Unterstützung von` Binärsensoren` zu verbessern\n* Verbesserte Erzeugung von Zustandsnamen für komplexe Eigenschaftsnamen",
-				"ru": "* Обновлен `zwave-js` до v2.0.0 для улучшенной поддержки старых устройств, именованных параметров конфигурации и исправлена поддержка` Binary Sensor`\n* Улучшена генерация имен состояний для сложных имен свойств",
-				"pt": "* Zwave-js` atualizado para a v2.0.0 para suporte aprimorado a dispositivos mais antigos, parâmetros de configuração nomeados e suporte fixo ao `Binary Sensor`\n* Geração aprimorada de nomes de estados para nomes de propriedades complexas",
-				"nl": "* Bijgewerkt `zwave-js` naar v2.0.0 voor verbeterde ondersteuning van oudere apparaten, benoemde configuratieparameters en vaste` Binaire sensor` ondersteuning\n* Verbeterde generatie van statusnamen voor complexe eigenschapsnamen",
-				"fr": "* Mise à jour de `zwave-js` vers la v2.0.0 pour une prise en charge améliorée des périphériques plus anciens, des paramètres de configuration nommés et une prise en charge fixe du` Capteur binaire`\n* Génération améliorée de noms d'états pour les noms de propriétés complexes",
-				"it": "* Aggiornato `zwave-js` a v2.0.0 per un supporto migliorato dei dispositivi più vecchi, denominati parametri di configurazione e supporto fisso` Sensore binario`\n* Migliorata generazione di nomi di stato per nomi di proprietà complessi",
-				"es": "* Se actualizó `zwave-js` a v2.0.0 para mejorar el soporte de dispositivos más antiguos, los parámetros de configuración con nombre y el soporte fijo de` Sensor binario`\n* Generación mejorada de nombres de estado para nombres de propiedad complejos",
-				"pl": "* Zaktualizowano `zwave-js` do wersji 2.0.0, aby poprawić obsługę starszych urządzeń, nazwać parametry konfiguracji i naprawić obsługę` Binary Sensor`\n* Poprawione generowanie nazw stanów dla złożonych nazw właściwości",
-				"zh-cn": "*将zwave-js更新至v2.0.0，以改善对旧设备的支持，命名配置参数和固定的Binary Sensor支持\n*改进了复杂属性名称的状态名称的生成"
-			},
-			"0.2.1": {
-				"en": "The network map now correctly displays the nodes' IDs",
-				"de": "Die Netzwerkkarte zeigt nun die IDs der Knoten korrekt an",
-				"ru": "Карта сети теперь правильно отображает идентификаторы узла",
-				"pt": "O mapa de rede agora exibe corretamente os IDs do nó",
-				"nl": "De netwerkmap geeft nu correct de ID's van het knooppunt weer",
-				"fr": "La carte du réseau affiche maintenant correctement les ID du nœud",
-				"it": "La mappa di rete ora visualizza correttamente gli ID del nodo",
-				"es": "El mapa de red ahora muestra correctamente las ID del nodo",
-				"pl": "Mapa sieci poprawnie wyświetla teraz identyfikatory węzła",
-				"zh-cn": "网络图现在可以正确显示节点的ID"
-			},
-			"0.2.0": {
-				"en": "* `zwave-js` dependency updated for complete `Multi Channel` support and improved `Multilevel Switch` support\n* Removed some unnecessary log outputs\n* Improved naming of some objects\n",
-				"de": "* Die `zwave-js`-Abhängigkeit wurde aktualisiert, um die vollständige` Multi Channel`-Unterstützung und die verbesserte `Multilevel Switch`-Unterstützung zu gewährleisten\n* Einige unnötige Logausgaben wurden entfernt\n* Benennung einiger Objekte verbessert\n",
-				"ru": "* Зависимость zwave-js обновлена для полной поддержки «Multi Channel» и улучшена поддержка «Multilevel Switch».\n* Удалены некоторые ненужные логи выходов\n* Улучшено именование некоторых объектов\n",
-				"pt": "* Dependência do `zwave-js` atualizada para suporte completo ao` Multi Channel` e suporte aprimorado ao `Multilevel Switch`\n* Removidas algumas saídas de log desnecessárias\n* Melhor nomeação de alguns objetos\n",
-				"nl": "* `zwave-js` afhankelijkheid bijgewerkt voor volledige` Multi Channel`-ondersteuning en verbeterde `Multilevel Switch`-ondersteuning\n* Enkele onnodige log-uitgangen verwijderd\n* Verbeterde naamgeving van sommige objecten\n",
-				"fr": "* Dépendance de `zwave-js` mise à jour pour une prise en charge complète de` Multi Channel` et une prise en charge améliorée de `Multilevel Switch`\n* Suppression de certaines sorties de journal inutiles\n* Amélioration de la dénomination de certains objets\n",
-				"it": "* Aggiornamento della dipendenza `zwave-js` per il supporto completo` Multi Channel` e supporto `Switch multilivello migliorato\n* Rimossi alcuni output di log non necessari\n* Miglioramento della denominazione di alcuni oggetti\n",
-				"es": "* Se actualizó la dependencia `zwave-js` para un soporte completo de` Multi Channel` y un soporte mejorado de `Multilevel Switch`\n* Se eliminaron algunas salidas de registro innecesarias\n* Nombramiento mejorado de algunos objetos\n",
-				"pl": "* Zaktualizowano zależność `zwave-js` dla pełnej obsługi` Multi Channel` i ulepszonej obsługi `Multilevel Switch`\n* Usunięto niepotrzebne dane wyjściowe dziennika\n* Ulepszone nazewnictwo niektórych obiektów\n",
-				"zh-cn": "*更新了`zwave-js`依赖性，以提供完整的`多通道`支持和改进的`多级开关`支持\n*删除了一些不必要的日志输出\n*改进了某些对象的命名\n"
-			},
-			"0.1.3": {
-				"en": "* Dependencies updated\n* `zwave-js` now supports TimeCC and TimeParametersCC, as well as BatteryCC V2",
-				"de": "* Abhängigkeiten aktualisiert\n* `zwave-js` unterstützt jetzt TimeCC und TimeParametersCC sowie BatteryCC V2",
-				"ru": "* Зависимости обновлены\n* `zwave-js` теперь поддерживает TimeCC и TimeParametersCC, а также BatteryCC V2",
-				"pt": "* Dependências atualizadas\n* `zwave-js` agora suporta TimeCC e TimeParametersCC, bem como BatteryCC V2",
-				"nl": "* Afhankelijkheden bijgewerkt\n* `zwave-js` ondersteunt nu TimeCC en TimeParametersCC, evenals BatteryCC V2",
-				"fr": "* Dépendances mises à jour\n* `zwave-js` prend désormais en charge TimeCC et TimeParametersCC, ainsi que BatteryCC V2",
-				"it": "* Dipendenze aggiornate\n* `zwave-js` ora supporta TimeCC e TimeParametersCC, oltre a BatteryCC V2",
-				"es": "* Dependencias actualizadas\n* `zwave-js` ahora es compatible con TimeCC y TimeParametersCC, así como con BatteryCC V2",
-				"pl": "* Zależności zaktualizowane\n* `zwave-js` obsługuje teraz TimeCC i TimeParametersCC, a także BatteryCC V2",
-				"zh-cn": "*依赖关系已更新\n*`zwave-js`现在支持TimeCC和TimeParametersCC以及BatteryCC V2"
-			},
-			"0.1.2": {
-				"en": "Added functioning configuration menu",
-				"de": "Funktionsfähiges Konfigurationsmenü hinzugefügt",
-				"ru": "Добавлено функционирующее меню конфигурации",
-				"pt": "Adicionado menu de configuração de funcionamento",
-				"nl": "Werkend configuratiemenu toegevoegd",
-				"fr": "Ajout du menu de configuration fonctionnelle",
-				"it": "Aggiunto menu di configurazione funzionante",
-				"es": "Menú de configuración de funcionamiento agregado",
-				"pl": "Dodano funkcjonujące menu konfiguracji",
-				"zh-cn": "添加了功能配置菜单"
-			},
-			"0.0.1": {
-				"en": "initial release",
-				"de": "Erstveröffentlichung",
-				"ru": "Начальная версия",
-				"pt": "lançamento inicial",
-				"nl": "Eerste uitgave",
-				"fr": "Première version",
-				"it": "Versione iniziale",
-				"es": "Versión inicial",
-				"pl": "Pierwsze wydanie",
-				"zh-cn": "首次出版"
-			}
-		},
-		"title": "Z-Wave",
-		"titleLang": {
-			"en": "Z-Wave",
-			"de": "Z-Wave",
-			"ru": "Z-Wave",
-			"pt": "Z-Wave",
-			"nl": "Z-Wave",
-			"fr": "Z-Wave",
-			"it": "Z-Wave",
-			"es": "Onda z",
-			"pl": "Z-Wave",
-			"zh-cn": "Z-波"
-		},
-		"desc": {
-			"en": "Alternative Z-Wave implementation",
-			"de": "Alternative Z-Wave-Implementierung",
-			"ru": "Альтернативная реализация Z-Wave",
-			"pt": "Implementação alternativa de Z-Wave",
-			"nl": "Alternatieve Z-Wave-implementatie",
-			"fr": "Mise en œuvre alternative de Z-Wave",
-			"it": "Implementazione Z-Wave alternativa",
-			"es": "Implementación alternativa de Z-Wave",
-			"pl": "Alternatywna implementacja Z-Wave",
-			"zh-cn": "替代Z-Wave实施"
-		},
-		"authors": ["AlCalzone <d.griesel@gmx.net>"],
-		"keywords": ["zwave", "z-wave"],
-		"license": "MIT",
-		"platform": "Javascript/Node.js",
-		"main": "build/main.js",
-		"icon": "zwave2.svg",
-		"enabled": true,
-		"extIcon": "https://raw.githubusercontent.com/AlCalzone/ioBroker.zwave2/master/admin/zwave2.svg?sanitize=true",
-		"readme": "https://github.com/AlCalzone/ioBroker.zwave2/blob/master/README.md",
-		"loglevel": "info",
-		"mode": "daemon",
-		"type": "hardware",
-		"compact": true,
-		"materialize": true,
-		"messagebox": true,
-		"dependencies": [
-			{
-				"js-controller": ">=1.4.2"
-			}
-		]
-	},
-	"native": {
-		"serialport": ""
-	},
-	"objects": [],
-	"instanceObjects": [
-		{
-			"_id": "info",
-			"type": "channel",
-			"common": {
-				"name": "Information"
-			},
-			"native": {}
-		},
-		{
-			"_id": "info.connection",
-			"type": "state",
-			"common": {
-				"role": "indicator.connected",
-				"name": "Whether the Z-Wave driver is ready",
-				"type": "boolean",
-				"read": true,
-				"write": false,
-				"def": false
-			},
-			"native": {}
-		}
-	]
+    "common": {
+        "name": "zwave2",
+        "version": "0.3.2",
+        "news": {
+            "0.3.1": {
+                "en": "Fixed a crash from v0.3.0",
+                "de": "Absturz von v0.3.0 behoben",
+                "ru": "Исправлен вылет из v0.3.0",
+                "pt": "Corrigida uma falha da v0.3.0",
+                "nl": "Een crash van v0.3.0 opgelost",
+                "fr": "Correction d'un crash de v0.3.0",
+                "it": "Risolto un crash dalla v0.3.0",
+                "es": "Se corrigió un bloqueo de v0.3.0",
+                "pl": "Naprawiono awarię z wersji 0.3.0",
+                "zh-cn": "修复了v0.3.0起的崩溃"
+            },
+            "0.3.0": {
+                "en": "* Updated `zwave-js` to v2.0.0 for improved support of older devices, named configuration parameters and fixed `Binary Sensor` support\n* Improved generation of state names for complex property names",
+                "de": "* `Zwave-js` wurde auf v2.0.0 aktualisiert, um die Unterstützung älterer Geräte, benannter Konfigurationsparameter und der Unterstützung von` Binärsensoren` zu verbessern\n* Verbesserte Erzeugung von Zustandsnamen für komplexe Eigenschaftsnamen",
+                "ru": "* Обновлен `zwave-js` до v2.0.0 для улучшенной поддержки старых устройств, именованных параметров конфигурации и исправлена поддержка` Binary Sensor`\n* Улучшена генерация имен состояний для сложных имен свойств",
+                "pt": "* Zwave-js` atualizado para a v2.0.0 para suporte aprimorado a dispositivos mais antigos, parâmetros de configuração nomeados e suporte fixo ao `Binary Sensor`\n* Geração aprimorada de nomes de estados para nomes de propriedades complexas",
+                "nl": "* Bijgewerkt `zwave-js` naar v2.0.0 voor verbeterde ondersteuning van oudere apparaten, benoemde configuratieparameters en vaste` Binaire sensor` ondersteuning\n* Verbeterde generatie van statusnamen voor complexe eigenschapsnamen",
+                "fr": "* Mise à jour de `zwave-js` vers la v2.0.0 pour une prise en charge améliorée des périphériques plus anciens, des paramètres de configuration nommés et une prise en charge fixe du` Capteur binaire`\n* Génération améliorée de noms d'états pour les noms de propriétés complexes",
+                "it": "* Aggiornato `zwave-js` a v2.0.0 per un supporto migliorato dei dispositivi più vecchi, denominati parametri di configurazione e supporto fisso` Sensore binario`\n* Migliorata generazione di nomi di stato per nomi di proprietà complessi",
+                "es": "* Se actualizó `zwave-js` a v2.0.0 para mejorar el soporte de dispositivos más antiguos, los parámetros de configuración con nombre y el soporte fijo de` Sensor binario`\n* Generación mejorada de nombres de estado para nombres de propiedad complejos",
+                "pl": "* Zaktualizowano `zwave-js` do wersji 2.0.0, aby poprawić obsługę starszych urządzeń, nazwać parametry konfiguracji i naprawić obsługę` Binary Sensor`\n* Poprawione generowanie nazw stanów dla złożonych nazw właściwości",
+                "zh-cn": "*将zwave-js更新至v2.0.0，以改善对旧设备的支持，命名配置参数和固定的Binary Sensor支持\n*改进了复杂属性名称的状态名称的生成"
+            },
+            "0.2.1": {
+                "en": "The network map now correctly displays the nodes' IDs",
+                "de": "Die Netzwerkkarte zeigt nun die IDs der Knoten korrekt an",
+                "ru": "Карта сети теперь правильно отображает идентификаторы узла",
+                "pt": "O mapa de rede agora exibe corretamente os IDs do nó",
+                "nl": "De netwerkmap geeft nu correct de ID's van het knooppunt weer",
+                "fr": "La carte du réseau affiche maintenant correctement les ID du nœud",
+                "it": "La mappa di rete ora visualizza correttamente gli ID del nodo",
+                "es": "El mapa de red ahora muestra correctamente las ID del nodo",
+                "pl": "Mapa sieci poprawnie wyświetla teraz identyfikatory węzła",
+                "zh-cn": "网络图现在可以正确显示节点的ID"
+            },
+            "0.2.0": {
+                "en": "* `zwave-js` dependency updated for complete `Multi Channel` support and improved `Multilevel Switch` support\n* Removed some unnecessary log outputs\n* Improved naming of some objects\n",
+                "de": "* Die `zwave-js`-Abhängigkeit wurde aktualisiert, um die vollständige` Multi Channel`-Unterstützung und die verbesserte `Multilevel Switch`-Unterstützung zu gewährleisten\n* Einige unnötige Logausgaben wurden entfernt\n* Benennung einiger Objekte verbessert\n",
+                "ru": "* Зависимость zwave-js обновлена для полной поддержки «Multi Channel» и улучшена поддержка «Multilevel Switch».\n* Удалены некоторые ненужные логи выходов\n* Улучшено именование некоторых объектов\n",
+                "pt": "* Dependência do `zwave-js` atualizada para suporte completo ao` Multi Channel` e suporte aprimorado ao `Multilevel Switch`\n* Removidas algumas saídas de log desnecessárias\n* Melhor nomeação de alguns objetos\n",
+                "nl": "* `zwave-js` afhankelijkheid bijgewerkt voor volledige` Multi Channel`-ondersteuning en verbeterde `Multilevel Switch`-ondersteuning\n* Enkele onnodige log-uitgangen verwijderd\n* Verbeterde naamgeving van sommige objecten\n",
+                "fr": "* Dépendance de `zwave-js` mise à jour pour une prise en charge complète de` Multi Channel` et une prise en charge améliorée de `Multilevel Switch`\n* Suppression de certaines sorties de journal inutiles\n* Amélioration de la dénomination de certains objets\n",
+                "it": "* Aggiornamento della dipendenza `zwave-js` per il supporto completo` Multi Channel` e supporto `Switch multilivello migliorato\n* Rimossi alcuni output di log non necessari\n* Miglioramento della denominazione di alcuni oggetti\n",
+                "es": "* Se actualizó la dependencia `zwave-js` para un soporte completo de` Multi Channel` y un soporte mejorado de `Multilevel Switch`\n* Se eliminaron algunas salidas de registro innecesarias\n* Nombramiento mejorado de algunos objetos\n",
+                "pl": "* Zaktualizowano zależność `zwave-js` dla pełnej obsługi` Multi Channel` i ulepszonej obsługi `Multilevel Switch`\n* Usunięto niepotrzebne dane wyjściowe dziennika\n* Ulepszone nazewnictwo niektórych obiektów\n",
+                "zh-cn": "*更新了`zwave-js`依赖性，以提供完整的`多通道`支持和改进的`多级开关`支持\n*删除了一些不必要的日志输出\n*改进了某些对象的命名\n"
+            },
+            "0.1.3": {
+                "en": "* Dependencies updated\n* `zwave-js` now supports TimeCC and TimeParametersCC, as well as BatteryCC V2",
+                "de": "* Abhängigkeiten aktualisiert\n* `zwave-js` unterstützt jetzt TimeCC und TimeParametersCC sowie BatteryCC V2",
+                "ru": "* Зависимости обновлены\n* `zwave-js` теперь поддерживает TimeCC и TimeParametersCC, а также BatteryCC V2",
+                "pt": "* Dependências atualizadas\n* `zwave-js` agora suporta TimeCC e TimeParametersCC, bem como BatteryCC V2",
+                "nl": "* Afhankelijkheden bijgewerkt\n* `zwave-js` ondersteunt nu TimeCC en TimeParametersCC, evenals BatteryCC V2",
+                "fr": "* Dépendances mises à jour\n* `zwave-js` prend désormais en charge TimeCC et TimeParametersCC, ainsi que BatteryCC V2",
+                "it": "* Dipendenze aggiornate\n* `zwave-js` ora supporta TimeCC e TimeParametersCC, oltre a BatteryCC V2",
+                "es": "* Dependencias actualizadas\n* `zwave-js` ahora es compatible con TimeCC y TimeParametersCC, así como con BatteryCC V2",
+                "pl": "* Zależności zaktualizowane\n* `zwave-js` obsługuje teraz TimeCC i TimeParametersCC, a także BatteryCC V2",
+                "zh-cn": "*依赖关系已更新\n*`zwave-js`现在支持TimeCC和TimeParametersCC以及BatteryCC V2"
+            },
+            "0.1.2": {
+                "en": "Added functioning configuration menu",
+                "de": "Funktionsfähiges Konfigurationsmenü hinzugefügt",
+                "ru": "Добавлено функционирующее меню конфигурации",
+                "pt": "Adicionado menu de configuração de funcionamento",
+                "nl": "Werkend configuratiemenu toegevoegd",
+                "fr": "Ajout du menu de configuration fonctionnelle",
+                "it": "Aggiunto menu di configurazione funzionante",
+                "es": "Menú de configuración de funcionamiento agregado",
+                "pl": "Dodano funkcjonujące menu konfiguracji",
+                "zh-cn": "添加了功能配置菜单"
+            },
+            "0.0.1": {
+                "en": "initial release",
+                "de": "Erstveröffentlichung",
+                "ru": "Начальная версия",
+                "pt": "lançamento inicial",
+                "nl": "Eerste uitgave",
+                "fr": "Première version",
+                "it": "Versione iniziale",
+                "es": "Versión inicial",
+                "pl": "Pierwsze wydanie",
+                "zh-cn": "首次出版"
+            }
+        },
+        "title": "Z-Wave",
+        "titleLang": {
+            "en": "Z-Wave",
+            "de": "Z-Wave",
+            "ru": "Z-Wave",
+            "pt": "Z-Wave",
+            "nl": "Z-Wave",
+            "fr": "Z-Wave",
+            "it": "Z-Wave",
+            "es": "Onda z",
+            "pl": "Z-Wave",
+            "zh-cn": "Z-波"
+        },
+        "desc": {
+            "en": "Alternative Z-Wave implementation",
+            "de": "Alternative Z-Wave-Implementierung",
+            "ru": "Альтернативная реализация Z-Wave",
+            "pt": "Implementação alternativa de Z-Wave",
+            "nl": "Alternatieve Z-Wave-implementatie",
+            "fr": "Mise en œuvre alternative de Z-Wave",
+            "it": "Implementazione Z-Wave alternativa",
+            "es": "Implementación alternativa de Z-Wave",
+            "pl": "Alternatywna implementacja Z-Wave",
+            "zh-cn": "替代Z-Wave实施"
+        },
+        "authors": [
+            "AlCalzone <d.griesel@gmx.net>"
+        ],
+        "keywords": [
+            "zwave",
+            "z-wave"
+        ],
+        "license": "MIT",
+        "platform": "Javascript/Node.js",
+        "main": "build/main.js",
+        "icon": "zwave2.svg",
+        "enabled": true,
+        "extIcon": "https://raw.githubusercontent.com/AlCalzone/ioBroker.zwave2/master/admin/zwave2.svg?sanitize=true",
+        "readme": "https://github.com/AlCalzone/ioBroker.zwave2/blob/master/README.md",
+        "loglevel": "info",
+        "mode": "daemon",
+        "type": "hardware",
+        "compact": true,
+        "materialize": true,
+        "messagebox": true,
+        "dependencies": [
+            {
+                "js-controller": ">=1.4.2"
+            }
+        ]
+    },
+    "native": {
+        "serialport": ""
+    },
+    "objects": [],
+    "instanceObjects": [
+        {
+            "_id": "info",
+            "type": "channel",
+            "common": {
+                "name": "Information"
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.connection",
+            "type": "state",
+            "common": {
+                "role": "indicator.connected",
+                "name": "Whether the Z-Wave driver is ready",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "def": false
+            },
+            "native": {}
+        }
+    ]
 }
