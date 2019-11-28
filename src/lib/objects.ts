@@ -20,19 +20,27 @@ type ZWaveNodeArgs =
 	| ZWaveNodeMetadataUpdatedArgs;
 
 /** Converts a device label to a valid filename */
-function nameToStateId(label: string): string {
-	const safeName = label
+export function nameToStateId(label: string): string {
+	let safeName = label;
+	// Since these rules influence each other, we need to do multiple passes
+	while (true) {
+		let replaced = safeName;
 		// Remove trailing, leading and multiple whitespace
-		.trim()
-		.replace(/\s+/g, " ")
+		replaced = replaced.trim();
+		replaced = replaced.replace(/\s+/g, " ");
 		// Replace all unsafe chars
-		.replace(/[^a-zA-Z0-9\-_ ]+/g, "_")
+		replaced = replaced.replace(/[^a-zA-Z0-9\-_ ]+/g, "_");
 		// Replace spaces surrounded by unsafe chars with a space
-		.replace(/_\s/g, " ")
-		.replace(/\s_/g, " ")
+		replaced = replaced.replace(/_\s/g, " ");
+		replaced = replaced.replace(/\s_/g, " ");
 		// Remove trailing and leading underscores
-		.replace(/^_\s*/, "")
-		.replace(/\s*_$/, "");
+		replaced = replaced.replace(/^_\s*/, "");
+		replaced = replaced.replace(/\s*_$/, "");
+		// If nothing changed, we're done
+		if (safeName === replaced) break;
+		// Otherwise remember the intermediate result for the next pass
+		safeName = replaced;
+	}
 	return camelCase(safeName);
 }
 
