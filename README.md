@@ -21,7 +21,7 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
-### __WORK IN PROGRESS__
+### 0.3.3 (2019-12-01)
 * Updated `zwave-js` to v2.1.0. This includes the following changes:
 	* Support for the `Meter CC`
 	* Support for unsigned configuration parameters
