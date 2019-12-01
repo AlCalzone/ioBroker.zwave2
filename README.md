@@ -21,6 +21,11 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
+### __WORK IN PROGRESS__
+* Updated `zwave-js` to v2.1.0. This includes the following changes:
+	* Support for the `Meter CC`
+	* Support for unsigned configuration parameters
+
 ### 0.3.2 (2019-11-28)
 * Fixed a crash when property(Key) names contain weird punctuation
 
@@ -28,7 +33,7 @@ Alternative Z-Wave implementation
 * Fixed a crash from v0.3.0
 
 ### 0.3.0
-* Updated `zwave-js` from to v2.0.0. For the full list of changes, see [here](https://github.com/AlCalzone/node-zwave-js/blob/master/CHANGELOG.md#200-2019-11-26). Notable improvements include:
+* Updated `zwave-js` to v2.0.0. For the full list of changes, see [here](https://github.com/AlCalzone/node-zwave-js/blob/master/CHANGELOG.md#200-2019-11-26). Notable improvements include:
 	* Added configuration files for over 1000 devices. This improves support for some older devices and greatly improves the `Configuration CC`.
 	* `Basic` CC is now hidden if a node support other Actuator CCs
 	* Fixed `Binary Sensor` support
