@@ -237,7 +237,16 @@ class Zwave2 extends utils.Adapter {
 			);
 
 			if (!state.ack) {
-				const { native } = (await this.getObjectAsync(id))!;
+				const obj = await this.getObjectAsync(id);
+				if (!obj) {
+					this.log.error(
+						`Object definition for state ${id} is missing!`,
+					);
+					// TODO: Capture this with sentry?
+					return;
+				}
+
+				const { native } = obj;
 				const nodeId: number | undefined = native.nodeId;
 				if (!nodeId) {
 					this.log.error(
