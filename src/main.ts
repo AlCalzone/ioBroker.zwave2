@@ -71,6 +71,9 @@ class Zwave2 extends utils.Adapter {
 				this.addNodeEventHandlers.bind(this),
 			);
 		});
+		// Log errors from the Z-Wave lib
+		this.driver.on("error", this.onZWaveError.bind(this));
+
 		await this.driver.start();
 	}
 
@@ -195,6 +198,13 @@ class Zwave2 extends utils.Adapter {
 		} catch (e) {
 			callback();
 		}
+	}
+
+	/**
+	 * Is called when the Z-Wave lib has a non-critical error
+	 */
+	private async onZWaveError(error: Error): Promise<void> {
+		this.log.error(error.message);
 	}
 
 	/**

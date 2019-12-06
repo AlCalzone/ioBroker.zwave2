@@ -32,6 +32,8 @@ class Zwave2 extends utils.Adapter {
             this.log.info(`The driver is ready. Found ${this.driver.controller.nodes.size} nodes.`);
             this.driver.controller.nodes.forEach(this.addNodeEventHandlers.bind(this));
         });
+        // Log errors from the Z-Wave lib
+        this.driver.on("error", this.onZWaveError.bind(this));
         await this.driver.start();
     }
     addNodeEventHandlers(node) {
@@ -114,6 +116,12 @@ class Zwave2 extends utils.Adapter {
         catch (e) {
             callback();
         }
+    }
+    /**
+     * Is called when the Z-Wave lib has a non-critical error
+     */
+    async onZWaveError(error) {
+        this.log.error(error.message);
     }
     /**
      * Is called if a subscribed object changes
