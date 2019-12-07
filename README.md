@@ -21,7 +21,7 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
-### __WORK IN PROGRESS__
+### 0.3.4 (2019-12-07)
 * Non-critical errors from `zwave-js` are now logged instead of crashing the adapter
 * Fixed a crash that happens when the object for a state is missing
 * When the Z-Wave driver fails to start, an error is now logged instead of crashing the adapter
