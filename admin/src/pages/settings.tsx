@@ -2,6 +2,7 @@ import * as React from "react";
 
 import { Tooltip } from "iobroker-react-components";
 import { Dropdown } from "../components/dropdown";
+import { composeObject, entries } from "alcalzone-shared/objects";
 
 export type OnSettingsChangedCallback = (
 	newSettings: Record<string, unknown>,
@@ -14,7 +15,7 @@ interface SettingsProps {
 
 interface SettingsState {
 	[key: string]: unknown;
-	serialports?: string[];
+	_serialports?: string[];
 }
 
 interface LabelProps {
@@ -79,7 +80,7 @@ export class Settings extends React.Component<SettingsProps, SettingsState> {
 
 	// gets called when the form elements are changed by the user
 	private handleChange(event: React.FormEvent<HTMLElement>) {
-		const target = event.target as (HTMLInputElement | HTMLSelectElement); // TODO: more types
+		const target = event.target as HTMLInputElement | HTMLSelectElement; // TODO: more types
 		const value = this.parseChangedSetting(target);
 		return this.doHandleChange(target.id, value);
 	}
@@ -88,7 +89,11 @@ export class Settings extends React.Component<SettingsProps, SettingsState> {
 		// store the setting
 		this.putSetting(setting, value, () => {
 			// and notify the admin UI about changes
-			this.props.onChange(this.state);
+			this.props.onChange(
+				composeObject(
+					entries(this.state).filter(([k, v]) => !k.startsWith("_")),
+				),
+			);
 		});
 		return false;
 	}
@@ -122,7 +127,7 @@ export class Settings extends React.Component<SettingsProps, SettingsState> {
 			if (error) {
 				console.error(error);
 			} else if (result && result.length) {
-				this.setState({ serialports: result });
+				this.setState({ _serialports: result });
 			}
 		});
 	}
@@ -137,11 +142,11 @@ export class Settings extends React.Component<SettingsProps, SettingsState> {
 			<>
 				<div className="row">
 					<div className="col s4 input-field">
-						{this.state.serialports &&
-						this.state.serialports.length ? (
+						{this.state._serialports &&
+						this.state._serialports.length ? (
 							<Dropdown
 								id="serialport"
-								options={this.state.serialports}
+								options={this.state._serialports}
 								checkedOption={this.state.serialport as string}
 								emptySelectionText={_("none selected")}
 								checkedChanged={newValue =>
