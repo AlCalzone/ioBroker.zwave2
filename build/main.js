@@ -34,7 +34,12 @@ class Zwave2 extends utils.Adapter {
         });
         // Log errors from the Z-Wave lib
         this.driver.on("error", this.onZWaveError.bind(this));
-        await this.driver.start();
+        try {
+            await this.driver.start();
+        }
+        catch (e) {
+            this.log.error(`The Z-Wave driver could not be started: ${e.message}`);
+        }
     }
     addNodeEventHandlers(node) {
         node.once("interview completed", this.onNodeInterviewCompleted.bind(this))
