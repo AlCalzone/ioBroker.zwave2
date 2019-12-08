@@ -1,5 +1,5 @@
 import * as React from "react";
-import { drawNetworkMap } from "../lib/networkMap";
+import { drawNetworkMap, NodeInfo } from "../lib/networkMap";
 
 export class NetworkMap extends React.Component {
 	public componentDidMount() {

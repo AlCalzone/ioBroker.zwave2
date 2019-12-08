@@ -34,7 +34,8 @@ export function drawNetworkMap(selector: string, nodes: NodeInfo[]) {
 
 	// Scale the flows for equal sized nodes
 	const sum = arr => arr.reduce((acc, cur) => acc + cur, 0);
-	const maxSum = Math.max(...matrix.map(sum));
+	let maxSum = Math.max(...matrix.map(sum));
+	if (maxSum === 0) maxSum = 1;
 
 	// Remember which nodes are not connected
 	const disconnected = new Set<number>();
