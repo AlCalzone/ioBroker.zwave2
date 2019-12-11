@@ -11,6 +11,7 @@ import {
 import { ValueID } from "zwave-js/build/lib/node/ValueDB";
 import { Global as _ } from "./lib/global";
 import {
+	computeChannelId,
 	computeDeviceId,
 	computeId,
 	extendCC,
@@ -118,7 +119,7 @@ class Zwave2 extends utils.Adapter {
 		const desiredChannelIds = new Set(
 			uniqueCCs.map(
 				([, ccName]) =>
-					`${this.namespace}.${computeDeviceId(node.id)}.${ccName}`,
+					`${this.namespace}.${computeChannelId(node.id, ccName)}`,
 			),
 		);
 		const existingChannelIds = Object.keys(

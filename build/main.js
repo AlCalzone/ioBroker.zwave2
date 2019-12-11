@@ -63,7 +63,7 @@ class Zwave2 extends utils.Adapter {
         const uniqueCCs = allValueIDs
             .map(vid => [vid.commandClass, vid.commandClassName])
             .filter(([cc], index, arr) => arr.findIndex(([_cc]) => _cc === cc) === index);
-        const desiredChannelIds = new Set(uniqueCCs.map(([, ccName]) => `${this.namespace}.${objects_1.computeDeviceId(node.id)}.${ccName}`));
+        const desiredChannelIds = new Set(uniqueCCs.map(([, ccName]) => `${this.namespace}.${objects_1.computeChannelId(node.id, ccName)}`));
         const existingChannelIds = Object.keys(await global_1.Global.$$(`${this.namespace}.${objects_1.computeDeviceId(node.id)}.*`, {
             type: "channel",
         }));
