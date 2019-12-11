@@ -21,11 +21,16 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
+### __WORK IN PROGRESS__
+* The network map is now drawn correctly when there are only unconnected nodes
+* Nodes and command classes are now represented with device and channel objects
+* Updated `zwave-js` to v2.1.1. This causes less errors to be logged when opening the serial port fails
+
 ### 0.3.4 (2019-12-07)
 * Non-critical errors from `zwave-js` are now logged instead of crashing the adapter
 * Fixed a crash that happens when the object for a state is missing
 * When the Z-Wave driver fails to start, an error is now logged instead of crashing the adapter
-* The adapter settings are no longer polluted with the `serialports` list from the frontend.
+* The adapter settings are no longer polluted with the `serialports` list from the frontend
 
 ### 0.3.3 (2019-12-01)
 * Updated `zwave-js` to v2.1.0. This includes the following changes:
