@@ -54,17 +54,38 @@ class Zwave2 extends utils.Adapter {
     }
     async onNodeInterviewCompleted(node) {
         this.log.info(`Node ${node.id}: interview completed`);
-        // Find out which states we need to exist
+        if (node.isControllerNode())
+            return;
+        // Make sure the device object exists and is up to date
+        await objects_1.extendNode(node);
+        // Find out which channels and states need to exist
         const allValueIDs = node.getDefinedValueIDs();
+        const uniqueCCs = allValueIDs
+            .map(vid => [vid.commandClass, vid.commandClassName])
+            .filter(([cc], index, arr) => arr.findIndex(([_cc]) => _cc === cc) === index);
+        const desiredChannelIds = new Set(uniqueCCs.map(([, ccName]) => `${this.namespace}.${objects_1.computeDeviceId(node.id)}.${ccName}`));
+        const existingChannelIds = Object.keys(await global_1.Global.$$(`${this.namespace}.${objects_1.computeDeviceId(node.id)}.*`, {
+            type: "channel",
+        }));
         const desiredStateIds = new Set(allValueIDs.map(vid => `${this.namespace}.${objects_1.computeId(node.id, vid)}`));
-        const existingStateIds = Object.keys(await global_1.Global.$$(`${this.namespace}.${objects_1.computeDeviceId(node.id)}.*`));
-        // Clean up unused states
-        // TODO: Handle channels (when we use them)
+        const existingStateIds = Object.keys(await global_1.Global.$$(`${this.namespace}.${objects_1.computeDeviceId(node.id)}.*`, {
+            type: "state",
+        }));
+        // Clean up unused channels and states
+        const unusedChannels = existingChannelIds.filter(id => !desiredChannelIds.has(id));
+        for (const id of unusedChannels) {
+            this.log.warn(`Deleting orphaned channel ${id}`);
+            await this.delObjectAsync(id);
+        }
         const unusedStates = existingStateIds.filter(id => !desiredStateIds.has(id));
         for (const id of unusedStates) {
             this.log.warn(`Deleting orphaned state ${id}`);
             await this.delStateAsync(id);
             await this.delObjectAsync(id);
+        }
+        // Make sure all channel objects are up to date
+        for (const [cc, ccName] of uniqueCCs) {
+            await objects_1.extendCC(node, cc, ccName);
         }
         // Prepare data points for all the node's values
         for (const valueId of allValueIDs) {

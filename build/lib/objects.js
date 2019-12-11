@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const strings_1 = require("alcalzone-shared/strings");
+const DeviceClass_1 = require("zwave-js/build/lib/node/DeviceClass");
 const global_1 = require("./global");
 const isCamelCasedSafeNameRegex = /^(?!.*[\-_]$)[a-z]([a-zA-Z0-9\-_]+)$/;
 /** Converts a device label to a valid filename */
@@ -44,11 +45,19 @@ function computeDeviceId(nodeId) {
     return `Node_${strings_1.padStart(nodeId.toString(), 3, "0")}`;
 }
 exports.computeDeviceId = computeDeviceId;
+function ccNameToChannelIdFragment(ccName) {
+    return ccName.replace(/[\s]+/g, "_");
+}
+exports.ccNameToChannelIdFragment = ccNameToChannelIdFragment;
+function computeChannelId(nodeId, ccName) {
+    return `${computeDeviceId(nodeId)}.${ccNameToChannelIdFragment(ccName)}`;
+}
+exports.computeChannelId = computeChannelId;
 function computeId(nodeId, args) {
     var _a, _b;
     return [
         computeDeviceId(nodeId),
-        args.commandClassName.replace(/[\s]+/g, "_"),
+        ccNameToChannelIdFragment(args.commandClassName),
         [
             ((_a = args.propertyName) === null || _a === void 0 ? void 0 : _a.trim()) && nameToStateId(args.propertyName),
             args.endpoint && strings_1.padStart(args.endpoint.toString(), 3, "0"),
@@ -59,6 +68,69 @@ function computeId(nodeId, args) {
     ].join(".");
 }
 exports.computeId = computeId;
+function nodeToNative(node) {
+    return Object.assign({ id: node.id, manufacturerId: node.manufacturerId, productType: node.productType, productId: node.productId }, (node.deviceClass && {
+        type: {
+            basic: DeviceClass_1.BasicDeviceClasses[node.deviceClass.basic],
+            generic: node.deviceClass.generic.name,
+            specific: node.deviceClass.specific.name,
+        },
+    }));
+}
+function nodeToCommon(node) {
+    return {
+        name: node.deviceConfig
+            ? `${node.deviceConfig.manufacturer} ${node.deviceConfig.label}`
+            : `Node ${strings_1.padStart(node.id.toString(), 3, "0")}`,
+    };
+}
+async function extendNode(node) {
+    const deviceId = computeDeviceId(node.id);
+    const common = nodeToCommon(node);
+    const native = nodeToNative(node);
+    const originalObject = await global_1.Global.adapter.getObjectAsync(deviceId);
+    if (originalObject == undefined) {
+        await global_1.Global.adapter.setObjectAsync(deviceId, {
+            type: "device",
+            common,
+            native,
+        });
+    }
+    else if (JSON.stringify(common) !== JSON.stringify(originalObject.common) ||
+        JSON.stringify(native) !== JSON.stringify(originalObject.native)) {
+        await global_1.Global.adapter.extendObjectAsync(deviceId, {
+            common,
+            native,
+        });
+    }
+}
+exports.extendNode = extendNode;
+async function extendCC(node, cc, ccName) {
+    const channelId = computeChannelId(node.id, ccName);
+    const common = {
+        name: ccName,
+    };
+    const native = {
+        cc,
+        version: node.getCCVersion(cc),
+    };
+    const originalObject = await global_1.Global.adapter.getObjectAsync(channelId);
+    if (originalObject == undefined) {
+        await global_1.Global.adapter.setObjectAsync(channelId, {
+            type: "channel",
+            common,
+            native,
+        });
+    }
+    else if (JSON.stringify(common) !== JSON.stringify(originalObject.common) ||
+        JSON.stringify(native) !== JSON.stringify(originalObject.native)) {
+        await global_1.Global.adapter.extendObjectAsync(channelId, {
+            common,
+            native,
+        });
+    }
+}
+exports.extendCC = extendCC;
 async function extendValue(node, args) {
     const stateId = computeId(node.id, args);
     await extendMetadata(node, args);

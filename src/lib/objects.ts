@@ -1,4 +1,6 @@
 import { padStart } from "alcalzone-shared/strings";
+import { CommandClasses } from "zwave-js/build/lib/commandclass/CommandClasses";
+import { BasicDeviceClasses } from "zwave-js/build/lib/node/DeviceClass";
 import {
 	TranslatedValueID,
 	ZWaveNode,
@@ -63,10 +65,18 @@ export function computeDeviceId(nodeId: number): string {
 	return `Node_${padStart(nodeId.toString(), 3, "0")}`;
 }
 
+export function ccNameToChannelIdFragment(ccName: string): string {
+	return ccName.replace(/[\s]+/g, "_");
+}
+
+export function computeChannelId(nodeId: number, ccName: string): string {
+	return `${computeDeviceId(nodeId)}.${ccNameToChannelIdFragment(ccName)}`;
+}
+
 export function computeId(nodeId: number, args: TranslatedValueID): string {
 	return [
 		computeDeviceId(nodeId),
-		args.commandClassName.replace(/[\s]+/g, "_"),
+		ccNameToChannelIdFragment(args.commandClassName),
 		[
 			args.propertyName?.trim() && nameToStateId(args.propertyName),
 			args.endpoint && padStart(args.endpoint.toString(), 3, "0"),
@@ -75,6 +85,85 @@ export function computeId(nodeId: number, args: TranslatedValueID): string {
 			.filter(s => !!s)
 			.join("_"),
 	].join(".");
+}
+
+function nodeToNative(node: ZWaveNode): ioBroker.Object["native"] {
+	return {
+		id: node.id,
+		manufacturerId: node.manufacturerId,
+		productType: node.productType,
+		productId: node.productId,
+		...(node.deviceClass && {
+			type: {
+				basic: BasicDeviceClasses[node.deviceClass.basic],
+				generic: node.deviceClass.generic.name,
+				specific: node.deviceClass.specific.name,
+			},
+		}),
+	};
+}
+
+function nodeToCommon(node: ZWaveNode): ioBroker.ObjectCommon {
+	return {
+		name: node.deviceConfig
+			? `${node.deviceConfig.manufacturer} ${node.deviceConfig.label}`
+			: `Node ${padStart(node.id.toString(), 3, "0")}`,
+	};
+}
+
+export async function extendNode(node: ZWaveNode): Promise<void> {
+	const deviceId = computeDeviceId(node.id);
+	const common = nodeToCommon(node);
+	const native = nodeToNative(node);
+
+	const originalObject = await _.adapter.getObjectAsync(deviceId);
+	if (originalObject == undefined) {
+		await _.adapter.setObjectAsync(deviceId, {
+			type: "device",
+			common,
+			native,
+		});
+	} else if (
+		JSON.stringify(common) !== JSON.stringify(originalObject.common) ||
+		JSON.stringify(native) !== JSON.stringify(originalObject.native)
+	) {
+		await _.adapter.extendObjectAsync(deviceId, {
+			common,
+			native,
+		});
+	}
+}
+
+export async function extendCC(
+	node: ZWaveNode,
+	cc: CommandClasses,
+	ccName: string,
+): Promise<void> {
+	const channelId = computeChannelId(node.id, ccName);
+	const common = {
+		name: ccName,
+	};
+	const native = {
+		cc,
+		version: node.getCCVersion(cc),
+	};
+
+	const originalObject = await _.adapter.getObjectAsync(channelId);
+	if (originalObject == undefined) {
+		await _.adapter.setObjectAsync(channelId, {
+			type: "channel",
+			common,
+			native,
+		});
+	} else if (
+		JSON.stringify(common) !== JSON.stringify(originalObject.common) ||
+		JSON.stringify(native) !== JSON.stringify(originalObject.native)
+	) {
+		await _.adapter.extendObjectAsync(channelId, {
+			common,
+			native,
+		});
+	}
 }
 
 export async function extendValue(
