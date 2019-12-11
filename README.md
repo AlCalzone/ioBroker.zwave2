@@ -24,7 +24,11 @@ Alternative Z-Wave implementation
 ### __WORK IN PROGRESS__
 * The network map is now drawn correctly when there are only unconnected nodes
 * Nodes and command classes are now represented with device and channel objects
-* Updated `zwave-js` to v2.1.1. This causes less errors to be logged when opening the serial port fails
+* Updated `zwave-js` to v2.2.0. This includes the following changes:
+	* Less errors are logged when opening the serial port fails
+	* Accessing a node's or endpoint's `commandClasses` property with `Symbol`s no longer causes a crash. *(This should not be an issue in ioBroker)*
+	* Revised querying logic for devices without Z-Wave+ or Lifeline associations
+	* Added support for `Indicator CC`
 
 ### 0.3.4 (2019-12-07)
 * Non-critical errors from `zwave-js` are now logged instead of crashing the adapter
