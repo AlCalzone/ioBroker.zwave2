@@ -21,7 +21,7 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
-### __WORK IN PROGRESS__
+### 0.4.0 (2019-12-11)
 * The network map is now drawn correctly when there are only unconnected nodes
 * Nodes and command classes are now represented with device and channel objects
 * Updated `zwave-js` to v2.2.0. This includes the following changes:
