@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const objects_1 = require("alcalzone-shared/objects");
 const strings_1 = require("alcalzone-shared/strings");
 const DeviceClass_1 = require("zwave-js/build/lib/node/DeviceClass");
 const global_1 = require("./global");
@@ -101,6 +102,34 @@ async function extendNode(node) {
     }
 }
 exports.extendNode = extendNode;
+/** Removed all objects that belong to a node */
+async function removeNode(nodeId) {
+    const deviceId = `${global_1.Global.adapter.namespace}.${shared_1.computeDeviceId(nodeId)}`;
+    try {
+        await global_1.Global.adapter.delForeignObjectAsync(deviceId);
+    }
+    catch (e) {
+        /* ok */
+    }
+    const existingObjs = await global_1.Global.$$(`${deviceId}.*`);
+    for (const [id, obj] of objects_1.entries(existingObjs)) {
+        if (obj.type === "state") {
+            try {
+                await global_1.Global.adapter.delForeignStateAsync(id);
+            }
+            catch (e) {
+                /* ok */
+            }
+        }
+        try {
+            await global_1.Global.adapter.delForeignObjectAsync(id);
+        }
+        catch (e) {
+            /* ok */
+        }
+    }
+}
+exports.removeNode = removeNode;
 async function extendCC(node, cc, ccName) {
     const channelId = computeChannelId(node.id, ccName);
     const common = {

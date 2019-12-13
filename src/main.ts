@@ -18,6 +18,7 @@ import {
 	extendMetadata,
 	extendNode,
 	extendValue,
+	removeNode,
 	removeValue,
 	setNodeStatus,
 } from "./lib/objects";
@@ -100,15 +101,22 @@ class Zwave2 extends utils.Adapter {
 			);
 
 			// Now we know which nodes should exist - clean up orphaned nodes
-			const existingNodeIds: number[] = (
-				await this.getDevicesAsync()
-			).map(o => o.native.id);
+			const nodeIdRegex = new RegExp(
+				`^${this.name}\\.${this.instance}\\.Node_(\\d+)`,
+			);
+			const existingNodeIds = (Object.keys(
+				await _.$$(`${this.namespace}.*`),
+			)
+				.map((id: string) => id.match(nodeIdRegex)?.[1])
+				.filter(id => !!id) as string[])
+				.map(id => parseInt(id, 10))
+				.filter((id, index, all) => all.indexOf(id) === index);
 			const unusedNodeIds = existingNodeIds.filter(
 				id => !this.driver.controller.nodes.has(id),
 			);
-			for (const nodeIds of unusedNodeIds) {
-				this.log.warn(`Deleting orphaned node ${nodeIds}`);
-				await this.deleteDeviceAsync(computeDeviceId(nodeIds));
+			for (const nodeId of unusedNodeIds) {
+				this.log.warn(`Deleting orphaned node ${nodeId}`);
+				await removeNode(nodeId);
 			}
 		});
 		// Log errors from the Z-Wave lib
@@ -162,7 +170,7 @@ class Zwave2 extends utils.Adapter {
 		this.log.info(`Node ${node.id}: removed`);
 		node.removeAllListeners();
 
-		await this.deleteDeviceAsync(computeDeviceId(node.id));
+		await removeNode(node.id);
 	}
 
 	private addNodeEventHandlers(node: ZWaveNode): void {
@@ -231,7 +239,11 @@ class Zwave2 extends utils.Adapter {
 		);
 		for (const id of unusedChannels) {
 			this.log.warn(`Deleting orphaned channel ${id}`);
-			await this.delObjectAsync(id);
+			try {
+				await this.delObjectAsync(id);
+			} catch (e) {
+				/* it's fine */
+			}
 		}
 
 		const unusedStates = existingStateIds
@@ -242,8 +254,16 @@ class Zwave2 extends utils.Adapter {
 
 		for (const id of unusedStates) {
 			this.log.warn(`Deleting orphaned state ${id}`);
-			await this.delStateAsync(id);
-			await this.delObjectAsync(id);
+			try {
+				await this.delStateAsync(id);
+			} catch (e) {
+				/* it's fine */
+			}
+			try {
+				await this.delObjectAsync(id);
+			} catch (e) {
+				/* it's fine */
+			}
 		}
 
 		// Make sure all channel objects are up to date

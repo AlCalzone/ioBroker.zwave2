@@ -51,11 +51,16 @@ class Zwave2 extends utils.Adapter {
             }
             this.driver.controller.nodes.forEach(this.addNodeEventHandlers.bind(this));
             // Now we know which nodes should exist - clean up orphaned nodes
-            const existingNodeIds = (await this.getDevicesAsync()).map(o => o.native.id);
+            const nodeIdRegex = new RegExp(`^${this.name}\\.${this.instance}\\.Node_(\\d+)`);
+            const existingNodeIds = Object.keys(await global_1.Global.$$(`${this.namespace}.*`))
+                .map((id) => { var _a; return (_a = id.match(nodeIdRegex)) === null || _a === void 0 ? void 0 : _a[1]; })
+                .filter(id => !!id)
+                .map(id => parseInt(id, 10))
+                .filter((id, index, all) => all.indexOf(id) === index);
             const unusedNodeIds = existingNodeIds.filter(id => !this.driver.controller.nodes.has(id));
-            for (const nodeIds of unusedNodeIds) {
-                this.log.warn(`Deleting orphaned node ${nodeIds}`);
-                await this.deleteDeviceAsync(shared_1.computeDeviceId(nodeIds));
+            for (const nodeId of unusedNodeIds) {
+                this.log.warn(`Deleting orphaned node ${nodeId}`);
+                await objects_1.removeNode(nodeId);
             }
         });
         // Log errors from the Z-Wave lib
@@ -98,7 +103,7 @@ class Zwave2 extends utils.Adapter {
     async onNodeRemoved(node) {
         this.log.info(`Node ${node.id}: removed`);
         node.removeAllListeners();
-        await this.deleteDeviceAsync(shared_1.computeDeviceId(node.id));
+        await objects_1.removeNode(node.id);
     }
     addNodeEventHandlers(node) {
         node.once("interview completed", this.onNodeInterviewCompleted.bind(this))
@@ -137,7 +142,12 @@ class Zwave2 extends utils.Adapter {
         const unusedChannels = existingChannelIds.filter(id => !desiredChannelIds.has(id));
         for (const id of unusedChannels) {
             this.log.warn(`Deleting orphaned channel ${id}`);
-            await this.delObjectAsync(id);
+            try {
+                await this.delObjectAsync(id);
+            }
+            catch (e) {
+                /* it's fine */
+            }
         }
         const unusedStates = existingStateIds
             // select those states that are not desired
@@ -146,8 +156,18 @@ class Zwave2 extends utils.Adapter {
             .filter(id => id.slice(nodeAbsoluteId.length + 1).includes("."));
         for (const id of unusedStates) {
             this.log.warn(`Deleting orphaned state ${id}`);
-            await this.delStateAsync(id);
-            await this.delObjectAsync(id);
+            try {
+                await this.delStateAsync(id);
+            }
+            catch (e) {
+                /* it's fine */
+            }
+            try {
+                await this.delObjectAsync(id);
+            }
+            catch (e) {
+                /* it's fine */
+            }
         }
         // Make sure all channel objects are up to date
         for (const [cc, ccName] of uniqueCCs) {

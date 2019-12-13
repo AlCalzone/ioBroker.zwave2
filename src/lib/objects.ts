@@ -1,3 +1,4 @@
+import { entries } from "alcalzone-shared/objects";
 import { padStart } from "alcalzone-shared/strings";
 import { CommandClasses } from "zwave-js/build/lib/commandclass/CommandClasses";
 import { BasicDeviceClasses } from "zwave-js/build/lib/node/DeviceClass";
@@ -127,6 +128,33 @@ export async function extendNode(node: ZWaveNode): Promise<void> {
 			common,
 			native,
 		});
+	}
+}
+
+/** Removed all objects that belong to a node */
+export async function removeNode(nodeId: number): Promise<void> {
+	const deviceId = `${_.adapter.namespace}.${computeDeviceId(nodeId)}`;
+	try {
+		await _.adapter.delForeignObjectAsync(deviceId);
+	} catch (e) {
+		/* ok */
+	}
+
+	const existingObjs = await _.$$(`${deviceId}.*`);
+
+	for (const [id, obj] of entries(existingObjs)) {
+		if (obj.type === "state") {
+			try {
+				await _.adapter.delForeignStateAsync(id);
+			} catch (e) {
+				/* ok */
+			}
+		}
+		try {
+			await _.adapter.delForeignObjectAsync(id);
+		} catch (e) {
+			/* ok */
+		}
 	}
 }
 
