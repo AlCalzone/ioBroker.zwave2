@@ -1,250 +1,255 @@
 {
-	"common": {
-		"name": "zwave2",
-		"version": "0.4.0",
-		"news": {
-			"0.5.0": {
-				"en": "A new settings page has been added with a device overview and buttons to add and remove nodes from the network",
-				"de": "Eine neue Einstellungsseite mit einer Geräteübersicht und Schaltflächen zum Hinzufügen und Entfernen von Knoten zum Netzwerk wurde hinzugefügt",
-				"ru": "Добавлена новая страница настроек с обзором устройства и кнопками для добавления и удаления узлов из сети.",
-				"pt": "Uma nova página de configurações foi adicionada com uma visão geral do dispositivo e botões para adicionar e remover nós da rede",
-				"nl": "Er is een nieuwe instellingenpagina toegevoegd met een apparaatoverzicht en knoppen om knooppunten toe te voegen en te verwijderen uit het netwerk",
-				"fr": "Une nouvelle page de paramètres a été ajoutée avec une vue d'ensemble de l'appareil et des boutons pour ajouter et supprimer des nœuds du réseau",
-				"it": "È stata aggiunta una nuova pagina delle impostazioni con una panoramica del dispositivo e pulsanti per aggiungere e rimuovere nodi dalla rete",
-				"es": "Se ha agregado una nueva página de configuración con una descripción general del dispositivo y botones para agregar y eliminar nodos de la red",
-				"pl": "Dodano nową stronę ustawień z przeglądem urządzenia i przyciskami do dodawania i usuwania węzłów z sieci",
-				"zh-cn": "添加了新的设置页面，其中包含设备概述和用于从网络添加和删除节点的按钮"
-			},
-			"0.4.0": {
-				"en": "* The network map is now drawn correctly when there are only unconnected nodes\n* Nodes and command classes are now represented with device and channel objects\n* Updated `zwave-js` to v2.2.0. This includes the following changes:\n\t* Less errors are logged when opening the serial port fails\n\t* Accessing a node's or endpoint's `commandClasses` property with `Symbol`s no longer causes a crash. *(This should not be an issue in ioBroker)*\n\t* Revised querying logic for devices without Z-Wave+ or Lifeline associations\n\t* Added support for `Indicator CC`",
-				"de": "* Die Netzwerkkarte wird jetzt korrekt gezeichnet, wenn nur unverbundene Knoten vorhanden sind\n* Knoten und Befehlsklassen werden jetzt mit Geräte- und Kanalobjekten repräsentiert\n* `zwave-js` wurde auf v2.2.0 aktualisiert. Dies beinhaltet die folgenden Änderungen:\n\t* Weniger Fehler werden protokolliert, wenn das Öffnen der seriellen Schnittstelle fehlschlägt\n\t*Das Zugreifen auf die `commandClasses`-Eigenschaft eines Knotens oder Endpunkts mit `Symbol`s führt nicht mehr zum Absturz. *(Dies sollte kein Problem in ioBroker sein)*\n\t* Überarbeitete Abfragelogik für Geräte ohne Z-Wave+ oder Lifeline-Zuordnungen\n\t* Unterstützung für \"Indicator CC\" hinzugefügt",
-				"ru": "* Карта сети теперь отображается правильно, когда есть только неподключенные узлы\n* Узлы и классы команд теперь представлены объектами устройства и канала.\n* Обновлен `zwave-js` до v2.2.0. Это включает в себя следующие изменения:\n* Меньше ошибок регистрируется при сбое открытия последовательного порта\n*Доступ к свойству `commandClasses` узла или конечной точки с помощью Symbol больше не вызывает сбой. * (Это не должно быть проблемой в ioBroker)*\n* Пересмотренная логика запросов для устройств без ассоциаций Z-Wave + или Lifeline\n* Добавлена поддержка `Indicator CC`",
-				"pt": "* O mapa de rede agora está desenhado corretamente quando há apenas nós desconectados\n* Nós e classes de comando agora são representados com objetos de dispositivo e canal\n* Atualizado `zwave-js` para a v2.2.0. Isso inclui as seguintes alterações:\n* Menos erros são registrados quando a porta serial falha\n*Acessar a propriedade `commandClasses` de um nó ou nó de extremidade com` Symbol`s não causa mais um travamento. * (Isso não deve ser um problema no ioBroker)*\n* Lógica de consulta revisada para dispositivos sem associações Z-Wave + ou Lifeline\n* Adicionado suporte para o `Indicador CC`",
-				"nl": "* De netwerkmap wordt nu correct getekend als er alleen niet-verbonden knooppunten zijn\n* Knopen en opdrachtklassen worden nu weergegeven met apparaat- en kanaalobjecten\n* Bijgewerkt `zwave-js` naar v2.2.0. Dit omvat de volgende wijzigingen:\n* Minder fouten worden vastgelegd wanneer het openen van de seriële poort mislukt\n*Toegang tot de eigenschap `commandClasses` van een knooppunt of eindpunt met` Symbol`s veroorzaakt niet langer een crash. * (Dit zou geen probleem moeten zijn in ioBroker)*\n* Herziene vraaglogica voor apparaten zonder Z-Wave + of Lifeline-koppelingen\n* Ondersteuning toegevoegd voor `Indicator CC`",
-				"fr": "* La carte du réseau est désormais dessinée correctement lorsqu'il n'y a que des nœuds non connectés\n* Les nœuds et les classes de commandes sont désormais représentés avec des objets de périphérique et de canal\n* Mise à jour de `zwave-js` vers v2.2.0. Cela inclut les modifications suivantes:\n* Moins d'erreurs sont enregistrées lors de l'échec de l'ouverture du port série\n*L'accès à la propriété `commandClasses` d'un nœud ou d'un noeud final avec` Symbol`s ne provoque plus de plantage. * (Cela ne devrait pas être un problème dans ioBroker)*\n* Logique d'interrogation révisée pour les appareils sans associations Z-Wave + ou Lifeline\n* Ajout du support pour `Indicator CC`",
-				"it": "* La mappa di rete ora viene disegnata correttamente quando sono presenti solo nodi non connessi\n* I nodi e le classi di comando sono ora rappresentati con oggetti dispositivo e canale\n* Aggiornato `zwave-js` a v2.2.0. Ciò include le seguenti modifiche:\n* Meno errori vengono registrati quando l'apertura della porta seriale non riesce\n*L'accesso alla proprietà `commandClasses` di un nodo o endpoint con` Symbol`s non causa più un arresto anomalo. * (Questo non dovrebbe essere un problema in ioBroker)*\n* Logica di query rivista per dispositivi senza associazioni Z-Wave + o Lifeline\n* Aggiunto supporto per `Indicator CC`",
-				"es": "* El mapa de red ahora se dibuja correctamente cuando solo hay nodos no conectados\n* Los nodos y las clases de comando ahora se representan con dispositivos y objetos de canal\n* Actualizado `zwave-js` a v2.2.0. Esto incluye los siguientes cambios:\n* Se registran menos errores cuando falla la apertura del puerto serie\n*Acceder a la propiedad `commandClasses` de un nodo o punto final con` Symbol`s ya no provoca un bloqueo. * (Esto no debería ser un problema en ioBroker)*\n* Lógica de consulta revisada para dispositivos sin asociaciones Z-Wave + o Lifeline\n* Se agregó soporte para `Indicator CC`",
-				"pl": "* Mapa sieci jest teraz poprawnie rysowana, gdy istnieją tylko niepołączone węzły\n* Węzły i klasy poleceń są teraz reprezentowane przez obiekty urządzeń i kanałów\n* Zaktualizowano `zwave-js` do wersji 2.2.0. Obejmuje to następujące zmiany:\n* Mniej błędów jest rejestrowanych, gdy otwarcie portu szeregowego kończy się niepowodzeniem\n*Dostęp do właściwości `commandClasses` węzła lub punktu końcowego za pomocą` Symbol`s nie powoduje już awarii. * (To nie powinno być problemem w ioBroker)*\n* Zmieniona logika zapytań dla urządzeń bez powiązań Z-Wave + lub Lifeline\n* Dodano obsługę `Indicator CC`",
-				"zh-cn": "*现在只有不连接的节点时才能正确绘制网络图\n*节点和命令类现在用设备和通道对象表示\n*更新了`zwave-js`到v2.2.0。这包括以下更改：\n*打开串行端口失败时记录的错误更少\n*使用`Symbol`访问节点或端点的`commandClasses'属性不再导致崩溃。 *（这在ioBroker中应该不是问题）*\n*修改了不具有Z-Wave +或生命线关联的设备的查询逻辑\n*增加了对“指示器CC”的支持"
-			},
-			"0.3.4": {
-				"en": "* Non-critical errors from `zwave-js` are now logged instead of crashing the adapter\n* Fixed a crash that happens when the object for a state is missing\n* When the Z-Wave driver fails to start, an error is now logged instead of crashing the adapter\n* The adapter settings are no longer polluted with the `serialports` list from the frontend.",
-				"de": "* Unkritische Fehler von `zwave-js` werden jetzt protokolliert, anstatt den Adapter zum Absturz zu bringen\n* Es wurde ein Absturz behoben, der auftrat, wenn das Objekt für einen Zustand fehlte\n* Wenn der Z-Wave-Treiber nicht gestartet werden kann, wird jetzt ein Fehler protokolliert, anstatt den Adapter zum Absturz zu bringen\n* Die Adaptereinstellungen sind nicht mehr mit der Liste \"serialports\" vom Frontend verschmutzt.",
-				"ru": "* Некритические ошибки из `zwave-js` теперь регистрируются вместо сбоя адаптера\n* Исправлен сбой, который происходит, когда отсутствует объект для состояния\n* Когда драйвер Z-Wave не запускается, теперь записывается ошибка, а не сбой адаптера\n* Настройки адаптера больше не загрязняются списком `serialports` из внешнего интерфейса.",
-				"pt": "* Erros não críticos do `zwave-js` agora são registrados em vez de travar o adaptador\n* Corrigida uma falha que ocorre quando o objeto de um estado está ausente\n* Quando o driver Z-Wave falha ao iniciar, agora é registrado um erro em vez de travar o adaptador\n* As configurações do adaptador não são mais poluídas com a lista `serialports` do frontend.",
-				"nl": "* Niet-kritieke fouten van `zwave-js` worden nu vastgelegd in plaats van de adapter te laten crashen\n* Een crash opgelost die optreedt wanneer het object voor een status ontbreekt\n* Wanneer het Z-Wave-stuurprogramma niet start, wordt er nu een fout vastgelegd in plaats van dat de adapter crasht\n* De adapterinstellingen zijn niet langer vervuild met de `serialports`-lijst aan de voorkant.",
-				"fr": "* Les erreurs non critiques de `zwave-js` sont maintenant enregistrées au lieu de planter l'adaptateur\n* Correction d'un crash qui se produit lorsque l'objet d'un état est manquant\n* Lorsque le pilote Z-Wave ne démarre pas, une erreur est maintenant enregistrée au lieu de planter l'adaptateur\n* Les paramètres de l'adaptateur ne sont plus pollués par la liste `serialports` du frontend.",
-				"it": "* Gli errori non critici di `zwave-js` sono ora registrati invece di crash della scheda\n* Risolto un crash che si verifica quando manca l'oggetto per uno stato\n* Quando il driver Z-Wave non si avvia, ora viene registrato un errore invece di arrestare in modo anomalo la scheda\n* Le impostazioni dell'adattatore non vengono più inquinate con l'elenco `serialports` dal frontend.",
-				"es": "* Los errores no críticos de `zwave-js` ahora se registran en lugar de bloquear el adaptador\n* Se corrigió un bloqueo que ocurre cuando falta el objeto para un estado\n* Cuando el controlador Z-Wave no se inicia, ahora se registra un error en lugar de bloquear el adaptador\n* La configuración del adaptador ya no está contaminada con la lista de 'serialports' de la interfaz.",
-				"pl": "* Niekrytyczne błędy z `zwave-js` są teraz rejestrowane zamiast awarii adaptera\n* Naprawiono awarię występującą, gdy brakuje obiektu stanu\n* Gdy sterownik Z-Wave nie uruchamia się, rejestrowany jest teraz błąd zamiast awarii adaptera\n* Ustawienia adaptera nie są już zanieczyszczone listą `serialports` z interfejsu użytkownika.",
-				"zh-cn": "*现在记录来自zwave-js的非严重错误，而不是使适配器崩溃\n*修复了当缺少状态的对象时发生的崩溃\n*当Z-Wave驱动程序无法启动时，现在记录错误而不是使适配器崩溃\n*适配器设置不再被前端的“ serialports”列表污染。"
-			},
-			"0.3.3": {
-				"en": "Updated `zwave-js` to v2.1.0. This includes support for the `Meter CC` and support for unsigned configuration parameters",
-				"de": "`Zwave-js` wurde auf v2.1.0 aktualisiert. Dies beinhaltet die Unterstützung des \"Meter CC\" und die Unterstützung von vorzeichenlosen Konfigurationsparametern",
-				"ru": "Обновлен `zwave-js` до v2.1.0. Это включает в себя поддержку `Meter CC` и поддержку неподписанных параметров конфигурации",
-				"pt": "Atualizado `zwave-js` para a v2.1.0. Isso inclui suporte para o `Meter CC` e suporte para parâmetros de configuração não assinados",
-				"nl": "`Zwave-js` bijgewerkt naar v2.1.0. Dit omvat ondersteuning voor de `Meter CC` en ondersteuning voor niet-ondertekende configuratieparameters",
-				"fr": "Mise à jour de `zwave-js` vers v2.1.0. Cela inclut la prise en charge de `Meter CC` et la prise en charge des paramètres de configuration non signés",
-				"it": "Aggiornato `zwave-js` a v2.1.0. Ciò include il supporto per il \"Meter CC\" e il supporto per i parametri di configurazione non firmati",
-				"es": "Actualizado `zwave-js` a v2.1.0. Esto incluye soporte para el `Meter CC` y soporte para parámetros de configuración sin firmar",
-				"pl": "Zaktualizowano `zwave-js` do wersji 2.1.0. Obejmuje to obsługę „Meter CC” i obsługę niepodpisanych parametrów konfiguracyjnych",
-				"zh-cn": "将`zwave-js`更新为v2.1.0。这包括对“ Meter CC”的支持和对未签名配置参数的支持。"
-			},
-			"0.3.2": {
-				"en": "Fixed a crash when property(Key) names contain weird punctuation",
-				"de": "Es wurde ein Absturz behoben, bei dem Eigenschaftsnamen seltsame Interpunktionszeichen enthielten",
-				"ru": "Исправлен сбой, когда имена свойств (Key) содержат странные знаки препинания",
-				"pt": "Corrigida uma falha quando nomes de propriedades (chave) continha pontuação estranha",
-				"nl": "Een crash opgelost waarbij eigenschaps- (sleutel) namen rare interpunctie bevatten",
-				"fr": "Correction d'un plantage lorsque les noms de propriété (clé) contiennent une ponctuation étrange",
-				"it": "Risolto un arresto anomalo quando i nomi delle proprietà (chiave) contengono punteggiatura strana",
-				"es": "Se corrigió un bloqueo cuando los nombres de propiedades (Clave) contienen signos de puntuación extraños",
-				"pl": "Naprawiono awarię, gdy nazwy właściwości (klucza) zawierają dziwną interpunkcję",
-				"zh-cn": "修复了当属性（键）名称包含奇怪的标点符号时崩溃的问题"
-			},
-			"0.3.1": {
-				"en": "Fixed a crash from v0.3.0",
-				"de": "Absturz von v0.3.0 behoben",
-				"ru": "Исправлен вылет из v0.3.0",
-				"pt": "Corrigida uma falha da v0.3.0",
-				"nl": "Een crash van v0.3.0 opgelost",
-				"fr": "Correction d'un crash de v0.3.0",
-				"it": "Risolto un crash dalla v0.3.0",
-				"es": "Se corrigió un bloqueo de v0.3.0",
-				"pl": "Naprawiono awarię z wersji 0.3.0",
-				"zh-cn": "修复了v0.3.0起的崩溃"
-			},
-			"0.3.0": {
-				"en": "* Updated `zwave-js` to v2.0.0 for improved support of older devices, named configuration parameters and fixed `Binary Sensor` support\n* Improved generation of state names for complex property names",
-				"de": "* `Zwave-js` wurde auf v2.0.0 aktualisiert, um die Unterstützung älterer Geräte, benannter Konfigurationsparameter und der Unterstützung von` Binärsensoren` zu verbessern\n* Verbesserte Erzeugung von Zustandsnamen für komplexe Eigenschaftsnamen",
-				"ru": "* Обновлен `zwave-js` до v2.0.0 для улучшенной поддержки старых устройств, именованных параметров конфигурации и исправлена поддержка` Binary Sensor`\n* Улучшена генерация имен состояний для сложных имен свойств",
-				"pt": "* Zwave-js` atualizado para a v2.0.0 para suporte aprimorado a dispositivos mais antigos, parâmetros de configuração nomeados e suporte fixo ao `Binary Sensor`\n* Geração aprimorada de nomes de estados para nomes de propriedades complexas",
-				"nl": "* Bijgewerkt `zwave-js` naar v2.0.0 voor verbeterde ondersteuning van oudere apparaten, benoemde configuratieparameters en vaste` Binaire sensor` ondersteuning\n* Verbeterde generatie van statusnamen voor complexe eigenschapsnamen",
-				"fr": "* Mise à jour de `zwave-js` vers la v2.0.0 pour une prise en charge améliorée des périphériques plus anciens, des paramètres de configuration nommés et une prise en charge fixe du` Capteur binaire`\n* Génération améliorée de noms d'états pour les noms de propriétés complexes",
-				"it": "* Aggiornato `zwave-js` a v2.0.0 per un supporto migliorato dei dispositivi più vecchi, denominati parametri di configurazione e supporto fisso` Sensore binario`\n* Migliorata generazione di nomi di stato per nomi di proprietà complessi",
-				"es": "* Se actualizó `zwave-js` a v2.0.0 para mejorar el soporte de dispositivos más antiguos, los parámetros de configuración con nombre y el soporte fijo de` Sensor binario`\n* Generación mejorada de nombres de estado para nombres de propiedad complejos",
-				"pl": "* Zaktualizowano `zwave-js` do wersji 2.0.0, aby poprawić obsługę starszych urządzeń, nazwać parametry konfiguracji i naprawić obsługę` Binary Sensor`\n* Poprawione generowanie nazw stanów dla złożonych nazw właściwości",
-				"zh-cn": "*将zwave-js更新至v2.0.0，以改善对旧设备的支持，命名配置参数和固定的Binary Sensor支持\n*改进了复杂属性名称的状态名称的生成"
-			},
-			"0.2.1": {
-				"en": "The network map now correctly displays the nodes' IDs",
-				"de": "Die Netzwerkkarte zeigt nun die IDs der Knoten korrekt an",
-				"ru": "Карта сети теперь правильно отображает идентификаторы узла",
-				"pt": "O mapa de rede agora exibe corretamente os IDs do nó",
-				"nl": "De netwerkmap geeft nu correct de ID's van het knooppunt weer",
-				"fr": "La carte du réseau affiche maintenant correctement les ID du nœud",
-				"it": "La mappa di rete ora visualizza correttamente gli ID del nodo",
-				"es": "El mapa de red ahora muestra correctamente las ID del nodo",
-				"pl": "Mapa sieci poprawnie wyświetla teraz identyfikatory węzła",
-				"zh-cn": "网络图现在可以正确显示节点的ID"
-			},
-			"0.2.0": {
-				"en": "* `zwave-js` dependency updated for complete `Multi Channel` support and improved `Multilevel Switch` support\n* Removed some unnecessary log outputs\n* Improved naming of some objects\n",
-				"de": "* Die `zwave-js`-Abhängigkeit wurde aktualisiert, um die vollständige` Multi Channel`-Unterstützung und die verbesserte `Multilevel Switch`-Unterstützung zu gewährleisten\n* Einige unnötige Logausgaben wurden entfernt\n* Benennung einiger Objekte verbessert\n",
-				"ru": "* Зависимость zwave-js обновлена для полной поддержки «Multi Channel» и улучшена поддержка «Multilevel Switch».\n* Удалены некоторые ненужные логи выходов\n* Улучшено именование некоторых объектов\n",
-				"pt": "* Dependência do `zwave-js` atualizada para suporte completo ao` Multi Channel` e suporte aprimorado ao `Multilevel Switch`\n* Removidas algumas saídas de log desnecessárias\n* Melhor nomeação de alguns objetos\n",
-				"nl": "* `zwave-js` afhankelijkheid bijgewerkt voor volledige` Multi Channel`-ondersteuning en verbeterde `Multilevel Switch`-ondersteuning\n* Enkele onnodige log-uitgangen verwijderd\n* Verbeterde naamgeving van sommige objecten\n",
-				"fr": "* Dépendance de `zwave-js` mise à jour pour une prise en charge complète de` Multi Channel` et une prise en charge améliorée de `Multilevel Switch`\n* Suppression de certaines sorties de journal inutiles\n* Amélioration de la dénomination de certains objets\n",
-				"it": "* Aggiornamento della dipendenza `zwave-js` per il supporto completo` Multi Channel` e supporto `Switch multilivello migliorato\n* Rimossi alcuni output di log non necessari\n* Miglioramento della denominazione di alcuni oggetti\n",
-				"es": "* Se actualizó la dependencia `zwave-js` para un soporte completo de` Multi Channel` y un soporte mejorado de `Multilevel Switch`\n* Se eliminaron algunas salidas de registro innecesarias\n* Nombramiento mejorado de algunos objetos\n",
-				"pl": "* Zaktualizowano zależność `zwave-js` dla pełnej obsługi` Multi Channel` i ulepszonej obsługi `Multilevel Switch`\n* Usunięto niepotrzebne dane wyjściowe dziennika\n* Ulepszone nazewnictwo niektórych obiektów\n",
-				"zh-cn": "*更新了`zwave-js`依赖性，以提供完整的`多通道`支持和改进的`多级开关`支持\n*删除了一些不必要的日志输出\n*改进了某些对象的命名\n"
-			},
-			"0.1.3": {
-				"en": "* Dependencies updated\n* `zwave-js` now supports TimeCC and TimeParametersCC, as well as BatteryCC V2",
-				"de": "* Abhängigkeiten aktualisiert\n* `zwave-js` unterstützt jetzt TimeCC und TimeParametersCC sowie BatteryCC V2",
-				"ru": "* Зависимости обновлены\n* `zwave-js` теперь поддерживает TimeCC и TimeParametersCC, а также BatteryCC V2",
-				"pt": "* Dependências atualizadas\n* `zwave-js` agora suporta TimeCC e TimeParametersCC, bem como BatteryCC V2",
-				"nl": "* Afhankelijkheden bijgewerkt\n* `zwave-js` ondersteunt nu TimeCC en TimeParametersCC, evenals BatteryCC V2",
-				"fr": "* Dépendances mises à jour\n* `zwave-js` prend désormais en charge TimeCC et TimeParametersCC, ainsi que BatteryCC V2",
-				"it": "* Dipendenze aggiornate\n* `zwave-js` ora supporta TimeCC e TimeParametersCC, oltre a BatteryCC V2",
-				"es": "* Dependencias actualizadas\n* `zwave-js` ahora es compatible con TimeCC y TimeParametersCC, así como con BatteryCC V2",
-				"pl": "* Zależności zaktualizowane\n* `zwave-js` obsługuje teraz TimeCC i TimeParametersCC, a także BatteryCC V2",
-				"zh-cn": "*依赖关系已更新\n*`zwave-js`现在支持TimeCC和TimeParametersCC以及BatteryCC V2"
-			},
-			"0.1.2": {
-				"en": "Added functioning configuration menu",
-				"de": "Funktionsfähiges Konfigurationsmenü hinzugefügt",
-				"ru": "Добавлено функционирующее меню конфигурации",
-				"pt": "Adicionado menu de configuração de funcionamento",
-				"nl": "Werkend configuratiemenu toegevoegd",
-				"fr": "Ajout du menu de configuration fonctionnelle",
-				"it": "Aggiunto menu di configurazione funzionante",
-				"es": "Menú de configuración de funcionamiento agregado",
-				"pl": "Dodano funkcjonujące menu konfiguracji",
-				"zh-cn": "添加了功能配置菜单"
-			},
-			"0.0.1": {
-				"en": "initial release",
-				"de": "Erstveröffentlichung",
-				"ru": "Начальная версия",
-				"pt": "lançamento inicial",
-				"nl": "Eerste uitgave",
-				"fr": "Première version",
-				"it": "Versione iniziale",
-				"es": "Versión inicial",
-				"pl": "Pierwsze wydanie",
-				"zh-cn": "首次出版"
-			}
-		},
-		"title": "Z-Wave",
-		"titleLang": {
-			"en": "Z-Wave",
-			"de": "Z-Wave",
-			"ru": "Z-Wave",
-			"pt": "Z-Wave",
-			"nl": "Z-Wave",
-			"fr": "Z-Wave",
-			"it": "Z-Wave",
-			"es": "Onda z",
-			"pl": "Z-Wave",
-			"zh-cn": "Z-波"
-		},
-		"desc": {
-			"en": "Alternative Z-Wave implementation",
-			"de": "Alternative Z-Wave-Implementierung",
-			"ru": "Альтернативная реализация Z-Wave",
-			"pt": "Implementação alternativa de Z-Wave",
-			"nl": "Alternatieve Z-Wave-implementatie",
-			"fr": "Mise en œuvre alternative de Z-Wave",
-			"it": "Implementazione Z-Wave alternativa",
-			"es": "Implementación alternativa de Z-Wave",
-			"pl": "Alternatywna implementacja Z-Wave",
-			"zh-cn": "替代Z-Wave实施"
-		},
-		"authors": ["AlCalzone <d.griesel@gmx.net>"],
-		"keywords": ["zwave", "z-wave"],
-		"license": "MIT",
-		"platform": "Javascript/Node.js",
-		"main": "build/main.js",
-		"icon": "zwave2.svg",
-		"enabled": true,
-		"extIcon": "https://raw.githubusercontent.com/AlCalzone/ioBroker.zwave2/master/admin/zwave2.svg?sanitize=true",
-		"readme": "https://github.com/AlCalzone/ioBroker.zwave2/blob/master/README.md",
-		"loglevel": "info",
-		"mode": "daemon",
-		"type": "hardware",
-		"compact": true,
-		"materialize": true,
-		"messagebox": true,
-		"dependencies": [
-			{
-				"js-controller": ">=1.4.2"
-			}
-		]
-	},
-	"native": {
-		"serialport": ""
-	},
-	"objects": [],
-	"instanceObjects": [
-		{
-			"_id": "info",
-			"type": "channel",
-			"common": {
-				"name": "Information"
-			},
-			"native": {}
-		},
-		{
-			"_id": "info.connection",
-			"type": "state",
-			"common": {
-				"role": "indicator.connected",
-				"name": "Whether the Z-Wave driver is ready",
-				"type": "boolean",
-				"read": true,
-				"write": false,
-				"def": false
-			},
-			"native": {}
-		},
-		{
-			"_id": "info.inclusion",
-			"type": "state",
-			"common": {
-				"role": "state",
-				"name": "Whether the inclusion of nodes is active",
-				"type": "boolean",
-				"read": true,
-				"write": true,
-				"def": false
-			},
-			"native": {}
-		},
-		{
-			"_id": "info.exclusion",
-			"type": "state",
-			"common": {
-				"role": "state",
-				"name": "Whether the exclusion of nodes is active",
-				"type": "boolean",
-				"read": true,
-				"write": true,
-				"def": false
-			},
-			"native": {}
-		}
-	]
+    "common": {
+        "name": "zwave2",
+        "version": "0.5.0",
+        "news": {
+            "0.5.0": {
+                "en": "A new settings page has been added with a device overview and buttons to add and remove nodes from the network",
+                "de": "Eine neue Einstellungsseite mit einer Geräteübersicht und Schaltflächen zum Hinzufügen und Entfernen von Knoten zum Netzwerk wurde hinzugefügt",
+                "ru": "Добавлена новая страница настроек с обзором устройства и кнопками для добавления и удаления узлов из сети.",
+                "pt": "Uma nova página de configurações foi adicionada com uma visão geral do dispositivo e botões para adicionar e remover nós da rede",
+                "nl": "Er is een nieuwe instellingenpagina toegevoegd met een apparaatoverzicht en knoppen om knooppunten toe te voegen en te verwijderen uit het netwerk",
+                "fr": "Une nouvelle page de paramètres a été ajoutée avec une vue d'ensemble de l'appareil et des boutons pour ajouter et supprimer des nœuds du réseau",
+                "it": "È stata aggiunta una nuova pagina delle impostazioni con una panoramica del dispositivo e pulsanti per aggiungere e rimuovere nodi dalla rete",
+                "es": "Se ha agregado una nueva página de configuración con una descripción general del dispositivo y botones para agregar y eliminar nodos de la red",
+                "pl": "Dodano nową stronę ustawień z przeglądem urządzenia i przyciskami do dodawania i usuwania węzłów z sieci",
+                "zh-cn": "添加了新的设置页面，其中包含设备概述和用于从网络添加和删除节点的按钮"
+            },
+            "0.4.0": {
+                "en": "* The network map is now drawn correctly when there are only unconnected nodes\n* Nodes and command classes are now represented with device and channel objects\n* Updated `zwave-js` to v2.2.0. This includes the following changes:\n\t* Less errors are logged when opening the serial port fails\n\t* Accessing a node's or endpoint's `commandClasses` property with `Symbol`s no longer causes a crash. *(This should not be an issue in ioBroker)*\n\t* Revised querying logic for devices without Z-Wave+ or Lifeline associations\n\t* Added support for `Indicator CC`",
+                "de": "* Die Netzwerkkarte wird jetzt korrekt gezeichnet, wenn nur unverbundene Knoten vorhanden sind\n* Knoten und Befehlsklassen werden jetzt mit Geräte- und Kanalobjekten repräsentiert\n* `zwave-js` wurde auf v2.2.0 aktualisiert. Dies beinhaltet die folgenden Änderungen:\n\t* Weniger Fehler werden protokolliert, wenn das Öffnen der seriellen Schnittstelle fehlschlägt\n\t*Das Zugreifen auf die `commandClasses`-Eigenschaft eines Knotens oder Endpunkts mit `Symbol`s führt nicht mehr zum Absturz. *(Dies sollte kein Problem in ioBroker sein)*\n\t* Überarbeitete Abfragelogik für Geräte ohne Z-Wave+ oder Lifeline-Zuordnungen\n\t* Unterstützung für \"Indicator CC\" hinzugefügt",
+                "ru": "* Карта сети теперь отображается правильно, когда есть только неподключенные узлы\n* Узлы и классы команд теперь представлены объектами устройства и канала.\n* Обновлен `zwave-js` до v2.2.0. Это включает в себя следующие изменения:\n* Меньше ошибок регистрируется при сбое открытия последовательного порта\n*Доступ к свойству `commandClasses` узла или конечной точки с помощью Symbol больше не вызывает сбой. * (Это не должно быть проблемой в ioBroker)*\n* Пересмотренная логика запросов для устройств без ассоциаций Z-Wave + или Lifeline\n* Добавлена поддержка `Indicator CC`",
+                "pt": "* O mapa de rede agora está desenhado corretamente quando há apenas nós desconectados\n* Nós e classes de comando agora são representados com objetos de dispositivo e canal\n* Atualizado `zwave-js` para a v2.2.0. Isso inclui as seguintes alterações:\n* Menos erros são registrados quando a porta serial falha\n*Acessar a propriedade `commandClasses` de um nó ou nó de extremidade com` Symbol`s não causa mais um travamento. * (Isso não deve ser um problema no ioBroker)*\n* Lógica de consulta revisada para dispositivos sem associações Z-Wave + ou Lifeline\n* Adicionado suporte para o `Indicador CC`",
+                "nl": "* De netwerkmap wordt nu correct getekend als er alleen niet-verbonden knooppunten zijn\n* Knopen en opdrachtklassen worden nu weergegeven met apparaat- en kanaalobjecten\n* Bijgewerkt `zwave-js` naar v2.2.0. Dit omvat de volgende wijzigingen:\n* Minder fouten worden vastgelegd wanneer het openen van de seriële poort mislukt\n*Toegang tot de eigenschap `commandClasses` van een knooppunt of eindpunt met` Symbol`s veroorzaakt niet langer een crash. * (Dit zou geen probleem moeten zijn in ioBroker)*\n* Herziene vraaglogica voor apparaten zonder Z-Wave + of Lifeline-koppelingen\n* Ondersteuning toegevoegd voor `Indicator CC`",
+                "fr": "* La carte du réseau est désormais dessinée correctement lorsqu'il n'y a que des nœuds non connectés\n* Les nœuds et les classes de commandes sont désormais représentés avec des objets de périphérique et de canal\n* Mise à jour de `zwave-js` vers v2.2.0. Cela inclut les modifications suivantes:\n* Moins d'erreurs sont enregistrées lors de l'échec de l'ouverture du port série\n*L'accès à la propriété `commandClasses` d'un nœud ou d'un noeud final avec` Symbol`s ne provoque plus de plantage. * (Cela ne devrait pas être un problème dans ioBroker)*\n* Logique d'interrogation révisée pour les appareils sans associations Z-Wave + ou Lifeline\n* Ajout du support pour `Indicator CC`",
+                "it": "* La mappa di rete ora viene disegnata correttamente quando sono presenti solo nodi non connessi\n* I nodi e le classi di comando sono ora rappresentati con oggetti dispositivo e canale\n* Aggiornato `zwave-js` a v2.2.0. Ciò include le seguenti modifiche:\n* Meno errori vengono registrati quando l'apertura della porta seriale non riesce\n*L'accesso alla proprietà `commandClasses` di un nodo o endpoint con` Symbol`s non causa più un arresto anomalo. * (Questo non dovrebbe essere un problema in ioBroker)*\n* Logica di query rivista per dispositivi senza associazioni Z-Wave + o Lifeline\n* Aggiunto supporto per `Indicator CC`",
+                "es": "* El mapa de red ahora se dibuja correctamente cuando solo hay nodos no conectados\n* Los nodos y las clases de comando ahora se representan con dispositivos y objetos de canal\n* Actualizado `zwave-js` a v2.2.0. Esto incluye los siguientes cambios:\n* Se registran menos errores cuando falla la apertura del puerto serie\n*Acceder a la propiedad `commandClasses` de un nodo o punto final con` Symbol`s ya no provoca un bloqueo. * (Esto no debería ser un problema en ioBroker)*\n* Lógica de consulta revisada para dispositivos sin asociaciones Z-Wave + o Lifeline\n* Se agregó soporte para `Indicator CC`",
+                "pl": "* Mapa sieci jest teraz poprawnie rysowana, gdy istnieją tylko niepołączone węzły\n* Węzły i klasy poleceń są teraz reprezentowane przez obiekty urządzeń i kanałów\n* Zaktualizowano `zwave-js` do wersji 2.2.0. Obejmuje to następujące zmiany:\n* Mniej błędów jest rejestrowanych, gdy otwarcie portu szeregowego kończy się niepowodzeniem\n*Dostęp do właściwości `commandClasses` węzła lub punktu końcowego za pomocą` Symbol`s nie powoduje już awarii. * (To nie powinno być problemem w ioBroker)*\n* Zmieniona logika zapytań dla urządzeń bez powiązań Z-Wave + lub Lifeline\n* Dodano obsługę `Indicator CC`",
+                "zh-cn": "*现在只有不连接的节点时才能正确绘制网络图\n*节点和命令类现在用设备和通道对象表示\n*更新了`zwave-js`到v2.2.0。这包括以下更改：\n*打开串行端口失败时记录的错误更少\n*使用`Symbol`访问节点或端点的`commandClasses'属性不再导致崩溃。 *（这在ioBroker中应该不是问题）*\n*修改了不具有Z-Wave +或生命线关联的设备的查询逻辑\n*增加了对“指示器CC”的支持"
+            },
+            "0.3.4": {
+                "en": "* Non-critical errors from `zwave-js` are now logged instead of crashing the adapter\n* Fixed a crash that happens when the object for a state is missing\n* When the Z-Wave driver fails to start, an error is now logged instead of crashing the adapter\n* The adapter settings are no longer polluted with the `serialports` list from the frontend.",
+                "de": "* Unkritische Fehler von `zwave-js` werden jetzt protokolliert, anstatt den Adapter zum Absturz zu bringen\n* Es wurde ein Absturz behoben, der auftrat, wenn das Objekt für einen Zustand fehlte\n* Wenn der Z-Wave-Treiber nicht gestartet werden kann, wird jetzt ein Fehler protokolliert, anstatt den Adapter zum Absturz zu bringen\n* Die Adaptereinstellungen sind nicht mehr mit der Liste \"serialports\" vom Frontend verschmutzt.",
+                "ru": "* Некритические ошибки из `zwave-js` теперь регистрируются вместо сбоя адаптера\n* Исправлен сбой, который происходит, когда отсутствует объект для состояния\n* Когда драйвер Z-Wave не запускается, теперь записывается ошибка, а не сбой адаптера\n* Настройки адаптера больше не загрязняются списком `serialports` из внешнего интерфейса.",
+                "pt": "* Erros não críticos do `zwave-js` agora são registrados em vez de travar o adaptador\n* Corrigida uma falha que ocorre quando o objeto de um estado está ausente\n* Quando o driver Z-Wave falha ao iniciar, agora é registrado um erro em vez de travar o adaptador\n* As configurações do adaptador não são mais poluídas com a lista `serialports` do frontend.",
+                "nl": "* Niet-kritieke fouten van `zwave-js` worden nu vastgelegd in plaats van de adapter te laten crashen\n* Een crash opgelost die optreedt wanneer het object voor een status ontbreekt\n* Wanneer het Z-Wave-stuurprogramma niet start, wordt er nu een fout vastgelegd in plaats van dat de adapter crasht\n* De adapterinstellingen zijn niet langer vervuild met de `serialports`-lijst aan de voorkant.",
+                "fr": "* Les erreurs non critiques de `zwave-js` sont maintenant enregistrées au lieu de planter l'adaptateur\n* Correction d'un crash qui se produit lorsque l'objet d'un état est manquant\n* Lorsque le pilote Z-Wave ne démarre pas, une erreur est maintenant enregistrée au lieu de planter l'adaptateur\n* Les paramètres de l'adaptateur ne sont plus pollués par la liste `serialports` du frontend.",
+                "it": "* Gli errori non critici di `zwave-js` sono ora registrati invece di crash della scheda\n* Risolto un crash che si verifica quando manca l'oggetto per uno stato\n* Quando il driver Z-Wave non si avvia, ora viene registrato un errore invece di arrestare in modo anomalo la scheda\n* Le impostazioni dell'adattatore non vengono più inquinate con l'elenco `serialports` dal frontend.",
+                "es": "* Los errores no críticos de `zwave-js` ahora se registran en lugar de bloquear el adaptador\n* Se corrigió un bloqueo que ocurre cuando falta el objeto para un estado\n* Cuando el controlador Z-Wave no se inicia, ahora se registra un error en lugar de bloquear el adaptador\n* La configuración del adaptador ya no está contaminada con la lista de 'serialports' de la interfaz.",
+                "pl": "* Niekrytyczne błędy z `zwave-js` są teraz rejestrowane zamiast awarii adaptera\n* Naprawiono awarię występującą, gdy brakuje obiektu stanu\n* Gdy sterownik Z-Wave nie uruchamia się, rejestrowany jest teraz błąd zamiast awarii adaptera\n* Ustawienia adaptera nie są już zanieczyszczone listą `serialports` z interfejsu użytkownika.",
+                "zh-cn": "*现在记录来自zwave-js的非严重错误，而不是使适配器崩溃\n*修复了当缺少状态的对象时发生的崩溃\n*当Z-Wave驱动程序无法启动时，现在记录错误而不是使适配器崩溃\n*适配器设置不再被前端的“ serialports”列表污染。"
+            },
+            "0.3.3": {
+                "en": "Updated `zwave-js` to v2.1.0. This includes support for the `Meter CC` and support for unsigned configuration parameters",
+                "de": "`Zwave-js` wurde auf v2.1.0 aktualisiert. Dies beinhaltet die Unterstützung des \"Meter CC\" und die Unterstützung von vorzeichenlosen Konfigurationsparametern",
+                "ru": "Обновлен `zwave-js` до v2.1.0. Это включает в себя поддержку `Meter CC` и поддержку неподписанных параметров конфигурации",
+                "pt": "Atualizado `zwave-js` para a v2.1.0. Isso inclui suporte para o `Meter CC` e suporte para parâmetros de configuração não assinados",
+                "nl": "`Zwave-js` bijgewerkt naar v2.1.0. Dit omvat ondersteuning voor de `Meter CC` en ondersteuning voor niet-ondertekende configuratieparameters",
+                "fr": "Mise à jour de `zwave-js` vers v2.1.0. Cela inclut la prise en charge de `Meter CC` et la prise en charge des paramètres de configuration non signés",
+                "it": "Aggiornato `zwave-js` a v2.1.0. Ciò include il supporto per il \"Meter CC\" e il supporto per i parametri di configurazione non firmati",
+                "es": "Actualizado `zwave-js` a v2.1.0. Esto incluye soporte para el `Meter CC` y soporte para parámetros de configuración sin firmar",
+                "pl": "Zaktualizowano `zwave-js` do wersji 2.1.0. Obejmuje to obsługę „Meter CC” i obsługę niepodpisanych parametrów konfiguracyjnych",
+                "zh-cn": "将`zwave-js`更新为v2.1.0。这包括对“ Meter CC”的支持和对未签名配置参数的支持。"
+            },
+            "0.3.2": {
+                "en": "Fixed a crash when property(Key) names contain weird punctuation",
+                "de": "Es wurde ein Absturz behoben, bei dem Eigenschaftsnamen seltsame Interpunktionszeichen enthielten",
+                "ru": "Исправлен сбой, когда имена свойств (Key) содержат странные знаки препинания",
+                "pt": "Corrigida uma falha quando nomes de propriedades (chave) continha pontuação estranha",
+                "nl": "Een crash opgelost waarbij eigenschaps- (sleutel) namen rare interpunctie bevatten",
+                "fr": "Correction d'un plantage lorsque les noms de propriété (clé) contiennent une ponctuation étrange",
+                "it": "Risolto un arresto anomalo quando i nomi delle proprietà (chiave) contengono punteggiatura strana",
+                "es": "Se corrigió un bloqueo cuando los nombres de propiedades (Clave) contienen signos de puntuación extraños",
+                "pl": "Naprawiono awarię, gdy nazwy właściwości (klucza) zawierają dziwną interpunkcję",
+                "zh-cn": "修复了当属性（键）名称包含奇怪的标点符号时崩溃的问题"
+            },
+            "0.3.1": {
+                "en": "Fixed a crash from v0.3.0",
+                "de": "Absturz von v0.3.0 behoben",
+                "ru": "Исправлен вылет из v0.3.0",
+                "pt": "Corrigida uma falha da v0.3.0",
+                "nl": "Een crash van v0.3.0 opgelost",
+                "fr": "Correction d'un crash de v0.3.0",
+                "it": "Risolto un crash dalla v0.3.0",
+                "es": "Se corrigió un bloqueo de v0.3.0",
+                "pl": "Naprawiono awarię z wersji 0.3.0",
+                "zh-cn": "修复了v0.3.0起的崩溃"
+            },
+            "0.3.0": {
+                "en": "* Updated `zwave-js` to v2.0.0 for improved support of older devices, named configuration parameters and fixed `Binary Sensor` support\n* Improved generation of state names for complex property names",
+                "de": "* `Zwave-js` wurde auf v2.0.0 aktualisiert, um die Unterstützung älterer Geräte, benannter Konfigurationsparameter und der Unterstützung von` Binärsensoren` zu verbessern\n* Verbesserte Erzeugung von Zustandsnamen für komplexe Eigenschaftsnamen",
+                "ru": "* Обновлен `zwave-js` до v2.0.0 для улучшенной поддержки старых устройств, именованных параметров конфигурации и исправлена поддержка` Binary Sensor`\n* Улучшена генерация имен состояний для сложных имен свойств",
+                "pt": "* Zwave-js` atualizado para a v2.0.0 para suporte aprimorado a dispositivos mais antigos, parâmetros de configuração nomeados e suporte fixo ao `Binary Sensor`\n* Geração aprimorada de nomes de estados para nomes de propriedades complexas",
+                "nl": "* Bijgewerkt `zwave-js` naar v2.0.0 voor verbeterde ondersteuning van oudere apparaten, benoemde configuratieparameters en vaste` Binaire sensor` ondersteuning\n* Verbeterde generatie van statusnamen voor complexe eigenschapsnamen",
+                "fr": "* Mise à jour de `zwave-js` vers la v2.0.0 pour une prise en charge améliorée des périphériques plus anciens, des paramètres de configuration nommés et une prise en charge fixe du` Capteur binaire`\n* Génération améliorée de noms d'états pour les noms de propriétés complexes",
+                "it": "* Aggiornato `zwave-js` a v2.0.0 per un supporto migliorato dei dispositivi più vecchi, denominati parametri di configurazione e supporto fisso` Sensore binario`\n* Migliorata generazione di nomi di stato per nomi di proprietà complessi",
+                "es": "* Se actualizó `zwave-js` a v2.0.0 para mejorar el soporte de dispositivos más antiguos, los parámetros de configuración con nombre y el soporte fijo de` Sensor binario`\n* Generación mejorada de nombres de estado para nombres de propiedad complejos",
+                "pl": "* Zaktualizowano `zwave-js` do wersji 2.0.0, aby poprawić obsługę starszych urządzeń, nazwać parametry konfiguracji i naprawić obsługę` Binary Sensor`\n* Poprawione generowanie nazw stanów dla złożonych nazw właściwości",
+                "zh-cn": "*将zwave-js更新至v2.0.0，以改善对旧设备的支持，命名配置参数和固定的Binary Sensor支持\n*改进了复杂属性名称的状态名称的生成"
+            },
+            "0.2.1": {
+                "en": "The network map now correctly displays the nodes' IDs",
+                "de": "Die Netzwerkkarte zeigt nun die IDs der Knoten korrekt an",
+                "ru": "Карта сети теперь правильно отображает идентификаторы узла",
+                "pt": "O mapa de rede agora exibe corretamente os IDs do nó",
+                "nl": "De netwerkmap geeft nu correct de ID's van het knooppunt weer",
+                "fr": "La carte du réseau affiche maintenant correctement les ID du nœud",
+                "it": "La mappa di rete ora visualizza correttamente gli ID del nodo",
+                "es": "El mapa de red ahora muestra correctamente las ID del nodo",
+                "pl": "Mapa sieci poprawnie wyświetla teraz identyfikatory węzła",
+                "zh-cn": "网络图现在可以正确显示节点的ID"
+            },
+            "0.2.0": {
+                "en": "* `zwave-js` dependency updated for complete `Multi Channel` support and improved `Multilevel Switch` support\n* Removed some unnecessary log outputs\n* Improved naming of some objects\n",
+                "de": "* Die `zwave-js`-Abhängigkeit wurde aktualisiert, um die vollständige` Multi Channel`-Unterstützung und die verbesserte `Multilevel Switch`-Unterstützung zu gewährleisten\n* Einige unnötige Logausgaben wurden entfernt\n* Benennung einiger Objekte verbessert\n",
+                "ru": "* Зависимость zwave-js обновлена для полной поддержки «Multi Channel» и улучшена поддержка «Multilevel Switch».\n* Удалены некоторые ненужные логи выходов\n* Улучшено именование некоторых объектов\n",
+                "pt": "* Dependência do `zwave-js` atualizada para suporte completo ao` Multi Channel` e suporte aprimorado ao `Multilevel Switch`\n* Removidas algumas saídas de log desnecessárias\n* Melhor nomeação de alguns objetos\n",
+                "nl": "* `zwave-js` afhankelijkheid bijgewerkt voor volledige` Multi Channel`-ondersteuning en verbeterde `Multilevel Switch`-ondersteuning\n* Enkele onnodige log-uitgangen verwijderd\n* Verbeterde naamgeving van sommige objecten\n",
+                "fr": "* Dépendance de `zwave-js` mise à jour pour une prise en charge complète de` Multi Channel` et une prise en charge améliorée de `Multilevel Switch`\n* Suppression de certaines sorties de journal inutiles\n* Amélioration de la dénomination de certains objets\n",
+                "it": "* Aggiornamento della dipendenza `zwave-js` per il supporto completo` Multi Channel` e supporto `Switch multilivello migliorato\n* Rimossi alcuni output di log non necessari\n* Miglioramento della denominazione di alcuni oggetti\n",
+                "es": "* Se actualizó la dependencia `zwave-js` para un soporte completo de` Multi Channel` y un soporte mejorado de `Multilevel Switch`\n* Se eliminaron algunas salidas de registro innecesarias\n* Nombramiento mejorado de algunos objetos\n",
+                "pl": "* Zaktualizowano zależność `zwave-js` dla pełnej obsługi` Multi Channel` i ulepszonej obsługi `Multilevel Switch`\n* Usunięto niepotrzebne dane wyjściowe dziennika\n* Ulepszone nazewnictwo niektórych obiektów\n",
+                "zh-cn": "*更新了`zwave-js`依赖性，以提供完整的`多通道`支持和改进的`多级开关`支持\n*删除了一些不必要的日志输出\n*改进了某些对象的命名\n"
+            },
+            "0.1.3": {
+                "en": "* Dependencies updated\n* `zwave-js` now supports TimeCC and TimeParametersCC, as well as BatteryCC V2",
+                "de": "* Abhängigkeiten aktualisiert\n* `zwave-js` unterstützt jetzt TimeCC und TimeParametersCC sowie BatteryCC V2",
+                "ru": "* Зависимости обновлены\n* `zwave-js` теперь поддерживает TimeCC и TimeParametersCC, а также BatteryCC V2",
+                "pt": "* Dependências atualizadas\n* `zwave-js` agora suporta TimeCC e TimeParametersCC, bem como BatteryCC V2",
+                "nl": "* Afhankelijkheden bijgewerkt\n* `zwave-js` ondersteunt nu TimeCC en TimeParametersCC, evenals BatteryCC V2",
+                "fr": "* Dépendances mises à jour\n* `zwave-js` prend désormais en charge TimeCC et TimeParametersCC, ainsi que BatteryCC V2",
+                "it": "* Dipendenze aggiornate\n* `zwave-js` ora supporta TimeCC e TimeParametersCC, oltre a BatteryCC V2",
+                "es": "* Dependencias actualizadas\n* `zwave-js` ahora es compatible con TimeCC y TimeParametersCC, así como con BatteryCC V2",
+                "pl": "* Zależności zaktualizowane\n* `zwave-js` obsługuje teraz TimeCC i TimeParametersCC, a także BatteryCC V2",
+                "zh-cn": "*依赖关系已更新\n*`zwave-js`现在支持TimeCC和TimeParametersCC以及BatteryCC V2"
+            },
+            "0.1.2": {
+                "en": "Added functioning configuration menu",
+                "de": "Funktionsfähiges Konfigurationsmenü hinzugefügt",
+                "ru": "Добавлено функционирующее меню конфигурации",
+                "pt": "Adicionado menu de configuração de funcionamento",
+                "nl": "Werkend configuratiemenu toegevoegd",
+                "fr": "Ajout du menu de configuration fonctionnelle",
+                "it": "Aggiunto menu di configurazione funzionante",
+                "es": "Menú de configuración de funcionamiento agregado",
+                "pl": "Dodano funkcjonujące menu konfiguracji",
+                "zh-cn": "添加了功能配置菜单"
+            },
+            "0.0.1": {
+                "en": "initial release",
+                "de": "Erstveröffentlichung",
+                "ru": "Начальная версия",
+                "pt": "lançamento inicial",
+                "nl": "Eerste uitgave",
+                "fr": "Première version",
+                "it": "Versione iniziale",
+                "es": "Versión inicial",
+                "pl": "Pierwsze wydanie",
+                "zh-cn": "首次出版"
+            }
+        },
+        "title": "Z-Wave",
+        "titleLang": {
+            "en": "Z-Wave",
+            "de": "Z-Wave",
+            "ru": "Z-Wave",
+            "pt": "Z-Wave",
+            "nl": "Z-Wave",
+            "fr": "Z-Wave",
+            "it": "Z-Wave",
+            "es": "Onda z",
+            "pl": "Z-Wave",
+            "zh-cn": "Z-波"
+        },
+        "desc": {
+            "en": "Alternative Z-Wave implementation",
+            "de": "Alternative Z-Wave-Implementierung",
+            "ru": "Альтернативная реализация Z-Wave",
+            "pt": "Implementação alternativa de Z-Wave",
+            "nl": "Alternatieve Z-Wave-implementatie",
+            "fr": "Mise en œuvre alternative de Z-Wave",
+            "it": "Implementazione Z-Wave alternativa",
+            "es": "Implementación alternativa de Z-Wave",
+            "pl": "Alternatywna implementacja Z-Wave",
+            "zh-cn": "替代Z-Wave实施"
+        },
+        "authors": [
+            "AlCalzone <d.griesel@gmx.net>"
+        ],
+        "keywords": [
+            "zwave",
+            "z-wave"
+        ],
+        "license": "MIT",
+        "platform": "Javascript/Node.js",
+        "main": "build/main.js",
+        "icon": "zwave2.svg",
+        "enabled": true,
+        "extIcon": "https://raw.githubusercontent.com/AlCalzone/ioBroker.zwave2/master/admin/zwave2.svg?sanitize=true",
+        "readme": "https://github.com/AlCalzone/ioBroker.zwave2/blob/master/README.md",
+        "loglevel": "info",
+        "mode": "daemon",
+        "type": "hardware",
+        "compact": true,
+        "materialize": true,
+        "messagebox": true,
+        "dependencies": [
+            {
+                "js-controller": ">=1.4.2"
+            }
+        ]
+    },
+    "native": {
+        "serialport": ""
+    },
+    "objects": [],
+    "instanceObjects": [
+        {
+            "_id": "info",
+            "type": "channel",
+            "common": {
+                "name": "Information"
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.connection",
+            "type": "state",
+            "common": {
+                "role": "indicator.connected",
+                "name": "Whether the Z-Wave driver is ready",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "def": false
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.inclusion",
+            "type": "state",
+            "common": {
+                "role": "state",
+                "name": "Whether the inclusion of nodes is active",
+                "type": "boolean",
+                "read": true,
+                "write": true,
+                "def": false
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.exclusion",
+            "type": "state",
+            "common": {
+                "role": "state",
+                "name": "Whether the exclusion of nodes is active",
+                "type": "boolean",
+                "read": true,
+                "write": true,
+                "def": false
+            },
+            "native": {}
+        }
+    ]
 }
