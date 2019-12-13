@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const strings_1 = require("alcalzone-shared/strings");
 const DeviceClass_1 = require("zwave-js/build/lib/node/DeviceClass");
 const global_1 = require("./global");
+const shared_1 = require("./shared");
 const isCamelCasedSafeNameRegex = /^(?!.*[\-_]$)[a-z]([a-zA-Z0-9\-_]+)$/;
 /** Converts a device label to a valid filename */
 function nameToStateId(label) {
@@ -40,23 +41,18 @@ function camelCase(str) {
         : substr[0].toUpperCase() + substr.slice(1).toLowerCase())
         .join("");
 }
-/** Returns the id of the device object for the given node id */
-function computeDeviceId(nodeId) {
-    return `Node_${strings_1.padStart(nodeId.toString(), 3, "0")}`;
-}
-exports.computeDeviceId = computeDeviceId;
 function ccNameToChannelIdFragment(ccName) {
     return ccName.replace(/[\s]+/g, "_");
 }
 exports.ccNameToChannelIdFragment = ccNameToChannelIdFragment;
 function computeChannelId(nodeId, ccName) {
-    return `${computeDeviceId(nodeId)}.${ccNameToChannelIdFragment(ccName)}`;
+    return `${shared_1.computeDeviceId(nodeId)}.${ccNameToChannelIdFragment(ccName)}`;
 }
 exports.computeChannelId = computeChannelId;
 function computeId(nodeId, args) {
     var _a, _b;
     return [
-        computeDeviceId(nodeId),
+        shared_1.computeDeviceId(nodeId),
         ccNameToChannelIdFragment(args.commandClassName),
         [
             ((_a = args.propertyName) === null || _a === void 0 ? void 0 : _a.trim()) && nameToStateId(args.propertyName),
@@ -85,7 +81,7 @@ function nodeToCommon(node) {
     };
 }
 async function extendNode(node) {
-    const deviceId = computeDeviceId(node.id);
+    const deviceId = shared_1.computeDeviceId(node.id);
     const common = nodeToCommon(node);
     const native = nodeToNative(node);
     const originalObject = await global_1.Global.adapter.getObjectAsync(deviceId);
@@ -191,4 +187,20 @@ function valueTypeToIOBrokerType(valueType) {
     }
     return "mixed";
 }
+async function setNodeStatus(nodeId, status) {
+    const stateId = `${shared_1.computeDeviceId(nodeId)}.status`;
+    await global_1.Global.adapter.setObjectNotExistsAsync(stateId, {
+        type: "state",
+        common: {
+            name: "Node status",
+            role: "indicator",
+            type: "string",
+            read: true,
+            write: false,
+        },
+        native: {},
+    });
+    await global_1.Global.adapter.setStateAsync(stateId, status, true);
+}
+exports.setNodeStatus = setNodeStatus;
 //# sourceMappingURL=objects.js.map

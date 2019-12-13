@@ -14,6 +14,7 @@ import {
 	ValueType,
 } from "zwave-js/build/lib/values/Metadata";
 import { Global as _ } from "./global";
+import { computeDeviceId } from "./shared";
 
 type ZWaveNodeArgs =
 	| ZWaveNodeValueAddedArgs
@@ -58,11 +59,6 @@ function camelCase(str: string): string {
 				: substr[0].toUpperCase() + substr.slice(1).toLowerCase(),
 		)
 		.join("");
-}
-
-/** Returns the id of the device object for the given node id */
-export function computeDeviceId(nodeId: number): string {
-	return `Node_${padStart(nodeId.toString(), 3, "0")}`;
 }
 
 export function ccNameToChannelIdFragment(ccName: string): string {
@@ -241,4 +237,23 @@ function valueTypeToIOBrokerType(
 			if (valueType.endsWith("[]")) return "array";
 	}
 	return "mixed";
+}
+
+export async function setNodeStatus(
+	nodeId: number,
+	status: string,
+): Promise<void> {
+	const stateId = `${computeDeviceId(nodeId)}.status`;
+	await _.adapter.setObjectNotExistsAsync(stateId, {
+		type: "state",
+		common: {
+			name: "Node status",
+			role: "indicator",
+			type: "string",
+			read: true,
+			write: false,
+		},
+		native: {},
+	});
+	await _.adapter.setStateAsync(stateId, status, true);
 }

@@ -18,6 +18,7 @@
 }
 #tabs > [id^="tabs"] {
 	height: calc(100% - 48px);
+	padding-top: 1rem;
 }
 
 #map {
@@ -60,4 +61,12 @@ text.connected {
 text.disconnected {
 	fill: #c90f0f;
 	font-weight: bold;
+}
+
+.divider {
+	margin: 1rem 0;
+}
+
+thead td {
+	font-weight: 600;
 }

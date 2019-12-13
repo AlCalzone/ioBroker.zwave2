@@ -2,6 +2,7 @@
 
 import * as utils from "@iobroker/adapter-core";
 import { Driver, ZWaveNode } from "zwave-js";
+import { CommandClasses } from "zwave-js/build/lib/commandclass/CommandClasses";
 import {
 	ZWaveNodeMetadataUpdatedArgs,
 	ZWaveNodeValueAddedArgs,
@@ -12,14 +13,15 @@ import { ValueID } from "zwave-js/build/lib/node/ValueDB";
 import { Global as _ } from "./lib/global";
 import {
 	computeChannelId,
-	computeDeviceId,
 	computeId,
 	extendCC,
 	extendMetadata,
 	extendNode,
 	extendValue,
 	removeValue,
+	setNodeStatus,
 } from "./lib/objects";
+import { computeDeviceId } from "./lib/shared";
 
 // Augment the adapter.config object with the actual types
 declare global {
@@ -55,7 +57,11 @@ class Zwave2 extends utils.Adapter {
 
 		await this.subscribeStatesAsync("*");
 
+		// Reset all control states
 		this.setState("info.connection", false, true);
+		this.setState(`info.inclusion`, false, true);
+		this.setState(`info.exclusion`, false, true);
+
 		if (!this.config.serialport) {
 			this.log.warn(
 				"No serial port configured. Please select one in the adapter settings!",
@@ -64,15 +70,46 @@ class Zwave2 extends utils.Adapter {
 		}
 
 		this.driver = new Driver(this.config.serialport);
-		this.driver.once("driver ready", () => {
+		this.driver.once("driver ready", async () => {
 			this.setState("info.connection", true, true);
 
 			this.log.info(
 				`The driver is ready. Found ${this.driver.controller.nodes.size} nodes.`,
 			);
+			this.driver.controller
+				.on("inclusion started", this.onInclusionStarted.bind(this))
+				.on("exclusion started", this.onExclusionStarted.bind(this))
+				.on("inclusion stopped", this.onInclusionStopped.bind(this))
+				.on("exclusion stopped", this.onExclusionStopped.bind(this))
+				.on("inclusion failed", this.onInclusionFailed.bind(this))
+				.on("exclusion failed", this.onExclusionFailed.bind(this))
+				.on("node added", this.onNodeAdded.bind(this))
+				.on("node removed", this.onNodeRemoved.bind(this));
+
+			for (const [nodeId, node] of this.driver.controller.nodes) {
+				this.addNodeEventHandlers(node);
+				// Reset the node status
+				await this.setStateAsync(
+					`${computeDeviceId(nodeId)}.status`,
+					"unknown",
+					true,
+				);
+			}
 			this.driver.controller.nodes.forEach(
 				this.addNodeEventHandlers.bind(this),
 			);
+
+			// Now we know which nodes should exist - clean up orphaned nodes
+			const existingNodeIds: number[] = (
+				await this.getDevicesAsync()
+			).map(o => o.native.id);
+			const unusedNodeIds = existingNodeIds.filter(
+				id => !this.driver.controller.nodes.has(id),
+			);
+			for (const nodeIds of unusedNodeIds) {
+				this.log.warn(`Deleting orphaned node ${nodeIds}`);
+				await this.deleteDeviceAsync(computeDeviceId(nodeIds));
+			}
 		});
 		// Log errors from the Z-Wave lib
 		this.driver.on("error", this.onZWaveError.bind(this));
@@ -84,6 +121,48 @@ class Zwave2 extends utils.Adapter {
 				`The Z-Wave driver could not be started: ${e.message}`,
 			);
 		}
+	}
+
+	private async onInclusionStarted(): Promise<void> {
+		this.log.info("inclusion started");
+		await this.setStateAsync("info.inclusion", true, true);
+	}
+
+	private async onExclusionStarted(): Promise<void> {
+		this.log.info("exclusion started");
+		await this.setStateAsync("info.exclusion", true, true);
+	}
+
+	private async onInclusionStopped(): Promise<void> {
+		this.log.info("inclusion stopped");
+		await this.setStateAsync("info.inclusion", false, true);
+	}
+
+	private async onExclusionStopped(): Promise<void> {
+		this.log.info("exclusion stopped");
+		await this.setStateAsync("info.exclusion", false, true);
+	}
+
+	private async onInclusionFailed(): Promise<void> {
+		this.log.info("inclusion failed");
+		await this.setStateAsync("info.inclusion", false, true);
+	}
+
+	private async onExclusionFailed(): Promise<void> {
+		this.log.info("exclusion failed");
+		await this.setStateAsync("info.exclusion", false, true);
+	}
+
+	private async onNodeAdded(node: ZWaveNode): Promise<void> {
+		this.log.info(`Node ${node.id}: added`);
+		this.addNodeEventHandlers(node);
+	}
+
+	private async onNodeRemoved(node: ZWaveNode): Promise<void> {
+		this.log.info(`Node ${node.id}: removed`);
+		node.removeAllListeners();
+
+		await this.deleteDeviceAsync(computeDeviceId(node.id));
 	}
 
 	private addNodeEventHandlers(node: ZWaveNode): void {
@@ -105,8 +184,16 @@ class Zwave2 extends utils.Adapter {
 		this.log.info(`Node ${node.id}: interview completed`);
 		if (node.isControllerNode()) return;
 
+		const nodeAbsoluteId = `${this.namespace}.${computeDeviceId(node.id)}`;
+
 		// Make sure the device object exists and is up to date
 		await extendNode(node);
+
+		// Set the node status
+		await setNodeStatus(
+			node.id,
+			node.supportsCC(CommandClasses["Wake Up"]) ? "awake" : "alive",
+		);
 
 		// Find out which channels and states need to exist
 		const allValueIDs = node.getDefinedValueIDs();
@@ -123,7 +210,7 @@ class Zwave2 extends utils.Adapter {
 			),
 		);
 		const existingChannelIds = Object.keys(
-			await _.$$(`${this.namespace}.${computeDeviceId(node.id)}.*`, {
+			await _.$$(`${nodeAbsoluteId}.*`, {
 				type: "channel",
 			}),
 		);
@@ -133,7 +220,7 @@ class Zwave2 extends utils.Adapter {
 			),
 		);
 		const existingStateIds = Object.keys(
-			await _.$$(`${this.namespace}.${computeDeviceId(node.id)}.*`, {
+			await _.$$(`${nodeAbsoluteId}.*`, {
 				type: "state",
 			}),
 		);
@@ -147,9 +234,12 @@ class Zwave2 extends utils.Adapter {
 			await this.delObjectAsync(id);
 		}
 
-		const unusedStates = existingStateIds.filter(
-			id => !desiredStateIds.has(id),
-		);
+		const unusedStates = existingStateIds
+			// select those states that are not desired
+			.filter(id => !desiredStateIds.has(id))
+			// filter out those states that are not under a CC channel
+			.filter(id => id.slice(nodeAbsoluteId.length + 1).includes("."));
+
 		for (const id of unusedStates) {
 			this.log.warn(`Deleting orphaned state ${id}`);
 			await this.delStateAsync(id);
@@ -171,19 +261,23 @@ class Zwave2 extends utils.Adapter {
 		}
 	}
 
-	private onNodeWakeUp(node: ZWaveNode): void {
+	private async onNodeWakeUp(node: ZWaveNode): Promise<void> {
+		await setNodeStatus(node.id, "awake");
 		this.log.info(`Node ${node.id}: is now awake`);
 	}
 
-	private onNodeSleep(node: ZWaveNode): void {
+	private async onNodeSleep(node: ZWaveNode): Promise<void> {
+		await setNodeStatus(node.id, "asleep");
 		this.log.info(`Node ${node.id}: is now asleep`);
 	}
 
-	private onNodeAlive(node: ZWaveNode): void {
+	private async onNodeAlive(node: ZWaveNode): Promise<void> {
+		await setNodeStatus(node.id, "alive");
 		this.log.info(`Node ${node.id}: has returned from the dead`);
 	}
 
-	private onNodeDead(node: ZWaveNode): void {
+	private async onNodeDead(node: ZWaveNode): Promise<void> {
+		await setNodeStatus(node.id, "dead");
 		this.log.info(`Node ${node.id}: is now dead`);
 	}
 
@@ -282,6 +376,18 @@ class Zwave2 extends utils.Adapter {
 			);
 
 			if (!state.ack) {
+				// Handle some special states first
+				if (id.endsWith("info.inclusion")) {
+					if (state.val) await this.setExclusionMode(false);
+					await this.setInclusionMode(state.val);
+					return;
+				} else if (id.endsWith("info.exclusion")) {
+					if (state.val) await this.setInclusionMode(false);
+					await this.setExclusionMode(state.val);
+					return;
+				}
+
+				// Otherwise perform the default handling for values
 				const obj = await this.getObjectAsync(id);
 				if (!obj) {
 					this.log.error(
@@ -322,6 +428,30 @@ class Zwave2 extends utils.Adapter {
 		} else {
 			// The state was deleted
 			this.log.debug(`state ${id} deleted`);
+		}
+	}
+
+	private async setInclusionMode(active: boolean): Promise<void> {
+		try {
+			if (active) {
+				await this.driver.controller.beginInclusion();
+			} else {
+				await this.driver.controller.stopInclusion();
+			}
+		} catch (e) {
+			/* nothing to do */
+		}
+	}
+
+	private async setExclusionMode(active: boolean): Promise<void> {
+		try {
+			if (active) {
+				await this.driver.controller.beginExclusion();
+			} else {
+				await this.driver.controller.stopExclusion();
+			}
+		} catch (e) {
+			/* nothing to do */
 		}
 	}
 

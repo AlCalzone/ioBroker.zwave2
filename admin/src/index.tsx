@@ -5,6 +5,7 @@ import { Tabs } from "iobroker-react-components";
 
 import { OnSettingsChangedCallback, Settings } from "./pages/settings";
 import { NetworkMap } from "./pages/networkMap";
+import { Devices } from "./pages/devices";
 
 // layout components
 interface RootProps {
@@ -12,7 +13,6 @@ interface RootProps {
 	onSettingsChanged: OnSettingsChangedCallback;
 }
 
-// TODO: Remove `any`
 export class Root extends React.Component<RootProps /*, RootState*/> {
 	constructor(props: RootProps) {
 		super(props);
@@ -23,11 +23,12 @@ export class Root extends React.Component<RootProps /*, RootState*/> {
 
 	public render() {
 		return (
-			<Tabs labels={["Settings", "Network map"]}>
+			<Tabs labels={["Settings", "Devices", "Network map"]}>
 				<Settings
 					settings={this.props.settings}
 					onChange={this.props.onSettingsChanged}
 				/>
+				<Devices />
 				<NetworkMap />
 			</Tabs>
 		);
