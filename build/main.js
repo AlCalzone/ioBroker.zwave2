@@ -49,7 +49,6 @@ class Zwave2 extends utils.Adapter {
                 // Reset the node status
                 await this.setStateAsync(`${shared_1.computeDeviceId(nodeId)}.status`, "unknown", true);
             }
-            this.driver.controller.nodes.forEach(this.addNodeEventHandlers.bind(this));
             // Now we know which nodes should exist - clean up orphaned nodes
             const nodeIdRegex = new RegExp(`^${this.name}\\.${this.instance}\\.Node_(\\d+)`);
             const existingNodeIds = Object.keys(await global_1.Global.$$(`${this.namespace}.*`))

@@ -96,9 +96,6 @@ class Zwave2 extends utils.Adapter {
 					true,
 				);
 			}
-			this.driver.controller.nodes.forEach(
-				this.addNodeEventHandlers.bind(this),
-			);
 
 			// Now we know which nodes should exist - clean up orphaned nodes
 			const nodeIdRegex = new RegExp(
