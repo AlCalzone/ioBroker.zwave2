@@ -21,6 +21,9 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
+### __WORK IN PROGRESS__
+* A new settings page has been added with a device overview and buttons to add and remove nodes from the network
+
 ### 0.4.0 (2019-12-11)
 * The network map is now drawn correctly when there are only unconnected nodes
 * Nodes and command classes are now represented with device and channel objects

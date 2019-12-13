@@ -3,6 +3,18 @@
 		"name": "zwave2",
 		"version": "0.4.0",
 		"news": {
+			"0.5.0": {
+				"en": "A new settings page has been added with a device overview and buttons to add and remove nodes from the network",
+				"de": "Eine neue Einstellungsseite mit einer Geräteübersicht und Schaltflächen zum Hinzufügen und Entfernen von Knoten zum Netzwerk wurde hinzugefügt",
+				"ru": "Добавлена новая страница настроек с обзором устройства и кнопками для добавления и удаления узлов из сети.",
+				"pt": "Uma nova página de configurações foi adicionada com uma visão geral do dispositivo e botões para adicionar e remover nós da rede",
+				"nl": "Er is een nieuwe instellingenpagina toegevoegd met een apparaatoverzicht en knoppen om knooppunten toe te voegen en te verwijderen uit het netwerk",
+				"fr": "Une nouvelle page de paramètres a été ajoutée avec une vue d'ensemble de l'appareil et des boutons pour ajouter et supprimer des nœuds du réseau",
+				"it": "È stata aggiunta una nuova pagina delle impostazioni con una panoramica del dispositivo e pulsanti per aggiungere e rimuovere nodi dalla rete",
+				"es": "Se ha agregado una nueva página de configuración con una descripción general del dispositivo y botones para agregar y eliminar nodos de la red",
+				"pl": "Dodano nową stronę ustawień z przeglądem urządzenia i przyciskami do dodawania i usuwania węzłów z sieci",
+				"zh-cn": "添加了新的设置页面，其中包含设备概述和用于从网络添加和删除节点的按钮"
+			},
 			"0.4.0": {
 				"en": "* The network map is now drawn correctly when there are only unconnected nodes\n* Nodes and command classes are now represented with device and channel objects\n* Updated `zwave-js` to v2.2.0. This includes the following changes:\n\t* Less errors are logged when opening the serial port fails\n\t* Accessing a node's or endpoint's `commandClasses` property with `Symbol`s no longer causes a crash. *(This should not be an issue in ioBroker)*\n\t* Revised querying logic for devices without Z-Wave+ or Lifeline associations\n\t* Added support for `Indicator CC`",
 				"de": "* Die Netzwerkkarte wird jetzt korrekt gezeichnet, wenn nur unverbundene Knoten vorhanden sind\n* Knoten und Befehlsklassen werden jetzt mit Geräte- und Kanalobjekten repräsentiert\n* `zwave-js` wurde auf v2.2.0 aktualisiert. Dies beinhaltet die folgenden Änderungen:\n\t* Weniger Fehler werden protokolliert, wenn das Öffnen der seriellen Schnittstelle fehlschlägt\n\t*Das Zugreifen auf die `commandClasses`-Eigenschaft eines Knotens oder Endpunkts mit `Symbol`s führt nicht mehr zum Absturz. *(Dies sollte kein Problem in ioBroker sein)*\n\t* Überarbeitete Abfragelogik für Geräte ohne Z-Wave+ oder Lifeline-Zuordnungen\n\t* Unterstützung für \"Indicator CC\" hinzugefügt",
