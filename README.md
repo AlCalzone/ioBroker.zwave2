@@ -21,7 +21,7 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
-### __WORK IN PROGRESS__
+### 0.5.2 (2019-12-14)
 * Fixed installation issues with `alcalzone-shared`
 
 ### 0.5.1 (2019-12-13)
