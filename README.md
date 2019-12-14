@@ -21,6 +21,9 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
+### __WORK IN PROGRESS__
+* Fixed installation issues with `alcalzone-shared`
+
 ### 0.5.1 (2019-12-13)
 * A new settings page has been added with a device overview and buttons to add and remove nodes from the network
 * Minor bugfixes
