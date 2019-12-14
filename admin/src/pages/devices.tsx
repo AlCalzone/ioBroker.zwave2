@@ -111,6 +111,7 @@ interface DevicesState {
 	devices?: Record<number, Device>;
 	inclusion: boolean;
 	exclusion: boolean;
+	healNetwork: boolean;
 }
 
 export class Devices extends React.Component<{}, DevicesState> {
@@ -120,6 +121,7 @@ export class Devices extends React.Component<{}, DevicesState> {
 			devices: undefined as any,
 			inclusion: false,
 			exclusion: false,
+			healNetwork: false,
 		};
 	}
 
@@ -194,6 +196,18 @@ export class Devices extends React.Component<{}, DevicesState> {
 		socket.emit("unsubscribeStates", namespace + ".*");
 	}
 
+	private healNetwork() {
+		this.setState({ healNetwork: true });
+		sendTo(null, "healNetwork", null, ({ error, result }) => {
+			this.setState({ healNetwork: false });
+			if (error) {
+				console.error(error);
+			} else {
+				alert(`Heal network finished`);
+			}
+		});
+	}
+
 	public render() {
 		const devices: Device[] = [];
 		if (this.state.devices) {
@@ -243,7 +257,16 @@ export class Devices extends React.Component<{}, DevicesState> {
 							<i className="material-icons left">remove</i>
 							{_("Exclude device")}
 						</a>
-					)}
+					)}{" "}
+					<a
+						className={`waves-effect waves-light btn ${
+							this.state.healNetwork ? "disabled" : ""
+						}`}
+						onClick={() => this.healNetwork()}
+					>
+						<i className="material-icons left">network_check</i>
+						{_("Heal network")}
+					</a>
 				</div>
 				<div className="divider"></div>
 				<table>

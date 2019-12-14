@@ -534,6 +534,12 @@ class Zwave2 extends utils.Adapter {
 					respond(responses.RESULT(ports));
 					return;
 				}
+
+				case "healNetwork": {
+					await this.driver.controller.healNetwork();
+					respond(responses.OK);
+					return;
+				}
 			}
 		}
 	}
