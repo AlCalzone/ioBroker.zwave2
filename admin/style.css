@@ -70,3 +70,8 @@ text.disconnected {
 thead td {
 	font-weight: 600;
 }
+
+.m .select-wrapper + label {
+	/* The positioning for dropdown labels is messed up */
+	transform: none !important;
+}

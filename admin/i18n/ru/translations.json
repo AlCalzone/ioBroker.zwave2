@@ -1,0 +1,22 @@
+{
+    "Cancel exclusion": "Отмена исключения",
+    "Cancel inclusion": "Отмена включения",
+    "Devices": "приборы",
+    "Exclude device": "Исключить устройство",
+    "Include device": "Включить устройство",
+    "Name": "название",
+    "Network map": "Карта сети",
+    "No devices present": "Устройства отсутствуют",
+    "Select serial port": "Выберите последовательный порт",
+    "Settings": "настройки",
+    "Status": "Положение дел",
+    "Type": "Тип",
+    "alive": "в живых",
+    "asleep": "спящий",
+    "awake": "бодрствующий",
+    "dead": "мертвых",
+    "loading...": "загрузка ...",
+    "none selected": "не выбрано, ничего не выбрано",
+    "unknown": "неизвестный",
+    "zwave2 adapter settings": "Настройки адаптера для zwave2"
+}

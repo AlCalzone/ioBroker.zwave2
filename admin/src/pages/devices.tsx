@@ -133,7 +133,6 @@ export class Devices extends React.Component<{}, DevicesState> {
 		socket.emit("subscribeStates", namespace + ".*");
 
 		socket.on("objectChange", async (id, obj) => {
-			console.error(`objectChange(${id}): ${JSON.stringify(obj)}`);
 			if (!id.startsWith(namespace) || !deviceIdRegex.test(id)) return;
 			if (obj) {
 				// New or changed device object
@@ -165,7 +164,6 @@ export class Devices extends React.Component<{}, DevicesState> {
 		});
 
 		socket.on("stateChange", async (id, state) => {
-			console.error(`stateChange(${id}): ${JSON.stringify(state)}`);
 			if (!id.startsWith(namespace)) return;
 			if (!state || !state.ack) return;
 
@@ -200,7 +198,8 @@ export class Devices extends React.Component<{}, DevicesState> {
 		const devices: Device[] = [];
 		if (this.state.devices) {
 			for (const nodeId of Object.keys(this.state.devices)) {
-				devices.push(this.state.devices[nodeId]);
+				const device = this.state.devices[nodeId];
+				if (device) devices.push(device);
 			}
 		}
 
@@ -213,7 +212,7 @@ export class Devices extends React.Component<{}, DevicesState> {
 							onClick={() => setInclusionStatus(false)}
 						>
 							<i className="material-icons left">cancel</i>
-							Einbinden abbrechen
+							{_("Cancel inclusion")}
 						</a>
 					) : (
 						<a
@@ -222,8 +221,8 @@ export class Devices extends React.Component<{}, DevicesState> {
 							}`}
 							onClick={() => setInclusionStatus(true)}
 						>
-							<i className="material-icons left">add</i>Gerät
-							einbinden
+							<i className="material-icons left">add</i>
+							{_("Include device")}
 						</a>
 					)}{" "}
 					{this.state.exclusion ? (
@@ -232,7 +231,7 @@ export class Devices extends React.Component<{}, DevicesState> {
 							onClick={() => setExclusionStatus(false)}
 						>
 							<i className="material-icons left">cancel</i>
-							Entfernen abbrechen
+							{_("Cancel exclusion")}
 						</a>
 					) : (
 						<a
@@ -241,8 +240,8 @@ export class Devices extends React.Component<{}, DevicesState> {
 							}`}
 							onClick={() => setExclusionStatus(true)}
 						>
-							<i className="material-icons left">remove</i>Gerät
-							entfernen
+							<i className="material-icons left">remove</i>
+							{_("Exclude device")}
 						</a>
 					)}
 				</div>
@@ -251,9 +250,9 @@ export class Devices extends React.Component<{}, DevicesState> {
 					<thead>
 						<tr>
 							<td>#</td>
-							<td>Name</td>
-							<td>Typ</td>
-							<td>Status</td>
+							<td>{_("Name")}</td>
+							<td>{_("Type")}</td>
+							<td>{_("Status")}</td>
 							{/* <td>Aktionen</td> */}
 						</tr>
 					</thead>
@@ -267,7 +266,7 @@ export class Devices extends React.Component<{}, DevicesState> {
 									<td>
 										<i
 											className="material-icons"
-											title={status ?? "unknown"}
+											title={_(status ?? "unknown")}
 										>
 											{statusToIconName(status)}
 										</i>
@@ -278,7 +277,7 @@ export class Devices extends React.Component<{}, DevicesState> {
 						) : (
 							<tr>
 								<td colSpan={6} style={{ textAlign: "center" }}>
-									Keine Geräte vorhanden
+									{_("No devices present")}
 								</td>
 							</tr>
 						)}

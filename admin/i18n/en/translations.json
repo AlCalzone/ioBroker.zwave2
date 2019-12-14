@@ -1,0 +1,22 @@
+{
+    "Cancel exclusion": "Cancel exclusion",
+    "Cancel inclusion": "Cancel inclusion",
+    "Devices": "Devices",
+    "Exclude device": "Exclude device",
+    "Include device": "Include device",
+    "Name": "Name",
+    "Network map": "Network map",
+    "No devices present": "No devices present",
+    "Select serial port": "Select serial port",
+    "Settings": "Settings",
+    "Status": "Status",
+    "Type": "Type",
+    "alive": "alive",
+    "asleep": "asleep",
+    "awake": "awake",
+    "dead": "dead",
+    "loading...": "loading...",
+    "none selected": "none selected",
+    "unknown": "unknown",
+    "zwave2 adapter settings": "Adapter settings for Z-Wave 2"
+}

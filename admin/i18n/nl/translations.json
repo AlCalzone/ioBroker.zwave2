@@ -1,0 +1,22 @@
+{
+    "Cancel exclusion": "Uitsluiting annuleren",
+    "Cancel inclusion": "Annuleer opname",
+    "Devices": "apparaten",
+    "Exclude device": "Apparaat uitsluiten",
+    "Include device": "Apparaat opnemen",
+    "Name": "Naam",
+    "Network map": "Netwerk kaart",
+    "No devices present": "Geen apparaten aanwezig",
+    "Select serial port": "Selecteer seriële poort",
+    "Settings": "instellingen",
+    "Status": "staat",
+    "Type": "Type",
+    "alive": "levend",
+    "asleep": "in slaap",
+    "awake": "wakker",
+    "dead": "dood",
+    "loading...": "bezig met laden...",
+    "none selected": "geen geselecteerd",
+    "unknown": "onbekend",
+    "zwave2 adapter settings": "Adapterinstellingen voor zwave2"
+}

@@ -1,0 +1,22 @@
+{
+    "Cancel exclusion": "Anuluj wykluczenie",
+    "Cancel inclusion": "Anuluj włączenie",
+    "Devices": "Pomysłowość",
+    "Exclude device": "Wyklucz urządzenie",
+    "Include device": "Uwzględnij urządzenie",
+    "Name": "Imię",
+    "Network map": "Mapa sieci",
+    "No devices present": "Brak urządzeń",
+    "Select serial port": "Wybierz port szeregowy",
+    "Settings": "Ustawienia",
+    "Status": "Status",
+    "Type": "Rodzaj",
+    "alive": "żywy",
+    "asleep": "we śnie",
+    "awake": "obudzić",
+    "dead": "nie żyje",
+    "loading...": "Ładuję...",
+    "none selected": "nie wybrano",
+    "unknown": "nieznany",
+    "zwave2 adapter settings": "Ustawienia adaptera dla zwave2"
+}
