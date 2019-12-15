@@ -46478,6 +46478,14 @@ exports.padStart = padStart;
 },{}],"../../src/lib/shared.ts":[function(require,module,exports) {
 "use strict";
 
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -46491,6 +46499,40 @@ function computeDeviceId(nodeId) {
 }
 
 exports.computeDeviceId = computeDeviceId;
+
+function mapToRecord(map) {
+  var ret = {};
+  var _iteratorNormalCompletion = true;
+  var _didIteratorError = false;
+  var _iteratorError = undefined;
+
+  try {
+    for (var _iterator = map[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      var _step$value = _slicedToArray(_step.value, 2),
+          k = _step$value[0],
+          v = _step$value[1];
+
+      ret[k] = v;
+    }
+  } catch (err) {
+    _didIteratorError = true;
+    _iteratorError = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion && _iterator.return != null) {
+        _iterator.return();
+      }
+    } finally {
+      if (_didIteratorError) {
+        throw _iteratorError;
+      }
+    }
+  }
+
+  return ret;
+}
+
+exports.mapToRecord = mapToRecord;
 },{"alcalzone-shared/strings":"../../node_modules/alcalzone-shared/strings/index.js"}],"pages/devices.tsx":[function(require,module,exports) {
 "use strict";
 
@@ -46720,6 +46762,7 @@ var deviceIdRegex = /Node_(\d+)$/;
 var deviceStatusRegex = /Node_(\d+)\.status$/;
 var inclusionRegex = /info\.inclusion$/;
 var exclusionRegex = /info\.exclusion$/;
+var healNetworkRegex = /info\.healingNetwork$/;
 
 function loadDevices() {
   return __awaiter(this, void 0, Promise, function () {
@@ -46877,6 +46920,23 @@ function setExclusionStatus(active) {
   });
 }
 
+function pollHealingStatus() {
+  return __awaiter(this, void 0, Promise, function () {
+    return __generator(this, function (_a) {
+      return [2
+      /*return*/
+      , new Promise(function (resolve, reject) {
+        sendTo(null, "healNetworkPoll", null, function (_a) {
+          var error = _a.error,
+              result = _a.result;
+          if (error) reject(error);
+          resolve(result);
+        });
+      })];
+    });
+  });
+}
+
 var Devices =
 /** @class */
 function (_super) {
@@ -47009,6 +47069,10 @@ function (_super) {
                     this.setState({
                       exclusion: !!state.val
                     });
+                  } else if (id.match(healNetworkRegex)) {
+                    this.setState({
+                      healNetwork: !!state.val
+                    });
                   }
 
                   return [2
@@ -47033,22 +47097,77 @@ function (_super) {
   Devices.prototype.healNetwork = function () {
     var _this = this;
 
-    this.setState({
-      healNetwork: true
-    });
     sendTo(null, "healNetwork", null, function (_a) {
       var error = _a.error,
           result = _a.result;
+      return __awaiter(_this, void 0, void 0, function () {
+        var result_1, e_1;
+        return __generator(this, function (_b) {
+          switch (_b.label) {
+            case 0:
+              if (!error) return [3
+              /*break*/
+              , 1];
+              alert(error);
+              return [3
+              /*break*/
+              , 7];
 
-      _this.setState({
-        healNetwork: false
+            case 1:
+              if (!(result === "ok")) return [3
+              /*break*/
+              , 7];
+              alert("Heal network started");
+              _b.label = 2;
+
+            case 2:
+              if (!this.state.healNetwork) return [3
+              /*break*/
+              , 7];
+              _b.label = 3;
+
+            case 3:
+              _b.trys.push([3, 5,, 6]);
+
+              return [4
+              /*yield*/
+              , pollHealingStatus()];
+
+            case 4:
+              result_1 = _b.sent();
+              console.log("Healing status:");
+              console.log(result_1);
+
+              if (result_1.type === "done") {
+                alert("Heal network done!");
+                return [3
+                /*break*/
+                , 7];
+              }
+
+              return [3
+              /*break*/
+              , 6];
+
+            case 5:
+              e_1 = _b.sent();
+              console.error("Error while polling: " + e_1);
+              return [3
+              /*break*/
+              , 6];
+
+            case 6:
+              return [3
+              /*break*/
+              , 2];
+
+            case 7:
+              return [2
+              /*return*/
+              ];
+          }
+        });
       });
-
-      if (error) {
-        console.error(error);
-      } else {
-        alert("Heal network finished");
-      }
     });
   };
 
@@ -47276,7 +47395,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "8043" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "16299" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -27,6 +27,7 @@ const deviceIdRegex = /Node_(\d+)$/;
 const deviceStatusRegex = /Node_(\d+)\.status$/;
 const inclusionRegex = /info\.inclusion$/;
 const exclusionRegex = /info\.exclusion$/;
+const healNetworkRegex = /info\.healingNetwork$/;
 
 async function loadDevices(): Promise<Record<number, Device>> {
 	return new Promise((resolve, reject) => {
@@ -103,6 +104,15 @@ async function setExclusionStatus(active: boolean): Promise<void> {
 		socket.emit("setState", stateId, active, (err, result) => {
 			if (err) reject(err);
 			resolve();
+		});
+	});
+}
+
+async function pollHealingStatus(): Promise<any> {
+	return new Promise<any>((resolve, reject) => {
+		sendTo(null, "healNetworkPoll", null, ({ error, result }) => {
+			if (error) reject(error);
+			resolve(result);
 		});
 	});
 }
@@ -187,6 +197,8 @@ export class Devices extends React.Component<{}, DevicesState> {
 				this.setState({ inclusion: !!state.val });
 			} else if (id.match(exclusionRegex)) {
 				this.setState({ exclusion: !!state.val });
+			} else if (id.match(healNetworkRegex)) {
+				this.setState({ healNetwork: !!state.val });
 			}
 		});
 	}
@@ -197,13 +209,25 @@ export class Devices extends React.Component<{}, DevicesState> {
 	}
 
 	private healNetwork() {
-		this.setState({ healNetwork: true });
-		sendTo(null, "healNetwork", null, ({ error, result }) => {
-			this.setState({ healNetwork: false });
+		sendTo(null, "healNetwork", null, async ({ error, result }) => {
 			if (error) {
-				console.error(error);
-			} else {
-				alert(`Heal network finished`);
+				alert(error);
+			} else if (result === "ok") {
+				alert(`Heal network started`);
+				// Begin polling
+				while (this.state.healNetwork) {
+					try {
+						const result = await pollHealingStatus();
+						console.log(`Healing status:`);
+						console.log(result);
+						if (result.type === "done") {
+							alert("Heal network done!");
+							break;
+						}
+					} catch (e) {
+						console.error(`Error while polling: ${e}`);
+					}
+				}
 			}
 		});
 	}
