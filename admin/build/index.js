@@ -46956,7 +46956,7 @@ function (_super) {
 
   Devices.prototype.componentDidMount = function () {
     return __awaiter(this, void 0, void 0, function () {
-      var devices;
+      var devices, inclusion, exclusion;
 
       var _this = this;
 
@@ -46970,8 +46970,22 @@ function (_super) {
 
           case 1:
             devices = _a.sent();
+            return [4
+            /*yield*/
+            , getInclusionStatus()];
+
+          case 2:
+            inclusion = _a.sent();
+            return [4
+            /*yield*/
+            , getExclusionStatus()];
+
+          case 3:
+            exclusion = _a.sent();
             this.setState({
-              devices: devices
+              devices: devices,
+              inclusion: inclusion,
+              exclusion: exclusion
             }); // subscribe to changes
 
             socket.emit("subscribeObjects", namespace + ".*");
@@ -47395,7 +47409,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "16299" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "6636" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

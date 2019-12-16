@@ -184,9 +184,6 @@ class Zwave2 extends utils.Adapter {
 	private async onHealNetworkProgress(
 		progress: ReadonlyMap<number, boolean>,
 	): Promise<void> {
-		this.log.info(
-			`onHealNetworkProgress. ${JSON.stringify([...progress])}`,
-		);
 		const allDone = [...progress.values()].every(v => v === true);
 		// If this is the final progress report, skip it, so the frontend gets the "done" message
 		if (allDone) return;
@@ -199,7 +196,6 @@ class Zwave2 extends utils.Adapter {
 	private async onHealNetworkDone(
 		result: ReadonlyMap<number, boolean>,
 	): Promise<void> {
-		this.log.info("onHealNetworkDone");
 		this.respondToHealNetworkPoll({
 			type: "done",
 			progress: mapToRecord(result),
@@ -509,18 +505,23 @@ class Zwave2 extends utils.Adapter {
 		}
 	}
 
+	// This is used to store responses if something changed between two calls
+	private healNetworkPollResponse: NetworkHealPollResponse | undefined;
+	// This is used to store the callback if there was no response yet
 	private healNetworkPollCallback:
 		| ((response: NetworkHealPollResponse) => void)
 		| undefined;
 
 	/** Responds to a pending poll from the frontend (if there is a message outstanding) */
 	private respondToHealNetworkPoll(response: NetworkHealPollResponse): void {
-		this.log.info(
-			"respondToHealNetworkPoll. callback exists: " +
-				!!this.healNetworkPollCallback,
-		);
-		this.healNetworkPollCallback?.(response);
-		this.healNetworkPollCallback = undefined;
+		if (typeof this.healNetworkPollCallback === "function") {
+			// If the client is waiting for a response, send it immediately
+			this.healNetworkPollCallback(response);
+			this.healNetworkPollCallback = undefined;
+		} else {
+			// otherwise remember the response for the next call
+			this.healNetworkPollResponse = response;
+		}
 	}
 
 	/**
@@ -598,10 +599,16 @@ class Zwave2 extends utils.Adapter {
 				}
 
 				case "healNetworkPoll": {
-					// only remember the callback for a later response
-					this.log.info("healNetworkPoll");
-					this.respondToHealNetworkPoll = result =>
-						respond(responses.RESULT(result));
+					if (this.healNetworkPollResponse) {
+						// if a response is waiting to be asked for, send it immediately
+						respond(responses.RESULT(this.healNetworkPollResponse));
+						this.healNetworkPollResponse = undefined;
+					} else {
+						// otherwise remember the callback for a later response
+						this.respondToHealNetworkPoll = result =>
+							respond(responses.RESULT(result));
+					}
+
 					return;
 				}
 			}

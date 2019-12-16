@@ -138,7 +138,9 @@ export class Devices extends React.Component<{}, DevicesState> {
 	public async componentDidMount() {
 		namespace = `${adapter}.${instance}`;
 		const devices = await loadDevices();
-		this.setState({ devices });
+		const inclusion = await getInclusionStatus();
+		const exclusion = await getExclusionStatus();
+		this.setState({ devices, inclusion, exclusion });
 
 		// subscribe to changes
 		socket.emit("subscribeObjects", namespace + ".*");
