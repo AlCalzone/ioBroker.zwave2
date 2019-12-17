@@ -21,7 +21,7 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
-### __WORK IN PROGRESS__
+### 0.6.0 (2019-12-17)
 * Improved handling of sleeping nodes
 * New interactive network healing process in the configuration UI
 
