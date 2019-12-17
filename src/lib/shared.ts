@@ -14,3 +14,8 @@ export function mapToRecord<TKey extends string | number | symbol, TValue>(
 	}
 	return ret;
 }
+
+export interface NetworkHealPollResponse {
+	type: "idle" | "done" | "progress";
+	progress?: Record<number, boolean>;
+}

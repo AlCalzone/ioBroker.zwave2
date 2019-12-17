@@ -46533,34 +46533,107 @@ function mapToRecord(map) {
 }
 
 exports.mapToRecord = mapToRecord;
-},{"alcalzone-shared/strings":"../../node_modules/alcalzone-shared/strings/index.js"}],"pages/devices.tsx":[function(require,module,exports) {
+},{"alcalzone-shared/strings":"../../node_modules/alcalzone-shared/strings/index.js"}],"components/modal.tsx":[function(require,module,exports) {
 "use strict";
 
-var __extends = this && this.__extends || function () {
-  var _extendStatics = function extendStatics(d, b) {
-    _extendStatics = Object.setPrototypeOf || {
-      __proto__: []
-    } instanceof Array && function (d, b) {
-      d.__proto__ = b;
-    } || function (d, b) {
-      for (var p in b) {
-        if (b.hasOwnProperty(p)) d[p] = b[p];
-      }
-    };
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+  }
+  result["default"] = mod;
+  return result;
+};
 
-    return _extendStatics(d, b);
-  };
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
-  return function (d, b) {
-    _extendStatics(d, b);
+var React = __importStar(require("react"));
 
-    function __() {
-      this.constructor = d;
+function Modal(props) {
+  var _a, _b;
+
+  var _c = React.useState(),
+      instance = _c[0],
+      setInstance = _c[1];
+
+  var getModalRef = React.useCallback(function (node) {
+    if (node) {
+      setInstance(M.Modal.init(node));
     }
+  }, []);
+  React.useEffect(function () {
+    if (instance) {
+      if (props.open && !instance.isOpen) {
+        instance.open();
+      } else if (!props.open && instance.isOpen) {
+        instance.close();
+      }
+    }
+  }, [props.open]);
+  return React.createElement("div", {
+    id: props.id,
+    ref: getModalRef,
+    className: "modal " + (props.fixedFooter ? "modal-fixed-footer" : "")
+  }, React.createElement("div", {
+    className: "modal-content"
+  }, React.createElement("h4", null, props.title), React.createElement("p", null, props.content)), React.createElement("div", {
+    className: "modal-footer"
+  }, React.createElement("a", {
+    className: "modal-close waves-effect waves-green btn-flat",
+    onClick: function onClick() {
+      return props.onClose(true);
+    }
+  }, (_a = props.yesButtonText, _a !== null && _a !== void 0 ? _a : "OK")), props.hasNoButton && React.createElement("a", {
+    className: "modal-close waves-effect waves-green btn-flat",
+    onClick: function onClick() {
+      return props.onClose(false);
+    }
+  }, (_b = props.noButtonText, _b !== null && _b !== void 0 ? _b : "Cancel"))));
+}
 
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-  };
-}();
+exports.Modal = Modal;
+},{"react":"../../node_modules/react/index.js"}],"lib/stateWithRefs.ts":[function(require,module,exports) {
+"use strict";
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+  }
+  result["default"] = mod;
+  return result;
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var React = __importStar(require("react"));
+
+function useStateWithRef(initialState) {
+  // Create the state as usual
+  var _a = React.useState(initialState),
+      state = _a[0],
+      setState = _a[1]; // Create a ref that points to the current state
+
+
+  var stateRef = React.useRef(initialState); // And update it whenever state changes
+
+  React.useEffect(function () {
+    stateRef.current = state;
+  }, [state]);
+  return [state, stateRef, setState];
+}
+
+exports.useStateWithRef = useStateWithRef;
+},{"react":"../../node_modules/react/index.js"}],"pages/devices.tsx":[function(require,module,exports) {
+"use strict";
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 var __assign = this && this.__assign || function () {
   __assign = Object.assign || function (t) {
@@ -46738,6 +46811,10 @@ Object.defineProperty(exports, "__esModule", {
 var React = __importStar(require("react"));
 
 var shared_1 = require("../../../src/lib/shared");
+
+var modal_1 = require("../components/modal");
+
+var stateWithRefs_1 = require("../lib/stateWithRefs");
 
 var namespace;
 
@@ -46920,6 +46997,85 @@ function setExclusionStatus(active) {
   });
 }
 
+function getHealingStatus() {
+  return __awaiter(this, void 0, Promise, function () {
+    return __generator(this, function (_a) {
+      return [2
+      /*return*/
+      , new Promise(function (resolve, reject) {
+        var stateId = namespace + ".info.healingNetwork"; // retrieve all devices
+
+        socket.emit("getState", stateId, function (err, state) {
+          var _a;
+
+          if (err) reject(err);
+          resolve((_a = state) === null || _a === void 0 ? void 0 : _a.val);
+        });
+      })];
+    });
+  });
+}
+
+function beginHealingNetwork() {
+  return __awaiter(this, void 0, Promise, function () {
+    var _this = this;
+
+    return __generator(this, function (_a) {
+      return [2
+      /*return*/
+      , new Promise(function (resolve, reject) {
+        sendTo(null, "beginHealingNetwork", null, function (_a) {
+          var error = _a.error,
+              result = _a.result;
+          return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_b) {
+              if (result === "ok") {
+                resolve();
+              } else {
+                reject(error !== null && error !== void 0 ? error : result);
+              }
+
+              return [2
+              /*return*/
+              ];
+            });
+          });
+        });
+      })];
+    });
+  });
+}
+
+function stopHealingNetwork() {
+  return __awaiter(this, void 0, Promise, function () {
+    var _this = this;
+
+    return __generator(this, function (_a) {
+      return [2
+      /*return*/
+      , new Promise(function (resolve, reject) {
+        sendTo(null, "stopHealingNetwork", null, function (_a) {
+          var error = _a.error,
+              result = _a.result;
+          return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_b) {
+              if (result === "ok") {
+                resolve();
+              } else {
+                reject(error !== null && error !== void 0 ? error : result);
+              }
+
+              return [2
+              /*return*/
+              ];
+            });
+          });
+        });
+      })];
+    });
+  });
+}
+
 function pollHealingStatus() {
   return __awaiter(this, void 0, Promise, function () {
     return __generator(this, function (_a) {
@@ -46937,329 +47093,456 @@ function pollHealingStatus() {
   });
 }
 
-var Devices =
-/** @class */
-function (_super) {
-  __extends(Devices, _super);
-
-  function Devices(props) {
-    var _this = _super.call(this, props) || this;
-
-    _this.state = {
-      devices: undefined,
-      inclusion: false,
-      exclusion: false,
-      healNetwork: false
-    };
-    return _this;
-  }
-
-  Devices.prototype.componentDidMount = function () {
-    return __awaiter(this, void 0, void 0, function () {
-      var devices, inclusion, exclusion;
-
-      var _this = this;
-
-      return __generator(this, function (_a) {
-        switch (_a.label) {
-          case 0:
-            namespace = adapter + "." + instance;
-            return [4
-            /*yield*/
-            , loadDevices()];
-
-          case 1:
-            devices = _a.sent();
-            return [4
-            /*yield*/
-            , getInclusionStatus()];
-
-          case 2:
-            inclusion = _a.sent();
-            return [4
-            /*yield*/
-            , getExclusionStatus()];
-
-          case 3:
-            exclusion = _a.sent();
-            this.setState({
-              devices: devices,
-              inclusion: inclusion,
-              exclusion: exclusion
-            }); // subscribe to changes
-
-            socket.emit("subscribeObjects", namespace + ".*");
-            socket.emit("subscribeStates", namespace + ".*");
-            socket.on("objectChange", function (id, obj) {
-              return __awaiter(_this, void 0, void 0, function () {
-                var nodeId_1, device_1, _a, nodeId_2;
-
-                return __generator(this, function (_b) {
-                  switch (_b.label) {
-                    case 0:
-                      if (!id.startsWith(namespace) || !deviceIdRegex.test(id)) return [2
-                      /*return*/
-                      ];
-                      if (!obj) return [3
-                      /*break*/
-                      , 3];
-                      if (!(obj.type === "device" && typeof obj.native.id === "number")) return [3
-                      /*break*/
-                      , 2];
-                      nodeId_1 = obj.native.id;
-                      _a = {
-                        id: id,
-                        value: obj
-                      };
-                      return [4
-                      /*yield*/
-                      , getNodeStatus(nodeId_1)];
-
-                    case 1:
-                      device_1 = (_a.status = _b.sent(), _a);
-                      this.setState(function (state) {
-                        var _a;
-
-                        return {
-                          devices: __assign(__assign({}, state.devices), (_a = {}, _a[nodeId_1] = device_1, _a))
-                        };
-                      });
-                      _b.label = 2;
-
-                    case 2:
-                      return [3
-                      /*break*/
-                      , 4];
-
-                    case 3:
-                      nodeId_2 = parseInt(deviceIdRegex.exec(id)[1], 10);
-                      this.setState(function (state) {
-                        var devices = __assign({}, state.devices);
-
-                        delete devices[nodeId_2];
-                        return {
-                          devices: devices
-                        };
-                      });
-                      _b.label = 4;
-
-                    case 4:
-                      return [2
-                      /*return*/
-                      ];
-                  }
-                });
-              });
-            });
-            socket.on("stateChange", function (id, state) {
-              return __awaiter(_this, void 0, void 0, function () {
-                var nodeId_3;
-                return __generator(this, function (_a) {
-                  if (!id.startsWith(namespace)) return [2
-                  /*return*/
-                  ];
-                  if (!state || !state.ack) return [2
-                  /*return*/
-                  ];
-
-                  if (id.match(deviceStatusRegex)) {
-                    nodeId_3 = parseInt(deviceStatusRegex.exec(id)[1], 10);
-                    this.setState(function (s) {
-                      var _a;
-
-                      var _b;
-
-                      var device = (_b = s.devices) === null || _b === void 0 ? void 0 : _b[nodeId_3];
-                      if (device) device.status = state.val;
-                      return {
-                        devices: __assign(__assign({}, s.devices), (_a = {}, _a[nodeId_3] = device, _a))
-                      };
-                    });
-                  } else if (id.match(inclusionRegex)) {
-                    this.setState({
-                      inclusion: !!state.val
-                    });
-                  } else if (id.match(exclusionRegex)) {
-                    this.setState({
-                      exclusion: !!state.val
-                    });
-                  } else if (id.match(healNetworkRegex)) {
-                    this.setState({
-                      healNetwork: !!state.val
-                    });
-                  }
-
-                  return [2
-                  /*return*/
-                  ];
-                });
-              });
-            });
-            return [2
-            /*return*/
-            ];
-        }
-      });
-    });
-  };
-
-  Devices.prototype.componentWillUnmount = function () {
-    socket.emit("unsubscribeObjects", namespace + ".*");
-    socket.emit("unsubscribeStates", namespace + ".*");
-  };
-
-  Devices.prototype.healNetwork = function () {
+function subscribeObjectsAsync(pattern) {
+  return __awaiter(this, void 0, Promise, function () {
     var _this = this;
 
-    sendTo(null, "healNetwork", null, function (_a) {
-      var error = _a.error,
-          result = _a.result;
+    return __generator(this, function (_a) {
+      return [2
+      /*return*/
+      , new Promise(function (resolve, reject) {
+        socket.emit("subscribeObjects", pattern, function (error) {
+          return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+              if (error) reject(error);
+              resolve();
+              return [2
+              /*return*/
+              ];
+            });
+          });
+        });
+      })];
+    });
+  });
+}
+
+function subscribeStatesAsync(pattern) {
+  return __awaiter(this, void 0, Promise, function () {
+    var _this = this;
+
+    return __generator(this, function (_a) {
+      return [2
+      /*return*/
+      , new Promise(function (resolve, reject) {
+        socket.emit("subscribeStates", pattern, function (error) {
+          return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+              if (error) reject(error);
+              resolve();
+              return [2
+              /*return*/
+              ];
+            });
+          });
+        });
+      })];
+    });
+  });
+}
+
+function getDefaultMessageProps() {
+  return {
+    open: false,
+    title: "",
+    content: ""
+  };
+}
+
+function Devices(props) {
+  var _this = this; // Because the useEffect callback captures stale state, we need to use a ref for all state that is required in the hook
+
+
+  var _a = stateWithRefs_1.useStateWithRef(),
+      devices = _a[0],
+      devicesRef = _a[1],
+      setDevices = _a[2];
+
+  var _b = React.useState(false),
+      inclusion = _b[0],
+      setInclusion = _b[1];
+
+  var _c = React.useState(false),
+      exclusion = _c[0],
+      setExclusion = _c[1];
+
+  var _d = React.useState(false),
+      healingNetwork = _d[0],
+      setHealingNetwork = _d[1];
+
+  var _e = React.useState(getDefaultMessageProps()),
+      message = _e[0],
+      setMessage = _e[1];
+
+  var _f = React.useState({}),
+      networkHealProgress = _f[0],
+      setNetworkHealProgress = _f[1];
+
+  function hideMessage() {
+    setMessage(getDefaultMessageProps());
+  }
+
+  function showMessage(title, content) {
+    setMessage({
+      open: true,
+      title: title,
+      content: content
+    });
+  }
+
+  React.useEffect(function () {
+    // componentDidMount
+    (function () {
       return __awaiter(_this, void 0, void 0, function () {
-        var result_1, e_1;
-        return __generator(this, function (_b) {
-          switch (_b.label) {
+        var _a, _b, _c, _d;
+
+        var _this = this;
+
+        return __generator(this, function (_e) {
+          switch (_e.label) {
             case 0:
-              if (!error) return [3
-              /*break*/
-              , 1];
-              alert(error);
-              return [3
-              /*break*/
-              , 7];
+              namespace = adapter + "." + instance;
+              hideMessage(); // subscribe to changes
+
+              console.warn("subscribe: " + (namespace + ".*"));
+              return [4
+              /*yield*/
+              , subscribeObjectsAsync(namespace + ".*")];
 
             case 1:
-              if (!(result === "ok")) return [3
-              /*break*/
-              , 7];
-              alert("Heal network started");
-              _b.label = 2;
-
-            case 2:
-              if (!this.state.healNetwork) return [3
-              /*break*/
-              , 7];
-              _b.label = 3;
-
-            case 3:
-              _b.trys.push([3, 5,, 6]);
+              _e.sent();
 
               return [4
               /*yield*/
-              , pollHealingStatus()];
+              , subscribeStatesAsync(namespace + ".*")];
+
+            case 2:
+              _e.sent(); // And unsubscribe when the page is unloaded
+
+
+              window.addEventListener("unload", function () {
+                console.warn("unsubscribe: " + (namespace + ".*"));
+                socket.emit("unsubscribeObjects", namespace + ".*");
+                socket.emit("unsubscribeStates", namespace + ".*");
+              });
+              _a = setDevices;
+              return [4
+              /*yield*/
+              , loadDevices()];
+
+            case 3:
+              _a.apply(void 0, [_e.sent()]);
+
+              _b = setInclusion;
+              return [4
+              /*yield*/
+              , getInclusionStatus()];
 
             case 4:
-              result_1 = _b.sent();
-              console.log("Healing status:");
-              console.log(result_1);
+              _b.apply(void 0, [_e.sent()]);
 
-              if (result_1.type === "done") {
-                alert("Heal network done!");
-                return [3
-                /*break*/
-                , 7];
-              }
-
-              return [3
-              /*break*/
-              , 6];
+              _c = setExclusion;
+              return [4
+              /*yield*/
+              , getExclusionStatus()];
 
             case 5:
-              e_1 = _b.sent();
-              console.error("Error while polling: " + e_1);
-              return [3
-              /*break*/
-              , 6];
+              _c.apply(void 0, [_e.sent()]);
+
+              _d = setHealingNetwork;
+              return [4
+              /*yield*/
+              , getHealingStatus()];
 
             case 6:
-              return [3
-              /*break*/
-              , 2];
+              _d.apply(void 0, [_e.sent()]);
 
-            case 7:
+              socket.on("objectChange", function (id, obj) {
+                return __awaiter(_this, void 0, void 0, function () {
+                  var nodeId, device, _a, nodeId, newDevices;
+
+                  var _b;
+
+                  return __generator(this, function (_c) {
+                    switch (_c.label) {
+                      case 0:
+                        if (!id.startsWith(namespace) || !deviceIdRegex.test(id)) return [2
+                        /*return*/
+                        ];
+                        if (!obj) return [3
+                        /*break*/
+                        , 3];
+                        if (!(obj.type === "device" && typeof obj.native.id === "number")) return [3
+                        /*break*/
+                        , 2];
+                        nodeId = obj.native.id;
+                        _a = {
+                          id: id,
+                          value: obj
+                        };
+                        return [4
+                        /*yield*/
+                        , getNodeStatus(nodeId)];
+
+                      case 1:
+                        device = (_a.status = _c.sent(), _a);
+                        setDevices(__assign(__assign({}, devicesRef.current), (_b = {}, _b[nodeId] = device, _b)));
+                        _c.label = 2;
+
+                      case 2:
+                        return [3
+                        /*break*/
+                        , 4];
+
+                      case 3:
+                        nodeId = parseInt(deviceIdRegex.exec(id)[1], 10);
+                        newDevices = __assign({}, devicesRef.current);
+                        delete newDevices[nodeId];
+                        setDevices(newDevices);
+                        _c.label = 4;
+
+                      case 4:
+                        return [2
+                        /*return*/
+                        ];
+                    }
+                  });
+                });
+              });
+              socket.on("stateChange", function (id, state) {
+                return __awaiter(_this, void 0, void 0, function () {
+                  var nodeId, updatedDevice;
+
+                  var _a;
+
+                  var _b;
+
+                  return __generator(this, function (_c) {
+                    if (!id.startsWith(namespace)) return [2
+                    /*return*/
+                    ];
+                    if (!state || !state.ack) return [2
+                    /*return*/
+                    ];
+
+                    if (id.match(deviceStatusRegex)) {
+                      nodeId = parseInt(deviceStatusRegex.exec(id)[1], 10);
+                      updatedDevice = (_b = devicesRef.current) === null || _b === void 0 ? void 0 : _b[nodeId];
+
+                      if (updatedDevice) {
+                        updatedDevice.status = state.val;
+                        setDevices(__assign(__assign({}, devicesRef.current), (_a = {}, _a[nodeId] = updatedDevice, _a)));
+                      }
+                    } else if (id.match(inclusionRegex)) {
+                      setInclusion(!!state.val);
+                    } else if (id.match(exclusionRegex)) {
+                      setExclusion(!!state.val);
+                    } else if (id.match(healNetworkRegex)) {
+                      setHealingNetwork(!!state.val);
+                    }
+
+                    return [2
+                    /*return*/
+                    ];
+                  });
+                });
+              });
               return [2
               /*return*/
               ];
           }
         });
       });
+    })();
+  }, []);
+
+  function healNetwork() {
+    return __awaiter(this, void 0, void 0, function () {
+      var e_1;
+      return __generator(this, function (_a) {
+        switch (_a.label) {
+          case 0:
+            if (!!healingNetwork) return [3
+            /*break*/
+            , 4];
+            _a.label = 1;
+
+          case 1:
+            _a.trys.push([1, 3,, 4]);
+
+            setNetworkHealProgress({});
+            return [4
+            /*yield*/
+            , beginHealingNetwork()];
+
+          case 2:
+            _a.sent();
+
+            return [3
+            /*break*/
+            , 4];
+
+          case 3:
+            e_1 = _a.sent();
+            showMessage(_("Error"), e_1);
+            return [2
+            /*return*/
+            ];
+
+          case 4:
+            return [2
+            /*return*/
+            ];
+        }
+      });
     });
-  };
+  } // Poll the healing progress while the dialog is visible and we're healing
 
-  Devices.prototype.render = function () {
-    var _this = this;
 
-    var devices = [];
+  var _g = React.useState(false),
+      isPolling = _g[0],
+      setIsPolling = _g[1];
 
-    if (this.state.devices) {
-      for (var _i = 0, _a = Object.keys(this.state.devices); _i < _a.length; _i++) {
-        var nodeId = _a[_i];
-        var device = this.state.devices[nodeId];
-        if (device) devices.push(device);
-      }
+  React.useEffect(function () {
+    (function () {
+      return __awaiter(_this, void 0, void 0, function () {
+        var result, e_2;
+
+        var _a;
+
+        return __generator(this, function (_b) {
+          switch (_b.label) {
+            case 0:
+              if (!(healingNetwork && !isPolling)) return [3
+              /*break*/
+              , 4];
+              setIsPolling(true);
+              _b.label = 1;
+
+            case 1:
+              _b.trys.push([1, 3,, 4]);
+
+              return [4
+              /*yield*/
+              , pollHealingStatus()];
+
+            case 2:
+              result = _b.sent();
+              setNetworkHealProgress((_a = result.progress, _a !== null && _a !== void 0 ? _a : {}));
+
+              if (result.type === "done") {
+                showMessage(_("Done!"), _("Healing the network was successful!"));
+              } else {
+                // Kick off the next poll
+                setIsPolling(false);
+              }
+
+              return [3
+              /*break*/
+              , 4];
+
+            case 3:
+              e_2 = _b.sent();
+              console.error("Error while polling: " + e_2); // Kick of the next poll
+
+              setIsPolling(false);
+              return [3
+              /*break*/
+              , 4];
+
+            case 4:
+              return [2
+              /*return*/
+              ];
+          }
+        });
+      });
+    })();
+  }, [isPolling, healingNetwork]);
+  var devicesAsArray = [];
+
+  if (devices) {
+    for (var _i = 0, _h = Object.keys(devices); _i < _h.length; _i++) {
+      var nodeId = _h[_i];
+      var device = devices[nodeId];
+      if (device) devicesAsArray.push(device);
     }
+  }
 
-    return React.createElement(React.Fragment, null, React.createElement("div", {
-      id: "device-controls"
-    }, this.state.inclusion ? React.createElement("a", {
-      className: "waves-effect waves-light btn",
-      onClick: function onClick() {
-        return setInclusionStatus(false);
-      }
-    }, React.createElement("i", {
-      className: "material-icons left"
-    }, "cancel"), _("Cancel inclusion")) : React.createElement("a", {
-      className: "waves-effect waves-light btn " + (this.state.exclusion ? "disabled" : ""),
-      onClick: function onClick() {
-        return setInclusionStatus(true);
-      }
-    }, React.createElement("i", {
-      className: "material-icons left"
-    }, "add"), _("Include device")), " ", this.state.exclusion ? React.createElement("a", {
-      className: "waves-effect waves-light btn",
-      onClick: function onClick() {
-        return setExclusionStatus(false);
-      }
-    }, React.createElement("i", {
-      className: "material-icons left"
-    }, "cancel"), _("Cancel exclusion")) : React.createElement("a", {
-      className: "waves-effect waves-light btn " + (this.state.inclusion ? "disabled" : ""),
-      onClick: function onClick() {
-        return setExclusionStatus(true);
-      }
-    }, React.createElement("i", {
-      className: "material-icons left"
-    }, "remove"), _("Exclude device")), " ", React.createElement("a", {
-      className: "waves-effect waves-light btn " + (this.state.healNetwork ? "disabled" : ""),
-      onClick: function onClick() {
-        return _this.healNetwork();
-      }
-    }, React.createElement("i", {
-      className: "material-icons left"
-    }, "network_check"), _("Heal network"))), React.createElement("div", {
-      className: "divider"
-    }), React.createElement("table", null, React.createElement("thead", null, React.createElement("tr", null, React.createElement("td", null, "#"), React.createElement("td", null, _("Name")), React.createElement("td", null, _("Type")), React.createElement("td", null, _("Status")))), React.createElement("tbody", null, devices.length ? devices.map(function (_a) {
-      var id = _a.id,
-          value = _a.value,
-          status = _a.status;
-      return React.createElement("tr", {
-        key: id
-      }, React.createElement("td", null, value.native.id), React.createElement("td", null, value.common.name), React.createElement("td", null, value.native.type.basic), React.createElement("td", null, React.createElement("i", {
-        className: "material-icons",
-        title: _(status !== null && status !== void 0 ? status : "unknown")
-      }, statusToIconName(status))));
-    }) : React.createElement("tr", null, React.createElement("td", {
-      colSpan: 6,
-      style: {
-        textAlign: "center"
-      }
-    }, _("No devices present"))))));
-  };
+  return React.createElement(React.Fragment, null, React.createElement("div", {
+    id: "device-controls"
+  }, inclusion ? React.createElement("a", {
+    className: "waves-effect waves-light btn red",
+    onClick: function onClick() {
+      return setInclusionStatus(false);
+    }
+  }, React.createElement("i", {
+    className: "material-icons left"
+  }, "cancel"), _("Cancel inclusion")) : React.createElement("a", {
+    className: "waves-effect waves-light btn " + (exclusion ? "disabled" : ""),
+    onClick: function onClick() {
+      return setInclusionStatus(true);
+    }
+  }, React.createElement("i", {
+    className: "material-icons left"
+  }, "add"), _("Include device")), " ", exclusion ? React.createElement("a", {
+    className: "waves-effect waves-light btn red",
+    onClick: function onClick() {
+      return setExclusionStatus(false);
+    }
+  }, React.createElement("i", {
+    className: "material-icons left"
+  }, "cancel"), _("Cancel exclusion")) : React.createElement("a", {
+    className: "waves-effect waves-light btn " + (inclusion ? "disabled" : ""),
+    onClick: function onClick() {
+      return setExclusionStatus(true);
+    }
+  }, React.createElement("i", {
+    className: "material-icons left"
+  }, "remove"), _("Exclude device")), " ", React.createElement("a", {
+    className: "waves-effect waves-light btn " + (healingNetwork ? "red" : ""),
+    onClick: function onClick() {
+      return healingNetwork ? stopHealingNetwork() : healNetwork();
+    }
+  }, React.createElement("i", {
+    className: "material-icons left"
+  }, "network_check"), healingNetwork ? _("Cancel healing") : _("Heal network"))), React.createElement("div", {
+    className: "divider"
+  }), React.createElement("table", null, React.createElement("thead", null, React.createElement("tr", null, React.createElement("td", null, "#"), React.createElement("td", null, _("Name")), React.createElement("td", null, _("Type")), React.createElement("td", null, _("Status")))), React.createElement("tbody", null, devicesAsArray.length ? devicesAsArray.map(function (_a) {
+    var id = _a.id,
+        value = _a.value,
+        status = _a.status;
 
-  return Devices;
-}(React.Component);
+    var _b;
+
+    var nodeId = value.native.id;
+    var deviceHealed = (_b = networkHealProgress[nodeId], _b !== null && _b !== void 0 ? _b : false);
+    return React.createElement("tr", {
+      key: nodeId
+    }, React.createElement("td", null, nodeId), React.createElement("td", null, value.common.name), React.createElement("td", null, value.native.type.basic), React.createElement("td", null, React.createElement("i", {
+      className: "material-icons",
+      title: _(status !== null && status !== void 0 ? status : "unknown")
+    }, statusToIconName(status)), healingNetwork && React.createElement(React.Fragment, null, " ", React.createElement("i", {
+      className: "material-icons " + (deviceHealed ? "green-text text-darken-4" : "light-blue-text text-accent-4 working"),
+      title: deviceHealed ? _("done") : _("pending")
+    }, deviceHealed ? "done" : "autorenew"))));
+  }) : React.createElement("tr", null, React.createElement("td", {
+    colSpan: 6,
+    style: {
+      textAlign: "center"
+    }
+  }, _("No devices present"))))), React.createElement(modal_1.Modal, _extends({
+    id: "errorMsg",
+    yesButtonText: "OK"
+  }, message, {
+    onClose: function onClose() {
+      return hideMessage();
+    }
+  })));
+}
 
 exports.Devices = Devices;
-},{"react":"../../node_modules/react/index.js","../../../src/lib/shared":"../../src/lib/shared.ts"}],"index.tsx":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","../../../src/lib/shared":"../../src/lib/shared.ts","../components/modal":"components/modal.tsx","../lib/stateWithRefs":"lib/stateWithRefs.ts"}],"index.tsx":[function(require,module,exports) {
 "use strict";
 
 var __extends = this && this.__extends || function () {
@@ -47409,7 +47692,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "6636" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "28736" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

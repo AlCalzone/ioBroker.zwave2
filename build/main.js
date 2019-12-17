@@ -425,8 +425,8 @@ class Zwave2 extends utils.Adapter {
                     respond(responses.RESULT(ports));
                     return;
                 }
-                case "healNetwork": {
-                    const result = this.driver.controller.beginHealNetwork();
+                case "beginHealingNetwork": {
+                    const result = this.driver.controller.beginHealingNetwork();
                     if (result) {
                         respond(responses.OK);
                         this.setState("info.healingNetwork", true, true);
@@ -434,6 +434,12 @@ class Zwave2 extends utils.Adapter {
                     else {
                         respond(responses.COMMAND_ACTIVE);
                     }
+                    return;
+                }
+                case "stopHealingNetwork": {
+                    this.driver.controller.stopHealingNetwork();
+                    respond(responses.OK);
+                    this.setState("info.healingNetwork", false, true);
                     return;
                 }
                 case "healNetworkPoll": {

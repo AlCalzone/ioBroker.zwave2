@@ -22,7 +22,11 @@ import {
 	removeValue,
 	setNodeStatus,
 } from "./lib/objects";
-import { computeDeviceId, mapToRecord } from "./lib/shared";
+import {
+	computeDeviceId,
+	mapToRecord,
+	NetworkHealPollResponse,
+} from "./lib/shared";
 
 // Augment the adapter.config object with the actual types
 declare global {
@@ -32,11 +36,6 @@ declare global {
 			serialport: string;
 		}
 	}
-}
-
-interface NetworkHealPollResponse {
-	type: "idle" | "done" | "progress";
-	progress?: Record<number, boolean>;
 }
 
 class Zwave2 extends utils.Adapter {
@@ -587,14 +586,21 @@ class Zwave2 extends utils.Adapter {
 					return;
 				}
 
-				case "healNetwork": {
-					const result = this.driver.controller.beginHealNetwork();
+				case "beginHealingNetwork": {
+					const result = this.driver.controller.beginHealingNetwork();
 					if (result) {
 						respond(responses.OK);
 						this.setState("info.healingNetwork", true, true);
 					} else {
 						respond(responses.COMMAND_ACTIVE);
 					}
+					return;
+				}
+
+				case "stopHealingNetwork": {
+					this.driver.controller.stopHealingNetwork();
+					respond(responses.OK);
+					this.setState("info.healingNetwork", false, true);
 					return;
 				}
 
