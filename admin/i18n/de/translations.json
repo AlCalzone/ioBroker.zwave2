@@ -1,10 +1,15 @@
 {
 	"Cancel exclusion": "Ausschluss aufheben",
+	"Cancel healing": "Heilung abbrechen",
 	"Cancel inclusion": "Einbinden abbrechen",
 	"Devices": "Geräte",
+	"Done!": "Fertig!",
+	"Error": "Fehler",
 	"Exclude device": "Gerät entfernen",
 	"Heal network": "Netzwerk heilen",
 	"Heal network finished": "Netzwerkheilung fertig",
+	"Healing network": "Netwerkheilung ...",
+	"Healing the network was successful!": "Heilung des Netzwerks war erfolgreich!",
 	"Include device": "Gerät einbinden",
 	"Name": "Name",
 	"Network map": "Netzwerkkarte",
@@ -17,8 +22,10 @@
 	"asleep": "schläft",
 	"awake": "wach",
 	"dead": "tot",
+	"done": "fertig",
 	"loading...": "Wird geladen...",
 	"none selected": "nichts ausgewählt",
+	"pending": "warte...",
 	"unknown": "unbekannt",
 	"zwave2 adapter settings": "Adaptereinstellungen für Z-Wave 2"
 }

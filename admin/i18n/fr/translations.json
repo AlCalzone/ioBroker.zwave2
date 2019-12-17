@@ -1,10 +1,15 @@
 {
     "Cancel exclusion": "Annuler l'exclusion",
+    "Cancel healing": "Annuler la guérison",
     "Cancel inclusion": "Annuler l'inclusion",
     "Devices": "Dispositifs",
+    "Done!": "Terminé!",
+    "Error": "Erreur",
     "Exclude device": "Exclure un appareil",
     "Heal network": "Guérir réseau",
     "Heal network finished": "Guérir réseau fini",
+    "Healing network": "Réseau de guérison ...",
+    "Healing the network was successful!": "La guérison du réseau a réussi!",
     "Include device": "Inclure l'appareil",
     "Name": "prénom",
     "Network map": "Carte du réseau",
@@ -17,8 +22,10 @@
     "asleep": "endormi",
     "awake": "éveillé",
     "dead": "mort",
+    "done": "terminé",
     "loading...": "chargement...",
     "none selected": "aucune sélection",
+    "pending": "en attendant",
     "unknown": "inconnu",
     "zwave2 adapter settings": "Paramètres d'adaptateur pour zwave2"
 }
