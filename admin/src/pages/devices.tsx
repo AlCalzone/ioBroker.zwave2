@@ -216,12 +216,10 @@ export function Devices(props: any) {
 			hideMessage();
 
 			// subscribe to changes
-			console.warn(`subscribe: ${namespace + ".*"}`);
 			await subscribeObjectsAsync(namespace + ".*");
 			await subscribeStatesAsync(namespace + ".*");
 			// And unsubscribe when the page is unloaded
 			window.addEventListener("unload", () => {
-				console.warn(`unsubscribe: ${namespace + ".*"}`);
 				socket.emit("unsubscribeObjects", namespace + ".*");
 				socket.emit("unsubscribeStates", namespace + ".*");
 			});

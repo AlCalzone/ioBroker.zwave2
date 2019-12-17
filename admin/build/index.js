@@ -47204,12 +47204,12 @@ function Devices(props) {
               namespace = adapter + "." + instance;
               hideMessage(); // subscribe to changes
 
-              console.warn("subscribe: " + (namespace + ".*"));
               return [4
               /*yield*/
               , subscribeObjectsAsync(namespace + ".*")];
 
             case 1:
+              // subscribe to changes
               _e.sent();
 
               return [4
@@ -47221,7 +47221,6 @@ function Devices(props) {
 
 
               window.addEventListener("unload", function () {
-                console.warn("unsubscribe: " + (namespace + ".*"));
                 socket.emit("unsubscribeObjects", namespace + ".*");
                 socket.emit("unsubscribeStates", namespace + ".*");
               });
