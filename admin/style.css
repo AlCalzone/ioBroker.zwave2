@@ -75,3 +75,25 @@ thead td {
 	/* The positioning for dropdown labels is messed up */
 	transform: none !important;
 }
+
+.modal h4 {
+	background: none;
+}
+
+i.material-icons.working {
+	animation: rotation 1.5s infinite ease-in-out;
+	animation-fill-mode: forwards;
+}
+
+@keyframes rotation {
+	0% {
+		transform: rotate(0deg);
+	}
+	95% {
+		transform: rotate(720deg);
+		animation-fill-mode: none;
+	}
+	95.1% {
+		transform: rotate(0deg);
+	}
+}

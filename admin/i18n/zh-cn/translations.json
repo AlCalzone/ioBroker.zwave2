@@ -1,10 +1,15 @@
 {
     "Cancel exclusion": "取消排除",
+    "Cancel healing": "取消治疗",
     "Cancel inclusion": "取消收录",
     "Devices": "设备",
+    "Done!": "做完了！",
+    "Error": "错误",
     "Exclude device": "排除装置",
     "Heal network": "医治网络",
     "Heal network finished": "愈合的网络中完成的",
+    "Healing network": "修复网络...",
+    "Healing the network was successful!": "网络修复成功！",
     "Include device": "包含装置",
     "Name": "名称",
     "Network map": "网络图",
@@ -17,8 +22,10 @@
     "asleep": "睡着了",
     "awake": "苏醒",
     "dead": "死",
+    "done": "完成",
     "loading...": "载入中...",
     "none selected": "未选择",
+    "pending": "待定",
     "unknown": "未知",
     "zwave2 adapter settings": "zwave2的适配器设置"
 }

@@ -1,10 +1,15 @@
 {
     "Cancel exclusion": "Cancel exclusion",
+    "Cancel healing": "Cancel healing",
     "Cancel inclusion": "Cancel inclusion",
     "Devices": "Devices",
+    "Done!": "Done!",
+    "Error": "Error",
     "Exclude device": "Exclude device",
     "Heal network": "Heal network",
     "Heal network finished": "Heal network finished",
+    "Healing network": "Healing network...",
+    "Healing the network was successful!": "Healing the network was successful!",
     "Include device": "Include device",
     "Name": "Name",
     "Network map": "Network map",
@@ -17,8 +22,10 @@
     "asleep": "asleep",
     "awake": "awake",
     "dead": "dead",
+    "done": "done",
     "loading...": "loading...",
     "none selected": "none selected",
+    "pending": "pending",
     "unknown": "unknown",
     "zwave2 adapter settings": "Adapter settings for Z-Wave 2"
 }

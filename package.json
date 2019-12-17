@@ -27,8 +27,8 @@
   ],
   "dependencies": {
     "@iobroker/adapter-core": "^1.0.3",
-    "alcalzone-shared": "^2.1.1",
-    "zwave-js": "^2.3.0"
+    "alcalzone-shared": "^2.2.0",
+    "zwave-js": "^2.4.0-beta.1"
   },
   "devDependencies": {
     "@alcalzone/release-script": "^1.0.0",

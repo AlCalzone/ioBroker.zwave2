@@ -1,10 +1,15 @@
 {
     "Cancel exclusion": "Uitsluiting annuleren",
+    "Cancel healing": "Annuleer genezing",
     "Cancel inclusion": "Annuleer opname",
     "Devices": "apparaten",
+    "Done!": "Gedaan!",
+    "Error": "Fout",
     "Exclude device": "Apparaat uitsluiten",
     "Heal network": "Helen netwerk",
     "Heal network finished": "Helen netwerk klaar",
+    "Healing network": "Healing netwerk ...",
+    "Healing the network was successful!": "Het netwerk helen was succesvol!",
     "Include device": "Apparaat opnemen",
     "Name": "Naam",
     "Network map": "Netwerk kaart",
@@ -17,8 +22,10 @@
     "asleep": "in slaap",
     "awake": "wakker",
     "dead": "dood",
+    "done": "gedaan",
     "loading...": "bezig met laden...",
     "none selected": "geen geselecteerd",
+    "pending": "in afwachting",
     "unknown": "onbekend",
     "zwave2 adapter settings": "Adapterinstellingen voor zwave2"
 }

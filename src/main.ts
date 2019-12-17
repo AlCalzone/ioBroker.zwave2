@@ -22,7 +22,11 @@ import {
 	removeValue,
 	setNodeStatus,
 } from "./lib/objects";
-import { computeDeviceId } from "./lib/shared";
+import {
+	computeDeviceId,
+	mapToRecord,
+	NetworkHealPollResponse,
+} from "./lib/shared";
 
 // Augment the adapter.config object with the actual types
 declare global {
@@ -62,6 +66,7 @@ class Zwave2 extends utils.Adapter {
 		this.setState("info.connection", false, true);
 		this.setState(`info.inclusion`, false, true);
 		this.setState(`info.exclusion`, false, true);
+		this.setState("info.healingNetwork", false, true);
 
 		if (!this.config.serialport) {
 			this.log.warn(
@@ -85,7 +90,12 @@ class Zwave2 extends utils.Adapter {
 				.on("inclusion failed", this.onInclusionFailed.bind(this))
 				.on("exclusion failed", this.onExclusionFailed.bind(this))
 				.on("node added", this.onNodeAdded.bind(this))
-				.on("node removed", this.onNodeRemoved.bind(this));
+				.on("node removed", this.onNodeRemoved.bind(this))
+				.on(
+					"heal network progress",
+					this.onHealNetworkProgress.bind(this),
+				)
+				.on("heal network done", this.onHealNetworkDone.bind(this));
 
 			for (const [nodeId, node] of this.driver.controller.nodes) {
 				this.addNodeEventHandlers(node);
@@ -168,6 +178,28 @@ class Zwave2 extends utils.Adapter {
 		node.removeAllListeners();
 
 		await removeNode(node.id);
+	}
+
+	private async onHealNetworkProgress(
+		progress: ReadonlyMap<number, boolean>,
+	): Promise<void> {
+		const allDone = [...progress.values()].every(v => v === true);
+		// If this is the final progress report, skip it, so the frontend gets the "done" message
+		if (allDone) return;
+		this.respondToHealNetworkPoll({
+			type: "progress",
+			progress: mapToRecord(progress),
+		});
+	}
+
+	private async onHealNetworkDone(
+		result: ReadonlyMap<number, boolean>,
+	): Promise<void> {
+		this.respondToHealNetworkPoll({
+			type: "done",
+			progress: mapToRecord(result),
+		});
+		this.setState("info.healingNetwork", false, true);
 	}
 
 	private addNodeEventHandlers(node: ZWaveNode): void {
@@ -472,6 +504,25 @@ class Zwave2 extends utils.Adapter {
 		}
 	}
 
+	// This is used to store responses if something changed between two calls
+	private healNetworkPollResponse: NetworkHealPollResponse | undefined;
+	// This is used to store the callback if there was no response yet
+	private healNetworkPollCallback:
+		| ((response: NetworkHealPollResponse) => void)
+		| undefined;
+
+	/** Responds to a pending poll from the frontend (if there is a message outstanding) */
+	private respondToHealNetworkPoll(response: NetworkHealPollResponse): void {
+		if (typeof this.healNetworkPollCallback === "function") {
+			// If the client is waiting for a response, send it immediately
+			this.healNetworkPollCallback(response);
+			this.healNetworkPollCallback = undefined;
+		} else {
+			// otherwise remember the response for the next call
+			this.healNetworkPollResponse = response;
+		}
+	}
+
 	/**
 	 * Some message was sent to this instance over message box. Used by email, pushover, text2speech, ...
 	 * Using this method requires "common.message" property to be set to true in io-package.json
@@ -491,7 +542,7 @@ class Zwave2 extends utils.Adapter {
 			MISSING_PARAMETER: (paramName: string) => {
 				return { error: 'missing parameter "' + paramName + '"!' };
 			},
-			COMMAND_RUNNING: { error: "command running" },
+			COMMAND_ACTIVE: { error: "command already active" },
 			RESULT: (result: unknown) => ({ error: null, result }),
 			ERROR: (error: string) => ({ error }),
 		};
@@ -535,9 +586,35 @@ class Zwave2 extends utils.Adapter {
 					return;
 				}
 
-				case "healNetwork": {
-					await this.driver.controller.healNetwork();
+				case "beginHealingNetwork": {
+					const result = this.driver.controller.beginHealingNetwork();
+					if (result) {
+						respond(responses.OK);
+						this.setState("info.healingNetwork", true, true);
+					} else {
+						respond(responses.COMMAND_ACTIVE);
+					}
+					return;
+				}
+
+				case "stopHealingNetwork": {
+					this.driver.controller.stopHealingNetwork();
 					respond(responses.OK);
+					this.setState("info.healingNetwork", false, true);
+					return;
+				}
+
+				case "healNetworkPoll": {
+					if (this.healNetworkPollResponse) {
+						// if a response is waiting to be asked for, send it immediately
+						respond(responses.RESULT(this.healNetworkPollResponse));
+						this.healNetworkPollResponse = undefined;
+					} else {
+						// otherwise remember the callback for a later response
+						this.respondToHealNetworkPoll = result =>
+							respond(responses.RESULT(result));
+					}
+
 					return;
 				}
 			}

@@ -1,10 +1,15 @@
 {
     "Cancel exclusion": "Отмена исключения",
+    "Cancel healing": "Отменить исцеление",
     "Cancel inclusion": "Отмена включения",
     "Devices": "приборы",
+    "Done!": "Выполнено!",
+    "Error": "ошибка",
     "Exclude device": "Исключить устройство",
     "Heal network": "Исцелить сети",
     "Heal network finished": "Исцелить сеть",
+    "Healing network": "Целительная сеть ...",
+    "Healing the network was successful!": "Исцеление в сети прошло успешно!",
     "Include device": "Включить устройство",
     "Name": "название",
     "Network map": "Карта сети",
@@ -17,8 +22,10 @@
     "asleep": "спящий",
     "awake": "бодрствующий",
     "dead": "мертвых",
+    "done": "сделанный",
     "loading...": "загрузка ...",
     "none selected": "не выбрано, ничего не выбрано",
+    "pending": "в ожидании",
     "unknown": "неизвестный",
     "zwave2 adapter settings": "Настройки адаптера для zwave2"
 }
