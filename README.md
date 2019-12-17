@@ -21,6 +21,10 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
+### __WORK IN PROGRESS__
+* Improved handling of sleeping nodes
+* New interactive network healing process in the configuration UI
+
 ### 0.5.2 (2019-12-14)
 * Fixed installation issues with `alcalzone-shared`
 

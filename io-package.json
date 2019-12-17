@@ -3,6 +3,18 @@
 		"name": "zwave2",
 		"version": "0.5.2",
 		"news": {
+			"0.6.0": {
+				"en": "* Improved handling of sleeping nodes\n* New interactive network healing process in the configuration UI",
+				"de": "* Verbesserter Umgang mit schlafenden Knoten\n* Neuer interaktiver Netzwerkheilungsprozess in der Konfigurationsoberfläche",
+				"ru": "* Улучшена обработка спящих узлов\n* Новый интерактивный процесс восстановления сети в пользовательском интерфейсе конфигурации.",
+				"pt": "* Manuseio aprimorado de nós adormecidos\n* Novo processo de recuperação de rede interativa na interface do usuário de configuração",
+				"nl": "* Verbeterde verwerking van slapende knooppunten\n* Nieuw interactief netwerkgenezingsproces in de configuratie-UI",
+				"fr": "* Amélioration de la gestion des nœuds endormis\n* Nouveau processus de réparation de réseau interactif dans l'interface utilisateur de configuration",
+				"it": "* Migliore gestione dei nodi dormienti\n* Nuovo processo di guarigione della rete interattiva nell'interfaccia utente di configurazione",
+				"es": "* Manejo mejorado de los nodos dormidos\n* Nuevo proceso interactivo de curación de red en la interfaz de usuario de configuración",
+				"pl": "* Poprawiona obsługa śpiących węzłów\n* Nowy interaktywny proces leczenia sieci w interfejsie konfiguracji",
+				"zh-cn": "*改进了对睡眠节点的处理\n*配置界面中新的交互式网络修复过程"
+			},
 			"0.5.2": {
 				"en": "A new settings page has been added with a device overview and buttons to add and remove nodes from the network",
 				"de": "Eine neue Einstellungsseite mit einer Geräteübersicht und Schaltflächen zum Hinzufügen und Entfernen von Knoten zum Netzwerk wurde hinzugefügt",
