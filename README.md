@@ -21,6 +21,9 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
+### __WORK IN PROGRESS__
+* Enabled scrolling in the device list
+
 ### 0.6.0 (2019-12-17)
 * Improved handling of sleeping nodes
 * New interactive network healing process in the configuration UI

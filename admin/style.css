@@ -19,6 +19,7 @@
 #tabs > [id^="tabs"] {
 	height: calc(100% - 48px);
 	padding-top: 1rem;
+	overflow-y: auto;
 }
 
 #map {
