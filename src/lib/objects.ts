@@ -140,7 +140,11 @@ export async function removeNode(nodeId: number): Promise<void> {
 		/* ok */
 	}
 
-	const existingObjs = await _.$$(`${deviceId}.*`);
+	// Find all channel and state objects so we can delete them
+	const existingObjs = {
+		...(await _.$$(`${deviceId}.*`, { type: "channel" })),
+		...(await _.$$(`${deviceId}.*`, { type: "state" })),
+	};
 
 	for (const [id, obj] of entries(existingObjs)) {
 		if (obj.type === "state") {

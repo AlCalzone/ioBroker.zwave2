@@ -111,7 +111,8 @@ async function removeNode(nodeId) {
     catch (e) {
         /* ok */
     }
-    const existingObjs = await global_1.Global.$$(`${deviceId}.*`);
+    // Find all channel and state objects so we can delete them
+    const existingObjs = Object.assign(Object.assign({}, (await global_1.Global.$$(`${deviceId}.*`, { type: "channel" }))), (await global_1.Global.$$(`${deviceId}.*`, { type: "state" })));
     for (const [id, obj] of objects_1.entries(existingObjs)) {
         if (obj.type === "state") {
             try {

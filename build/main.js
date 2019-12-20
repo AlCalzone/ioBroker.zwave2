@@ -54,7 +54,7 @@ class Zwave2 extends utils.Adapter {
             }
             // Now we know which nodes should exist - clean up orphaned nodes
             const nodeIdRegex = new RegExp(`^${this.name}\\.${this.instance}\\.Node_(\\d+)`);
-            const existingNodeIds = Object.keys(await global_1.Global.$$(`${this.namespace}.*`))
+            const existingNodeIds = Object.keys(await global_1.Global.$$(`${this.namespace}.*`, { type: "device" }))
                 .map((id) => { var _a; return (_a = id.match(nodeIdRegex)) === null || _a === void 0 ? void 0 : _a[1]; })
                 .filter(id => !!id)
                 .map(id => parseInt(id, 10))

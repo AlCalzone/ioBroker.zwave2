@@ -112,7 +112,7 @@ class Zwave2 extends utils.Adapter {
 				`^${this.name}\\.${this.instance}\\.Node_(\\d+)`,
 			);
 			const existingNodeIds = (Object.keys(
-				await _.$$(`${this.namespace}.*`),
+				await _.$$(`${this.namespace}.*`, { type: "device" }),
 			)
 				.map((id: string) => id.match(nodeIdRegex)?.[1])
 				.filter(id => !!id) as string[])
