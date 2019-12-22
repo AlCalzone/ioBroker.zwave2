@@ -21,6 +21,9 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
+### __WORK IN PROGRESS__
+Test version for Rolf_KA
+
 ### 0.6.1 (2019-12-18)
 * Enabled scrolling in the device list
 
