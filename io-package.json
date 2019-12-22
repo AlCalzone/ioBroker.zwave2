@@ -1,7 +1,7 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "0.6.1",
+        "version": "0.6.2-beta.0",
         "news": {
             "0.6.1": {
                 "en": "Enabled scrolling in the device list",
