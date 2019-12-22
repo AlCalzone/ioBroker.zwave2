@@ -52,6 +52,7 @@ class Zwave2 extends utils.Adapter {
 	}
 
 	private driver!: Driver;
+	private driverReady = false;
 
 	/**
 	 * Is called when databases are connected and adapter received configuration.
@@ -77,6 +78,7 @@ class Zwave2 extends utils.Adapter {
 
 		this.driver = new Driver(this.config.serialport);
 		this.driver.once("driver ready", async () => {
+			this.driverReady = true;
 			this.setState("info.connection", true, true);
 
 			this.log.info(
@@ -561,21 +563,21 @@ class Zwave2 extends utils.Adapter {
 		if (obj) {
 			switch (obj.command) {
 				case "getNetworkMap": {
-					let controller: Driver["controller"];
-					try {
-						controller = this.driver.controller;
-					} catch (e) {
+					if (!this.driverReady) {
 						return respond(
 							responses.ERROR(
 								"The driver is not yet ready to show the network map!",
 							),
 						);
 					}
-					const map = [...controller.nodes.values()].map(node => ({
-						id: node.id,
-						name: `Node ${node.id}`,
-						neighbors: node.neighbors,
-					}));
+
+					const map = [...this.driver.controller.nodes.values()].map(
+						node => ({
+							id: node.id,
+							name: `Node ${node.id}`,
+							neighbors: node.neighbors,
+						}),
+					);
 					respond(responses.RESULT(map));
 					return;
 				}
@@ -587,6 +589,14 @@ class Zwave2 extends utils.Adapter {
 				}
 
 				case "beginHealingNetwork": {
+					if (!this.driverReady) {
+						return respond(
+							responses.ERROR(
+								"The driver is not yet ready to heal the network!",
+							),
+						);
+					}
+
 					const result = this.driver.controller.beginHealingNetwork();
 					if (result) {
 						respond(responses.OK);
@@ -598,6 +608,14 @@ class Zwave2 extends utils.Adapter {
 				}
 
 				case "stopHealingNetwork": {
+					if (!this.driverReady) {
+						return respond(
+							responses.ERROR(
+								"The driver is not yet ready to heal the network!",
+							),
+						);
+					}
+
 					this.driver.controller.stopHealingNetwork();
 					respond(responses.OK);
 					this.setState("info.healingNetwork", false, true);

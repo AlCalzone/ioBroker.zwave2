@@ -10,6 +10,7 @@ const shared_1 = require("./lib/shared");
 class Zwave2 extends utils.Adapter {
     constructor(options = {}) {
         super(Object.assign(Object.assign({}, options), { name: "zwave2" }));
+        this.driverReady = false;
         this.on("ready", this.onReady.bind(this));
         this.on("objectChange", this.onObjectChange.bind(this));
         this.on("stateChange", this.onStateChange.bind(this));
@@ -34,6 +35,7 @@ class Zwave2 extends utils.Adapter {
         }
         this.driver = new zwave_js_1.Driver(this.config.serialport);
         this.driver.once("driver ready", async () => {
+            this.driverReady = true;
             this.setState("info.connection", true, true);
             this.log.info(`The driver is ready. Found ${this.driver.controller.nodes.size} nodes.`);
             this.driver.controller
@@ -405,14 +407,10 @@ class Zwave2 extends utils.Adapter {
         if (obj) {
             switch (obj.command) {
                 case "getNetworkMap": {
-                    let controller;
-                    try {
-                        controller = this.driver.controller;
-                    }
-                    catch (e) {
+                    if (!this.driverReady) {
                         return respond(responses.ERROR("The driver is not yet ready to show the network map!"));
                     }
-                    const map = [...controller.nodes.values()].map(node => ({
+                    const map = [...this.driver.controller.nodes.values()].map(node => ({
                         id: node.id,
                         name: `Node ${node.id}`,
                         neighbors: node.neighbors,
@@ -426,6 +424,9 @@ class Zwave2 extends utils.Adapter {
                     return;
                 }
                 case "beginHealingNetwork": {
+                    if (!this.driverReady) {
+                        return respond(responses.ERROR("The driver is not yet ready to heal the network!"));
+                    }
                     const result = this.driver.controller.beginHealingNetwork();
                     if (result) {
                         respond(responses.OK);
@@ -437,6 +438,9 @@ class Zwave2 extends utils.Adapter {
                     return;
                 }
                 case "stopHealingNetwork": {
+                    if (!this.driverReady) {
+                        return respond(responses.ERROR("The driver is not yet ready to heal the network!"));
+                    }
                     this.driver.controller.stopHealingNetwork();
                     respond(responses.OK);
                     this.setState("info.healingNetwork", false, true);
