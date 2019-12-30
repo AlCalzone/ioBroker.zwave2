@@ -142,7 +142,7 @@ class Zwave2 extends utils.Adapter {
             .on("metadata updated", this.onNodeMetadataUpdated.bind(this));
     }
     async onNodeReady(node) {
-        this.log.info(`Node ${node.id} is ready to use`);
+        this.log.info(`Node ${node.id}: ready to use`);
         if (node.isControllerNode())
             return;
         const nodeAbsoluteId = `${this.namespace}.${shared_1.computeDeviceId(node.id)}`;
@@ -286,7 +286,6 @@ class Zwave2 extends utils.Adapter {
     async onStateChange(id, state) {
         if (state) {
             // The state was changed
-            this.log.debug(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
             if (!state.ack) {
                 // Handle some special states first
                 if (id.endsWith("info.inclusion")) {
@@ -332,11 +331,9 @@ class Zwave2 extends utils.Adapter {
                     this.log.error(e.message);
                 }
             }
-        }
-        else {
+        } /* else {
             // The state was deleted
-            this.log.debug(`state ${id} deleted`);
-        }
+        } */
     }
     async setInclusionMode(active) {
         try {

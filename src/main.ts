@@ -433,10 +433,6 @@ class Zwave2 extends utils.Adapter {
 	): Promise<void> {
 		if (state) {
 			// The state was changed
-			this.log.debug(
-				`state ${id} changed: ${state.val} (ack = ${state.ack})`,
-			);
-
 			if (!state.ack) {
 				// Handle some special states first
 				if (id.endsWith("info.inclusion")) {
@@ -487,10 +483,9 @@ class Zwave2 extends utils.Adapter {
 					this.log.error(e.message);
 				}
 			}
-		} else {
+		} /* else {
 			// The state was deleted
-			this.log.debug(`state ${id} deleted`);
-		}
+		} */
 	}
 
 	private async setInclusionMode(active: boolean): Promise<void> {
