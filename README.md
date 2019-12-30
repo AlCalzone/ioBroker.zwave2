@@ -27,6 +27,7 @@ Alternative Z-Wave implementation
 	* Fixed an issue where the information about device endpoints was not correctly saved and restored
 	* Several configuration parameters with duplicate labels were renamed
 * Node objects and states are now synchronized when the node is ready (rather than waiting for the interview to be completed)
+* When `udevadm` is not installed on a unix system, the adapter no longer crashes when opening the configuration UI
 * If a node name was manually changed, that change is now preserved
 * The debug log is no longer filled with "state changed" logs
 * Updated some dependencies
