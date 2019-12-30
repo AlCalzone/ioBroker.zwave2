@@ -131,6 +131,10 @@ class Zwave2 extends utils.Adapter {
 		// Log errors from the Z-Wave lib
 		this.driver.on("error", this.onZWaveError.bind(this));
 
+		this.driver.once("all nodes ready", () => {
+			this.log.info("All nodes are ready to use");
+		});
+
 		try {
 			await this.driver.start();
 		} catch (e) {
@@ -205,10 +209,11 @@ class Zwave2 extends utils.Adapter {
 	}
 
 	private addNodeEventHandlers(node: ZWaveNode): void {
-		node.once(
-			"interview completed",
-			this.onNodeInterviewCompleted.bind(this),
-		)
+		node.once("ready", this.onNodeReady.bind(this))
+			.once(
+				"interview completed",
+				this.onNodeInterviewCompleted.bind(this),
+			)
 			.on("wake up", this.onNodeWakeUp.bind(this))
 			.on("sleep", this.onNodeSleep.bind(this))
 			.on("alive", this.onNodeAlive.bind(this))
@@ -219,8 +224,8 @@ class Zwave2 extends utils.Adapter {
 			.on("metadata updated", this.onNodeMetadataUpdated.bind(this));
 	}
 
-	private async onNodeInterviewCompleted(node: ZWaveNode): Promise<void> {
-		this.log.info(`Node ${node.id}: interview completed`);
+	private async onNodeReady(node: ZWaveNode): Promise<void> {
+		this.log.info(`Node ${node.id}: ready to use`);
 		if (node.isControllerNode()) return;
 
 		const nodeAbsoluteId = `${this.namespace}.${computeDeviceId(node.id)}`;
@@ -310,6 +315,12 @@ class Zwave2 extends utils.Adapter {
 				newValue: value,
 			});
 		}
+	}
+
+	private async onNodeInterviewCompleted(node: ZWaveNode): Promise<void> {
+		this.log.info(
+			`Node ${node.id}: interview completed, all values are updated`,
+		);
 	}
 
 	private async onNodeWakeUp(node: ZWaveNode): Promise<void> {
