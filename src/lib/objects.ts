@@ -110,24 +110,27 @@ function nodeToCommon(node: ZWaveNode): ioBroker.ObjectCommon {
 
 export async function extendNode(node: ZWaveNode): Promise<void> {
 	const deviceId = computeDeviceId(node.id);
-	const common = nodeToCommon(node);
-	const native = nodeToNative(node);
-
 	const originalObject = await _.adapter.getObjectAsync(deviceId);
-	if (originalObject == undefined) {
-		await _.adapter.setObjectAsync(deviceId, {
-			type: "device",
-			common,
-			native,
-		});
-	} else if (
-		JSON.stringify(common) !== JSON.stringify(originalObject.common) ||
-		JSON.stringify(native) !== JSON.stringify(originalObject.native)
+
+	// update the object while preserving the existing common properties
+	const desiredObject: ioBroker.SettableObject = {
+		type: "device",
+		common: {
+			...nodeToCommon(node),
+			...originalObject?.common,
+		},
+		native: nodeToNative(node),
+	};
+
+	// check if we have to update anything
+	if (
+		originalObject == undefined ||
+		JSON.stringify(originalObject.common) !==
+			JSON.stringify(desiredObject.common) ||
+		JSON.stringify(originalObject.native) !==
+			JSON.stringify(desiredObject.native)
 	) {
-		await _.adapter.extendObjectAsync(deviceId, {
-			common,
-			native,
-		});
+		await _.adapter.setObjectAsync(deviceId, desiredObject);
 	}
 }
 

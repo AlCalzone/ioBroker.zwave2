@@ -82,23 +82,22 @@ function nodeToCommon(node) {
     };
 }
 async function extendNode(node) {
+    var _a;
     const deviceId = shared_1.computeDeviceId(node.id);
-    const common = nodeToCommon(node);
-    const native = nodeToNative(node);
     const originalObject = await global_1.Global.adapter.getObjectAsync(deviceId);
-    if (originalObject == undefined) {
-        await global_1.Global.adapter.setObjectAsync(deviceId, {
-            type: "device",
-            common,
-            native,
-        });
-    }
-    else if (JSON.stringify(common) !== JSON.stringify(originalObject.common) ||
-        JSON.stringify(native) !== JSON.stringify(originalObject.native)) {
-        await global_1.Global.adapter.extendObjectAsync(deviceId, {
-            common,
-            native,
-        });
+    // update the object while preserving the existing common properties
+    const desiredObject = {
+        type: "device",
+        common: Object.assign(Object.assign({}, nodeToCommon(node)), (_a = originalObject) === null || _a === void 0 ? void 0 : _a.common),
+        native: nodeToNative(node),
+    };
+    // check if we have to update anything
+    if (originalObject == undefined ||
+        JSON.stringify(originalObject.common) !==
+            JSON.stringify(desiredObject.common) ||
+        JSON.stringify(originalObject.native) !==
+            JSON.stringify(desiredObject.native)) {
+        await global_1.Global.adapter.setObjectAsync(deviceId, desiredObject);
     }
 }
 exports.extendNode = extendNode;
