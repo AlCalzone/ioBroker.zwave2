@@ -43,7 +43,7 @@
     "@babel/preset-typescript": "^7.7.4",
     "@fimbul/mithotyn": "^0.21.0",
     "@fimbul/wotan": "^0.21.1",
-    "@iobroker/testing": "^1.2.5",
+    "@iobroker/testing": "^2.0.0",
     "@types/chai": "^4.2.0",
     "@types/chai-as-promised": "^7.1.2",
     "@types/d3": "^5.7.2",
