@@ -1,7 +1,7 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "0.6.3",
+        "version": "0.6.4-beta.0",
         "news": {
             "0.6.2": {
                 "en": "* When nodes are removed, the channel objects are now also removed\n* `BasicCC` commands from some devices are now mapped to more specific CCs\n* Fixed the interview procedure for `IndicatorCC`\n* Fixed some causes for crashs",
