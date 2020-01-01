@@ -21,7 +21,7 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
-### __WORK IN PROGRESS__
+### 0.6.4 (2020-01-01)
 * Bugfixes
 
 ### 0.6.3 (2019-12-30)
