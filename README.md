@@ -21,8 +21,8 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
-### 0.6.4-beta.0 (2019-12-31)
-Debug release
+### __WORK IN PROGRESS__
+* Bugfixes
 
 ### 0.6.3 (2019-12-30)
 * Updated `zwave-js` to v2.5.1. This includes the following changes:
