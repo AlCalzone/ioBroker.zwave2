@@ -21,7 +21,7 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
-### __WORK IN PROGRESS__
+### 0.7.0 (2020-01-02)
 * Added a config option to write debug logfiles
 * Updated `zwave-js` to v2.6.0 to add support for `Scene Activation CC`
 

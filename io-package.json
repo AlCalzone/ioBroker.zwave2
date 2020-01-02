@@ -1,216 +1,221 @@
 {
-	"common": {
-		"name": "zwave2",
-		"version": "0.6.4",
-		"news": {
-			"0.7.0": {
-				"en": "* Added a config option to write debug logfiles\n* Updated `zwave-js` to v2.6.0 to add support for `Scene Activation CC`",
-				"de": "* Es wurde eine Konfigurationsoption zum Schreiben von Debug-Protokolldateien hinzugefügt\n* `Zwave-js` wurde auf v2.6.0 aktualisiert, um Unterstützung für` Scene Activation CC` hinzuzufügen",
-				"ru": "* Добавлена опция конфигурации для записи отладочных лог-файлов\n* Обновлен `zwave-js` до v2.6.0, чтобы добавить поддержку` Scene Activation CC`",
-				"pt": "* Adicionada uma opção de configuração para gravar arquivos de log de depuração\n* Atualizado zwave-js` para a v2.6.0 para adicionar suporte ao `Scene Activation CC`",
-				"nl": "* Een configuratie-optie toegevoegd om logbestanden voor foutopsporing te schrijven\n* Bijgewerkt `zwave-js` naar v2.6.0 om ondersteuning toe te voegen voor` Scene Activation CC`",
-				"fr": "* Ajout d'une option de configuration pour écrire les fichiers journaux de débogage\n* Mise à jour de `zwave-js` vers v2.6.0 pour ajouter la prise en charge de` Scene Activation CC`",
-				"it": "* Aggiunta un'opzione di configurazione per scrivere i file di registro di debug\n* Aggiornato `zwave-js` a v2.6.0 per aggiungere il supporto per` Scene Activation CC`",
-				"es": "* Se agregó una opción de configuración para escribir archivos de registro de depuración\n* Se actualizó `zwave-js` a v2.6.0 para agregar soporte para` Scene Activation CC`",
-				"pl": "* Dodano opcję konfiguracji do zapisywania plików dziennika debugowania\n* Zaktualizowano `zwave-js` do wersji 2.6.0, aby dodać obsługę` Scene Activation CC`",
-				"zh-cn": "*添加了配置选项以写入调试日志文件\n*将`zwave-js`更新为v2.6.0，以添加对`场景激活CC'的支持"
-			},
-			"0.6.4": {
-				"en": "* Fixed a missing value of `IndicatorCC`\n* Removed a duplicate config parameter from Heatit Z-Scene Controller",
-				"de": "* Ein fehlender Wert von IndicatorCC wurde behoben\n* Ein doppelter Konfigurationsparameter wurde vom Heatit Z-Scene Controller entfernt",
-				"ru": "* Исправлено пропущенное значение `IndicatorCC`\n* Удален дублирующий параметр конфигурации из контроллера Heatit Z-Scene",
-				"pt": "* Corrigido um valor ausente de `IndicatorCC`\n* Removido um parâmetro de configuração duplicado do Heatit Z-Scene Controller",
-				"nl": "* Een ontbrekende waarde van `IndicatorCC` opgelost\n* Een dubbele configuratieparameter verwijderd van de Heatit Z-Scene Controller",
-				"fr": "* Correction d'une valeur manquante de `IndicatorCC`\n* Suppression d'un paramètre de configuration en double du Heatit Z-Scene Controller",
-				"it": "* Risolto un valore mancante di `IndicatorCC`\n* Rimosso un parametro di configurazione duplicato da Heatit Z-Scene Controller",
-				"es": "* Se corrigió un valor faltante de `IndicatorCC`\n* Se eliminó un parámetro de configuración duplicado del controlador Heatit Z-Scene",
-				"pl": "* Naprawiono brakującą wartość „IndicatorCC”\n* Usunięto zduplikowany parametr konfiguracyjny z Heatit Z-Scene Controller",
-				"zh-cn": "*修正`IndicatorCC`的缺失值\n*从Heatit Z-Scene Controller中删除了重复的配置参数"
-			},
-			"0.6.3": {
-				"en": "* Fixed issues with the `Meter CC` and `Indicator CC`\n* Fixed an issue where the information about device endpoints was not correctly saved and restored\n* Several configuration parameters with duplicate labels were renamed\n* Node objects and states are now synchronized when the node is ready (rather than waiting for the interview to be completed)\n* When `udevadm` is not installed on a unix system, the adapter no longer crashes when opening the configuration UI\n* If a node name was manually changed, that change is now preserved\n* The debug log is no longer filled with \"state changed\" logs\n* Updated some dependencies",
-				"de": "* Behobene Probleme mit dem \"Meter CC\" und \"Indicator CC\"\n* Es wurde ein Problem behoben, bei dem die Informationen zu Geräteendpunkten nicht korrekt gespeichert und wiederhergestellt wurden\n* Mehrere Konfigurationsparameter mit doppelten Bezeichnungen wurden umbenannt\n* Knotenobjekte und -zustände werden jetzt synchronisiert, wenn der Knoten bereit ist (anstatt auf den Abschluss des Interviews zu warten)\n* Wenn `udevadm` nicht auf einem Unix-System installiert ist, stürzt der Adapter beim Öffnen der Konfigurationsoberfläche nicht mehr ab\n* Wenn ein Knotenname manuell geändert wurde, bleibt diese Änderung nun erhalten\n* Das Debug-Protokoll ist nicht mehr mit Protokollen gefüllt, die den Status geändert haben\n* Einige Abhängigkeiten wurden aktualisiert",
-				"ru": "* Исправлены проблемы с `Meter CC` и` Indicator CC`\n* Исправлена ошибка, из-за которой информация о конечных точках устройства не была правильно сохранена и восстановлена.\n* Несколько параметров конфигурации с дублирующими метками были переименованы\n* Объекты и состояния узла теперь синхронизируются, когда узел готов (а не в ожидании завершения интервью)\n* Когда `udevadm` не установлен в системе Unix, адаптер больше не падает при открытии интерфейса конфигурации\n* Если имя узла было изменено вручную, это изменение теперь сохраняется\n* Журнал отладки больше не заполняется журналами «состояние изменено»\n* Обновлены некоторые зависимости",
-				"pt": "* Corrigidos problemas com o `Meter CC` e` Indicator CC`\n* Corrigido um problema em que as informações sobre os pontos de extremidade do dispositivo não eram salvas e restauradas corretamente.\n* Vários parâmetros de configuração com rótulos duplicados foram renomeados\n* Os objetos e estados do nó agora são sincronizados quando o nó está pronto (em vez de aguardar a conclusão da entrevista)\n* Quando o `udevadm` não está instalado em um sistema unix, o adaptador não trava mais ao abrir a interface do usuário de configuração\n* Se um nome de nó foi alterado manualmente, essa alteração agora é preservada\n* O log de depuração não é mais preenchido com logs de \"estado alterado\"\n* Atualizadas algumas dependências",
-				"nl": "* Problemen opgelost met de `Meter CC` en` Indicator CC`\n* Probleem opgelost waarbij de informatie over apparaateindpunten niet correct werd opgeslagen en hersteld\n* Verschillende configuratieparameters met dubbele labels zijn hernoemd\n* Objecten en statussen van knooppunten worden nu gesynchroniseerd wanneer de knoop gereed is (in plaats van te wachten tot het interview is voltooid)\n* Wanneer `udevadm` niet op een unix-systeem is geïnstalleerd, crasht de adapter niet meer bij het openen van de configuratie-UI\n* Als een knooppuntnaam handmatig is gewijzigd, blijft die wijziging behouden\n* Het foutopsporingslogboek is niet langer gevuld met logbestanden met \"status gewijzigd\"\n* Enkele afhankelijkheden bijgewerkt",
-				"fr": "* Correction de problèmes avec les `Meter CC` et` Indicator CC`\n* Correction d'un problème où les informations sur les points de terminaison de l'appareil n'étaient pas correctement enregistrées et restaurées\n* Plusieurs paramètres de configuration avec des étiquettes en double ont été renommés\n* Les objets et les états du nœud sont maintenant synchronisés lorsque le nœud est prêt (plutôt que d'attendre la fin de l'interview)\n* Lorsque `udevadm` n'est pas installé sur un système Unix, l'adaptateur ne se bloque plus lors de l'ouverture de l'interface utilisateur de configuration\n* Si un nom de nœud a été modifié manuellement, ce changement est maintenant conservé\n* Le journal de débogage n'est plus rempli de journaux \"état modifié\"\n* Mise à jour de certaines dépendances",
-				"it": "* Risolti i problemi con `Meter CC` e` Indicator CC`\n* Risolto un problema per cui le informazioni sugli endpoint del dispositivo non venivano salvate e ripristinate correttamente\n* Sono stati rinominati diversi parametri di configurazione con etichette duplicate\n* Gli oggetti e gli stati del nodo sono ora sincronizzati quando il nodo è pronto (anziché attendere il completamento dell'intervista)\n* Quando `udevadm` non è installato su un sistema unix, l'adattatore non si blocca più quando si apre l'interfaccia utente di configurazione\n* Se il nome di un nodo è stato modificato manualmente, tale modifica è ora conservata\n* Il registro di debug non è più pieno di registri \"stato modificato\"\n* Aggiornate alcune dipendenze",
-				"es": "* Se corrigieron problemas con el `Meter CC` y el` Indicator CC`\n* Se solucionó un problema por el cual la información sobre los puntos finales del dispositivo no se guardaba y restauraba correctamente\n* Varios parámetros de configuración con etiquetas duplicadas fueron renombrados\n* Los objetos de nodo y los estados ahora se sincronizan cuando el nodo está listo (en lugar de esperar a que se complete la entrevista)\n* Cuando `udevadm` no está instalado en un sistema unix, el adaptador ya no se bloquea al abrir la interfaz de usuario de configuración\n* Si un nombre de nodo se cambió manualmente, ese cambio ahora se conserva\n* El registro de depuración ya no está lleno de registros de \"estado cambiado\"\n* Actualizado algunas dependencias",
-				"pl": "* Naprawiono problemy z „Meter CC” i „Indicator CC”\n* Naprawiono problem polegający na tym, że informacje o punktach końcowych urządzenia nie były poprawnie zapisywane i przywracane\n* Zmieniono nazwę kilku parametrów konfiguracyjnych ze zduplikowanymi etykietami\n* Obiekty i stany węzłów są teraz synchronizowane, gdy węzeł jest gotowy (zamiast czekać na zakończenie wywiadu)\n* Gdy `udevadm` nie jest zainstalowany w systemie uniksowym, adapter przestaje się zawieszać podczas otwierania interfejsu użytkownika konfiguracji\n* Jeśli nazwa węzła została ręcznie zmieniona, zmiana ta jest teraz zachowywana\n* Dziennik debugowania nie jest już wypełniony dziennikami „zmiany stanu”\n* Zaktualizowano niektóre zależności",
-				"zh-cn": "*修复了“仪表CC”和“指示器CC”的问题\n*修复了有关设备端点的信息未正确保存和还原的问题\n*带有重复标签的几个配置参数被重命名\n*现在，当节点准备就绪时，节点对象和状态就同步了（而不是等待采访完成）\n*如果在unix系统上未安装`udevadm`，则在打开配置UI时适配器不再崩溃\n*如果手动更改了节点名称，则该更改将被保留\n*调试日志不再填充“状态更改”日志\n*更新了一些依赖"
-			},
-			"0.6.2": {
-				"en": "* When nodes are removed, the channel objects are now also removed\n* `BasicCC` commands from some devices are now mapped to more specific CCs\n* Fixed the interview procedure for `IndicatorCC`\n* Fixed some causes for crashs",
-				"de": "* Wenn Knoten entfernt werden, werden jetzt auch die Kanalobjekte entfernt\n* 'BasicCC'-Befehle von einigen Geräten werden jetzt auf spezifischere CCs abgebildet\n* Das Interviewverfahren für IndicatorCC wurde korrigiert\n* Einige Absturzursachen wurden behoben",
-				"ru": "* При удалении узлов объекты канала теперь также удаляются.\n* Команды BasicCC` с некоторых устройств теперь сопоставляются с более конкретными CC\n* Исправлена процедура собеседования для «IndicatorCC»\n* Исправлены некоторые причины сбоев",
-				"pt": "* Quando nós são removidos, os objetos do canal agora também são removidos\n* Os comandos `BasicCC` de alguns dispositivos agora são mapeados para CCs mais específicos\n* Corrigido o procedimento de entrevista para o `IndicatorCC`\n* Corrigidas algumas causas para falhas",
-				"nl": "* Wanneer knooppunten worden verwijderd, worden de kanaalobjecten nu ook verwijderd\n* `BasicCC`-commando's van sommige apparaten zijn nu toegewezen aan meer specifieke CC's\n* Fixed de interview procedure voor `IndicatorCC`\n* Enkele oorzaken voor crashes opgelost",
-				"fr": "* Lorsque les nœuds sont supprimés, les objets de canal sont désormais également supprimés\n* Les commandes `BasicCC` de certains appareils sont maintenant mappées à des CC plus spécifiques\n* Correction de la procédure d'entretien pour `IndicatorCC`\n* Correction de certaines causes de plantages",
-				"it": "* Quando i nodi vengono rimossi, anche gli oggetti canale vengono rimossi\n* I comandi `BasicCC` di alcuni dispositivi sono ora mappati su CC più specifici\n* Risolta la procedura di intervista per `IndicatorCC`\n* Risolte alcune cause di crash",
-				"es": "* Cuando se eliminan los nodos, los objetos del canal ahora también se eliminan\n* Los comandos `BasicCC` de algunos dispositivos ahora se asignan a CC más específicos\n* Se corrigió el procedimiento de entrevista para `IndicatorCC`\n* Se corrigieron algunas causas de bloqueos",
-				"pl": "* Po usunięciu węzłów obiekty kanału są teraz również usuwane\n* Polecenia `BasicCC` z niektórych urządzeń są teraz mapowane na bardziej szczegółowe CC\n* Naprawiono procedurę wywiadu dla `IndicatorCC`\n* Naprawiono niektóre przyczyny awarii",
-				"zh-cn": "*当删除节点时，通道对象现在也被删除\n*来自某些设备的`BasicCC`命令现在已映射到更特定的CC\n*修正了“ IndicatorCC”的面试程序\n*修复了一些导致崩溃的原因"
-			},
-			"0.6.1": {
-				"en": "Enabled scrolling in the device list",
-				"de": "Aktiviert das Scrollen in der Geräteliste",
-				"ru": "Включена прокрутка в списке устройств",
-				"pt": "Rolagem ativada na lista de dispositivos",
-				"nl": "Ingeschakeld scrollen in de apparatenlijst",
-				"fr": "Défilement activé dans la liste des appareils",
-				"it": "Scorrimento abilitato nell'elenco dei dispositivi",
-				"es": "Desplazamiento habilitado en la lista de dispositivos",
-				"pl": "Włączone przewijanie na liście urządzeń",
-				"zh-cn": "启用了在设备列表中的滚动"
-			},
-			"0.6.0": {
-				"en": "* Improved handling of sleeping nodes\n* New interactive network healing process in the configuration UI",
-				"de": "* Verbesserter Umgang mit schlafenden Knoten\n* Neuer interaktiver Netzwerkheilungsprozess in der Konfigurationsoberfläche",
-				"ru": "* Улучшена обработка спящих узлов\n* Новый интерактивный процесс восстановления сети в пользовательском интерфейсе конфигурации.",
-				"pt": "* Manuseio aprimorado de nós adormecidos\n* Novo processo de recuperação de rede interativa na interface do usuário de configuração",
-				"nl": "* Verbeterde verwerking van slapende knooppunten\n* Nieuw interactief netwerkgenezingsproces in de configuratie-UI",
-				"fr": "* Amélioration de la gestion des nœuds endormis\n* Nouveau processus de réparation de réseau interactif dans l'interface utilisateur de configuration",
-				"it": "* Migliore gestione dei nodi dormienti\n* Nuovo processo di guarigione della rete interattiva nell'interfaccia utente di configurazione",
-				"es": "* Manejo mejorado de los nodos dormidos\n* Nuevo proceso interactivo de curación de red en la interfaz de usuario de configuración",
-				"pl": "* Poprawiona obsługa śpiących węzłów\n* Nowy interaktywny proces leczenia sieci w interfejsie konfiguracji",
-				"zh-cn": "*改进了对睡眠节点的处理\n*配置界面中新的交互式网络修复过程"
-			},
-			"0.5.2": {
-				"en": "A new settings page has been added with a device overview and buttons to add and remove nodes from the network",
-				"de": "Eine neue Einstellungsseite mit einer Geräteübersicht und Schaltflächen zum Hinzufügen und Entfernen von Knoten zum Netzwerk wurde hinzugefügt",
-				"ru": "Добавлена новая страница настроек с обзором устройства и кнопками для добавления и удаления узлов из сети.",
-				"pt": "Uma nova página de configurações foi adicionada com uma visão geral do dispositivo e botões para adicionar e remover nós da rede",
-				"nl": "Er is een nieuwe instellingenpagina toegevoegd met een apparaatoverzicht en knoppen om knooppunten toe te voegen en te verwijderen uit het netwerk",
-				"fr": "Une nouvelle page de paramètres a été ajoutée avec une vue d'ensemble de l'appareil et des boutons pour ajouter et supprimer des nœuds du réseau",
-				"it": "È stata aggiunta una nuova pagina delle impostazioni con una panoramica del dispositivo e pulsanti per aggiungere e rimuovere nodi dalla rete",
-				"es": "Se ha agregado una nueva página de configuración con una descripción general del dispositivo y botones para agregar y eliminar nodos de la red",
-				"pl": "Dodano nową stronę ustawień z przeglądem urządzenia i przyciskami do dodawania i usuwania węzłów z sieci",
-				"zh-cn": "添加了新的设置页面，其中包含设备概述和用于从网络添加和删除节点的按钮"
-			},
-			"0.4.0": {
-				"en": "* The network map is now drawn correctly when there are only unconnected nodes\n* Nodes and command classes are now represented with device and channel objects\n* Updated `zwave-js` to v2.2.0. This includes the following changes:\n\t* Less errors are logged when opening the serial port fails\n\t* Accessing a node's or endpoint's `commandClasses` property with `Symbol`s no longer causes a crash. *(This should not be an issue in ioBroker)*\n\t* Revised querying logic for devices without Z-Wave+ or Lifeline associations\n\t* Added support for `Indicator CC`",
-				"de": "* Die Netzwerkkarte wird jetzt korrekt gezeichnet, wenn nur unverbundene Knoten vorhanden sind\n* Knoten und Befehlsklassen werden jetzt mit Geräte- und Kanalobjekten repräsentiert\n* `zwave-js` wurde auf v2.2.0 aktualisiert. Dies beinhaltet die folgenden Änderungen:\n\t* Weniger Fehler werden protokolliert, wenn das Öffnen der seriellen Schnittstelle fehlschlägt\n\t*Das Zugreifen auf die `commandClasses`-Eigenschaft eines Knotens oder Endpunkts mit `Symbol`s führt nicht mehr zum Absturz. *(Dies sollte kein Problem in ioBroker sein)*\n\t* Überarbeitete Abfragelogik für Geräte ohne Z-Wave+ oder Lifeline-Zuordnungen\n\t* Unterstützung für \"Indicator CC\" hinzugefügt",
-				"ru": "* Карта сети теперь отображается правильно, когда есть только неподключенные узлы\n* Узлы и классы команд теперь представлены объектами устройства и канала.\n* Обновлен `zwave-js` до v2.2.0. Это включает в себя следующие изменения:\n* Меньше ошибок регистрируется при сбое открытия последовательного порта\n*Доступ к свойству `commandClasses` узла или конечной точки с помощью Symbol больше не вызывает сбой. * (Это не должно быть проблемой в ioBroker)*\n* Пересмотренная логика запросов для устройств без ассоциаций Z-Wave + или Lifeline\n* Добавлена поддержка `Indicator CC`",
-				"pt": "* O mapa de rede agora está desenhado corretamente quando há apenas nós desconectados\n* Nós e classes de comando agora são representados com objetos de dispositivo e canal\n* Atualizado `zwave-js` para a v2.2.0. Isso inclui as seguintes alterações:\n* Menos erros são registrados quando a porta serial falha\n*Acessar a propriedade `commandClasses` de um nó ou nó de extremidade com` Symbol`s não causa mais um travamento. * (Isso não deve ser um problema no ioBroker)*\n* Lógica de consulta revisada para dispositivos sem associações Z-Wave + ou Lifeline\n* Adicionado suporte para o `Indicador CC`",
-				"nl": "* De netwerkmap wordt nu correct getekend als er alleen niet-verbonden knooppunten zijn\n* Knopen en opdrachtklassen worden nu weergegeven met apparaat- en kanaalobjecten\n* Bijgewerkt `zwave-js` naar v2.2.0. Dit omvat de volgende wijzigingen:\n* Minder fouten worden vastgelegd wanneer het openen van de seriële poort mislukt\n*Toegang tot de eigenschap `commandClasses` van een knooppunt of eindpunt met` Symbol`s veroorzaakt niet langer een crash. * (Dit zou geen probleem moeten zijn in ioBroker)*\n* Herziene vraaglogica voor apparaten zonder Z-Wave + of Lifeline-koppelingen\n* Ondersteuning toegevoegd voor `Indicator CC`",
-				"fr": "* La carte du réseau est désormais dessinée correctement lorsqu'il n'y a que des nœuds non connectés\n* Les nœuds et les classes de commandes sont désormais représentés avec des objets de périphérique et de canal\n* Mise à jour de `zwave-js` vers v2.2.0. Cela inclut les modifications suivantes:\n* Moins d'erreurs sont enregistrées lors de l'échec de l'ouverture du port série\n*L'accès à la propriété `commandClasses` d'un nœud ou d'un noeud final avec` Symbol`s ne provoque plus de plantage. * (Cela ne devrait pas être un problème dans ioBroker)*\n* Logique d'interrogation révisée pour les appareils sans associations Z-Wave + ou Lifeline\n* Ajout du support pour `Indicator CC`",
-				"it": "* La mappa di rete ora viene disegnata correttamente quando sono presenti solo nodi non connessi\n* I nodi e le classi di comando sono ora rappresentati con oggetti dispositivo e canale\n* Aggiornato `zwave-js` a v2.2.0. Ciò include le seguenti modifiche:\n* Meno errori vengono registrati quando l'apertura della porta seriale non riesce\n*L'accesso alla proprietà `commandClasses` di un nodo o endpoint con` Symbol`s non causa più un arresto anomalo. * (Questo non dovrebbe essere un problema in ioBroker)*\n* Logica di query rivista per dispositivi senza associazioni Z-Wave + o Lifeline\n* Aggiunto supporto per `Indicator CC`",
-				"es": "* El mapa de red ahora se dibuja correctamente cuando solo hay nodos no conectados\n* Los nodos y las clases de comando ahora se representan con dispositivos y objetos de canal\n* Actualizado `zwave-js` a v2.2.0. Esto incluye los siguientes cambios:\n* Se registran menos errores cuando falla la apertura del puerto serie\n*Acceder a la propiedad `commandClasses` de un nodo o punto final con` Symbol`s ya no provoca un bloqueo. * (Esto no debería ser un problema en ioBroker)*\n* Lógica de consulta revisada para dispositivos sin asociaciones Z-Wave + o Lifeline\n* Se agregó soporte para `Indicator CC`",
-				"pl": "* Mapa sieci jest teraz poprawnie rysowana, gdy istnieją tylko niepołączone węzły\n* Węzły i klasy poleceń są teraz reprezentowane przez obiekty urządzeń i kanałów\n* Zaktualizowano `zwave-js` do wersji 2.2.0. Obejmuje to następujące zmiany:\n* Mniej błędów jest rejestrowanych, gdy otwarcie portu szeregowego kończy się niepowodzeniem\n*Dostęp do właściwości `commandClasses` węzła lub punktu końcowego za pomocą` Symbol`s nie powoduje już awarii. * (To nie powinno być problemem w ioBroker)*\n* Zmieniona logika zapytań dla urządzeń bez powiązań Z-Wave + lub Lifeline\n* Dodano obsługę `Indicator CC`",
-				"zh-cn": "*现在只有不连接的节点时才能正确绘制网络图\n*节点和命令类现在用设备和通道对象表示\n*更新了`zwave-js`到v2.2.0。这包括以下更改：\n*打开串行端口失败时记录的错误更少\n*使用`Symbol`访问节点或端点的`commandClasses'属性不再导致崩溃。 *（这在ioBroker中应该不是问题）*\n*修改了不具有Z-Wave +或生命线关联的设备的查询逻辑\n*增加了对“指示器CC”的支持"
-			}
-		},
-		"title": "Z-Wave",
-		"titleLang": {
-			"en": "Z-Wave",
-			"de": "Z-Wave",
-			"ru": "Z-Wave",
-			"pt": "Z-Wave",
-			"nl": "Z-Wave",
-			"fr": "Z-Wave",
-			"it": "Z-Wave",
-			"es": "Onda z",
-			"pl": "Z-Wave",
-			"zh-cn": "Z-波"
-		},
-		"desc": {
-			"en": "Alternative Z-Wave implementation",
-			"de": "Alternative Z-Wave-Implementierung",
-			"ru": "Альтернативная реализация Z-Wave",
-			"pt": "Implementação alternativa de Z-Wave",
-			"nl": "Alternatieve Z-Wave-implementatie",
-			"fr": "Mise en œuvre alternative de Z-Wave",
-			"it": "Implementazione Z-Wave alternativa",
-			"es": "Implementación alternativa de Z-Wave",
-			"pl": "Alternatywna implementacja Z-Wave",
-			"zh-cn": "替代Z-Wave实施"
-		},
-		"authors": ["AlCalzone <d.griesel@gmx.net>"],
-		"keywords": ["zwave", "z-wave"],
-		"license": "MIT",
-		"platform": "Javascript/Node.js",
-		"main": "build/main.js",
-		"icon": "zwave2.svg",
-		"enabled": true,
-		"extIcon": "https://raw.githubusercontent.com/AlCalzone/ioBroker.zwave2/master/admin/zwave2.svg?sanitize=true",
-		"readme": "https://github.com/AlCalzone/ioBroker.zwave2/blob/master/README.md",
-		"loglevel": "info",
-		"mode": "daemon",
-		"type": "hardware",
-		"compact": true,
-		"materialize": true,
-		"messagebox": true,
-		"dependencies": [
-			{
-				"js-controller": ">=1.4.2"
-			}
-		]
-	},
-	"native": {
-		"serialport": "",
-		"writeLogFile": false
-	},
-	"objects": [],
-	"instanceObjects": [
-		{
-			"_id": "info",
-			"type": "channel",
-			"common": {
-				"name": "Information"
-			},
-			"native": {}
-		},
-		{
-			"_id": "info.connection",
-			"type": "state",
-			"common": {
-				"role": "indicator.connected",
-				"name": "Whether the Z-Wave driver is ready",
-				"type": "boolean",
-				"read": true,
-				"write": false,
-				"def": false
-			},
-			"native": {}
-		},
-		{
-			"_id": "info.inclusion",
-			"type": "state",
-			"common": {
-				"role": "state",
-				"name": "Whether the inclusion of nodes is active",
-				"type": "boolean",
-				"read": true,
-				"write": true,
-				"def": false
-			},
-			"native": {}
-		},
-		{
-			"_id": "info.exclusion",
-			"type": "state",
-			"common": {
-				"role": "state",
-				"name": "Whether the exclusion of nodes is active",
-				"type": "boolean",
-				"read": true,
-				"write": true,
-				"def": false
-			},
-			"native": {}
-		},
-		{
-			"_id": "info.healingNetwork",
-			"type": "state",
-			"common": {
-				"role": "state",
-				"name": "Whether a network heal is currently in progress",
-				"type": "boolean",
-				"read": true,
-				"write": false,
-				"def": false
-			},
-			"native": {}
-		}
-	]
+    "common": {
+        "name": "zwave2",
+        "version": "0.7.0",
+        "news": {
+            "0.7.0": {
+                "en": "* Added a config option to write debug logfiles\n* Updated `zwave-js` to v2.6.0 to add support for `Scene Activation CC`",
+                "de": "* Es wurde eine Konfigurationsoption zum Schreiben von Debug-Protokolldateien hinzugefügt\n* `Zwave-js` wurde auf v2.6.0 aktualisiert, um Unterstützung für` Scene Activation CC` hinzuzufügen",
+                "ru": "* Добавлена опция конфигурации для записи отладочных лог-файлов\n* Обновлен `zwave-js` до v2.6.0, чтобы добавить поддержку` Scene Activation CC`",
+                "pt": "* Adicionada uma opção de configuração para gravar arquivos de log de depuração\n* Atualizado zwave-js` para a v2.6.0 para adicionar suporte ao `Scene Activation CC`",
+                "nl": "* Een configuratie-optie toegevoegd om logbestanden voor foutopsporing te schrijven\n* Bijgewerkt `zwave-js` naar v2.6.0 om ondersteuning toe te voegen voor` Scene Activation CC`",
+                "fr": "* Ajout d'une option de configuration pour écrire les fichiers journaux de débogage\n* Mise à jour de `zwave-js` vers v2.6.0 pour ajouter la prise en charge de` Scene Activation CC`",
+                "it": "* Aggiunta un'opzione di configurazione per scrivere i file di registro di debug\n* Aggiornato `zwave-js` a v2.6.0 per aggiungere il supporto per` Scene Activation CC`",
+                "es": "* Se agregó una opción de configuración para escribir archivos de registro de depuración\n* Se actualizó `zwave-js` a v2.6.0 para agregar soporte para` Scene Activation CC`",
+                "pl": "* Dodano opcję konfiguracji do zapisywania plików dziennika debugowania\n* Zaktualizowano `zwave-js` do wersji 2.6.0, aby dodać obsługę` Scene Activation CC`",
+                "zh-cn": "*添加了配置选项以写入调试日志文件\n*将`zwave-js`更新为v2.6.0，以添加对`场景激活CC'的支持"
+            },
+            "0.6.4": {
+                "en": "* Fixed a missing value of `IndicatorCC`\n* Removed a duplicate config parameter from Heatit Z-Scene Controller",
+                "de": "* Ein fehlender Wert von IndicatorCC wurde behoben\n* Ein doppelter Konfigurationsparameter wurde vom Heatit Z-Scene Controller entfernt",
+                "ru": "* Исправлено пропущенное значение `IndicatorCC`\n* Удален дублирующий параметр конфигурации из контроллера Heatit Z-Scene",
+                "pt": "* Corrigido um valor ausente de `IndicatorCC`\n* Removido um parâmetro de configuração duplicado do Heatit Z-Scene Controller",
+                "nl": "* Een ontbrekende waarde van `IndicatorCC` opgelost\n* Een dubbele configuratieparameter verwijderd van de Heatit Z-Scene Controller",
+                "fr": "* Correction d'une valeur manquante de `IndicatorCC`\n* Suppression d'un paramètre de configuration en double du Heatit Z-Scene Controller",
+                "it": "* Risolto un valore mancante di `IndicatorCC`\n* Rimosso un parametro di configurazione duplicato da Heatit Z-Scene Controller",
+                "es": "* Se corrigió un valor faltante de `IndicatorCC`\n* Se eliminó un parámetro de configuración duplicado del controlador Heatit Z-Scene",
+                "pl": "* Naprawiono brakującą wartość „IndicatorCC”\n* Usunięto zduplikowany parametr konfiguracyjny z Heatit Z-Scene Controller",
+                "zh-cn": "*修正`IndicatorCC`的缺失值\n*从Heatit Z-Scene Controller中删除了重复的配置参数"
+            },
+            "0.6.3": {
+                "en": "* Fixed issues with the `Meter CC` and `Indicator CC`\n* Fixed an issue where the information about device endpoints was not correctly saved and restored\n* Several configuration parameters with duplicate labels were renamed\n* Node objects and states are now synchronized when the node is ready (rather than waiting for the interview to be completed)\n* When `udevadm` is not installed on a unix system, the adapter no longer crashes when opening the configuration UI\n* If a node name was manually changed, that change is now preserved\n* The debug log is no longer filled with \"state changed\" logs\n* Updated some dependencies",
+                "de": "* Behobene Probleme mit dem \"Meter CC\" und \"Indicator CC\"\n* Es wurde ein Problem behoben, bei dem die Informationen zu Geräteendpunkten nicht korrekt gespeichert und wiederhergestellt wurden\n* Mehrere Konfigurationsparameter mit doppelten Bezeichnungen wurden umbenannt\n* Knotenobjekte und -zustände werden jetzt synchronisiert, wenn der Knoten bereit ist (anstatt auf den Abschluss des Interviews zu warten)\n* Wenn `udevadm` nicht auf einem Unix-System installiert ist, stürzt der Adapter beim Öffnen der Konfigurationsoberfläche nicht mehr ab\n* Wenn ein Knotenname manuell geändert wurde, bleibt diese Änderung nun erhalten\n* Das Debug-Protokoll ist nicht mehr mit Protokollen gefüllt, die den Status geändert haben\n* Einige Abhängigkeiten wurden aktualisiert",
+                "ru": "* Исправлены проблемы с `Meter CC` и` Indicator CC`\n* Исправлена ошибка, из-за которой информация о конечных точках устройства не была правильно сохранена и восстановлена.\n* Несколько параметров конфигурации с дублирующими метками были переименованы\n* Объекты и состояния узла теперь синхронизируются, когда узел готов (а не в ожидании завершения интервью)\n* Когда `udevadm` не установлен в системе Unix, адаптер больше не падает при открытии интерфейса конфигурации\n* Если имя узла было изменено вручную, это изменение теперь сохраняется\n* Журнал отладки больше не заполняется журналами «состояние изменено»\n* Обновлены некоторые зависимости",
+                "pt": "* Corrigidos problemas com o `Meter CC` e` Indicator CC`\n* Corrigido um problema em que as informações sobre os pontos de extremidade do dispositivo não eram salvas e restauradas corretamente.\n* Vários parâmetros de configuração com rótulos duplicados foram renomeados\n* Os objetos e estados do nó agora são sincronizados quando o nó está pronto (em vez de aguardar a conclusão da entrevista)\n* Quando o `udevadm` não está instalado em um sistema unix, o adaptador não trava mais ao abrir a interface do usuário de configuração\n* Se um nome de nó foi alterado manualmente, essa alteração agora é preservada\n* O log de depuração não é mais preenchido com logs de \"estado alterado\"\n* Atualizadas algumas dependências",
+                "nl": "* Problemen opgelost met de `Meter CC` en` Indicator CC`\n* Probleem opgelost waarbij de informatie over apparaateindpunten niet correct werd opgeslagen en hersteld\n* Verschillende configuratieparameters met dubbele labels zijn hernoemd\n* Objecten en statussen van knooppunten worden nu gesynchroniseerd wanneer de knoop gereed is (in plaats van te wachten tot het interview is voltooid)\n* Wanneer `udevadm` niet op een unix-systeem is geïnstalleerd, crasht de adapter niet meer bij het openen van de configuratie-UI\n* Als een knooppuntnaam handmatig is gewijzigd, blijft die wijziging behouden\n* Het foutopsporingslogboek is niet langer gevuld met logbestanden met \"status gewijzigd\"\n* Enkele afhankelijkheden bijgewerkt",
+                "fr": "* Correction de problèmes avec les `Meter CC` et` Indicator CC`\n* Correction d'un problème où les informations sur les points de terminaison de l'appareil n'étaient pas correctement enregistrées et restaurées\n* Plusieurs paramètres de configuration avec des étiquettes en double ont été renommés\n* Les objets et les états du nœud sont maintenant synchronisés lorsque le nœud est prêt (plutôt que d'attendre la fin de l'interview)\n* Lorsque `udevadm` n'est pas installé sur un système Unix, l'adaptateur ne se bloque plus lors de l'ouverture de l'interface utilisateur de configuration\n* Si un nom de nœud a été modifié manuellement, ce changement est maintenant conservé\n* Le journal de débogage n'est plus rempli de journaux \"état modifié\"\n* Mise à jour de certaines dépendances",
+                "it": "* Risolti i problemi con `Meter CC` e` Indicator CC`\n* Risolto un problema per cui le informazioni sugli endpoint del dispositivo non venivano salvate e ripristinate correttamente\n* Sono stati rinominati diversi parametri di configurazione con etichette duplicate\n* Gli oggetti e gli stati del nodo sono ora sincronizzati quando il nodo è pronto (anziché attendere il completamento dell'intervista)\n* Quando `udevadm` non è installato su un sistema unix, l'adattatore non si blocca più quando si apre l'interfaccia utente di configurazione\n* Se il nome di un nodo è stato modificato manualmente, tale modifica è ora conservata\n* Il registro di debug non è più pieno di registri \"stato modificato\"\n* Aggiornate alcune dipendenze",
+                "es": "* Se corrigieron problemas con el `Meter CC` y el` Indicator CC`\n* Se solucionó un problema por el cual la información sobre los puntos finales del dispositivo no se guardaba y restauraba correctamente\n* Varios parámetros de configuración con etiquetas duplicadas fueron renombrados\n* Los objetos de nodo y los estados ahora se sincronizan cuando el nodo está listo (en lugar de esperar a que se complete la entrevista)\n* Cuando `udevadm` no está instalado en un sistema unix, el adaptador ya no se bloquea al abrir la interfaz de usuario de configuración\n* Si un nombre de nodo se cambió manualmente, ese cambio ahora se conserva\n* El registro de depuración ya no está lleno de registros de \"estado cambiado\"\n* Actualizado algunas dependencias",
+                "pl": "* Naprawiono problemy z „Meter CC” i „Indicator CC”\n* Naprawiono problem polegający na tym, że informacje o punktach końcowych urządzenia nie były poprawnie zapisywane i przywracane\n* Zmieniono nazwę kilku parametrów konfiguracyjnych ze zduplikowanymi etykietami\n* Obiekty i stany węzłów są teraz synchronizowane, gdy węzeł jest gotowy (zamiast czekać na zakończenie wywiadu)\n* Gdy `udevadm` nie jest zainstalowany w systemie uniksowym, adapter przestaje się zawieszać podczas otwierania interfejsu użytkownika konfiguracji\n* Jeśli nazwa węzła została ręcznie zmieniona, zmiana ta jest teraz zachowywana\n* Dziennik debugowania nie jest już wypełniony dziennikami „zmiany stanu”\n* Zaktualizowano niektóre zależności",
+                "zh-cn": "*修复了“仪表CC”和“指示器CC”的问题\n*修复了有关设备端点的信息未正确保存和还原的问题\n*带有重复标签的几个配置参数被重命名\n*现在，当节点准备就绪时，节点对象和状态就同步了（而不是等待采访完成）\n*如果在unix系统上未安装`udevadm`，则在打开配置UI时适配器不再崩溃\n*如果手动更改了节点名称，则该更改将被保留\n*调试日志不再填充“状态更改”日志\n*更新了一些依赖"
+            },
+            "0.6.2": {
+                "en": "* When nodes are removed, the channel objects are now also removed\n* `BasicCC` commands from some devices are now mapped to more specific CCs\n* Fixed the interview procedure for `IndicatorCC`\n* Fixed some causes for crashs",
+                "de": "* Wenn Knoten entfernt werden, werden jetzt auch die Kanalobjekte entfernt\n* 'BasicCC'-Befehle von einigen Geräten werden jetzt auf spezifischere CCs abgebildet\n* Das Interviewverfahren für IndicatorCC wurde korrigiert\n* Einige Absturzursachen wurden behoben",
+                "ru": "* При удалении узлов объекты канала теперь также удаляются.\n* Команды BasicCC` с некоторых устройств теперь сопоставляются с более конкретными CC\n* Исправлена процедура собеседования для «IndicatorCC»\n* Исправлены некоторые причины сбоев",
+                "pt": "* Quando nós são removidos, os objetos do canal agora também são removidos\n* Os comandos `BasicCC` de alguns dispositivos agora são mapeados para CCs mais específicos\n* Corrigido o procedimento de entrevista para o `IndicatorCC`\n* Corrigidas algumas causas para falhas",
+                "nl": "* Wanneer knooppunten worden verwijderd, worden de kanaalobjecten nu ook verwijderd\n* `BasicCC`-commando's van sommige apparaten zijn nu toegewezen aan meer specifieke CC's\n* Fixed de interview procedure voor `IndicatorCC`\n* Enkele oorzaken voor crashes opgelost",
+                "fr": "* Lorsque les nœuds sont supprimés, les objets de canal sont désormais également supprimés\n* Les commandes `BasicCC` de certains appareils sont maintenant mappées à des CC plus spécifiques\n* Correction de la procédure d'entretien pour `IndicatorCC`\n* Correction de certaines causes de plantages",
+                "it": "* Quando i nodi vengono rimossi, anche gli oggetti canale vengono rimossi\n* I comandi `BasicCC` di alcuni dispositivi sono ora mappati su CC più specifici\n* Risolta la procedura di intervista per `IndicatorCC`\n* Risolte alcune cause di crash",
+                "es": "* Cuando se eliminan los nodos, los objetos del canal ahora también se eliminan\n* Los comandos `BasicCC` de algunos dispositivos ahora se asignan a CC más específicos\n* Se corrigió el procedimiento de entrevista para `IndicatorCC`\n* Se corrigieron algunas causas de bloqueos",
+                "pl": "* Po usunięciu węzłów obiekty kanału są teraz również usuwane\n* Polecenia `BasicCC` z niektórych urządzeń są teraz mapowane na bardziej szczegółowe CC\n* Naprawiono procedurę wywiadu dla `IndicatorCC`\n* Naprawiono niektóre przyczyny awarii",
+                "zh-cn": "*当删除节点时，通道对象现在也被删除\n*来自某些设备的`BasicCC`命令现在已映射到更特定的CC\n*修正了“ IndicatorCC”的面试程序\n*修复了一些导致崩溃的原因"
+            },
+            "0.6.1": {
+                "en": "Enabled scrolling in the device list",
+                "de": "Aktiviert das Scrollen in der Geräteliste",
+                "ru": "Включена прокрутка в списке устройств",
+                "pt": "Rolagem ativada na lista de dispositivos",
+                "nl": "Ingeschakeld scrollen in de apparatenlijst",
+                "fr": "Défilement activé dans la liste des appareils",
+                "it": "Scorrimento abilitato nell'elenco dei dispositivi",
+                "es": "Desplazamiento habilitado en la lista de dispositivos",
+                "pl": "Włączone przewijanie na liście urządzeń",
+                "zh-cn": "启用了在设备列表中的滚动"
+            },
+            "0.6.0": {
+                "en": "* Improved handling of sleeping nodes\n* New interactive network healing process in the configuration UI",
+                "de": "* Verbesserter Umgang mit schlafenden Knoten\n* Neuer interaktiver Netzwerkheilungsprozess in der Konfigurationsoberfläche",
+                "ru": "* Улучшена обработка спящих узлов\n* Новый интерактивный процесс восстановления сети в пользовательском интерфейсе конфигурации.",
+                "pt": "* Manuseio aprimorado de nós adormecidos\n* Novo processo de recuperação de rede interativa na interface do usuário de configuração",
+                "nl": "* Verbeterde verwerking van slapende knooppunten\n* Nieuw interactief netwerkgenezingsproces in de configuratie-UI",
+                "fr": "* Amélioration de la gestion des nœuds endormis\n* Nouveau processus de réparation de réseau interactif dans l'interface utilisateur de configuration",
+                "it": "* Migliore gestione dei nodi dormienti\n* Nuovo processo di guarigione della rete interattiva nell'interfaccia utente di configurazione",
+                "es": "* Manejo mejorado de los nodos dormidos\n* Nuevo proceso interactivo de curación de red en la interfaz de usuario de configuración",
+                "pl": "* Poprawiona obsługa śpiących węzłów\n* Nowy interaktywny proces leczenia sieci w interfejsie konfiguracji",
+                "zh-cn": "*改进了对睡眠节点的处理\n*配置界面中新的交互式网络修复过程"
+            },
+            "0.5.2": {
+                "en": "A new settings page has been added with a device overview and buttons to add and remove nodes from the network",
+                "de": "Eine neue Einstellungsseite mit einer Geräteübersicht und Schaltflächen zum Hinzufügen und Entfernen von Knoten zum Netzwerk wurde hinzugefügt",
+                "ru": "Добавлена новая страница настроек с обзором устройства и кнопками для добавления и удаления узлов из сети.",
+                "pt": "Uma nova página de configurações foi adicionada com uma visão geral do dispositivo e botões para adicionar e remover nós da rede",
+                "nl": "Er is een nieuwe instellingenpagina toegevoegd met een apparaatoverzicht en knoppen om knooppunten toe te voegen en te verwijderen uit het netwerk",
+                "fr": "Une nouvelle page de paramètres a été ajoutée avec une vue d'ensemble de l'appareil et des boutons pour ajouter et supprimer des nœuds du réseau",
+                "it": "È stata aggiunta una nuova pagina delle impostazioni con una panoramica del dispositivo e pulsanti per aggiungere e rimuovere nodi dalla rete",
+                "es": "Se ha agregado una nueva página de configuración con una descripción general del dispositivo y botones para agregar y eliminar nodos de la red",
+                "pl": "Dodano nową stronę ustawień z przeglądem urządzenia i przyciskami do dodawania i usuwania węzłów z sieci",
+                "zh-cn": "添加了新的设置页面，其中包含设备概述和用于从网络添加和删除节点的按钮"
+            },
+            "0.4.0": {
+                "en": "* The network map is now drawn correctly when there are only unconnected nodes\n* Nodes and command classes are now represented with device and channel objects\n* Updated `zwave-js` to v2.2.0. This includes the following changes:\n\t* Less errors are logged when opening the serial port fails\n\t* Accessing a node's or endpoint's `commandClasses` property with `Symbol`s no longer causes a crash. *(This should not be an issue in ioBroker)*\n\t* Revised querying logic for devices without Z-Wave+ or Lifeline associations\n\t* Added support for `Indicator CC`",
+                "de": "* Die Netzwerkkarte wird jetzt korrekt gezeichnet, wenn nur unverbundene Knoten vorhanden sind\n* Knoten und Befehlsklassen werden jetzt mit Geräte- und Kanalobjekten repräsentiert\n* `zwave-js` wurde auf v2.2.0 aktualisiert. Dies beinhaltet die folgenden Änderungen:\n\t* Weniger Fehler werden protokolliert, wenn das Öffnen der seriellen Schnittstelle fehlschlägt\n\t*Das Zugreifen auf die `commandClasses`-Eigenschaft eines Knotens oder Endpunkts mit `Symbol`s führt nicht mehr zum Absturz. *(Dies sollte kein Problem in ioBroker sein)*\n\t* Überarbeitete Abfragelogik für Geräte ohne Z-Wave+ oder Lifeline-Zuordnungen\n\t* Unterstützung für \"Indicator CC\" hinzugefügt",
+                "ru": "* Карта сети теперь отображается правильно, когда есть только неподключенные узлы\n* Узлы и классы команд теперь представлены объектами устройства и канала.\n* Обновлен `zwave-js` до v2.2.0. Это включает в себя следующие изменения:\n* Меньше ошибок регистрируется при сбое открытия последовательного порта\n*Доступ к свойству `commandClasses` узла или конечной точки с помощью Symbol больше не вызывает сбой. * (Это не должно быть проблемой в ioBroker)*\n* Пересмотренная логика запросов для устройств без ассоциаций Z-Wave + или Lifeline\n* Добавлена поддержка `Indicator CC`",
+                "pt": "* O mapa de rede agora está desenhado corretamente quando há apenas nós desconectados\n* Nós e classes de comando agora são representados com objetos de dispositivo e canal\n* Atualizado `zwave-js` para a v2.2.0. Isso inclui as seguintes alterações:\n* Menos erros são registrados quando a porta serial falha\n*Acessar a propriedade `commandClasses` de um nó ou nó de extremidade com` Symbol`s não causa mais um travamento. * (Isso não deve ser um problema no ioBroker)*\n* Lógica de consulta revisada para dispositivos sem associações Z-Wave + ou Lifeline\n* Adicionado suporte para o `Indicador CC`",
+                "nl": "* De netwerkmap wordt nu correct getekend als er alleen niet-verbonden knooppunten zijn\n* Knopen en opdrachtklassen worden nu weergegeven met apparaat- en kanaalobjecten\n* Bijgewerkt `zwave-js` naar v2.2.0. Dit omvat de volgende wijzigingen:\n* Minder fouten worden vastgelegd wanneer het openen van de seriële poort mislukt\n*Toegang tot de eigenschap `commandClasses` van een knooppunt of eindpunt met` Symbol`s veroorzaakt niet langer een crash. * (Dit zou geen probleem moeten zijn in ioBroker)*\n* Herziene vraaglogica voor apparaten zonder Z-Wave + of Lifeline-koppelingen\n* Ondersteuning toegevoegd voor `Indicator CC`",
+                "fr": "* La carte du réseau est désormais dessinée correctement lorsqu'il n'y a que des nœuds non connectés\n* Les nœuds et les classes de commandes sont désormais représentés avec des objets de périphérique et de canal\n* Mise à jour de `zwave-js` vers v2.2.0. Cela inclut les modifications suivantes:\n* Moins d'erreurs sont enregistrées lors de l'échec de l'ouverture du port série\n*L'accès à la propriété `commandClasses` d'un nœud ou d'un noeud final avec` Symbol`s ne provoque plus de plantage. * (Cela ne devrait pas être un problème dans ioBroker)*\n* Logique d'interrogation révisée pour les appareils sans associations Z-Wave + ou Lifeline\n* Ajout du support pour `Indicator CC`",
+                "it": "* La mappa di rete ora viene disegnata correttamente quando sono presenti solo nodi non connessi\n* I nodi e le classi di comando sono ora rappresentati con oggetti dispositivo e canale\n* Aggiornato `zwave-js` a v2.2.0. Ciò include le seguenti modifiche:\n* Meno errori vengono registrati quando l'apertura della porta seriale non riesce\n*L'accesso alla proprietà `commandClasses` di un nodo o endpoint con` Symbol`s non causa più un arresto anomalo. * (Questo non dovrebbe essere un problema in ioBroker)*\n* Logica di query rivista per dispositivi senza associazioni Z-Wave + o Lifeline\n* Aggiunto supporto per `Indicator CC`",
+                "es": "* El mapa de red ahora se dibuja correctamente cuando solo hay nodos no conectados\n* Los nodos y las clases de comando ahora se representan con dispositivos y objetos de canal\n* Actualizado `zwave-js` a v2.2.0. Esto incluye los siguientes cambios:\n* Se registran menos errores cuando falla la apertura del puerto serie\n*Acceder a la propiedad `commandClasses` de un nodo o punto final con` Symbol`s ya no provoca un bloqueo. * (Esto no debería ser un problema en ioBroker)*\n* Lógica de consulta revisada para dispositivos sin asociaciones Z-Wave + o Lifeline\n* Se agregó soporte para `Indicator CC`",
+                "pl": "* Mapa sieci jest teraz poprawnie rysowana, gdy istnieją tylko niepołączone węzły\n* Węzły i klasy poleceń są teraz reprezentowane przez obiekty urządzeń i kanałów\n* Zaktualizowano `zwave-js` do wersji 2.2.0. Obejmuje to następujące zmiany:\n* Mniej błędów jest rejestrowanych, gdy otwarcie portu szeregowego kończy się niepowodzeniem\n*Dostęp do właściwości `commandClasses` węzła lub punktu końcowego za pomocą` Symbol`s nie powoduje już awarii. * (To nie powinno być problemem w ioBroker)*\n* Zmieniona logika zapytań dla urządzeń bez powiązań Z-Wave + lub Lifeline\n* Dodano obsługę `Indicator CC`",
+                "zh-cn": "*现在只有不连接的节点时才能正确绘制网络图\n*节点和命令类现在用设备和通道对象表示\n*更新了`zwave-js`到v2.2.0。这包括以下更改：\n*打开串行端口失败时记录的错误更少\n*使用`Symbol`访问节点或端点的`commandClasses'属性不再导致崩溃。 *（这在ioBroker中应该不是问题）*\n*修改了不具有Z-Wave +或生命线关联的设备的查询逻辑\n*增加了对“指示器CC”的支持"
+            }
+        },
+        "title": "Z-Wave",
+        "titleLang": {
+            "en": "Z-Wave",
+            "de": "Z-Wave",
+            "ru": "Z-Wave",
+            "pt": "Z-Wave",
+            "nl": "Z-Wave",
+            "fr": "Z-Wave",
+            "it": "Z-Wave",
+            "es": "Onda z",
+            "pl": "Z-Wave",
+            "zh-cn": "Z-波"
+        },
+        "desc": {
+            "en": "Alternative Z-Wave implementation",
+            "de": "Alternative Z-Wave-Implementierung",
+            "ru": "Альтернативная реализация Z-Wave",
+            "pt": "Implementação alternativa de Z-Wave",
+            "nl": "Alternatieve Z-Wave-implementatie",
+            "fr": "Mise en œuvre alternative de Z-Wave",
+            "it": "Implementazione Z-Wave alternativa",
+            "es": "Implementación alternativa de Z-Wave",
+            "pl": "Alternatywna implementacja Z-Wave",
+            "zh-cn": "替代Z-Wave实施"
+        },
+        "authors": [
+            "AlCalzone <d.griesel@gmx.net>"
+        ],
+        "keywords": [
+            "zwave",
+            "z-wave"
+        ],
+        "license": "MIT",
+        "platform": "Javascript/Node.js",
+        "main": "build/main.js",
+        "icon": "zwave2.svg",
+        "enabled": true,
+        "extIcon": "https://raw.githubusercontent.com/AlCalzone/ioBroker.zwave2/master/admin/zwave2.svg?sanitize=true",
+        "readme": "https://github.com/AlCalzone/ioBroker.zwave2/blob/master/README.md",
+        "loglevel": "info",
+        "mode": "daemon",
+        "type": "hardware",
+        "compact": true,
+        "materialize": true,
+        "messagebox": true,
+        "dependencies": [
+            {
+                "js-controller": ">=1.4.2"
+            }
+        ]
+    },
+    "native": {
+        "serialport": "",
+        "writeLogFile": false
+    },
+    "objects": [],
+    "instanceObjects": [
+        {
+            "_id": "info",
+            "type": "channel",
+            "common": {
+                "name": "Information"
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.connection",
+            "type": "state",
+            "common": {
+                "role": "indicator.connected",
+                "name": "Whether the Z-Wave driver is ready",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "def": false
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.inclusion",
+            "type": "state",
+            "common": {
+                "role": "state",
+                "name": "Whether the inclusion of nodes is active",
+                "type": "boolean",
+                "read": true,
+                "write": true,
+                "def": false
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.exclusion",
+            "type": "state",
+            "common": {
+                "role": "state",
+                "name": "Whether the exclusion of nodes is active",
+                "type": "boolean",
+                "read": true,
+                "write": true,
+                "def": false
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.healingNetwork",
+            "type": "state",
+            "common": {
+                "role": "state",
+                "name": "Whether a network heal is currently in progress",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "def": false
+            },
+            "native": {}
+        }
+    ]
 }
