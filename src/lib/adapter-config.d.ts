@@ -1,5 +1,6 @@
 declare namespace ioBroker {
 	interface AdapterConfig {
-		usb: string;
+		serialport: string;
+		writeLogFile: boolean;
 	}
 }

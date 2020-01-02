@@ -65,6 +65,8 @@ export class Settings extends React.Component<SettingsProps, SettingsState> {
 		this.handleChange = this.handleChange.bind(this);
 	}
 
+	private chkWriteLogFile: HTMLInputElement | null | undefined;
+
 	private parseChangedSetting(
 		target: HTMLInputElement | HTMLSelectElement,
 	): unknown {
@@ -122,6 +124,11 @@ export class Settings extends React.Component<SettingsProps, SettingsState> {
 		// update floating labels in materialize design
 		M.updateTextFields();
 
+		// Fix materialize checkboxes
+		if (this.chkWriteLogFile != null) {
+			$(this.chkWriteLogFile).on("click", this.handleChange as any);
+		}
+
 		// Try to retrieve a list of serial ports
 		sendTo(null, "getSerialPorts", null, ({ error, result }) => {
 			if (error) {
@@ -130,6 +137,13 @@ export class Settings extends React.Component<SettingsProps, SettingsState> {
 				this.setState({ _serialports: result });
 			}
 		});
+	}
+
+	public componentWillUnmount() {
+		// Fix materialize checkboxes
+		if (this.chkWriteLogFile != null) {
+			$(this.chkWriteLogFile).off("click", this.handleChange as any);
+		}
 	}
 
 	public componentDidUpdate() {
@@ -163,6 +177,28 @@ export class Settings extends React.Component<SettingsProps, SettingsState> {
 							/>
 						)}
 						<Label for="serialport" text="Select serial port" />
+					</div>
+				</div>
+				<div className="row">
+					<div className="col s6">
+						<label htmlFor="writeLogFile">
+							<input
+								type="checkbox"
+								className="value"
+								id="writeLogFile"
+								defaultChecked={
+									this.getSetting("writeLogFile") as any
+								}
+								ref={me => (this.chkWriteLogFile = me)}
+							/>
+							<CheckboxLabel text="Write a detailed logfile" />
+						</label>
+						<br />
+						<span>
+							{_(
+								"This should only be set for debugging purposes.",
+							)}
+						</span>
 					</div>
 				</div>
 			</>

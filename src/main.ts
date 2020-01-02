@@ -28,16 +28,6 @@ import {
 	NetworkHealPollResponse,
 } from "./lib/shared";
 
-// Augment the adapter.config object with the actual types
-declare global {
-	// eslint-disable-next-line @typescript-eslint/no-namespace
-	namespace ioBroker {
-		interface AdapterConfig {
-			serialport: string;
-		}
-	}
-}
-
 class Zwave2 extends utils.Adapter {
 	public constructor(options: Partial<ioBroker.AdapterOptions> = {}) {
 		super({
@@ -74,6 +64,11 @@ class Zwave2 extends utils.Adapter {
 				"No serial port configured. Please select one in the adapter settings!",
 			);
 			return;
+		}
+
+		// Enable zwave-js logging
+		if (this.config.writeLogFile) {
+			process.env.LOGTOFILE = "true";
 		}
 
 		this.driver = new Driver(this.config.serialport);

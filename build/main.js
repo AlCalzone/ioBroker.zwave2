@@ -33,6 +33,10 @@ class Zwave2 extends utils.Adapter {
             this.log.warn("No serial port configured. Please select one in the adapter settings!");
             return;
         }
+        // Enable zwave-js logging
+        if (this.config.writeLogFile) {
+            process.env.LOGTOFILE = "true";
+        }
         this.driver = new zwave_js_1.Driver(this.config.serialport);
         this.driver.once("driver ready", async () => {
             this.driverReady = true;
