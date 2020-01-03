@@ -21,7 +21,7 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
-### __WORK IN PROGRESS__
+### 0.7.1 (2020-01-03)
 Updated `zwave-js` to v2.7.0. This includes the following changes:
 * The driver is no longer reset when unexpected data is received. Instead the invalid bytes are skipped.
 * `Basic CC` reports no longer create a value when they are mapped to another CC
