@@ -2,6 +2,8 @@
     "Cancel exclusion": "Cancel exclusion",
     "Cancel healing": "Cancel healing",
     "Cancel inclusion": "Cancel inclusion",
+    "Clear cache": "Clear cache",
+    "Clear cache?": "Clear cache?",
     "Devices": "Devices",
     "Done!": "Done!",
     "Error": "Error",
@@ -23,11 +25,14 @@
     "alive": "alive",
     "asleep": "asleep",
     "awake": "awake",
+    "clear cache procedure": "The adapter will restart and re-interview all nodes. This may take a long time and some nodes may not work as expected in the meantime.",
     "dead": "dead",
     "done": "done",
     "loading...": "loading...",
+    "no": "no",
     "none selected": "none selected",
     "pending": "pending",
     "unknown": "unknown",
+    "yes": "yes",
     "zwave2 adapter settings": "Adapter settings for Z-Wave 2"
 }

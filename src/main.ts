@@ -1,6 +1,8 @@
 // wotan-disable async-function-assignability
 
 import * as utils from "@iobroker/adapter-core";
+import * as fs from "fs-extra";
+import * as path from "path";
 import { Driver, ZWaveNode } from "zwave-js";
 import { CommandClasses } from "zwave-js/build/lib/commandclass/CommandClasses";
 import {
@@ -51,6 +53,19 @@ class Zwave2 extends utils.Adapter {
 		// Make adapter instance global
 		_.adapter = this;
 
+		// Clear cache if we're asked to
+		const cacheDir = path.join(
+			utils.getAbsoluteInstanceDataDir(this),
+			"cache",
+		);
+		if (!!this.config.clearCache) {
+			// Remove cache dir if it exists
+			await fs.remove(cacheDir);
+			// Don't do that next time we start
+			this.updateConfig({ clearCache: false });
+			return;
+		}
+
 		await this.subscribeStatesAsync("*");
 
 		// Reset all control states
@@ -71,7 +86,9 @@ class Zwave2 extends utils.Adapter {
 			process.env.LOGTOFILE = "true";
 		}
 
-		this.driver = new Driver(this.config.serialport);
+		this.driver = new Driver(this.config.serialport, {
+			cacheDir,
+		});
 		this.driver.once("driver ready", async () => {
 			this.driverReady = true;
 			this.setState("info.connection", true, true);
@@ -656,6 +673,12 @@ class Zwave2 extends utils.Adapter {
 							respond(responses.RESULT(result));
 					}
 
+					return;
+				}
+
+				case "clearCache": {
+					this.updateConfig({ clearCache: true });
+					respond(responses.OK);
 					return;
 				}
 			}

@@ -5,6 +5,7 @@ import {
 } from "../../../src/lib/shared";
 import { Modal } from "../components/modal";
 import { useStateWithRef } from "../lib/stateWithRefs";
+import { resolve } from "url";
 
 let namespace: string;
 
@@ -157,6 +158,18 @@ async function pollHealingStatus(): Promise<any> {
 	});
 }
 
+async function doClearCache(): Promise<void> {
+	return new Promise((resolve, reject) => {
+		sendTo(null, "clearCache", null, async ({ error, result }) => {
+			if (result === "ok") {
+				resolve();
+			} else {
+				reject(error ?? result);
+			}
+		});
+	});
+}
+
 async function subscribeObjectsAsync(pattern: string): Promise<void> {
 	return new Promise((resolve, reject) => {
 		socket.emit("subscribeObjects", pattern, async error => {
@@ -177,8 +190,12 @@ async function subscribeStatesAsync(pattern: string): Promise<void> {
 
 interface MessageProps {
 	title: string;
-	content: string;
+	content: string | React.ReactNode;
 	open: boolean;
+	yesButtonText?: string;
+	noButtonText?: string;
+	hasNoButton?: boolean;
+	onClose?(result: boolean): void;
 }
 
 function getDefaultMessageProps(): MessageProps {
@@ -199,13 +216,32 @@ export function Devices(props: any) {
 	const [networkHealProgress, setNetworkHealProgress] = React.useState<
 		NonNullable<NetworkHealPollResponse["progress"]>
 	>({});
+	const [cacheCleared, setCacheCleared] = React.useState(false);
 
 	function hideMessage() {
 		setMessage(getDefaultMessageProps());
 	}
 
-	function showMessage(title: string, content: string) {
-		setMessage({ open: true, title, content });
+	function showMessage(
+		title: string,
+		content: string | React.ReactNode,
+		yesButtonText?: string,
+		noButtonText?: string,
+	): Promise<boolean> {
+		return new Promise(resolve => {
+			setMessage({
+				open: true,
+				title: _(title),
+				content: typeof content === "string" ? _(content) : content,
+				hasNoButton: !!noButtonText,
+				yesButtonText: _(yesButtonText ?? "OK"),
+				noButtonText: noButtonText ? _(noButtonText) : undefined,
+				onClose: result => {
+					hideMessage();
+					resolve(result);
+				},
+			});
+		});
 	}
 
 	React.useEffect(() => {
@@ -287,13 +323,36 @@ export function Devices(props: any) {
 				setNetworkHealProgress({});
 				await beginHealingNetwork();
 			} catch (e) {
-				showMessage(_("Error"), e);
+				void showMessage("Error", e);
 				return;
 			}
 		}
 	}
 
-	// Poll the healing progress while the dialog is visible and we're healing
+	async function clearCache() {
+		if (!healingNetwork && !inclusion && !exclusion && !cacheCleared) {
+			// start the healing progress
+			try {
+				if (
+					!(await showMessage(
+						"Clear cache?",
+						"clear cache procedure",
+						"yes",
+						"no",
+					))
+				) {
+					return;
+				}
+				await doClearCache();
+				setCacheCleared(true);
+			} catch (e) {
+				void showMessage("Error", e);
+				return;
+			}
+		}
+	}
+
+	// Poll the healing progress while we're healing
 	const [isPolling, setIsPolling] = React.useState(false);
 	React.useEffect(() => {
 		(async () => {
@@ -303,9 +362,9 @@ export function Devices(props: any) {
 					const result = await pollHealingStatus();
 					setNetworkHealProgress(result.progress ?? {});
 					if (result.type === "done") {
-						showMessage(
-							_("Done!"),
-							_("Healing the network was successful!"),
+						void showMessage(
+							"Done!",
+							"Healing the network was successful!",
 						);
 					} else {
 						// Kick off the next poll
@@ -380,6 +439,17 @@ export function Devices(props: any) {
 				>
 					<i className="material-icons left">network_check</i>
 					{healingNetwork ? _("Cancel healing") : _("Heal network")}
+				</a>{" "}
+				<a
+					className={`waves-effect waves-light btn ${
+						healingNetwork || inclusion || exclusion || cacheCleared
+							? "disabled"
+							: ""
+					}`}
+					onClick={() => clearCache()}
+				>
+					<i className="material-icons left">restore_page</i>
+					{_("Clear cache")}
 				</a>
 			</div>
 			<div className="divider"></div>
@@ -452,12 +522,7 @@ export function Devices(props: any) {
 			</table>
 
 			{/* Modal for error messages */}
-			<Modal
-				id="errorMsg"
-				yesButtonText="OK"
-				{...message}
-				onClose={() => hideMessage()}
-			/>
+			<Modal id="messageDialog" {...message} />
 		</>
 	);
 }

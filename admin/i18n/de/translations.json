@@ -2,6 +2,8 @@
     "Cancel exclusion": "Ausschluss aufheben",
     "Cancel healing": "Heilung abbrechen",
     "Cancel inclusion": "Einbinden abbrechen",
+    "Clear cache": "Cache leeren",
+    "Clear cache?": "Cache leeren?",
     "Devices": "Geräte",
     "Done!": "Fertig!",
     "Error": "Fehler",
@@ -23,11 +25,14 @@
     "alive": "erreichbar",
     "asleep": "schläft",
     "awake": "wach",
+    "clear cache procedure": "Der Adapter startet neu und interviewt alle Knoten erneut. Dies kann sehr lange dauern und einige Knoten funktionieren in der Zwischenzeit nicht wie erwartet.",
     "dead": "tot",
     "done": "fertig",
     "loading...": "Wird geladen...",
+    "no": "nein",
     "none selected": "nichts ausgewählt",
     "pending": "warte...",
     "unknown": "unbekannt",
+    "yes": "ja",
     "zwave2 adapter settings": "Adaptereinstellungen für Z-Wave 2"
 }

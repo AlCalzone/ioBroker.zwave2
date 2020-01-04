@@ -2,6 +2,8 @@
     "Cancel exclusion": "Anuluj wykluczenie",
     "Cancel healing": "Anuluj leczenie",
     "Cancel inclusion": "Anuluj włączenie",
+    "Clear cache": "Wyczyść pamięć podręczną",
+    "Clear cache?": "Wyczyść pamięć podręczną?",
     "Devices": "Pomysłowość",
     "Done!": "Gotowy!",
     "Error": "Błąd",
@@ -23,11 +25,14 @@
     "alive": "żywy",
     "asleep": "we śnie",
     "awake": "obudzić",
+    "clear cache procedure": "Zasilacz uruchomi się ponownie i ponownie przesłuchać wszystkich węzłów. To może zająć dużo czasu, a niektóre witryny mogą nie działać zgodnie z oczekiwaniami w tym czasie.",
     "dead": "nie żyje",
     "done": "gotowy",
     "loading...": "Ładuję...",
+    "no": "nie",
     "none selected": "nie wybrano",
     "pending": "w oczekiwaniu",
     "unknown": "nieznany",
+    "yes": "tak",
     "zwave2 adapter settings": "Ustawienia adaptera dla zwave2"
 }

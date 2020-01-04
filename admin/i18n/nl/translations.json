@@ -2,6 +2,8 @@
     "Cancel exclusion": "Uitsluiting annuleren",
     "Cancel healing": "Annuleer genezing",
     "Cancel inclusion": "Annuleer opname",
+    "Clear cache": "Cache wissen",
+    "Clear cache?": "Cache wissen?",
     "Devices": "apparaten",
     "Done!": "Gedaan!",
     "Error": "Fout",
@@ -23,11 +25,14 @@
     "alive": "levend",
     "asleep": "in slaap",
     "awake": "wakker",
+    "clear cache procedure": "De adapter opnieuw en opnieuw-interview alle knooppunten. Dit kan een lange tijd duren en sommige knooppunten werkt niet zoals verwacht in de tussentijd.",
     "dead": "dood",
     "done": "gedaan",
     "loading...": "bezig met laden...",
+    "no": "geen",
     "none selected": "geen geselecteerd",
     "pending": "in afwachting",
     "unknown": "onbekend",
+    "yes": "ja",
     "zwave2 adapter settings": "Adapterinstellingen voor zwave2"
 }

@@ -21,6 +21,10 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
+### __WORK IN PROGRESS__
+* The cache file is now saved in `iobroker-data`, so it doesn't get lost between updates
+* Added a button on the device overview tab to clear the cache
+
 ### 0.7.2 (2020-01-04)
 * Fixed an issue where indicators with `boolean` values could not be written to
 

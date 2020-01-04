@@ -2,6 +2,8 @@
     "Cancel exclusion": "取消排除",
     "Cancel healing": "取消治疗",
     "Cancel inclusion": "取消收录",
+    "Clear cache": "清除缓存",
+    "Clear cache?": "清除缓存？",
     "Devices": "设备",
     "Done!": "做完了！",
     "Error": "错误",
@@ -23,11 +25,14 @@
     "alive": "活",
     "asleep": "睡着了",
     "awake": "苏醒",
+    "clear cache procedure": "适配器将重新启动和重新面试的所有节点。 这可能需要很长的时间和一些节点可能无法按预期的方式工作。",
     "dead": "死",
     "done": "完成",
     "loading...": "载入中...",
+    "no": "没有",
     "none selected": "未选择",
     "pending": "待定",
     "unknown": "未知",
+    "yes": "是的",
     "zwave2 adapter settings": "zwave2的适配器设置"
 }

@@ -9,7 +9,8 @@
 			"request": "attach",
 			"name": "Attach",
 			"port": 9229,
-			"sourceMaps": true
+			"sourceMaps": true,
+			"skipFiles": ["<node_internals>/**"]
 		},
 		{
 			"type": "node",

@@ -2,6 +2,8 @@
     "Cancel exclusion": "Cancelar exclusão",
     "Cancel healing": "Cancelar cura",
     "Cancel inclusion": "Cancelar inclusão",
+    "Clear cache": "Limpar cache",
+    "Clear cache?": "Limpar o cache?",
     "Devices": "Aparelhos",
     "Done!": "Feito!",
     "Error": "Erro",
@@ -23,11 +25,14 @@
     "alive": "vivo",
     "asleep": "adormecido",
     "awake": "acordado",
+    "clear cache procedure": "O adaptador irá reiniciar e re-entrevista de todos nós. Isso pode levar um longo tempo e alguns de nós podem não funcionar como esperado, entretanto.",
     "dead": "morto",
     "done": "feito",
     "loading...": "Carregando...",
+    "no": "nenhum",
     "none selected": "nenhum selecionado",
     "pending": "pendente",
     "unknown": "desconhecido",
+    "yes": "sim",
     "zwave2 adapter settings": "Configurações do adaptador para zwave2"
 }

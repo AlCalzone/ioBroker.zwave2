@@ -2,6 +2,8 @@
 // wotan-disable async-function-assignability
 Object.defineProperty(exports, "__esModule", { value: true });
 const utils = require("@iobroker/adapter-core");
+const fs = require("fs-extra");
+const path = require("path");
 const zwave_js_1 = require("zwave-js");
 const CommandClasses_1 = require("zwave-js/build/lib/commandclass/CommandClasses");
 const global_1 = require("./lib/global");
@@ -23,6 +25,15 @@ class Zwave2 extends utils.Adapter {
     async onReady() {
         // Make adapter instance global
         global_1.Global.adapter = this;
+        // Clear cache if we're asked to
+        const cacheDir = path.join(utils.getAbsoluteInstanceDataDir(this), "cache");
+        if (!!this.config.clearCache) {
+            // Remove cache dir if it exists
+            await fs.remove(cacheDir);
+            // Don't do that next time we start
+            this.updateConfig({ clearCache: false });
+            return;
+        }
         await this.subscribeStatesAsync("*");
         // Reset all control states
         this.setState("info.connection", false, true);
@@ -37,7 +48,9 @@ class Zwave2 extends utils.Adapter {
         if (this.config.writeLogFile) {
             process.env.LOGTOFILE = "true";
         }
-        this.driver = new zwave_js_1.Driver(this.config.serialport);
+        this.driver = new zwave_js_1.Driver(this.config.serialport, {
+            cacheDir,
+        });
         this.driver.once("driver ready", async () => {
             this.driverReady = true;
             this.setState("info.connection", true, true);
@@ -478,6 +491,11 @@ class Zwave2 extends utils.Adapter {
                         // otherwise remember the callback for a later response
                         this.respondToHealNetworkPoll = result => respond(responses.RESULT(result));
                     }
+                    return;
+                }
+                case "clearCache": {
+                    this.updateConfig({ clearCache: true });
+                    respond(responses.OK);
                     return;
                 }
             }

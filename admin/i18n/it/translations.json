@@ -2,6 +2,8 @@
     "Cancel exclusion": "Annulla esclusione",
     "Cancel healing": "Annulla la guarigione",
     "Cancel inclusion": "Annulla l'inclusione",
+    "Clear cache": "Cancella cache",
+    "Clear cache?": "Svuota la cache?",
     "Devices": "dispositivi",
     "Done!": "Fatto!",
     "Error": "Errore",
@@ -23,11 +25,14 @@
     "alive": "vivo",
     "asleep": "addormentato",
     "awake": "sveglio",
+    "clear cache procedure": "L'adattatore si riavvia e ri-intervista tutti i nodi. Questo può richiedere molto tempo e alcuni nodi potrebbero non funzionare come previsto, nel frattempo.",
     "dead": "morto",
     "done": "fatto",
     "loading...": "Caricamento in corso...",
+    "no": "no",
     "none selected": "Nessuno selezionato",
     "pending": "in attesa di",
     "unknown": "sconosciuto",
+    "yes": "sì",
     "zwave2 adapter settings": "Impostazioni dell'adattatore per zwave2"
 }

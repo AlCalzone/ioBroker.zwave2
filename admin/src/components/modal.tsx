@@ -7,7 +7,7 @@ export interface ModalProps {
 	yesButtonText?: string;
 	noButtonText?: string;
 	hasNoButton?: boolean;
-	onClose(result: boolean): void;
+	onClose?(result: boolean): void;
 	open: boolean;
 	fixedFooter?: boolean;
 }
@@ -44,14 +44,14 @@ export function Modal(props: ModalProps) {
 			<div className="modal-footer">
 				<a
 					className="modal-close waves-effect waves-green btn-flat"
-					onClick={() => props.onClose(true)}
+					onClick={() => props.onClose?.(true)}
 				>
 					{props.yesButtonText ?? "OK"}
 				</a>
 				{props.hasNoButton && (
 					<a
 						className="modal-close waves-effect waves-green btn-flat"
-						onClick={() => props.onClose(false)}
+						onClick={() => props.onClose?.(false)}
 					>
 						{props.noButtonText ?? "Cancel"}
 					</a>
