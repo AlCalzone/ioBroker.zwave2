@@ -21,7 +21,7 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
-### __WORK IN PROGRESS__
+### 0.8.0 (2020-01-04)
 * The cache file is now saved in `iobroker-data`, so it doesn't get lost between updates
 * Added a button on the device overview tab to clear the cache
 
