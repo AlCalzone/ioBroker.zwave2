@@ -68,8 +68,8 @@ jobs:
 
             - name: Run local tests
               run: npm test
-            - name: Run unit tests
-              run: npm run test:unit
+            # - name: Run unit tests
+            #   run: npm run test:unit
             - name: Run integration tests (unix only)
               if: startsWith(runner.OS, 'windows') == false
               run: DEBUG=testing:* npm run test:integration
