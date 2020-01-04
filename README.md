@@ -21,7 +21,7 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
-### __WORK IN PROGRESS__
+### 0.7.2 (2020-01-04)
 * Fixed an issue where indicators with `boolean` values could not be written to
 
 ### 0.7.1 (2020-01-03)
