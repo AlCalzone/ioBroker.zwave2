@@ -21,6 +21,13 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
+### __WORK IN PROGRESS__
+* Brand new icon!
+* Updated `zwave-js` to v2.9.1. This includes the following fixes:
+	* Notification CC Reports that are received as a response during the interview are now correctly handled
+	* Status changes for nodes are now handled better
+	* The scenes of the Scene Activation CC are now automatically reset after the duration has elapsed.
+
 ### 0.8.0 (2020-01-04)
 * The cache file is now saved in `iobroker-data`, so it doesn't get lost between updates
 * Added a button on the device overview tab to clear the cache
