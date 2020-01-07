@@ -21,7 +21,7 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
-### __WORK IN PROGRESS__
+### 0.8.1 (2020-01-07)
 * Brand new icon!
 * Updated `zwave-js` to v2.9.1. This includes the following fixes:
 	* Notification CC Reports that are received as a response during the interview are now correctly handled

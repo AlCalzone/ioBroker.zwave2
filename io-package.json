@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "0.8.0",
+        "version": "0.8.1",
         "news": {
+            "0.8.1": {
+                "en": "* Brand new icon!\n* Updated `zwave-js` to v2.9.1. This includes the following fixes:\n\t* Notification CC Reports that are received as a response during the interview are now correctly handled\n\t* Status changes for nodes are now handled better\n\t* The scenes of the Scene Activation CC are now automatically reset after the duration has elapsed.",
+                "de": "* Brandneues Icon!\n* `Zwave-js` wurde auf v2.9.1 aktualisiert. Dies beinhaltet die folgenden Korrekturen:\n* CC-Benachrichtigungsberichte, die als Antwort während des Interviews eingehen, werden nun korrekt behandelt\n* Statusänderungen für Knoten werden jetzt besser gehandhabt\n* Die Szenen des Scene Activation CC werden jetzt nach Ablauf der Dauer automatisch zurückgesetzt.",
+                "ru": "* Новый значок!\n* Обновлен `zwave-js` до v2.9.1. Это включает в себя следующие исправления:\n* Уведомление CC. Отчеты, полученные в качестве ответа во время интервью, теперь корректно обрабатываются.\n* Изменения статуса для узлов теперь обрабатываются лучше\n* Сцены Scene Activation CC теперь автоматически сбрасываются после истечения времени действия.",
+                "pt": "* Novo ícone da marca!\n* Atualizado `zwave-js` para a v2.9.1. Isso inclui as seguintes correções:\n* Os relatórios CC de notificação recebidos como resposta durante a entrevista agora são tratados corretamente\n* Alterações de status para nós agora são tratadas melhor\n* As cenas do CC de ativação de cena agora são redefinidas automaticamente após o término da duração.",
+                "nl": "* Gloednieuw pictogram!\n* Bijgewerkt `zwave-js` naar v2.9.1. Dit omvat de volgende fixes:\n* Kennisgeving CC Rapporten die als reactie tijdens het interview worden ontvangen, worden nu correct verwerkt\n* Statuswijzigingen voor knooppunten worden nu beter afgehandeld\n* De scènes van de Scene Activation CC worden nu automatisch gereset nadat de duur is verstreken.",
+                "fr": "* Nouvelle icône!\n* Mise à jour de `zwave-js` vers v2.9.1. Cela inclut les correctifs suivants:\n* Notification CC Les rapports reçus en réponse lors de l'entretien sont désormais correctement traités\n* Les changements d'état des nœuds sont désormais mieux gérés\n* Les scènes du Scene Activation CC sont maintenant réinitialisées automatiquement une fois la durée écoulée.",
+                "it": "* Icona nuova di zecca!\n* Aggiornato `zwave-js` a v2.9.1. Ciò include le seguenti correzioni:\n* I rapporti CC di notifica che vengono ricevuti come risposta durante l'intervista sono ora gestiti correttamente\n* Le modifiche di stato per i nodi ora sono gestite meglio\n* Le scene di Scene Activation CC vengono ora ripristinate automaticamente dopo che è trascorsa la durata.",
+                "es": "* Nuevo icono!\n* Actualizado `zwave-js` a v2.9.1. Esto incluye las siguientes correcciones:\n* Los informes CC de notificación que se reciben como respuesta durante la entrevista ahora se manejan correctamente\n* Los cambios de estado para los nodos ahora se manejan mejor\n* Las escenas de Scene Activation CC ahora se reinician automáticamente una vez transcurrida la duración.",
+                "pl": "* Zupełnie nowa ikona!\n* Zaktualizowano `zwave-js` do v2.9.1. Obejmuje to następujące poprawki:\n* Raporty CC Raporty otrzymane jako odpowiedź podczas wywiadu są teraz poprawnie obsługiwane\n* Zmiany statusu dla węzłów są teraz obsługiwane lepiej\n* Sceny CC Activation Scene są teraz automatycznie resetowane po upływie czasu trwania.",
+                "zh-cn": "*全新的图标！\n*将`zwave-js`更新为v2.9.1。其中包括以下修复程序：\n*现在可以正确处理在面试过程中作为响应收到的Notification CC报告\n*现在可以更好地处理节点的状态更改\n*在持续时间过去之后，现在会自动重设Scene Activation CC的场景。"
+            },
             "0.8.0": {
                 "en": "* The cache file is now saved in `iobroker-data`, so it doesn't get lost between updates\n* Added a button on the device overview tab to clear the cache",
                 "de": "* Die Cache-Datei wird jetzt in \"iobroker-data\" gespeichert, damit sie zwischen den Aktualisierungen nicht verloren geht\n* Auf der Registerkarte Geräteübersicht wurde eine Schaltfläche zum Löschen des Caches hinzugefügt",
