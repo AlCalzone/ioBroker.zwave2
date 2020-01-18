@@ -21,6 +21,14 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
+### __WORK IN PROGRESS__
+Updated `zwave-js` to v2.10.0. This includes the following changes:
+* Locally reset devices are now treated like failing nodes and automatically removed from the controller
+* The Notification status is now also queried on wakeup
+* The status of non-reporting listening nodes is now regularly queried
+* The controller is now correctly treated as an awake node when prioritizing messages
+
+
 ### 0.8.1 (2020-01-07)
 * Brand new icon!
 * Updated `zwave-js` to v2.9.1. This includes the following fixes:
