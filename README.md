@@ -21,6 +21,9 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
+### __WORK IN PROGRESS__
+Test release for Supervision tests
+
 ### 0.8.2 (2020-01-18)
 Updated `zwave-js` to v2.10.0. This includes the following changes:
 * Locally reset devices are now treated like failing nodes and automatically removed from the controller
