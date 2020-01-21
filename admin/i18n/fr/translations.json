@@ -28,6 +28,7 @@
     "clear cache procedure": "L'adaptateur redémarre et re-interview de tous les nœuds. Cela peut prendre un certain temps et certains nœuds peuvent ne pas fonctionner comme prévu dans l'intervalle.",
     "dead": "mort",
     "done": "terminé",
+    "failed": "échoué",
     "loading...": "chargement...",
     "no": "pas de",
     "none selected": "aucune sélection",

@@ -28,6 +28,7 @@
     "clear cache procedure": "O adaptador irá reiniciar e re-entrevista de todos nós. Isso pode levar um longo tempo e alguns de nós podem não funcionar como esperado, entretanto.",
     "dead": "morto",
     "done": "feito",
+    "failed": "falhou",
     "loading...": "Carregando...",
     "no": "nenhum",
     "none selected": "nenhum selecionado",

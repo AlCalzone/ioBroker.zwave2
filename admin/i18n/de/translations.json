@@ -28,6 +28,7 @@
     "clear cache procedure": "Der Adapter startet neu und interviewt alle Knoten erneut. Dies kann sehr lange dauern und einige Knoten funktionieren in der Zwischenzeit nicht wie erwartet.",
     "dead": "tot",
     "done": "fertig",
+    "failed": "fehlgeschlagen",
     "loading...": "Wird geladen...",
     "no": "nein",
     "none selected": "nichts ausgewählt",

@@ -28,6 +28,7 @@
     "clear cache procedure": "De adapter opnieuw en opnieuw-interview alle knooppunten. Dit kan een lange tijd duren en sommige knooppunten werkt niet zoals verwacht in de tussentijd.",
     "dead": "dood",
     "done": "gedaan",
+    "failed": "mislukt",
     "loading...": "bezig met laden...",
     "no": "geen",
     "none selected": "geen geselecteerd",

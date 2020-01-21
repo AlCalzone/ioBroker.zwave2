@@ -28,6 +28,7 @@
     "clear cache procedure": "L'adattatore si riavvia e ri-intervista tutti i nodi. Questo può richiedere molto tempo e alcuni nodi potrebbero non funzionare come previsto, nel frattempo.",
     "dead": "morto",
     "done": "fatto",
+    "failed": "mancato",
     "loading...": "Caricamento in corso...",
     "no": "no",
     "none selected": "Nessuno selezionato",

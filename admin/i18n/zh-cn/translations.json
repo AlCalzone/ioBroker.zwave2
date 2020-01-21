@@ -28,6 +28,7 @@
     "clear cache procedure": "适配器将重新启动和重新面试的所有节点。 这可能需要很长的时间和一些节点可能无法按预期的方式工作。",
     "dead": "死",
     "done": "完成",
+    "failed": "失败了",
     "loading...": "载入中...",
     "no": "没有",
     "none selected": "未选择",

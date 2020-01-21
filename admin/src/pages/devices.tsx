@@ -469,8 +469,7 @@ export function Devices(props: any) {
 					{devicesAsArray.length ? (
 						devicesAsArray.map(({ id, value, status }) => {
 							const nodeId = value.native.id;
-							const deviceHealed =
-								networkHealProgress[nodeId] ?? false;
+							const deviceHealed = networkHealProgress[nodeId];
 							return (
 								<tr key={nodeId}>
 									<td>{nodeId}</td>
@@ -490,18 +489,26 @@ export function Devices(props: any) {
 												{" "}
 												<i
 													className={`material-icons ${
-														deviceHealed
+														deviceHealed === true
 															? "green-text text-darken-4"
+															: deviceHealed ===
+															  false
+															? "red-text text-darken-4"
 															: "light-blue-text text-accent-4 working"
 													}`}
 													title={
-														deviceHealed
+														deviceHealed === true
 															? _("done")
+															: deviceHealed ===
+															  false
+															? _("failed")
 															: _("pending")
 													}
 												>
-													{deviceHealed
+													{deviceHealed === true
 														? "done"
+														: deviceHealed === false
+														? "error_outline"
 														: "autorenew"}
 												</i>
 											</>

@@ -28,6 +28,7 @@
     "clear cache procedure": "The adapter will restart and re-interview all nodes. This may take a long time and some nodes may not work as expected in the meantime.",
     "dead": "dead",
     "done": "done",
+    "failed": "failed",
     "loading...": "loading...",
     "no": "no",
     "none selected": "none selected",
