@@ -21,6 +21,10 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
+### __WORK IN PROGRESS__
+* The progress report for network healing now correctly distinguishes between not yet healed nodes and nodes that failed to heal
+* A potential source of stalled communication because of a missing timeout was eliminated
+
 ### 0.9.0 (2020-01-21)
 Updated `zwave-js` to v2.11.0. This includes the following changes:
 * Improved `Multilevel Switch` support for some devices that report the immediate state after a `targetValue` change but not the final values
