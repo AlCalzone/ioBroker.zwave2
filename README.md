@@ -21,8 +21,10 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
-### 0.9.0-beta.0 (2020-01-20)
-Test release for Supervision tests
+### __WORK IN PROGRESS__
+Updated `zwave-js` to v2.11.0. This includes the following changes:
+* Improved `Multilevel Switch` support for some devices that report the immediate state after a `targetValue` change but not the final values
+* Fixed two issues where the communication with nodes (especially during the interview) could get stuck
 
 ### 0.8.2 (2020-01-18)
 Updated `zwave-js` to v2.10.0. This includes the following changes:
