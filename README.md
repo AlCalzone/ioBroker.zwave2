@@ -21,7 +21,7 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
-### __WORK IN PROGRESS__
+### 0.9.1 (2020-01-21)
 * The progress report for network healing now correctly distinguishes between not yet healed nodes and nodes that failed to heal
 * A potential source of stalled communication because of a missing timeout was eliminated
 

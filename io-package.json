@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "0.9.0",
+        "version": "0.9.1",
         "news": {
+            "0.9.1": {
+                "en": "* The progress report for network healing now correctly distinguishes between not yet healed nodes and nodes that failed to heal\n* A potential source of stalled communication because of a missing timeout was eliminated",
+                "de": "* Der Fortschrittsbericht für die Netzwerkheilung unterscheidet nun korrekt zwischen noch nicht geheilten Knoten und Knoten, die nicht geheilt werden konnten\n* Eine mögliche Ursache für Kommunikationsstörungen aufgrund einer fehlenden Zeitüberschreitung wurde beseitigt",
+                "ru": "* В отчете о ходе восстановления сети теперь правильно различаются еще не вылеченные узлы и узлы, которые не удалось вылечить.\n* Потенциальный источник остановленной связи из-за отсутствия тайм-аута был устранен",
+                "pt": "* O relatório de progresso para recuperação de rede agora distingue corretamente entre nós ainda não recuperados e nós que falharam em recuperar\n* Uma fonte potencial de comunicação interrompida por falta de tempo limite foi eliminada",
+                "nl": "* Het voortgangsrapport voor netwerkgenezing maakt nu correct onderscheid tussen nog niet genezen knooppunten en knooppunten die niet zijn genezen\n* Een potentiële bron van vastgelopen communicatie vanwege een ontbrekende time-out is geëlimineerd",
+                "fr": "* Le rapport de progression pour la guérison du réseau distingue désormais correctement les nœuds non encore guéris et les nœuds qui n'ont pas pu guérir\n* Une source potentielle de communication bloquée en raison d'un délai d'attente manquant a été éliminée",
+                "it": "* Il rapporto sullo stato di avanzamento della guarigione della rete ora distingue correttamente tra nodi non ancora guariti e nodi che non sono stati in grado di guarire\n* È stata eliminata una potenziale fonte di comunicazione bloccata a causa di un timeout mancante",
+                "es": "* El informe de progreso para la curación de la red ahora distingue correctamente entre nodos aún no curados y nodos que no pudieron sanar\n* Se eliminó una fuente potencial de comunicación estancada debido a un tiempo de espera perdido",
+                "pl": "* Raport postępu dla uzdrawiania sieci teraz poprawnie rozróżnia między jeszcze nieleczonymi węzłami i węzłami, które nie zostały wyleczone\n* Potencjalne źródło zablokowanej komunikacji z powodu braku limitu czasu zostało wyeliminowane",
+                "zh-cn": "*网络修复的进度报告现在可以正确区分尚未修复的节点和未能修复的节点\n*消除了由于缺少超时而导致通讯停顿的潜在原因"
+            },
             "0.9.0": {
                 "en": "Updated `zwave-js` to v2.11.0. This includes the following changes:\n* Improved `Multilevel Switch` support for some devices that report the immediate state after a `targetValue` change but not the final values\n* Fixed two issues where the communication with nodes (especially during the interview) could get stuck",
                 "de": "`Zwave-js` wurde auf v2.11.0 aktualisiert. Dies beinhaltet die folgenden Änderungen:\n* Verbesserte Unterstützung für \"Multilevel Switch\" für einige Geräte, die nach einer \"targetValue\" -Änderung den unmittelbaren Status melden, jedoch nicht die endgültigen Werte\n* Zwei Probleme wurden behoben, bei denen die Kommunikation mit Knoten (insbesondere während des Interviews) stecken bleiben konnte",
