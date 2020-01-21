@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "0.9.0-beta.0",
+        "version": "0.9.0",
         "news": {
+            "0.9.0": {
+                "en": "Updated `zwave-js` to v2.11.0. This includes the following changes:\n* Improved `Multilevel Switch` support for some devices that report the immediate state after a `targetValue` change but not the final values\n* Fixed two issues where the communication with nodes (especially during the interview) could get stuck",
+                "de": "`Zwave-js` wurde auf v2.11.0 aktualisiert. Dies beinhaltet die folgenden Änderungen:\n* Verbesserte Unterstützung für \"Multilevel Switch\" für einige Geräte, die nach einer \"targetValue\" -Änderung den unmittelbaren Status melden, jedoch nicht die endgültigen Werte\n* Zwei Probleme wurden behoben, bei denen die Kommunikation mit Knoten (insbesondere während des Interviews) stecken bleiben konnte",
+                "ru": "Обновлен `zwave-js` до v2.11.0. Это включает в себя следующие изменения:\n* Улучшена поддержка `Multilevel Switch` для некоторых устройств, которые сообщают о немедленном состоянии после изменения` targetValue`, но не окончательные значения\n* Исправлены две проблемы, из-за которых связь с узлами (особенно во время интервью) могла застрять",
+                "pt": "Atualizado `zwave-js` para a v2.11.0. Isso inclui as seguintes alterações:\n* Suporte aprimorado ao `Multilevel Switch` para alguns dispositivos que relatam o estado imediato após uma alteração no` targetValue`, mas não nos valores finais\n* Corrigido dois problemas em que a comunicação com os nós (especialmente durante a entrevista) poderia ficar paralisada",
+                "nl": "`Zwave-js` bijgewerkt naar v2.11.0. Dit omvat de volgende wijzigingen:\n* Verbeterde `Multilevel Switch`-ondersteuning voor sommige apparaten die de onmiddellijke status melden na een` targetValue`-wijziging maar niet de definitieve waarden\n* Twee problemen opgelost waarbij de communicatie met knooppunten (vooral tijdens het interview) kon vastlopen",
+                "fr": "`Zwave-js` mis à jour vers v2.11.0. Cela inclut les modifications suivantes:\n* Amélioration de la prise en charge de `Multilevel Switch` pour certains appareils qui signalent l'état immédiat après un changement de` targetValue` mais pas les valeurs finales\n* Correction de deux problèmes où la communication avec les nœuds (en particulier pendant l'interview) pouvait rester bloquée",
+                "it": "`Zwave-js` aggiornato alla v2.11.0. Ciò include le seguenti modifiche:\n* Migliorato il supporto del `Multilevel Switch` per alcuni dispositivi che riportano lo stato immediato dopo una modifica di` targetValue` ma non i valori finali\n* Risolti due problemi in cui la comunicazione con i nodi (specialmente durante l'intervista) poteva bloccarsi",
+                "es": "Actualizado `zwave-js` a v2.11.0. Esto incluye los siguientes cambios:\n* Mejorado el soporte de `Multilevel Switch` para algunos dispositivos que informan el estado inmediato después de un cambio de` targetValue` pero no los valores finales\n* Se corrigieron dos problemas en los que la comunicación con los nodos (especialmente durante la entrevista) podía atascarse",
+                "pl": "Zaktualizowano `zwave-js` do v2.11.0. Obejmuje to następujące zmiany:\n* Ulepszona obsługa przełącznika wielopoziomowego dla niektórych urządzeń, które zgłaszają natychmiastowy stan po zmianie parametru `targetValue`, ale nie końcowe wartości\n* Naprawiono dwa problemy, w wyniku których komunikacja z węzłami (szczególnie podczas wywiadu) mogła się blokować",
+                "zh-cn": "将`zwave-js`更新为v2.11.0。这包括以下更改：\n*改进了对某些设备的“多级切换”支持，这些设备在“ targetValue”更改后报告立即状态，但不报告最终值\n*修正了两个问题，其中与节点的通信（尤其是在采访中）可能会卡住"
+            },
             "0.9.0-beta.0": {
                 "en": "Test release for Supervision tests",
                 "de": "Testfreigabe für Überwachungstests",
