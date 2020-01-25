@@ -21,6 +21,12 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
+### __WORK IN PROGRESS__
+Updated `zwave-js` to v2.12.0. This includes the following changes:
+* When a node is removed from the network, all associations to it are also removed
+* The interview procedure is now canceled and retried when an error occurs instead of silently failing all futher steps
+* Improvents to the network heal process were made
+
 ### 0.9.1 (2020-01-21)
 * The progress report for network healing now correctly distinguishes between not yet healed nodes and nodes that failed to heal
 * A potential source of stalled communication because of a missing timeout was eliminated
