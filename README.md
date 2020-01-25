@@ -21,7 +21,7 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
-### __WORK IN PROGRESS__
+### 0.9.2-beta.0 (2020-01-25)
 Updated `zwave-js` to v2.12.0. This includes the following changes:
 * When a node is removed from the network, all associations to it are also removed
 * The interview procedure is now canceled and retried when an error occurs instead of silently failing all futher steps
