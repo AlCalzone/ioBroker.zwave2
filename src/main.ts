@@ -5,6 +5,7 @@ import * as fs from "fs-extra";
 import * as path from "path";
 import { Driver, ZWaveNode } from "zwave-js";
 import { CommandClasses } from "zwave-js/build/lib/commandclass/CommandClasses";
+import { HealNodeStatus } from "zwave-js/build/lib/controller/Controller";
 import {
 	ZWaveNodeMetadataUpdatedArgs,
 	ZWaveNodeValueAddedArgs,
@@ -199,9 +200,9 @@ class Zwave2 extends utils.Adapter {
 	}
 
 	private async onHealNetworkProgress(
-		progress: ReadonlyMap<number, boolean>,
+		progress: ReadonlyMap<number, HealNodeStatus>,
 	): Promise<void> {
-		const allDone = [...progress.values()].every(v => v === true);
+		const allDone = [...progress.values()].every(v => v !== "pending");
 		// If this is the final progress report, skip it, so the frontend gets the "done" message
 		if (allDone) return;
 		this.respondToHealNetworkPoll({
@@ -211,7 +212,7 @@ class Zwave2 extends utils.Adapter {
 	}
 
 	private async onHealNetworkDone(
-		result: ReadonlyMap<number, boolean>,
+		result: ReadonlyMap<number, HealNodeStatus>,
 	): Promise<void> {
 		this.respondToHealNetworkPoll({
 			type: "done",

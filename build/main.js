@@ -130,7 +130,7 @@ class Zwave2 extends utils.Adapter {
         await objects_1.removeNode(node.id);
     }
     async onHealNetworkProgress(progress) {
-        const allDone = [...progress.values()].every(v => v === true);
+        const allDone = [...progress.values()].every(v => v !== "pending");
         // If this is the final progress report, skip it, so the frontend gets the "done" message
         if (allDone)
             return;

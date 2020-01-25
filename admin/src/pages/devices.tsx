@@ -5,7 +5,6 @@ import {
 } from "../../../src/lib/shared";
 import { Modal } from "../components/modal";
 import { useStateWithRef } from "../lib/stateWithRefs";
-import { resolve } from "url";
 
 let namespace: string;
 
@@ -469,7 +468,36 @@ export function Devices(props: any) {
 					{devicesAsArray.length ? (
 						devicesAsArray.map(({ id, value, status }) => {
 							const nodeId = value.native.id;
-							const deviceHealed = networkHealProgress[nodeId];
+
+							const nodeHealStatus = networkHealProgress[nodeId];
+							let healIconCssClass: string;
+							let healIconTooltip: string;
+							let healIconName: string;
+							switch (nodeHealStatus) {
+								case "done":
+									healIconCssClass =
+										"green-text text-darken-4";
+									healIconTooltip = "done";
+									healIconName = "done";
+									break;
+								case "skipped":
+									healIconCssClass =
+										"orange-text text-darken-3";
+									healIconTooltip = "skipped";
+									healIconName = "redo";
+									break;
+								case "failed":
+									healIconCssClass = "red-text text-darken-4";
+									healIconTooltip = "failed";
+									healIconName = "error_outline";
+									break;
+								case "pending":
+									healIconCssClass =
+										"light-blue-text text-accent-4 working";
+									healIconTooltip = "pending";
+									healIconName = "autorenew";
+									break;
+							}
 							return (
 								<tr key={nodeId}>
 									<td>{nodeId}</td>
@@ -488,28 +516,10 @@ export function Devices(props: any) {
 											<>
 												{" "}
 												<i
-													className={`material-icons ${
-														deviceHealed === true
-															? "green-text text-darken-4"
-															: deviceHealed ===
-															  false
-															? "red-text text-darken-4"
-															: "light-blue-text text-accent-4 working"
-													}`}
-													title={
-														deviceHealed === true
-															? _("done")
-															: deviceHealed ===
-															  false
-															? _("failed")
-															: _("pending")
-													}
+													className={`material-icons ${healIconCssClass}`}
+													title={_(healIconTooltip)}
 												>
-													{deviceHealed === true
-														? "done"
-														: deviceHealed === false
-														? "error_outline"
-														: "autorenew"}
+													{healIconName}
 												</i>
 											</>
 										)}
