@@ -15,6 +15,8 @@ interface SettingsProps {
 
 interface SettingsState {
 	[key: string]: unknown;
+	serialport?: string;
+	writeLogFile?: boolean;
 	_serialports?: string[];
 }
 
@@ -152,16 +154,24 @@ export class Settings extends React.Component<SettingsProps, SettingsState> {
 	}
 
 	public render() {
+		// Add the currently configured serial port to the list if it is not in there
+		const serialports = this.state._serialports;
+		if (
+			serialports &&
+			this.state.serialport &&
+			!serialports.includes(this.state.serialport)
+		) {
+			serialports.unshift(this.state.serialport);
+		}
 		return (
 			<>
 				<div className="row">
 					<div className="col s4 input-field">
-						{this.state._serialports &&
-						this.state._serialports.length ? (
+						{serialports && serialports.length ? (
 							<Dropdown
 								id="serialport"
-								options={this.state._serialports}
-								checkedOption={this.state.serialport as string}
+								options={serialports}
+								checkedOption={this.state.serialport}
 								emptySelectionText={_("none selected")}
 								checkedChanged={newValue =>
 									this.doHandleChange("serialport", newValue)
