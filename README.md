@@ -21,7 +21,7 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
-### __WORK IN PROGRESS__
+### 0.9.3 (2020-01-26)
 * Updated `zwave-js` to v2.12.2. This should fix issues with older Thermostats.
 
 ### 0.9.2 (2020-01-25)
