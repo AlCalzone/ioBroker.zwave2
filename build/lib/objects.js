@@ -84,7 +84,7 @@ function nodeToCommon(node) {
 async function extendNode(node) {
     var _a;
     const deviceId = shared_1.computeDeviceId(node.id);
-    const originalObject = await global_1.Global.adapter.getObjectAsync(deviceId);
+    const originalObject = global_1.Global.adapter.oObjects[deviceId];
     // update the object while preserving the existing common properties
     const desiredObject = {
         type: "device",
@@ -139,7 +139,7 @@ async function extendCC(node, cc, ccName) {
         cc,
         version: node.getCCVersion(cc),
     };
-    const originalObject = await global_1.Global.adapter.getObjectAsync(channelId);
+    const originalObject = global_1.Global.adapter.oObjects[channelId];
     if (originalObject == undefined) {
         await global_1.Global.adapter.setObjectAsync(channelId, {
             type: "channel",
@@ -193,8 +193,16 @@ async function extendMetadata(node, args) {
             steps: metadata.steps,
         },
     };
-    // FIXME: Only set the object when it changed
-    await global_1.Global.adapter.setObjectAsync(stateId, objectDefinition);
+    const originalObject = global_1.Global.adapter.oObjects[stateId];
+    if (originalObject == undefined) {
+        await global_1.Global.adapter.setObjectAsync(stateId, objectDefinition);
+    }
+    else if (JSON.stringify(objectDefinition.common) !==
+        JSON.stringify(originalObject.common) ||
+        JSON.stringify(objectDefinition.native) !==
+            JSON.stringify(originalObject.native)) {
+        await global_1.Global.adapter.extendObjectAsync(stateId, objectDefinition);
+    }
 }
 exports.extendMetadata = extendMetadata;
 async function removeValue(nodeId, args) {

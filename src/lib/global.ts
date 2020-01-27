@@ -1,11 +1,12 @@
 import { filter as objFilter } from "alcalzone-shared/objects";
+import { ZWave2 } from "../main";
 
 export class Global {
-	private static _adapter: ioBroker.Adapter;
-	public static get adapter(): ioBroker.Adapter {
+	private static _adapter: ZWave2;
+	public static get adapter(): ZWave2 {
 		return Global._adapter;
 	}
-	public static set adapter(adapter: ioBroker.Adapter) {
+	public static set adapter(adapter: ZWave2) {
 		Global._adapter = adapter;
 	}
 

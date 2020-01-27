@@ -9,9 +9,9 @@ const CommandClasses_1 = require("zwave-js/build/lib/commandclass/CommandClasses
 const global_1 = require("./lib/global");
 const objects_1 = require("./lib/objects");
 const shared_1 = require("./lib/shared");
-class Zwave2 extends utils.Adapter {
+class ZWave2 extends utils.Adapter {
     constructor(options = {}) {
-        super(Object.assign(Object.assign({}, options), { name: "zwave2" }));
+        super(Object.assign(Object.assign({}, options), { name: "zwave2", objects: true }));
         this.driverReady = false;
         this.on("ready", this.onReady.bind(this));
         this.on("objectChange", this.onObjectChange.bind(this));
@@ -318,7 +318,7 @@ class Zwave2 extends utils.Adapter {
                     return;
                 }
                 // Otherwise perform the default handling for values
-                const obj = await this.getObjectAsync(id);
+                const obj = this.oObjects[id];
                 if (!obj) {
                     this.log.error(`Object definition for state ${id} is missing!`);
                     // TODO: Capture this with sentry?
@@ -502,13 +502,14 @@ class Zwave2 extends utils.Adapter {
         }
     }
 }
+exports.ZWave2 = ZWave2;
 if (module.parent) {
     // Export the constructor in compact mode
-    module.exports = (options) => new Zwave2(options);
+    module.exports = (options) => new ZWave2(options);
 }
 else {
     // otherwise start the instance directly
-    (() => new Zwave2())();
+    (() => new ZWave2())();
 }
 process.on("unhandledRejection", r => {
     throw r;

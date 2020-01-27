@@ -31,11 +31,12 @@ import {
 	NetworkHealPollResponse,
 } from "./lib/shared";
 
-class Zwave2 extends utils.Adapter {
+export class ZWave2 extends utils.Adapter {
 	public constructor(options: Partial<ioBroker.AdapterOptions> = {}) {
 		super({
 			...options,
 			name: "zwave2",
+			objects: true,
 		});
 		this.on("ready", this.onReady.bind(this));
 		this.on("objectChange", this.onObjectChange.bind(this));
@@ -43,6 +44,8 @@ class Zwave2 extends utils.Adapter {
 		this.on("message", this.onMessage.bind(this));
 		this.on("unload", this.onUnload.bind(this));
 	}
+
+	declare oObjects: Exclude<ioBroker.Adapter["oObjects"], undefined>;
 
 	private driver!: Driver;
 	private driverReady = false;
@@ -459,7 +462,7 @@ class Zwave2 extends utils.Adapter {
 				}
 
 				// Otherwise perform the default handling for values
-				const obj = await this.getObjectAsync(id);
+				const obj = this.oObjects[id];
 				if (!obj) {
 					this.log.error(
 						`Object definition for state ${id} is missing!`,
@@ -690,10 +693,10 @@ class Zwave2 extends utils.Adapter {
 if (module.parent) {
 	// Export the constructor in compact mode
 	module.exports = (options: Partial<ioBroker.AdapterOptions> | undefined) =>
-		new Zwave2(options);
+		new ZWave2(options);
 } else {
 	// otherwise start the instance directly
-	(() => new Zwave2())();
+	(() => new ZWave2())();
 }
 
 process.on("unhandledRejection", r => {

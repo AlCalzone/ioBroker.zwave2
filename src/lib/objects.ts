@@ -110,7 +110,7 @@ function nodeToCommon(node: ZWaveNode): ioBroker.ObjectCommon {
 
 export async function extendNode(node: ZWaveNode): Promise<void> {
 	const deviceId = computeDeviceId(node.id);
-	const originalObject = await _.adapter.getObjectAsync(deviceId);
+	const originalObject = _.adapter.oObjects[deviceId];
 
 	// update the object while preserving the existing common properties
 	const desiredObject: ioBroker.SettableObject = {
@@ -179,7 +179,7 @@ export async function extendCC(
 		version: node.getCCVersion(cc),
 	};
 
-	const originalObject = await _.adapter.getObjectAsync(channelId);
+	const originalObject = _.adapter.oObjects[channelId];
 	if (originalObject == undefined) {
 		await _.adapter.setObjectAsync(channelId, {
 			type: "channel",
@@ -246,8 +246,17 @@ export async function extendMetadata(
 		},
 	};
 
-	// FIXME: Only set the object when it changed
-	await _.adapter.setObjectAsync(stateId, objectDefinition);
+	const originalObject = _.adapter.oObjects[stateId];
+	if (originalObject == undefined) {
+		await _.adapter.setObjectAsync(stateId, objectDefinition);
+	} else if (
+		JSON.stringify(objectDefinition.common) !==
+			JSON.stringify(originalObject.common) ||
+		JSON.stringify(objectDefinition.native) !==
+			JSON.stringify(originalObject.native)
+	) {
+		await _.adapter.extendObjectAsync(stateId, objectDefinition);
+	}
 }
 
 export async function removeValue(
