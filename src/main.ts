@@ -450,6 +450,14 @@ export class ZWave2 extends utils.Adapter {
 		if (state) {
 			// The state was changed
 			if (!state.ack) {
+				// Make sure we can already use the Z-Wave driver
+				if (!this.driverReady) {
+					this.log.warn(
+						`The driver is not yet ready, ignoring state change for "${id}"`,
+					);
+					return;
+				}
+
 				// Handle some special states first
 				if (id.endsWith("info.inclusion")) {
 					if (state.val) await this.setExclusionMode(false);
