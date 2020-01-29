@@ -167,7 +167,7 @@ Updated `zwave-js` to v2.7.0. This includes the following changes:
 ## License
 MIT License
 
-Copyright (c) 2019 AlCalzone
+Copyright (c) 2019-2020 AlCalzone
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
