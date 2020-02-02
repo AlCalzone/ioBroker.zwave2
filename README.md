@@ -21,6 +21,14 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
+### __WORK IN PROGRESS__
+* Small performance improvements
+* Fixed an error that could happen when a state was changed before the driver is ready
+* Updated `zwave-js` to v2.12.3. This includes the following changes:
+	* The interview sequence for `Thermostat CC` V1/V2 should no longer get stuck
+	* Improved handling of nodes that don't respond to a request
+	* Minor stability improvements and bugfixes
+
 ### 0.9.3 (2020-01-26)
 * Updated `zwave-js` to v2.12.2. This should fix issues with older Thermostats.
 
