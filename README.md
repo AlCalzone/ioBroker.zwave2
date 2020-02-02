@@ -21,7 +21,7 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
-### __WORK IN PROGRESS__
+### 0.9.4 (2020-02-02)
 * Small performance improvements
 * Fixed an error that could happen when a state was changed before the driver is ready
 * Updated `zwave-js` to v2.12.3. This includes the following changes:
