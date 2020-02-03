@@ -78,7 +78,7 @@
     "eslint-plugin-prettier": "^3.0.1",
     "gulp": "^4.0.1",
     "iobroker-react-components": "^1.0.0",
-    "jest": "^24.9.0",
+    "jest": "^25.1.0",
     "jest-extended": "^0.11.2",
     "mocha": "^7.0.0",
     "nyc": "^15.0.0",
