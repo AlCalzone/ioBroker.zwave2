@@ -21,7 +21,7 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
-### __WORK IN PROGRESS__
+### 0.9.5 (2020-02-07)
 Updated `zwave-js` to v2.12.3. This includes the following changes:
 * Improved support for some notifications types
 * Added support for the `Clock CC`.

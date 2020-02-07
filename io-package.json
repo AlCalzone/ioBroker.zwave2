@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "0.9.4",
+        "version": "0.9.5",
         "news": {
+            "0.9.5": {
+                "en": "Updated `zwave-js` to v2.12.3. This includes the following changes:\n* Improved support for some notifications types\n* Added support for the `Clock CC`.\n* Fixed a bug where unsolicited commands could wrongly be interpreted as a response to the current request",
+                "de": "`Zwave-js` wurde auf v2.12.3 aktualisiert. Dies beinhaltet die folgenden Änderungen:\n* Verbesserte Unterstützung für einige Benachrichtigungstypen\n* Unterstützung für \"Clock CC\" hinzugefügt.\n* Ein Fehler wurde behoben, durch den unerwünschte Befehle fälschlicherweise als Antwort auf die aktuelle Anfrage interpretiert wurden",
+                "ru": "Обновлен `zwave-js` до v2.12.3. Это включает в себя следующие изменения:\n* Улучшена поддержка некоторых типов уведомлений\n* Добавлена поддержка `Clock CC`.\n* Исправлена ошибка, при которой нежелательные команды могли ошибочно интерпретироваться как ответ на текущий запрос",
+                "pt": "Atualizado `zwave-js` para a v2.12.3. Isso inclui as seguintes alterações:\n* Suporte aprimorado para alguns tipos de notificações\n* Adicionado suporte para o `Clock CC`.\n* Corrigido um erro em que comandos não solicitados podiam ser interpretados erroneamente como uma resposta à solicitação atual",
+                "nl": "`Zwave-js` bijgewerkt naar v2.12.3. Dit omvat de volgende wijzigingen:\n* Verbeterde ondersteuning voor sommige typen meldingen\n* Ondersteuning toegevoegd voor de `Clock CC`.\n* Een bug opgelost waarbij ongevraagde commando's ten onrechte als een reactie op het huidige verzoek konden worden geïnterpreteerd",
+                "fr": "Mise à jour de `zwave-js` vers v2.12.3. Cela inclut les modifications suivantes:\n* Prise en charge améliorée de certains types de notifications\n* Ajout du support pour le `Clock CC`.\n* Correction d'un bug où les commandes non sollicitées pouvaient être interprétées à tort comme une réponse à la demande en cours",
+                "it": "`Zwave-js` aggiornato alla v2.12.3. Ciò include le seguenti modifiche:\n* Supporto migliorato per alcuni tipi di notifiche\n* Aggiunto il supporto per il `Clock CC`.\n* Risolto un bug in cui i comandi non richiesti potevano essere erroneamente interpretati come una risposta alla richiesta corrente",
+                "es": "Actualizado `zwave-js` a v2.12.3. Esto incluye los siguientes cambios:\n* Soporte mejorado para algunos tipos de notificaciones\n* Se agregó soporte para el `Clock CC`.\n* Se corrigió un error por el cual los comandos no solicitados podían interpretarse erróneamente como una respuesta a la solicitud actual",
+                "pl": "Zaktualizowano `zwave-js` do v2.12.3. Obejmuje to następujące zmiany:\n* Ulepszona obsługa niektórych typów powiadomień\n* Dodano obsługę `Clock CC`.\n* Naprawiono błąd, w którym niezamówione polecenia mogły być błędnie interpretowane jako odpowiedź na bieżące żądanie",
+                "zh-cn": "将`zwave-js`更新为v2.12.3。这包括以下更改：\n*改进了对某些通知类型的支持\n*增加了对“时钟CC”的支持。\n*修复了一个错误，该错误将未经请求的命令错误地解释为对当前请求的响应"
+            },
             "0.9.4": {
                 "en": "* Small performance improvements\n* Fixed an error that could happen when a state was changed before the driver is ready\n* Updated `zwave-js` to v2.12.3. This includes the following changes:\n\t* The interview sequence for `Thermostat CC` V1/V2 should no longer get stuck\n\t* Improved handling of nodes that don't respond to a request\n\t* Minor stability improvements and bugfixes",
                 "de": "* Kleine Leistungsverbesserungen\n* Es wurde ein Fehler behoben, der auftreten konnte, wenn ein Status geändert wurde, bevor der Treiber bereit war\n* `Zwave-js` wurde auf v2.12.3 aktualisiert. Dies beinhaltet die folgenden Änderungen:\n* Die Interviewsequenz für `Thermostat CC` V1 / V2 sollte nicht mehr hängen bleiben\n* Verbesserte Behandlung von Knoten, die nicht auf eine Anfrage antworten\n* Kleinere Stabilitätsverbesserungen und Bugfixes",
