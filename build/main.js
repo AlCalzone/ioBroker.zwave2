@@ -418,17 +418,17 @@ class ZWave2 extends utils.Adapter {
             RESULT: (result) => ({ error: null, result }),
             ERROR: (error) => ({ error }),
         };
-        // make required parameters easier
-        // function requireParams(...params: string[]): boolean {
-        // 	if (!params.length) return true;
-        // 	for (const param of params) {
-        // 		if (!(obj.message && obj.message.hasOwnProperty(param))) {
-        // 			respond(responses.MISSING_PARAMETER(param));
-        // 			return false;
-        // 		}
-        // 	}
-        // 	return true;
-        // }
+        function requireParams(...params) {
+            if (!params.length)
+                return true;
+            for (const param of params) {
+                if (!(obj.message && obj.message.hasOwnProperty(param))) {
+                    respond(responses.MISSING_PARAMETER(param));
+                    return false;
+                }
+            }
+            return true;
+        }
         // wotan-disable-next-line no-useless-predicate
         if (obj) {
             switch (obj.command) {
@@ -502,6 +502,21 @@ class ZWave2 extends utils.Adapter {
                     this.updateConfig({ clearCache: true });
                     respond(responses.OK);
                     return;
+                }
+                case "removeFailedNode": {
+                    if (!this.driverReady) {
+                        return respond(responses.ERROR("The driver is not yet ready to do that!"));
+                    }
+                    if (!requireParams("nodeId"))
+                        return;
+                    const params = obj.message;
+                    try {
+                        await this.driver.controller.removeFailedNode(params.nodeId);
+                    }
+                    catch (e) {
+                        return respond(responses.ERROR(`Could not remove node ${params.nodeId}: ${e.message}`));
+                    }
+                    return respond(responses.OK);
                 }
             }
         }
