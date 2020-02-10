@@ -21,8 +21,14 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
+### __WORK IN PROGRESS__
+Updated `zwave-js` to v2.13.2. This includes the following fixes:
+* Improved support for older devices with multiple endpoints
+* The *HeatIt Z-Push Button 8* should now correctly be detected
+* Potential fix for weird behavior of Start Level Change commands in some devices.
+
 ### 0.9.5 (2020-02-07)
-Updated `zwave-js` to v2.12.3. This includes the following changes:
+Updated `zwave-js` to v2.13.0. This includes the following changes:
 * Improved support for some notifications types
 * Added support for the `Clock CC`.
 * Fixed a bug where unsolicited commands could wrongly be interpreted as a response to the current request
