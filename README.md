@@ -21,7 +21,7 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
-### __WORK IN PROGRESS__
+### 0.9.6 (2020-02-10)
 Updated `zwave-js` to v2.13.2. This includes the following fixes:
 * Improved support for older devices with multiple endpoints
 * The *HeatIt Z-Push Button 8* should now correctly be detected
