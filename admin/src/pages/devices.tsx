@@ -5,6 +5,7 @@ import {
 } from "../../../src/lib/shared";
 import { Modal } from "../components/modal";
 import { useStateWithRef } from "../lib/stateWithRefs";
+import { NodeActions } from "../components/nodeActions";
 
 let namespace: string;
 
@@ -187,6 +188,23 @@ async function subscribeStatesAsync(pattern: string): Promise<void> {
 	});
 }
 
+async function removeFailedNode(nodeId: number): Promise<void> {
+	return new Promise((resolve, reject) => {
+		sendTo(
+			null,
+			"removeFailedNode",
+			{ nodeId },
+			async ({ error, result }) => {
+				if (result === "ok") {
+					resolve();
+				} else {
+					reject(error ?? result);
+				}
+			},
+		);
+	});
+}
+
 interface MessageProps {
 	title: string;
 	content: string | React.ReactNode;
@@ -216,6 +234,8 @@ export function Devices(props: any) {
 		NonNullable<NetworkHealPollResponse["progress"]>
 	>({});
 	const [cacheCleared, setCacheCleared] = React.useState(false);
+	// Which "Node actions" modal is currently open
+	const [curActionsModal, setCurActionsModal] = React.useState<number>();
 
 	function hideMessage() {
 		setMessage(getDefaultMessageProps());
@@ -461,7 +481,7 @@ export function Devices(props: any) {
 						<td>{_("Name")}</td>
 						<td>{_("Type")}</td>
 						<td>{_("Status")}</td>
-						{/* <td>Aktionen</td> */}
+						<td>{_("Header_Actions")}</td>
 					</tr>
 				</thead>
 				<tbody>
@@ -524,13 +544,51 @@ export function Devices(props: any) {
 											</>
 										)}
 									</td>
-									{/* <td>[-]</td> */}
+									<td>
+										<a
+											className="btn-small"
+											onClick={() =>
+												setCurActionsModal(nodeId)
+											}
+										>
+											<i className="material-icons">
+												more_horiz
+											</i>
+										</a>
+										{/* Modal to edit this node */}
+										<Modal
+											id={`modalEditNode${nodeId}`}
+											title={`Node #${nodeId}`}
+											yesButtonText={_("close")}
+											open={curActionsModal === nodeId}
+											content={
+												<NodeActions
+													nodeId={nodeId}
+													status={status}
+													actions={{
+														remove: removeFailedNode.bind(
+															undefined,
+															nodeId,
+														),
+													}}
+													close={() =>
+														setCurActionsModal(
+															undefined,
+														)
+													}
+												/>
+											}
+											onClose={() =>
+												setCurActionsModal(undefined)
+											}
+										/>
+									</td>
 								</tr>
 							);
 						})
 					) : (
 						<tr>
-							<td colSpan={6} style={{ textAlign: "center" }}>
+							<td colSpan={5} style={{ textAlign: "center" }}>
 								{_("No devices present")}
 							</td>
 						</tr>

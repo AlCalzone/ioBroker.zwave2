@@ -1,4 +1,3 @@
-// Renders some components in jQuery UI tabs
 import * as React from "react";
 import { isObject, isArray } from "alcalzone-shared/typeguards";
 import { composeObject } from "alcalzone-shared/objects";
