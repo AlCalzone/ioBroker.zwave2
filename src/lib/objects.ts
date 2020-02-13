@@ -204,7 +204,10 @@ export async function extendValue(
 	const stateId = computeId(node.id, args);
 
 	await extendMetadata(node, args);
-	await _.adapter.setStateAsync(stateId, args.newValue as any, true);
+	// The javascript adapter doesn't seem to like undefined as a value
+	// therefore turn it into a null
+	const valueToSet = args.newValue === undefined ? null : args.newValue;
+	await _.adapter.setStateAsync(stateId, valueToSet as any, true);
 }
 
 export async function extendMetadata(

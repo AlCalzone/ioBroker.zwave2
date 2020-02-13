@@ -159,7 +159,10 @@ exports.extendCC = extendCC;
 async function extendValue(node, args) {
     const stateId = computeId(node.id, args);
     await extendMetadata(node, args);
-    await global_1.Global.adapter.setStateAsync(stateId, args.newValue, true);
+    // The javascript adapter doesn't seem to like undefined as a value
+    // therefore turn it into a null
+    const valueToSet = args.newValue === undefined ? null : args.newValue;
+    await global_1.Global.adapter.setStateAsync(stateId, valueToSet, true);
 }
 exports.extendValue = extendValue;
 async function extendMetadata(node, args) {
@@ -240,6 +243,7 @@ async function setNodeStatus(nodeId, status) {
     await global_1.Global.adapter.setStateAsync(stateId, status, true);
 }
 exports.setNodeStatus = setNodeStatus;
+/** Updates the ready state for the given node */
 async function setNodeReady(nodeId, ready) {
     const stateId = `${shared_1.computeDeviceId(nodeId)}.ready`;
     await global_1.Global.adapter.setObjectNotExistsAsync(stateId, {
