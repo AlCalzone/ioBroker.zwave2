@@ -21,7 +21,7 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
-### __WORK IN PROGRESS__
+### 0.10.0 (2020-02-13)
 * Updated `zwave-js` to v2.13.3 to improve support for older `Multi Channel` devices
 * Added an *actions* dialog to the device overview, which allows performing node-specific actions. The first available action is removing failed nodes.
 * Added a `ready` state for nodes which can be used in scripts to check if the node is ready to accept commands
