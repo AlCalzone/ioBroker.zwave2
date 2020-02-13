@@ -21,6 +21,12 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
+### __WORK IN PROGRESS__
+* Updated `zwave-js` to v2.13.3 to improve support for older `Multi Channel` devices
+* Added an *actions* dialog to the device overview, which allows performing node-specific actions. The first available action is removing failed nodes.
+* Added a `ready` state for nodes which can be used in scripts to check if the node is ready to accept commands
+* Value that are set to `undefined` are now converted to `null` before being passed to ioBroker. This avoids a bug in the javascript adapter where triggers would be called with wrong state values.
+
 ### 0.9.6 (2020-02-10)
 Updated `zwave-js` to v2.13.2. This includes the following fixes:
 * Improved support for older devices with multiple endpoints
