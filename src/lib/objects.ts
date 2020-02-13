@@ -301,3 +301,24 @@ export async function setNodeStatus(
 	});
 	await _.adapter.setStateAsync(stateId, status, true);
 }
+
+/** Updates the ready state for the given node */
+export async function setNodeReady(
+	nodeId: number,
+	ready: boolean,
+): Promise<void> {
+	const stateId = `${computeDeviceId(nodeId)}.ready`;
+	await _.adapter.setObjectNotExistsAsync(stateId, {
+		type: "state",
+		common: {
+			name: "Ready to use",
+			role: "indicator",
+			type: "boolean",
+			read: true,
+			write: false,
+			def: false,
+		},
+		native: {},
+	});
+	await _.adapter.setStateAsync(stateId, ready, true);
+}

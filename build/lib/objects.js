@@ -240,4 +240,21 @@ async function setNodeStatus(nodeId, status) {
     await global_1.Global.adapter.setStateAsync(stateId, status, true);
 }
 exports.setNodeStatus = setNodeStatus;
+async function setNodeReady(nodeId, ready) {
+    const stateId = `${shared_1.computeDeviceId(nodeId)}.ready`;
+    await global_1.Global.adapter.setObjectNotExistsAsync(stateId, {
+        type: "state",
+        common: {
+            name: "Ready to use",
+            role: "indicator",
+            type: "boolean",
+            read: true,
+            write: false,
+            def: false,
+        },
+        native: {},
+    });
+    await global_1.Global.adapter.setStateAsync(stateId, ready, true);
+}
+exports.setNodeReady = setNodeReady;
 //# sourceMappingURL=objects.js.map

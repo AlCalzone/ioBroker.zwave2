@@ -23,6 +23,7 @@ import {
 	extendValue,
 	removeNode,
 	removeValue,
+	setNodeReady,
 	setNodeStatus,
 } from "./lib/objects";
 import {
@@ -118,11 +119,8 @@ export class ZWave2 extends utils.Adapter {
 			for (const [nodeId, node] of this.driver.controller.nodes) {
 				this.addNodeEventHandlers(node);
 				// Reset the node status
-				await this.setStateAsync(
-					`${computeDeviceId(nodeId)}.status`,
-					"unknown",
-					true,
-				);
+				await setNodeStatus(nodeId, "unknown");
+				await setNodeReady(nodeId, false);
 			}
 
 			// Now we know which nodes should exist - clean up orphaned nodes
@@ -254,6 +252,7 @@ export class ZWave2 extends utils.Adapter {
 			node.id,
 			node.supportsCC(CommandClasses["Wake Up"]) ? "awake" : "alive",
 		);
+		await setNodeReady(node.id, true);
 
 		// Find out which channels and states need to exist
 		const allValueIDs = node.getDefinedValueIDs();
@@ -409,7 +408,15 @@ export class ZWave2 extends utils.Adapter {
 	private async onUnload(callback: () => void): Promise<void> {
 		try {
 			this.log.info("Shutting down driver...");
+			const allNodeIds = [...this.driver.controller.nodes.keys()];
 			await this.driver.destroy();
+
+			this.log.info("Resetting node status...");
+			for (const nodeId of allNodeIds) {
+				await setNodeStatus(nodeId, "unknown");
+				await setNodeReady(nodeId, false);
+			}
+
 			this.log.info("Cleaned everything up!");
 			callback();
 		} catch (e) {
