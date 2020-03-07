@@ -161,14 +161,15 @@ class ZWave2 extends utils.Adapter {
     }
     async onNodeReady(node) {
         this.log.info(`Node ${node.id}: ready to use`);
-        if (node.isControllerNode())
-            return;
         const nodeAbsoluteId = `${this.namespace}.${shared_1.computeDeviceId(node.id)}`;
         // Make sure the device object exists and is up to date
         await objects_1.extendNode(node);
         // Set the node status
         await objects_1.setNodeStatus(node.id, node.supportsCC(CommandClasses_1.CommandClasses["Wake Up"]) ? "awake" : "alive");
         await objects_1.setNodeReady(node.id, true);
+        // Skip channel creation for the controller node
+        if (node.isControllerNode())
+            return;
         // Find out which channels and states need to exist
         const allValueIDs = node.getDefinedValueIDs();
         const uniqueCCs = allValueIDs

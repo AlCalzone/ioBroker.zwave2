@@ -240,7 +240,6 @@ export class ZWave2 extends utils.Adapter {
 
 	private async onNodeReady(node: ZWaveNode): Promise<void> {
 		this.log.info(`Node ${node.id}: ready to use`);
-		if (node.isControllerNode()) return;
 
 		const nodeAbsoluteId = `${this.namespace}.${computeDeviceId(node.id)}`;
 
@@ -253,6 +252,9 @@ export class ZWave2 extends utils.Adapter {
 			node.supportsCC(CommandClasses["Wake Up"]) ? "awake" : "alive",
 		);
 		await setNodeReady(node.id, true);
+
+		// Skip channel creation for the controller node
+		if (node.isControllerNode()) return;
 
 		// Find out which channels and states need to exist
 		const allValueIDs = node.getDefinedValueIDs();
