@@ -1,303 +1,320 @@
 {
-	"common": {
-		"name": "zwave2",
-		"version": "0.11.0",
-		"news": {
-			"0.10.0": {
-				"en": "* Updated `zwave-js` to v2.13.3 to improve support for older `Multi Channel` devices\n* Added an *actions* dialog to the device overview, which allows performing node-specific actions. The first available action is removing failed nodes.\n* Added a `ready` state for nodes which can be used in scripts to check if the node is ready to accept commands\n* Value that are set to `undefined` are now converted to `null` before being passed to ioBroker. This avoids a bug in the javascript adapter where triggers would be called with wrong state values.",
-				"de": "* `Zwave-js` wurde auf v2.13.3 aktualisiert, um die Unterstützung für ältere` Multi Channel`-Geräte zu verbessern\n* Der Geräteübersicht wurde ein Dialogfeld *Aktionen* hinzugefügt, in dem knotenspezifische Aktionen ausgeführt werden können. Die erste verfügbare Aktion ist das Entfernen ausgefallener Knoten. \n* Bereitschaftsstatus für Knoten hinzugefügt, der in Skripten verwendet werden kann, um zu prüfen, ob der Knoten bereit ist, Befehle anzunehmen\n* Werte, die auf \"undefined\" gesetzt sind, werden jetzt in \"null\" konvertiert, bevor sie an ioBroker übergeben werden. Dies vermeidet einen Fehler im Javascript-Adapter, bei dem Trigger mit falschen Statuswerten aufgerufen werden.",
-				"ru": "* Обновлен `zwave-js` до v2.13.3 для улучшения поддержки старых` Многоканальных` устройств\n* В обзор устройства добавлен диалог *actions* который позволяет выполнять специфичные для узла действия. Первое доступное действие - удаление неисправных узлов. \n* Добавлено состояние `ready` для узлов, которые можно использовать в скриптах для проверки готовности узла принимать команды\n* Значение, для которого установлено значение «undefined», теперь преобразуется в «null» перед передачей в ioBroker. Это позволяет избежать ошибки в адаптере javascript, когда триггеры будут вызываться с неправильными значениями состояния.",
-				"pt": "* Atualizado zwave-js` para a v2.13.3 para melhorar o suporte a dispositivos antigos multicanais\n* Foi adicionada uma caixa de diálogo *actions* à visão geral do dispositivo, que permite executar ações específicas do nó. A primeira ação disponível é remover nós com falha. \n* Adicionado um estado `pronto 'para nós, que pode ser usado em scripts para verificar se o nó está pronto para aceitar comandos\n* O valor definido como `indefinido` agora é convertido em` null` antes de ser passado para o ioBroker. Isso evita um erro no adaptador javascript, em que os acionadores seriam chamados com valores de estado incorretos.",
-				"nl": "* Bijgewerkt `zwave-js` naar v2.13.3 om de ondersteuning voor oudere` Multi Channel`-apparaten te verbeteren\n* Een *acties* dialoogvenster toegevoegd aan het apparaatoverzicht, waarmee knooppuntspecifieke acties kunnen worden uitgevoerd. De eerste beschikbare actie is het verwijderen van mislukte knooppunten. \n* Een `ready'-status toegevoegd voor knooppunten die in scripts kunnen worden gebruikt om te controleren of het knooppunt klaar is om opdrachten te accepteren\n* Waarde die is ingesteld op `undefined` wordt nu geconverteerd naar` null` voordat deze wordt doorgegeven aan ioBroker. Dit voorkomt een fout in de javascript-adapter waarbij triggers met verkeerde statuswaarden worden aangeroepen.",
-				"fr": "* Mise à jour de `zwave-js` vers v2.13.3 pour améliorer la prise en charge des anciens appareils` Multi Channel`\n* Ajout d'une boîte de dialogue *actions* à la vue d'ensemble de l'appareil, qui permet d'effectuer des actions spécifiques au nœud. La première action disponible consiste à supprimer les nœuds défaillants. \n* Ajout d'un état «prêt» pour les nœuds qui peut être utilisé dans les scripts pour vérifier si le nœud est prêt à accepter les commandes\n* Les valeurs définies sur «undefined» sont désormais converties en «null» avant d'être transmises à ioBroker. Cela évite un bogue dans l'adaptateur javascript où les déclencheurs seraient appelés avec des valeurs d'état incorrectes.",
-				"it": "* Aggiornato `zwave-js` a v2.13.3 per migliorare il supporto per i vecchi dispositivi` Multi Channel`\n* Aggiunta una finestra di dialogo *azioni* alla panoramica del dispositivo, che consente di eseguire azioni specifiche del nodo. La prima azione disponibile è la rimozione di nodi non riusciti. \n* Aggiunto uno stato `ready` per i nodi che può essere usato negli script per verificare se il nodo è pronto ad accettare comandi\n* I valori impostati su `undefined` vengono ora convertiti in` null` prima di essere passati a ioBroker. Ciò evita un bug nell'adattatore javascript in cui i trigger verrebbero chiamati con valori di stato errati.",
-				"es": "* Se actualizó `zwave-js` a v2.13.3 para mejorar la compatibilidad con dispositivos más antiguos de` Multi Channel`\n* Se agregó un cuadro de diálogo *acciones* a la descripción general del dispositivo, que permite realizar acciones específicas de nodo. La primera acción disponible es eliminar nodos fallidos. \n* Se agregó un estado 'listo' para los nodos que se puede usar en scripts para verificar si el nodo está listo para aceptar comandos\n* Los valores configurados en `undefined` ahora se convierten en` null` antes de pasarlos a ioBroker. Esto evita un error en el adaptador de JavaScript donde los disparadores se llamarían con valores de estado incorrectos.",
-				"pl": "* Zaktualizowano `zwave-js` do wersji 2.13.3, aby poprawić obsługę starszych urządzeń` Multi Channel`\n* Dodano okno dialogowe *akcji* do przeglądu urządzenia, które umożliwia wykonywanie akcji specyficznych dla węzła. Pierwszą dostępną akcją jest usunięcie uszkodzonych węzłów. \n* Dodano stan „gotowy” dla węzłów, którego można używać w skryptach do sprawdzania, czy węzeł jest gotowy do przyjmowania poleceń\n* Wartości, które są ustawione na „niezdefiniowane” są teraz konwertowane na „null” przed przekazaniem do ioBroker. Pozwala to uniknąć błędu w adapterze javascript, w którym wyzwalacze byłyby wywoływane z nieprawidłowymi wartościami stanu.",
-				"zh-cn": "*将`zwave-js`更新为v2.13.3，以改进对较旧`Multi Channel`设备的支持\n*在设备概述中添加了“操作”对话框，该对话框允许执行特定于节点的操作。第一个可用的操作是删除故障节点。\n*为节点添加了“就绪”状态，可以在脚本中使用该状态来检查节点是否准备好接受命令\n*设置为“未定义”的值在传递给ioBroker之前已转换为“空”。这避免了JavaScript适配器中的错误，该错误会以错误的状态值调用触发器。"
-			},
-			"0.9.6": {
-				"en": "Updated `zwave-js` to v2.13.2. This includes the following fixes:\n* Improved support for older devices with multiple endpoints\n* The *HeatIt Z-Push Button 8* should now correctly be detected\n* Potential fix for weird behavior of Start Level Change commands in some devices.",
-				"de": "`Zwave-js` wurde auf v2.13.2 aktualisiert. Dies beinhaltet die folgenden Korrekturen:\n* Verbesserte Unterstützung für ältere Geräte mit mehreren Endpunkten\n* Der *HeatIt Z-Push Button 8* sollte nun korrekt erkannt werden \n* Mögliche Korrektur für seltsames Verhalten der Befehle zum Ändern der Startebene in einigen Geräten.",
-				"ru": "Обновлен `zwave-js` до v2.13.2. Это включает в себя следующие исправления:\n* Улучшена поддержка старых устройств с несколькими конечными точками\n* Кнопка HeatIt Z-Push 8 * теперь должна правильно определяться\n* Возможное исправление странного поведения команд Start Level Change в некоторых устройствах.",
-				"pt": "Atualizado `zwave-js` para a v2.13.2. Isso inclui as seguintes correções:\n* Suporte aprimorado para dispositivos mais antigos com vários pontos de extremidade\n* O *HeatIt Z-Push Button 8* deve agora ser corretamente detectado \n* Correção potencial para um comportamento estranho dos comandos Iniciar mudança de nível em alguns dispositivos.",
-				"nl": "`Zwave-js` bijgewerkt naar v2.13.2. Dit omvat de volgende fixes:\n* Verbeterde ondersteuning voor oudere apparaten met meerdere eindpunten\n* De *HeatIt Z-drukknop 8* moet nu correct worden gedetecteerd \n* Mogelijke oplossing voor raar gedrag van Start Level Change-opdrachten op sommige apparaten.",
-				"fr": "`Zwave-js` mis à jour vers v2.13.2. Cela inclut les correctifs suivants:\n* Prise en charge améliorée des appareils plus anciens avec plusieurs points de terminaison\n* Le *HeatIt Z-Push Button 8* devrait maintenant être correctement détecté \n* Correction potentielle d'un comportement étrange des commandes de changement de niveau de démarrage sur certains appareils.",
-				"it": "Aggiornato `zwave-js` a v2.13.2. Ciò include le seguenti correzioni:\n* Supporto migliorato per dispositivi meno recenti con più endpoint\n* Il *pulsante HeatIt Z-Push 8* ora dovrebbe essere rilevato correttamente \n* Potenziale correzione per il comportamento strano dei comandi di modifica del livello iniziale in alcuni dispositivi.",
-				"es": "Actualizado `zwave-js` a v2.13.2. Esto incluye las siguientes correcciones:\n* Soporte mejorado para dispositivos más antiguos con múltiples puntos finales\n* El *HeatIt Z-Push Button 8* ahora debería detectarse correctamente \n* Posible solución para el comportamiento extraño de los comandos de inicio de cambio de nivel en algunos dispositivos.",
-				"pl": "Zaktualizowano `zwave-js` do wersji 2.13.2. Obejmuje to następujące poprawki:\n* Poprawiona obsługa starszych urządzeń z wieloma punktami końcowymi\n*Teraz należy poprawnie wykryć przycisk * HeatIt Z-Push 8*\n* Potencjalna poprawka dla dziwnego zachowania poleceń zmiany poziomu początkowego w niektórych urządzeniach.",
-				"zh-cn": "将`zwave-js`更新为v2.13.2。其中包括以下修复程序：\n*改进了对具有多个端点的旧设备的支持\n*现在可以正确检测到* HeatIt Z-Push Button 8 *\n*修复了某些设备中“开始级别更改”命令怪异行为的潜在修复。"
-			},
-			"0.9.5": {
-				"en": "Updated `zwave-js` to v2.13.0. This includes the following changes:\n* Improved support for some notifications types\n* Added support for the `Clock CC`.\n* Fixed a bug where unsolicited commands could wrongly be interpreted as a response to the current request",
-				"de": "`Zwave-js` wurde auf v2.13.0 aktualisiert. Dies beinhaltet die folgenden Änderungen:\n* Verbesserte Unterstützung für einige Benachrichtigungstypen\n* Unterstützung für \"Clock CC\" hinzugefügt.\n* Ein Fehler wurde behoben, durch den unerwünschte Befehle fälschlicherweise als Antwort auf die aktuelle Anfrage interpretiert wurden",
-				"ru": "Обновлен `zwave-js` до v2.13.0. Это включает в себя следующие изменения:\n* Улучшена поддержка некоторых типов уведомлений\n* Добавлена поддержка `Clock CC`.\n* Исправлена ошибка, при которой нежелательные команды могли ошибочно интерпретироваться как ответ на текущий запрос",
-				"pt": "Atualizado `zwave-js` para a v2.13.0. Isso inclui as seguintes alterações:\n* Suporte aprimorado para alguns tipos de notificações\n* Adicionado suporte para o `Clock CC`.\n* Corrigido um erro em que comandos não solicitados podiam ser interpretados erroneamente como uma resposta à solicitação atual",
-				"nl": "`Zwave-js` bijgewerkt naar v2.13.0. Dit omvat de volgende wijzigingen:\n* Verbeterde ondersteuning voor sommige typen meldingen\n* Ondersteuning toegevoegd voor de `Clock CC`.\n* Een bug opgelost waarbij ongevraagde commando's ten onrechte als een reactie op het huidige verzoek konden worden geïnterpreteerd",
-				"fr": "Mise à jour de `zwave-js` vers v2.13.0. Cela inclut les modifications suivantes:\n* Prise en charge améliorée de certains types de notifications\n* Ajout du support pour le `Clock CC`.\n* Correction d'un bug où les commandes non sollicitées pouvaient être interprétées à tort comme une réponse à la demande en cours",
-				"it": "`Zwave-js` aggiornato alla v2.13.0. Ciò include le seguenti modifiche:\n* Supporto migliorato per alcuni tipi di notifiche\n* Aggiunto il supporto per il `Clock CC`.\n* Risolto un bug in cui i comandi non richiesti potevano essere erroneamente interpretati come una risposta alla richiesta corrente",
-				"es": "Actualizado `zwave-js` a v2.13.0. Esto incluye los siguientes cambios:\n* Soporte mejorado para algunos tipos de notificaciones\n* Se agregó soporte para el `Clock CC`.\n* Se corrigió un error por el cual los comandos no solicitados podían interpretarse erróneamente como una respuesta a la solicitud actual",
-				"pl": "Zaktualizowano `zwave-js` do v2.13.0. Obejmuje to następujące zmiany:\n* Ulepszona obsługa niektórych typów powiadomień\n* Dodano obsługę `Clock CC`.\n* Naprawiono błąd, w którym niezamówione polecenia mogły być błędnie interpretowane jako odpowiedź na bieżące żądanie",
-				"zh-cn": "将`zwave-js`更新为v2.13.0。这包括以下更改：\n*改进了对某些通知类型的支持\n*增加了对“时钟CC”的支持。\n*修复了一个错误，该错误将未经请求的命令错误地解释为对当前请求的响应"
-			},
-			"0.9.4": {
-				"en": "* Small performance improvements\n* Fixed an error that could happen when a state was changed before the driver is ready\n* Updated `zwave-js` to v2.12.3. This includes the following changes:\n\t* The interview sequence for `Thermostat CC` V1/V2 should no longer get stuck\n\t* Improved handling of nodes that don't respond to a request\n\t* Minor stability improvements and bugfixes",
-				"de": "* Kleine Leistungsverbesserungen\n* Es wurde ein Fehler behoben, der auftreten konnte, wenn ein Status geändert wurde, bevor der Treiber bereit war\n* `Zwave-js` wurde auf v2.12.3 aktualisiert. Dies beinhaltet die folgenden Änderungen:\n* Die Interviewsequenz für `Thermostat CC` V1 / V2 sollte nicht mehr hängen bleiben\n* Verbesserte Behandlung von Knoten, die nicht auf eine Anfrage antworten\n* Kleinere Stabilitätsverbesserungen und Bugfixes",
-				"ru": "* Небольшие улучшения производительности\n* Исправлена ошибка, которая могла произойти при изменении состояния до того, как драйвер будет готов\n* Обновлен `zwave-js` до v2.12.3. Это включает в себя следующие изменения:\n* Последовательность интервью для «Термостата CC» V1 / V2 больше не должна застрять\n* Улучшена обработка узлов, которые не отвечают на запрос\n* Незначительные улучшения стабильности и исправления ошибок",
-				"pt": "* Pequenas melhorias de desempenho\n* Corrigido um erro que poderia acontecer quando um estado era alterado antes do driver estar pronto\n* Atualizado `zwave-js` para a v2.12.3. Isso inclui as seguintes alterações:\n* A sequência de entrevistas para `Thermostat CC` V1 / V2 não deve mais ficar presa\n* Manipulação aprimorada de nós que não respondem a uma solicitação\n* Pequenas melhorias de estabilidade e correções",
-				"nl": "* Kleine prestatieverbeteringen\n* Een fout opgelost die kon optreden wanneer een status werd gewijzigd voordat het stuurprogramma gereed was\n* Bijgewerkt `zwave-js` naar v2.12.3. Dit omvat de volgende wijzigingen:\n* De interviewsequentie voor `Thermostat CC` V1 / V2 moet niet meer vastlopen\n* Verbeterde afhandeling van knooppunten die niet op een verzoek reageren\n* Kleine stabiliteitsverbeteringen en bugfixes",
-				"fr": "* Petites améliorations de performances\n* Correction d'une erreur qui pouvait survenir lorsqu'un état était modifié avant que le pilote ne soit prêt\n* Mise à jour de `zwave-js` vers v2.12.3. Cela inclut les modifications suivantes:\n* La séquence d'interview pour `Thermostat CC` V1 / V2 ne devrait plus rester bloquée\n* Gestion améliorée des nœuds qui ne répondent pas à une demande\n* Améliorations de stabilité mineures et corrections de bugs",
-				"it": "* Piccoli miglioramenti delle prestazioni\n* Risolto un errore che poteva verificarsi quando uno stato veniva cambiato prima che il driver fosse pronto\n* Aggiornato `zwave-js` a v2.12.3. Ciò include le seguenti modifiche:\n* La sequenza di interviste per `Thermostat CC` V1 / V2 non dovrebbe più bloccarsi\n* Migliore gestione dei nodi che non rispondono a una richiesta\n* Miglioramenti e correzioni di stabilità minori",
-				"es": "* Pequeñas mejoras de rendimiento\n* Se corrigió un error que podía ocurrir cuando se cambiaba un estado antes de que el controlador esté listo\n* Actualizado `zwave-js` a v2.12.3. Esto incluye los siguientes cambios:\n* La secuencia de la entrevista para `Thermostat CC` V1 / V2 ya no debería atascarse\n* Manejo mejorado de nodos que no responden a una solicitud\n* Pequeñas mejoras de estabilidad y correcciones de errores",
-				"pl": "* Małe ulepszenia wydajności\n* Naprawiono błąd, który mógł wystąpić, gdy stan został zmieniony, zanim sterownik jest gotowy\n* Zaktualizowano `zwave-js` do v2.12.3. Obejmuje to następujące zmiany:\n* Sekwencja wywiadów dla „Thermostat CC” V1 / V2 nie powinna się już zacinać\n* Ulepszona obsługa węzłów, które nie odpowiadają na żądanie\n* Drobne ulepszenia stabilności i poprawki błędów",
-				"zh-cn": "*小性能改进\n*修复了在驱动程序准备就绪之前更改状态时可能发生的错误\n*更新了`zwave-js`至v2.12.3。这包括以下更改：\n*“ Thermostat CC” V1 / V2的采访顺序不再受困\n*改进了对不响应请求的节点的处理\n*较小的稳定性改进和错误修正"
-			},
-			"0.9.3": {
-				"en": "* Updated `zwave-js` to v2.12.2. This should fix issues with older Thermostats.",
-				"de": "* `Zwave-js` wurde auf v2.12.2 aktualisiert. Dies sollte Probleme mit älteren Thermostaten beheben.",
-				"ru": "* Обновлен `zwave-js` до v2.12.2. Это должно исправить проблемы со старыми термостатами.",
-				"pt": "* Atualizado `zwave-js` para a v2.12.2. Isso deve corrigir problemas com termostatos mais antigos.",
-				"nl": "* Bijgewerkt `zwave-js` naar v2.12.2. Dit zou problemen met oudere thermostaten moeten oplossen.",
-				"fr": "* Mise à jour de `zwave-js` vers v2.12.2. Cela devrait résoudre les problèmes avec les anciens thermostats.",
-				"it": "* Aggiornato `zwave-js` a v2.12.2. Ciò dovrebbe risolvere i problemi con i vecchi termostati.",
-				"es": "* Actualizado `zwave-js` a v2.12.2. Esto debería solucionar problemas con termostatos antiguos.",
-				"pl": "* Zaktualizowano `zwave-js` do v2.12.2. To powinno rozwiązać problemy ze starszymi termostatami.",
-				"zh-cn": "*更新了`zwave-js`至v2.12.2。这应该可以解决旧式恒温器的问题。"
-			},
-			"0.9.2": {
-				"en": "Updated `zwave-js` to v2.12.1. This includes the following changes:\n* When a node is removed from the network, all associations to it are also removed\n* The interview procedure is now canceled and retried when an error occurs instead of silently failing all futher steps\n* Improvents to the network heal process were made\n* Several stability improvements regarding the interview procedure and handling of sleeping nodes",
-				"de": "`Zwave-js` wurde auf v2.12.1 aktualisiert. Dies beinhaltet die folgenden Änderungen:\n* Wenn ein Knoten aus dem Netzwerk entfernt wird, werden auch alle Zuordnungen zu diesem Knoten entfernt\n* Der Interview-Vorgang wird jetzt abgebrochen und wiederholt, wenn ein Fehler auftritt, anstatt stillschweigend alle weiteren Schritte fehlzuschlagen\n* Der Netzwerkheilungsprozess wurde verbessert\n* Verschiedene Stabilitätsverbesserungen bezüglich des Interviewverfahrens und des Umgangs mit schlafenden Knoten",
-				"ru": "Обновлен `zwave-js` до v2.12.1. Это включает в себя следующие изменения:\n* Когда узел удаляется из сети, все связи с ним также удаляются\n* Процедура собеседования теперь отменяется и повторяется при возникновении ошибки, вместо того, чтобы молча пропустить все дальнейшие шаги\n* Были внесены улучшения в процесс лечения сети\n* Несколько улучшений стабильности в отношении процедуры интервью и обработки спящих узлов",
-				"pt": "Atualizado `zwave-js` para a v2.12.1. Isso inclui as seguintes alterações:\n* Quando um nó é removido da rede, todas as associações a ele também são removidas\n* O procedimento de entrevista agora é cancelado e repetido quando ocorre um erro em vez de falhar silenciosamente em todas as etapas posteriores\n* Melhorias no processo de recuperação da rede foram feitas\n* Várias melhorias de estabilidade em relação ao procedimento de entrevista e manuseio de nós adormecidos",
-				"nl": "`Zwave-js` bijgewerkt naar v2.12.1. Dit omvat de volgende wijzigingen:\n* Wanneer een knooppunt uit het netwerk wordt verwijderd, worden alle bijbehorende koppelingen ook verwijderd\n* De interviewprocedure is nu geannuleerd en opnieuw geprobeerd als er een fout optreedt in plaats van alle verdere stappen stilzwijgend te laten mislukken\n* Er zijn verbeteringen aangebracht in het netwerkherstelproces\n* Verschillende stabiliteitsverbeteringen met betrekking tot de interviewprocedure en de behandeling van slapende knopen",
-				"fr": "Mise à jour de `zwave-js` vers v2.12.1. Cela inclut les modifications suivantes:\n* Lorsqu'un nœud est supprimé du réseau, toutes les associations avec lui sont également supprimées\n* La procédure d'entrevue est maintenant annulée et réessayée lorsqu'une erreur se produit au lieu d'échouer silencieusement à toutes les étapes ultérieures\n* Des améliorations ont été apportées au processus de guérison du réseau\n* Plusieurs améliorations de stabilité concernant la procédure d'entretien et la gestion des nœuds endormis",
-				"it": "`Zwave-js` aggiornato alla v2.12.1. Ciò include le seguenti modifiche:\n* Quando un nodo viene rimosso dalla rete, vengono rimosse anche tutte le associazioni ad esso\n* La procedura di intervista ora viene annullata e riprovata quando si verifica un errore invece di fallire silenziosamente tutti i passaggi successivi\n* Sono stati apportati miglioramenti al processo di guarigione della rete\n* Diversi miglioramenti della stabilità relativi alla procedura di intervista e alla gestione dei nodi dormienti",
-				"es": "Actualizado `zwave-js` a v2.12.1. Esto incluye los siguientes cambios:\n* Cuando se elimina un nodo de la red, también se eliminan todas sus asociaciones.\n* El procedimiento de entrevista ahora se cancela y se vuelve a intentar cuando ocurre un error en lugar de fallar silenciosamente todos los pasos posteriores\n* Se realizaron mejoras en el proceso de curación de la red.\n* Varias mejoras de estabilidad con respecto al procedimiento de entrevista y manejo de los nodos dormidos",
-				"pl": "Zaktualizowano `zwave-js` do v2.12.1. Obejmuje to następujące zmiany:\n* Gdy węzeł zostanie usunięty z sieci, wszystkie powiązania z nim również zostaną usunięte\n* Procedura wywiadu jest teraz anulowana i ponawiana, gdy wystąpi błąd, zamiast po cichu zawieść wszystkie kolejne kroki\n* Wprowadzono usprawnienia procesu leczenia sieci\n* Kilka ulepszeń stabilności dotyczących procedury wywiadu i obsługi śpiących węzłów",
-				"zh-cn": "将`zwave-js`更新为v2.12.1。这包括以下更改：\n*当节点从网络中删除时，与该节点的所有关联也将被删除\n*现在，发生错误时，面试程序将被取消并重试，而不会默默地使所有后续步骤失败\n*对网络修复过程进行了改进\n*关于采访过程和睡眠节点处理的一些稳定性改进"
-			},
-			"0.9.1": {
-				"en": "* The progress report for network healing now correctly distinguishes between not yet healed nodes and nodes that failed to heal\n* A potential source of stalled communication because of a missing timeout was eliminated",
-				"de": "* Der Fortschrittsbericht für die Netzwerkheilung unterscheidet nun korrekt zwischen noch nicht geheilten Knoten und Knoten, die nicht geheilt werden konnten\n* Eine mögliche Ursache für Kommunikationsstörungen aufgrund einer fehlenden Zeitüberschreitung wurde beseitigt",
-				"ru": "* В отчете о ходе восстановления сети теперь правильно различаются еще не вылеченные узлы и узлы, которые не удалось вылечить.\n* Потенциальный источник остановленной связи из-за отсутствия тайм-аута был устранен",
-				"pt": "* O relatório de progresso para recuperação de rede agora distingue corretamente entre nós ainda não recuperados e nós que falharam em recuperar\n* Uma fonte potencial de comunicação interrompida por falta de tempo limite foi eliminada",
-				"nl": "* Het voortgangsrapport voor netwerkgenezing maakt nu correct onderscheid tussen nog niet genezen knooppunten en knooppunten die niet zijn genezen\n* Een potentiële bron van vastgelopen communicatie vanwege een ontbrekende time-out is geëlimineerd",
-				"fr": "* Le rapport de progression pour la guérison du réseau distingue désormais correctement les nœuds non encore guéris et les nœuds qui n'ont pas pu guérir\n* Une source potentielle de communication bloquée en raison d'un délai d'attente manquant a été éliminée",
-				"it": "* Il rapporto sullo stato di avanzamento della guarigione della rete ora distingue correttamente tra nodi non ancora guariti e nodi che non sono stati in grado di guarire\n* È stata eliminata una potenziale fonte di comunicazione bloccata a causa di un timeout mancante",
-				"es": "* El informe de progreso para la curación de la red ahora distingue correctamente entre nodos aún no curados y nodos que no pudieron sanar\n* Se eliminó una fuente potencial de comunicación estancada debido a un tiempo de espera perdido",
-				"pl": "* Raport postępu dla uzdrawiania sieci teraz poprawnie rozróżnia między jeszcze nieleczonymi węzłami i węzłami, które nie zostały wyleczone\n* Potencjalne źródło zablokowanej komunikacji z powodu braku limitu czasu zostało wyeliminowane",
-				"zh-cn": "*网络修复的进度报告现在可以正确区分尚未修复的节点和未能修复的节点\n*消除了由于缺少超时而导致通讯停顿的潜在原因"
-			},
-			"0.9.0": {
-				"en": "Updated `zwave-js` to v2.11.0. This includes the following changes:\n* Improved `Multilevel Switch` support for some devices that report the immediate state after a `targetValue` change but not the final values\n* Fixed two issues where the communication with nodes (especially during the interview) could get stuck",
-				"de": "`Zwave-js` wurde auf v2.11.0 aktualisiert. Dies beinhaltet die folgenden Änderungen:\n* Verbesserte Unterstützung für \"Multilevel Switch\" für einige Geräte, die nach einer \"targetValue\" -Änderung den unmittelbaren Status melden, jedoch nicht die endgültigen Werte\n* Zwei Probleme wurden behoben, bei denen die Kommunikation mit Knoten (insbesondere während des Interviews) stecken bleiben konnte",
-				"ru": "Обновлен `zwave-js` до v2.11.0. Это включает в себя следующие изменения:\n* Улучшена поддержка `Multilevel Switch` для некоторых устройств, которые сообщают о немедленном состоянии после изменения` targetValue`, но не окончательные значения\n* Исправлены две проблемы, из-за которых связь с узлами (особенно во время интервью) могла застрять",
-				"pt": "Atualizado `zwave-js` para a v2.11.0. Isso inclui as seguintes alterações:\n* Suporte aprimorado ao `Multilevel Switch` para alguns dispositivos que relatam o estado imediato após uma alteração no` targetValue`, mas não nos valores finais\n* Corrigido dois problemas em que a comunicação com os nós (especialmente durante a entrevista) poderia ficar paralisada",
-				"nl": "`Zwave-js` bijgewerkt naar v2.11.0. Dit omvat de volgende wijzigingen:\n* Verbeterde `Multilevel Switch`-ondersteuning voor sommige apparaten die de onmiddellijke status melden na een` targetValue`-wijziging maar niet de definitieve waarden\n* Twee problemen opgelost waarbij de communicatie met knooppunten (vooral tijdens het interview) kon vastlopen",
-				"fr": "`Zwave-js` mis à jour vers v2.11.0. Cela inclut les modifications suivantes:\n* Amélioration de la prise en charge de `Multilevel Switch` pour certains appareils qui signalent l'état immédiat après un changement de` targetValue` mais pas les valeurs finales\n* Correction de deux problèmes où la communication avec les nœuds (en particulier pendant l'interview) pouvait rester bloquée",
-				"it": "`Zwave-js` aggiornato alla v2.11.0. Ciò include le seguenti modifiche:\n* Migliorato il supporto del `Multilevel Switch` per alcuni dispositivi che riportano lo stato immediato dopo una modifica di` targetValue` ma non i valori finali\n* Risolti due problemi in cui la comunicazione con i nodi (specialmente durante l'intervista) poteva bloccarsi",
-				"es": "Actualizado `zwave-js` a v2.11.0. Esto incluye los siguientes cambios:\n* Mejorado el soporte de `Multilevel Switch` para algunos dispositivos que informan el estado inmediato después de un cambio de` targetValue` pero no los valores finales\n* Se corrigieron dos problemas en los que la comunicación con los nodos (especialmente durante la entrevista) podía atascarse",
-				"pl": "Zaktualizowano `zwave-js` do v2.11.0. Obejmuje to następujące zmiany:\n* Ulepszona obsługa przełącznika wielopoziomowego dla niektórych urządzeń, które zgłaszają natychmiastowy stan po zmianie parametru `targetValue`, ale nie końcowe wartości\n* Naprawiono dwa problemy, w wyniku których komunikacja z węzłami (szczególnie podczas wywiadu) mogła się blokować",
-				"zh-cn": "将`zwave-js`更新为v2.11.0。这包括以下更改：\n*改进了对某些设备的“多级切换”支持，这些设备在“ targetValue”更改后报告立即状态，但不报告最终值\n*修正了两个问题，其中与节点的通信（尤其是在采访中）可能会卡住"
-			},
-			"0.9.0-beta.0": {
-				"en": "Test release for Supervision tests",
-				"de": "Testfreigabe für Überwachungstests",
-				"ru": "Тестовый релиз для супервизионных тестов",
-				"pt": "Liberação de teste para testes de supervisão",
-				"nl": "Testvrijgave voor supervisietests",
-				"fr": "Version de test pour les tests de supervision",
-				"it": "Rilascio di test per test di supervisione",
-				"es": "Versión de prueba para pruebas de supervisión",
-				"pl": "Wersja testowa do testów nadzoru",
-				"zh-cn": "监督测试的测试版本"
-			},
-			"0.8.2": {
-				"en": "Updated `zwave-js` to v2.10.0. This includes the following changes:\n* Locally reset devices are now treated like failing nodes and automatically removed from the controller\n* The Notification status is now also queried on wakeup\n* The status of non-reporting listening nodes is now regularly queried\n* The controller is now correctly treated as an awake node when prioritizing messages",
-				"de": "`Zwave-js` wurde auf v2.10.0 aktualisiert. Dies beinhaltet die folgenden Änderungen:\n* Lokal zurückgesetzte Geräte werden jetzt wie fehlerhafte Knoten behandelt und automatisch von der Steuerung entfernt\n* Der Benachrichtigungsstatus wird jetzt auch beim Aufwecken abgefragt\n* Der Status nicht meldender Empfangsknoten wird jetzt regelmäßig abgefragt\n* Der Controller wird jetzt beim Priorisieren von Nachrichten korrekt als Wachknoten behandelt",
-				"ru": "Обновлен `zwave-js` до v2.10.0. Это включает в себя следующие изменения:\n* Локально сброшенные устройства теперь обрабатываются как сбойные узлы и автоматически удаляются из контроллера\n* Статус уведомления теперь также запрашивается при пробуждении\n* Состояние не сообщающих о прослушивании узлов теперь регулярно запрашивается\n* Контроллер теперь корректно обрабатывается как активный узел при назначении приоритетов сообщениям",
-				"pt": "Atualizado `zwave-js` para a v2.10.0. Isso inclui as seguintes alterações:\n* Os dispositivos de redefinição local agora são tratados como nós com falha e removidos automaticamente do controlador\n* O status da notificação agora também é consultado na ativação\n* O status dos nós de escuta que não relatam é agora consultado regularmente\n* O controlador agora é tratado corretamente como um nó acordado ao priorizar mensagens",
-				"nl": "`Zwave-js` bijgewerkt naar v2.10.0. Dit omvat de volgende wijzigingen:\n* Lokaal gereseteerde apparaten worden nu behandeld als falende knooppunten en automatisch verwijderd van de controller\n* De meldingsstatus wordt nu ook gevraagd bij het ontwaken\n* De status van niet-rapporterende luisterknooppunten wordt nu regelmatig opgevraagd\n* De controller wordt nu correct behandeld als een wakker knooppunt bij het prioriteren van berichten",
-				"fr": "Mise à jour de `zwave-js` vers v2.10.0. Cela inclut les modifications suivantes:\n* Les périphériques réinitialisés localement sont désormais traités comme des nœuds défaillants et automatiquement supprimés du contrôleur\n* Le statut de notification est désormais également interrogé au réveil\n* Le statut des nœuds d'écoute non déclarants est désormais régulièrement interrogé\n* Le contrôleur est désormais correctement traité comme un nœud éveillé lors de la hiérarchisation des messages",
-				"it": "Aggiornato `zwave-js` a v2.10.0. Ciò include le seguenti modifiche:\n* I dispositivi ripristinati localmente ora vengono trattati come nodi guasti e rimossi automaticamente dal controller\n* Lo stato di notifica ora viene anche interrogato al risveglio\n* Lo stato dei nodi di ascolto senza report viene ora regolarmente interrogato\n* Il controller ora viene correttamente trattato come un nodo attivo quando si assegnano le priorità ai messaggi",
-				"es": "Actualizado `zwave-js` a v2.10.0. Esto incluye los siguientes cambios:\n* Los dispositivos de restablecimiento local ahora se tratan como nodos defectuosos y se eliminan automáticamente del controlador\n* El estado de notificación ahora también se consulta al despertar\n* El estado de los nodos de escucha que no informan ahora se consulta regularmente\n* El controlador ahora se trata correctamente como un nodo despierto al priorizar mensajes",
-				"pl": "Zaktualizowano `zwave-js` do v2.10.0. Obejmuje to następujące zmiany:\n* Lokalnie resetowane urządzenia są teraz traktowane jak awarie węzłów i automatycznie usuwane ze sterownika\n* Status powiadomień jest teraz sprawdzany również przy wznowieniu\n* Status nie zgłaszających węzłów nasłuchujących jest teraz regularnie sprawdzany\n* Sterownik jest teraz poprawnie traktowany jako przebudzony węzeł przy ustalaniu priorytetów wiadomości",
-				"zh-cn": "将`zwave-js`更新为v2.10.0。这包括以下更改：\n*现在将本地重置的设备视为发生故障的节点，并自动从控制器中删除\n*现在也可以在唤醒时查询通知状态\n*现在定期查询非报告侦听节点的状态\n*现在，在对消息进行优先级排序时，控制器已被正确地视为唤醒节点"
-			},
-			"0.8.1": {
-				"en": "* Brand new icon!\n* Updated `zwave-js` to v2.9.1. This includes the following fixes:\n\t* Notification CC Reports that are received as a response during the interview are now correctly handled\n\t* Status changes for nodes are now handled better\n\t* The scenes of the Scene Activation CC are now automatically reset after the duration has elapsed.",
-				"de": "* Brandneues Icon!\n* `Zwave-js` wurde auf v2.9.1 aktualisiert. Dies beinhaltet die folgenden Korrekturen:\n* CC-Benachrichtigungsberichte, die als Antwort während des Interviews eingehen, werden nun korrekt behandelt\n* Statusänderungen für Knoten werden jetzt besser gehandhabt\n* Die Szenen des Scene Activation CC werden jetzt nach Ablauf der Dauer automatisch zurückgesetzt.",
-				"ru": "* Новый значок!\n* Обновлен `zwave-js` до v2.9.1. Это включает в себя следующие исправления:\n* Уведомление CC. Отчеты, полученные в качестве ответа во время интервью, теперь корректно обрабатываются.\n* Изменения статуса для узлов теперь обрабатываются лучше\n* Сцены Scene Activation CC теперь автоматически сбрасываются после истечения времени действия.",
-				"pt": "* Novo ícone da marca!\n* Atualizado `zwave-js` para a v2.9.1. Isso inclui as seguintes correções:\n* Os relatórios CC de notificação recebidos como resposta durante a entrevista agora são tratados corretamente\n* Alterações de status para nós agora são tratadas melhor\n* As cenas do CC de ativação de cena agora são redefinidas automaticamente após o término da duração.",
-				"nl": "* Gloednieuw pictogram!\n* Bijgewerkt `zwave-js` naar v2.9.1. Dit omvat de volgende fixes:\n* Kennisgeving CC Rapporten die als reactie tijdens het interview worden ontvangen, worden nu correct verwerkt\n* Statuswijzigingen voor knooppunten worden nu beter afgehandeld\n* De scènes van de Scene Activation CC worden nu automatisch gereset nadat de duur is verstreken.",
-				"fr": "* Nouvelle icône!\n* Mise à jour de `zwave-js` vers v2.9.1. Cela inclut les correctifs suivants:\n* Notification CC Les rapports reçus en réponse lors de l'entretien sont désormais correctement traités\n* Les changements d'état des nœuds sont désormais mieux gérés\n* Les scènes du Scene Activation CC sont maintenant réinitialisées automatiquement une fois la durée écoulée.",
-				"it": "* Icona nuova di zecca!\n* Aggiornato `zwave-js` a v2.9.1. Ciò include le seguenti correzioni:\n* I rapporti CC di notifica che vengono ricevuti come risposta durante l'intervista sono ora gestiti correttamente\n* Le modifiche di stato per i nodi ora sono gestite meglio\n* Le scene di Scene Activation CC vengono ora ripristinate automaticamente dopo che è trascorsa la durata.",
-				"es": "* Nuevo icono!\n* Actualizado `zwave-js` a v2.9.1. Esto incluye las siguientes correcciones:\n* Los informes CC de notificación que se reciben como respuesta durante la entrevista ahora se manejan correctamente\n* Los cambios de estado para los nodos ahora se manejan mejor\n* Las escenas de Scene Activation CC ahora se reinician automáticamente una vez transcurrida la duración.",
-				"pl": "* Zupełnie nowa ikona!\n* Zaktualizowano `zwave-js` do v2.9.1. Obejmuje to następujące poprawki:\n* Raporty CC Raporty otrzymane jako odpowiedź podczas wywiadu są teraz poprawnie obsługiwane\n* Zmiany statusu dla węzłów są teraz obsługiwane lepiej\n* Sceny CC Activation Scene są teraz automatycznie resetowane po upływie czasu trwania.",
-				"zh-cn": "*全新的图标！\n*将`zwave-js`更新为v2.9.1。其中包括以下修复程序：\n*现在可以正确处理在面试过程中作为响应收到的Notification CC报告\n*现在可以更好地处理节点的状态更改\n*在持续时间过去之后，现在会自动重设Scene Activation CC的场景。"
-			},
-			"0.8.0": {
-				"en": "* The cache file is now saved in `iobroker-data`, so it doesn't get lost between updates\n* Added a button on the device overview tab to clear the cache",
-				"de": "* Die Cache-Datei wird jetzt in \"iobroker-data\" gespeichert, damit sie zwischen den Aktualisierungen nicht verloren geht\n* Auf der Registerkarte Geräteübersicht wurde eine Schaltfläche zum Löschen des Caches hinzugefügt",
-				"ru": "* Файл кеша теперь сохраняется в `iobroker-data`, поэтому он не теряется между обновлениями\n* Добавлена кнопка на вкладке обзора устройства для очистки кеша",
-				"pt": "* O arquivo de cache agora é salvo em `iobroker-data`, para que não se perca entre as atualizações\n* Adicionado um botão na guia de visão geral do dispositivo para limpar o cache",
-				"nl": "* Het cachebestand wordt nu opgeslagen in `iobroker-data`, dus het raakt niet verloren tussen updates\n* Een knop toegevoegd op het tabblad Apparaatoverzicht om de cache te wissen",
-				"fr": "* Le fichier cache est maintenant enregistré dans `iobroker-data`, donc il ne se perd pas entre les mises à jour\n* Ajout d'un bouton sur l'onglet de présentation de l'appareil pour vider le cache",
-				"it": "* Il file della cache è ora salvato in `iobroker-data`, quindi non si perde tra gli aggiornamenti\n* Aggiunto un pulsante nella scheda panoramica del dispositivo per cancellare la cache",
-				"es": "* El archivo de caché ahora se guarda en `iobroker-data`, por lo que no se pierde entre actualizaciones\n* Se agregó un botón en la pestaña de descripción general del dispositivo para borrar el caché",
-				"pl": "* Plik pamięci podręcznej jest teraz zapisywany w `iobroker-data`, więc nie gubi się między aktualizacjami\n* Dodano przycisk na karcie przeglądu urządzenia, aby wyczyścić pamięć podręczną",
-				"zh-cn": "*缓存文件现在保存在iobroker-data中，因此更新之间不会丢失\n*在设备概述选项卡上添加了一个按钮以清除缓存"
-			},
-			"0.7.2": {
-				"en": "Fixed an issue where indicators with `boolean` values could not be written to",
-				"de": "Es wurde ein Problem behoben, durch das Indikatoren mit Booleschen Werten nicht beschrieben werden konnten",
-				"ru": "Исправлена ошибка, из-за которой индикаторы с логическими значениями не могли быть записаны в",
-				"pt": "Foi corrigido um problema em que indicadores com valores `booleanos 'não podiam ser gravados em",
-				"nl": "Probleem opgelost waarbij naar indicatoren met `booleaanse` waarden niet kon worden geschreven",
-				"fr": "Correction d'un problème où les indicateurs avec des valeurs `booléennes` ne pouvaient pas être écrits",
-				"it": "Risolto il problema per cui gli indicatori con valori \"booleani\" non potevano essere scritti",
-				"es": "Se solucionó un problema por el cual los indicadores con valores `booleanos` no se podían escribir en",
-				"pl": "Naprawiono problem, w wyniku którego nie można było zapisać wskaźników z wartościami „boolean”",
-				"zh-cn": "修复了无法将具有“布尔”值的指标写入的问题"
-			},
-			"0.7.1": {
-				"en": "Updated `zwave-js` to v2.7.0. This includes the following changes:\n* The driver is no longer reset when unexpected data is received. Instead the invalid bytes are skipped.\n* `Basic CC` reports no longer create a value when they are mapped to another CC\n* `IndicatorCC`: Binary indicators now use `boolean` values\n* `IndicatorCC`: V1 indicators (unspecified) are now ignored if an endpoint is known to have V2 indicators",
-				"de": "`Zwave-js` wurde auf v2.7.0 aktualisiert. Dies beinhaltet die folgenden Änderungen:\n* Der Treiber wird nicht mehr zurückgesetzt, wenn unerwartete Daten empfangen werden. Stattdessen werden die ungültigen Bytes übersprungen.\n* 'Basic CC'-Berichte erzeugen keinen Wert mehr, wenn sie einem anderen CC zugeordnet werden\n* `IndicatorCC`: Binäre Indikatoren verwenden jetzt` boolesche` Werte\n* \"IndicatorCC\": V1-Indikatoren (nicht angegeben) werden jetzt ignoriert, wenn bekannt ist, dass ein Endpunkt V2-Indikatoren aufweist",
-				"ru": "Обновлен `zwave-js` до v2.7.0. Это включает в себя следующие изменения:\n* Драйвер больше не сбрасывается при получении неожиданных данных. Вместо этого недопустимые байты пропускаются.\nОтчеты `Basic CC` больше не создают значение, когда они сопоставлены с другим CC\n* IndicatorCC`: бинарные индикаторы теперь используют логические значения\n* IndicatorCC`: индикаторы V1 (не указаны) теперь игнорируются, если известно, что конечная точка имеет индикаторы V2",
-				"pt": "Atualizado `zwave-js` para a v2.7.0. Isso inclui as seguintes alterações:\n* O driver não é mais redefinido quando dados inesperados são recebidos. Em vez disso, os bytes inválidos são ignorados.\n* Os relatórios `CC básico 'não criam mais um valor quando são mapeados para outro CC\n* `IndicatorCC`: Os indicadores binários agora usam valores` booleanos`\n* `IndicatorCC`: os indicadores V1 (não especificados) agora são ignorados se um ponto de extremidade souber que possui indicadores V2",
-				"nl": "`Zwave-js` bijgewerkt naar v2.7.0. Dit omvat de volgende wijzigingen:\n* Het stuurprogramma wordt niet meer gereset wanneer onverwachte gegevens worden ontvangen. In plaats daarvan worden de ongeldige bytes overgeslagen.\n* `Basic CC`-rapporten creëren niet langer een waarde wanneer ze worden toegewezen aan een andere CC\n* `IndicatorCC`: Binaire indicatoren gebruiken nu` booleaanse` waarden\n* `IndicatorCC`: V1-indicatoren (niet gespecificeerd) worden nu genegeerd als bekend is dat een eindpunt V2-indicatoren heeft",
-				"fr": "Mise à jour de `zwave-js` vers v2.7.0. Cela inclut les modifications suivantes:\n* Le pilote n'est plus réinitialisé lorsque des données inattendues sont reçues. Au lieu de cela, les octets invalides sont ignorés.\n* Les rapports «CC de base» ne créent plus de valeur lorsqu'ils sont mappés à un autre CC\n* `IndicatorCC`: Les indicateurs binaires utilisent désormais des valeurs` booléennes`\n* `IndicatorCC`: Les indicateurs V1 (non spécifiés) sont désormais ignorés si un endpoint est connu pour avoir des indicateurs V2",
-				"it": "Aggiornato `zwave-js` a v2.7.0. Ciò include le seguenti modifiche:\n* Il driver non viene più ripristinato quando vengono ricevuti dati imprevisti. Invece i byte non validi vengono ignorati.\n* I report \"CC di base\" non creano più un valore quando vengono mappati su un altro CC\n* `IndicatorCC`: gli indicatori binari ora usano valori\" booleani \"\n* `IndicatorCC`: gli indicatori V1 (non specificati) ora vengono ignorati se è noto che un endpoint ha indicatori V2",
-				"es": "Actualizado `zwave-js` a v2.7.0. Esto incluye los siguientes cambios:\n* El controlador ya no se reinicia cuando se reciben datos inesperados. En su lugar, se omiten los bytes no válidos.\n* Los informes 'CC básico' ya no crean un valor cuando se asignan a otro CC\n* `IndicatorCC`: los indicadores binarios ahora usan valores` booleanos`\n* `IndicatorCC`: los indicadores V1 (no especificados) ahora se ignoran si se sabe que un punto final tiene indicadores V2",
-				"pl": "Zaktualizowano `zwave-js` do wersji 2.7.0. Obejmuje to następujące zmiany:\n* Sterownik nie jest już resetowany po otrzymaniu nieoczekiwanych danych. Zamiast tego nieprawidłowe bajty są pomijane.\n* Raporty `Basic CC` nie tworzą już wartości, gdy są mapowane na inne CC\n* `IndicatorCC`: Wskaźniki binarne używają teraz wartości„ boolean ”\n* `IndicatorCC`: wskaźniki V1 (nieokreślone) są teraz ignorowane, jeśli wiadomo, że punkt końcowy ma wskaźniki V2",
-				"zh-cn": "将`zwave-js`更新为v2.7.0。这包括以下更改：\n*当收到意外数据时，驱动程序不再复位。而是跳过无效字节。\n*“基本抄送”报告在映射到另一个抄送时不再创建值\n*`IndicatorCC`：二进制指示器现在使用`boolean`值\n*`IndicatorCC`：如果已知端点具有V2指示器，则将忽略V1指示器（未指定）"
-			},
-			"0.7.0": {
-				"en": "* Added a config option to write debug logfiles\n* Updated `zwave-js` to v2.6.0 to add support for `Scene Activation CC`",
-				"de": "* Es wurde eine Konfigurationsoption zum Schreiben von Debug-Protokolldateien hinzugefügt\n* `Zwave-js` wurde auf v2.6.0 aktualisiert, um Unterstützung für` Scene Activation CC` hinzuzufügen",
-				"ru": "* Добавлена опция конфигурации для записи отладочных лог-файлов\n* Обновлен `zwave-js` до v2.6.0, чтобы добавить поддержку` Scene Activation CC`",
-				"pt": "* Adicionada uma opção de configuração para gravar arquivos de log de depuração\n* Atualizado zwave-js` para a v2.6.0 para adicionar suporte ao `Scene Activation CC`",
-				"nl": "* Een configuratie-optie toegevoegd om logbestanden voor foutopsporing te schrijven\n* Bijgewerkt `zwave-js` naar v2.6.0 om ondersteuning toe te voegen voor` Scene Activation CC`",
-				"fr": "* Ajout d'une option de configuration pour écrire les fichiers journaux de débogage\n* Mise à jour de `zwave-js` vers v2.6.0 pour ajouter la prise en charge de` Scene Activation CC`",
-				"it": "* Aggiunta un'opzione di configurazione per scrivere i file di registro di debug\n* Aggiornato `zwave-js` a v2.6.0 per aggiungere il supporto per` Scene Activation CC`",
-				"es": "* Se agregó una opción de configuración para escribir archivos de registro de depuración\n* Se actualizó `zwave-js` a v2.6.0 para agregar soporte para` Scene Activation CC`",
-				"pl": "* Dodano opcję konfiguracji do zapisywania plików dziennika debugowania\n* Zaktualizowano `zwave-js` do wersji 2.6.0, aby dodać obsługę` Scene Activation CC`",
-				"zh-cn": "*添加了配置选项以写入调试日志文件\n*将`zwave-js`更新为v2.6.0，以添加对`场景激活CC'的支持"
-			}
-		},
-		"title": "Z-Wave",
-		"titleLang": {
-			"en": "Z-Wave",
-			"de": "Z-Wave",
-			"ru": "Z-Wave",
-			"pt": "Z-Wave",
-			"nl": "Z-Wave",
-			"fr": "Z-Wave",
-			"it": "Z-Wave",
-			"es": "Onda z",
-			"pl": "Z-Wave",
-			"zh-cn": "Z-波"
-		},
-		"desc": {
-			"en": "Alternative Z-Wave implementation",
-			"de": "Alternative Z-Wave-Implementierung",
-			"ru": "Альтернативная реализация Z-Wave",
-			"pt": "Implementação alternativa de Z-Wave",
-			"nl": "Alternatieve Z-Wave-implementatie",
-			"fr": "Mise en œuvre alternative de Z-Wave",
-			"it": "Implementazione Z-Wave alternativa",
-			"es": "Implementación alternativa de Z-Wave",
-			"pl": "Alternatywna implementacja Z-Wave",
-			"zh-cn": "替代Z-Wave实施"
-		},
-		"authors": ["AlCalzone <d.griesel@gmx.net>"],
-		"keywords": ["zwave", "z-wave"],
-		"license": "MIT",
-		"platform": "Javascript/Node.js",
-		"main": "build/main.js",
-		"icon": "zwave2.svg",
-		"enabled": true,
-		"dataFolder": "zwave2.%INSTANCE%",
-		"extIcon": "https://raw.githubusercontent.com/AlCalzone/ioBroker.zwave2/master/admin/zwave2.svg?sanitize=true",
-		"readme": "https://github.com/AlCalzone/ioBroker.zwave2/blob/master/README.md",
-		"loglevel": "info",
-		"mode": "daemon",
-		"type": "hardware",
-		"compact": true,
-		"materialize": true,
-		"messagebox": true,
-		"connectionType": "local",
-		"dataSource": "push",
-		"dependencies": [
-			{
-				"js-controller": ">=2.0.0"
-			}
-		]
-	},
-	"native": {
-		"serialport": "",
-		"writeLogFile": false
-	},
-	"objects": [],
-	"instanceObjects": [
-		{
-			"_id": "info",
-			"type": "channel",
-			"common": {
-				"name": "Information"
-			},
-			"native": {}
-		},
-		{
-			"_id": "info.connection",
-			"type": "state",
-			"common": {
-				"role": "indicator.connected",
-				"name": "Whether the Z-Wave driver is ready",
-				"type": "boolean",
-				"read": true,
-				"write": false,
-				"def": false
-			},
-			"native": {}
-		},
-		{
-			"_id": "info.inclusion",
-			"type": "state",
-			"common": {
-				"role": "state",
-				"name": "Whether the inclusion of nodes is active",
-				"type": "boolean",
-				"read": true,
-				"write": true,
-				"def": false
-			},
-			"native": {}
-		},
-		{
-			"_id": "info.exclusion",
-			"type": "state",
-			"common": {
-				"role": "state",
-				"name": "Whether the exclusion of nodes is active",
-				"type": "boolean",
-				"read": true,
-				"write": true,
-				"def": false
-			},
-			"native": {}
-		},
-		{
-			"_id": "info.healingNetwork",
-			"type": "state",
-			"common": {
-				"role": "state",
-				"name": "Whether a network heal is currently in progress",
-				"type": "boolean",
-				"read": true,
-				"write": false,
-				"def": false
-			},
-			"native": {}
-		}
-	]
+    "common": {
+        "name": "zwave2",
+        "version": "0.11.1",
+        "news": {
+            "0.11.1": {
+                "en": "Updated `zwave-js` to v2.15.2. This includes the following improvements and fixes:\n* Shortened the interview procedure for some multichannel devices\n* Updated `ZHC5002` configuration for firmware versions >= 2.02\n* The clock of devices supporting `Clock CC` can now be automatically kept in sync with the controller\n* Completed support for the `Fibaro Venetian Blind CC`\n* Added support for older devices supporting `Multi Instance CC`\n* The name and status of the controller is now correctly shown in the objects list\n* Values for the root endpoint are now hidden if a corresponding values exists on at least one endpoint",
+                "de": "`Zwave-js` wurde auf v2.15.2 aktualisiert. Dies umfasst die folgenden Verbesserungen und Korrekturen:\n* Das Interviewverfahren für einige Mehrkanalgeräte wurde verkürzt\n* Aktualisierte `ZHC5002` Konfiguration für Firmware-Versionen> = 2.02\n* Die Uhr von Geräten, die \"Clock CC\" unterstützen, kann jetzt automatisch mit der Steuerung synchronisiert werden\n* Unterstützung für den \"Fibaro Venetian Blind CC\" abgeschlossen\n* Unterstützung für ältere Geräte hinzugefügt, die \"Multi Instance CC\" unterstützen\n* Der Name und der Status des Controllers werden jetzt korrekt in der Objektliste angezeigt\n* Werte für den Stammendpunkt werden jetzt ausgeblendet, wenn auf mindestens einem Endpunkt entsprechende Werte vorhanden sind",
+                "ru": "Обновлен `zwave-js` до v2.15.2. Это включает в себя следующие улучшения и исправления:\n* Сокращена процедура интервью для некоторых многоканальных устройств\n* Обновлена конфигурация `ZHC5002` для версий прошивки> = 2.02\n* Часы устройств, поддерживающих Clock CC, теперь могут автоматически синхронизироваться с контроллером.\n* Завершена поддержка `Fibaro Venetian Blind CC`\n* Добавлена поддержка старых устройств, поддерживающих `Multi Instance CC`\n* Имя и статус контроллера теперь правильно отображаются в списке объектов.\n* Значения для корневой конечной точки теперь скрыты, если соответствующие значения существуют хотя бы на одной конечной точке",
+                "pt": "Atualizado `zwave-js` para a v2.15.2. Isso inclui os seguintes aprimoramentos e correções:\n* Encurtou o procedimento de entrevista para alguns dispositivos multicanal\n* Configuração `ZHC5002` atualizada para versões de firmware> = 2.02\n* O relógio dos dispositivos que suportam o `Clock CC` agora pode ser automaticamente sincronizado com o controlador\n* Suporte completo para o `Fibaro Venetian Blind CC`\n* Adicionado suporte para dispositivos mais antigos que suportam o `Multi Instance CC`\n* O nome e o status do controlador agora são mostrados corretamente na lista de objetos\n* Os valores para o terminal raiz agora estão ocultos se existir um valor correspondente em pelo menos um terminal",
+                "nl": "`Zwave-js` bijgewerkt naar v2.15.2. Dit omvat de volgende verbeteringen en fixes:\n* Verkorte interviewprocedure voor sommige apparaten met meerdere kanalen\n* Bijgewerkte `ZHC5002`-configuratie voor firmwareversies> = 2.02\n* De klok van apparaten die `Clock CC` ondersteunen, kan nu automatisch synchroon worden gehouden met de controller\n* Voltooide ondersteuning voor de `Fibaro Venetian Blind CC`\n* Ondersteuning toegevoegd voor oudere apparaten die `Multi Instance CC` ondersteunen\n* De naam en status van de controller worden nu correct weergegeven in de objectenlijst\n* Waarden voor het root-eindpunt zijn nu verborgen als er een overeenkomstige waarde bestaat voor ten minste één eindpunt",
+                "fr": "`Zwave-js` mis à jour vers v2.15.2. Cela inclut les améliorations et correctifs suivants:\n* Raccourci la procédure d'entretien pour certains appareils multicanaux\n* Configuration `ZHC5002` mise à jour pour les versions de firmware> = 2.02\n* L'horloge des appareils prenant en charge «Clock CC» peut maintenant être automatiquement synchronisée avec le contrôleur\n* Prise en charge complète du «Fibaro Venetian Blind CC»\n* Ajout de la prise en charge des appareils plus anciens prenant en charge «Multi Instance CC»\n* Le nom et l'état du contrôleur sont désormais correctement affichés dans la liste des objets\n* Les valeurs du point de terminaison racine sont désormais masquées s'il existe des valeurs correspondantes sur au moins un point de terminaison",
+                "it": "`Zwave-js` aggiornato alla v2.15.2. Ciò include i seguenti miglioramenti e correzioni:\n* Ridotta la procedura di intervista per alcuni dispositivi multicanale\n* Aggiornata la configurazione `ZHC5002` per le versioni del firmware> = 2.02\n* L'orologio dei dispositivi che supportano `Clock CC` ora può essere automaticamente sincronizzato con il controller\n* Supporto completo per il `Fibaro Venetian Blind CC`\n* Aggiunto supporto per dispositivi più vecchi che supportano `Multi Instance CC`\n* Il nome e lo stato del controller ora vengono visualizzati correttamente nell'elenco degli oggetti\n* I valori per l'endpoint radice sono ora nascosti se esistono almeno valori corrispondenti su almeno un endpoint",
+                "es": "Actualizado `zwave-js` a v2.15.2. Esto incluye las siguientes mejoras y correcciones:\n* Se acortó el procedimiento de entrevista para algunos dispositivos multicanal.\n* Configuración actualizada de `ZHC5002` para versiones de firmware> = 2.02\n* El reloj de los dispositivos compatibles con `Clock CC` ahora se puede mantener sincronizado automáticamente con el controlador\n* Soporte completo para el `Fibaro Venetian Blind CC`\n* Se agregó soporte para dispositivos más antiguos que admiten `Multi Instance CC`\n* El nombre y el estado del controlador ahora se muestran correctamente en la lista de objetos\n* Los valores para el punto final raíz ahora están ocultos si existe un valor correspondiente en al menos un punto final",
+                "pl": "Zaktualizowano `zwave-js` do v2.15.2. Obejmuje to następujące ulepszenia i poprawki:\n* Skrócono procedurę wywiadu dla niektórych urządzeń wielokanałowych\n* Zaktualizowana konfiguracja `ZHC5002` dla wersji oprogramowania układowego> = 2.02\n* Zegar urządzeń obsługujących `Clock CC` może być teraz automatycznie synchronizowany z kontrolerem\n* Ukończono wsparcie dla `Fibaro Venetian Blind CC`\n* Dodano obsługę starszych urządzeń obsługujących `Multi Instance CC`\n* Nazwa i status kontrolera jest teraz poprawnie wyświetlany na liście obiektów\n* Wartości dla głównego punktu końcowego są teraz ukryte, jeśli istnieją odpowiednie wartości w co najmniej jednym punkcie końcowym",
+                "zh-cn": "将`zwave-js`更新为v2.15.2。这包括以下改进和修复：\n*缩短了某些多通道设备的采访程序\n*更新了固件版本> = 2.02的`ZHC5002`配置\n*现在可以将支持“ Clock CC”的设备的时钟自动与控制器保持同步\n*完全支持“ Fibaro百叶帘CC”\n*增加了对支持“多实例CC”的旧设备的支持\n*控制器的名称和状态现在可以正确显示在对象列表中\n*如果至少一个端点上存在相应的值，则根端点的值现在被隐藏"
+            },
+            "0.10.0": {
+                "en": "* Updated `zwave-js` to v2.13.3 to improve support for older `Multi Channel` devices\n* Added an *actions* dialog to the device overview, which allows performing node-specific actions. The first available action is removing failed nodes.\n* Added a `ready` state for nodes which can be used in scripts to check if the node is ready to accept commands\n* Value that are set to `undefined` are now converted to `null` before being passed to ioBroker. This avoids a bug in the javascript adapter where triggers would be called with wrong state values.",
+                "de": "* `Zwave-js` wurde auf v2.13.3 aktualisiert, um die Unterstützung für ältere` Multi Channel`-Geräte zu verbessern\n* Der Geräteübersicht wurde ein Dialogfeld *Aktionen* hinzugefügt, in dem knotenspezifische Aktionen ausgeführt werden können. Die erste verfügbare Aktion ist das Entfernen ausgefallener Knoten. \n* Bereitschaftsstatus für Knoten hinzugefügt, der in Skripten verwendet werden kann, um zu prüfen, ob der Knoten bereit ist, Befehle anzunehmen\n* Werte, die auf \"undefined\" gesetzt sind, werden jetzt in \"null\" konvertiert, bevor sie an ioBroker übergeben werden. Dies vermeidet einen Fehler im Javascript-Adapter, bei dem Trigger mit falschen Statuswerten aufgerufen werden.",
+                "ru": "* Обновлен `zwave-js` до v2.13.3 для улучшения поддержки старых` Многоканальных` устройств\n* В обзор устройства добавлен диалог *actions* который позволяет выполнять специфичные для узла действия. Первое доступное действие - удаление неисправных узлов. \n* Добавлено состояние `ready` для узлов, которые можно использовать в скриптах для проверки готовности узла принимать команды\n* Значение, для которого установлено значение «undefined», теперь преобразуется в «null» перед передачей в ioBroker. Это позволяет избежать ошибки в адаптере javascript, когда триггеры будут вызываться с неправильными значениями состояния.",
+                "pt": "* Atualizado zwave-js` para a v2.13.3 para melhorar o suporte a dispositivos antigos multicanais\n* Foi adicionada uma caixa de diálogo *actions* à visão geral do dispositivo, que permite executar ações específicas do nó. A primeira ação disponível é remover nós com falha. \n* Adicionado um estado `pronto 'para nós, que pode ser usado em scripts para verificar se o nó está pronto para aceitar comandos\n* O valor definido como `indefinido` agora é convertido em` null` antes de ser passado para o ioBroker. Isso evita um erro no adaptador javascript, em que os acionadores seriam chamados com valores de estado incorretos.",
+                "nl": "* Bijgewerkt `zwave-js` naar v2.13.3 om de ondersteuning voor oudere` Multi Channel`-apparaten te verbeteren\n* Een *acties* dialoogvenster toegevoegd aan het apparaatoverzicht, waarmee knooppuntspecifieke acties kunnen worden uitgevoerd. De eerste beschikbare actie is het verwijderen van mislukte knooppunten. \n* Een `ready'-status toegevoegd voor knooppunten die in scripts kunnen worden gebruikt om te controleren of het knooppunt klaar is om opdrachten te accepteren\n* Waarde die is ingesteld op `undefined` wordt nu geconverteerd naar` null` voordat deze wordt doorgegeven aan ioBroker. Dit voorkomt een fout in de javascript-adapter waarbij triggers met verkeerde statuswaarden worden aangeroepen.",
+                "fr": "* Mise à jour de `zwave-js` vers v2.13.3 pour améliorer la prise en charge des anciens appareils` Multi Channel`\n* Ajout d'une boîte de dialogue *actions* à la vue d'ensemble de l'appareil, qui permet d'effectuer des actions spécifiques au nœud. La première action disponible consiste à supprimer les nœuds défaillants. \n* Ajout d'un état «prêt» pour les nœuds qui peut être utilisé dans les scripts pour vérifier si le nœud est prêt à accepter les commandes\n* Les valeurs définies sur «undefined» sont désormais converties en «null» avant d'être transmises à ioBroker. Cela évite un bogue dans l'adaptateur javascript où les déclencheurs seraient appelés avec des valeurs d'état incorrectes.",
+                "it": "* Aggiornato `zwave-js` a v2.13.3 per migliorare il supporto per i vecchi dispositivi` Multi Channel`\n* Aggiunta una finestra di dialogo *azioni* alla panoramica del dispositivo, che consente di eseguire azioni specifiche del nodo. La prima azione disponibile è la rimozione di nodi non riusciti. \n* Aggiunto uno stato `ready` per i nodi che può essere usato negli script per verificare se il nodo è pronto ad accettare comandi\n* I valori impostati su `undefined` vengono ora convertiti in` null` prima di essere passati a ioBroker. Ciò evita un bug nell'adattatore javascript in cui i trigger verrebbero chiamati con valori di stato errati.",
+                "es": "* Se actualizó `zwave-js` a v2.13.3 para mejorar la compatibilidad con dispositivos más antiguos de` Multi Channel`\n* Se agregó un cuadro de diálogo *acciones* a la descripción general del dispositivo, que permite realizar acciones específicas de nodo. La primera acción disponible es eliminar nodos fallidos. \n* Se agregó un estado 'listo' para los nodos que se puede usar en scripts para verificar si el nodo está listo para aceptar comandos\n* Los valores configurados en `undefined` ahora se convierten en` null` antes de pasarlos a ioBroker. Esto evita un error en el adaptador de JavaScript donde los disparadores se llamarían con valores de estado incorrectos.",
+                "pl": "* Zaktualizowano `zwave-js` do wersji 2.13.3, aby poprawić obsługę starszych urządzeń` Multi Channel`\n* Dodano okno dialogowe *akcji* do przeglądu urządzenia, które umożliwia wykonywanie akcji specyficznych dla węzła. Pierwszą dostępną akcją jest usunięcie uszkodzonych węzłów. \n* Dodano stan „gotowy” dla węzłów, którego można używać w skryptach do sprawdzania, czy węzeł jest gotowy do przyjmowania poleceń\n* Wartości, które są ustawione na „niezdefiniowane” są teraz konwertowane na „null” przed przekazaniem do ioBroker. Pozwala to uniknąć błędu w adapterze javascript, w którym wyzwalacze byłyby wywoływane z nieprawidłowymi wartościami stanu.",
+                "zh-cn": "*将`zwave-js`更新为v2.13.3，以改进对较旧`Multi Channel`设备的支持\n*在设备概述中添加了“操作”对话框，该对话框允许执行特定于节点的操作。第一个可用的操作是删除故障节点。\n*为节点添加了“就绪”状态，可以在脚本中使用该状态来检查节点是否准备好接受命令\n*设置为“未定义”的值在传递给ioBroker之前已转换为“空”。这避免了JavaScript适配器中的错误，该错误会以错误的状态值调用触发器。"
+            },
+            "0.9.6": {
+                "en": "Updated `zwave-js` to v2.13.2. This includes the following fixes:\n* Improved support for older devices with multiple endpoints\n* The *HeatIt Z-Push Button 8* should now correctly be detected\n* Potential fix for weird behavior of Start Level Change commands in some devices.",
+                "de": "`Zwave-js` wurde auf v2.13.2 aktualisiert. Dies beinhaltet die folgenden Korrekturen:\n* Verbesserte Unterstützung für ältere Geräte mit mehreren Endpunkten\n* Der *HeatIt Z-Push Button 8* sollte nun korrekt erkannt werden \n* Mögliche Korrektur für seltsames Verhalten der Befehle zum Ändern der Startebene in einigen Geräten.",
+                "ru": "Обновлен `zwave-js` до v2.13.2. Это включает в себя следующие исправления:\n* Улучшена поддержка старых устройств с несколькими конечными точками\n* Кнопка HeatIt Z-Push 8 * теперь должна правильно определяться\n* Возможное исправление странного поведения команд Start Level Change в некоторых устройствах.",
+                "pt": "Atualizado `zwave-js` para a v2.13.2. Isso inclui as seguintes correções:\n* Suporte aprimorado para dispositivos mais antigos com vários pontos de extremidade\n* O *HeatIt Z-Push Button 8* deve agora ser corretamente detectado \n* Correção potencial para um comportamento estranho dos comandos Iniciar mudança de nível em alguns dispositivos.",
+                "nl": "`Zwave-js` bijgewerkt naar v2.13.2. Dit omvat de volgende fixes:\n* Verbeterde ondersteuning voor oudere apparaten met meerdere eindpunten\n* De *HeatIt Z-drukknop 8* moet nu correct worden gedetecteerd \n* Mogelijke oplossing voor raar gedrag van Start Level Change-opdrachten op sommige apparaten.",
+                "fr": "`Zwave-js` mis à jour vers v2.13.2. Cela inclut les correctifs suivants:\n* Prise en charge améliorée des appareils plus anciens avec plusieurs points de terminaison\n* Le *HeatIt Z-Push Button 8* devrait maintenant être correctement détecté \n* Correction potentielle d'un comportement étrange des commandes de changement de niveau de démarrage sur certains appareils.",
+                "it": "Aggiornato `zwave-js` a v2.13.2. Ciò include le seguenti correzioni:\n* Supporto migliorato per dispositivi meno recenti con più endpoint\n* Il *pulsante HeatIt Z-Push 8* ora dovrebbe essere rilevato correttamente \n* Potenziale correzione per il comportamento strano dei comandi di modifica del livello iniziale in alcuni dispositivi.",
+                "es": "Actualizado `zwave-js` a v2.13.2. Esto incluye las siguientes correcciones:\n* Soporte mejorado para dispositivos más antiguos con múltiples puntos finales\n* El *HeatIt Z-Push Button 8* ahora debería detectarse correctamente \n* Posible solución para el comportamiento extraño de los comandos de inicio de cambio de nivel en algunos dispositivos.",
+                "pl": "Zaktualizowano `zwave-js` do wersji 2.13.2. Obejmuje to następujące poprawki:\n* Poprawiona obsługa starszych urządzeń z wieloma punktami końcowymi\n*Teraz należy poprawnie wykryć przycisk * HeatIt Z-Push 8*\n* Potencjalna poprawka dla dziwnego zachowania poleceń zmiany poziomu początkowego w niektórych urządzeniach.",
+                "zh-cn": "将`zwave-js`更新为v2.13.2。其中包括以下修复程序：\n*改进了对具有多个端点的旧设备的支持\n*现在可以正确检测到* HeatIt Z-Push Button 8 *\n*修复了某些设备中“开始级别更改”命令怪异行为的潜在修复。"
+            },
+            "0.9.5": {
+                "en": "Updated `zwave-js` to v2.13.0. This includes the following changes:\n* Improved support for some notifications types\n* Added support for the `Clock CC`.\n* Fixed a bug where unsolicited commands could wrongly be interpreted as a response to the current request",
+                "de": "`Zwave-js` wurde auf v2.13.0 aktualisiert. Dies beinhaltet die folgenden Änderungen:\n* Verbesserte Unterstützung für einige Benachrichtigungstypen\n* Unterstützung für \"Clock CC\" hinzugefügt.\n* Ein Fehler wurde behoben, durch den unerwünschte Befehle fälschlicherweise als Antwort auf die aktuelle Anfrage interpretiert wurden",
+                "ru": "Обновлен `zwave-js` до v2.13.0. Это включает в себя следующие изменения:\n* Улучшена поддержка некоторых типов уведомлений\n* Добавлена поддержка `Clock CC`.\n* Исправлена ошибка, при которой нежелательные команды могли ошибочно интерпретироваться как ответ на текущий запрос",
+                "pt": "Atualizado `zwave-js` para a v2.13.0. Isso inclui as seguintes alterações:\n* Suporte aprimorado para alguns tipos de notificações\n* Adicionado suporte para o `Clock CC`.\n* Corrigido um erro em que comandos não solicitados podiam ser interpretados erroneamente como uma resposta à solicitação atual",
+                "nl": "`Zwave-js` bijgewerkt naar v2.13.0. Dit omvat de volgende wijzigingen:\n* Verbeterde ondersteuning voor sommige typen meldingen\n* Ondersteuning toegevoegd voor de `Clock CC`.\n* Een bug opgelost waarbij ongevraagde commando's ten onrechte als een reactie op het huidige verzoek konden worden geïnterpreteerd",
+                "fr": "Mise à jour de `zwave-js` vers v2.13.0. Cela inclut les modifications suivantes:\n* Prise en charge améliorée de certains types de notifications\n* Ajout du support pour le `Clock CC`.\n* Correction d'un bug où les commandes non sollicitées pouvaient être interprétées à tort comme une réponse à la demande en cours",
+                "it": "`Zwave-js` aggiornato alla v2.13.0. Ciò include le seguenti modifiche:\n* Supporto migliorato per alcuni tipi di notifiche\n* Aggiunto il supporto per il `Clock CC`.\n* Risolto un bug in cui i comandi non richiesti potevano essere erroneamente interpretati come una risposta alla richiesta corrente",
+                "es": "Actualizado `zwave-js` a v2.13.0. Esto incluye los siguientes cambios:\n* Soporte mejorado para algunos tipos de notificaciones\n* Se agregó soporte para el `Clock CC`.\n* Se corrigió un error por el cual los comandos no solicitados podían interpretarse erróneamente como una respuesta a la solicitud actual",
+                "pl": "Zaktualizowano `zwave-js` do v2.13.0. Obejmuje to następujące zmiany:\n* Ulepszona obsługa niektórych typów powiadomień\n* Dodano obsługę `Clock CC`.\n* Naprawiono błąd, w którym niezamówione polecenia mogły być błędnie interpretowane jako odpowiedź na bieżące żądanie",
+                "zh-cn": "将`zwave-js`更新为v2.13.0。这包括以下更改：\n*改进了对某些通知类型的支持\n*增加了对“时钟CC”的支持。\n*修复了一个错误，该错误将未经请求的命令错误地解释为对当前请求的响应"
+            },
+            "0.9.4": {
+                "en": "* Small performance improvements\n* Fixed an error that could happen when a state was changed before the driver is ready\n* Updated `zwave-js` to v2.12.3. This includes the following changes:\n\t* The interview sequence for `Thermostat CC` V1/V2 should no longer get stuck\n\t* Improved handling of nodes that don't respond to a request\n\t* Minor stability improvements and bugfixes",
+                "de": "* Kleine Leistungsverbesserungen\n* Es wurde ein Fehler behoben, der auftreten konnte, wenn ein Status geändert wurde, bevor der Treiber bereit war\n* `Zwave-js` wurde auf v2.12.3 aktualisiert. Dies beinhaltet die folgenden Änderungen:\n* Die Interviewsequenz für `Thermostat CC` V1 / V2 sollte nicht mehr hängen bleiben\n* Verbesserte Behandlung von Knoten, die nicht auf eine Anfrage antworten\n* Kleinere Stabilitätsverbesserungen und Bugfixes",
+                "ru": "* Небольшие улучшения производительности\n* Исправлена ошибка, которая могла произойти при изменении состояния до того, как драйвер будет готов\n* Обновлен `zwave-js` до v2.12.3. Это включает в себя следующие изменения:\n* Последовательность интервью для «Термостата CC» V1 / V2 больше не должна застрять\n* Улучшена обработка узлов, которые не отвечают на запрос\n* Незначительные улучшения стабильности и исправления ошибок",
+                "pt": "* Pequenas melhorias de desempenho\n* Corrigido um erro que poderia acontecer quando um estado era alterado antes do driver estar pronto\n* Atualizado `zwave-js` para a v2.12.3. Isso inclui as seguintes alterações:\n* A sequência de entrevistas para `Thermostat CC` V1 / V2 não deve mais ficar presa\n* Manipulação aprimorada de nós que não respondem a uma solicitação\n* Pequenas melhorias de estabilidade e correções",
+                "nl": "* Kleine prestatieverbeteringen\n* Een fout opgelost die kon optreden wanneer een status werd gewijzigd voordat het stuurprogramma gereed was\n* Bijgewerkt `zwave-js` naar v2.12.3. Dit omvat de volgende wijzigingen:\n* De interviewsequentie voor `Thermostat CC` V1 / V2 moet niet meer vastlopen\n* Verbeterde afhandeling van knooppunten die niet op een verzoek reageren\n* Kleine stabiliteitsverbeteringen en bugfixes",
+                "fr": "* Petites améliorations de performances\n* Correction d'une erreur qui pouvait survenir lorsqu'un état était modifié avant que le pilote ne soit prêt\n* Mise à jour de `zwave-js` vers v2.12.3. Cela inclut les modifications suivantes:\n* La séquence d'interview pour `Thermostat CC` V1 / V2 ne devrait plus rester bloquée\n* Gestion améliorée des nœuds qui ne répondent pas à une demande\n* Améliorations de stabilité mineures et corrections de bugs",
+                "it": "* Piccoli miglioramenti delle prestazioni\n* Risolto un errore che poteva verificarsi quando uno stato veniva cambiato prima che il driver fosse pronto\n* Aggiornato `zwave-js` a v2.12.3. Ciò include le seguenti modifiche:\n* La sequenza di interviste per `Thermostat CC` V1 / V2 non dovrebbe più bloccarsi\n* Migliore gestione dei nodi che non rispondono a una richiesta\n* Miglioramenti e correzioni di stabilità minori",
+                "es": "* Pequeñas mejoras de rendimiento\n* Se corrigió un error que podía ocurrir cuando se cambiaba un estado antes de que el controlador esté listo\n* Actualizado `zwave-js` a v2.12.3. Esto incluye los siguientes cambios:\n* La secuencia de la entrevista para `Thermostat CC` V1 / V2 ya no debería atascarse\n* Manejo mejorado de nodos que no responden a una solicitud\n* Pequeñas mejoras de estabilidad y correcciones de errores",
+                "pl": "* Małe ulepszenia wydajności\n* Naprawiono błąd, który mógł wystąpić, gdy stan został zmieniony, zanim sterownik jest gotowy\n* Zaktualizowano `zwave-js` do v2.12.3. Obejmuje to następujące zmiany:\n* Sekwencja wywiadów dla „Thermostat CC” V1 / V2 nie powinna się już zacinać\n* Ulepszona obsługa węzłów, które nie odpowiadają na żądanie\n* Drobne ulepszenia stabilności i poprawki błędów",
+                "zh-cn": "*小性能改进\n*修复了在驱动程序准备就绪之前更改状态时可能发生的错误\n*更新了`zwave-js`至v2.12.3。这包括以下更改：\n*“ Thermostat CC” V1 / V2的采访顺序不再受困\n*改进了对不响应请求的节点的处理\n*较小的稳定性改进和错误修正"
+            },
+            "0.9.3": {
+                "en": "* Updated `zwave-js` to v2.12.2. This should fix issues with older Thermostats.",
+                "de": "* `Zwave-js` wurde auf v2.12.2 aktualisiert. Dies sollte Probleme mit älteren Thermostaten beheben.",
+                "ru": "* Обновлен `zwave-js` до v2.12.2. Это должно исправить проблемы со старыми термостатами.",
+                "pt": "* Atualizado `zwave-js` para a v2.12.2. Isso deve corrigir problemas com termostatos mais antigos.",
+                "nl": "* Bijgewerkt `zwave-js` naar v2.12.2. Dit zou problemen met oudere thermostaten moeten oplossen.",
+                "fr": "* Mise à jour de `zwave-js` vers v2.12.2. Cela devrait résoudre les problèmes avec les anciens thermostats.",
+                "it": "* Aggiornato `zwave-js` a v2.12.2. Ciò dovrebbe risolvere i problemi con i vecchi termostati.",
+                "es": "* Actualizado `zwave-js` a v2.12.2. Esto debería solucionar problemas con termostatos antiguos.",
+                "pl": "* Zaktualizowano `zwave-js` do v2.12.2. To powinno rozwiązać problemy ze starszymi termostatami.",
+                "zh-cn": "*更新了`zwave-js`至v2.12.2。这应该可以解决旧式恒温器的问题。"
+            },
+            "0.9.2": {
+                "en": "Updated `zwave-js` to v2.12.1. This includes the following changes:\n* When a node is removed from the network, all associations to it are also removed\n* The interview procedure is now canceled and retried when an error occurs instead of silently failing all futher steps\n* Improvents to the network heal process were made\n* Several stability improvements regarding the interview procedure and handling of sleeping nodes",
+                "de": "`Zwave-js` wurde auf v2.12.1 aktualisiert. Dies beinhaltet die folgenden Änderungen:\n* Wenn ein Knoten aus dem Netzwerk entfernt wird, werden auch alle Zuordnungen zu diesem Knoten entfernt\n* Der Interview-Vorgang wird jetzt abgebrochen und wiederholt, wenn ein Fehler auftritt, anstatt stillschweigend alle weiteren Schritte fehlzuschlagen\n* Der Netzwerkheilungsprozess wurde verbessert\n* Verschiedene Stabilitätsverbesserungen bezüglich des Interviewverfahrens und des Umgangs mit schlafenden Knoten",
+                "ru": "Обновлен `zwave-js` до v2.12.1. Это включает в себя следующие изменения:\n* Когда узел удаляется из сети, все связи с ним также удаляются\n* Процедура собеседования теперь отменяется и повторяется при возникновении ошибки, вместо того, чтобы молча пропустить все дальнейшие шаги\n* Были внесены улучшения в процесс лечения сети\n* Несколько улучшений стабильности в отношении процедуры интервью и обработки спящих узлов",
+                "pt": "Atualizado `zwave-js` para a v2.12.1. Isso inclui as seguintes alterações:\n* Quando um nó é removido da rede, todas as associações a ele também são removidas\n* O procedimento de entrevista agora é cancelado e repetido quando ocorre um erro em vez de falhar silenciosamente em todas as etapas posteriores\n* Melhorias no processo de recuperação da rede foram feitas\n* Várias melhorias de estabilidade em relação ao procedimento de entrevista e manuseio de nós adormecidos",
+                "nl": "`Zwave-js` bijgewerkt naar v2.12.1. Dit omvat de volgende wijzigingen:\n* Wanneer een knooppunt uit het netwerk wordt verwijderd, worden alle bijbehorende koppelingen ook verwijderd\n* De interviewprocedure is nu geannuleerd en opnieuw geprobeerd als er een fout optreedt in plaats van alle verdere stappen stilzwijgend te laten mislukken\n* Er zijn verbeteringen aangebracht in het netwerkherstelproces\n* Verschillende stabiliteitsverbeteringen met betrekking tot de interviewprocedure en de behandeling van slapende knopen",
+                "fr": "Mise à jour de `zwave-js` vers v2.12.1. Cela inclut les modifications suivantes:\n* Lorsqu'un nœud est supprimé du réseau, toutes les associations avec lui sont également supprimées\n* La procédure d'entrevue est maintenant annulée et réessayée lorsqu'une erreur se produit au lieu d'échouer silencieusement à toutes les étapes ultérieures\n* Des améliorations ont été apportées au processus de guérison du réseau\n* Plusieurs améliorations de stabilité concernant la procédure d'entretien et la gestion des nœuds endormis",
+                "it": "`Zwave-js` aggiornato alla v2.12.1. Ciò include le seguenti modifiche:\n* Quando un nodo viene rimosso dalla rete, vengono rimosse anche tutte le associazioni ad esso\n* La procedura di intervista ora viene annullata e riprovata quando si verifica un errore invece di fallire silenziosamente tutti i passaggi successivi\n* Sono stati apportati miglioramenti al processo di guarigione della rete\n* Diversi miglioramenti della stabilità relativi alla procedura di intervista e alla gestione dei nodi dormienti",
+                "es": "Actualizado `zwave-js` a v2.12.1. Esto incluye los siguientes cambios:\n* Cuando se elimina un nodo de la red, también se eliminan todas sus asociaciones.\n* El procedimiento de entrevista ahora se cancela y se vuelve a intentar cuando ocurre un error en lugar de fallar silenciosamente todos los pasos posteriores\n* Se realizaron mejoras en el proceso de curación de la red.\n* Varias mejoras de estabilidad con respecto al procedimiento de entrevista y manejo de los nodos dormidos",
+                "pl": "Zaktualizowano `zwave-js` do v2.12.1. Obejmuje to następujące zmiany:\n* Gdy węzeł zostanie usunięty z sieci, wszystkie powiązania z nim również zostaną usunięte\n* Procedura wywiadu jest teraz anulowana i ponawiana, gdy wystąpi błąd, zamiast po cichu zawieść wszystkie kolejne kroki\n* Wprowadzono usprawnienia procesu leczenia sieci\n* Kilka ulepszeń stabilności dotyczących procedury wywiadu i obsługi śpiących węzłów",
+                "zh-cn": "将`zwave-js`更新为v2.12.1。这包括以下更改：\n*当节点从网络中删除时，与该节点的所有关联也将被删除\n*现在，发生错误时，面试程序将被取消并重试，而不会默默地使所有后续步骤失败\n*对网络修复过程进行了改进\n*关于采访过程和睡眠节点处理的一些稳定性改进"
+            },
+            "0.9.1": {
+                "en": "* The progress report for network healing now correctly distinguishes between not yet healed nodes and nodes that failed to heal\n* A potential source of stalled communication because of a missing timeout was eliminated",
+                "de": "* Der Fortschrittsbericht für die Netzwerkheilung unterscheidet nun korrekt zwischen noch nicht geheilten Knoten und Knoten, die nicht geheilt werden konnten\n* Eine mögliche Ursache für Kommunikationsstörungen aufgrund einer fehlenden Zeitüberschreitung wurde beseitigt",
+                "ru": "* В отчете о ходе восстановления сети теперь правильно различаются еще не вылеченные узлы и узлы, которые не удалось вылечить.\n* Потенциальный источник остановленной связи из-за отсутствия тайм-аута был устранен",
+                "pt": "* O relatório de progresso para recuperação de rede agora distingue corretamente entre nós ainda não recuperados e nós que falharam em recuperar\n* Uma fonte potencial de comunicação interrompida por falta de tempo limite foi eliminada",
+                "nl": "* Het voortgangsrapport voor netwerkgenezing maakt nu correct onderscheid tussen nog niet genezen knooppunten en knooppunten die niet zijn genezen\n* Een potentiële bron van vastgelopen communicatie vanwege een ontbrekende time-out is geëlimineerd",
+                "fr": "* Le rapport de progression pour la guérison du réseau distingue désormais correctement les nœuds non encore guéris et les nœuds qui n'ont pas pu guérir\n* Une source potentielle de communication bloquée en raison d'un délai d'attente manquant a été éliminée",
+                "it": "* Il rapporto sullo stato di avanzamento della guarigione della rete ora distingue correttamente tra nodi non ancora guariti e nodi che non sono stati in grado di guarire\n* È stata eliminata una potenziale fonte di comunicazione bloccata a causa di un timeout mancante",
+                "es": "* El informe de progreso para la curación de la red ahora distingue correctamente entre nodos aún no curados y nodos que no pudieron sanar\n* Se eliminó una fuente potencial de comunicación estancada debido a un tiempo de espera perdido",
+                "pl": "* Raport postępu dla uzdrawiania sieci teraz poprawnie rozróżnia między jeszcze nieleczonymi węzłami i węzłami, które nie zostały wyleczone\n* Potencjalne źródło zablokowanej komunikacji z powodu braku limitu czasu zostało wyeliminowane",
+                "zh-cn": "*网络修复的进度报告现在可以正确区分尚未修复的节点和未能修复的节点\n*消除了由于缺少超时而导致通讯停顿的潜在原因"
+            },
+            "0.9.0": {
+                "en": "Updated `zwave-js` to v2.11.0. This includes the following changes:\n* Improved `Multilevel Switch` support for some devices that report the immediate state after a `targetValue` change but not the final values\n* Fixed two issues where the communication with nodes (especially during the interview) could get stuck",
+                "de": "`Zwave-js` wurde auf v2.11.0 aktualisiert. Dies beinhaltet die folgenden Änderungen:\n* Verbesserte Unterstützung für \"Multilevel Switch\" für einige Geräte, die nach einer \"targetValue\" -Änderung den unmittelbaren Status melden, jedoch nicht die endgültigen Werte\n* Zwei Probleme wurden behoben, bei denen die Kommunikation mit Knoten (insbesondere während des Interviews) stecken bleiben konnte",
+                "ru": "Обновлен `zwave-js` до v2.11.0. Это включает в себя следующие изменения:\n* Улучшена поддержка `Multilevel Switch` для некоторых устройств, которые сообщают о немедленном состоянии после изменения` targetValue`, но не окончательные значения\n* Исправлены две проблемы, из-за которых связь с узлами (особенно во время интервью) могла застрять",
+                "pt": "Atualizado `zwave-js` para a v2.11.0. Isso inclui as seguintes alterações:\n* Suporte aprimorado ao `Multilevel Switch` para alguns dispositivos que relatam o estado imediato após uma alteração no` targetValue`, mas não nos valores finais\n* Corrigido dois problemas em que a comunicação com os nós (especialmente durante a entrevista) poderia ficar paralisada",
+                "nl": "`Zwave-js` bijgewerkt naar v2.11.0. Dit omvat de volgende wijzigingen:\n* Verbeterde `Multilevel Switch`-ondersteuning voor sommige apparaten die de onmiddellijke status melden na een` targetValue`-wijziging maar niet de definitieve waarden\n* Twee problemen opgelost waarbij de communicatie met knooppunten (vooral tijdens het interview) kon vastlopen",
+                "fr": "`Zwave-js` mis à jour vers v2.11.0. Cela inclut les modifications suivantes:\n* Amélioration de la prise en charge de `Multilevel Switch` pour certains appareils qui signalent l'état immédiat après un changement de` targetValue` mais pas les valeurs finales\n* Correction de deux problèmes où la communication avec les nœuds (en particulier pendant l'interview) pouvait rester bloquée",
+                "it": "`Zwave-js` aggiornato alla v2.11.0. Ciò include le seguenti modifiche:\n* Migliorato il supporto del `Multilevel Switch` per alcuni dispositivi che riportano lo stato immediato dopo una modifica di` targetValue` ma non i valori finali\n* Risolti due problemi in cui la comunicazione con i nodi (specialmente durante l'intervista) poteva bloccarsi",
+                "es": "Actualizado `zwave-js` a v2.11.0. Esto incluye los siguientes cambios:\n* Mejorado el soporte de `Multilevel Switch` para algunos dispositivos que informan el estado inmediato después de un cambio de` targetValue` pero no los valores finales\n* Se corrigieron dos problemas en los que la comunicación con los nodos (especialmente durante la entrevista) podía atascarse",
+                "pl": "Zaktualizowano `zwave-js` do v2.11.0. Obejmuje to następujące zmiany:\n* Ulepszona obsługa przełącznika wielopoziomowego dla niektórych urządzeń, które zgłaszają natychmiastowy stan po zmianie parametru `targetValue`, ale nie końcowe wartości\n* Naprawiono dwa problemy, w wyniku których komunikacja z węzłami (szczególnie podczas wywiadu) mogła się blokować",
+                "zh-cn": "将`zwave-js`更新为v2.11.0。这包括以下更改：\n*改进了对某些设备的“多级切换”支持，这些设备在“ targetValue”更改后报告立即状态，但不报告最终值\n*修正了两个问题，其中与节点的通信（尤其是在采访中）可能会卡住"
+            },
+            "0.9.0-beta.0": {
+                "en": "Test release for Supervision tests",
+                "de": "Testfreigabe für Überwachungstests",
+                "ru": "Тестовый релиз для супервизионных тестов",
+                "pt": "Liberação de teste para testes de supervisão",
+                "nl": "Testvrijgave voor supervisietests",
+                "fr": "Version de test pour les tests de supervision",
+                "it": "Rilascio di test per test di supervisione",
+                "es": "Versión de prueba para pruebas de supervisión",
+                "pl": "Wersja testowa do testów nadzoru",
+                "zh-cn": "监督测试的测试版本"
+            },
+            "0.8.2": {
+                "en": "Updated `zwave-js` to v2.10.0. This includes the following changes:\n* Locally reset devices are now treated like failing nodes and automatically removed from the controller\n* The Notification status is now also queried on wakeup\n* The status of non-reporting listening nodes is now regularly queried\n* The controller is now correctly treated as an awake node when prioritizing messages",
+                "de": "`Zwave-js` wurde auf v2.10.0 aktualisiert. Dies beinhaltet die folgenden Änderungen:\n* Lokal zurückgesetzte Geräte werden jetzt wie fehlerhafte Knoten behandelt und automatisch von der Steuerung entfernt\n* Der Benachrichtigungsstatus wird jetzt auch beim Aufwecken abgefragt\n* Der Status nicht meldender Empfangsknoten wird jetzt regelmäßig abgefragt\n* Der Controller wird jetzt beim Priorisieren von Nachrichten korrekt als Wachknoten behandelt",
+                "ru": "Обновлен `zwave-js` до v2.10.0. Это включает в себя следующие изменения:\n* Локально сброшенные устройства теперь обрабатываются как сбойные узлы и автоматически удаляются из контроллера\n* Статус уведомления теперь также запрашивается при пробуждении\n* Состояние не сообщающих о прослушивании узлов теперь регулярно запрашивается\n* Контроллер теперь корректно обрабатывается как активный узел при назначении приоритетов сообщениям",
+                "pt": "Atualizado `zwave-js` para a v2.10.0. Isso inclui as seguintes alterações:\n* Os dispositivos de redefinição local agora são tratados como nós com falha e removidos automaticamente do controlador\n* O status da notificação agora também é consultado na ativação\n* O status dos nós de escuta que não relatam é agora consultado regularmente\n* O controlador agora é tratado corretamente como um nó acordado ao priorizar mensagens",
+                "nl": "`Zwave-js` bijgewerkt naar v2.10.0. Dit omvat de volgende wijzigingen:\n* Lokaal gereseteerde apparaten worden nu behandeld als falende knooppunten en automatisch verwijderd van de controller\n* De meldingsstatus wordt nu ook gevraagd bij het ontwaken\n* De status van niet-rapporterende luisterknooppunten wordt nu regelmatig opgevraagd\n* De controller wordt nu correct behandeld als een wakker knooppunt bij het prioriteren van berichten",
+                "fr": "Mise à jour de `zwave-js` vers v2.10.0. Cela inclut les modifications suivantes:\n* Les périphériques réinitialisés localement sont désormais traités comme des nœuds défaillants et automatiquement supprimés du contrôleur\n* Le statut de notification est désormais également interrogé au réveil\n* Le statut des nœuds d'écoute non déclarants est désormais régulièrement interrogé\n* Le contrôleur est désormais correctement traité comme un nœud éveillé lors de la hiérarchisation des messages",
+                "it": "Aggiornato `zwave-js` a v2.10.0. Ciò include le seguenti modifiche:\n* I dispositivi ripristinati localmente ora vengono trattati come nodi guasti e rimossi automaticamente dal controller\n* Lo stato di notifica ora viene anche interrogato al risveglio\n* Lo stato dei nodi di ascolto senza report viene ora regolarmente interrogato\n* Il controller ora viene correttamente trattato come un nodo attivo quando si assegnano le priorità ai messaggi",
+                "es": "Actualizado `zwave-js` a v2.10.0. Esto incluye los siguientes cambios:\n* Los dispositivos de restablecimiento local ahora se tratan como nodos defectuosos y se eliminan automáticamente del controlador\n* El estado de notificación ahora también se consulta al despertar\n* El estado de los nodos de escucha que no informan ahora se consulta regularmente\n* El controlador ahora se trata correctamente como un nodo despierto al priorizar mensajes",
+                "pl": "Zaktualizowano `zwave-js` do v2.10.0. Obejmuje to następujące zmiany:\n* Lokalnie resetowane urządzenia są teraz traktowane jak awarie węzłów i automatycznie usuwane ze sterownika\n* Status powiadomień jest teraz sprawdzany również przy wznowieniu\n* Status nie zgłaszających węzłów nasłuchujących jest teraz regularnie sprawdzany\n* Sterownik jest teraz poprawnie traktowany jako przebudzony węzeł przy ustalaniu priorytetów wiadomości",
+                "zh-cn": "将`zwave-js`更新为v2.10.0。这包括以下更改：\n*现在将本地重置的设备视为发生故障的节点，并自动从控制器中删除\n*现在也可以在唤醒时查询通知状态\n*现在定期查询非报告侦听节点的状态\n*现在，在对消息进行优先级排序时，控制器已被正确地视为唤醒节点"
+            },
+            "0.8.1": {
+                "en": "* Brand new icon!\n* Updated `zwave-js` to v2.9.1. This includes the following fixes:\n\t* Notification CC Reports that are received as a response during the interview are now correctly handled\n\t* Status changes for nodes are now handled better\n\t* The scenes of the Scene Activation CC are now automatically reset after the duration has elapsed.",
+                "de": "* Brandneues Icon!\n* `Zwave-js` wurde auf v2.9.1 aktualisiert. Dies beinhaltet die folgenden Korrekturen:\n* CC-Benachrichtigungsberichte, die als Antwort während des Interviews eingehen, werden nun korrekt behandelt\n* Statusänderungen für Knoten werden jetzt besser gehandhabt\n* Die Szenen des Scene Activation CC werden jetzt nach Ablauf der Dauer automatisch zurückgesetzt.",
+                "ru": "* Новый значок!\n* Обновлен `zwave-js` до v2.9.1. Это включает в себя следующие исправления:\n* Уведомление CC. Отчеты, полученные в качестве ответа во время интервью, теперь корректно обрабатываются.\n* Изменения статуса для узлов теперь обрабатываются лучше\n* Сцены Scene Activation CC теперь автоматически сбрасываются после истечения времени действия.",
+                "pt": "* Novo ícone da marca!\n* Atualizado `zwave-js` para a v2.9.1. Isso inclui as seguintes correções:\n* Os relatórios CC de notificação recebidos como resposta durante a entrevista agora são tratados corretamente\n* Alterações de status para nós agora são tratadas melhor\n* As cenas do CC de ativação de cena agora são redefinidas automaticamente após o término da duração.",
+                "nl": "* Gloednieuw pictogram!\n* Bijgewerkt `zwave-js` naar v2.9.1. Dit omvat de volgende fixes:\n* Kennisgeving CC Rapporten die als reactie tijdens het interview worden ontvangen, worden nu correct verwerkt\n* Statuswijzigingen voor knooppunten worden nu beter afgehandeld\n* De scènes van de Scene Activation CC worden nu automatisch gereset nadat de duur is verstreken.",
+                "fr": "* Nouvelle icône!\n* Mise à jour de `zwave-js` vers v2.9.1. Cela inclut les correctifs suivants:\n* Notification CC Les rapports reçus en réponse lors de l'entretien sont désormais correctement traités\n* Les changements d'état des nœuds sont désormais mieux gérés\n* Les scènes du Scene Activation CC sont maintenant réinitialisées automatiquement une fois la durée écoulée.",
+                "it": "* Icona nuova di zecca!\n* Aggiornato `zwave-js` a v2.9.1. Ciò include le seguenti correzioni:\n* I rapporti CC di notifica che vengono ricevuti come risposta durante l'intervista sono ora gestiti correttamente\n* Le modifiche di stato per i nodi ora sono gestite meglio\n* Le scene di Scene Activation CC vengono ora ripristinate automaticamente dopo che è trascorsa la durata.",
+                "es": "* Nuevo icono!\n* Actualizado `zwave-js` a v2.9.1. Esto incluye las siguientes correcciones:\n* Los informes CC de notificación que se reciben como respuesta durante la entrevista ahora se manejan correctamente\n* Los cambios de estado para los nodos ahora se manejan mejor\n* Las escenas de Scene Activation CC ahora se reinician automáticamente una vez transcurrida la duración.",
+                "pl": "* Zupełnie nowa ikona!\n* Zaktualizowano `zwave-js` do v2.9.1. Obejmuje to następujące poprawki:\n* Raporty CC Raporty otrzymane jako odpowiedź podczas wywiadu są teraz poprawnie obsługiwane\n* Zmiany statusu dla węzłów są teraz obsługiwane lepiej\n* Sceny CC Activation Scene są teraz automatycznie resetowane po upływie czasu trwania.",
+                "zh-cn": "*全新的图标！\n*将`zwave-js`更新为v2.9.1。其中包括以下修复程序：\n*现在可以正确处理在面试过程中作为响应收到的Notification CC报告\n*现在可以更好地处理节点的状态更改\n*在持续时间过去之后，现在会自动重设Scene Activation CC的场景。"
+            },
+            "0.8.0": {
+                "en": "* The cache file is now saved in `iobroker-data`, so it doesn't get lost between updates\n* Added a button on the device overview tab to clear the cache",
+                "de": "* Die Cache-Datei wird jetzt in \"iobroker-data\" gespeichert, damit sie zwischen den Aktualisierungen nicht verloren geht\n* Auf der Registerkarte Geräteübersicht wurde eine Schaltfläche zum Löschen des Caches hinzugefügt",
+                "ru": "* Файл кеша теперь сохраняется в `iobroker-data`, поэтому он не теряется между обновлениями\n* Добавлена кнопка на вкладке обзора устройства для очистки кеша",
+                "pt": "* O arquivo de cache agora é salvo em `iobroker-data`, para que não se perca entre as atualizações\n* Adicionado um botão na guia de visão geral do dispositivo para limpar o cache",
+                "nl": "* Het cachebestand wordt nu opgeslagen in `iobroker-data`, dus het raakt niet verloren tussen updates\n* Een knop toegevoegd op het tabblad Apparaatoverzicht om de cache te wissen",
+                "fr": "* Le fichier cache est maintenant enregistré dans `iobroker-data`, donc il ne se perd pas entre les mises à jour\n* Ajout d'un bouton sur l'onglet de présentation de l'appareil pour vider le cache",
+                "it": "* Il file della cache è ora salvato in `iobroker-data`, quindi non si perde tra gli aggiornamenti\n* Aggiunto un pulsante nella scheda panoramica del dispositivo per cancellare la cache",
+                "es": "* El archivo de caché ahora se guarda en `iobroker-data`, por lo que no se pierde entre actualizaciones\n* Se agregó un botón en la pestaña de descripción general del dispositivo para borrar el caché",
+                "pl": "* Plik pamięci podręcznej jest teraz zapisywany w `iobroker-data`, więc nie gubi się między aktualizacjami\n* Dodano przycisk na karcie przeglądu urządzenia, aby wyczyścić pamięć podręczną",
+                "zh-cn": "*缓存文件现在保存在iobroker-data中，因此更新之间不会丢失\n*在设备概述选项卡上添加了一个按钮以清除缓存"
+            },
+            "0.7.2": {
+                "en": "Fixed an issue where indicators with `boolean` values could not be written to",
+                "de": "Es wurde ein Problem behoben, durch das Indikatoren mit Booleschen Werten nicht beschrieben werden konnten",
+                "ru": "Исправлена ошибка, из-за которой индикаторы с логическими значениями не могли быть записаны в",
+                "pt": "Foi corrigido um problema em que indicadores com valores `booleanos 'não podiam ser gravados em",
+                "nl": "Probleem opgelost waarbij naar indicatoren met `booleaanse` waarden niet kon worden geschreven",
+                "fr": "Correction d'un problème où les indicateurs avec des valeurs `booléennes` ne pouvaient pas être écrits",
+                "it": "Risolto il problema per cui gli indicatori con valori \"booleani\" non potevano essere scritti",
+                "es": "Se solucionó un problema por el cual los indicadores con valores `booleanos` no se podían escribir en",
+                "pl": "Naprawiono problem, w wyniku którego nie można było zapisać wskaźników z wartościami „boolean”",
+                "zh-cn": "修复了无法将具有“布尔”值的指标写入的问题"
+            },
+            "0.7.1": {
+                "en": "Updated `zwave-js` to v2.7.0. This includes the following changes:\n* The driver is no longer reset when unexpected data is received. Instead the invalid bytes are skipped.\n* `Basic CC` reports no longer create a value when they are mapped to another CC\n* `IndicatorCC`: Binary indicators now use `boolean` values\n* `IndicatorCC`: V1 indicators (unspecified) are now ignored if an endpoint is known to have V2 indicators",
+                "de": "`Zwave-js` wurde auf v2.7.0 aktualisiert. Dies beinhaltet die folgenden Änderungen:\n* Der Treiber wird nicht mehr zurückgesetzt, wenn unerwartete Daten empfangen werden. Stattdessen werden die ungültigen Bytes übersprungen.\n* 'Basic CC'-Berichte erzeugen keinen Wert mehr, wenn sie einem anderen CC zugeordnet werden\n* `IndicatorCC`: Binäre Indikatoren verwenden jetzt` boolesche` Werte\n* \"IndicatorCC\": V1-Indikatoren (nicht angegeben) werden jetzt ignoriert, wenn bekannt ist, dass ein Endpunkt V2-Indikatoren aufweist",
+                "ru": "Обновлен `zwave-js` до v2.7.0. Это включает в себя следующие изменения:\n* Драйвер больше не сбрасывается при получении неожиданных данных. Вместо этого недопустимые байты пропускаются.\nОтчеты `Basic CC` больше не создают значение, когда они сопоставлены с другим CC\n* IndicatorCC`: бинарные индикаторы теперь используют логические значения\n* IndicatorCC`: индикаторы V1 (не указаны) теперь игнорируются, если известно, что конечная точка имеет индикаторы V2",
+                "pt": "Atualizado `zwave-js` para a v2.7.0. Isso inclui as seguintes alterações:\n* O driver não é mais redefinido quando dados inesperados são recebidos. Em vez disso, os bytes inválidos são ignorados.\n* Os relatórios `CC básico 'não criam mais um valor quando são mapeados para outro CC\n* `IndicatorCC`: Os indicadores binários agora usam valores` booleanos`\n* `IndicatorCC`: os indicadores V1 (não especificados) agora são ignorados se um ponto de extremidade souber que possui indicadores V2",
+                "nl": "`Zwave-js` bijgewerkt naar v2.7.0. Dit omvat de volgende wijzigingen:\n* Het stuurprogramma wordt niet meer gereset wanneer onverwachte gegevens worden ontvangen. In plaats daarvan worden de ongeldige bytes overgeslagen.\n* `Basic CC`-rapporten creëren niet langer een waarde wanneer ze worden toegewezen aan een andere CC\n* `IndicatorCC`: Binaire indicatoren gebruiken nu` booleaanse` waarden\n* `IndicatorCC`: V1-indicatoren (niet gespecificeerd) worden nu genegeerd als bekend is dat een eindpunt V2-indicatoren heeft",
+                "fr": "Mise à jour de `zwave-js` vers v2.7.0. Cela inclut les modifications suivantes:\n* Le pilote n'est plus réinitialisé lorsque des données inattendues sont reçues. Au lieu de cela, les octets invalides sont ignorés.\n* Les rapports «CC de base» ne créent plus de valeur lorsqu'ils sont mappés à un autre CC\n* `IndicatorCC`: Les indicateurs binaires utilisent désormais des valeurs` booléennes`\n* `IndicatorCC`: Les indicateurs V1 (non spécifiés) sont désormais ignorés si un endpoint est connu pour avoir des indicateurs V2",
+                "it": "Aggiornato `zwave-js` a v2.7.0. Ciò include le seguenti modifiche:\n* Il driver non viene più ripristinato quando vengono ricevuti dati imprevisti. Invece i byte non validi vengono ignorati.\n* I report \"CC di base\" non creano più un valore quando vengono mappati su un altro CC\n* `IndicatorCC`: gli indicatori binari ora usano valori\" booleani \"\n* `IndicatorCC`: gli indicatori V1 (non specificati) ora vengono ignorati se è noto che un endpoint ha indicatori V2",
+                "es": "Actualizado `zwave-js` a v2.7.0. Esto incluye los siguientes cambios:\n* El controlador ya no se reinicia cuando se reciben datos inesperados. En su lugar, se omiten los bytes no válidos.\n* Los informes 'CC básico' ya no crean un valor cuando se asignan a otro CC\n* `IndicatorCC`: los indicadores binarios ahora usan valores` booleanos`\n* `IndicatorCC`: los indicadores V1 (no especificados) ahora se ignoran si se sabe que un punto final tiene indicadores V2",
+                "pl": "Zaktualizowano `zwave-js` do wersji 2.7.0. Obejmuje to następujące zmiany:\n* Sterownik nie jest już resetowany po otrzymaniu nieoczekiwanych danych. Zamiast tego nieprawidłowe bajty są pomijane.\n* Raporty `Basic CC` nie tworzą już wartości, gdy są mapowane na inne CC\n* `IndicatorCC`: Wskaźniki binarne używają teraz wartości„ boolean ”\n* `IndicatorCC`: wskaźniki V1 (nieokreślone) są teraz ignorowane, jeśli wiadomo, że punkt końcowy ma wskaźniki V2",
+                "zh-cn": "将`zwave-js`更新为v2.7.0。这包括以下更改：\n*当收到意外数据时，驱动程序不再复位。而是跳过无效字节。\n*“基本抄送”报告在映射到另一个抄送时不再创建值\n*`IndicatorCC`：二进制指示器现在使用`boolean`值\n*`IndicatorCC`：如果已知端点具有V2指示器，则将忽略V1指示器（未指定）"
+            },
+            "0.7.0": {
+                "en": "* Added a config option to write debug logfiles\n* Updated `zwave-js` to v2.6.0 to add support for `Scene Activation CC`",
+                "de": "* Es wurde eine Konfigurationsoption zum Schreiben von Debug-Protokolldateien hinzugefügt\n* `Zwave-js` wurde auf v2.6.0 aktualisiert, um Unterstützung für` Scene Activation CC` hinzuzufügen",
+                "ru": "* Добавлена опция конфигурации для записи отладочных лог-файлов\n* Обновлен `zwave-js` до v2.6.0, чтобы добавить поддержку` Scene Activation CC`",
+                "pt": "* Adicionada uma opção de configuração para gravar arquivos de log de depuração\n* Atualizado zwave-js` para a v2.6.0 para adicionar suporte ao `Scene Activation CC`",
+                "nl": "* Een configuratie-optie toegevoegd om logbestanden voor foutopsporing te schrijven\n* Bijgewerkt `zwave-js` naar v2.6.0 om ondersteuning toe te voegen voor` Scene Activation CC`",
+                "fr": "* Ajout d'une option de configuration pour écrire les fichiers journaux de débogage\n* Mise à jour de `zwave-js` vers v2.6.0 pour ajouter la prise en charge de` Scene Activation CC`",
+                "it": "* Aggiunta un'opzione di configurazione per scrivere i file di registro di debug\n* Aggiornato `zwave-js` a v2.6.0 per aggiungere il supporto per` Scene Activation CC`",
+                "es": "* Se agregó una opción de configuración para escribir archivos de registro de depuración\n* Se actualizó `zwave-js` a v2.6.0 para agregar soporte para` Scene Activation CC`",
+                "pl": "* Dodano opcję konfiguracji do zapisywania plików dziennika debugowania\n* Zaktualizowano `zwave-js` do wersji 2.6.0, aby dodać obsługę` Scene Activation CC`",
+                "zh-cn": "*添加了配置选项以写入调试日志文件\n*将`zwave-js`更新为v2.6.0，以添加对`场景激活CC'的支持"
+            }
+        },
+        "title": "Z-Wave",
+        "titleLang": {
+            "en": "Z-Wave",
+            "de": "Z-Wave",
+            "ru": "Z-Wave",
+            "pt": "Z-Wave",
+            "nl": "Z-Wave",
+            "fr": "Z-Wave",
+            "it": "Z-Wave",
+            "es": "Onda z",
+            "pl": "Z-Wave",
+            "zh-cn": "Z-波"
+        },
+        "desc": {
+            "en": "Alternative Z-Wave implementation",
+            "de": "Alternative Z-Wave-Implementierung",
+            "ru": "Альтернативная реализация Z-Wave",
+            "pt": "Implementação alternativa de Z-Wave",
+            "nl": "Alternatieve Z-Wave-implementatie",
+            "fr": "Mise en œuvre alternative de Z-Wave",
+            "it": "Implementazione Z-Wave alternativa",
+            "es": "Implementación alternativa de Z-Wave",
+            "pl": "Alternatywna implementacja Z-Wave",
+            "zh-cn": "替代Z-Wave实施"
+        },
+        "authors": [
+            "AlCalzone <d.griesel@gmx.net>"
+        ],
+        "keywords": [
+            "zwave",
+            "z-wave"
+        ],
+        "license": "MIT",
+        "platform": "Javascript/Node.js",
+        "main": "build/main.js",
+        "icon": "zwave2.svg",
+        "enabled": true,
+        "dataFolder": "zwave2.%INSTANCE%",
+        "extIcon": "https://raw.githubusercontent.com/AlCalzone/ioBroker.zwave2/master/admin/zwave2.svg?sanitize=true",
+        "readme": "https://github.com/AlCalzone/ioBroker.zwave2/blob/master/README.md",
+        "loglevel": "info",
+        "mode": "daemon",
+        "type": "hardware",
+        "compact": true,
+        "materialize": true,
+        "messagebox": true,
+        "connectionType": "local",
+        "dataSource": "push",
+        "dependencies": [
+            {
+                "js-controller": ">=2.0.0"
+            }
+        ]
+    },
+    "native": {
+        "serialport": "",
+        "writeLogFile": false
+    },
+    "objects": [],
+    "instanceObjects": [
+        {
+            "_id": "info",
+            "type": "channel",
+            "common": {
+                "name": "Information"
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.connection",
+            "type": "state",
+            "common": {
+                "role": "indicator.connected",
+                "name": "Whether the Z-Wave driver is ready",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "def": false
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.inclusion",
+            "type": "state",
+            "common": {
+                "role": "state",
+                "name": "Whether the inclusion of nodes is active",
+                "type": "boolean",
+                "read": true,
+                "write": true,
+                "def": false
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.exclusion",
+            "type": "state",
+            "common": {
+                "role": "state",
+                "name": "Whether the exclusion of nodes is active",
+                "type": "boolean",
+                "read": true,
+                "write": true,
+                "def": false
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.healingNetwork",
+            "type": "state",
+            "common": {
+                "role": "state",
+                "name": "Whether a network heal is currently in progress",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "def": false
+            },
+            "native": {}
+        }
+    ]
 }
