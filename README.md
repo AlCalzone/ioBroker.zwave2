@@ -21,7 +21,7 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
-### __WORK IN PROGRESS__
+### 0.11.0 (2020-03-07)
 Updated `zwave-js` to v2.15.1. This includes the following improvements and fixes:
 * Shortened the interview procedure for some multichannel devices
 * Updated `ZHC5002` configuration for firmware versions >= 2.02
