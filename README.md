@@ -21,6 +21,11 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
+### __WORK IN PROGRESS__
+Updated `zwave-js` to v2.15.3. This includes the following fixes:
+* Fixed an issue where the firmware version of nodes would not be read correctly
+* Fixed an issue that caused the interview procedure for the `Manufacturer Proprietary CC` to be skipped
+
 ### 0.11.1 (2020-03-07)
 Updated `zwave-js` to v2.15.2. This includes the following improvements and fixes:
 * Shortened the interview procedure for some multichannel devices
