@@ -21,7 +21,7 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
-### __WORK IN PROGRESS__
+### 0.11.3 (2020-03-11)
 Fixed a crash that happens when controlling blinds using the `Fibaro Venetian Blind CC`
 
 ### 0.11.2 (2020-03-09)
