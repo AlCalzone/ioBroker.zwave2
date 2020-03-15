@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "0.11.3",
+        "version": "0.11.4",
         "news": {
+            "0.11.4": {
+                "en": "Fixed a crash that happened when saving the network state including a `Manufacturer Proprietary CC` to cache",
+                "de": "Es wurde ein Absturz behoben, der beim Speichern des Netzwerkstatus einschließlich eines \"Manufacturer Proprietary CC\" zum Zwischenspeichern auftrat",
+                "ru": "Исправлен сбой, который происходил при сохранении состояния сети, включая `проприетарный CC производителя 'в кеш",
+                "pt": "Corrigida uma falha que acontecia ao salvar o estado da rede, incluindo um `CC proprietário do fabricante 'no cache",
+                "nl": "Een crash verholpen die zich voordeed bij het opslaan van de netwerkstatus inclusief een `Manufacturer Proprietary CC` naar cache",
+                "fr": "Correction d'un plantage qui se produisait lors de l'enregistrement de l'état du réseau, y compris un «CC propriétaire du fabricant» à mettre en cache",
+                "it": "Risolto un crash che si verificava quando si salvava lo stato della rete incluso un \"CC proprietario del produttore\" nella cache",
+                "es": "Se corrigió un bloqueo que ocurría al guardar el estado de la red, incluido un `CC propietario del fabricante` en caché",
+                "pl": "Naprawiono awarię, która występowała podczas zapisywania stanu sieci, w tym „Producent zastrzeżony CC” do pamięci podręcznej",
+                "zh-cn": "修复了将包含“制造商专有CC”的网络状态保存到缓存时发生的崩溃"
+            },
             "0.11.3": {
                 "en": "Fixed a crash that happens when controlling blinds using the `Fibaro Venetian Blind CC`",
                 "de": "Es wurde ein Absturz behoben, der beim Steuern von Jalousien mit dem \"Fibaro Venetian Blind CC\" auftrat",

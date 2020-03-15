@@ -21,7 +21,7 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
-### __WORK IN PROGRESS__
+### 0.11.4 (2020-03-15)
 Fixed a crash that happened when saving the network state including a `Manufacturer Proprietary CC` to cache
 
 ### 0.11.3 (2020-03-11)
