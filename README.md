@@ -21,6 +21,9 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
+### __WORK IN PROGRESS__
+Fixed a crash that happened when saving the network state including a `Manufacturer Proprietary CC` to cache
+
 ### 0.11.3 (2020-03-11)
 Fixed a crash that happens when controlling blinds using the `Fibaro Venetian Blind CC`
 
