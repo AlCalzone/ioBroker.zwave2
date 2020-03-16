@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "0.11.4",
+        "version": "0.11.5",
         "news": {
+            "0.11.5": {
+                "en": "Fixed a bug that caused the interview process to be stuck on the `Fibaro CC`",
+                "de": "Es wurde ein Fehler behoben, der dazu führte, dass der Interviewprozess auf dem \"Fibaro CC\" hängen blieb",
+                "ru": "Исправлена ошибка, из-за которой процесс интервью зависал на `Fibaro CC`",
+                "pt": "Corrigido um erro que fazia com que o processo de entrevista fosse travado no `Fibaro CC`",
+                "nl": "Een bug gerepareerd waardoor het interviewproces op de `Fibaro CC` bleef steken",
+                "fr": "Correction d'un bug qui bloquait le processus d'interview sur le `Fibaro CC`",
+                "it": "Risolto un bug che causava il blocco del processo di intervista sul `Fibaro CC`",
+                "es": "Se corrigió un error que causaba que el proceso de la entrevista se atascara en el `Fibaro CC`",
+                "pl": "Naprawiono błąd, który powodował, że proces wywiadu blokował się na `Fibaro CC`",
+                "zh-cn": "修复了导致采访过程卡在“ Fibaro CC”上的错误"
+            },
             "0.11.4": {
                 "en": "Fixed a crash that happened when saving the network state including a `Manufacturer Proprietary CC` to cache",
                 "de": "Es wurde ein Absturz behoben, der beim Speichern des Netzwerkstatus einschließlich eines \"Manufacturer Proprietary CC\" zum Zwischenspeichern auftrat",
