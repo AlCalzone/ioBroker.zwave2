@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "0.11.5",
+        "version": "0.11.6",
         "news": {
+            "0.11.6": {
+                "en": "Changing values of the `Fibaro CC` now sends commands to the device",
+                "de": "Das Ändern der Werte des Fibaro CC sendet jetzt Befehle an das Gerät",
+                "ru": "Изменение значений `Fibaro CC` теперь отправляет команды на устройство",
+                "pt": "A alteração dos valores do `Fibaro CC` agora envia comandos para o dispositivo",
+                "nl": "Door de waarden van de `Fibaro CC` te wijzigen, worden nu opdrachten naar het apparaat gestuurd",
+                "fr": "La modification des valeurs du `Fibaro CC` envoie désormais des commandes à l'appareil",
+                "it": "La modifica dei valori di `Fibaro CC` ora invia comandi al dispositivo",
+                "es": "Cambiar los valores del `Fibaro CC` ahora envía comandos al dispositivo",
+                "pl": "Zmiana wartości `Fibaro CC` wysyła teraz polecenia do urządzenia",
+                "zh-cn": "现在，更改“ Fibaro CC”的值会将命令发送到设备"
+            },
             "0.11.5": {
                 "en": "Fixed a bug that caused the interview process to be stuck on the `Fibaro CC`",
                 "de": "Es wurde ein Fehler behoben, der dazu führte, dass der Interviewprozess auf dem \"Fibaro CC\" hängen blieb",
