@@ -21,6 +21,9 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
+### __WORK IN PROGRESS__
+Changing values of the `Fibaro CC` now sends commands to the device
+
 ### 0.11.5 (2020-03-16)
 Fixed a bug that caused the interview process to be stuck on the `Fibaro CC`
 
