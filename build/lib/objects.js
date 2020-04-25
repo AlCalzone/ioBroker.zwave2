@@ -66,6 +66,7 @@ function computeId(nodeId, args) {
 }
 exports.computeId = computeId;
 function nodeToNative(node) {
+    // @ts-ignore
     return Object.assign({ id: node.id, manufacturerId: node.manufacturerId, productType: node.productType, productId: node.productId }, (node.deviceClass && {
         type: {
             basic: DeviceClass_1.BasicDeviceClasses[node.deviceClass.basic],
@@ -82,13 +83,13 @@ function nodeToCommon(node) {
     };
 }
 async function extendNode(node) {
-    var _a;
     const deviceId = shared_1.computeDeviceId(node.id);
     const originalObject = global_1.Global.adapter.oObjects[deviceId];
     // update the object while preserving the existing common properties
+    // @ts-ignore
     const desiredObject = {
         type: "device",
-        common: Object.assign(Object.assign({}, nodeToCommon(node)), (_a = originalObject) === null || _a === void 0 ? void 0 : _a.common),
+        common: Object.assign(Object.assign({}, nodeToCommon(node)), originalObject === null || originalObject === void 0 ? void 0 : originalObject.common),
         native: nodeToNative(node),
     };
     // check if we have to update anything
@@ -157,12 +158,18 @@ async function extendCC(node, cc, ccName) {
 }
 exports.extendCC = extendCC;
 async function extendValue(node, args) {
+    var _a;
     const stateId = computeId(node.id, args);
     await extendMetadata(node, args);
-    // The javascript adapter doesn't seem to like undefined as a value
-    // therefore turn it into a null
-    const valueToSet = args.newValue === undefined ? null : args.newValue;
-    await global_1.Global.adapter.setStateAsync(stateId, valueToSet, true);
+    try {
+        await global_1.Global.adapter.setStateAsync(stateId, {
+            val: ((_a = args.newValue) !== null && _a !== void 0 ? _a : null),
+            ack: true,
+        });
+    }
+    catch (e) {
+        global_1.Global.adapter.log.error(`Cannot set state "${stateId}" in ioBroker: ${e}`);
+    }
 }
 exports.extendValue = extendValue;
 async function extendMetadata(node, args) {

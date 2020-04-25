@@ -356,7 +356,7 @@ class ZWave2 extends utils.Adapter {
                 }
                 try {
                     await node.setValue(valueId, state.val);
-                    await this.setStateAsync(id, state.val, true);
+                    await this.setStateAsync(id, { val: state.val, ack: true });
                 }
                 catch (e) {
                     this.log.error(e.message);

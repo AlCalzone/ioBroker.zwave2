@@ -32,8 +32,8 @@ import {
 	NetworkHealPollResponse,
 } from "./lib/shared";
 
-export class ZWave2 extends utils.Adapter {
-	public constructor(options: Partial<ioBroker.AdapterOptions> = {}) {
+export class ZWave2 extends utils.Adapter<true> {
+	public constructor(options: Partial<utils.AdapterOptions> = {}) {
 		super({
 			...options,
 			name: "zwave2",
@@ -45,8 +45,6 @@ export class ZWave2 extends utils.Adapter {
 		this.on("message", this.onMessage.bind(this));
 		this.on("unload", this.onUnload.bind(this));
 	}
-
-	declare oObjects: Exclude<ioBroker.Adapter["oObjects"], undefined>;
 
 	private driver!: Driver;
 	private driverReady = false;
@@ -470,11 +468,15 @@ export class ZWave2 extends utils.Adapter {
 				// Handle some special states first
 				if (id.endsWith("info.inclusion")) {
 					if (state.val) await this.setExclusionMode(false);
-					await this.setInclusionMode(state.val);
+					await this.setInclusionMode(
+						(state.val as unknown) as boolean,
+					);
 					return;
 				} else if (id.endsWith("info.exclusion")) {
 					if (state.val) await this.setInclusionMode(false);
-					await this.setExclusionMode(state.val);
+					await this.setExclusionMode(
+						(state.val as unknown) as boolean,
+					);
 					return;
 				}
 
@@ -511,7 +513,7 @@ export class ZWave2 extends utils.Adapter {
 
 				try {
 					await node.setValue(valueId, state.val);
-					await this.setStateAsync(id, state.val, true);
+					await this.setStateAsync(id, { val: state.val, ack: true });
 				} catch (e) {
 					this.log.error(e.message);
 				}
@@ -735,7 +737,7 @@ export class ZWave2 extends utils.Adapter {
 
 if (module.parent) {
 	// Export the constructor in compact mode
-	module.exports = (options: Partial<ioBroker.AdapterOptions> | undefined) =>
+	module.exports = (options: Partial<utils.AdapterOptions> | undefined) =>
 		new ZWave2(options);
 } else {
 	// otherwise start the instance directly

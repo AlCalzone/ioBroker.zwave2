@@ -85,6 +85,7 @@ export function computeId(nodeId: number, args: TranslatedValueID): string {
 }
 
 function nodeToNative(node: ZWaveNode): ioBroker.Object["native"] {
+	// @ts-ignore
 	return {
 		id: node.id,
 		manufacturerId: node.manufacturerId,
@@ -113,6 +114,7 @@ export async function extendNode(node: ZWaveNode): Promise<void> {
 	const originalObject = _.adapter.oObjects[deviceId];
 
 	// update the object while preserving the existing common properties
+	// @ts-ignore
 	const desiredObject: ioBroker.SettableObject = {
 		type: "device",
 		common: {
@@ -204,10 +206,14 @@ export async function extendValue(
 	const stateId = computeId(node.id, args);
 
 	await extendMetadata(node, args);
-	// The javascript adapter doesn't seem to like undefined as a value
-	// therefore turn it into a null
-	const valueToSet = args.newValue === undefined ? null : args.newValue;
-	await _.adapter.setStateAsync(stateId, valueToSet as any, true);
+	try {
+		await _.adapter.setStateAsync(stateId, {
+			val: (args.newValue ?? null) as any,
+			ack: true,
+		});
+	} catch (e) {
+		_.adapter.log.error(`Cannot set state "${stateId}" in ioBroker: ${e}`);
+	}
 }
 
 export async function extendMetadata(
@@ -246,7 +252,7 @@ export async function extendMetadata(
 				propertyKey: args.propertyKey,
 			},
 			steps: (metadata as ValueMetadataNumeric).steps,
-		},
+		} as any,
 	};
 
 	const originalObject = _.adapter.oObjects[stateId];
