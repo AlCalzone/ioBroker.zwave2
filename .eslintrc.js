@@ -12,6 +12,7 @@ module.exports = {
 	],
 	plugins: [],
 	rules: {
+		"@typescript-eslint/ban-ts-ignore": "warn",
 		"@typescript-eslint/no-parameter-properties": "off",
 		"@typescript-eslint/no-explicit-any": "off",
 		"@typescript-eslint/no-use-before-define": [
