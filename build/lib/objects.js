@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const objects_1 = require("alcalzone-shared/objects");
 const strings_1 = require("alcalzone-shared/strings");
-const DeviceClass_1 = require("zwave-js/build/lib/node/DeviceClass");
+const Node_1 = require("zwave-js/Node");
 const global_1 = require("./global");
 const shared_1 = require("./shared");
 const isCamelCasedSafeNameRegex = /^(?!.*[\-_]$)[a-z]([a-zA-Z0-9\-_]+)$/;
@@ -60,16 +60,15 @@ function computeId(nodeId, args) {
             args.endpoint && strings_1.padStart(args.endpoint.toString(), 3, "0"),
             ((_b = args.propertyKeyName) === null || _b === void 0 ? void 0 : _b.trim()) && nameToStateId(args.propertyKeyName),
         ]
-            .filter(s => !!s)
+            .filter((s) => !!s)
             .join("_"),
     ].join(".");
 }
 exports.computeId = computeId;
 function nodeToNative(node) {
-    // @ts-ignore
     return Object.assign({ id: node.id, manufacturerId: node.manufacturerId, productType: node.productType, productId: node.productId }, (node.deviceClass && {
         type: {
-            basic: DeviceClass_1.BasicDeviceClasses[node.deviceClass.basic],
+            basic: Node_1.BasicDeviceClasses[node.deviceClass.basic],
             generic: node.deviceClass.generic.name,
             specific: node.deviceClass.specific.name,
         },
@@ -86,7 +85,6 @@ async function extendNode(node) {
     const deviceId = shared_1.computeDeviceId(node.id);
     const originalObject = global_1.Global.adapter.oObjects[deviceId];
     // update the object while preserving the existing common properties
-    // @ts-ignore
     const desiredObject = {
         type: "device",
         common: Object.assign(Object.assign({}, nodeToCommon(node)), originalObject === null || originalObject === void 0 ? void 0 : originalObject.common),

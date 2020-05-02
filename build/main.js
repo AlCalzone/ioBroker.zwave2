@@ -5,7 +5,7 @@ const utils = require("@iobroker/adapter-core");
 const fs = require("fs-extra");
 const path = require("path");
 const zwave_js_1 = require("zwave-js");
-const CommandClasses_1 = require("zwave-js/build/lib/commandclass/CommandClasses");
+const CommandClass_1 = require("zwave-js/CommandClass");
 const global_1 = require("./lib/global");
 const objects_1 = require("./lib/objects");
 const shared_1 = require("./lib/shared");
@@ -76,10 +76,10 @@ class ZWave2 extends utils.Adapter {
             const nodeIdRegex = new RegExp(`^${this.name}\\.${this.instance}\\.Node_(\\d+)`);
             const existingNodeIds = Object.keys(await global_1.Global.$$(`${this.namespace}.*`, { type: "device" }))
                 .map((id) => { var _a; return (_a = id.match(nodeIdRegex)) === null || _a === void 0 ? void 0 : _a[1]; })
-                .filter(id => !!id)
-                .map(id => parseInt(id, 10))
+                .filter((id) => !!id)
+                .map((id) => parseInt(id, 10))
                 .filter((id, index, all) => all.indexOf(id) === index);
-            const unusedNodeIds = existingNodeIds.filter(id => !this.driver.controller.nodes.has(id));
+            const unusedNodeIds = existingNodeIds.filter((id) => !this.driver.controller.nodes.has(id));
             for (const nodeId of unusedNodeIds) {
                 this.log.warn(`Deleting orphaned node ${nodeId}`);
                 await objects_1.removeNode(nodeId);
@@ -131,7 +131,7 @@ class ZWave2 extends utils.Adapter {
         await objects_1.removeNode(node.id);
     }
     async onHealNetworkProgress(progress) {
-        const allDone = [...progress.values()].every(v => v !== "pending");
+        const allDone = [...progress.values()].every((v) => v !== "pending");
         // If this is the final progress report, skip it, so the frontend gets the "done" message
         if (allDone)
             return;
@@ -165,7 +165,7 @@ class ZWave2 extends utils.Adapter {
         // Make sure the device object exists and is up to date
         await objects_1.extendNode(node);
         // Set the node status
-        await objects_1.setNodeStatus(node.id, node.supportsCC(CommandClasses_1.CommandClasses["Wake Up"]) ? "awake" : "alive");
+        await objects_1.setNodeStatus(node.id, node.supportsCC(CommandClass_1.CommandClasses["Wake Up"]) ? "awake" : "alive");
         await objects_1.setNodeReady(node.id, true);
         // Skip channel creation for the controller node
         if (node.isControllerNode())
@@ -173,18 +173,18 @@ class ZWave2 extends utils.Adapter {
         // Find out which channels and states need to exist
         const allValueIDs = node.getDefinedValueIDs();
         const uniqueCCs = allValueIDs
-            .map(vid => [vid.commandClass, vid.commandClassName])
+            .map((vid) => [vid.commandClass, vid.commandClassName])
             .filter(([cc], index, arr) => arr.findIndex(([_cc]) => _cc === cc) === index);
         const desiredChannelIds = new Set(uniqueCCs.map(([, ccName]) => `${this.namespace}.${objects_1.computeChannelId(node.id, ccName)}`));
         const existingChannelIds = Object.keys(await global_1.Global.$$(`${nodeAbsoluteId}.*`, {
             type: "channel",
         }));
-        const desiredStateIds = new Set(allValueIDs.map(vid => `${this.namespace}.${objects_1.computeId(node.id, vid)}`));
+        const desiredStateIds = new Set(allValueIDs.map((vid) => `${this.namespace}.${objects_1.computeId(node.id, vid)}`));
         const existingStateIds = Object.keys(await global_1.Global.$$(`${nodeAbsoluteId}.*`, {
             type: "state",
         }));
         // Clean up unused channels and states
-        const unusedChannels = existingChannelIds.filter(id => !desiredChannelIds.has(id));
+        const unusedChannels = existingChannelIds.filter((id) => !desiredChannelIds.has(id));
         for (const id of unusedChannels) {
             this.log.warn(`Deleting orphaned channel ${id}`);
             try {
@@ -196,9 +196,9 @@ class ZWave2 extends utils.Adapter {
         }
         const unusedStates = existingStateIds
             // select those states that are not desired
-            .filter(id => !desiredStateIds.has(id))
+            .filter((id) => !desiredStateIds.has(id))
             // filter out those states that are not under a CC channel
-            .filter(id => id.slice(nodeAbsoluteId.length + 1).includes("."));
+            .filter((id) => id.slice(nodeAbsoluteId.length + 1).includes("."));
         for (const id of unusedStates) {
             this.log.warn(`Deleting orphaned state ${id}`);
             try {
@@ -445,7 +445,7 @@ class ZWave2 extends utils.Adapter {
                     if (!this.driverReady) {
                         return respond(responses.ERROR("The driver is not yet ready to show the network map!"));
                     }
-                    const map = [...this.driver.controller.nodes.values()].map(node => ({
+                    const map = [...this.driver.controller.nodes.values()].map((node) => ({
                         id: node.id,
                         name: `Node ${node.id}`,
                         neighbors: node.neighbors,
@@ -503,7 +503,7 @@ class ZWave2 extends utils.Adapter {
                     }
                     else {
                         // otherwise remember the callback for a later response
-                        this.respondToHealNetworkPoll = result => respond(responses.RESULT(result));
+                        this.respondToHealNetworkPoll = (result) => respond(responses.RESULT(result));
                     }
                     return;
                 }
@@ -540,7 +540,7 @@ else {
     // otherwise start the instance directly
     (() => new ZWave2())();
 }
-process.on("unhandledRejection", r => {
+process.on("unhandledRejection", (r) => {
     throw r;
 });
 //# sourceMappingURL=main.js.map

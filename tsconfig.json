@@ -29,13 +29,7 @@
 
 		// Set this to false if you want to disable the very strict rules (not recommended)
 		"strict": true,
-		// Or enable some of those features for more fine-grained control
-		"strictNullChecks": true,
-		"strictPropertyInitialization": true,
-		"strictBindCallApply": true,
-		// "noImplicitAny": true,
-		// "noUnusedLocals": true,
-		// "noUnusedParameters": true,
+		"importsNotUsedAsValues": "error",
 
 		// Consider targetting es2017 or higher if you require the new NodeJS 8+ features
 		"target": "es2017",

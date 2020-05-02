@@ -4,15 +4,15 @@ import * as utils from "@iobroker/adapter-core";
 import * as fs from "fs-extra";
 import * as path from "path";
 import { Driver, ZWaveNode } from "zwave-js";
-import { CommandClasses } from "zwave-js/build/lib/commandclass/CommandClasses";
-import { HealNodeStatus } from "zwave-js/build/lib/controller/Controller";
-import {
+import { CommandClasses } from "zwave-js/CommandClass";
+import type { HealNodeStatus } from "zwave-js/Controller";
+import type {
+	ValueID,
 	ZWaveNodeMetadataUpdatedArgs,
 	ZWaveNodeValueAddedArgs,
 	ZWaveNodeValueRemovedArgs,
 	ZWaveNodeValueUpdatedArgs,
-} from "zwave-js/build/lib/node/Node";
-import { ValueID } from "zwave-js/build/lib/node/ValueDB";
+} from "zwave-js/Values";
 import { Global as _ } from "./lib/global";
 import {
 	computeChannelId,
@@ -129,11 +129,11 @@ export class ZWave2 extends utils.Adapter<true> {
 				await _.$$(`${this.namespace}.*`, { type: "device" }),
 			)
 				.map((id: string) => id.match(nodeIdRegex)?.[1])
-				.filter(id => !!id) as string[])
-				.map(id => parseInt(id, 10))
+				.filter((id) => !!id) as string[])
+				.map((id) => parseInt(id, 10))
 				.filter((id, index, all) => all.indexOf(id) === index);
 			const unusedNodeIds = existingNodeIds.filter(
-				id => !this.driver.controller.nodes.has(id),
+				(id) => !this.driver.controller.nodes.has(id),
 			);
 			for (const nodeId of unusedNodeIds) {
 				this.log.warn(`Deleting orphaned node ${nodeId}`);
@@ -201,7 +201,7 @@ export class ZWave2 extends utils.Adapter<true> {
 	private async onHealNetworkProgress(
 		progress: ReadonlyMap<number, HealNodeStatus>,
 	): Promise<void> {
-		const allDone = [...progress.values()].every(v => v !== "pending");
+		const allDone = [...progress.values()].every((v) => v !== "pending");
 		// If this is the final progress report, skip it, so the frontend gets the "done" message
 		if (allDone) return;
 		this.respondToHealNetworkPoll({
@@ -257,7 +257,7 @@ export class ZWave2 extends utils.Adapter<true> {
 		// Find out which channels and states need to exist
 		const allValueIDs = node.getDefinedValueIDs();
 		const uniqueCCs = allValueIDs
-			.map(vid => [vid.commandClass, vid.commandClassName] as const)
+			.map((vid) => [vid.commandClass, vid.commandClassName] as const)
 			.filter(
 				([cc], index, arr) =>
 					arr.findIndex(([_cc]) => _cc === cc) === index,
@@ -275,7 +275,7 @@ export class ZWave2 extends utils.Adapter<true> {
 		);
 		const desiredStateIds = new Set(
 			allValueIDs.map(
-				vid => `${this.namespace}.${computeId(node.id, vid)}`,
+				(vid) => `${this.namespace}.${computeId(node.id, vid)}`,
 			),
 		);
 		const existingStateIds = Object.keys(
@@ -286,7 +286,7 @@ export class ZWave2 extends utils.Adapter<true> {
 
 		// Clean up unused channels and states
 		const unusedChannels = existingChannelIds.filter(
-			id => !desiredChannelIds.has(id),
+			(id) => !desiredChannelIds.has(id),
 		);
 		for (const id of unusedChannels) {
 			this.log.warn(`Deleting orphaned channel ${id}`);
@@ -299,9 +299,9 @@ export class ZWave2 extends utils.Adapter<true> {
 
 		const unusedStates = existingStateIds
 			// select those states that are not desired
-			.filter(id => !desiredStateIds.has(id))
+			.filter((id) => !desiredStateIds.has(id))
 			// filter out those states that are not under a CC channel
-			.filter(id => id.slice(nodeAbsoluteId.length + 1).includes("."));
+			.filter((id) => id.slice(nodeAbsoluteId.length + 1).includes("."));
 
 		for (const id of unusedStates) {
 			this.log.warn(`Deleting orphaned state ${id}`);
@@ -614,7 +614,7 @@ export class ZWave2 extends utils.Adapter<true> {
 					}
 
 					const map = [...this.driver.controller.nodes.values()].map(
-						node => ({
+						(node) => ({
 							id: node.id,
 							name: `Node ${node.id}`,
 							neighbors: node.neighbors,
@@ -693,7 +693,7 @@ export class ZWave2 extends utils.Adapter<true> {
 						this.healNetworkPollResponse = undefined;
 					} else {
 						// otherwise remember the callback for a later response
-						this.respondToHealNetworkPoll = result =>
+						this.respondToHealNetworkPoll = (result) =>
 							respond(responses.RESULT(result));
 					}
 
@@ -744,6 +744,6 @@ if (module.parent) {
 	(() => new ZWave2())();
 }
 
-process.on("unhandledRejection", r => {
+process.on("unhandledRejection", (r) => {
 	throw r;
 });

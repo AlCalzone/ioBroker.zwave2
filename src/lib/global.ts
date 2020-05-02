@@ -1,5 +1,5 @@
 import { filter as objFilter } from "alcalzone-shared/objects";
-import { ZWave2 } from "../main";
+import type { ZWave2 } from "../main";
 
 export class Global {
 	private static _adapter: ZWave2;
@@ -27,7 +27,7 @@ export class Global {
 			type,
 		);
 		if (role) {
-			return objFilter(objects, o => (o.common as any).role === role);
+			return objFilter(objects, (o) => (o.common as any).role === role);
 		} else {
 			return objects;
 		}

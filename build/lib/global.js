@@ -16,7 +16,7 @@ class Global {
         const { type, role } = options;
         const objects = await Global._adapter.getForeignObjectsAsync(pattern, type);
         if (role) {
-            return objects_1.filter(objects, o => o.common.role === role);
+            return objects_1.filter(objects, (o) => o.common.role === role);
         }
         else {
             return objects;

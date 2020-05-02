@@ -1,19 +1,16 @@
 import { entries } from "alcalzone-shared/objects";
 import { padStart } from "alcalzone-shared/strings";
-import { CommandClasses } from "zwave-js/build/lib/commandclass/CommandClasses";
-import { BasicDeviceClasses } from "zwave-js/build/lib/node/DeviceClass";
-import {
+import type { CommandClasses } from "zwave-js/CommandClass";
+import { BasicDeviceClasses, ZWaveNode } from "zwave-js/Node";
+import type {
 	TranslatedValueID,
-	ZWaveNode,
+	ValueMetadataNumeric,
+	ValueType,
 	ZWaveNodeMetadataUpdatedArgs,
 	ZWaveNodeValueAddedArgs,
 	ZWaveNodeValueRemovedArgs,
 	ZWaveNodeValueUpdatedArgs,
-} from "zwave-js/build/lib/node/Node";
-import {
-	ValueMetadataNumeric,
-	ValueType,
-} from "zwave-js/build/lib/values/Metadata";
+} from "zwave-js/Values";
 import { Global as _ } from "./global";
 import { computeDeviceId } from "./shared";
 
@@ -79,13 +76,12 @@ export function computeId(nodeId: number, args: TranslatedValueID): string {
 			args.endpoint && padStart(args.endpoint.toString(), 3, "0"),
 			args.propertyKeyName?.trim() && nameToStateId(args.propertyKeyName),
 		]
-			.filter(s => !!s)
+			.filter((s) => !!s)
 			.join("_"),
 	].join(".");
 }
 
-function nodeToNative(node: ZWaveNode): ioBroker.Object["native"] {
-	// @ts-ignore
+function nodeToNative(node: ZWaveNode): Record<string, any> {
 	return {
 		id: node.id,
 		manufacturerId: node.manufacturerId,
@@ -101,7 +97,7 @@ function nodeToNative(node: ZWaveNode): ioBroker.Object["native"] {
 	};
 }
 
-function nodeToCommon(node: ZWaveNode): ioBroker.ObjectCommon {
+function nodeToCommon(node: ZWaveNode): ioBroker.DeviceCommon {
 	return {
 		name: node.deviceConfig
 			? `${node.deviceConfig.manufacturer} ${node.deviceConfig.label}`
@@ -111,10 +107,11 @@ function nodeToCommon(node: ZWaveNode): ioBroker.ObjectCommon {
 
 export async function extendNode(node: ZWaveNode): Promise<void> {
 	const deviceId = computeDeviceId(node.id);
-	const originalObject = _.adapter.oObjects[deviceId];
+	const originalObject = _.adapter.oObjects[deviceId] as
+		| ioBroker.DeviceObject
+		| undefined;
 
 	// update the object while preserving the existing common properties
-	// @ts-ignore
 	const desiredObject: ioBroker.SettableObject = {
 		type: "device",
 		common: {
