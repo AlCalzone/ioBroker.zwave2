@@ -21,7 +21,7 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
-### __WORK IN PROGRESS__
+### 0.12.0 (2020-05-08)
 * **BREAKING**: Raised minimum Node.js version to 10
 * **BREAKING**: Some duplicate states for the root endpoint have been removed
 * The network heal now updates the routes from all nodes to the controller and between associated nodes
