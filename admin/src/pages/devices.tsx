@@ -1,8 +1,5 @@
 import * as React from "react";
-import {
-	computeDeviceId,
-	NetworkHealPollResponse,
-} from "../../../src/lib/shared";
+import type { NetworkHealPollResponse } from "../../../src/lib/shared";
 import { Modal } from "../components/modal";
 import { useStateWithRef } from "../lib/stateWithRefs";
 import { NodeActions } from "../components/nodeActions";
@@ -11,15 +8,14 @@ import {
 	subscribeStatesAsync,
 	unsubscribeObjectsAsync,
 	unsubscribeStatesAsync,
+	setStateAsync,
+	getStateAsync,
+	Device,
+	loadDevices,
+	getNodeStatus,
 } from "../lib/backend";
 
 let namespace: string;
-
-interface Device {
-	id: string;
-	value: ioBroker.DeviceObject;
-	status?: "unknown" | "alive" | "asleep" | "awake" | "dead";
-}
 
 function statusToIconName(status: Device["status"]): string {
 	switch (status) {
@@ -41,94 +37,25 @@ const inclusionRegex = /info\.inclusion$/;
 const exclusionRegex = /info\.exclusion$/;
 const healNetworkRegex = /info\.healingNetwork$/;
 
-async function loadDevices(): Promise<Record<number, Device>> {
-	return new Promise((resolve, reject) => {
-		// retrieve all devices
-		socket.emit(
-			"getObjectView",
-			"system",
-			"device",
-			{ startkey: namespace + ".", endkey: namespace + ".\u9999" },
-			async (err, devices?: { rows: Device[] }) => {
-				if (err) reject(err);
-				const ret = {};
-				if (devices?.rows) {
-					for (const device of devices.rows) {
-						const nodeId = device.value.native.id as number;
-						device.status = await getNodeStatus(nodeId);
-						ret[nodeId] = device;
-					}
-				}
-				resolve(ret);
-			},
-		);
-	});
-}
-
-async function getNodeStatus(nodeId: number): Promise<Device["status"]> {
-	return new Promise((resolve, reject) => {
-		const stateId = `${namespace}.${computeDeviceId(nodeId)}.status`;
-		// retrieve all devices
-		socket.emit("getState", stateId, (err, state?: ioBroker.State) => {
-			if (err) reject(err);
-			resolve(state?.val as any);
-		});
-	});
-}
-
 async function getInclusionStatus(): Promise<boolean> {
-	return new Promise((resolve, reject) => {
-		const stateId = `${namespace}.info.inclusion`;
-		// retrieve all devices
-		socket.emit("getState", stateId, (err, state?: ioBroker.State) => {
-			if (err) reject(err);
-			resolve(state?.val as boolean);
-		});
-	});
+	return (await getStateAsync(`${namespace}.info.inclusion`)).val as boolean;
 }
 
 async function getExclusionStatus(): Promise<boolean> {
-	return new Promise((resolve, reject) => {
-		const stateId = `${namespace}.info.exclusion`;
-		// retrieve all devices
-		socket.emit("getState", stateId, (err, state?: ioBroker.State) => {
-			if (err) reject(err);
-			resolve(state?.val as boolean);
-		});
-	});
+	return (await getStateAsync(`${namespace}.info.exclusion`)).val as boolean;
 }
 
 async function setInclusionStatus(active: boolean): Promise<void> {
-	return new Promise((resolve, reject) => {
-		const stateId = `${namespace}.info.inclusion`;
-		// retrieve all devices
-		socket.emit("setState", stateId, active, (err, result) => {
-			if (err) reject(err);
-			resolve();
-		});
-	});
+	return setStateAsync(`${namespace}.info.inclusion`, active);
 }
 
 async function setExclusionStatus(active: boolean): Promise<void> {
-	return new Promise((resolve, reject) => {
-		const stateId = `${namespace}.info.exclusion`;
-		// retrieve all devices
-		socket.emit("setState", stateId, active, (err, result) => {
-			if (err) reject(err);
-			resolve();
-		});
-	});
+	return setStateAsync(`${namespace}.info.exclusion`, active);
 }
 
 async function getHealingStatus(): Promise<boolean> {
-	return new Promise((resolve, reject) => {
-		const stateId = `${namespace}.info.healingNetwork`;
-		// retrieve all devices
-		socket.emit("getState", stateId, (err, state?: ioBroker.State) => {
-			if (err) reject(err);
-			resolve(state?.val as boolean);
-		});
-	});
+	return (await getStateAsync(`${namespace}.info.healingNetwork`))
+		.val as boolean;
 }
 
 async function beginHealingNetwork(): Promise<void> {
@@ -207,7 +134,7 @@ function getDefaultMessageProps(): MessageProps {
 	return { open: false, title: "", content: "" };
 }
 
-export function Devices(props: any) {
+export function Devices() {
 	// Because the useEffect callback captures stale state, we need to use a ref for all state that is required in the hook
 	const [devices, devicesRef, setDevices] = useStateWithRef<
 		Record<number, Device>
@@ -253,75 +180,79 @@ export function Devices(props: any) {
 
 	React.useEffect(() => {
 		// componentDidMount
+		const onObjectChange: ioBroker.ObjectChangeHandler = async (
+			id,
+			obj,
+		) => {
+			if (!id.startsWith(namespace) || !deviceIdRegex.test(id)) return;
+			if (obj) {
+				// New or changed device object
+				if (
+					obj.type === "device" &&
+					typeof obj.native.id === "number"
+				) {
+					const nodeId = obj.native.id;
+					const device: Device = {
+						id,
+						value: obj,
+						status: await getNodeStatus(namespace, nodeId),
+					};
+					setDevices({ ...devicesRef.current, [nodeId]: device });
+				}
+			} else {
+				const nodeId = parseInt(deviceIdRegex.exec(id)![1], 10);
+				const newDevices = { ...devicesRef.current };
+				delete newDevices[nodeId];
+				setDevices(newDevices);
+			}
+		};
+
+		const onStateChange: ioBroker.StateChangeHandler = async (
+			id,
+			state,
+		) => {
+			if (!id.startsWith(namespace)) return;
+			if (!state || !state.ack) return;
+
+			if (id.match(deviceStatusRegex)) {
+				// A device's status was changed
+				const nodeId = parseInt(deviceStatusRegex.exec(id)![1], 10);
+				const updatedDevice = devicesRef.current?.[nodeId];
+				if (updatedDevice) {
+					updatedDevice.status = state.val as any;
+					setDevices({
+						...devicesRef.current,
+						[nodeId]: updatedDevice,
+					});
+				}
+			} else if (id.match(inclusionRegex)) {
+				setInclusion(!!state.val);
+			} else if (id.match(exclusionRegex)) {
+				setExclusion(!!state.val);
+			} else if (id.match(healNetworkRegex)) {
+				setHealingNetwork(!!state.val);
+			}
+		};
+
 		(async () => {
 			namespace = `${adapter}.${instance}`;
 
 			hideMessage();
 
-			// subscribe to changes
-			const subscribePattern = namespace + ".*";
-			await subscribeObjectsAsync(subscribePattern);
-			await subscribeStatesAsync(subscribePattern);
-			// And unsubscribe when the page is unloaded
-			window.addEventListener("unload", () => {
-				void unsubscribeObjectsAsync(subscribePattern);
-				void unsubscribeStatesAsync(subscribePattern);
-			});
-
-			setDevices(await loadDevices());
+			setDevices(await loadDevices(namespace));
 			setInclusion(await getInclusionStatus());
 			setExclusion(await getExclusionStatus());
 			setHealingNetwork(await getHealingStatus());
 
-			socket.on("objectChange", async (id, obj) => {
-				if (!id.startsWith(namespace) || !deviceIdRegex.test(id))
-					return;
-				if (obj) {
-					// New or changed device object
-					if (
-						obj.type === "device" &&
-						typeof obj.native.id === "number"
-					) {
-						const nodeId = obj.native.id;
-						const device: Device = {
-							id,
-							value: obj,
-							status: await getNodeStatus(nodeId),
-						};
-						setDevices({ ...devicesRef.current, [nodeId]: device });
-					}
-				} else {
-					const nodeId = parseInt(deviceIdRegex.exec(id)![1], 10);
-					const newDevices = { ...devicesRef.current };
-					delete newDevices[nodeId];
-					setDevices(newDevices);
-				}
-			});
-
-			socket.on("stateChange", async (id, state) => {
-				if (!id.startsWith(namespace)) return;
-				if (!state || !state.ack) return;
-
-				if (id.match(deviceStatusRegex)) {
-					// A device's status was changed
-					const nodeId = parseInt(deviceStatusRegex.exec(id)![1], 10);
-					const updatedDevice = devicesRef.current?.[nodeId];
-					if (updatedDevice) {
-						updatedDevice.status = state.val as any;
-						setDevices({
-							...devicesRef.current,
-							[nodeId]: updatedDevice,
-						});
-					}
-				} else if (id.match(inclusionRegex)) {
-					setInclusion(!!state.val);
-				} else if (id.match(exclusionRegex)) {
-					setExclusion(!!state.val);
-				} else if (id.match(healNetworkRegex)) {
-					setHealingNetwork(!!state.val);
-				}
-			});
+			socket.on("stateChange", onStateChange);
+			socket.on("objectChange", onObjectChange);
 		})();
+
+		// componentWillUnmount
+		return () => {
+			socket.removeEventHandler("stateChange", onStateChange);
+			socket.removeEventHandler("objectChange", onObjectChange);
+		};
 	}, []);
 
 	async function healNetwork() {
@@ -475,7 +406,7 @@ export function Devices(props: any) {
 				</thead>
 				<tbody>
 					{devicesAsArray.length ? (
-						devicesAsArray.map(({ id, value, status }) => {
+						devicesAsArray.map(({ value, status }) => {
 							const nodeId = value.native.id as number;
 
 							const nodeHealStatus = networkHealProgress[nodeId];

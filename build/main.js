@@ -2,12 +2,13 @@
 // wotan-disable async-function-assignability
 Object.defineProperty(exports, "__esModule", { value: true });
 const utils = require("@iobroker/adapter-core");
+const objects_1 = require("alcalzone-shared/objects");
 const fs = require("fs-extra");
 const path = require("path");
 const zwave_js_1 = require("zwave-js");
 const CommandClass_1 = require("zwave-js/CommandClass");
 const global_1 = require("./lib/global");
-const objects_1 = require("./lib/objects");
+const objects_2 = require("./lib/objects");
 const shared_1 = require("./lib/shared");
 class ZWave2 extends utils.Adapter {
     constructor(options = {}) {
@@ -69,8 +70,8 @@ class ZWave2 extends utils.Adapter {
             for (const [nodeId, node] of this.driver.controller.nodes) {
                 this.addNodeEventHandlers(node);
                 // Reset the node status
-                await objects_1.setNodeStatus(nodeId, "unknown");
-                await objects_1.setNodeReady(nodeId, false);
+                await objects_2.setNodeStatus(nodeId, "unknown");
+                await objects_2.setNodeReady(nodeId, false);
             }
             // Now we know which nodes should exist - clean up orphaned nodes
             const nodeIdRegex = new RegExp(`^${this.name}\\.${this.instance}\\.Node_(\\d+)`);
@@ -82,7 +83,7 @@ class ZWave2 extends utils.Adapter {
             const unusedNodeIds = existingNodeIds.filter((id) => !this.driver.controller.nodes.has(id));
             for (const nodeId of unusedNodeIds) {
                 this.log.warn(`Deleting orphaned node ${nodeId}`);
-                await objects_1.removeNode(nodeId);
+                await objects_2.removeNode(nodeId);
             }
         });
         // Log errors from the Z-Wave lib
@@ -128,7 +129,7 @@ class ZWave2 extends utils.Adapter {
     async onNodeRemoved(node) {
         this.log.info(`Node ${node.id}: removed`);
         node.removeAllListeners();
-        await objects_1.removeNode(node.id);
+        await objects_2.removeNode(node.id);
     }
     async onHealNetworkProgress(progress) {
         const allDone = [...progress.values()].every((v) => v !== "pending");
@@ -163,10 +164,10 @@ class ZWave2 extends utils.Adapter {
         this.log.info(`Node ${node.id}: ready to use`);
         const nodeAbsoluteId = `${this.namespace}.${shared_1.computeDeviceId(node.id)}`;
         // Make sure the device object exists and is up to date
-        await objects_1.extendNode(node);
+        await objects_2.extendNode(node);
         // Set the node status
-        await objects_1.setNodeStatus(node.id, node.supportsCC(CommandClass_1.CommandClasses["Wake Up"]) ? "awake" : "alive");
-        await objects_1.setNodeReady(node.id, true);
+        await objects_2.setNodeStatus(node.id, node.supportsCC(CommandClass_1.CommandClasses["Wake Up"]) ? "awake" : "alive");
+        await objects_2.setNodeReady(node.id, true);
         // Skip channel creation for the controller node
         if (node.isControllerNode())
             return;
@@ -175,11 +176,11 @@ class ZWave2 extends utils.Adapter {
         const uniqueCCs = allValueIDs
             .map((vid) => [vid.commandClass, vid.commandClassName])
             .filter(([cc], index, arr) => arr.findIndex(([_cc]) => _cc === cc) === index);
-        const desiredChannelIds = new Set(uniqueCCs.map(([, ccName]) => `${this.namespace}.${objects_1.computeChannelId(node.id, ccName)}`));
+        const desiredChannelIds = new Set(uniqueCCs.map(([, ccName]) => `${this.namespace}.${objects_2.computeChannelId(node.id, ccName)}`));
         const existingChannelIds = Object.keys(await global_1.Global.$$(`${nodeAbsoluteId}.*`, {
             type: "channel",
         }));
-        const desiredStateIds = new Set(allValueIDs.map((vid) => `${this.namespace}.${objects_1.computeId(node.id, vid)}`));
+        const desiredStateIds = new Set(allValueIDs.map((vid) => `${this.namespace}.${objects_2.computeId(node.id, vid)}`));
         const existingStateIds = Object.keys(await global_1.Global.$$(`${nodeAbsoluteId}.*`, {
             type: "state",
         }));
@@ -216,56 +217,56 @@ class ZWave2 extends utils.Adapter {
         }
         // Make sure all channel objects are up to date
         for (const [cc, ccName] of uniqueCCs) {
-            await objects_1.extendCC(node, cc, ccName);
+            await objects_2.extendCC(node, cc, ccName);
         }
         // Prepare data points for all the node's values
         for (const valueId of allValueIDs) {
             const value = node.getValue(valueId);
-            await objects_1.extendValue(node, Object.assign(Object.assign({}, valueId), { newValue: value }));
+            await objects_2.extendValue(node, Object.assign(Object.assign({}, valueId), { newValue: value }));
         }
     }
     async onNodeInterviewCompleted(node) {
         this.log.info(`Node ${node.id}: interview completed, all values are updated`);
     }
     async onNodeWakeUp(node) {
-        await objects_1.setNodeStatus(node.id, "awake");
+        await objects_2.setNodeStatus(node.id, "awake");
         this.log.info(`Node ${node.id}: is now awake`);
     }
     async onNodeSleep(node) {
-        await objects_1.setNodeStatus(node.id, "asleep");
+        await objects_2.setNodeStatus(node.id, "asleep");
         this.log.info(`Node ${node.id}: is now asleep`);
     }
     async onNodeAlive(node) {
-        await objects_1.setNodeStatus(node.id, "alive");
+        await objects_2.setNodeStatus(node.id, "alive");
         this.log.info(`Node ${node.id}: has returned from the dead`);
     }
     async onNodeDead(node) {
-        await objects_1.setNodeStatus(node.id, "dead");
+        await objects_2.setNodeStatus(node.id, "dead");
         this.log.info(`Node ${node.id}: is now dead`);
     }
     async onNodeValueAdded(node, args) {
-        let propertyName = objects_1.computeId(node.id, args);
+        let propertyName = objects_2.computeId(node.id, args);
         propertyName = propertyName.substr(propertyName.lastIndexOf(".") + 1);
         this.log.debug(`Node ${node.id}: value added: ${propertyName} => ${args.newValue}`);
-        await objects_1.extendValue(node, args);
+        await objects_2.extendValue(node, args);
     }
     async onNodeValueUpdated(node, args) {
-        let propertyName = objects_1.computeId(node.id, args);
+        let propertyName = objects_2.computeId(node.id, args);
         propertyName = propertyName.substr(propertyName.lastIndexOf(".") + 1);
         this.log.debug(`Node ${node.id}: value updated: ${propertyName} => ${args.newValue}`);
-        await objects_1.extendValue(node, args);
+        await objects_2.extendValue(node, args);
     }
     async onNodeValueRemoved(node, args) {
-        let propertyName = objects_1.computeId(node.id, args);
+        let propertyName = objects_2.computeId(node.id, args);
         propertyName = propertyName.substr(propertyName.lastIndexOf(".") + 1);
         this.log.debug(`Node ${node.id}: value removed: ${propertyName}`);
-        await objects_1.removeValue(node.id, args);
+        await objects_2.removeValue(node.id, args);
     }
     async onNodeMetadataUpdated(node, args) {
-        let propertyName = objects_1.computeId(node.id, args);
+        let propertyName = objects_2.computeId(node.id, args);
         propertyName = propertyName.substr(propertyName.lastIndexOf(".") + 1);
         this.log.debug(`Node ${node.id}: metadata updated: ${propertyName}`);
-        await objects_1.extendMetadata(node, args);
+        await objects_2.extendMetadata(node, args);
     }
     /**
      * Is called when adapter shuts down - callback has to be called under any circumstances!
@@ -277,8 +278,8 @@ class ZWave2 extends utils.Adapter {
             await this.driver.destroy();
             this.log.info("Resetting node status...");
             for (const nodeId of allNodeIds) {
-                await objects_1.setNodeStatus(nodeId, "unknown");
-                await objects_1.setNodeReady(nodeId, false);
+                await objects_2.setNodeStatus(nodeId, "unknown");
+                await objects_2.setNodeReady(nodeId, false);
             }
             this.log.info("Cleaned everything up!");
             callback();
@@ -526,6 +527,86 @@ class ZWave2 extends utils.Adapter {
                         return respond(responses.ERROR(`Could not remove node ${params.nodeId}: ${e.message}`));
                     }
                     return respond(responses.OK);
+                }
+                case "getAssociationGroups": {
+                    if (!this.driverReady) {
+                        return respond(responses.ERROR("The driver is not yet ready to do that!"));
+                    }
+                    if (!requireParams("nodeId"))
+                        return;
+                    const params = obj.message;
+                    const nodeId = params.nodeId;
+                    try {
+                        const groups = this.driver.controller.getAssociationGroups(nodeId);
+                        // convert map into object
+                        const ret = objects_1.composeObject([...groups]);
+                        return respond(responses.RESULT(ret));
+                    }
+                    catch (e) {
+                        return respond(responses.ERROR(`Could not get association groups for node ${params.nodeId}: ${e.message}`));
+                    }
+                }
+                case "getAssociations": {
+                    if (!this.driverReady) {
+                        return respond(responses.ERROR("The driver is not yet ready to do that!"));
+                    }
+                    if (!requireParams("nodeId"))
+                        return;
+                    const params = obj.message;
+                    const nodeId = params.nodeId;
+                    try {
+                        const assocs = this.driver.controller.getAssociations(nodeId);
+                        // convert map into object
+                        const ret = objects_1.composeObject([...assocs]);
+                        return respond(responses.RESULT(ret));
+                    }
+                    catch (e) {
+                        return respond(responses.ERROR(`Could not get associations for node ${params.nodeId}: ${e.message}`));
+                    }
+                }
+                case "addAssociation": {
+                    if (!this.driverReady) {
+                        return respond(responses.ERROR("The driver is not yet ready to do that!"));
+                    }
+                    if (!requireParams("nodeId", "association"))
+                        return;
+                    const params = obj.message;
+                    const nodeId = params.nodeId;
+                    const definition = params.association;
+                    try {
+                        await this.driver.controller.addAssociations(nodeId, definition.groupId, [
+                            {
+                                nodeId: definition.targetNodeId,
+                                endpoint: definition.endpoint,
+                            },
+                        ]);
+                        return respond(responses.OK);
+                    }
+                    catch (e) {
+                        return respond(responses.ERROR(`Could not add association for node ${params.nodeId}: ${e.message}`));
+                    }
+                }
+                case "removeAssociation": {
+                    if (!this.driverReady) {
+                        return respond(responses.ERROR("The driver is not yet ready to do that!"));
+                    }
+                    if (!requireParams("nodeId", "association"))
+                        return;
+                    const params = obj.message;
+                    const nodeId = params.nodeId;
+                    const definition = params.association;
+                    try {
+                        await this.driver.controller.removeAssociations(nodeId, definition.groupId, [
+                            {
+                                nodeId: definition.targetNodeId,
+                                endpoint: definition.endpoint,
+                            },
+                        ]);
+                        return respond(responses.OK);
+                    }
+                    catch (e) {
+                        return respond(responses.ERROR(`Could not remove association for node ${params.nodeId}: ${e.message}`));
+                    }
                 }
             }
         }

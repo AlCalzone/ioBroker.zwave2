@@ -12,7 +12,11 @@ export interface DropdownProps {
 	checkedChanged: (selected: string) => void;
 }
 
-export class Dropdown extends React.Component<DropdownProps> {
+interface DropdownState {
+	checkedOption?: string;
+}
+
+export class Dropdown extends React.Component<DropdownProps, DropdownState> {
 	private static defaultProps = {
 		emptySelectionText: "Select an option",
 		checkedOption: undefined,
@@ -21,6 +25,9 @@ export class Dropdown extends React.Component<DropdownProps> {
 	constructor(props: DropdownProps) {
 		super(props);
 		this.readStateFromUI = this.readStateFromUI.bind(this);
+		this.state = {
+			checkedOption: props.checkedOption,
+		};
 	}
 
 	private dropdown: HTMLSelectElement | null | undefined;
@@ -36,6 +43,16 @@ export class Dropdown extends React.Component<DropdownProps> {
 		}
 	}
 
+	public componentDidUpdate(prevProps: DropdownProps, _prevState: any) {
+		if (!this.dropdown) return;
+		if (prevProps.options !== this.props.options) {
+			this.mcssSelect = new M_Select(this.dropdown);
+		}
+		if (prevProps.checkedOption !== this.props.checkedOption) {
+			this.setState({ checkedOption: this.props.checkedOption });
+		}
+	}
+
 	public componentWillUnmount() {
 		if (this.dropdown != null) {
 			$(this.dropdown).off("change", this.readStateFromUI);
@@ -45,25 +62,28 @@ export class Dropdown extends React.Component<DropdownProps> {
 	private readStateFromUI(event: React.FormEvent<HTMLSelectElement>) {
 		if (!this.mcssSelect) return;
 		// update the adapter settings
-		this.props.checkedChanged(event.target.value);
+		this.setState({
+			checkedOption: (event.target as any).value,
+		});
+		this.props.checkedChanged((event.target as any).value);
 	}
 
 	public render() {
 		const options = isArray(this.props.options)
-			? composeObject(this.props.options.map(o => [o, o]))
+			? composeObject(this.props.options.map((o) => [o, o]))
 			: isObject(this.props.options)
 			? this.props.options
 			: {};
 		return (
 			<select
 				id={this.props.id}
-				ref={me => (this.dropdown = me)}
-				defaultValue={this.props.checkedOption || ""}
+				ref={(me) => (this.dropdown = me)}
+				value={this.state.checkedOption ?? ""}
 			>
 				<option value="" disabled>
 					{this.props.emptySelectionText}
 				</option>
-				{Object.keys(options).map(k => (
+				{Object.keys(options).map((k) => (
 					<option key={k} value={k}>
 						{options[k]}
 					</option>

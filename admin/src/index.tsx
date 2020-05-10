@@ -7,6 +7,12 @@ import { OnSettingsChangedCallback, Settings } from "./pages/settings";
 import { NetworkMap } from "./pages/networkMap";
 import { Devices } from "./pages/devices";
 import { Associations } from "./pages/associations";
+import {
+	subscribeStatesAsync,
+	subscribeObjectsAsync,
+	unsubscribeStatesAsync,
+	unsubscribeObjectsAsync,
+} from "./lib/backend";
 
 // layout components
 interface RootProps {
@@ -14,13 +20,37 @@ interface RootProps {
 	onSettingsChanged: OnSettingsChangedCallback;
 }
 
+let namespace: string;
+
 export class Root extends React.Component<RootProps /*, RootState*/> {
 	constructor(props: RootProps) {
 		super(props);
 		this.state = {};
 	}
 
-	// public componentDidMount() { }
+	public componentDidMount() {
+		namespace = `${adapter}.${instance}`;
+		// subscribe to changes
+		const systemStates = `system.adapter.${namespace}.*`;
+		const adapterStates = `${namespace}.*`;
+		window.addEventListener("unload", () => this.onUnload());
+		void subscribeStatesAsync(systemStates);
+		void subscribeObjectsAsync(adapterStates);
+		void subscribeStatesAsync(adapterStates);
+	}
+
+	public componentWillUnmount() {
+		this.onUnload();
+	}
+
+	private onUnload() {
+		namespace = `${adapter}.${instance}`;
+		const systemStates = `system.adapter.${namespace}.*`;
+		const adapterStates = `${namespace}.*`;
+		void unsubscribeStatesAsync(systemStates);
+		void unsubscribeObjectsAsync(adapterStates);
+		void unsubscribeStatesAsync(adapterStates);
+	}
 
 	public render() {
 		return (

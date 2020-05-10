@@ -94,6 +94,7 @@ function nodeToNative(node: ZWaveNode): Record<string, any> {
 				specific: node.deviceClass.specific.name,
 			},
 		}),
+		endpoints: node.getEndpointCount(),
 	};
 }
 

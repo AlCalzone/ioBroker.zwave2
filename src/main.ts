@@ -1,10 +1,15 @@
 // wotan-disable async-function-assignability
 
 import * as utils from "@iobroker/adapter-core";
+import { composeObject } from "alcalzone-shared/objects";
 import * as fs from "fs-extra";
 import * as path from "path";
 import { Driver, ZWaveNode } from "zwave-js";
-import { CommandClasses } from "zwave-js/CommandClass";
+import {
+	Association,
+	AssociationGroup,
+	CommandClasses,
+} from "zwave-js/CommandClass";
 import type { HealNodeStatus } from "zwave-js/Controller";
 import type {
 	ValueID,
@@ -27,6 +32,7 @@ import {
 	setNodeStatus,
 } from "./lib/objects";
 import {
+	AssociationDefinition,
 	computeDeviceId,
 	mapToRecord,
 	NetworkHealPollResponse,
@@ -729,6 +735,138 @@ export class ZWave2 extends utils.Adapter<true> {
 						);
 					}
 					return respond(responses.OK);
+				}
+
+				case "getAssociationGroups": {
+					if (!this.driverReady) {
+						return respond(
+							responses.ERROR(
+								"The driver is not yet ready to do that!",
+							),
+						);
+					}
+					if (!requireParams("nodeId")) return;
+					const params = (obj.message as any) as Record<string, any>;
+					const nodeId: number = params.nodeId;
+
+					try {
+						const groups = this.driver.controller.getAssociationGroups(
+							nodeId,
+						);
+						// convert map into object
+						const ret = composeObject([...groups] as [
+							any,
+							AssociationGroup,
+						][]);
+						return respond(responses.RESULT(ret));
+					} catch (e) {
+						return respond(
+							responses.ERROR(
+								`Could not get association groups for node ${params.nodeId}: ${e.message}`,
+							),
+						);
+					}
+				}
+
+				case "getAssociations": {
+					if (!this.driverReady) {
+						return respond(
+							responses.ERROR(
+								"The driver is not yet ready to do that!",
+							),
+						);
+					}
+					if (!requireParams("nodeId")) return;
+					const params = (obj.message as any) as Record<string, any>;
+					const nodeId: number = params.nodeId;
+
+					try {
+						const assocs = this.driver.controller.getAssociations(
+							nodeId,
+						);
+						// convert map into object
+						const ret = composeObject([...assocs] as [
+							any,
+							Association[],
+						][]);
+						return respond(responses.RESULT(ret));
+					} catch (e) {
+						return respond(
+							responses.ERROR(
+								`Could not get associations for node ${params.nodeId}: ${e.message}`,
+							),
+						);
+					}
+				}
+
+				case "addAssociation": {
+					if (!this.driverReady) {
+						return respond(
+							responses.ERROR(
+								"The driver is not yet ready to do that!",
+							),
+						);
+					}
+					if (!requireParams("nodeId", "association")) return;
+					const params = (obj.message as any) as Record<string, any>;
+					const nodeId: number = params.nodeId;
+					const definition: AssociationDefinition =
+						params.association;
+
+					try {
+						await this.driver.controller.addAssociations(
+							nodeId,
+							definition.groupId,
+							[
+								{
+									nodeId: definition.targetNodeId,
+									endpoint: definition.endpoint,
+								},
+							],
+						);
+						return respond(responses.OK);
+					} catch (e) {
+						return respond(
+							responses.ERROR(
+								`Could not add association for node ${params.nodeId}: ${e.message}`,
+							),
+						);
+					}
+				}
+
+				case "removeAssociation": {
+					if (!this.driverReady) {
+						return respond(
+							responses.ERROR(
+								"The driver is not yet ready to do that!",
+							),
+						);
+					}
+					if (!requireParams("nodeId", "association")) return;
+					const params = (obj.message as any) as Record<string, any>;
+					const nodeId: number = params.nodeId;
+					const definition: AssociationDefinition =
+						params.association;
+
+					try {
+						await this.driver.controller.removeAssociations(
+							nodeId,
+							definition.groupId,
+							[
+								{
+									nodeId: definition.targetNodeId,
+									endpoint: definition.endpoint,
+								},
+							],
+						);
+						return respond(responses.OK);
+					} catch (e) {
+						return respond(
+							responses.ERROR(
+								`Could not remove association for node ${params.nodeId}: ${e.message}`,
+							),
+						);
+					}
 				}
 			}
 		}

@@ -19,3 +19,9 @@ export interface NetworkHealPollResponse {
 	type: "idle" | "done" | "progress";
 	progress?: Record<number, "pending" | "done" | "failed" | "skipped">;
 }
+
+export interface AssociationDefinition {
+	groupId: number;
+	targetNodeId: number;
+	endpoint?: number;
+}

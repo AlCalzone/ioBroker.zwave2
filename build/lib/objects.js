@@ -66,13 +66,13 @@ function computeId(nodeId, args) {
 }
 exports.computeId = computeId;
 function nodeToNative(node) {
-    return Object.assign({ id: node.id, manufacturerId: node.manufacturerId, productType: node.productType, productId: node.productId }, (node.deviceClass && {
+    return Object.assign(Object.assign({ id: node.id, manufacturerId: node.manufacturerId, productType: node.productType, productId: node.productId }, (node.deviceClass && {
         type: {
             basic: Node_1.BasicDeviceClasses[node.deviceClass.basic],
             generic: node.deviceClass.generic.name,
             specific: node.deviceClass.specific.name,
         },
-    }));
+    })), { endpoints: node.getEndpointCount() });
 }
 function nodeToCommon(node) {
     return {

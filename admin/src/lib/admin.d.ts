@@ -78,6 +78,14 @@ interface ioBrokerSocket {
 
 	on(event: "objectChange", handler: ioBroker.ObjectChangeHandler): void;
 	on(event: "stateChange", handler: ioBroker.StateChangeHandler): void;
+	removeEventHandler(
+		event: "objectChange",
+		handler: ioBroker.ObjectChangeHandler,
+	): void;
+	removeEventHandler(
+		event: "stateChange",
+		handler: ioBroker.StateChangeHandler,
+	): void;
 
 	// TODO: other events
 }

@@ -98,3 +98,11 @@ i.material-icons.working {
 		transform: rotate(0deg);
 	}
 }
+
+i.icon-button:not(.disabled) {
+	cursor: pointer;
+}
+
+i.icon-button.disabled {
+	pointer-events: none;
+}
