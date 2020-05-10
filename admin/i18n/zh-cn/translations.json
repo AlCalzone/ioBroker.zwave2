@@ -1,4 +1,5 @@
 {
+    "Associations": "社团协会",
     "Cancel exclusion": "取消排除",
     "Cancel healing": "取消治疗",
     "Cancel inclusion": "取消收录",
@@ -26,6 +27,7 @@
     "This should only be set for debugging purposes.": "仅应将其设置为调试目的。",
     "Type": "类型",
     "Write a detailed logfile": "编写详细的日志文件",
+    "adapter not ready": "适配器未运行或尚未准备好！",
     "alive": "活",
     "asleep": "睡着了",
     "awake": "苏醒",

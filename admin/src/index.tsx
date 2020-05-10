@@ -6,6 +6,7 @@ import { Tabs } from "iobroker-react-components";
 import { OnSettingsChangedCallback, Settings } from "./pages/settings";
 import { NetworkMap } from "./pages/networkMap";
 import { Devices } from "./pages/devices";
+import { Associations } from "./pages/associations";
 
 // layout components
 interface RootProps {
@@ -23,12 +24,15 @@ export class Root extends React.Component<RootProps /*, RootState*/> {
 
 	public render() {
 		return (
-			<Tabs labels={["Settings", "Devices", "Network map"]}>
+			<Tabs
+				labels={["Settings", "Devices", "Associations", "Network map"]}
+			>
 				<Settings
 					settings={this.props.settings}
 					onChange={this.props.onSettingsChanged}
 				/>
 				<Devices />
+				<Associations />
 				<NetworkMap />
 			</Tabs>
 		);
@@ -59,7 +63,7 @@ function hasChanges(): boolean {
 ) => {
 	originalSettings = settings;
 
-	const settingsChanged: OnSettingsChangedCallback = newSettings => {
+	const settingsChanged: OnSettingsChangedCallback = (newSettings) => {
 		curSettings = newSettings;
 		onChange(hasChanges());
 	};

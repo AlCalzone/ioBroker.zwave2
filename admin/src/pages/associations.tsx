@@ -1,5 +1,4 @@
 import * as React from "react";
-import { drawNetworkMap, NodeInfo } from "../lib/networkMap";
 import { NotRunning } from "../components/notRunning";
 import {
 	subscribeStatesAsync,
@@ -7,7 +6,7 @@ import {
 	getStateAsync,
 } from "../lib/backend";
 
-export function NetworkMap() {
+export function Associations() {
 	const [adapterRunning, setAdapterRunning] = React.useState(false);
 	const [driverReady, setDriverReady] = React.useState(false);
 
@@ -47,17 +46,11 @@ export function NetworkMap() {
 
 	React.useEffect(() => {
 		if (adapterRunning && driverReady) {
-			sendTo(null, "getNetworkMap", null, ({ error, result: nodes }) => {
-				if (error) {
-					console.error(error);
-				} else {
-					drawNetworkMap("#map", nodes);
-				}
-			});
+			// TODO: Show Associations
 		}
 	}, [adapterRunning, driverReady]);
 	return adapterRunning && driverReady ? (
-		<div id="map"></div>
+		<div id="associations">associations</div>
 	) : (
 		<NotRunning />
 	);

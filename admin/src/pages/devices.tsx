@@ -6,6 +6,12 @@ import {
 import { Modal } from "../components/modal";
 import { useStateWithRef } from "../lib/stateWithRefs";
 import { NodeActions } from "../components/nodeActions";
+import {
+	subscribeObjectsAsync,
+	subscribeStatesAsync,
+	unsubscribeObjectsAsync,
+	unsubscribeStatesAsync,
+} from "../lib/backend";
 
 let namespace: string;
 
@@ -48,7 +54,7 @@ async function loadDevices(): Promise<Record<number, Device>> {
 				const ret = {};
 				if (devices?.rows) {
 					for (const device of devices.rows) {
-						const nodeId = device.value.native.id;
+						const nodeId = device.value.native.id as number;
 						device.status = await getNodeStatus(nodeId);
 						ret[nodeId] = device;
 					}
@@ -65,7 +71,7 @@ async function getNodeStatus(nodeId: number): Promise<Device["status"]> {
 		// retrieve all devices
 		socket.emit("getState", stateId, (err, state?: ioBroker.State) => {
 			if (err) reject(err);
-			resolve(state?.val);
+			resolve(state?.val as any);
 		});
 	});
 }
@@ -76,7 +82,7 @@ async function getInclusionStatus(): Promise<boolean> {
 		// retrieve all devices
 		socket.emit("getState", stateId, (err, state?: ioBroker.State) => {
 			if (err) reject(err);
-			resolve(state?.val);
+			resolve(state?.val as boolean);
 		});
 	});
 }
@@ -87,7 +93,7 @@ async function getExclusionStatus(): Promise<boolean> {
 		// retrieve all devices
 		socket.emit("getState", stateId, (err, state?: ioBroker.State) => {
 			if (err) reject(err);
-			resolve(state?.val);
+			resolve(state?.val as boolean);
 		});
 	});
 }
@@ -120,7 +126,7 @@ async function getHealingStatus(): Promise<boolean> {
 		// retrieve all devices
 		socket.emit("getState", stateId, (err, state?: ioBroker.State) => {
 			if (err) reject(err);
-			resolve(state?.val);
+			resolve(state?.val as boolean);
 		});
 	});
 }
@@ -166,24 +172,6 @@ async function doClearCache(): Promise<void> {
 			} else {
 				reject(error ?? result);
 			}
-		});
-	});
-}
-
-async function subscribeObjectsAsync(pattern: string): Promise<void> {
-	return new Promise((resolve, reject) => {
-		socket.emit("subscribeObjects", pattern, async error => {
-			if (error) reject(error);
-			resolve();
-		});
-	});
-}
-
-async function subscribeStatesAsync(pattern: string): Promise<void> {
-	return new Promise((resolve, reject) => {
-		socket.emit("subscribeStates", pattern, async error => {
-			if (error) reject(error);
-			resolve();
 		});
 	});
 }
@@ -247,7 +235,7 @@ export function Devices(props: any) {
 		yesButtonText?: string,
 		noButtonText?: string,
 	): Promise<boolean> {
-		return new Promise(resolve => {
+		return new Promise((resolve) => {
 			setMessage({
 				open: true,
 				title: _(title),
@@ -255,7 +243,7 @@ export function Devices(props: any) {
 				hasNoButton: !!noButtonText,
 				yesButtonText: _(yesButtonText ?? "OK"),
 				noButtonText: noButtonText ? _(noButtonText) : undefined,
-				onClose: result => {
+				onClose: (result) => {
 					hideMessage();
 					resolve(result);
 				},
@@ -271,12 +259,13 @@ export function Devices(props: any) {
 			hideMessage();
 
 			// subscribe to changes
-			await subscribeObjectsAsync(namespace + ".*");
-			await subscribeStatesAsync(namespace + ".*");
+			const subscribePattern = namespace + ".*";
+			await subscribeObjectsAsync(subscribePattern);
+			await subscribeStatesAsync(subscribePattern);
 			// And unsubscribe when the page is unloaded
 			window.addEventListener("unload", () => {
-				socket.emit("unsubscribeObjects", namespace + ".*");
-				socket.emit("unsubscribeStates", namespace + ".*");
+				void unsubscribeObjectsAsync(subscribePattern);
+				void unsubscribeStatesAsync(subscribePattern);
 			});
 
 			setDevices(await loadDevices());
@@ -318,7 +307,7 @@ export function Devices(props: any) {
 					const nodeId = parseInt(deviceStatusRegex.exec(id)![1], 10);
 					const updatedDevice = devicesRef.current?.[nodeId];
 					if (updatedDevice) {
-						updatedDevice.status = state.val;
+						updatedDevice.status = state.val as any;
 						setDevices({
 							...devicesRef.current,
 							[nodeId]: updatedDevice,
@@ -487,7 +476,7 @@ export function Devices(props: any) {
 				<tbody>
 					{devicesAsArray.length ? (
 						devicesAsArray.map(({ id, value, status }) => {
-							const nodeId = value.native.id;
+							const nodeId = value.native.id as number;
 
 							const nodeHealStatus = networkHealProgress[nodeId];
 							let healIconCssClass: string;
@@ -522,7 +511,7 @@ export function Devices(props: any) {
 								<tr key={nodeId}>
 									<td>{nodeId}</td>
 									<td>{value.common.name}</td>
-									<td>{value.native.type.basic}</td>
+									<td>{(value.native as any).type.basic}</td>
 									<td>
 										{/* Whether the device is reachable */}
 										<i

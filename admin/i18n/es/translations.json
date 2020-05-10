@@ -1,4 +1,5 @@
 {
+    "Associations": "Asociaciones",
     "Cancel exclusion": "Cancelar exclusión",
     "Cancel healing": "Cancelar la curación",
     "Cancel inclusion": "Cancelar inclusión",
@@ -26,6 +27,7 @@
     "This should only be set for debugging purposes.": "Esto solo debe establecerse con fines de depuración.",
     "Type": "Tipo",
     "Write a detailed logfile": "Escribir un archivo de registro detallado",
+    "adapter not ready": "¡El adaptador no está funcionando o aún no está listo!",
     "alive": "viva",
     "asleep": "dormido",
     "awake": "despierto",

@@ -1,4 +1,5 @@
 {
+    "Associations": "Associations",
     "Cancel exclusion": "Cancel exclusion",
     "Cancel healing": "Cancel healing",
     "Cancel inclusion": "Cancel inclusion",
@@ -26,6 +27,7 @@
     "This should only be set for debugging purposes.": "This should only be set for debugging purposes.",
     "Type": "Type",
     "Write a detailed logfile": "Write a detailed logfile",
+    "adapter not ready": "The adapter is not running or not ready yet!",
     "alive": "alive",
     "asleep": "asleep",
     "awake": "awake",

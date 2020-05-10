@@ -1,4 +1,5 @@
 {
+    "Associations": "ассоциации",
     "Cancel exclusion": "Отмена исключения",
     "Cancel healing": "Отменить исцеление",
     "Cancel inclusion": "Отмена включения",
@@ -26,6 +27,7 @@
     "This should only be set for debugging purposes.": "Это должно быть установлено только для целей отладки.",
     "Type": "Тип",
     "Write a detailed logfile": "Напишите подробный лог-файл",
+    "adapter not ready": "Адаптер не работает или еще не готов!",
     "alive": "в живых",
     "asleep": "спящий",
     "awake": "бодрствующий",

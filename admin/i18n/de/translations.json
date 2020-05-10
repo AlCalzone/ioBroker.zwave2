@@ -1,4 +1,5 @@
 {
+    "Associations": "Verknüpfungen",
     "Cancel exclusion": "Ausschluss aufheben",
     "Cancel healing": "Heilung abbrechen",
     "Cancel inclusion": "Einbinden abbrechen",
@@ -26,6 +27,7 @@
     "This should only be set for debugging purposes.": "Dies sollte nur zu Debugging-Zwecken aktiviert werden.",
     "Type": "Typ",
     "Write a detailed logfile": "Detaillierte Logdatei schreiben",
+    "adapter not ready": "Der Adapter läuft nicht oder ist noch nicht bereit!",
     "alive": "erreichbar",
     "asleep": "schläft",
     "awake": "wach",

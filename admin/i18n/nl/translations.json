@@ -1,4 +1,5 @@
 {
+    "Associations": "Verenigingen",
     "Cancel exclusion": "Uitsluiting annuleren",
     "Cancel healing": "Annuleer genezing",
     "Cancel inclusion": "Annuleer opname",
@@ -26,6 +27,7 @@
     "This should only be set for debugging purposes.": "Dit mag alleen worden ingesteld voor foutopsporing.",
     "Type": "Type",
     "Write a detailed logfile": "Schrijf een gedetailleerd logbestand",
+    "adapter not ready": "De adapter draait niet of is nog niet klaar!",
     "alive": "levend",
     "asleep": "in slaap",
     "awake": "wakker",
