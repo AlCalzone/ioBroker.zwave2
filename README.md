@@ -21,6 +21,9 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
+### __WORK IN PROGRESS__
+Added a user interface to manage associations between nodes
+
 ### 0.12.2 (2020-05-17)
 * Previously missing updates from multi channel devices should now be received again
 * Fixed an issue where the interview process was stalled by requesting information the devices don't understand
