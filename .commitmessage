@@ -1,5 +1,0 @@
-chore: release v0.12.2
-
-Previously missing updates from multi channel devices should now be received again
-Fixed an issue where the interview process was stalled by requesting information the devices don't understand
-Fixed a crash that could happen when the adapter is restarted
