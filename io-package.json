@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "0.12.1",
+        "version": "0.12.2",
         "news": {
+            "0.12.2": {
+                "en": "Previously missing updates from multi channel devices should now be received again\nFixed an issue where the interview process was stalled by requesting information the devices don't understand\nFixed a crash that could happen when the adapter is restarted",
+                "de": "Zuvor fehlende Updates von Mehrkanalgeräten sollten jetzt erneut empfangen werden\nEs wurde ein Problem behoben, bei dem der Interviewprozess unterbrochen wurde, indem Informationen angefordert wurden, die die Geräte nicht verstehen\nEs wurde ein Absturz behoben, der beim Neustart des Adapters auftreten konnte",
+                "ru": "Ранее пропущенные обновления от многоканальных устройств теперь должны быть получены снова\nИсправлена ошибка, из-за которой процесс интервью зависал из-за запроса информации, которую устройства не понимают\nИсправлен сбой, который мог произойти при перезапуске адаптера",
+                "pt": "Atualizações anteriormente ausentes de dispositivos multicanais agora devem ser recebidas novamente\nCorrigido um problema em que o processo de entrevista era interrompido solicitando informações que os dispositivos não entendiam\nCorrigida uma falha que poderia ocorrer quando o adaptador era reiniciado",
+                "nl": "Eerder ontbrekende updates van apparaten met meerdere kanalen moeten nu opnieuw worden ontvangen\nEr is een probleem opgelost waarbij het interviewproces werd stopgezet door informatie op te vragen die de apparaten niet begrijpen\nEen crash verholpen die kon optreden wanneer de adapter opnieuw werd opgestart",
+                "fr": "Les mises à jour précédemment manquantes des appareils multicanaux devraient maintenant être reçues à nouveau\nCorrection d'un problème où le processus d'entrevue était bloqué en demandant des informations que les appareils ne comprennent pas\nCorrection d'un plantage pouvant survenir au redémarrage de l'adaptateur",
+                "it": "Gli aggiornamenti precedentemente mancanti dai dispositivi multicanale dovrebbero ora essere ricevuti di nuovo\nRisolto il problema per cui il processo di intervista era bloccato bloccando la richiesta di informazioni che i dispositivi non capivano\nRisolto un crash che poteva verificarsi al riavvio dell'adattatore",
+                "es": "Las actualizaciones que faltaban anteriormente de dispositivos multicanal ahora deberían recibirse nuevamente\nSe solucionó un problema en el que el proceso de la entrevista se detenía al solicitar información que los dispositivos no entendían\nSe corrigió un bloqueo que podría ocurrir cuando se reinicia el adaptador",
+                "pl": "Wcześniej brakujące aktualizacje z urządzeń wielokanałowych powinny być teraz odbierane ponownie\nNaprawiono problem polegający na tym, że proces przesłuchania był zawieszony przez żądanie informacji, których urządzenia nie rozumieją\nNaprawiono awarię, która mogła wystąpić po ponownym uruchomieniu adaptera",
+                "zh-cn": "现在应该再次收到多通道设备以前缺少的更新\n修复了以下问题：通过请求设备不了解的信息而使采访过程停顿了\n修复了重启适配器后可能发生的崩溃"
+            },
             "0.12.1": {
                 "en": "The cache file is now loaded again correctly. This fixes some missing reports from newer multi channel devices.\nNodes are now sent to sleep 1 second after waking up if there are no pending messages. This fixes issues with some devices that expect this behavior.",
                 "de": "Die Cache-Datei wird nun wieder korrekt geladen. Dies behebt einige fehlende Berichte von neueren Mehrkanalgeräten.\nKnoten werden jetzt 1 Sekunde nach dem Aufwachen in den Ruhezustand versetzt, wenn keine ausstehenden Nachrichten vorliegen. Dies behebt Probleme mit einigen Geräten, die dieses Verhalten erwarten.",

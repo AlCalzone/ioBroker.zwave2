@@ -1,6 +1,6 @@
 {
   "name": "iobroker.zwave2",
-  "version": "0.12.1",
+  "version": "0.12.2",
   "description": "Alternative Z-Wave implementation",
   "author": {
     "name": "AlCalzone",
@@ -35,7 +35,7 @@
     "@iobroker/adapter-core": "^2.4.0",
     "alcalzone-shared": "^2.2.0",
     "fs-extra": "^9.0.0",
-    "zwave-js": "^3.1.0"
+    "zwave-js": "^3.2.2"
   },
   "devDependencies": {
     "@alcalzone/release-script": "^1.4.0",

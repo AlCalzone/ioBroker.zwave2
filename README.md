@@ -21,6 +21,11 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
+### 0.12.2 (2020-05-17)
+* Previously missing updates from multi channel devices should now be received again
+* Fixed an issue where the interview process was stalled by requesting information the devices don't understand
+* Fixed a crash that could happen when the adapter is restarted
+
 ### 0.12.1 (2020-05-12)
 * The cache file is now loaded again correctly. This fixes some missing reports from newer multi channel devices.
 * Nodes are now sent to sleep 1 second after waking up if there are no pending messages. This fixes issues with some devices that expect this behavior.
