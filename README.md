@@ -21,7 +21,7 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
-### __WORK IN PROGRESS__
+### 0.13.0 (2020-05-17)
 Added a user interface to manage associations between nodes
 
 ### 0.12.2 (2020-05-17)

@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "0.12.2",
+        "version": "0.13.0",
         "news": {
+            "0.13.0": {
+                "en": "Added a user interface to manage associations between nodes",
+                "de": "Eine Benutzeroberfläche zum Verwalten von Zuordnungen zwischen Knoten wurde hinzugefügt",
+                "ru": "Добавлен пользовательский интерфейс для управления связями между узлами",
+                "pt": "Adicionada uma interface com o usuário para gerenciar associações entre nós",
+                "nl": "Een gebruikersinterface toegevoegd om associaties tussen knooppunten te beheren",
+                "fr": "Ajout d'une interface utilisateur pour gérer les associations entre les nœuds",
+                "it": "Aggiunta un'interfaccia utente per gestire le associazioni tra nodi",
+                "es": "Se agregó una interfaz de usuario para administrar asociaciones entre nodos",
+                "pl": "Dodano interfejs użytkownika do zarządzania powiązaniami między węzłami",
+                "zh-cn": "添加了一个用户界面来管理节点之间的关联"
+            },
             "0.12.2": {
                 "en": "Previously missing updates from multi channel devices should now be received again\nFixed an issue where the interview process was stalled by requesting information the devices don't understand\nFixed a crash that could happen when the adapter is restarted",
                 "de": "Zuvor fehlende Updates von Mehrkanalgeräten sollten jetzt erneut empfangen werden\nEs wurde ein Problem behoben, bei dem der Interviewprozess unterbrochen wurde, indem Informationen angefordert wurden, die die Geräte nicht verstehen\nEs wurde ein Absturz behoben, der beim Neustart des Adapters auftreten konnte",
