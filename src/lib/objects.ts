@@ -113,11 +113,14 @@ export async function extendNode(node: ZWaveNode): Promise<void> {
 		| undefined;
 
 	// update the object while preserving the existing common properties
+	const nodeCommon = nodeToCommon(node);
 	const desiredObject: ioBroker.SettableObject = {
 		type: "device",
 		common: {
-			...nodeToCommon(node),
+			...nodeCommon,
 			...originalObject?.common,
+			// Overwrite empty names
+			name: originalObject?.common.name || nodeCommon.name,
 		},
 		native: nodeToNative(node),
 	};

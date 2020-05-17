@@ -85,9 +85,12 @@ async function extendNode(node) {
     const deviceId = shared_1.computeDeviceId(node.id);
     const originalObject = global_1.Global.adapter.oObjects[deviceId];
     // update the object while preserving the existing common properties
+    const nodeCommon = nodeToCommon(node);
     const desiredObject = {
         type: "device",
-        common: Object.assign(Object.assign({}, nodeToCommon(node)), originalObject === null || originalObject === void 0 ? void 0 : originalObject.common),
+        common: Object.assign(Object.assign(Object.assign({}, nodeCommon), originalObject === null || originalObject === void 0 ? void 0 : originalObject.common), { 
+            // Overwrite empty names
+            name: (originalObject === null || originalObject === void 0 ? void 0 : originalObject.common.name) || nodeCommon.name }),
         native: nodeToNative(node),
     };
     // check if we have to update anything
