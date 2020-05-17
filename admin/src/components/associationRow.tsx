@@ -32,7 +32,7 @@ export function AssociationRow(props: AssociationRowProps) {
 	const [endpoint, setEndpoint] = React.useState(props.endpoint);
 	const [endpointOptions, setEndpointOptions] = React.useState<
 		Record<number, any>
-	>({ 0: "Root device" });
+	>({ 0: _("Root device") });
 
 	const [isValid, setValid] = React.useState(false);
 	const [hasChanges, setHasChanges] = React.useState(false);
@@ -77,10 +77,12 @@ export function AssociationRow(props: AssociationRowProps) {
 							.map((_v, i) => i)
 							.map((ep) => [
 								ep as any,
-								ep === 0 ? "Root device" : `Endpoint ${ep}`,
+								ep === 0
+									? _("Root device")
+									: `${_("Endpoint")} ${ep}`,
 							]),
 				  )
-				: { 0: "Root device" },
+				: { 0: _("Root device") },
 		);
 	}, [nodeId]);
 
