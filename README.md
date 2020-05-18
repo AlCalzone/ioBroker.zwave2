@@ -21,6 +21,10 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
+### 0.13.1 (2020-05-18)
+* Empty node names are now overwritten with the default name
+* Fixed an issue where Multi Channel Associations for older devices were missing
+
 ### 0.13.0 (2020-05-17)
 Added a user interface to manage associations between nodes
 

@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "0.13.0",
+        "version": "0.13.1",
         "news": {
+            "0.13.1": {
+                "en": "Empty node names are now overwritten with the default name\nFixed an issue where Multi Channel Associations for older devices were missing",
+                "de": "Leere Knotennamen werden jetzt mit dem Standardnamen überschrieben\nEs wurde ein Problem behoben, bei dem Mehrkanalzuordnungen für ältere Geräte fehlten",
+                "ru": "Пустые имена узлов теперь перезаписываются именем по умолчанию\nИсправлена проблема, при которой многоканальные ассоциации для старых устройств отсутствовали",
+                "pt": "Os nomes de nós vazios agora são substituídos pelo nome padrão\nCorrigido um problema em que as associações multicanal para dispositivos mais antigos estavam ausentes",
+                "nl": "Lege knooppuntnamen worden nu overschreven door de standaardnaam\nEr is een probleem opgelost waarbij Multi Channel Associations voor oudere apparaten ontbraken",
+                "fr": "Les noms de nœuds vides sont désormais remplacés par le nom par défaut\nCorrection d'un problème où les associations multicanaux pour les appareils plus anciens manquaient",
+                "it": "I nomi dei nodi vuoti ora vengono sovrascritti con il nome predefinito\nRisolto il problema per cui mancavano le Associazioni multicanale per dispositivi meno recenti",
+                "es": "Los nombres de nodo vacíos ahora se sobrescriben con el nombre predeterminado\nSe solucionó un problema en el que faltaban las asociaciones multicanal para dispositivos más antiguos.",
+                "pl": "Puste nazwy węzłów są teraz zastępowane nazwą domyślną\nNaprawiono problem z brakiem powiązań wielokanałowych dla starszych urządzeń",
+                "zh-cn": "现在，空节点名称将被默认名称覆盖\n修复了缺少旧设备的多渠道关联的问题"
+            },
             "0.13.0": {
                 "en": "Added a user interface to manage associations between nodes",
                 "de": "Eine Benutzeroberfläche zum Verwalten von Zuordnungen zwischen Knoten wurde hinzugefügt",
