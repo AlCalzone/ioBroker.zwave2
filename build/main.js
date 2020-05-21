@@ -14,6 +14,7 @@ class ZWave2 extends utils.Adapter {
     constructor(options = {}) {
         super(Object.assign(Object.assign({}, options), { name: "zwave2", objects: true }));
         this.driverReady = false;
+        this.readyNodes = new Set();
         this.on("ready", this.onReady.bind(this));
         this.on("objectChange", this.onObjectChange.bind(this));
         this.on("stateChange", this.onStateChange.bind(this));
@@ -68,10 +69,13 @@ class ZWave2 extends utils.Adapter {
                 .on("heal network progress", this.onHealNetworkProgress.bind(this))
                 .on("heal network done", this.onHealNetworkDone.bind(this));
             for (const [nodeId, node] of this.driver.controller.nodes) {
-                this.addNodeEventHandlers(node);
                 // Reset the node status
-                await objects_2.setNodeStatus(nodeId, "unknown");
-                await objects_2.setNodeReady(nodeId, false);
+                await objects_2.setNodeStatus(nodeId, shared_1.nodeStatusToStatusState(node.status));
+                await objects_2.setNodeReady(nodeId, node.ready);
+                this.addNodeEventHandlers(node);
+                // Make sure we didn't miss the ready event
+                if (node.ready)
+                    void this.onNodeReady(node);
             }
             // Now we know which nodes should exist - clean up orphaned nodes
             const nodeIdRegex = new RegExp(`^${this.name}\\.${this.instance}\\.Node_(\\d+)`);
@@ -161,6 +165,10 @@ class ZWave2 extends utils.Adapter {
             .on("metadata updated", this.onNodeMetadataUpdated.bind(this));
     }
     async onNodeReady(node) {
+        // Only execute this once
+        if (this.readyNodes.has(node.id))
+            return;
+        this.readyNodes.add(node.id);
         this.log.info(`Node ${node.id}: ready to use`);
         const nodeAbsoluteId = `${this.namespace}.${shared_1.computeDeviceId(node.id)}`;
         // Make sure the device object exists and is up to date

@@ -36,6 +36,7 @@ import {
 	computeDeviceId,
 	mapToRecord,
 	NetworkHealPollResponse,
+	nodeStatusToStatusState,
 } from "./lib/shared";
 
 export class ZWave2 extends utils.Adapter<true> {
@@ -54,6 +55,7 @@ export class ZWave2 extends utils.Adapter<true> {
 
 	private driver!: Driver;
 	private driverReady = false;
+	private readyNodes = new Set<number>();
 
 	/**
 	 * Is called when databases are connected and adapter received configuration.
@@ -121,10 +123,17 @@ export class ZWave2 extends utils.Adapter<true> {
 				.on("heal network done", this.onHealNetworkDone.bind(this));
 
 			for (const [nodeId, node] of this.driver.controller.nodes) {
-				this.addNodeEventHandlers(node);
 				// Reset the node status
-				await setNodeStatus(nodeId, "unknown");
-				await setNodeReady(nodeId, false);
+				await setNodeStatus(
+					nodeId,
+					nodeStatusToStatusState(node.status),
+				);
+				await setNodeReady(nodeId, node.ready);
+
+				this.addNodeEventHandlers(node);
+
+				// Make sure we didn't miss the ready event
+				if (node.ready) void this.onNodeReady(node);
 			}
 
 			// Now we know which nodes should exist - clean up orphaned nodes
@@ -243,6 +252,10 @@ export class ZWave2 extends utils.Adapter<true> {
 	}
 
 	private async onNodeReady(node: ZWaveNode): Promise<void> {
+		// Only execute this once
+		if (this.readyNodes.has(node.id)) return;
+		this.readyNodes.add(node.id);
+
 		this.log.info(`Node ${node.id}: ready to use`);
 
 		const nodeAbsoluteId = `${this.namespace}.${computeDeviceId(node.id)}`;
