@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "0.13.1",
+        "version": "0.13.2",
         "news": {
+            "0.13.2": {
+                "en": "Various stability and speed improvements during the interview\nConfig parameter \\#5 has been removed from the `Aeotec WallMote Quad` for firmware versions `<= 1.5`",
+                "de": "Verschiedene Stabilitäts- und Geschwindigkeitsverbesserungen während des Interviews\nDer Konfigurationsparameter \\ # 5 wurde aus dem Aeotec WallMote Quad für Firmware-Versionen `<= 1.5` entfernt",
+                "ru": "Различные улучшения стабильности и скорости во время интервью\nПараметр конфигурации \\ # 5 был удален из `Aeotec WallMote Quad` для версий прошивки` <= 1.5`",
+                "pt": "Várias melhorias de estabilidade e velocidade durante a entrevista\nO parâmetro de configuração \\ # 5 foi removido do `Aeotec WallMote Quad` para versões de firmware` <= 1,5`",
+                "nl": "Diverse stabiliteits- en snelheidsverbeteringen tijdens het interview\nConfiguratieparameter \\ # 5 is verwijderd van de `Aeotec WallMote Quad` voor firmwareversies` <= 1.5`",
+                "fr": "Diverses améliorations de stabilité et de vitesse lors de l'entretien\nLe paramètre de configuration \\ # 5 a été supprimé du `Aeotec WallMote Quad` pour les versions de firmware` <= 1.5`",
+                "it": "Vari miglioramenti di stabilità e velocità durante l'intervista\nIl parametro di configurazione \\ # 5 è stato rimosso da `Aeotec WallMote Quad` per le versioni del firmware` <= 1.5`",
+                "es": "Varias mejoras de estabilidad y velocidad durante la entrevista.\nEl parámetro de configuración \\ # 5 se ha eliminado del `Aeotec WallMote Quad` para las versiones de firmware` <= 1.5`",
+                "pl": "Różne poprawki stabilności i prędkości podczas wywiadu\nParametr konfiguracyjny \\ # 5 został usunięty z `Aeotec WallMote Quad` dla wersji oprogramowania <<1,5`",
+                "zh-cn": "面试中的各种稳定性和速度改进\n固件版本“ <= 1.5”的配置参数\\＃5已从“ Aeotec WallMote Quad”中删除。"
+            },
             "0.13.1": {
                 "en": "Empty node names are now overwritten with the default name\nFixed an issue where Multi Channel Associations for older devices were missing",
                 "de": "Leere Knotennamen werden jetzt mit dem Standardnamen überschrieben\nEs wurde ein Problem behoben, bei dem Mehrkanalzuordnungen für ältere Geräte fehlten",
@@ -230,18 +242,6 @@
                 "es": "* El informe de progreso para la curación de la red ahora distingue correctamente entre nodos aún no curados y nodos que no pudieron sanar\n* Se eliminó una fuente potencial de comunicación estancada debido a un tiempo de espera perdido",
                 "pl": "* Raport postępu dla uzdrawiania sieci teraz poprawnie rozróżnia między jeszcze nieleczonymi węzłami i węzłami, które nie zostały wyleczone\n* Potencjalne źródło zablokowanej komunikacji z powodu braku limitu czasu zostało wyeliminowane",
                 "zh-cn": "*网络修复的进度报告现在可以正确区分尚未修复的节点和未能修复的节点\n*消除了由于缺少超时而导致通讯停顿的潜在原因"
-            },
-            "0.9.0": {
-                "en": "Updated `zwave-js` to v2.11.0. This includes the following changes:\n* Improved `Multilevel Switch` support for some devices that report the immediate state after a `targetValue` change but not the final values\n* Fixed two issues where the communication with nodes (especially during the interview) could get stuck",
-                "de": "`Zwave-js` wurde auf v2.11.0 aktualisiert. Dies beinhaltet die folgenden Änderungen:\n* Verbesserte Unterstützung für \"Multilevel Switch\" für einige Geräte, die nach einer \"targetValue\" -Änderung den unmittelbaren Status melden, jedoch nicht die endgültigen Werte\n* Zwei Probleme wurden behoben, bei denen die Kommunikation mit Knoten (insbesondere während des Interviews) stecken bleiben konnte",
-                "ru": "Обновлен `zwave-js` до v2.11.0. Это включает в себя следующие изменения:\n* Улучшена поддержка `Multilevel Switch` для некоторых устройств, которые сообщают о немедленном состоянии после изменения` targetValue`, но не окончательные значения\n* Исправлены две проблемы, из-за которых связь с узлами (особенно во время интервью) могла застрять",
-                "pt": "Atualizado `zwave-js` para a v2.11.0. Isso inclui as seguintes alterações:\n* Suporte aprimorado ao `Multilevel Switch` para alguns dispositivos que relatam o estado imediato após uma alteração no` targetValue`, mas não nos valores finais\n* Corrigido dois problemas em que a comunicação com os nós (especialmente durante a entrevista) poderia ficar paralisada",
-                "nl": "`Zwave-js` bijgewerkt naar v2.11.0. Dit omvat de volgende wijzigingen:\n* Verbeterde `Multilevel Switch`-ondersteuning voor sommige apparaten die de onmiddellijke status melden na een` targetValue`-wijziging maar niet de definitieve waarden\n* Twee problemen opgelost waarbij de communicatie met knooppunten (vooral tijdens het interview) kon vastlopen",
-                "fr": "`Zwave-js` mis à jour vers v2.11.0. Cela inclut les modifications suivantes:\n* Amélioration de la prise en charge de `Multilevel Switch` pour certains appareils qui signalent l'état immédiat après un changement de` targetValue` mais pas les valeurs finales\n* Correction de deux problèmes où la communication avec les nœuds (en particulier pendant l'interview) pouvait rester bloquée",
-                "it": "`Zwave-js` aggiornato alla v2.11.0. Ciò include le seguenti modifiche:\n* Migliorato il supporto del `Multilevel Switch` per alcuni dispositivi che riportano lo stato immediato dopo una modifica di` targetValue` ma non i valori finali\n* Risolti due problemi in cui la comunicazione con i nodi (specialmente durante l'intervista) poteva bloccarsi",
-                "es": "Actualizado `zwave-js` a v2.11.0. Esto incluye los siguientes cambios:\n* Mejorado el soporte de `Multilevel Switch` para algunos dispositivos que informan el estado inmediato después de un cambio de` targetValue` pero no los valores finales\n* Se corrigieron dos problemas en los que la comunicación con los nodos (especialmente durante la entrevista) podía atascarse",
-                "pl": "Zaktualizowano `zwave-js` do v2.11.0. Obejmuje to następujące zmiany:\n* Ulepszona obsługa przełącznika wielopoziomowego dla niektórych urządzeń, które zgłaszają natychmiastowy stan po zmianie parametru `targetValue`, ale nie końcowe wartości\n* Naprawiono dwa problemy, w wyniku których komunikacja z węzłami (szczególnie podczas wywiadu) mogła się blokować",
-                "zh-cn": "将`zwave-js`更新为v2.11.0。这包括以下更改：\n*改进了对某些设备的“多级切换”支持，这些设备在“ targetValue”更改后报告立即状态，但不报告最终值\n*修正了两个问题，其中与节点的通信（尤其是在采访中）可能会卡住"
             }
         },
         "title": "Z-Wave",
