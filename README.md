@@ -21,6 +21,10 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
+### __WORK IN PROGRESS__
+* Initial values for `ready` and `status` states are now read from the nodes
+* Ensure that the adapter notices when a node is ready
+
 ### 0.13.2 (2020-05-21)
 * Various stability and speed improvements during the interview
 * Config parameter \#5 has been removed from the `Aeotec WallMote Quad` for firmware versions `<= 1.5`
