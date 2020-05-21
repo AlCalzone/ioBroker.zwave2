@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "0.13.2",
+        "version": "0.13.3",
         "news": {
+            "0.13.3": {
+                "en": "Initial values for `ready` and `status` states are now read from the nodes\nEnsure that the adapter notices when a node is ready",
+                "de": "Anfangswerte für \"Bereit\" - und \"Status\" -Zustände werden jetzt von den Knoten gelesen\nStellen Sie sicher, dass der Adapter erkennt, wenn ein Knoten bereit ist",
+                "ru": "Начальные значения для состояний `ready` и` status` теперь считываются с узлов\nУбедитесь, что адаптер замечает, когда узел готов",
+                "pt": "Os valores iniciais dos estados `ready` e` status` agora são lidos nos nós\nCertifique-se de que o adaptador observe quando um nó está pronto",
+                "nl": "De beginwaarden voor de status 'gereed' en 'status' worden nu gelezen uit de knooppunten\nZorg ervoor dat de adapter opmerkt wanneer een knooppunt gereed is",
+                "fr": "Les valeurs initiales pour les états `ready` et` status` sont maintenant lues à partir des nœuds\nAssurez-vous que l'adaptateur remarque lorsqu'un nœud est prêt",
+                "it": "I valori iniziali per gli stati `ready` e` status` vengono ora letti dai nodi\nAssicurarsi che l'adattatore noti quando un nodo è pronto",
+                "es": "Los valores iniciales para los estados `ready` y` status` ahora se leen desde los nodos\nAsegúrese de que el adaptador se da cuenta cuando un nodo está listo",
+                "pl": "Początkowe wartości dla stanów „gotowy” i „status” są teraz odczytywane z węzłów\nUpewnij się, że adapter zauważa, gdy węzeł jest gotowy",
+                "zh-cn": "现在可以从节点读取“就绪”和“状态”状态的初始值\n确保适配器在节点准备就绪时发出通知"
+            },
             "0.13.2": {
                 "en": "Various stability and speed improvements during the interview\nConfig parameter \\#5 has been removed from the `Aeotec WallMote Quad` for firmware versions `<= 1.5`",
                 "de": "Verschiedene Stabilitäts- und Geschwindigkeitsverbesserungen während des Interviews\nDer Konfigurationsparameter \\ # 5 wurde aus dem Aeotec WallMote Quad für Firmware-Versionen `<= 1.5` entfernt",
@@ -230,18 +242,6 @@
                 "es": "Actualizado `zwave-js` a v2.12.1. Esto incluye los siguientes cambios:\n* Cuando se elimina un nodo de la red, también se eliminan todas sus asociaciones.\n* El procedimiento de entrevista ahora se cancela y se vuelve a intentar cuando ocurre un error en lugar de fallar silenciosamente todos los pasos posteriores\n* Se realizaron mejoras en el proceso de curación de la red.\n* Varias mejoras de estabilidad con respecto al procedimiento de entrevista y manejo de los nodos dormidos",
                 "pl": "Zaktualizowano `zwave-js` do v2.12.1. Obejmuje to następujące zmiany:\n* Gdy węzeł zostanie usunięty z sieci, wszystkie powiązania z nim również zostaną usunięte\n* Procedura wywiadu jest teraz anulowana i ponawiana, gdy wystąpi błąd, zamiast po cichu zawieść wszystkie kolejne kroki\n* Wprowadzono usprawnienia procesu leczenia sieci\n* Kilka ulepszeń stabilności dotyczących procedury wywiadu i obsługi śpiących węzłów",
                 "zh-cn": "将`zwave-js`更新为v2.12.1。这包括以下更改：\n*当节点从网络中删除时，与该节点的所有关联也将被删除\n*现在，发生错误时，面试程序将被取消并重试，而不会默默地使所有后续步骤失败\n*对网络修复过程进行了改进\n*关于采访过程和睡眠节点处理的一些稳定性改进"
-            },
-            "0.9.1": {
-                "en": "* The progress report for network healing now correctly distinguishes between not yet healed nodes and nodes that failed to heal\n* A potential source of stalled communication because of a missing timeout was eliminated",
-                "de": "* Der Fortschrittsbericht für die Netzwerkheilung unterscheidet nun korrekt zwischen noch nicht geheilten Knoten und Knoten, die nicht geheilt werden konnten\n* Eine mögliche Ursache für Kommunikationsstörungen aufgrund einer fehlenden Zeitüberschreitung wurde beseitigt",
-                "ru": "* В отчете о ходе восстановления сети теперь правильно различаются еще не вылеченные узлы и узлы, которые не удалось вылечить.\n* Потенциальный источник остановленной связи из-за отсутствия тайм-аута был устранен",
-                "pt": "* O relatório de progresso para recuperação de rede agora distingue corretamente entre nós ainda não recuperados e nós que falharam em recuperar\n* Uma fonte potencial de comunicação interrompida por falta de tempo limite foi eliminada",
-                "nl": "* Het voortgangsrapport voor netwerkgenezing maakt nu correct onderscheid tussen nog niet genezen knooppunten en knooppunten die niet zijn genezen\n* Een potentiële bron van vastgelopen communicatie vanwege een ontbrekende time-out is geëlimineerd",
-                "fr": "* Le rapport de progression pour la guérison du réseau distingue désormais correctement les nœuds non encore guéris et les nœuds qui n'ont pas pu guérir\n* Une source potentielle de communication bloquée en raison d'un délai d'attente manquant a été éliminée",
-                "it": "* Il rapporto sullo stato di avanzamento della guarigione della rete ora distingue correttamente tra nodi non ancora guariti e nodi che non sono stati in grado di guarire\n* È stata eliminata una potenziale fonte di comunicazione bloccata a causa di un timeout mancante",
-                "es": "* El informe de progreso para la curación de la red ahora distingue correctamente entre nodos aún no curados y nodos que no pudieron sanar\n* Se eliminó una fuente potencial de comunicación estancada debido a un tiempo de espera perdido",
-                "pl": "* Raport postępu dla uzdrawiania sieci teraz poprawnie rozróżnia między jeszcze nieleczonymi węzłami i węzłami, które nie zostały wyleczone\n* Potencjalne źródło zablokowanej komunikacji z powodu braku limitu czasu zostało wyeliminowane",
-                "zh-cn": "*网络修复的进度报告现在可以正确区分尚未修复的节点和未能修复的节点\n*消除了由于缺少超时而导致通讯停顿的潜在原因"
             }
         },
         "title": "Z-Wave",

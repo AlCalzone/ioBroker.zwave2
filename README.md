@@ -21,7 +21,7 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
-### __WORK IN PROGRESS__
+### 0.13.3 (2020-05-21)
 * Initial values for `ready` and `status` states are now read from the nodes
 * Ensure that the adapter notices when a node is ready
 
