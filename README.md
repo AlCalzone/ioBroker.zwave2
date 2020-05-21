@@ -21,6 +21,10 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
+### __WORK IN PROGRESS__
+* Various stability and speed improvements during the interview
+* Config parameter \#5 has been removed from the `Aeotec WallMote Quad` for firmware versions `<= 1.5`
+
 ### 0.13.1 (2020-05-18)
 * Empty node names are now overwritten with the default name
 * Fixed an issue where Multi Channel Associations for older devices were missing
