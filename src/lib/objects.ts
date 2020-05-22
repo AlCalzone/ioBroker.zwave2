@@ -108,9 +108,9 @@ function nodeToCommon(node: ZWaveNode): ioBroker.DeviceCommon {
 
 export async function extendNode(node: ZWaveNode): Promise<void> {
 	const deviceId = computeDeviceId(node.id);
-	const originalObject = _.adapter.oObjects[deviceId] as
-		| ioBroker.DeviceObject
-		| undefined;
+	const originalObject = _.adapter.oObjects[
+		`${_.adapter.namespace}.${deviceId}`
+	] as ioBroker.DeviceObject | undefined;
 
 	// update the object while preserving the existing common properties
 	const nodeCommon = nodeToCommon(node);
@@ -182,7 +182,8 @@ export async function extendCC(
 		version: node.getCCVersion(cc),
 	};
 
-	const originalObject = _.adapter.oObjects[channelId];
+	const originalObject =
+		_.adapter.oObjects[`${_.adapter.namespace}.${channelId}`];
 	if (originalObject == undefined) {
 		await _.adapter.setObjectAsync(channelId, {
 			type: "channel",
@@ -256,7 +257,8 @@ export async function extendMetadata(
 		} as any,
 	};
 
-	const originalObject = _.adapter.oObjects[stateId];
+	const originalObject =
+		_.adapter.oObjects[`${_.adapter.namespace}.${stateId}`];
 	if (originalObject == undefined) {
 		await _.adapter.setObjectAsync(stateId, objectDefinition);
 	} else if (

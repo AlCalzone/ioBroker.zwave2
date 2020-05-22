@@ -83,7 +83,7 @@ function nodeToCommon(node) {
 }
 async function extendNode(node) {
     const deviceId = shared_1.computeDeviceId(node.id);
-    const originalObject = global_1.Global.adapter.oObjects[deviceId];
+    const originalObject = global_1.Global.adapter.oObjects[`${global_1.Global.adapter.namespace}.${deviceId}`];
     // update the object while preserving the existing common properties
     const nodeCommon = nodeToCommon(node);
     const desiredObject = {
@@ -141,7 +141,7 @@ async function extendCC(node, cc, ccName) {
         cc,
         version: node.getCCVersion(cc),
     };
-    const originalObject = global_1.Global.adapter.oObjects[channelId];
+    const originalObject = global_1.Global.adapter.oObjects[`${global_1.Global.adapter.namespace}.${channelId}`];
     if (originalObject == undefined) {
         await global_1.Global.adapter.setObjectAsync(channelId, {
             type: "channel",
@@ -204,7 +204,7 @@ async function extendMetadata(node, args) {
             steps: metadata.steps,
         },
     };
-    const originalObject = global_1.Global.adapter.oObjects[stateId];
+    const originalObject = global_1.Global.adapter.oObjects[`${global_1.Global.adapter.namespace}.${stateId}`];
     if (originalObject == undefined) {
         await global_1.Global.adapter.setObjectAsync(stateId, objectDefinition);
     }
