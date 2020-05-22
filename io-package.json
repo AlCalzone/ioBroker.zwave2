@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "0.13.3",
+        "version": "0.13.4",
         "news": {
+            "0.13.4": {
+                "en": "User-defined node names are now really preserved",
+                "de": "Benutzerdefinierte Knotennamen bleiben jetzt wirklich erhalten",
+                "ru": "Определенные пользователем имена узлов теперь действительно сохраняются",
+                "pt": "Os nomes de nós definidos pelo usuário agora são realmente preservados",
+                "nl": "Door de gebruiker gedefinieerde knooppuntnamen blijven nu echt behouden",
+                "fr": "Les noms de nœuds définis par l'utilisateur sont désormais vraiment préservés",
+                "it": "I nomi dei nodi definiti dall'utente ora sono davvero preservati",
+                "es": "Los nombres de nodo definidos por el usuario ahora se conservan realmente",
+                "pl": "Nazwy węzłów zdefiniowane przez użytkownika są teraz naprawdę zachowane",
+                "zh-cn": "用户定义的节点名称现已真正保留"
+            },
             "0.13.3": {
                 "en": "Initial values for `ready` and `status` states are now read from the nodes\nEnsure that the adapter notices when a node is ready",
                 "de": "Anfangswerte für \"Bereit\" - und \"Status\" -Zustände werden jetzt von den Knoten gelesen\nStellen Sie sicher, dass der Adapter erkennt, wenn ein Knoten bereit ist",
@@ -230,18 +242,6 @@
                 "es": "* Actualizado `zwave-js` a v2.12.2. Esto debería solucionar problemas con termostatos antiguos.",
                 "pl": "* Zaktualizowano `zwave-js` do v2.12.2. To powinno rozwiązać problemy ze starszymi termostatami.",
                 "zh-cn": "*更新了`zwave-js`至v2.12.2。这应该可以解决旧式恒温器的问题。"
-            },
-            "0.9.2": {
-                "en": "Updated `zwave-js` to v2.12.1. This includes the following changes:\n* When a node is removed from the network, all associations to it are also removed\n* The interview procedure is now canceled and retried when an error occurs instead of silently failing all futher steps\n* Improvents to the network heal process were made\n* Several stability improvements regarding the interview procedure and handling of sleeping nodes",
-                "de": "`Zwave-js` wurde auf v2.12.1 aktualisiert. Dies beinhaltet die folgenden Änderungen:\n* Wenn ein Knoten aus dem Netzwerk entfernt wird, werden auch alle Zuordnungen zu diesem Knoten entfernt\n* Der Interview-Vorgang wird jetzt abgebrochen und wiederholt, wenn ein Fehler auftritt, anstatt stillschweigend alle weiteren Schritte fehlzuschlagen\n* Der Netzwerkheilungsprozess wurde verbessert\n* Verschiedene Stabilitätsverbesserungen bezüglich des Interviewverfahrens und des Umgangs mit schlafenden Knoten",
-                "ru": "Обновлен `zwave-js` до v2.12.1. Это включает в себя следующие изменения:\n* Когда узел удаляется из сети, все связи с ним также удаляются\n* Процедура собеседования теперь отменяется и повторяется при возникновении ошибки, вместо того, чтобы молча пропустить все дальнейшие шаги\n* Были внесены улучшения в процесс лечения сети\n* Несколько улучшений стабильности в отношении процедуры интервью и обработки спящих узлов",
-                "pt": "Atualizado `zwave-js` para a v2.12.1. Isso inclui as seguintes alterações:\n* Quando um nó é removido da rede, todas as associações a ele também são removidas\n* O procedimento de entrevista agora é cancelado e repetido quando ocorre um erro em vez de falhar silenciosamente em todas as etapas posteriores\n* Melhorias no processo de recuperação da rede foram feitas\n* Várias melhorias de estabilidade em relação ao procedimento de entrevista e manuseio de nós adormecidos",
-                "nl": "`Zwave-js` bijgewerkt naar v2.12.1. Dit omvat de volgende wijzigingen:\n* Wanneer een knooppunt uit het netwerk wordt verwijderd, worden alle bijbehorende koppelingen ook verwijderd\n* De interviewprocedure is nu geannuleerd en opnieuw geprobeerd als er een fout optreedt in plaats van alle verdere stappen stilzwijgend te laten mislukken\n* Er zijn verbeteringen aangebracht in het netwerkherstelproces\n* Verschillende stabiliteitsverbeteringen met betrekking tot de interviewprocedure en de behandeling van slapende knopen",
-                "fr": "Mise à jour de `zwave-js` vers v2.12.1. Cela inclut les modifications suivantes:\n* Lorsqu'un nœud est supprimé du réseau, toutes les associations avec lui sont également supprimées\n* La procédure d'entrevue est maintenant annulée et réessayée lorsqu'une erreur se produit au lieu d'échouer silencieusement à toutes les étapes ultérieures\n* Des améliorations ont été apportées au processus de guérison du réseau\n* Plusieurs améliorations de stabilité concernant la procédure d'entretien et la gestion des nœuds endormis",
-                "it": "`Zwave-js` aggiornato alla v2.12.1. Ciò include le seguenti modifiche:\n* Quando un nodo viene rimosso dalla rete, vengono rimosse anche tutte le associazioni ad esso\n* La procedura di intervista ora viene annullata e riprovata quando si verifica un errore invece di fallire silenziosamente tutti i passaggi successivi\n* Sono stati apportati miglioramenti al processo di guarigione della rete\n* Diversi miglioramenti della stabilità relativi alla procedura di intervista e alla gestione dei nodi dormienti",
-                "es": "Actualizado `zwave-js` a v2.12.1. Esto incluye los siguientes cambios:\n* Cuando se elimina un nodo de la red, también se eliminan todas sus asociaciones.\n* El procedimiento de entrevista ahora se cancela y se vuelve a intentar cuando ocurre un error en lugar de fallar silenciosamente todos los pasos posteriores\n* Se realizaron mejoras en el proceso de curación de la red.\n* Varias mejoras de estabilidad con respecto al procedimiento de entrevista y manejo de los nodos dormidos",
-                "pl": "Zaktualizowano `zwave-js` do v2.12.1. Obejmuje to następujące zmiany:\n* Gdy węzeł zostanie usunięty z sieci, wszystkie powiązania z nim również zostaną usunięte\n* Procedura wywiadu jest teraz anulowana i ponawiana, gdy wystąpi błąd, zamiast po cichu zawieść wszystkie kolejne kroki\n* Wprowadzono usprawnienia procesu leczenia sieci\n* Kilka ulepszeń stabilności dotyczących procedury wywiadu i obsługi śpiących węzłów",
-                "zh-cn": "将`zwave-js`更新为v2.12.1。这包括以下更改：\n*当节点从网络中删除时，与该节点的所有关联也将被删除\n*现在，发生错误时，面试程序将被取消并重试，而不会默默地使所有后续步骤失败\n*对网络修复过程进行了改进\n*关于采访过程和睡眠节点处理的一些稳定性改进"
             }
         },
         "title": "Z-Wave",

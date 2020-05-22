@@ -21,7 +21,7 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
-### __WORK IN PROGRESS__
+### 0.13.4 (2020-05-22)
 User-defined node names are now really preserved
 
 ### 0.13.3 (2020-05-21)
