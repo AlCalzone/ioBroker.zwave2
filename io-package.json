@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "0.13.4",
+        "version": "0.13.5",
         "news": {
+            "0.13.5": {
+                "en": "Fixed the frontend that was broken in v0.13.3",
+                "de": "Das in Version 0.13.3 fehlerhafte Frontend wurde behoben",
+                "ru": "Исправлен интерфейс, который был сломан в v0.13.3",
+                "pt": "Corrigido o frontend que estava quebrado na v0.13.3",
+                "nl": "De frontend gerepareerd die was gebroken in v0.13.3",
+                "fr": "Correction du frontend qui était cassé dans la v0.13.3",
+                "it": "Risolto il problema con il front-end rotto in v0.13.3",
+                "es": "Se corrigió la interfaz que se rompió en v0.13.3",
+                "pl": "Naprawiono frontend, który został uszkodzony w wersji 0.13.3",
+                "zh-cn": "修复了v0.13.3中损坏的前端"
+            },
             "0.13.4": {
                 "en": "User-defined node names are now really preserved",
                 "de": "Benutzerdefinierte Knotennamen bleiben jetzt wirklich erhalten",
@@ -230,18 +242,6 @@
                 "es": "* Pequeñas mejoras de rendimiento\n* Se corrigió un error que podía ocurrir cuando se cambiaba un estado antes de que el controlador esté listo\n* Actualizado `zwave-js` a v2.12.3. Esto incluye los siguientes cambios:\n* La secuencia de la entrevista para `Thermostat CC` V1 / V2 ya no debería atascarse\n* Manejo mejorado de nodos que no responden a una solicitud\n* Pequeñas mejoras de estabilidad y correcciones de errores",
                 "pl": "* Małe ulepszenia wydajności\n* Naprawiono błąd, który mógł wystąpić, gdy stan został zmieniony, zanim sterownik jest gotowy\n* Zaktualizowano `zwave-js` do v2.12.3. Obejmuje to następujące zmiany:\n* Sekwencja wywiadów dla „Thermostat CC” V1 / V2 nie powinna się już zacinać\n* Ulepszona obsługa węzłów, które nie odpowiadają na żądanie\n* Drobne ulepszenia stabilności i poprawki błędów",
                 "zh-cn": "*小性能改进\n*修复了在驱动程序准备就绪之前更改状态时可能发生的错误\n*更新了`zwave-js`至v2.12.3。这包括以下更改：\n*“ Thermostat CC” V1 / V2的采访顺序不再受困\n*改进了对不响应请求的节点的处理\n*较小的稳定性改进和错误修正"
-            },
-            "0.9.3": {
-                "en": "* Updated `zwave-js` to v2.12.2. This should fix issues with older Thermostats.",
-                "de": "* `Zwave-js` wurde auf v2.12.2 aktualisiert. Dies sollte Probleme mit älteren Thermostaten beheben.",
-                "ru": "* Обновлен `zwave-js` до v2.12.2. Это должно исправить проблемы со старыми термостатами.",
-                "pt": "* Atualizado `zwave-js` para a v2.12.2. Isso deve corrigir problemas com termostatos mais antigos.",
-                "nl": "* Bijgewerkt `zwave-js` naar v2.12.2. Dit zou problemen met oudere thermostaten moeten oplossen.",
-                "fr": "* Mise à jour de `zwave-js` vers v2.12.2. Cela devrait résoudre les problèmes avec les anciens thermostats.",
-                "it": "* Aggiornato `zwave-js` a v2.12.2. Ciò dovrebbe risolvere i problemi con i vecchi termostati.",
-                "es": "* Actualizado `zwave-js` a v2.12.2. Esto debería solucionar problemas con termostatos antiguos.",
-                "pl": "* Zaktualizowano `zwave-js` do v2.12.2. To powinno rozwiązać problemy ze starszymi termostatami.",
-                "zh-cn": "*更新了`zwave-js`至v2.12.2。这应该可以解决旧式恒温器的问题。"
             }
         },
         "title": "Z-Wave",
