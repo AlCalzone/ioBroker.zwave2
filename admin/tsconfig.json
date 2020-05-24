@@ -6,7 +6,7 @@
 		"sourceMap": true,
 		"sourceRoot": "./src",
 		"noImplicitAny": false,
-		"lib": ["es2018"]
+		"lib": ["es2018", "DOM"]
 	},
 	"include": [
 		"./**/*.ts*",

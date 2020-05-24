@@ -3,5 +3,6 @@ declare namespace ioBroker {
 		serialport: string;
 		writeLogFile: boolean;
 		clearCache: boolean;
+		networkKey: string;
 	}
 }

@@ -35,6 +35,7 @@ import {
 import {
 	AssociationDefinition,
 	computeDeviceId,
+	InclusionMode,
 	mapToRecord,
 	NetworkHealPollResponse,
 } from "./lib/shared";
@@ -99,6 +100,10 @@ export class ZWave2 extends utils.Adapter<true> {
 
 		this.driver = new Driver(this.config.serialport, {
 			cacheDir,
+			networkKey:
+				this.config.networkKey?.length === 32
+					? Buffer.from(this.config.networkKey, "hex")
+					: undefined,
 		});
 		this.driver.once("driver ready", async () => {
 			this.driverReady = true;
@@ -171,9 +176,13 @@ export class ZWave2 extends utils.Adapter<true> {
 		}
 	}
 
-	private async onInclusionStarted(): Promise<void> {
-		this.log.info("inclusion started");
-		await this.setStateAsync("info.inclusion", true, true);
+	private async onInclusionStarted(secure: boolean): Promise<void> {
+		this.log.info(`${secure ? "secure" : "non-secure"} inclusion started`);
+		await this.setStateAsync(
+			"info.inclusion",
+			secure ? InclusionMode.Secure : InclusionMode.NonSecure,
+			true,
+		);
 	}
 
 	private async onExclusionStarted(): Promise<void> {
@@ -183,7 +192,7 @@ export class ZWave2 extends utils.Adapter<true> {
 
 	private async onInclusionStopped(): Promise<void> {
 		this.log.info("inclusion stopped");
-		await this.setStateAsync("info.inclusion", false, true);
+		await this.setStateAsync("info.inclusion", InclusionMode.Idle, true);
 	}
 
 	private async onExclusionStopped(): Promise<void> {
@@ -487,15 +496,12 @@ export class ZWave2 extends utils.Adapter<true> {
 				// Handle some special states first
 				if (id.endsWith("info.inclusion")) {
 					if (state.val) await this.setExclusionMode(false);
-					await this.setInclusionMode(
-						(state.val as unknown) as boolean,
-					);
+					await this.setInclusionMode(state.val as any);
 					return;
 				} else if (id.endsWith("info.exclusion")) {
-					if (state.val) await this.setInclusionMode(false);
-					await this.setExclusionMode(
-						(state.val as unknown) as boolean,
-					);
+					if (state.val)
+						await this.setInclusionMode(InclusionMode.Idle);
+					await this.setExclusionMode(state.val as any);
 					return;
 				}
 
@@ -542,15 +548,18 @@ export class ZWave2 extends utils.Adapter<true> {
 		} */
 	}
 
-	private async setInclusionMode(active: boolean): Promise<void> {
+	private async setInclusionMode(mode: InclusionMode): Promise<void> {
 		try {
-			if (active) {
-				await this.driver.controller.beginInclusion();
+			if (mode !== InclusionMode.Idle) {
+				await this.driver.controller.beginInclusion(
+					mode === InclusionMode.NonSecure,
+				);
 			} else {
 				await this.driver.controller.stopInclusion();
 			}
 		} catch (e) {
 			/* nothing to do */
+			this.log.error(e.message);
 		}
 	}
 
@@ -563,6 +572,7 @@ export class ZWave2 extends utils.Adapter<true> {
 			}
 		} catch (e) {
 			/* nothing to do */
+			this.log.error(e.message);
 		}
 	}
 

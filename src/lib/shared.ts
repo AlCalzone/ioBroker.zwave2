@@ -28,3 +28,9 @@ export interface AssociationDefinition {
 	targetNodeId: number;
 	endpoint?: number;
 }
+
+export enum InclusionMode {
+	Idle = 0,
+	NonSecure = 1,
+	Secure = 2,
+}
