@@ -21,6 +21,9 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
+### __WORK IN PROGRESS__
+Added support for secure communication (`S0`) and choosing between secure and non-secure inclusion of nodes
+
 ### 0.13.5 (2020-05-24)
 Fixed the frontend that was broken in v0.13.3
 
