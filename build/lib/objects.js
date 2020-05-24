@@ -5,6 +5,19 @@ const strings_1 = require("alcalzone-shared/strings");
 const Node_1 = require("zwave-js/Node");
 const global_1 = require("./global");
 const shared_1 = require("./shared");
+function nodeStatusToStatusState(status) {
+    switch (status) {
+        case Node_1.NodeStatus.Awake:
+            return "awake";
+        case Node_1.NodeStatus.Asleep:
+            return "asleep";
+        case Node_1.NodeStatus.Dead:
+            return "dead";
+        case Node_1.NodeStatus.Unknown:
+            return "unknown";
+    }
+}
+exports.nodeStatusToStatusState = nodeStatusToStatusState;
 const isCamelCasedSafeNameRegex = /^(?!.*[\-_]$)[a-z]([a-zA-Z0-9\-_]+)$/;
 /** Converts a device label to a valid filename */
 function nameToStateId(label) {

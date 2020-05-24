@@ -26,6 +26,7 @@ import {
 	extendMetadata,
 	extendNode,
 	extendValue,
+	nodeStatusToStatusState,
 	removeNode,
 	removeValue,
 	setNodeReady,
@@ -36,7 +37,6 @@ import {
 	computeDeviceId,
 	mapToRecord,
 	NetworkHealPollResponse,
-	nodeStatusToStatusState,
 } from "./lib/shared";
 
 export class ZWave2 extends utils.Adapter<true> {

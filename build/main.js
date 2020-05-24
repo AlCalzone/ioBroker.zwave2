@@ -70,7 +70,7 @@ class ZWave2 extends utils.Adapter {
                 .on("heal network done", this.onHealNetworkDone.bind(this));
             for (const [nodeId, node] of this.driver.controller.nodes) {
                 // Reset the node status
-                await objects_2.setNodeStatus(nodeId, shared_1.nodeStatusToStatusState(node.status));
+                await objects_2.setNodeStatus(nodeId, objects_2.nodeStatusToStatusState(node.status));
                 await objects_2.setNodeReady(nodeId, node.ready);
                 this.addNodeEventHandlers(node);
                 // Make sure we didn't miss the ready event
