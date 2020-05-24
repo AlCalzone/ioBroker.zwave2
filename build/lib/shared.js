@@ -16,4 +16,10 @@ function mapToRecord(map) {
     return ret;
 }
 exports.mapToRecord = mapToRecord;
+var InclusionMode;
+(function (InclusionMode) {
+    InclusionMode[InclusionMode["Idle"] = 0] = "Idle";
+    InclusionMode[InclusionMode["NonSecure"] = 1] = "NonSecure";
+    InclusionMode[InclusionMode["Secure"] = 2] = "Secure";
+})(InclusionMode = exports.InclusionMode || (exports.InclusionMode = {}));
 //# sourceMappingURL=shared.js.map

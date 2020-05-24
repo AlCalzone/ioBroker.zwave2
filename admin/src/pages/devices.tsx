@@ -1,5 +1,6 @@
 import * as React from "react";
 import type { NetworkHealPollResponse } from "../../../src/lib/shared";
+import { InclusionMode } from "../../../src/lib/shared";
 import { Modal } from "../components/modal";
 import { useStateWithRef } from "../lib/stateWithRefs";
 import { NodeActions } from "../components/nodeActions";
@@ -37,16 +38,18 @@ const inclusionRegex = /info\.inclusion$/;
 const exclusionRegex = /info\.exclusion$/;
 const healNetworkRegex = /info\.healingNetwork$/;
 
-async function getInclusionStatus(): Promise<boolean> {
-	return (await getStateAsync(`${namespace}.info.inclusion`)).val as boolean;
+async function getInclusionStatus(): Promise<InclusionMode> {
+	const ret = (await getStateAsync(`${namespace}.info.inclusion`)).val;
+	if (ret === false) return InclusionMode.Idle;
+	return ret as InclusionMode;
 }
 
 async function getExclusionStatus(): Promise<boolean> {
 	return (await getStateAsync(`${namespace}.info.exclusion`)).val as boolean;
 }
 
-async function setInclusionStatus(active: boolean): Promise<void> {
-	return setStateAsync(`${namespace}.info.inclusion`, active);
+async function setInclusionStatus(status: InclusionMode): Promise<void> {
+	return setStateAsync(`${namespace}.info.inclusion`, status);
 }
 
 async function setExclusionStatus(active: boolean): Promise<void> {
@@ -139,7 +142,7 @@ export function Devices() {
 	const [devices, devicesRef, setDevices] = useStateWithRef<
 		Record<number, Device>
 	>();
-	const [inclusion, setInclusion] = React.useState(false);
+	const [inclusion, setInclusion] = React.useState(InclusionMode.Idle);
 	const [exclusion, setExclusion] = React.useState(false);
 	const [healingNetwork, setHealingNetwork] = React.useState(false);
 	const [message, setMessage] = React.useState<MessageProps>(
@@ -226,7 +229,7 @@ export function Devices() {
 					});
 				}
 			} else if (id.match(inclusionRegex)) {
-				setInclusion(!!state.val);
+				setInclusion(state.val as any);
 			} else if (id.match(exclusionRegex)) {
 				setExclusion(!!state.val);
 			} else if (id.match(healNetworkRegex)) {
@@ -255,6 +258,12 @@ export function Devices() {
 		};
 	}, []);
 
+	React.useEffect(() => {
+		if (inclusion === InclusionMode.Idle) {
+			M.Dropdown.init(document.querySelectorAll(".dropdown-trigger"));
+		}
+	}, [inclusion]);
+
 	async function healNetwork() {
 		if (!healingNetwork) {
 			// start the healing progress
@@ -269,7 +278,12 @@ export function Devices() {
 	}
 
 	async function clearCache() {
-		if (!healingNetwork && !inclusion && !exclusion && !cacheCleared) {
+		if (
+			!healingNetwork &&
+			inclusion === InclusionMode.Idle &&
+			!exclusion &&
+			!cacheCleared
+		) {
 			// start the healing progress
 			try {
 				if (
@@ -330,24 +344,60 @@ export function Devices() {
 		<>
 			{/* Action buttons */}
 			<div id="device-controls">
-				{inclusion ? (
+				{inclusion !== InclusionMode.Idle ? (
 					<a
 						className={`waves-effect waves-light btn red`}
-						onClick={() => setInclusionStatus(false)}
+						onClick={() => setInclusionStatus(InclusionMode.Idle)}
 					>
 						<i className="material-icons left">cancel</i>
 						{_("Cancel inclusion")}
 					</a>
 				) : (
-					<a
-						className={`waves-effect waves-light btn ${
-							exclusion ? "disabled" : ""
-						}`}
-						onClick={() => setInclusionStatus(true)}
-					>
-						<i className="material-icons left">add</i>
-						{_("Include device")}
-					</a>
+					<>
+						<ul
+							id="inclusion-dropdown"
+							className="dropdown-content"
+						>
+							<li>
+								<a
+									onClick={() =>
+										setInclusionStatus(InclusionMode.Secure)
+									}
+								>
+									<i className="material-icons tiny left">
+										verified_user
+									</i>
+									{_("Secure")}
+								</a>
+							</li>
+							<li>
+								<a
+									onClick={() =>
+										setInclusionStatus(
+											InclusionMode.NonSecure,
+										)
+									}
+								>
+									<i className="material-icons tiny left">
+										no_encryption
+									</i>
+									{_("Non-secure")}
+								</a>
+							</li>
+						</ul>
+						<a
+							className={`waves-effect waves-light btn dropdown-trigger ${
+								exclusion ? "disabled" : ""
+							}`}
+							data-target="inclusion-dropdown"
+						>
+							<i className="material-icons left">add</i>
+							{_("Include device")}
+							<i className="material-icons right">
+								arrow_drop_down
+							</i>
+						</a>
+					</>
 				)}{" "}
 				{exclusion ? (
 					<a
@@ -360,7 +410,7 @@ export function Devices() {
 				) : (
 					<a
 						className={`waves-effect waves-light btn ${
-							inclusion ? "disabled" : ""
+							inclusion !== InclusionMode.Idle ? "disabled" : ""
 						}`}
 						onClick={() => setExclusionStatus(true)}
 					>
@@ -370,8 +420,12 @@ export function Devices() {
 				)}{" "}
 				<a
 					className={`waves-effect waves-light btn ${
-						healingNetwork ? "red" : ""
-					}`}
+						inclusion !== InclusionMode.Idle ||
+						exclusion ||
+						cacheCleared
+							? "disabled"
+							: ""
+					}${healingNetwork ? "red" : ""}`}
 					onClick={() =>
 						healingNetwork ? stopHealingNetwork() : healNetwork()
 					}
@@ -381,7 +435,10 @@ export function Devices() {
 				</a>{" "}
 				<a
 					className={`waves-effect waves-light btn ${
-						healingNetwork || inclusion || exclusion || cacheCleared
+						healingNetwork ||
+						inclusion !== InclusionMode.Idle ||
+						exclusion ||
+						cacheCleared
 							? "disabled"
 							: ""
 					}`}

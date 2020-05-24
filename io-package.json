@@ -300,7 +300,8 @@
     },
     "native": {
         "serialport": "",
-        "writeLogFile": false
+        "writeLogFile": false,
+        "networkKey": ""
     },
     "objects": [],
     "instanceObjects": [
@@ -330,11 +331,16 @@
             "type": "state",
             "common": {
                 "role": "state",
-                "name": "Whether the inclusion of nodes is active",
-                "type": "boolean",
+                "name": "Which state the inclusion of nodes is in",
+                "type": "number",
                 "read": true,
                 "write": true,
-                "def": false
+                "def": 0,
+                "states": {
+                    "0": "Idle",
+                    "1": "Non-secure",
+                    "2": "Secure"
+                }
             },
             "native": {}
         },

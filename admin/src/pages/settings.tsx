@@ -18,6 +18,7 @@ interface SettingsState {
 	serialport?: string;
 	writeLogFile?: boolean;
 	_serialports?: string[];
+	networkKey?: string;
 }
 
 interface LabelProps {
@@ -65,6 +66,7 @@ export class Settings extends React.Component<SettingsProps, SettingsState> {
 
 		// setup change handlers
 		this.handleChange = this.handleChange.bind(this);
+		this.validateNetworkKey = this.validateNetworkKey.bind(this);
 	}
 
 	private chkWriteLogFile: HTMLInputElement | null | undefined;
@@ -100,6 +102,16 @@ export class Settings extends React.Component<SettingsProps, SettingsState> {
 			);
 		});
 		return false;
+	}
+
+	private validateNetworkKey() {
+		const networkKey = this.state.networkKey;
+		if (!networkKey) return;
+		if (!/[0-9a-fA-F]{32}/.test(networkKey)) {
+			alert(_("Invalid network key"));
+			// reset
+			this.doHandleChange("networkKey", this.props.settings.networkKey);
+		}
 	}
 
 	/**
@@ -173,7 +185,7 @@ export class Settings extends React.Component<SettingsProps, SettingsState> {
 								options={serialports}
 								checkedOption={this.state.serialport}
 								emptySelectionText={_("none selected")}
-								checkedChanged={newValue =>
+								checkedChanged={(newValue) =>
 									this.doHandleChange("serialport", newValue)
 								}
 							/>
@@ -188,6 +200,22 @@ export class Settings extends React.Component<SettingsProps, SettingsState> {
 						)}
 						<Label for="serialport" text="Select serial port" />
 					</div>
+					<div className="col s6 input-field">
+						<input
+							className="value"
+							id="networkKey"
+							type="text"
+							value={this.getSetting("networkKey") as any}
+							onChange={this.handleChange}
+							onBlur={this.validateNetworkKey}
+							style={{ fontFamily: "monospace" }}
+							maxLength={32}
+						/>
+						<Label
+							for="networkKey"
+							text="Network key for secure communication"
+						/>
+					</div>
 				</div>
 				<div className="row">
 					<div className="col s6">
@@ -199,7 +227,7 @@ export class Settings extends React.Component<SettingsProps, SettingsState> {
 								defaultChecked={
 									this.getSetting("writeLogFile") as any
 								}
-								ref={me => (this.chkWriteLogFile = me)}
+								ref={(me) => (this.chkWriteLogFile = me)}
 							/>
 							<CheckboxLabel text="Write a detailed logfile" />
 						</label>

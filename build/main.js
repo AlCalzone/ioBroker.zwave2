@@ -25,6 +25,7 @@ class ZWave2 extends utils.Adapter {
      * Is called when databases are connected and adapter received configuration.
      */
     async onReady() {
+        var _a;
         // Make adapter instance global
         global_1.Global.adapter = this;
         // Clear cache if we're asked to
@@ -52,6 +53,9 @@ class ZWave2 extends utils.Adapter {
         }
         this.driver = new zwave_js_1.Driver(this.config.serialport, {
             cacheDir,
+            networkKey: ((_a = this.config.networkKey) === null || _a === void 0 ? void 0 : _a.length) === 32
+                ? Buffer.from(this.config.networkKey, "hex")
+                : undefined,
         });
         this.driver.once("driver ready", async () => {
             this.driverReady = true;
@@ -102,9 +106,9 @@ class ZWave2 extends utils.Adapter {
             this.log.error(`The Z-Wave driver could not be started: ${e.message}`);
         }
     }
-    async onInclusionStarted() {
-        this.log.info("inclusion started");
-        await this.setStateAsync("info.inclusion", true, true);
+    async onInclusionStarted(secure) {
+        this.log.info(`${secure ? "secure" : "non-secure"} inclusion started`);
+        await this.setStateAsync("info.inclusion", secure ? shared_1.InclusionMode.Secure : shared_1.InclusionMode.NonSecure, true);
     }
     async onExclusionStarted() {
         this.log.info("exclusion started");
@@ -112,7 +116,7 @@ class ZWave2 extends utils.Adapter {
     }
     async onInclusionStopped() {
         this.log.info("inclusion stopped");
-        await this.setStateAsync("info.inclusion", false, true);
+        await this.setStateAsync("info.inclusion", shared_1.InclusionMode.Idle, true);
     }
     async onExclusionStopped() {
         this.log.info("exclusion stopped");
@@ -336,7 +340,7 @@ class ZWave2 extends utils.Adapter {
                 }
                 else if (id.endsWith("info.exclusion")) {
                     if (state.val)
-                        await this.setInclusionMode(false);
+                        await this.setInclusionMode(shared_1.InclusionMode.Idle);
                     await this.setExclusionMode(state.val);
                     return;
                 }
@@ -375,10 +379,10 @@ class ZWave2 extends utils.Adapter {
             // The state was deleted
         } */
     }
-    async setInclusionMode(active) {
+    async setInclusionMode(mode) {
         try {
-            if (active) {
-                await this.driver.controller.beginInclusion();
+            if (mode !== shared_1.InclusionMode.Idle) {
+                await this.driver.controller.beginInclusion(mode === shared_1.InclusionMode.NonSecure);
             }
             else {
                 await this.driver.controller.stopInclusion();
@@ -386,6 +390,7 @@ class ZWave2 extends utils.Adapter {
         }
         catch (e) {
             /* nothing to do */
+            this.log.error(e.message);
         }
     }
     async setExclusionMode(active) {
@@ -399,6 +404,7 @@ class ZWave2 extends utils.Adapter {
         }
         catch (e) {
             /* nothing to do */
+            this.log.error(e.message);
         }
     }
     /** Responds to a pending poll from the frontend (if there is a message outstanding) */
