@@ -1,7 +1,7 @@
 import { entries } from "alcalzone-shared/objects";
 import { padStart } from "alcalzone-shared/strings";
 import type { CommandClasses } from "zwave-js/CommandClass";
-import { BasicDeviceClasses, ZWaveNode } from "zwave-js/Node";
+import { BasicDeviceClasses, NodeStatus, ZWaveNode } from "zwave-js/Node";
 import type {
 	TranslatedValueID,
 	ValueMetadataNumeric,
@@ -19,6 +19,19 @@ type ZWaveNodeArgs =
 	| ZWaveNodeValueUpdatedArgs
 	| ZWaveNodeValueRemovedArgs
 	| ZWaveNodeMetadataUpdatedArgs;
+
+export function nodeStatusToStatusState(status: NodeStatus): string {
+	switch (status) {
+		case NodeStatus.Awake:
+			return "awake";
+		case NodeStatus.Asleep:
+			return "asleep";
+		case NodeStatus.Dead:
+			return "dead";
+		case NodeStatus.Unknown:
+			return "unknown";
+	}
+}
 
 const isCamelCasedSafeNameRegex = /^(?!.*[\-_]$)[a-z]([a-zA-Z0-9\-_]+)$/;
 

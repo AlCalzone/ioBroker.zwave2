@@ -1,5 +1,7 @@
 import { padStart } from "alcalzone-shared/strings";
-import { NodeStatus } from "zwave-js";
+
+// WARNING: DO NOT IMPORT FROM "zwave-js" HERE
+// That will break the frontend
 
 /** Returns the id of the device object for the given node id */
 export function computeDeviceId(nodeId: number): string {
@@ -25,17 +27,4 @@ export interface AssociationDefinition {
 	groupId: number;
 	targetNodeId: number;
 	endpoint?: number;
-}
-
-export function nodeStatusToStatusState(status: NodeStatus): string {
-	switch (status) {
-		case NodeStatus.Awake:
-			return "awake";
-		case NodeStatus.Asleep:
-			return "asleep";
-		case NodeStatus.Dead:
-			return "dead";
-		case NodeStatus.Unknown:
-			return "unknown";
-	}
 }

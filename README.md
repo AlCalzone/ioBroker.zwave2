@@ -21,6 +21,9 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
+### __WORK IN PROGRESS__
+Fixed the frontend that was broken in v0.13.3
+
 ### 0.13.4 (2020-05-22)
 User-defined node names are now really preserved
 
