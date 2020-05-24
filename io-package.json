@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "0.13.5",
+        "version": "0.14.0",
         "news": {
+            "0.14.0": {
+                "en": "Added support for secure communication (`S0`) and choosing between secure and non-secure inclusion of nodes\nFix: It is now possible to stop inclusion and exclusion processes again",
+                "de": "Unterstützung für sichere Kommunikation (`S0`) und Auswahl zwischen sicherer und nicht sicherer Einbeziehung von Knoten hinzugefügt\nFix: Es ist jetzt möglich, Einschluss- und Ausschlussprozesse wieder zu stoppen",
+                "ru": "Добавлена поддержка безопасной связи (`S0`) и выбора между безопасным и небезопасным включением узлов\nИсправлено: теперь можно снова останавливать процессы включения и исключения",
+                "pt": "Adicionado suporte para comunicação segura (`S0`) e escolha entre inclusão segura e não segura de nós\nCorreção: agora é possível interromper os processos de inclusão e exclusão novamente",
+                "nl": "Ondersteuning toegevoegd voor beveiligde communicatie (`S0`) en keuze tussen veilige en niet-beveiligde opname van knooppunten\nOplossing: het is nu mogelijk om in- en uitsluitingsprocessen opnieuw te stoppen",
+                "fr": "Prise en charge supplémentaire de la communication sécurisée (`S0`) et choix entre l'inclusion sécurisée et non sécurisée des nœuds\nCorrection: il est désormais possible d'arrêter à nouveau les processus d'inclusion et d'exclusion",
+                "it": "Aggiunto supporto per comunicazione sicura (`S0`) e scelta tra inclusione sicura e non sicura di nodi\nCorrezione: è ora possibile interrompere nuovamente i processi di inclusione ed esclusione",
+                "es": "Soporte agregado para comunicación segura (`S0`) y elección entre inclusión segura y no segura de nodos\nSolución: ahora es posible detener los procesos de inclusión y exclusión nuevamente",
+                "pl": "Dodano obsługę bezpiecznej komunikacji (`S0`) i wybieranie między bezpiecznym i niezabezpieczonym włączaniem węzłów\nPoprawka: Teraz można ponownie zatrzymać procesy włączania i wyłączania",
+                "zh-cn": "增加了对安全通信（`S0`）的支持，并在安全和非安全包含节点之间进行选择\n修复：现在可以再次停止包含和排除过程"
+            },
             "0.13.5": {
                 "en": "Fixed the frontend that was broken in v0.13.3",
                 "de": "Das in Version 0.13.3 fehlerhafte Frontend wurde behoben",
@@ -230,18 +242,6 @@
                 "es": "Actualizado `zwave-js` a v2.13.0. Esto incluye los siguientes cambios:\n* Soporte mejorado para algunos tipos de notificaciones\n* Se agregó soporte para el `Clock CC`.\n* Se corrigió un error por el cual los comandos no solicitados podían interpretarse erróneamente como una respuesta a la solicitud actual",
                 "pl": "Zaktualizowano `zwave-js` do v2.13.0. Obejmuje to następujące zmiany:\n* Ulepszona obsługa niektórych typów powiadomień\n* Dodano obsługę `Clock CC`.\n* Naprawiono błąd, w którym niezamówione polecenia mogły być błędnie interpretowane jako odpowiedź na bieżące żądanie",
                 "zh-cn": "将`zwave-js`更新为v2.13.0。这包括以下更改：\n*改进了对某些通知类型的支持\n*增加了对“时钟CC”的支持。\n*修复了一个错误，该错误将未经请求的命令错误地解释为对当前请求的响应"
-            },
-            "0.9.4": {
-                "en": "* Small performance improvements\n* Fixed an error that could happen when a state was changed before the driver is ready\n* Updated `zwave-js` to v2.12.3. This includes the following changes:\n\t* The interview sequence for `Thermostat CC` V1/V2 should no longer get stuck\n\t* Improved handling of nodes that don't respond to a request\n\t* Minor stability improvements and bugfixes",
-                "de": "* Kleine Leistungsverbesserungen\n* Es wurde ein Fehler behoben, der auftreten konnte, wenn ein Status geändert wurde, bevor der Treiber bereit war\n* `Zwave-js` wurde auf v2.12.3 aktualisiert. Dies beinhaltet die folgenden Änderungen:\n* Die Interviewsequenz für `Thermostat CC` V1 / V2 sollte nicht mehr hängen bleiben\n* Verbesserte Behandlung von Knoten, die nicht auf eine Anfrage antworten\n* Kleinere Stabilitätsverbesserungen und Bugfixes",
-                "ru": "* Небольшие улучшения производительности\n* Исправлена ошибка, которая могла произойти при изменении состояния до того, как драйвер будет готов\n* Обновлен `zwave-js` до v2.12.3. Это включает в себя следующие изменения:\n* Последовательность интервью для «Термостата CC» V1 / V2 больше не должна застрять\n* Улучшена обработка узлов, которые не отвечают на запрос\n* Незначительные улучшения стабильности и исправления ошибок",
-                "pt": "* Pequenas melhorias de desempenho\n* Corrigido um erro que poderia acontecer quando um estado era alterado antes do driver estar pronto\n* Atualizado `zwave-js` para a v2.12.3. Isso inclui as seguintes alterações:\n* A sequência de entrevistas para `Thermostat CC` V1 / V2 não deve mais ficar presa\n* Manipulação aprimorada de nós que não respondem a uma solicitação\n* Pequenas melhorias de estabilidade e correções",
-                "nl": "* Kleine prestatieverbeteringen\n* Een fout opgelost die kon optreden wanneer een status werd gewijzigd voordat het stuurprogramma gereed was\n* Bijgewerkt `zwave-js` naar v2.12.3. Dit omvat de volgende wijzigingen:\n* De interviewsequentie voor `Thermostat CC` V1 / V2 moet niet meer vastlopen\n* Verbeterde afhandeling van knooppunten die niet op een verzoek reageren\n* Kleine stabiliteitsverbeteringen en bugfixes",
-                "fr": "* Petites améliorations de performances\n* Correction d'une erreur qui pouvait survenir lorsqu'un état était modifié avant que le pilote ne soit prêt\n* Mise à jour de `zwave-js` vers v2.12.3. Cela inclut les modifications suivantes:\n* La séquence d'interview pour `Thermostat CC` V1 / V2 ne devrait plus rester bloquée\n* Gestion améliorée des nœuds qui ne répondent pas à une demande\n* Améliorations de stabilité mineures et corrections de bugs",
-                "it": "* Piccoli miglioramenti delle prestazioni\n* Risolto un errore che poteva verificarsi quando uno stato veniva cambiato prima che il driver fosse pronto\n* Aggiornato `zwave-js` a v2.12.3. Ciò include le seguenti modifiche:\n* La sequenza di interviste per `Thermostat CC` V1 / V2 non dovrebbe più bloccarsi\n* Migliore gestione dei nodi che non rispondono a una richiesta\n* Miglioramenti e correzioni di stabilità minori",
-                "es": "* Pequeñas mejoras de rendimiento\n* Se corrigió un error que podía ocurrir cuando se cambiaba un estado antes de que el controlador esté listo\n* Actualizado `zwave-js` a v2.12.3. Esto incluye los siguientes cambios:\n* La secuencia de la entrevista para `Thermostat CC` V1 / V2 ya no debería atascarse\n* Manejo mejorado de nodos que no responden a una solicitud\n* Pequeñas mejoras de estabilidad y correcciones de errores",
-                "pl": "* Małe ulepszenia wydajności\n* Naprawiono błąd, który mógł wystąpić, gdy stan został zmieniony, zanim sterownik jest gotowy\n* Zaktualizowano `zwave-js` do v2.12.3. Obejmuje to następujące zmiany:\n* Sekwencja wywiadów dla „Thermostat CC” V1 / V2 nie powinna się już zacinać\n* Ulepszona obsługa węzłów, które nie odpowiadają na żądanie\n* Drobne ulepszenia stabilności i poprawki błędów",
-                "zh-cn": "*小性能改进\n*修复了在驱动程序准备就绪之前更改状态时可能发生的错误\n*更新了`zwave-js`至v2.12.3。这包括以下更改：\n*“ Thermostat CC” V1 / V2的采访顺序不再受困\n*改进了对不响应请求的节点的处理\n*较小的稳定性改进和错误修正"
             }
         },
         "title": "Z-Wave",
