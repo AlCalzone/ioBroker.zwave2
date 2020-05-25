@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "0.14.0",
+        "version": "0.14.1",
         "news": {
+            "0.14.1": {
+                "en": "Fixed various crashes: \nSecurity CC can only be used when...\nissuedCommands.has is not a function\n_known issue:_ Retransmitting secure messages may cause a crash",
+                "de": "Verschiedene Abstürze behoben:\nSecurity CC kann nur verwendet werden, wenn ...\nissedCommands.has ist keine Funktion\n_bekanntes Problem: _ Das erneute Senden sicherer Nachrichten kann zu einem Absturz führen",
+                "ru": "Исправлены различные сбои:\nSecurity CC может быть использован только когда ...\nвыпустил Commands.has не является функцией\n_ известная проблема: _ ретрансляция защищенных сообщений может привести к сбою",
+                "pt": "Corrigidas várias falhas:\nO Security CC pode ser usado apenas quando ...\nissetCommands.has não é uma função\n_known issue: _ Retransmitir mensagens seguras pode causar uma falha",
+                "nl": "Verschillende crashes opgelost:\nSecurity CC kan alleen worden gebruikt als ...\nissueCommands.has is geen functie\n_bekend probleem: _ Het opnieuw verzenden van beveiligde berichten kan een crash veroorzaken",
+                "fr": "Correction de divers plantages:\nSecurity CC ne peut être utilisé que lorsque ...\nissuCommands.has n'est pas une fonction\n_problème connu: _ La retransmission de messages sécurisés peut provoquer un plantage",
+                "it": "Risolti vari arresti anomali:\nSecurity CC può essere utilizzato solo quando ...\nissueCommands.has non è una funzione\nProblema noto: _ La ritrasmissione di messaggi sicuri può causare un arresto anomalo",
+                "es": "Se corrigieron varios bloqueos:\nSecurity CC solo se puede usar cuando ...\nissedCommands.has no es una función\n_ problema conocido: _ La retransmisión de mensajes seguros puede provocar un bloqueo",
+                "pl": "Naprawiono różne awarie:\nZ Security CC można korzystać tylko, gdy ...\nIssuCommands.has nie jest funkcją\n_ nieznany problem: _ Ponowna transmisja bezpiecznych wiadomości może spowodować awarię",
+                "zh-cn": "修复了各种崩溃：\n只有在以下情况下才能使用Security CC：\nissueCommands.has不是函数\n_已知问题：_重新传输安全消息可能会导致崩溃"
+            },
             "0.14.0": {
                 "en": "Added support for secure communication (`S0`) and choosing between secure and non-secure inclusion of nodes\nFix: It is now possible to stop inclusion and exclusion processes again",
                 "de": "Unterstützung für sichere Kommunikation (`S0`) und Auswahl zwischen sicherer und nicht sicherer Einbeziehung von Knoten hinzugefügt\nFix: Es ist jetzt möglich, Einschluss- und Ausschlussprozesse wieder zu stoppen",
@@ -230,18 +242,6 @@
                 "es": "Actualizado `zwave-js` a v2.13.2. Esto incluye las siguientes correcciones:\n* Soporte mejorado para dispositivos más antiguos con múltiples puntos finales\n* El *HeatIt Z-Push Button 8* ahora debería detectarse correctamente \n* Posible solución para el comportamiento extraño de los comandos de inicio de cambio de nivel en algunos dispositivos.",
                 "pl": "Zaktualizowano `zwave-js` do wersji 2.13.2. Obejmuje to następujące poprawki:\n* Poprawiona obsługa starszych urządzeń z wieloma punktami końcowymi\n*Teraz należy poprawnie wykryć przycisk * HeatIt Z-Push 8*\n* Potencjalna poprawka dla dziwnego zachowania poleceń zmiany poziomu początkowego w niektórych urządzeniach.",
                 "zh-cn": "将`zwave-js`更新为v2.13.2。其中包括以下修复程序：\n*改进了对具有多个端点的旧设备的支持\n*现在可以正确检测到* HeatIt Z-Push Button 8 *\n*修复了某些设备中“开始级别更改”命令怪异行为的潜在修复。"
-            },
-            "0.9.5": {
-                "en": "Updated `zwave-js` to v2.13.0. This includes the following changes:\n* Improved support for some notifications types\n* Added support for the `Clock CC`.\n* Fixed a bug where unsolicited commands could wrongly be interpreted as a response to the current request",
-                "de": "`Zwave-js` wurde auf v2.13.0 aktualisiert. Dies beinhaltet die folgenden Änderungen:\n* Verbesserte Unterstützung für einige Benachrichtigungstypen\n* Unterstützung für \"Clock CC\" hinzugefügt.\n* Ein Fehler wurde behoben, durch den unerwünschte Befehle fälschlicherweise als Antwort auf die aktuelle Anfrage interpretiert wurden",
-                "ru": "Обновлен `zwave-js` до v2.13.0. Это включает в себя следующие изменения:\n* Улучшена поддержка некоторых типов уведомлений\n* Добавлена поддержка `Clock CC`.\n* Исправлена ошибка, при которой нежелательные команды могли ошибочно интерпретироваться как ответ на текущий запрос",
-                "pt": "Atualizado `zwave-js` para a v2.13.0. Isso inclui as seguintes alterações:\n* Suporte aprimorado para alguns tipos de notificações\n* Adicionado suporte para o `Clock CC`.\n* Corrigido um erro em que comandos não solicitados podiam ser interpretados erroneamente como uma resposta à solicitação atual",
-                "nl": "`Zwave-js` bijgewerkt naar v2.13.0. Dit omvat de volgende wijzigingen:\n* Verbeterde ondersteuning voor sommige typen meldingen\n* Ondersteuning toegevoegd voor de `Clock CC`.\n* Een bug opgelost waarbij ongevraagde commando's ten onrechte als een reactie op het huidige verzoek konden worden geïnterpreteerd",
-                "fr": "Mise à jour de `zwave-js` vers v2.13.0. Cela inclut les modifications suivantes:\n* Prise en charge améliorée de certains types de notifications\n* Ajout du support pour le `Clock CC`.\n* Correction d'un bug où les commandes non sollicitées pouvaient être interprétées à tort comme une réponse à la demande en cours",
-                "it": "`Zwave-js` aggiornato alla v2.13.0. Ciò include le seguenti modifiche:\n* Supporto migliorato per alcuni tipi di notifiche\n* Aggiunto il supporto per il `Clock CC`.\n* Risolto un bug in cui i comandi non richiesti potevano essere erroneamente interpretati come una risposta alla richiesta corrente",
-                "es": "Actualizado `zwave-js` a v2.13.0. Esto incluye los siguientes cambios:\n* Soporte mejorado para algunos tipos de notificaciones\n* Se agregó soporte para el `Clock CC`.\n* Se corrigió un error por el cual los comandos no solicitados podían interpretarse erróneamente como una respuesta a la solicitud actual",
-                "pl": "Zaktualizowano `zwave-js` do v2.13.0. Obejmuje to następujące zmiany:\n* Ulepszona obsługa niektórych typów powiadomień\n* Dodano obsługę `Clock CC`.\n* Naprawiono błąd, w którym niezamówione polecenia mogły być błędnie interpretowane jako odpowiedź na bieżące żądanie",
-                "zh-cn": "将`zwave-js`更新为v2.13.0。这包括以下更改：\n*改进了对某些通知类型的支持\n*增加了对“时钟CC”的支持。\n*修复了一个错误，该错误将未经请求的命令错误地解释为对当前请求的响应"
             }
         },
         "title": "Z-Wave",

@@ -21,6 +21,12 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
+### 0.14.1 (2020-05-25)
+* Fixed various crashes: 
+  * Security CC can only be used when...
+  * issuedCommands.has is not a function
+* _known issue:_ Retransmitting secure messages may cause a crash
+
 ### 0.14.0 (2020-05-24)
 * Added support for secure communication (`S0`) and choosing between secure and non-secure inclusion of nodes
 * Fix: It is now possible to stop inclusion and exclusion processes again
