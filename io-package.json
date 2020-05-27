@@ -1,31 +1,19 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "0.14.1",
+        "version": "0.14.2",
         "news": {
-            "0.14.1": {
-                "en": "Fixed various crashes: \nSecurity CC can only be used when...\nissuedCommands.has is not a function\n_known issue:_ Retransmitting secure messages may cause a crash",
-                "de": "Verschiedene Abstürze behoben:\nSecurity CC kann nur verwendet werden, wenn ...\nissedCommands.has ist keine Funktion\n_bekanntes Problem: _ Das erneute Senden sicherer Nachrichten kann zu einem Absturz führen",
-                "ru": "Исправлены различные сбои:\nSecurity CC может быть использован только когда ...\nвыпустил Commands.has не является функцией\n_ известная проблема: _ ретрансляция защищенных сообщений может привести к сбою",
-                "pt": "Corrigidas várias falhas:\nO Security CC pode ser usado apenas quando ...\nissetCommands.has não é uma função\n_known issue: _ Retransmitir mensagens seguras pode causar uma falha",
-                "nl": "Verschillende crashes opgelost:\nSecurity CC kan alleen worden gebruikt als ...\nissueCommands.has is geen functie\n_bekend probleem: _ Het opnieuw verzenden van beveiligde berichten kan een crash veroorzaken",
-                "fr": "Correction de divers plantages:\nSecurity CC ne peut être utilisé que lorsque ...\nissuCommands.has n'est pas une fonction\n_problème connu: _ La retransmission de messages sécurisés peut provoquer un plantage",
-                "it": "Risolti vari arresti anomali:\nSecurity CC può essere utilizzato solo quando ...\nissueCommands.has non è una funzione\nProblema noto: _ La ritrasmissione di messaggi sicuri può causare un arresto anomalo",
-                "es": "Se corrigieron varios bloqueos:\nSecurity CC solo se puede usar cuando ...\nissedCommands.has no es una función\n_ problema conocido: _ La retransmisión de mensajes seguros puede provocar un bloqueo",
-                "pl": "Naprawiono różne awarie:\nZ Security CC można korzystać tylko, gdy ...\nIssuCommands.has nie jest funkcją\n_ nieznany problem: _ Ponowna transmisja bezpiecznych wiadomości może spowodować awarię",
-                "zh-cn": "修复了各种崩溃：\n只有在以下情况下才能使用Security CC：\nissueCommands.has不是函数\n_已知问题：_重新传输安全消息可能会导致崩溃"
-            },
-            "0.14.0": {
-                "en": "Added support for secure communication (`S0`) and choosing between secure and non-secure inclusion of nodes\nFix: It is now possible to stop inclusion and exclusion processes again",
-                "de": "Unterstützung für sichere Kommunikation (`S0`) und Auswahl zwischen sicherer und nicht sicherer Einbeziehung von Knoten hinzugefügt\nFix: Es ist jetzt möglich, Einschluss- und Ausschlussprozesse wieder zu stoppen",
-                "ru": "Добавлена поддержка безопасной связи (`S0`) и выбора между безопасным и небезопасным включением узлов\nИсправлено: теперь можно снова останавливать процессы включения и исключения",
-                "pt": "Adicionado suporte para comunicação segura (`S0`) e escolha entre inclusão segura e não segura de nós\nCorreção: agora é possível interromper os processos de inclusão e exclusão novamente",
-                "nl": "Ondersteuning toegevoegd voor beveiligde communicatie (`S0`) en keuze tussen veilige en niet-beveiligde opname van knooppunten\nOplossing: het is nu mogelijk om in- en uitsluitingsprocessen opnieuw te stoppen",
-                "fr": "Prise en charge supplémentaire de la communication sécurisée (`S0`) et choix entre l'inclusion sécurisée et non sécurisée des nœuds\nCorrection: il est désormais possible d'arrêter à nouveau les processus d'inclusion et d'exclusion",
-                "it": "Aggiunto supporto per comunicazione sicura (`S0`) e scelta tra inclusione sicura e non sicura di nodi\nCorrezione: è ora possibile interrompere nuovamente i processi di inclusione ed esclusione",
-                "es": "Soporte agregado para comunicación segura (`S0`) y elección entre inclusión segura y no segura de nodos\nSolución: ahora es posible detener los procesos de inclusión y exclusión nuevamente",
-                "pl": "Dodano obsługę bezpiecznej komunikacji (`S0`) i wybieranie między bezpiecznym i niezabezpieczonym włączaniem węzłów\nPoprawka: Teraz można ponownie zatrzymać procesy włączania i wyłączania",
-                "zh-cn": "增加了对安全通信（`S0`）的支持，并在安全和非安全包含节点之间进行选择\n修复：现在可以再次停止包含和排除过程"
+            "0.14.2": {
+                "en": "Various fixes related to `Security CC` when the network key is not configured. This means that the adapter will not crash, but in many cases no meaningful communication with secure nodes will happen and interviews will not be completed.",
+                "de": "Verschiedene Korrekturen im Zusammenhang mit \"Security CC\", wenn der Netzwerkschlüssel nicht konfiguriert ist. Dies bedeutet, dass der Adapter nicht abstürzt, aber in vielen Fällen keine sinnvolle Kommunikation mit sicheren Knoten stattfindet und die Interviews nicht abgeschlossen werden.",
+                "ru": "Различные исправления, связанные с `Security CC`, когда сетевой ключ не настроен. Это означает, что адаптер не выйдет из строя, но во многих случаях не будет никакого значимого взаимодействия с безопасными узлами, и интервью не будут завершены.",
+                "pt": "Várias correções relacionadas ao `Security CC` quando a chave de rede não está configurada. Isso significa que o adaptador não falhará, mas em muitos casos nenhuma comunicação significativa com nós seguros ocorrerá e as entrevistas não serão concluídas.",
+                "nl": "Verschillende oplossingen met betrekking tot `Security CC` wanneer de netwerksleutel niet is geconfigureerd. Dit betekent dat de adapter niet crasht, maar in veel gevallen zal er geen zinvolle communicatie met beveiligde knooppunten plaatsvinden en zullen interviews niet worden afgerond.",
+                "fr": "Divers correctifs liés à `Security CC` lorsque la clé réseau n'est pas configurée. Cela signifie que l'adaptateur ne se bloquera pas, mais dans de nombreux cas, aucune communication significative avec les nœuds sécurisés n'aura lieu et les entretiens ne seront pas terminés.",
+                "it": "Varie correzioni relative a `Security CC` quando la chiave di rete non è configurata. Ciò significa che l'adattatore non si arresterà in modo anomalo, ma in molti casi non si verificherà alcuna comunicazione significativa con nodi sicuri e le interviste non saranno completate.",
+                "es": "Varias correcciones relacionadas con `Security CC` cuando la clave de red no está configurada. Esto significa que el adaptador no se bloqueará, pero en muchos casos no se producirá una comunicación significativa con nodos seguros y no se completarán las entrevistas.",
+                "pl": "Różne poprawki związane z `Security CC`, gdy klucz sieciowy nie jest skonfigurowany. Oznacza to, że adapter nie ulegnie awarii, ale w wielu przypadkach nie nastąpi znacząca komunikacja z bezpiecznymi węzłami i wywiady nie zostaną zakończone.",
+                "zh-cn": "未配置网络密钥时，与“安全CC”相关的各种修补程序。这意味着适配器不会崩溃，但是在许多情况下，不会发生与安全节点的有意义的通信，并且不会完成采访。"
             },
             "0.13.5": {
                 "en": "Fixed the frontend that was broken in v0.13.3",

@@ -21,6 +21,9 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
+### 0.14.2 (2020-05-27)
+Various fixes related to `Security CC` when the network key is not configured. This means that the adapter will not crash, but in many cases no meaningful communication with secure nodes will happen and interviews will not be completed.
+
 ### 0.14.1 (2020-05-25)
 * Fixed various crashes: 
   * Security CC can only be used when...
