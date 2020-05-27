@@ -21,6 +21,11 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
+### __WORK IN PROGRESS__
+* Added a button to generate a new network key
+* Added a tooltip to explain the network key format
+* It is now possible to copy-and-paste a network key (e.g. from the original adapter). The pasted key is automatically cleaned from unnecessary characters.
+
 ### 0.14.2 (2020-05-27)
 Various fixes related to `Security CC` when the network key is not configured. This means that the adapter will not crash, but in many cases no meaningful communication with secure nodes will happen and interviews will not be completed.
 

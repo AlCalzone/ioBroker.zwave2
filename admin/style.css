@@ -106,3 +106,12 @@ i.icon-button:not(.disabled) {
 i.icon-button.disabled {
 	pointer-events: none;
 }
+
+.input-field label {
+	width: 100%;
+}
+
+label > i[title] {
+	cursor: help;
+	margin-left: 0.25em;
+}

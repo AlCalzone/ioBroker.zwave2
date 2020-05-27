@@ -67,6 +67,8 @@ export class Settings extends React.Component<SettingsProps, SettingsState> {
 		// setup change handlers
 		this.handleChange = this.handleChange.bind(this);
 		this.validateNetworkKey = this.validateNetworkKey.bind(this);
+		this.handleNetworkKeyPaste = this.handleNetworkKeyPaste.bind(this);
+		this.generateNetworkKey = this.generateNetworkKey.bind(this);
 	}
 
 	private chkWriteLogFile: HTMLInputElement | null | undefined;
@@ -102,6 +104,43 @@ export class Settings extends React.Component<SettingsProps, SettingsState> {
 			);
 		});
 		return false;
+	}
+
+	private handleNetworkKeyPaste(e) {
+		// Stop data actually being pasted
+		e.stopPropagation();
+		e.preventDefault();
+
+		// Get pasted data via clipboard API
+		// @ts-ignore
+		const clipboardData = e.clipboardData || window.clipboardData;
+		let pastedData: string = clipboardData.getData("Text");
+
+		if (pastedData) {
+			// clean up any unwanted fragents
+			pastedData = pastedData
+				.trim()
+				.replace(/0x/g, "")
+				.replace(/[^0-9a-fA-F]+/g, "")
+				.toLowerCase()
+				.slice(0, 32);
+		}
+		this.doHandleChange("networkKey", pastedData);
+	}
+
+	private generateNetworkKey() {
+		if (
+			!this.props.settings.networkKey ||
+			this.state.networkKey !== this.props.settings.networkKey ||
+			confirm(_("network key confirm"))
+		) {
+			const bytes = new Uint8Array(16);
+			window.crypto.getRandomValues(bytes);
+			const hexKey = [...bytes]
+				.map((x) => x.toString(16).padStart(2, "0"))
+				.join("");
+			this.doHandleChange("networkKey", hexKey);
+		}
 	}
 
 	private validateNetworkKey() {
@@ -200,7 +239,7 @@ export class Settings extends React.Component<SettingsProps, SettingsState> {
 						)}
 						<Label for="serialport" text="Select serial port" />
 					</div>
-					<div className="col s6 input-field">
+					<div className="col s5 input-field">
 						<input
 							className="value"
 							id="networkKey"
@@ -208,13 +247,24 @@ export class Settings extends React.Component<SettingsProps, SettingsState> {
 							value={this.getSetting("networkKey") as any}
 							onChange={this.handleChange}
 							onBlur={this.validateNetworkKey}
+							onPaste={this.handleNetworkKeyPaste}
 							style={{ fontFamily: "monospace" }}
 							maxLength={32}
 						/>
 						<Label
 							for="networkKey"
 							text="Network key for secure communication"
+							tooltip="network key tooltip"
 						/>
+					</div>
+					<div className="col s3 input-field">
+						<a
+							className="waves-effect waves-light btn"
+							onClick={this.generateNetworkKey}
+						>
+							<i className="material-icons tiny left">loop</i>
+							{_("Generate key")}
+						</a>
 					</div>
 				</div>
 				<div className="row">
