@@ -21,7 +21,7 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
-### __WORK IN PROGRESS__
+### 0.14.3 (2020-05-27)
 * Added a button to generate a new network key
 * Added a tooltip to explain the network key format
 * It is now possible to copy-and-paste a network key (e.g. from the original adapter). The pasted key is automatically cleaned from unnecessary characters.
