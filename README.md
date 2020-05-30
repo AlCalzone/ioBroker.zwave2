@@ -21,6 +21,11 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
+### __WORK IN PROGRESS__
+* The correct status of devices is now shown in the device table instead of unknown
+* The inclusion status is no longer incorrectly shown as active when the adapter was just started
+* Improved handling and retransmission of messages that require nested communication (like Security CC).
+
 ### 0.14.3 (2020-05-27)
 * Added a button to generate a new network key
 * Added a tooltip to explain the network key format
