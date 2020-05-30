@@ -242,7 +242,11 @@ export function Devices() {
 
 			hideMessage();
 
-			setDevices(await loadDevices(namespace));
+			setDevices(
+				await loadDevices(namespace, {
+					status: true,
+				}),
+			);
 			setInclusion(await getInclusionStatus());
 			setExclusion(await getExclusionStatus());
 			setHealingNetwork(await getHealingStatus());
