@@ -40,7 +40,7 @@ class ZWave2 extends utils.Adapter {
         await this.subscribeStatesAsync("*");
         // Reset all control states
         this.setState("info.connection", false, true);
-        this.setState(`info.inclusion`, false, true);
+        this.setState(`info.inclusion`, shared_1.InclusionMode.Idle, true);
         this.setState(`info.exclusion`, false, true);
         this.setState("info.healingNetwork", false, true);
         if (!this.config.serialport) {
@@ -124,7 +124,7 @@ class ZWave2 extends utils.Adapter {
     }
     async onInclusionFailed() {
         this.log.info("inclusion failed");
-        await this.setStateAsync("info.inclusion", false, true);
+        await this.setStateAsync("info.inclusion", shared_1.InclusionMode.Idle, true);
     }
     async onExclusionFailed() {
         this.log.info("exclusion failed");

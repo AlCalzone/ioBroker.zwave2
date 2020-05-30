@@ -82,7 +82,7 @@ export class ZWave2 extends utils.Adapter<true> {
 
 		// Reset all control states
 		this.setState("info.connection", false, true);
-		this.setState(`info.inclusion`, false, true);
+		this.setState(`info.inclusion`, InclusionMode.Idle, true);
 		this.setState(`info.exclusion`, false, true);
 		this.setState("info.healingNetwork", false, true);
 
@@ -202,7 +202,7 @@ export class ZWave2 extends utils.Adapter<true> {
 
 	private async onInclusionFailed(): Promise<void> {
 		this.log.info("inclusion failed");
-		await this.setStateAsync("info.inclusion", false, true);
+		await this.setStateAsync("info.inclusion", InclusionMode.Idle, true);
 	}
 
 	private async onExclusionFailed(): Promise<void> {
