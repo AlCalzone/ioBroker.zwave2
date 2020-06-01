@@ -21,6 +21,10 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
+### 0.14.5 (2020-06-01)
+* Non-securely included nodes which support Security CC should no longer stall the interview process
+* Added an indicator in the devices list to show which nodes are communicating securely
+
 ### 0.14.4 (2020-05-30)
 * The correct status of devices is now shown in the device table instead of unknown
 * The inclusion status is no longer incorrectly shown as active when the adapter was just started
