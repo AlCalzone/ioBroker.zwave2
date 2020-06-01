@@ -85,7 +85,7 @@ function nodeToNative(node) {
             generic: node.deviceClass.generic.name,
             specific: node.deviceClass.specific.name,
         },
-    })), { endpoints: node.getEndpointCount() });
+    })), { endpoints: node.getEndpointCount(), secure: node.isSecure });
 }
 function nodeToCommon(node) {
     return {

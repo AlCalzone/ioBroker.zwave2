@@ -108,6 +108,7 @@ function nodeToNative(node: ZWaveNode): Record<string, any> {
 			},
 		}),
 		endpoints: node.getEndpointCount(),
+		secure: node.isSecure,
 	};
 }
 
