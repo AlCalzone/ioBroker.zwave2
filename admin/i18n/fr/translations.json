@@ -54,6 +54,7 @@
     "clear cache procedure": "L'adaptateur redémarre et re-interview de tous les nœuds. Cela peut prendre un certain temps et certains nœuds peuvent ne pas fonctionner comme prévu dans l'intervalle.",
     "close": "proche",
     "dead": "mort",
+    "device is secure": "Communication sécurisée avec cet appareil",
     "done": "terminé",
     "failed": "échoué",
     "loading...": "chargement...",

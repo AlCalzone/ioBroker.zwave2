@@ -45241,7 +45241,13 @@ function Devices() {
 
     return React.createElement("tr", {
       key: nodeId
-    }, React.createElement("td", null, nodeId), React.createElement("td", null, value.common.name), React.createElement("td", null, value.native.type.basic), React.createElement("td", null, React.createElement("i", {
+    }, React.createElement("td", null, nodeId), React.createElement("td", null, value.native.secure === true && React.createElement(React.Fragment, null, React.createElement("i", {
+      className: "material-icons tiny",
+      title: _("device is secure"),
+      style: {
+        verticalAlign: "bottom"
+      }
+    }, "lock_outline"), "\xA0"), value.common.name), React.createElement("td", null, value.native.type.basic), React.createElement("td", null, React.createElement("i", {
       className: "material-icons",
       title: _(status !== null && status !== void 0 ? status : "unknown")
     }, statusToIconName(status)), healingNetwork && React.createElement(React.Fragment, null, " ", React.createElement("i", {
@@ -46447,7 +46453,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "22051" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64891" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

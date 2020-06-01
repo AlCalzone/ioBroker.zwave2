@@ -54,6 +54,7 @@
     "clear cache procedure": "El adaptador se reinicie y vuelva a entrevistar a todos los nodos. Esto puede tomar mucho tiempo y algunos nodos pueden no funcionar como se espera en el ínterin.",
     "close": "cerca",
     "dead": "muerto",
+    "device is secure": "Comunicación segura con este dispositivo",
     "done": "hecho",
     "failed": "ha fallado",
     "loading...": "cargando...",

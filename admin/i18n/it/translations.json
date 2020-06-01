@@ -54,6 +54,7 @@
     "clear cache procedure": "L'adattatore si riavvia e ri-intervista tutti i nodi. Questo può richiedere molto tempo e alcuni nodi potrebbero non funzionare come previsto, nel frattempo.",
     "close": "vicino",
     "dead": "morto",
+    "device is secure": "Comunicazione sicura con questo dispositivo",
     "done": "fatto",
     "failed": "mancato",
     "loading...": "Caricamento in corso...",

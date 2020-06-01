@@ -54,6 +54,7 @@
     "clear cache procedure": "O adaptador irá reiniciar e re-entrevista de todos nós. Isso pode levar um longo tempo e alguns de nós podem não funcionar como esperado, entretanto.",
     "close": "fechar",
     "dead": "morto",
+    "device is secure": "Comunicação segura com este dispositivo",
     "done": "feito",
     "failed": "falhou",
     "loading...": "Carregando...",

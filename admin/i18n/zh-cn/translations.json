@@ -54,6 +54,7 @@
     "clear cache procedure": "适配器将重新启动和重新面试的所有节点。 这可能需要很长的时间和一些节点可能无法按预期的方式工作。",
     "close": "关",
     "dead": "死",
+    "device is secure": "与该设备的安全通信",
     "done": "完成",
     "failed": "失败了",
     "loading...": "载入中...",

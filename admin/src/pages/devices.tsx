@@ -502,7 +502,25 @@ export function Devices() {
 							return (
 								<tr key={nodeId}>
 									<td>{nodeId}</td>
-									<td>{value.common.name}</td>
+									<td>
+										{value.native.secure === true && (
+											<>
+												<i
+													className="material-icons tiny"
+													title={_(
+														"device is secure",
+													)}
+													style={{
+														verticalAlign: "bottom",
+													}}
+												>
+													lock_outline
+												</i>
+												&nbsp;
+											</>
+										)}
+										{value.common.name}
+									</td>
 									<td>{(value.native as any).type.basic}</td>
 									<td>
 										{/* Whether the device is reachable */}

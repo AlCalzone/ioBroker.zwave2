@@ -115,3 +115,7 @@ label > i[title] {
 	cursor: help;
 	margin-left: 0.25em;
 }
+
+.dropdown-content {
+	white-space: nowrap;
+}
