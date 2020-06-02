@@ -21,6 +21,12 @@ Alternative Z-Wave implementation
 	### __WORK IN PROGRESS__
 -->
 
+### 0.14.6 (2020-06-02)
+* Added support for `Protection CC`
+* Fixed several bugs in `Security CC`
+* Updates from a node that span multiple messages are now correctly decoded
+* During the startup, device objects are created for asleep and dead nodes. This allows removing failed devices from the network even after the cache was cleared.
+
 ### 0.14.5 (2020-06-01)
 * Non-securely included nodes which support Security CC should no longer stall the interview process
 * Added an indicator in the devices list to show which nodes are communicating securely
