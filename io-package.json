@@ -244,38 +244,33 @@
                 "zh-cn": "将`zwave-js`更新为v2.15.3。其中包括以下修复程序：\n*修复了无法正确读取节点的固件版本的问题\n*修复了导致“制造商专有CC”的面试程序被跳过的问题"
             }
         },
-        "title": "Z-Wave",
+        "title": "Z-Wave 2",
         "titleLang": {
-            "en": "Z-Wave",
-            "de": "Z-Wave",
-            "ru": "Z-Wave",
-            "pt": "Z-Wave",
-            "nl": "Z-Wave",
-            "fr": "Z-Wave",
-            "it": "Z-Wave",
-            "es": "Onda z",
-            "pl": "Z-Wave",
-            "zh-cn": "Z-波"
+            "en": "Z-Wave 2",
+            "de": "Z-Wave 2",
+            "ru": "Z-Wave 2",
+            "pt": "Z-Wave 2",
+            "nl": "Z-Wave 2",
+            "fr": "Z-Wave 2",
+            "it": "Z-Wave 2",
+            "es": "Z-Wave 2",
+            "pl": "Z-Wave 2",
+            "zh-cn": "Z-Wave 2"
         },
         "desc": {
-            "en": "Alternative Z-Wave implementation",
-            "de": "Alternative Z-Wave-Implementierung",
-            "ru": "Альтернативная реализация Z-Wave",
-            "pt": "Implementação alternativa de Z-Wave",
-            "nl": "Alternatieve Z-Wave-implementatie",
-            "fr": "Mise en œuvre alternative de Z-Wave",
-            "it": "Implementazione Z-Wave alternativa",
-            "es": "Implementación alternativa de Z-Wave",
-            "pl": "Alternatywna implementacja Z-Wave",
-            "zh-cn": "替代Z-Wave实施"
+            "en": "The better Z-Wave integration",
+            "de": "Die bessere Z-Wave-Integration",
+            "ru": "Лучшая интеграция Z-Wave",
+            "pt": "A melhor integração do Z-Wave",
+            "nl": "De betere Z-Wave-integratie",
+            "fr": "La meilleure intégration Z-Wave",
+            "it": "La migliore integrazione di Z-Wave",
+            "es": "La mejor integración de Z-Wave",
+            "pl": "Lepsza integracja Z-Wave",
+            "zh-cn": "更好的Z-Wave集成"
         },
-        "authors": [
-            "AlCalzone <d.griesel@gmx.net>"
-        ],
-        "keywords": [
-            "zwave",
-            "z-wave"
-        ],
+        "authors": ["AlCalzone <d.griesel@gmx.net>"],
+        "keywords": ["zwave", "z-wave", "zwave2", "z-wave 2"],
         "license": "MIT",
         "platform": "Javascript/Node.js",
         "main": "build/main.js",
