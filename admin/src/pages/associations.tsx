@@ -156,7 +156,7 @@ export function Associations() {
 		endpoints: d.value.native.endpoints as number | undefined,
 	}));
 
-	return true || (adapterRunning && driverReady) ? (
+	return adapterRunning && driverReady ? (
 		<>
 			{devicesAsArray.length ? (
 				devicesAsArray.map(

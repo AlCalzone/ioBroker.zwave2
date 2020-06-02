@@ -1,5 +1,5 @@
 import * as React from "react";
-import { drawNetworkMap, NodeInfo } from "../lib/networkMap";
+import { drawNetworkMap } from "../lib/networkMap";
 import { NotRunning } from "../components/notRunning";
 import {
 	subscribeStatesAsync,

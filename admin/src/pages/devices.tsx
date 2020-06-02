@@ -5,10 +5,6 @@ import { Modal } from "../components/modal";
 import { useStateWithRef } from "../lib/stateWithRefs";
 import { NodeActions } from "../components/nodeActions";
 import {
-	subscribeObjectsAsync,
-	subscribeStatesAsync,
-	unsubscribeObjectsAsync,
-	unsubscribeStatesAsync,
 	setStateAsync,
 	getStateAsync,
 	Device,

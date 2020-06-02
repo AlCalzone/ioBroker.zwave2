@@ -49,7 +49,9 @@ export class Dropdown extends React.Component<DropdownProps, DropdownState> {
 			this.mcssSelect = new M_Select(this.dropdown);
 		}
 		if (prevProps.checkedOption !== this.props.checkedOption) {
-			this.setState({ checkedOption: this.props.checkedOption });
+			this.setState((_, props) => ({
+				checkedOption: props.checkedOption,
+			}));
 		}
 	}
 
