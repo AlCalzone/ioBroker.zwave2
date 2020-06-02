@@ -360,6 +360,16 @@ export class ZWave2 extends utils.Adapter<true> {
 		}
 	}
 
+	private async ensureDeviceObject(node: ZWaveNode): Promise<void> {
+		const nodeAbsoluteId = `${this.namespace}.${computeDeviceId(node.id)}`;
+		if (
+			!this.readyNodes.has(node.id) &&
+			!(nodeAbsoluteId in this.oObjects)
+		) {
+			await extendNode(node);
+		}
+	}
+
 	private async onNodeInterviewCompleted(node: ZWaveNode): Promise<void> {
 		this.log.info(
 			`Node ${node.id}: interview completed, all values are updated`,
@@ -374,6 +384,9 @@ export class ZWave2 extends utils.Adapter<true> {
 	private async onNodeSleep(node: ZWaveNode): Promise<void> {
 		await setNodeStatus(node.id, "asleep");
 		this.log.info(`Node ${node.id}: is now asleep`);
+
+		// ensure we have a device object or users cannot remove failed nodes from the network
+		await this.ensureDeviceObject(node);
 	}
 
 	private async onNodeAlive(node: ZWaveNode): Promise<void> {
@@ -384,6 +397,9 @@ export class ZWave2 extends utils.Adapter<true> {
 	private async onNodeDead(node: ZWaveNode): Promise<void> {
 		await setNodeStatus(node.id, "dead");
 		this.log.info(`Node ${node.id}: is now dead`);
+
+		// ensure we have a device object or users cannot remove failed nodes from the network
+		await this.ensureDeviceObject(node);
 	}
 
 	private async onNodeValueAdded(

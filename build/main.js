@@ -237,6 +237,13 @@ class ZWave2 extends utils.Adapter {
             await objects_2.extendValue(node, Object.assign(Object.assign({}, valueId), { newValue: value }));
         }
     }
+    async ensureDeviceObject(node) {
+        const nodeAbsoluteId = `${this.namespace}.${shared_1.computeDeviceId(node.id)}`;
+        if (!this.readyNodes.has(node.id) &&
+            !(nodeAbsoluteId in this.oObjects)) {
+            await objects_2.extendNode(node);
+        }
+    }
     async onNodeInterviewCompleted(node) {
         this.log.info(`Node ${node.id}: interview completed, all values are updated`);
     }
@@ -247,6 +254,8 @@ class ZWave2 extends utils.Adapter {
     async onNodeSleep(node) {
         await objects_2.setNodeStatus(node.id, "asleep");
         this.log.info(`Node ${node.id}: is now asleep`);
+        // ensure we have a device object or users cannot remove failed nodes from the network
+        await this.ensureDeviceObject(node);
     }
     async onNodeAlive(node) {
         await objects_2.setNodeStatus(node.id, "alive");
@@ -255,6 +264,8 @@ class ZWave2 extends utils.Adapter {
     async onNodeDead(node) {
         await objects_2.setNodeStatus(node.id, "dead");
         this.log.info(`Node ${node.id}: is now dead`);
+        // ensure we have a device object or users cannot remove failed nodes from the network
+        await this.ensureDeviceObject(node);
     }
     async onNodeValueAdded(node, args) {
         let propertyName = objects_2.computeId(node.id, args);
