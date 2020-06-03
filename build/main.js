@@ -6,7 +6,6 @@ const objects_1 = require("alcalzone-shared/objects");
 const fs = require("fs-extra");
 const path = require("path");
 const zwave_js_1 = require("zwave-js");
-const CommandClass_1 = require("zwave-js/CommandClass");
 const global_1 = require("./lib/global");
 const objects_2 = require("./lib/objects");
 const shared_1 = require("./lib/shared");
@@ -178,7 +177,9 @@ class ZWave2 extends utils.Adapter {
         // Make sure the device object exists and is up to date
         await objects_2.extendNode(node);
         // Set the node status
-        await objects_2.setNodeStatus(node.id, node.supportsCC(CommandClass_1.CommandClasses["Wake Up"]) ? "awake" : "alive");
+        await objects_2.setNodeStatus(node.id, node.id === this.driver.controller.ownNodeId
+            ? "awake"
+            : objects_2.nodeStatusToStatusState(node.status));
         await objects_2.setNodeReady(node.id, true);
         // Skip channel creation for the controller node
         if (node.isControllerNode())

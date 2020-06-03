@@ -5,11 +5,7 @@ import { composeObject } from "alcalzone-shared/objects";
 import * as fs from "fs-extra";
 import * as path from "path";
 import { Driver, ZWaveNode } from "zwave-js";
-import {
-	Association,
-	AssociationGroup,
-	CommandClasses,
-} from "zwave-js/CommandClass";
+import type { Association, AssociationGroup } from "zwave-js/CommandClass";
 import type { HealNodeStatus } from "zwave-js/Controller";
 import type {
 	ValueID,
@@ -275,7 +271,9 @@ export class ZWave2 extends utils.Adapter<true> {
 		// Set the node status
 		await setNodeStatus(
 			node.id,
-			node.supportsCC(CommandClasses["Wake Up"]) ? "awake" : "alive",
+			node.id === this.driver.controller.ownNodeId
+				? "awake"
+				: nodeStatusToStatusState(node.status),
 		);
 		await setNodeReady(node.id, true);
 
