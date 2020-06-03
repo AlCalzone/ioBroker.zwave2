@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "0.14.8",
+        "version": "0.14.9",
         "news": {
+            "0.14.9": {
+                "en": "Placeholder object names (e.g. `Node 003`) for non-reachable nodes are now overwritten with the correct name when the nodes are interviewed.",
+                "de": "Platzhalterobjektnamen (z. B. \"Knoten 003\") für nicht erreichbare Knoten werden jetzt mit dem richtigen Namen überschrieben, wenn die Knoten befragt werden.",
+                "ru": "Имена объектов-заполнителей (например, `Node 003`) для недоступных узлов теперь перезаписываются с правильным именем при опросе узлов.",
+                "pt": "Os nomes de objetos de espaço reservado (por exemplo, \"Nó 003\") para nós inacessíveis agora são substituídos pelo nome correto quando os nós são entrevistados.",
+                "nl": "Namen van tijdelijke aanduiding-objecten (bijv. `Knooppunt 003`) voor niet-bereikbare knooppunten worden nu overschreven met de juiste naam wanneer de knooppunten worden geïnterviewd.",
+                "fr": "Les noms d'objet d'espace réservé (par exemple, `` Node 003`) pour les nœuds non accessibles sont désormais remplacés par le nom correct lorsque les nœuds sont interrogés.",
+                "it": "I nomi degli oggetti segnaposto (ad es. \"Nodo 003\") per i nodi non raggiungibili ora vengono sovrascritti con il nome corretto quando vengono intervistati i nodi.",
+                "es": "Los nombres de objeto de marcador de posición (por ejemplo, `Nodo 003`) para nodos no accesibles ahora se sobrescriben con el nombre correcto cuando se entrevistan los nodos.",
+                "pl": "Nazwy obiektów zastępczych (np. „Węzeł 003”) dla nieosiągalnych węzłów są teraz zastępowane poprawną nazwą podczas przesłuchiwania węzłów.",
+                "zh-cn": "现在，在访问节点时，不可达节点的占位符对象名称（例如，“节点003”）将被正确的名称覆盖。"
+            },
             "0.14.8": {
                 "en": "Fixed an issue where secure sleeping nodes could block all communication with other nodes",
                 "de": "Es wurde ein Problem behoben, durch das sichere schlafende Knoten die gesamte Kommunikation mit anderen Knoten blockieren konnten",
@@ -230,18 +242,6 @@
                 "es": "Se corrigió un error que causaba que el proceso de la entrevista se atascara en el `Fibaro CC`",
                 "pl": "Naprawiono błąd, który powodował, że proces wywiadu blokował się na `Fibaro CC`",
                 "zh-cn": "修复了导致采访过程卡在“ Fibaro CC”上的错误"
-            },
-            "0.11.4": {
-                "en": "Fixed a crash that happened when saving the network state including a `Manufacturer Proprietary CC` to cache",
-                "de": "Es wurde ein Absturz behoben, der beim Speichern des Netzwerkstatus einschließlich eines \"Manufacturer Proprietary CC\" zum Zwischenspeichern auftrat",
-                "ru": "Исправлен сбой, который происходил при сохранении состояния сети, включая `проприетарный CC производителя 'в кеш",
-                "pt": "Corrigida uma falha que acontecia ao salvar o estado da rede, incluindo um `CC proprietário do fabricante 'no cache",
-                "nl": "Een crash verholpen die zich voordeed bij het opslaan van de netwerkstatus inclusief een `Manufacturer Proprietary CC` naar cache",
-                "fr": "Correction d'un plantage qui se produisait lors de l'enregistrement de l'état du réseau, y compris un «CC propriétaire du fabricant» à mettre en cache",
-                "it": "Risolto un crash che si verificava quando si salvava lo stato della rete incluso un \"CC proprietario del produttore\" nella cache",
-                "es": "Se corrigió un bloqueo que ocurría al guardar el estado de la red, incluido un `CC propietario del fabricante` en caché",
-                "pl": "Naprawiono awarię, która występowała podczas zapisywania stanu sieci, w tym „Producent zastrzeżony CC” do pamięci podręcznej",
-                "zh-cn": "修复了将包含“制造商专有CC”的网络状态保存到缓存时发生的崩溃"
             }
         },
         "title": "Z-Wave 2",
