@@ -94,16 +94,21 @@ function nodeToCommon(node) {
             : `Node ${strings_1.padStart(node.id.toString(), 3, "0")}`,
     };
 }
+const fallbackNodeNameRegex = /^Node \d+$/;
 async function extendNode(node) {
     const deviceId = shared_1.computeDeviceId(node.id);
     const originalObject = global_1.Global.adapter.oObjects[`${global_1.Global.adapter.namespace}.${deviceId}`];
     // update the object while preserving the existing common properties
     const nodeCommon = nodeToCommon(node);
+    // Overwrite empty names and placeholder/fallback names
+    let newName = originalObject === null || originalObject === void 0 ? void 0 : originalObject.common.name;
+    newName =
+        newName && !fallbackNodeNameRegex.test(newName)
+            ? newName
+            : nodeCommon.name;
     const desiredObject = {
         type: "device",
-        common: Object.assign(Object.assign(Object.assign({}, nodeCommon), originalObject === null || originalObject === void 0 ? void 0 : originalObject.common), { 
-            // Overwrite empty names
-            name: (originalObject === null || originalObject === void 0 ? void 0 : originalObject.common.name) || nodeCommon.name }),
+        common: Object.assign(Object.assign(Object.assign({}, nodeCommon), originalObject === null || originalObject === void 0 ? void 0 : originalObject.common), { name: newName }),
         native: nodeToNative(node),
     };
     // check if we have to update anything

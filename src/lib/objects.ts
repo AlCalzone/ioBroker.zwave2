@@ -120,6 +120,8 @@ function nodeToCommon(node: ZWaveNode): ioBroker.DeviceCommon {
 	};
 }
 
+const fallbackNodeNameRegex = /^Node \d+$/;
+
 export async function extendNode(node: ZWaveNode): Promise<void> {
 	const deviceId = computeDeviceId(node.id);
 	const originalObject = _.adapter.oObjects[
@@ -128,13 +130,19 @@ export async function extendNode(node: ZWaveNode): Promise<void> {
 
 	// update the object while preserving the existing common properties
 	const nodeCommon = nodeToCommon(node);
+	// Overwrite empty names and placeholder/fallback names
+	let newName = originalObject?.common.name;
+	newName =
+		newName && !fallbackNodeNameRegex.test(newName)
+			? newName
+			: nodeCommon.name;
+
 	const desiredObject: ioBroker.SettableObject = {
 		type: "device",
 		common: {
 			...nodeCommon,
 			...originalObject?.common,
-			// Overwrite empty names
-			name: originalObject?.common.name || nodeCommon.name,
+			name: newName,
 		},
 		native: nodeToNative(node),
 	};
