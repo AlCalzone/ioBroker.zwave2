@@ -8,14 +8,18 @@ import {
 	getAssociations,
 	removeAssociation,
 	addAssociation,
+	getNodeStatus,
+	getStateAsync,
 } from "../lib/backend";
 import { useStateWithRef } from "../lib/stateWithRefs";
 import { AssociationRow } from "../components/associationRow";
 import type { AssociationDefinition } from "../../../src/lib/shared";
+import { statusToIconName, statusToCssClass } from "../lib/shared";
 
 let namespace: string;
 const deviceIdRegex = /Node_(\d+)$/;
 const deviceReadyRegex = /Node_(\d+)\.ready$/;
+const deviceStatusRegex = /Node_(\d+)\.status$/;
 
 export function Associations() {
 	const [adapterRunning, setAdapterRunning] = React.useState(false);
@@ -57,6 +61,17 @@ export function Associations() {
 						[nodeId]: updatedDevice,
 					});
 				}
+			} else if (id.match(deviceStatusRegex)) {
+				// A device's status was changed
+				const nodeId = parseInt(deviceStatusRegex.exec(id)![1], 10);
+				const updatedDevice = devicesRef.current?.[nodeId];
+				if (updatedDevice) {
+					updatedDevice.status = state.val as any;
+					setDevices({
+						...devicesRef.current,
+						[nodeId]: updatedDevice,
+					});
+				}
 			} else if (id === adapterAliveId) {
 				setAdapterRunning(!!state?.val);
 			} else if (id === driverReadyId) {
@@ -80,6 +95,7 @@ export function Associations() {
 						id,
 						value: obj,
 						ready: await getNodeReady(namespace, nodeId),
+						status: await getNodeStatus(namespace, nodeId),
 					};
 					if (device.ready) {
 						device.associationGroups = await getAssociationGroups(
@@ -102,11 +118,15 @@ export function Associations() {
 				await loadDevices(namespace, {
 					ready: true,
 					associations: true,
+					status: true,
 				}),
 			);
 
 			socket.on("stateChange", onStateChange);
 			socket.on("objectChange", onObjectChange);
+
+			setAdapterRunning(!!(await getStateAsync(adapterAliveId)).val);
+			setDriverReady(!!(await getStateAsync(driverReadyId)).val);
 		})();
 
 		// componentWillUnmount
@@ -129,6 +149,7 @@ export function Associations() {
 			await loadDevices(namespace, {
 				ready: true,
 				associations: true,
+				status: true,
 			}),
 		);
 	}
@@ -144,6 +165,7 @@ export function Associations() {
 			await loadDevices(namespace, {
 				ready: true,
 				associations: true,
+				status: true,
 			}),
 		);
 	}
@@ -161,7 +183,13 @@ export function Associations() {
 			{devicesAsArray.length ? (
 				devicesAsArray.map(
 					(
-						{ value, ready, associationGroups, associations },
+						{
+							value,
+							ready,
+							status,
+							associationGroups,
+							associations,
+						},
 						index,
 					) => {
 						if (ready && !associationGroups) {
@@ -208,7 +236,18 @@ export function Associations() {
 						return (
 							<React.Fragment key={index}>
 								<div className="section" key={`node${nodeId}`}>
-									<h5>Node {nodeId}</h5>
+									<h5>
+										Node {nodeId}{" "}
+										{/* Whether the device is reachable */}
+										<i
+											className={`material-icons ${statusToCssClass(
+												status,
+											)}`}
+											title={_(status ?? "unknown")}
+										>
+											{statusToIconName(status)}
+										</i>
+									</h5>
 									{ready ? (
 										<table>
 											<thead>

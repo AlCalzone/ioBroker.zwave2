@@ -11,22 +11,9 @@ import {
 	loadDevices,
 	getNodeStatus,
 } from "../lib/backend";
+import { statusToIconName, statusToCssClass } from "../lib/shared";
 
 let namespace: string;
-
-function statusToIconName(status: Device["status"]): string {
-	switch (status) {
-		case "alive":
-		case "awake":
-			return "wifi";
-		case "asleep":
-			return "power_settings_new";
-		case "dead":
-			return "wifi_off";
-		default:
-			return "device_unknown";
-	}
-}
 
 const deviceIdRegex = /Node_(\d+)$/;
 const deviceStatusRegex = /Node_(\d+)\.status$/;
@@ -521,7 +508,9 @@ export function Devices() {
 									<td>
 										{/* Whether the device is reachable */}
 										<i
-											className="material-icons"
+											className={`material-icons ${statusToCssClass(
+												status,
+											)}`}
 											title={_(status ?? "unknown")}
 										>
 											{statusToIconName(status)}

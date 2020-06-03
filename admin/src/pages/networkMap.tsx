@@ -16,15 +16,6 @@ export function NetworkMap() {
 		const readyId = `${adapter}.${instance}.info.connection`;
 		// componentDidMount
 		(async () => {
-			// subscribe to changes
-			await subscribeStatesAsync(aliveId);
-			await subscribeStatesAsync(readyId);
-			// And unsubscribe when the page is unloaded
-			window.addEventListener("unload", () => {
-				void unsubscribeStatesAsync(aliveId);
-				void unsubscribeStatesAsync(readyId);
-			});
-
 			socket.on("stateChange", async (id, state) => {
 				if (!state || !state.ack) return;
 				if (id === aliveId) {
@@ -37,12 +28,6 @@ export function NetworkMap() {
 			setAdapterRunning(!!(await getStateAsync(aliveId)).val);
 			setDriverReady(!!(await getStateAsync(readyId)).val);
 		})();
-
-		// componentWillUnmount
-		return () => {
-			void unsubscribeStatesAsync(aliveId);
-			void unsubscribeStatesAsync(readyId);
-		};
 	}, []);
 
 	React.useEffect(() => {

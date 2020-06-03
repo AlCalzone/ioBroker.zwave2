@@ -119,3 +119,8 @@ label > i[title] {
 .dropdown-content {
 	white-space: nowrap;
 }
+
+label > .material-icons,
+h5 > .material-icons {
+	vertical-align: bottom;
+}
