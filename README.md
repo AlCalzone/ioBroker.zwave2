@@ -7,7 +7,7 @@
 [![changelog](https://img.shields.io/badge/read-Changelog-informational)](CHANGELOG.md)
 
 ![Number of Installations](http://iobroker.live/badges/zwave2-installed.svg)
-![Number of Installations](http://iobroker.live/badges/zwave2-stable.svg)  
+![Number of Installations](http://iobroker.live/badges/zwave2-stable.svg)
 
 ![Test and Release](https://github.com/AlCalzone/iobroker.zwave2/workflows/Test%20and%20Release/badge.svg)
 [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/AlCalzone/ioBroker.zwave2.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/AlCalzone/ioBroker.zwave2/context:javascript)
@@ -25,8 +25,8 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 | --- | --- | --- |
 | ![](docs/de/images/config-params.png) | vs | ![](docs/de/images/config-params-legacy.png) |
 
-
 ## License
+
 MIT License
 
 Copyright (c) 2019-2020 AlCalzone
