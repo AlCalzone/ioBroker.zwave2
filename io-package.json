@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "0.14.6",
+        "version": "0.14.7",
         "news": {
+            "0.14.7": {
+                "en": "Fixed an issue where interviews could get stuck for sleeping nodes\nFixed a crash that happened when decoding a secure message with an unsupported payload",
+                "de": "Es wurde ein Problem behoben, durch das Interviews für schlafende Knoten hängen blieben\nEs wurde ein Absturz behoben, der beim Dekodieren einer sicheren Nachricht mit einer nicht unterstützten Nutzlast auftrat",
+                "ru": "Исправлена ошибка, из-за которой интервью могли застрять в спящих узлах.\nИсправлен сбой, возникающий при декодировании защищенного сообщения с неподдерживаемой полезной нагрузкой.",
+                "pt": "Corrigido um problema em que as entrevistas podiam ficar paralisadas para nós adormecidos\nCorrigida uma falha que acontecia ao decodificar uma mensagem segura com uma carga útil não suportada",
+                "nl": "Er is een probleem opgelost waarbij interviews vast konden lopen voor slaapknooppunten\nEen crash verholpen die zich voordeed bij het decoderen van een beveiligd bericht met een niet-ondersteunde payload",
+                "fr": "Correction d'un problème où les interviews pouvaient se bloquer pour les nœuds endormis\nCorrection d'un plantage qui se produisait lors du décodage d'un message sécurisé avec une charge utile non prise en charge",
+                "it": "Risolto il problema per cui le interviste potevano rimanere bloccate per i nodi dormienti\nRisolto un crash che si verificava durante la decodifica di un messaggio sicuro con un payload non supportato",
+                "es": "Se solucionó un problema por el cual las entrevistas podían atascarse para nodos dormidos\nSe corrigió un bloqueo que ocurría al decodificar un mensaje seguro con una carga útil no compatible",
+                "pl": "Naprawiono problem, w wyniku którego wywiady mogły zacinać się w węzłach uśpionych\nNaprawiono awarię występującą podczas dekodowania bezpiecznej wiadomości o nieobsługiwanym ładunku",
+                "zh-cn": "修复了采访可能陷入睡眠节点的问题\n修复了在解码不支持有效负载的安全消息时发生的崩溃"
+            },
             "0.14.6": {
                 "en": "Added support for `Protection CC`\nFixed several bugs in `Security CC`\nUpdates from a node that span multiple messages are now correctly decoded\nDuring the startup, device objects are created for asleep and dead nodes. This allows removing failed devices from the network even after the cache was cleared.",
                 "de": "Unterstützung für \"Protection CC\" hinzugefügt\nMehrere Fehler in \"Security CC\" wurden behoben\nAktualisierungen von einem Knoten, der mehrere Nachrichten umfasst, werden jetzt korrekt dekodiert\nWährend des Startvorgangs werden Geräteobjekte für schlafende und tote Knoten erstellt. Auf diese Weise können ausgefallene Geräte auch nach dem Löschen des Caches aus dem Netzwerk entfernt werden.",
@@ -230,18 +242,6 @@
                 "es": "Se corrigió un bloqueo que ocurre al controlar las persianas usando el `Fibaro Venetian Blind CC`",
                 "pl": "Naprawiono awarię występującą podczas kontrolowania żaluzji za pomocą `Fibaro Venetian Blind CC`",
                 "zh-cn": "修复了使用“ Fibaro Venetian Blind CC”控制百叶窗时发生的崩溃"
-            },
-            "0.11.2": {
-                "en": "Updated `zwave-js` to v2.15.3. This includes the following fixes:\n* Fixed an issue where the firmware version of nodes would not be read correctly\n* Fixed an issue that caused the interview procedure for the `Manufacturer Proprietary CC` to be skipped",
-                "de": "`Zwave-js` wurde auf v2.15.3 aktualisiert. Dies beinhaltet die folgenden Korrekturen:\n* Es wurde ein Problem behoben, bei dem die Firmware-Version von Knoten nicht korrekt gelesen wurde\n* Es wurde ein Problem behoben, durch das das Interviewverfahren für das \"Manufacturer Proprietary CC\" übersprungen wurde",
-                "ru": "Обновлен `zwave-js` до v2.15.3. Это включает в себя следующие исправления:\n* Исправлена ошибка, из-за которой версия прошивки узлов не читалась правильно\n* Исправлена ошибка, приводившая к пропуску процедуры собеседования для «Проприетарной CC производителя».",
-                "pt": "Atualizado `zwave-js` para a v2.15.3. Isso inclui as seguintes correções:\n* Corrigido um problema em que a versão do firmware dos nós não era lida corretamente.\n* Corrigido um problema que fazia com que o procedimento de entrevista para o `Fabricante Proprietário CC 'fosse ignorado",
-                "nl": "`Zwave-js` bijgewerkt naar v2.15.3. Dit omvat de volgende fixes:\n* Probleem opgelost waarbij de firmwareversie van knooppunten niet correct zou worden gelezen\n* Probleem opgelost waardoor de interviewprocedure voor de `Manufacturer Proprietary CC` werd overgeslagen",
-                "fr": "Mise à jour de `zwave-js` vers v2.15.3. Cela inclut les correctifs suivants:\n* Correction d'un problème où la version du firmware des nœuds ne serait pas lue correctement\n* Correction d'un problème qui faisait que la procédure d'entrevue pour le «CC propriétaire du fabricant» était sautée",
-                "it": "`Zwave-js` aggiornato alla v2.15.3. Ciò include le seguenti correzioni:\n* Risolto il problema per cui la versione del firmware dei nodi non veniva letta correttamente\n* Risolto un problema che causava il salto della procedura di intervista per il \"CC proprietario del produttore\"",
-                "es": "Actualizado `zwave-js` a v2.15.3. Esto incluye las siguientes correcciones:\n* Se solucionó un problema por el cual la versión de firmware de los nodos no se leía correctamente\n* Se solucionó un problema que hacía que se omitiera el procedimiento de entrevista para el `CC propietario del fabricante`",
-                "pl": "Zaktualizowano `zwave-js` do v2.15.3. Obejmuje to następujące poprawki:\n* Naprawiono problem polegający na tym, że wersja oprogramowania węzłów nie była poprawnie odczytywana\n* Naprawiono problem, który powodował pominięcie procedury wywiadu dla „Zastrzeżonego CC producenta”",
-                "zh-cn": "将`zwave-js`更新为v2.15.3。其中包括以下修复程序：\n*修复了无法正确读取节点的固件版本的问题\n*修复了导致“制造商专有CC”的面试程序被跳过的问题"
             }
         },
         "title": "Z-Wave 2",
@@ -269,8 +269,15 @@
             "pl": "Lepsza integracja Z-Wave",
             "zh-cn": "更好的Z-Wave集成"
         },
-        "authors": ["AlCalzone <d.griesel@gmx.net>"],
-        "keywords": ["zwave", "z-wave", "zwave2", "z-wave 2"],
+        "authors": [
+            "AlCalzone <d.griesel@gmx.net>"
+        ],
+        "keywords": [
+            "zwave",
+            "z-wave",
+            "zwave2",
+            "z-wave 2"
+        ],
         "license": "MIT",
         "platform": "Javascript/Node.js",
         "main": "build/main.js",

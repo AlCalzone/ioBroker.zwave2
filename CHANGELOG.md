@@ -5,7 +5,7 @@
 	## __WORK IN PROGRESS__
 -->
 
-## __WORK IN PROGRESS__
+## 0.14.7 (2020-06-03)
 * Fixed an issue where interviews could get stuck for sleeping nodes
 * Fixed a crash that happened when decoding a secure message with an unsupported payload
 
