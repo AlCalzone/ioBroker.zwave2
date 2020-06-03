@@ -1,7 +1,7 @@
 {
   "name": "iobroker.zwave2",
   "version": "0.14.8",
-  "description": "Alternative Z-Wave implementation",
+  "description": "A better Z-Wave integration for ioBroker",
   "author": {
     "name": "AlCalzone",
     "email": "d.griesel@gmx.net"
@@ -10,7 +10,9 @@
   "license": "MIT",
   "keywords": [
     "zwave",
-    "z-wave"
+    "z-wave",
+    "iobroker",
+    "adapter"
   ],
   "repository": {
     "type": "git",
