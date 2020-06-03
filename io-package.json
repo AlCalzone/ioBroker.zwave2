@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "0.14.7",
+        "version": "0.14.8",
         "news": {
+            "0.14.8": {
+                "en": "Fixed an issue where secure sleeping nodes could block all communication with other nodes",
+                "de": "Es wurde ein Problem behoben, durch das sichere schlafende Knoten die gesamte Kommunikation mit anderen Knoten blockieren konnten",
+                "ru": "Исправлена ошибка, из-за которой безопасные спящие узлы могли блокировать все коммуникации с другими узлами.",
+                "pt": "Corrigido um problema em que nós inativos seguros podiam bloquear toda a comunicação com outros nós",
+                "nl": "Er is een probleem opgelost waarbij veilige slaapknooppunten alle communicatie met andere knooppunten konden blokkeren",
+                "fr": "Correction d'un problème où les nœuds de sommeil sécurisés pouvaient bloquer toutes les communications avec d'autres nœuds",
+                "it": "Risolto il problema per cui i nodi dormienti sicuri potevano bloccare tutte le comunicazioni con altri nodi",
+                "es": "Se corrigió un problema por el cual los nodos dormidos seguros podían bloquear toda comunicación con otros nodos",
+                "pl": "Naprawiono problem, w którym bezpieczne uśpione węzły mogły blokować całą komunikację z innymi węzłami",
+                "zh-cn": "修复了安全的睡眠节点可能会阻止与其他节点进行所有通信的问题"
+            },
             "0.14.7": {
                 "en": "Fixed an issue where interviews could get stuck for sleeping nodes\nFixed a crash that happened when decoding a secure message with an unsupported payload",
                 "de": "Es wurde ein Problem behoben, durch das Interviews für schlafende Knoten hängen blieben\nEs wurde ein Absturz behoben, der beim Dekodieren einer sicheren Nachricht mit einer nicht unterstützten Nutzlast auftrat",
@@ -230,18 +242,6 @@
                 "es": "Se corrigió un bloqueo que ocurría al guardar el estado de la red, incluido un `CC propietario del fabricante` en caché",
                 "pl": "Naprawiono awarię, która występowała podczas zapisywania stanu sieci, w tym „Producent zastrzeżony CC” do pamięci podręcznej",
                 "zh-cn": "修复了将包含“制造商专有CC”的网络状态保存到缓存时发生的崩溃"
-            },
-            "0.11.3": {
-                "en": "Fixed a crash that happens when controlling blinds using the `Fibaro Venetian Blind CC`",
-                "de": "Es wurde ein Absturz behoben, der beim Steuern von Jalousien mit dem \"Fibaro Venetian Blind CC\" auftrat",
-                "ru": "Исправлен сбой, возникающий при управлении блайндами с помощью `Fibaro Venetian Blind CC`",
-                "pt": "Corrigida uma falha que acontecia ao controlar os blinds usando o `Fibaro Venetian Blind CC`",
-                "nl": "Een crash gerepareerd die optreedt bij het bedienen van blinds met de `Fibaro Venetian Blind CC`",
-                "fr": "Correction d'un crash qui se produisait lors du contrôle des stores à l'aide du `Fibaro Venetian Blind CC`",
-                "it": "Risolto un crash che si verificava quando si controllavano i blind usando il `Fibaro Venetian Blind CC`",
-                "es": "Se corrigió un bloqueo que ocurre al controlar las persianas usando el `Fibaro Venetian Blind CC`",
-                "pl": "Naprawiono awarię występującą podczas kontrolowania żaluzji za pomocą `Fibaro Venetian Blind CC`",
-                "zh-cn": "修复了使用“ Fibaro Venetian Blind CC”控制百叶窗时发生的崩溃"
             }
         },
         "title": "Z-Wave 2",
