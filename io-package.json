@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "0.14.9",
+        "version": "1.0.0",
         "news": {
+            "1.0.0": {
+                "en": "Changed the compatibility config queries for Danfoss thermostats, so queued setpoint changes are not overwritten",
+                "de": "Die Kompatibilitätskonfigurationsabfragen für Danfoss-Thermostate wurden geändert, sodass Änderungen der Sollwerte in der Warteschlange nicht überschrieben werden",
+                "ru": "Изменены запросы конфигурации совместимости для термостатов Danfoss, поэтому изменения заданного значения в очереди не перезаписываются",
+                "pt": "Foram alteradas as consultas de configuração de compatibilidade para termostatos Danfoss, para que as alterações no ponto de ajuste na fila não sejam substituídas",
+                "nl": "De compatibiliteitsconfiguratievragen voor Danfoss-thermostaten gewijzigd, dus wijzigingen in instelpunten in de wachtrij worden niet overschreven",
+                "fr": "Modification des requêtes de configuration de compatibilité pour les thermostats Danfoss, afin que les modifications de point de consigne en file d'attente ne soient pas écrasées",
+                "it": "Modificate le query di configurazione della compatibilità per i termostati Danfoss, quindi le modifiche del setpoint in coda non vengono sovrascritte",
+                "es": "Se modificaron las consultas de configuración de compatibilidad para los termostatos Danfoss, por lo que los cambios en el punto de referencia en cola no se sobrescriben",
+                "pl": "Zmieniono zapytania konfiguracji zgodności dla termostatów Danfoss, więc zmiany wartości zadanej w kolejce nie są nadpisywane",
+                "zh-cn": "更改了丹佛斯恒温器的兼容性配置查询，因此排队的设定值更改不会被覆盖"
+            },
             "0.14.9": {
                 "en": "Placeholder object names (e.g. `Node 003`) for non-reachable nodes are now overwritten with the correct name when the nodes are interviewed.",
                 "de": "Platzhalterobjektnamen (z. B. \"Knoten 003\") für nicht erreichbare Knoten werden jetzt mit dem richtigen Namen überschrieben, wenn die Knoten befragt werden.",
@@ -230,18 +242,6 @@
                 "es": "Cambiar los valores del `Fibaro CC` ahora envía comandos al dispositivo",
                 "pl": "Zmiana wartości `Fibaro CC` wysyła teraz polecenia do urządzenia",
                 "zh-cn": "现在，更改“ Fibaro CC”的值会将命令发送到设备"
-            },
-            "0.11.5": {
-                "en": "Fixed a bug that caused the interview process to be stuck on the `Fibaro CC`",
-                "de": "Es wurde ein Fehler behoben, der dazu führte, dass der Interviewprozess auf dem \"Fibaro CC\" hängen blieb",
-                "ru": "Исправлена ошибка, из-за которой процесс интервью зависал на `Fibaro CC`",
-                "pt": "Corrigido um erro que fazia com que o processo de entrevista fosse travado no `Fibaro CC`",
-                "nl": "Een bug gerepareerd waardoor het interviewproces op de `Fibaro CC` bleef steken",
-                "fr": "Correction d'un bug qui bloquait le processus d'interview sur le `Fibaro CC`",
-                "it": "Risolto un bug che causava il blocco del processo di intervista sul `Fibaro CC`",
-                "es": "Se corrigió un error que causaba que el proceso de la entrevista se atascara en el `Fibaro CC`",
-                "pl": "Naprawiono błąd, który powodował, że proces wywiadu blokował się na `Fibaro CC`",
-                "zh-cn": "修复了导致采访过程卡在“ Fibaro CC”上的错误"
             }
         },
         "title": "Z-Wave 2",

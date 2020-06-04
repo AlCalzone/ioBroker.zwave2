@@ -5,6 +5,9 @@
 	## __WORK IN PROGRESS__
 -->
 
+## 1.0.0 (2020-06-04)
+* Changed the compatibility config queries for Danfoss thermostats, so queued setpoint changes are not overwritten
+
 ## 0.14.9 (2020-06-03)
 * Placeholder object names (e.g. `Node 003`) for non-reachable nodes are now overwritten with the correct name when the nodes are interviewed.
 
