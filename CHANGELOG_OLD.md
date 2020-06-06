@@ -1,29 +1,4 @@
-# Changelog
-
-<!--
-	Placeholder for next versions:
-	## __WORK IN PROGRESS__
--->
-
-## 1.0.0 (2020-06-04)
-* Changed the compatibility config queries for Danfoss thermostats, so queued setpoint changes are not overwritten
-
-## 0.14.9 (2020-06-03)
-* Placeholder object names (e.g. `Node 003`) for non-reachable nodes are now overwritten with the correct name when the nodes are interviewed.
-
-## 0.14.8 (2020-06-03)
-* Fixed an issue where secure sleeping nodes could block all communication with other nodes
-
-## 0.14.7 (2020-06-03)
-* Fixed an issue where interviews could get stuck for sleeping nodes
-* Fixed a crash that happened when decoding a secure message with an unsupported payload
-
-## 0.14.6 (2020-06-02)
-* Added support for `Protection CC`
-* Fixed several bugs in `Security CC`
-* Updates from a node that span multiple messages are now correctly decoded
-* During the startup, device objects are created for asleep and dead nodes. This allows removing failed devices from the network even after the cache was cleared.
-
+# Older changes
 ## 0.14.5 (2020-06-01)
 * Non-securely included nodes which support Security CC should no longer stall the interview process
 * Added an indicator in the devices list to show which nodes are communicating securely
@@ -148,7 +123,8 @@ Updated `zwave-js` to v2.13.0. This includes the following changes:
 * Fixed an error that could happen when a state was changed before the driver is ready
 * Updated `zwave-js` to v2.12.3. This includes the following changes:
   * The interview sequence for `Thermostat CC` V1/V2 should no longer get stuck
-  * Improved handling of nodes that don't respond to a request \* Minor stability improvements and bugfixes
+  * Improved handling of nodes that don't respond to a request
+  * Minor stability improvements and bugfixes
 
 ## 0.9.3 (2020-01-26)
 * Updated `zwave-js` to v2.12.2. This should fix issues with older Thermostats.
@@ -180,7 +156,8 @@ Updated `zwave-js` to v2.10.0. This includes the following changes:
 * Brand new icon!
 * Updated `zwave-js` to v2.9.1. This includes the following fixes:
   * Notification CC Reports that are received as a response during the interview are now correctly handled
-  * Status changes for nodes are now handled better \* The scenes of the Scene Activation CC are now automatically reset after the duration has elapsed.
+  * Status changes for nodes are now handled better
+  * The scenes of the Scene Activation CC are now automatically reset after the duration has elapsed.
 
 ## 0.8.0 (2020-01-04)
 * The cache file is now saved in `iobroker-data`, so it doesn't get lost between updates
@@ -206,7 +183,8 @@ Updated `zwave-js` to v2.7.0. This includes the following changes:
 ## 0.6.3 (2019-12-30)
 * Updated `zwave-js` to v2.5.1. This includes the following changes:
   * Fixed issues with the `Meter CC` and `Indicator CC`
-  * Fixed an issue where the information about device endpoints was not correctly saved and restored \* Several configuration parameters with duplicate labels were renamed
+  * Fixed an issue where the information about device endpoints was not correctly saved and restored
+  * Several configuration parameters with duplicate labels were renamed
 * Node objects and states are now synchronized when the node is ready (rather than waiting for the interview to be completed)
 * When `udevadm` is not installed on a unix system, the adapter no longer crashes when opening the configuration UI
 * If a node name was manually changed, that change is now preserved
@@ -262,7 +240,8 @@ Updated `zwave-js` to v2.7.0. This includes the following changes:
 ## 0.3.0
 * Updated `zwave-js` to v2.0.0. For the full list of changes, see [here](https://github.com/AlCalzone/node-zwave-js/blob/master/CHANGELOG.md#200-2019-11-26). Notable improvements include:
   * Added configuration files for over 1000 devices. This improves support for some older devices and greatly improves the `Configuration CC`.
-  * `Basic` CC is now hidden if a node support other Actuator CCs \* Fixed `Binary Sensor` support
+  * `Basic` CC is now hidden if a node support other Actuator CCs
+  * Fixed `Binary Sensor` support
 * Improved generation of state names for complex property names
 
 ## 0.2.1
@@ -279,7 +258,8 @@ Updated `zwave-js` to v2.7.0. This includes the following changes:
 ## 0.1.3
 * Update `zwave-js` dependency. Notable improvements include:
   * Support for `Time` and `Time Parameters` CCs. This automatically sets the correct time on supporting nodes.
-  * Support for `Battery` CC v2 \* Cleanup of CC values
+  * Support for `Battery` CC v2
+  * Cleanup of CC values
 * Update misc. dependencies
 
 ## 0.1.2
