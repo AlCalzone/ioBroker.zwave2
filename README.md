@@ -32,6 +32,19 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	### __WORK IN PROGRESS__
 -->
 
+### 1.1.0 (2020-06-11)
+* Added support for `Door Lock CC V4`
+* Added support for `Lock CC`
+* Fixed the `E5` issue with Danfoss thermostats (hopefully)
+* Fixed an issue where sleeping nodes could block the entire send queue
+* Fixed an issue where some CCs did not store the received values
+* Fixed an issue where the values of endpoint 1 of some multichannel devices were not updated
+* The node interview is no longer aborted if a response for the following requests times out:
+  * Battery status
+  * Battery health
+  * Binary Sensor status
+  * Multilevel Sensor status
+
 ### 1.0.0 (2020-06-04)
 * Changed the compatibility config queries for Danfoss thermostats, so queued setpoint changes are not overwritten
 
