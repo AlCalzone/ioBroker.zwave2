@@ -1,41 +1,12 @@
 import * as React from "react";
-import type { NetworkHealPollResponse } from "../../../src/lib/shared";
 import { InclusionMode } from "../../../src/lib/shared";
+import type { NetworkHealPollResponse } from "../../../src/lib/shared";
 import { Modal } from "../components/modal";
 import { NodeActions } from "../components/nodeActions";
-import { setStateAsync, getStateAsync, Device } from "../lib/backend";
-import { statusToIconName, statusToCssClass } from "../lib/shared";
+import type { Device } from "../lib/backend";
+import { statusToCssClass, statusToIconName } from "../lib/shared";
 import { DevicesContext } from "../lib/useDevices";
-import { AdapterContext } from "../lib/useAdapter";
-
-let namespace: string;
-
-const inclusionRegex = /info\.inclusion$/;
-const exclusionRegex = /info\.exclusion$/;
-const healNetworkRegex = /info\.healingNetwork$/;
-
-async function getInclusionStatus(): Promise<InclusionMode> {
-	const ret = (await getStateAsync(`${namespace}.info.inclusion`)).val;
-	if (ret === false) return InclusionMode.Idle;
-	return ret as InclusionMode;
-}
-
-async function getExclusionStatus(): Promise<boolean> {
-	return (await getStateAsync(`${namespace}.info.exclusion`)).val as boolean;
-}
-
-async function setInclusionStatus(status: InclusionMode): Promise<void> {
-	return setStateAsync(`${namespace}.info.inclusion`, status);
-}
-
-async function setExclusionStatus(active: boolean): Promise<void> {
-	return setStateAsync(`${namespace}.info.exclusion`, active);
-}
-
-async function getHealingStatus(): Promise<boolean> {
-	return (await getStateAsync(`${namespace}.info.healingNetwork`))
-		.val as boolean;
-}
+import { useIoBrokerState } from "../lib/useIoBrokerState";
 
 async function beginHealingNetwork(): Promise<void> {
 	return new Promise((resolve, reject) => {
@@ -115,10 +86,29 @@ function getDefaultMessageProps(): MessageProps {
 
 export function Devices() {
 	const { devices } = React.useContext(DevicesContext);
+	const namespace = `${adapter}.${instance}`;
 
-	const [inclusion, setInclusion] = React.useState(InclusionMode.Idle);
-	const [exclusion, setExclusion] = React.useState(false);
-	const [healingNetwork, setHealingNetwork] = React.useState(false);
+	const [inclusion, setInclusion] = useIoBrokerState<InclusionMode>(
+		`${namespace}.info.inclusion`,
+		{
+			defaultValue: InclusionMode.Idle,
+			transform: (value) =>
+				value === false ? InclusionMode.Idle : value,
+		},
+	);
+	const [exclusion, setExclusion] = useIoBrokerState<boolean>(
+		`${namespace}.info.exclusion`,
+		{
+			defaultValue: false,
+		},
+	);
+	const [healingNetwork] = useIoBrokerState<boolean>(
+		`${namespace}.info.healingNetwork`,
+		{
+			defaultValue: false,
+		},
+	);
+
 	const [message, setMessage] = React.useState<MessageProps>(
 		getDefaultMessageProps(),
 	);
@@ -155,40 +145,7 @@ export function Devices() {
 		});
 	}
 
-	React.useEffect(() => {
-		const onStateChange: ioBroker.StateChangeHandler = async (
-			id,
-			state,
-		) => {
-			if (!id.startsWith(namespace)) return;
-			if (!state || !state.ack) return;
-
-			if (id.match(inclusionRegex)) {
-				setInclusion(state.val as any);
-			} else if (id.match(exclusionRegex)) {
-				setExclusion(!!state.val);
-			} else if (id.match(healNetworkRegex)) {
-				setHealingNetwork(!!state.val);
-			}
-		};
-
-		(async () => {
-			namespace = `${adapter}.${instance}`;
-
-			hideMessage();
-
-			setInclusion(await getInclusionStatus());
-			setExclusion(await getExclusionStatus());
-			setHealingNetwork(await getHealingStatus());
-
-			socket.on("stateChange", onStateChange);
-		})();
-
-		// componentWillUnmount
-		return () => {
-			socket.removeEventHandler("stateChange", onStateChange);
-		};
-	}, []);
+	React.useEffect(() => hideMessage(), []);
 
 	React.useEffect(() => {
 		if (inclusion === InclusionMode.Idle) {
@@ -279,7 +236,7 @@ export function Devices() {
 				{inclusion !== InclusionMode.Idle ? (
 					<a
 						className={`waves-effect waves-light btn red`}
-						onClick={() => setInclusionStatus(InclusionMode.Idle)}
+						onClick={() => setInclusion(InclusionMode.Idle)}
 					>
 						<i className="material-icons left">cancel</i>
 						{_("Cancel inclusion")}
@@ -293,7 +250,7 @@ export function Devices() {
 							<li>
 								<a
 									onClick={() =>
-										setInclusionStatus(InclusionMode.Secure)
+										setInclusion(InclusionMode.Secure)
 									}
 								>
 									<i className="material-icons tiny left">
@@ -305,9 +262,7 @@ export function Devices() {
 							<li>
 								<a
 									onClick={() =>
-										setInclusionStatus(
-											InclusionMode.NonSecure,
-										)
+										setInclusion(InclusionMode.NonSecure)
 									}
 								>
 									<i className="material-icons tiny left">
@@ -334,7 +289,7 @@ export function Devices() {
 				{exclusion ? (
 					<a
 						className={`waves-effect waves-light btn red`}
-						onClick={() => setExclusionStatus(false)}
+						onClick={() => setExclusion(false)}
 					>
 						<i className="material-icons left">cancel</i>
 						{_("Cancel exclusion")}
@@ -344,7 +299,7 @@ export function Devices() {
 						className={`waves-effect waves-light btn ${
 							inclusion !== InclusionMode.Idle ? "disabled" : ""
 						}`}
-						onClick={() => setExclusionStatus(true)}
+						onClick={() => setExclusion(true)}
 					>
 						<i className="material-icons left">remove</i>
 						{_("Exclude device")}

@@ -1,6 +1,12 @@
 import * as React from "react";
-import { Device, getNodeStatus, loadDevices } from "./backend";
-import { useStateWithRef } from "./stateWithRefs";
+import {
+	Device,
+	getAssociationGroups,
+	getAssociations,
+	getNodeReady,
+	getNodeStatus,
+	loadDevices,
+} from "./backend";
 
 export interface DevicesContextData {
 	devices: Record<number, Device>;
@@ -17,10 +23,7 @@ const deviceReadyRegex = /Node_(\d+)\.ready$/;
 const deviceStatusRegex = /Node_(\d+)\.status$/;
 
 export function useDevices() {
-	// Because the useEffect callback captures stale state, we need to use a ref for all state that is required in the hook
-	const [devices, devicesRef, setDevices] = useStateWithRef<
-		Record<number, Device>
-	>();
+	const [devices, setDevices] = React.useState<Record<number, Device>>({});
 	const namespace = `${adapter}.${instance}`;
 
 	const onObjectChange: ioBroker.ObjectChangeHandler = async (id, obj) => {
@@ -33,15 +36,42 @@ export function useDevices() {
 					id,
 					value: obj,
 					status: await getNodeStatus(namespace, nodeId),
+					ready: await getNodeReady(namespace, nodeId),
 				};
-				setDevices({ ...devicesRef?.current, [nodeId]: device });
+				if (device.ready) {
+					device.associationGroups = await getAssociationGroups(
+						nodeId,
+					);
+					device.associations = await getAssociations(nodeId);
+				}
+				setDevices((devices) => ({ ...devices, [nodeId]: device }));
 			}
 		} else {
 			const nodeId = parseInt(deviceIdRegex.exec(id)![1], 10);
-			const newDevices = { ...devicesRef?.current };
-			delete newDevices[nodeId];
-			setDevices(newDevices);
+			setDevices((devices) => {
+				const newDevices = { ...devices };
+				delete newDevices[nodeId];
+				return newDevices;
+			});
 		}
+	};
+
+	const updateAssociations = async (nodeId: number) => {
+		const associationGroups = await getAssociationGroups(nodeId);
+		const associations = await getAssociations(nodeId);
+		setDevices((devices) => {
+			const updatedDevice = devices[nodeId];
+			if (updatedDevice) {
+				updatedDevice.associationGroups = associationGroups;
+				updatedDevice.associations = associations;
+				return {
+					...devices,
+					[nodeId]: updatedDevice,
+				};
+			} else {
+				return devices;
+			}
+		});
 	};
 
 	const onStateChange: ioBroker.StateChangeHandler = async (id, state) => {
@@ -51,25 +81,36 @@ export function useDevices() {
 		if (id.match(deviceStatusRegex)) {
 			// A device's status was changed
 			const nodeId = parseInt(deviceStatusRegex.exec(id)![1], 10);
-			const updatedDevice = devicesRef?.current?.[nodeId];
-			if (updatedDevice) {
-				updatedDevice.status = state.val as any;
-				setDevices({
-					...devicesRef?.current,
-					[nodeId]: updatedDevice,
-				});
-			}
+			setDevices((devices) => {
+				const updatedDevice = devices[nodeId];
+				if (updatedDevice) {
+					updatedDevice.status = state.val as any;
+					return {
+						...devices,
+						[nodeId]: updatedDevice,
+					};
+				} else {
+					return devices;
+				}
+			});
 		} else if (id.match(deviceReadyRegex)) {
 			// A device's ready state was changed
 			const nodeId = parseInt(deviceReadyRegex.exec(id)![1], 10);
-			const updatedDevice = devicesRef?.current?.[nodeId];
-			if (updatedDevice) {
-				updatedDevice.ready = state.val as any;
-				setDevices({
-					...devicesRef?.current,
-					[nodeId]: updatedDevice,
-				});
-			}
+			setDevices((devices) => {
+				const updatedDevice = devices[nodeId];
+				if (updatedDevice) {
+					updatedDevice.ready = state.val as any;
+					// schedule an update of the associations
+					if (updatedDevice.ready)
+						setTimeout(() => void updateAssociations(nodeId), 0);
+					return {
+						...devices,
+						[nodeId]: updatedDevice,
+					};
+				} else {
+					return devices;
+				}
+			});
 		}
 	};
 

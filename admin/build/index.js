@@ -44348,42 +44348,7 @@ function statusToCssClass(status) {
 }
 
 exports.statusToCssClass = statusToCssClass;
-},{}],"lib/stateWithRefs.ts":[function(require,module,exports) {
-"use strict";
-
-var __importStar = this && this.__importStar || function (mod) {
-  if (mod && mod.__esModule) return mod;
-  var result = {};
-  if (mod != null) for (var k in mod) {
-    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-  }
-  result["default"] = mod;
-  return result;
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var React = __importStar(require("react"));
-
-function useStateWithRef(initialState) {
-  // Create the state as usual
-  var _a = React.useState(initialState),
-      state = _a[0],
-      setState = _a[1]; // Create a ref that points to the current state
-
-
-  var stateRef = React.useRef(initialState); // And update it whenever state changes
-
-  React.useEffect(function () {
-    stateRef.current = state;
-  }, [state]);
-  return [state, stateRef, setState];
-}
-
-exports.useStateWithRef = useStateWithRef;
-},{"react":"../../node_modules/react/index.js"}],"lib/useDevices.ts":[function(require,module,exports) {
+},{}],"lib/useDevices.ts":[function(require,module,exports) {
 "use strict";
 
 var __assign = this && this.__assign || function () {
@@ -44563,8 +44528,6 @@ var React = __importStar(require("react"));
 
 var backend_1 = require("./backend");
 
-var stateWithRefs_1 = require("./stateWithRefs");
-
 exports.DevicesContext = React.createContext({
   devices: {},
   updateDevices: function updateDevices() {
@@ -44582,61 +44545,129 @@ var deviceReadyRegex = /Node_(\d+)\.ready$/;
 var deviceStatusRegex = /Node_(\d+)\.status$/;
 
 function useDevices() {
-  var _this = this; // Because the useEffect callback captures stale state, we need to use a ref for all state that is required in the hook
+  var _this = this;
 
-
-  var _a = stateWithRefs_1.useStateWithRef(),
+  var _a = React.useState({}),
       devices = _a[0],
-      devicesRef = _a[1],
-      setDevices = _a[2];
+      setDevices = _a[1];
 
   var namespace = adapter + "." + instance;
 
   var onObjectChange = function onObjectChange(id, obj) {
     return __awaiter(_this, void 0, void 0, function () {
-      var nodeId, device, _a, nodeId, newDevices;
+      var nodeId_1, device_1, _a, _b, _c, nodeId_2;
 
-      var _b;
-
-      return __generator(this, function (_c) {
-        switch (_c.label) {
+      return __generator(this, function (_d) {
+        switch (_d.label) {
           case 0:
             if (!id.startsWith(namespace) || !deviceIdRegex.test(id)) return [2
             /*return*/
             ];
             if (!obj) return [3
             /*break*/
-            , 3];
+            , 7];
             if (!(obj.type === "device" && typeof obj.native.id === "number")) return [3
             /*break*/
-            , 2];
-            nodeId = obj.native.id;
+            , 6];
+            nodeId_1 = obj.native.id;
             _a = {
               id: id,
               value: obj
             };
             return [4
             /*yield*/
-            , backend_1.getNodeStatus(namespace, nodeId)];
+            , backend_1.getNodeStatus(namespace, nodeId_1)];
 
           case 1:
-            device = (_a.status = _c.sent(), _a);
-            setDevices(__assign(__assign({}, devicesRef === null || devicesRef === void 0 ? void 0 : devicesRef.current), (_b = {}, _b[nodeId] = device, _b)));
-            _c.label = 2;
+            _a.status = _d.sent();
+            return [4
+            /*yield*/
+            , backend_1.getNodeReady(namespace, nodeId_1)];
 
           case 2:
-            return [3
+            device_1 = (_a.ready = _d.sent(), _a);
+            if (!device_1.ready) return [3
             /*break*/
-            , 4];
+            , 5];
+            _b = device_1;
+            return [4
+            /*yield*/
+            , backend_1.getAssociationGroups(nodeId_1)];
 
           case 3:
-            nodeId = parseInt(deviceIdRegex.exec(id)[1], 10);
-            newDevices = __assign({}, devicesRef === null || devicesRef === void 0 ? void 0 : devicesRef.current);
-            delete newDevices[nodeId];
-            setDevices(newDevices);
-            _c.label = 4;
+            _b.associationGroups = _d.sent();
+            _c = device_1;
+            return [4
+            /*yield*/
+            , backend_1.getAssociations(nodeId_1)];
 
           case 4:
+            _c.associations = _d.sent();
+            _d.label = 5;
+
+          case 5:
+            setDevices(function (devices) {
+              var _a;
+
+              return __assign(__assign({}, devices), (_a = {}, _a[nodeId_1] = device_1, _a));
+            });
+            _d.label = 6;
+
+          case 6:
+            return [3
+            /*break*/
+            , 8];
+
+          case 7:
+            nodeId_2 = parseInt(deviceIdRegex.exec(id)[1], 10);
+            setDevices(function (devices) {
+              var newDevices = __assign({}, devices);
+
+              delete newDevices[nodeId_2];
+              return newDevices;
+            });
+            _d.label = 8;
+
+          case 8:
+            return [2
+            /*return*/
+            ];
+        }
+      });
+    });
+  };
+
+  var updateAssociations = function updateAssociations(nodeId) {
+    return __awaiter(_this, void 0, void 0, function () {
+      var associationGroups, associations;
+      return __generator(this, function (_a) {
+        switch (_a.label) {
+          case 0:
+            return [4
+            /*yield*/
+            , backend_1.getAssociationGroups(nodeId)];
+
+          case 1:
+            associationGroups = _a.sent();
+            return [4
+            /*yield*/
+            , backend_1.getAssociations(nodeId)];
+
+          case 2:
+            associations = _a.sent();
+            setDevices(function (devices) {
+              var _a;
+
+              var updatedDevice = devices[nodeId];
+
+              if (updatedDevice) {
+                updatedDevice.associationGroups = associationGroups;
+                updatedDevice.associations = associations;
+                return __assign(__assign({}, devices), (_a = {}, _a[nodeId] = updatedDevice, _a));
+              } else {
+                return devices;
+              }
+            });
             return [2
             /*return*/
             ];
@@ -44647,13 +44678,8 @@ function useDevices() {
 
   var onStateChange = function onStateChange(id, state) {
     return __awaiter(_this, void 0, void 0, function () {
-      var nodeId, updatedDevice, nodeId, updatedDevice;
-
-      var _a, _b;
-
-      var _c, _d;
-
-      return __generator(this, function (_e) {
+      var nodeId_3, nodeId_4;
+      return __generator(this, function (_a) {
         if (!id.startsWith(namespace)) return [2
         /*return*/
         ];
@@ -44662,21 +44688,37 @@ function useDevices() {
         ];
 
         if (id.match(deviceStatusRegex)) {
-          nodeId = parseInt(deviceStatusRegex.exec(id)[1], 10);
-          updatedDevice = (_c = devicesRef === null || devicesRef === void 0 ? void 0 : devicesRef.current) === null || _c === void 0 ? void 0 : _c[nodeId];
+          nodeId_3 = parseInt(deviceStatusRegex.exec(id)[1], 10);
+          setDevices(function (devices) {
+            var _a;
 
-          if (updatedDevice) {
-            updatedDevice.status = state.val;
-            setDevices(__assign(__assign({}, devicesRef === null || devicesRef === void 0 ? void 0 : devicesRef.current), (_a = {}, _a[nodeId] = updatedDevice, _a)));
-          }
+            var updatedDevice = devices[nodeId_3];
+
+            if (updatedDevice) {
+              updatedDevice.status = state.val;
+              return __assign(__assign({}, devices), (_a = {}, _a[nodeId_3] = updatedDevice, _a));
+            } else {
+              return devices;
+            }
+          });
         } else if (id.match(deviceReadyRegex)) {
-          nodeId = parseInt(deviceReadyRegex.exec(id)[1], 10);
-          updatedDevice = (_d = devicesRef === null || devicesRef === void 0 ? void 0 : devicesRef.current) === null || _d === void 0 ? void 0 : _d[nodeId];
+          nodeId_4 = parseInt(deviceReadyRegex.exec(id)[1], 10);
+          setDevices(function (devices) {
+            var _a;
 
-          if (updatedDevice) {
-            updatedDevice.ready = state.val;
-            setDevices(__assign(__assign({}, devicesRef === null || devicesRef === void 0 ? void 0 : devicesRef.current), (_b = {}, _b[nodeId] = updatedDevice, _b)));
-          }
+            var updatedDevice = devices[nodeId_4];
+
+            if (updatedDevice) {
+              updatedDevice.ready = state.val; // schedule an update of the associations
+
+              if (updatedDevice.ready) setTimeout(function () {
+                return void updateAssociations(nodeId_4);
+              }, 0);
+              return __assign(__assign({}, devices), (_a = {}, _a[nodeId_4] = updatedDevice, _a));
+            } else {
+              return devices;
+            }
+          });
         }
 
         return [2
@@ -44749,7 +44791,251 @@ function useDevices() {
 }
 
 exports.useDevices = useDevices;
-},{"react":"../../node_modules/react/index.js","./backend":"lib/backend.ts","./stateWithRefs":"lib/stateWithRefs.ts"}],"pages/devices.tsx":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","./backend":"lib/backend.ts"}],"lib/useIoBrokerState.ts":[function(require,module,exports) {
+"use strict";
+
+var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
+  function adopt(value) {
+    return value instanceof P ? value : new P(function (resolve) {
+      resolve(value);
+    });
+  }
+
+  return new (P || (P = Promise))(function (resolve, reject) {
+    function fulfilled(value) {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function rejected(value) {
+      try {
+        step(generator["throw"](value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function step(result) {
+      result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
+    }
+
+    step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+};
+
+var __generator = this && this.__generator || function (thisArg, body) {
+  var _ = {
+    label: 0,
+    sent: function sent() {
+      if (t[0] & 1) throw t[1];
+      return t[1];
+    },
+    trys: [],
+    ops: []
+  },
+      f,
+      y,
+      t,
+      g;
+  return g = {
+    next: verb(0),
+    "throw": verb(1),
+    "return": verb(2)
+  }, typeof Symbol === "function" && (g[Symbol.iterator] = function () {
+    return this;
+  }), g;
+
+  function verb(n) {
+    return function (v) {
+      return step([n, v]);
+    };
+  }
+
+  function step(op) {
+    if (f) throw new TypeError("Generator is already executing.");
+
+    while (_) {
+      try {
+        if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+        if (y = 0, t) op = [op[0] & 2, t.value];
+
+        switch (op[0]) {
+          case 0:
+          case 1:
+            t = op;
+            break;
+
+          case 4:
+            _.label++;
+            return {
+              value: op[1],
+              done: false
+            };
+
+          case 5:
+            _.label++;
+            y = op[1];
+            op = [0];
+            continue;
+
+          case 7:
+            op = _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+
+          default:
+            if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
+              _ = 0;
+              continue;
+            }
+
+            if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
+              _.label = op[1];
+              break;
+            }
+
+            if (op[0] === 6 && _.label < t[1]) {
+              _.label = t[1];
+              t = op;
+              break;
+            }
+
+            if (t && _.label < t[2]) {
+              _.label = t[2];
+
+              _.ops.push(op);
+
+              break;
+            }
+
+            if (t[2]) _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+        }
+
+        op = body.call(thisArg, _);
+      } catch (e) {
+        op = [6, e];
+        y = 0;
+      } finally {
+        f = t = 0;
+      }
+    }
+
+    if (op[0] & 5) throw op[1];
+    return {
+      value: op[0] ? op[1] : void 0,
+      done: true
+    };
+  }
+};
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+  }
+  result["default"] = mod;
+  return result;
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var React = __importStar(require("react"));
+
+var backend_1 = require("./backend");
+/**
+ * Links a React state to a state in ioBroker and returns a way to set the value in the backend.
+ * @param stateId The state id to access
+ */
+
+
+function useIoBrokerState(stateId, options) {
+  var _this = this;
+
+  if (options === void 0) {
+    options = {};
+  }
+
+  var _a = options.subscribe,
+      subscribe = _a === void 0 ? true : _a,
+      defaultValue = options.defaultValue,
+      transform = options.transform;
+
+  var _b = React.useState(defaultValue),
+      value = _b[0],
+      setValue = _b[1];
+
+  var onStateChange = function onStateChange(id, state) {
+    if (state && state.ack && id === stateId) {
+      var value_1 = state === null || state === void 0 ? void 0 : state.val;
+      setValue(transform ? transform(value_1) : value_1);
+    }
+  };
+
+  React.useEffect(function () {
+    (function () {
+      return __awaiter(_this, void 0, void 0, function () {
+        var initialValue;
+
+        var _a;
+
+        return __generator(this, function (_b) {
+          switch (_b.label) {
+            case 0:
+              if (!subscribe) return [3
+              /*break*/
+              , 2];
+              return [4
+              /*yield*/
+              , backend_1.subscribeStatesAsync(stateId)];
+
+            case 1:
+              _b.sent();
+
+              _b.label = 2;
+
+            case 2:
+              return [4
+              /*yield*/
+              , backend_1.getStateAsync(stateId)];
+
+            case 3:
+              initialValue = (_a = _b.sent()) === null || _a === void 0 ? void 0 : _a.val;
+              setValue(transform ? transform(initialValue) : initialValue); // And update it on changes
+
+              socket.on("stateChange", onStateChange);
+              return [2
+              /*return*/
+              ];
+          }
+        });
+      });
+    })(); // componentWillUnmount
+
+
+    return function () {
+      socket.removeEventHandler("stateChange", onStateChange);
+      if (subscribe) backend_1.unsubscribeStatesAsync(stateId);
+    };
+  }, []);
+  return [value, function (newValue) {
+    return backend_1.setStateAsync(stateId, newValue);
+  }];
+}
+
+exports.useIoBrokerState = useIoBrokerState;
+},{"react":"../../node_modules/react/index.js","./backend":"lib/backend.ts"}],"pages/devices.tsx":[function(require,module,exports) {
 "use strict";
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
@@ -44919,95 +45205,11 @@ var modal_1 = require("../components/modal");
 
 var nodeActions_1 = require("../components/nodeActions");
 
-var backend_1 = require("../lib/backend");
-
 var shared_2 = require("../lib/shared");
 
 var useDevices_1 = require("../lib/useDevices");
 
-var namespace;
-var inclusionRegex = /info\.inclusion$/;
-var exclusionRegex = /info\.exclusion$/;
-var healNetworkRegex = /info\.healingNetwork$/;
-
-function getInclusionStatus() {
-  return __awaiter(this, void 0, Promise, function () {
-    var ret;
-    return __generator(this, function (_a) {
-      switch (_a.label) {
-        case 0:
-          return [4
-          /*yield*/
-          , backend_1.getStateAsync(namespace + ".info.inclusion")];
-
-        case 1:
-          ret = _a.sent().val;
-          if (ret === false) return [2
-          /*return*/
-          , shared_1.InclusionMode.Idle];
-          return [2
-          /*return*/
-          , ret];
-      }
-    });
-  });
-}
-
-function getExclusionStatus() {
-  return __awaiter(this, void 0, Promise, function () {
-    return __generator(this, function (_a) {
-      switch (_a.label) {
-        case 0:
-          return [4
-          /*yield*/
-          , backend_1.getStateAsync(namespace + ".info.exclusion")];
-
-        case 1:
-          return [2
-          /*return*/
-          , _a.sent().val];
-      }
-    });
-  });
-}
-
-function setInclusionStatus(status) {
-  return __awaiter(this, void 0, Promise, function () {
-    return __generator(this, function (_a) {
-      return [2
-      /*return*/
-      , backend_1.setStateAsync(namespace + ".info.inclusion", status)];
-    });
-  });
-}
-
-function setExclusionStatus(active) {
-  return __awaiter(this, void 0, Promise, function () {
-    return __generator(this, function (_a) {
-      return [2
-      /*return*/
-      , backend_1.setStateAsync(namespace + ".info.exclusion", active)];
-    });
-  });
-}
-
-function getHealingStatus() {
-  return __awaiter(this, void 0, Promise, function () {
-    return __generator(this, function (_a) {
-      switch (_a.label) {
-        case 0:
-          return [4
-          /*yield*/
-          , backend_1.getStateAsync(namespace + ".info.healingNetwork")];
-
-        case 1:
-          return [2
-          /*return*/
-          , _a.sent().val];
-      }
-    });
-  });
-}
+var useIoBrokerState_1 = require("../lib/useIoBrokerState");
 
 function beginHealingNetwork() {
   return __awaiter(this, void 0, Promise, function () {
@@ -45160,35 +45362,43 @@ function Devices() {
   var _this = this;
 
   var devices = React.useContext(useDevices_1.DevicesContext).devices;
+  var namespace = adapter + "." + instance;
 
-  var _a = React.useState(shared_1.InclusionMode.Idle),
+  var _a = useIoBrokerState_1.useIoBrokerState(namespace + ".info.inclusion", {
+    defaultValue: shared_1.InclusionMode.Idle,
+    transform: function transform(value) {
+      return value === false ? shared_1.InclusionMode.Idle : value;
+    }
+  }),
       inclusion = _a[0],
       setInclusion = _a[1];
 
-  var _b = React.useState(false),
+  var _b = useIoBrokerState_1.useIoBrokerState(namespace + ".info.exclusion", {
+    defaultValue: false
+  }),
       exclusion = _b[0],
       setExclusion = _b[1];
 
-  var _c = React.useState(false),
-      healingNetwork = _c[0],
-      setHealingNetwork = _c[1];
+  var healingNetwork = useIoBrokerState_1.useIoBrokerState(namespace + ".info.healingNetwork", {
+    defaultValue: false
+  })[0];
 
-  var _d = React.useState(getDefaultMessageProps()),
-      message = _d[0],
-      setMessage = _d[1];
+  var _c = React.useState(getDefaultMessageProps()),
+      message = _c[0],
+      setMessage = _c[1];
 
-  var _e = React.useState({}),
-      networkHealProgress = _e[0],
-      setNetworkHealProgress = _e[1];
+  var _d = React.useState({}),
+      networkHealProgress = _d[0],
+      setNetworkHealProgress = _d[1];
 
-  var _f = React.useState(false),
-      cacheCleared = _f[0],
-      setCacheCleared = _f[1]; // Which "Node actions" modal is currently open
+  var _e = React.useState(false),
+      cacheCleared = _e[0],
+      setCacheCleared = _e[1]; // Which "Node actions" modal is currently open
 
 
-  var _g = React.useState(),
-      curActionsModal = _g[0],
-      setCurActionsModal = _g[1];
+  var _f = React.useState(),
+      curActionsModal = _f[0],
+      setCurActionsModal = _f[1];
 
   function hideMessage() {
     setMessage(getDefaultMessageProps());
@@ -45212,77 +45422,7 @@ function Devices() {
   }
 
   React.useEffect(function () {
-    var onStateChange = function onStateChange(id, state) {
-      return __awaiter(_this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-          if (!id.startsWith(namespace)) return [2
-          /*return*/
-          ];
-          if (!state || !state.ack) return [2
-          /*return*/
-          ];
-
-          if (id.match(inclusionRegex)) {
-            setInclusion(state.val);
-          } else if (id.match(exclusionRegex)) {
-            setExclusion(!!state.val);
-          } else if (id.match(healNetworkRegex)) {
-            setHealingNetwork(!!state.val);
-          }
-
-          return [2
-          /*return*/
-          ];
-        });
-      });
-    };
-
-    (function () {
-      return __awaiter(_this, void 0, void 0, function () {
-        var _a, _b, _c;
-
-        return __generator(this, function (_d) {
-          switch (_d.label) {
-            case 0:
-              namespace = adapter + "." + instance;
-              hideMessage();
-              _a = setInclusion;
-              return [4
-              /*yield*/
-              , getInclusionStatus()];
-
-            case 1:
-              _a.apply(void 0, [_d.sent()]);
-
-              _b = setExclusion;
-              return [4
-              /*yield*/
-              , getExclusionStatus()];
-
-            case 2:
-              _b.apply(void 0, [_d.sent()]);
-
-              _c = setHealingNetwork;
-              return [4
-              /*yield*/
-              , getHealingStatus()];
-
-            case 3:
-              _c.apply(void 0, [_d.sent()]);
-
-              socket.on("stateChange", onStateChange);
-              return [2
-              /*return*/
-              ];
-          }
-        });
-      });
-    })(); // componentWillUnmount
-
-
-    return function () {
-      socket.removeEventHandler("stateChange", onStateChange);
-    };
+    return hideMessage();
   }, []);
   React.useEffect(function () {
     if (inclusion === shared_1.InclusionMode.Idle) {
@@ -45386,9 +45526,9 @@ function Devices() {
   } // Poll the healing progress while we're healing
 
 
-  var _h = React.useState(false),
-      isPolling = _h[0],
-      setIsPolling = _h[1];
+  var _g = React.useState(false),
+      isPolling = _g[0],
+      setIsPolling = _g[1];
 
   React.useEffect(function () {
     (function () {
@@ -45449,8 +45589,8 @@ function Devices() {
   var devicesAsArray = [];
 
   if (devices) {
-    for (var _i = 0, _j = Object.keys(devices); _i < _j.length; _i++) {
-      var nodeId = _j[_i];
+    for (var _i = 0, _h = Object.keys(devices); _i < _h.length; _i++) {
+      var nodeId = _h[_i];
       var device = devices[nodeId];
       if (device) devicesAsArray.push(device);
     }
@@ -45461,7 +45601,7 @@ function Devices() {
   }, inclusion !== shared_1.InclusionMode.Idle ? React.createElement("a", {
     className: "waves-effect waves-light btn red",
     onClick: function onClick() {
-      return setInclusionStatus(shared_1.InclusionMode.Idle);
+      return setInclusion(shared_1.InclusionMode.Idle);
     }
   }, React.createElement("i", {
     className: "material-icons left"
@@ -45470,13 +45610,13 @@ function Devices() {
     className: "dropdown-content"
   }, React.createElement("li", null, React.createElement("a", {
     onClick: function onClick() {
-      return setInclusionStatus(shared_1.InclusionMode.Secure);
+      return setInclusion(shared_1.InclusionMode.Secure);
     }
   }, React.createElement("i", {
     className: "material-icons tiny left"
   }, "verified_user"), _("Secure"))), React.createElement("li", null, React.createElement("a", {
     onClick: function onClick() {
-      return setInclusionStatus(shared_1.InclusionMode.NonSecure);
+      return setInclusion(shared_1.InclusionMode.NonSecure);
     }
   }, React.createElement("i", {
     className: "material-icons tiny left"
@@ -45490,14 +45630,14 @@ function Devices() {
   }, "arrow_drop_down"))), " ", exclusion ? React.createElement("a", {
     className: "waves-effect waves-light btn red",
     onClick: function onClick() {
-      return setExclusionStatus(false);
+      return setExclusion(false);
     }
   }, React.createElement("i", {
     className: "material-icons left"
   }, "cancel"), _("Cancel exclusion")) : React.createElement("a", {
     className: "waves-effect waves-light btn " + (inclusion !== shared_1.InclusionMode.Idle ? "disabled" : ""),
     onClick: function onClick() {
-      return setExclusionStatus(true);
+      return setExclusion(true);
     }
   }, React.createElement("i", {
     className: "material-icons left"
@@ -45603,7 +45743,7 @@ function Devices() {
 }
 
 exports.Devices = Devices;
-},{"react":"../../node_modules/react/index.js","../../../src/lib/shared":"../../src/lib/shared.ts","../components/modal":"components/modal.tsx","../components/nodeActions":"components/nodeActions.tsx","../lib/backend":"lib/backend.ts","../lib/shared":"lib/shared.ts","../lib/useDevices":"lib/useDevices.ts"}],"components/associationRow.tsx":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","../../../src/lib/shared":"../../src/lib/shared.ts","../components/modal":"components/modal.tsx","../components/nodeActions":"components/nodeActions.tsx","../lib/shared":"lib/shared.ts","../lib/useDevices":"lib/useDevices.ts","../lib/useIoBrokerState":"lib/useIoBrokerState.ts"}],"components/associationRow.tsx":[function(require,module,exports) {
 "use strict";
 
 var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -46544,7 +46684,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54775" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "3265" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
