@@ -156,8 +156,8 @@ class ZWave2 extends utils.Adapter {
         this.setState("info.healingNetwork", false, true);
     }
     addNodeEventHandlers(node) {
-        node.once("ready", this.onNodeReady.bind(this))
-            .once("interview completed", this.onNodeInterviewCompleted.bind(this))
+        node.on("ready", this.onNodeReady.bind(this))
+            .on("interview completed", this.onNodeInterviewCompleted.bind(this))
             .on("wake up", this.onNodeWakeUp.bind(this))
             .on("sleep", this.onNodeSleep.bind(this))
             .on("alive", this.onNodeAlive.bind(this))
@@ -633,6 +633,25 @@ class ZWave2 extends utils.Adapter {
                     catch (e) {
                         return respond(responses.ERROR(`Could not remove association for node ${params.nodeId}: ${e.message}`));
                     }
+                }
+                case "refreshNodeInfo": {
+                    if (!this.driverReady) {
+                        return respond(responses.ERROR("The driver is not yet ready to do that!"));
+                    }
+                    if (!requireParams("nodeId"))
+                        return;
+                    const { nodeId } = obj.message;
+                    try {
+                        await this.driver.controller.nodes
+                            .get(nodeId)
+                            .refreshInfo();
+                        this.readyNodes.delete(nodeId);
+                        this.log.info(`Node ${nodeId}: interview restarted`);
+                    }
+                    catch (e) {
+                        return respond(responses.ERROR(`Could not refresh info for node ${nodeId}: ${e.message}`));
+                    }
+                    return respond(responses.OK);
                 }
             }
         }

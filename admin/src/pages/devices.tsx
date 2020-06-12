@@ -7,6 +7,8 @@ import type { Device } from "../lib/backend";
 import { statusToCssClass, statusToIconName } from "../lib/shared";
 import { DevicesContext } from "../lib/useDevices";
 import { useIoBrokerState } from "../lib/useIoBrokerState";
+import { NotRunning } from "../components/notRunning";
+import { AdapterContext } from "../lib/useAdapter";
 
 async function beginHealingNetwork(): Promise<void> {
 	return new Promise((resolve, reject) => {
@@ -70,6 +72,23 @@ async function removeFailedNode(nodeId: number): Promise<void> {
 	});
 }
 
+async function refreshNodeInfo(nodeId: number): Promise<void> {
+	return new Promise((resolve, reject) => {
+		sendTo(
+			null,
+			"refreshNodeInfo",
+			{ nodeId },
+			async ({ error, result }) => {
+				if (result === "ok") {
+					resolve();
+				} else {
+					reject(error ?? result);
+				}
+			},
+		);
+	});
+}
+
 interface MessageProps {
 	title: string;
 	content: string | React.ReactNode;
@@ -86,6 +105,10 @@ function getDefaultMessageProps(): MessageProps {
 
 export function Devices() {
 	const { devices } = React.useContext(DevicesContext);
+	const { alive: adapterRunning, connected: driverReady } = React.useContext(
+		AdapterContext,
+	);
+
 	const namespace = `${adapter}.${instance}`;
 
 	const [inclusion, setInclusion] = useIoBrokerState<InclusionMode>(
@@ -229,7 +252,7 @@ export function Devices() {
 		}
 	}
 
-	return (
+	return adapterRunning && driverReady ? (
 		<>
 			{/* Action buttons */}
 			<div id="device-controls">
@@ -454,6 +477,10 @@ export function Devices() {
 															undefined,
 															nodeId,
 														),
+														refreshInfo: refreshNodeInfo.bind(
+															undefined,
+															nodeId,
+														),
 													}}
 													close={() =>
 														setCurActionsModal(
@@ -483,5 +510,7 @@ export function Devices() {
 			{/* Modal for error messages */}
 			<Modal id="messageDialog" {...message} />
 		</>
+	) : (
+		<NotRunning />
 	);
 }

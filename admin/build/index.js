@@ -44283,6 +44283,52 @@ function NodeActions(props) {
     });
   }
 
+  function refreshInfo() {
+    return __awaiter(this, void 0, void 0, function () {
+      var e_2;
+      return __generator(this, function (_a) {
+        switch (_a.label) {
+          case 0:
+            setBusy(true);
+            _a.label = 1;
+
+          case 1:
+            _a.trys.push([1, 3, 4, 5]);
+
+            return [4
+            /*yield*/
+            , props.actions.refreshInfo()];
+
+          case 2:
+            _a.sent();
+
+            props.close();
+            return [3
+            /*break*/
+            , 5];
+
+          case 3:
+            e_2 = _a.sent();
+            alert(e_2);
+            return [3
+            /*break*/
+            , 5];
+
+          case 4:
+            setBusy(false);
+            return [7
+            /*endfinally*/
+            ];
+
+          case 5:
+            return [2
+            /*return*/
+            ];
+        }
+      });
+    });
+  }
+
   var isNodeFailed = props.status === "dead" || props.status === "asleep";
   return React.createElement(React.Fragment, null, React.createElement("h5", null, _("Modal_Actions")), React.createElement("div", {
     className: "container",
@@ -44300,7 +44346,16 @@ function NodeActions(props) {
     onClick: function onClick() {
       return removeNode();
     }
-  }, _("Remove failed node"))))));
+  }, _("Remove failed node")))), React.createElement("div", {
+    className: "row"
+  }, React.createElement("div", {
+    className: "col s12"
+  }, React.createElement("a", {
+    className: "btn " + (isBusy ? "disabled" : ""),
+    onClick: function onClick() {
+      return refreshInfo();
+    }
+  }, _("Refresh node info"))))));
 }
 
 exports.NodeActions = NodeActions;
@@ -45211,6 +45266,10 @@ var useDevices_1 = require("../lib/useDevices");
 
 var useIoBrokerState_1 = require("../lib/useIoBrokerState");
 
+var notRunning_1 = require("../components/notRunning");
+
+var useAdapter_1 = require("../lib/useAdapter");
+
 function beginHealingNetwork() {
   return __awaiter(this, void 0, Promise, function () {
     var _this = this;
@@ -45350,6 +45409,38 @@ function removeFailedNode(nodeId) {
   });
 }
 
+function refreshNodeInfo(nodeId) {
+  return __awaiter(this, void 0, Promise, function () {
+    var _this = this;
+
+    return __generator(this, function (_a) {
+      return [2
+      /*return*/
+      , new Promise(function (resolve, reject) {
+        sendTo(null, "refreshNodeInfo", {
+          nodeId: nodeId
+        }, function (_a) {
+          var error = _a.error,
+              result = _a.result;
+          return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_b) {
+              if (result === "ok") {
+                resolve();
+              } else {
+                reject(error !== null && error !== void 0 ? error : result);
+              }
+
+              return [2
+              /*return*/
+              ];
+            });
+          });
+        });
+      })];
+    });
+  });
+}
+
 function getDefaultMessageProps() {
   return {
     open: false,
@@ -45362,43 +45453,48 @@ function Devices() {
   var _this = this;
 
   var devices = React.useContext(useDevices_1.DevicesContext).devices;
+
+  var _a = React.useContext(useAdapter_1.AdapterContext),
+      adapterRunning = _a.alive,
+      driverReady = _a.connected;
+
   var namespace = adapter + "." + instance;
 
-  var _a = useIoBrokerState_1.useIoBrokerState(namespace + ".info.inclusion", {
+  var _b = useIoBrokerState_1.useIoBrokerState(namespace + ".info.inclusion", {
     defaultValue: shared_1.InclusionMode.Idle,
     transform: function transform(value) {
       return value === false ? shared_1.InclusionMode.Idle : value;
     }
   }),
-      inclusion = _a[0],
-      setInclusion = _a[1];
+      inclusion = _b[0],
+      setInclusion = _b[1];
 
-  var _b = useIoBrokerState_1.useIoBrokerState(namespace + ".info.exclusion", {
+  var _c = useIoBrokerState_1.useIoBrokerState(namespace + ".info.exclusion", {
     defaultValue: false
   }),
-      exclusion = _b[0],
-      setExclusion = _b[1];
+      exclusion = _c[0],
+      setExclusion = _c[1];
 
   var healingNetwork = useIoBrokerState_1.useIoBrokerState(namespace + ".info.healingNetwork", {
     defaultValue: false
   })[0];
 
-  var _c = React.useState(getDefaultMessageProps()),
-      message = _c[0],
-      setMessage = _c[1];
+  var _d = React.useState(getDefaultMessageProps()),
+      message = _d[0],
+      setMessage = _d[1];
 
-  var _d = React.useState({}),
-      networkHealProgress = _d[0],
-      setNetworkHealProgress = _d[1];
+  var _e = React.useState({}),
+      networkHealProgress = _e[0],
+      setNetworkHealProgress = _e[1];
 
-  var _e = React.useState(false),
-      cacheCleared = _e[0],
-      setCacheCleared = _e[1]; // Which "Node actions" modal is currently open
+  var _f = React.useState(false),
+      cacheCleared = _f[0],
+      setCacheCleared = _f[1]; // Which "Node actions" modal is currently open
 
 
-  var _f = React.useState(),
-      curActionsModal = _f[0],
-      setCurActionsModal = _f[1];
+  var _g = React.useState(),
+      curActionsModal = _g[0],
+      setCurActionsModal = _g[1];
 
   function hideMessage() {
     setMessage(getDefaultMessageProps());
@@ -45526,9 +45622,9 @@ function Devices() {
   } // Poll the healing progress while we're healing
 
 
-  var _g = React.useState(false),
-      isPolling = _g[0],
-      setIsPolling = _g[1];
+  var _h = React.useState(false),
+      isPolling = _h[0],
+      setIsPolling = _h[1];
 
   React.useEffect(function () {
     (function () {
@@ -45589,14 +45685,14 @@ function Devices() {
   var devicesAsArray = [];
 
   if (devices) {
-    for (var _i = 0, _h = Object.keys(devices); _i < _h.length; _i++) {
-      var nodeId = _h[_i];
+    for (var _i = 0, _j = Object.keys(devices); _i < _j.length; _i++) {
+      var nodeId = _j[_i];
       var device = devices[nodeId];
       if (device) devicesAsArray.push(device);
     }
   }
 
-  return React.createElement(React.Fragment, null, React.createElement("div", {
+  return adapterRunning && driverReady ? React.createElement(React.Fragment, null, React.createElement("div", {
     id: "device-controls"
   }, inclusion !== shared_1.InclusionMode.Idle ? React.createElement("a", {
     className: "waves-effect waves-light btn red",
@@ -45722,7 +45818,8 @@ function Devices() {
         nodeId: nodeId,
         status: status,
         actions: {
-          remove: removeFailedNode.bind(undefined, nodeId)
+          remove: removeFailedNode.bind(undefined, nodeId),
+          refreshInfo: refreshNodeInfo.bind(undefined, nodeId)
         },
         close: function close() {
           return setCurActionsModal(undefined);
@@ -45739,11 +45836,11 @@ function Devices() {
     }
   }, _("No devices present"))))), React.createElement(modal_1.Modal, _extends({
     id: "messageDialog"
-  }, message)));
+  }, message))) : React.createElement(notRunning_1.NotRunning, null);
 }
 
 exports.Devices = Devices;
-},{"react":"../../node_modules/react/index.js","../../../src/lib/shared":"../../src/lib/shared.ts","../components/modal":"components/modal.tsx","../components/nodeActions":"components/nodeActions.tsx","../lib/shared":"lib/shared.ts","../lib/useDevices":"lib/useDevices.ts","../lib/useIoBrokerState":"lib/useIoBrokerState.ts"}],"components/associationRow.tsx":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","../../../src/lib/shared":"../../src/lib/shared.ts","../components/modal":"components/modal.tsx","../components/nodeActions":"components/nodeActions.tsx","../lib/shared":"lib/shared.ts","../lib/useDevices":"lib/useDevices.ts","../lib/useIoBrokerState":"lib/useIoBrokerState.ts","../components/notRunning":"components/notRunning.tsx","../lib/useAdapter":"lib/useAdapter.ts"}],"components/associationRow.tsx":[function(require,module,exports) {
 "use strict";
 
 var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -46684,7 +46781,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "3265" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "11900" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -5,6 +5,7 @@ export interface NodeActionsProps {
 	status: string | undefined;
 	actions: {
 		remove: () => Promise<void>;
+		refreshInfo: () => Promise<void>;
 	};
 	close: () => void;
 }
@@ -16,6 +17,18 @@ export function NodeActions(props: NodeActionsProps) {
 		setBusy(true);
 		try {
 			await props.actions.remove();
+			props.close();
+		} catch (e) {
+			alert(e);
+		} finally {
+			setBusy(false);
+		}
+	}
+
+	async function refreshInfo() {
+		setBusy(true);
+		try {
+			await props.actions.refreshInfo();
 			props.close();
 		} catch (e) {
 			alert(e);
@@ -48,6 +61,17 @@ export function NodeActions(props: NodeActionsProps) {
 							onClick={() => removeNode()}
 						>
 							{_("Remove failed node")}
+						</a>
+					</div>
+				</div>
+				{/* Buttons to re-interview a node */}
+				<div className="row">
+					<div className="col s12">
+						<a
+							className={`btn ${isBusy ? "disabled" : ""}`}
+							onClick={() => refreshInfo()}
+						>
+							{_("Refresh node info")}
 						</a>
 					</div>
 				</div>
