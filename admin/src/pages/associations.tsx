@@ -1,140 +1,17 @@
 import * as React from "react";
-import { NotRunning } from "../components/notRunning";
-import {
-	Device,
-	loadDevices,
-	getNodeReady,
-	getAssociationGroups,
-	getAssociations,
-	removeAssociation,
-	addAssociation,
-	getNodeStatus,
-	getStateAsync,
-} from "../lib/backend";
-import { useStateWithRef } from "../lib/stateWithRefs";
-import { AssociationRow } from "../components/associationRow";
 import type { AssociationDefinition } from "../../../src/lib/shared";
-import { statusToIconName, statusToCssClass } from "../lib/shared";
-
-let namespace: string;
-const deviceIdRegex = /Node_(\d+)$/;
-const deviceReadyRegex = /Node_(\d+)\.ready$/;
-const deviceStatusRegex = /Node_(\d+)\.status$/;
+import { AssociationRow } from "../components/associationRow";
+import { NotRunning } from "../components/notRunning";
+import { addAssociation, removeAssociation } from "../lib/backend";
+import { statusToCssClass, statusToIconName } from "../lib/shared";
+import { AdapterContext } from "../lib/useAdapter";
+import { DevicesContext } from "../lib/useDevices";
 
 export function Associations() {
-	const [adapterRunning, setAdapterRunning] = React.useState(false);
-	const [driverReady, setDriverReady] = React.useState(false);
-
-	// Because the useEffect callback captures stale state, we need to use a ref for all state that is required in the hook
-	const [devices, devicesRef, setDevices] = useStateWithRef<
-		Record<number, Device>
-	>();
-
-	React.useEffect(() => {
-		namespace = `${adapter}.${instance}`;
-		const adapterAliveId = `system.adapter.${namespace}.alive`;
-		const driverReadyId = `${namespace}.info.connection`;
-		// componentDidMount
-		const onStateChange: ioBroker.StateChangeHandler = async (
-			id,
-			state,
-		) => {
-			if (!state || !state.ack) return;
-
-			if (id.match(deviceReadyRegex)) {
-				// A device's ready state was changed
-				const nodeId = parseInt(deviceReadyRegex.exec(id)![1], 10);
-				const updatedDevice = devicesRef.current?.[nodeId];
-				if (updatedDevice && state.val !== updatedDevice.ready) {
-					updatedDevice.ready = state.val as any;
-					if (updatedDevice.ready) {
-						// Update associations
-						updatedDevice.associationGroups = await getAssociationGroups(
-							nodeId,
-						);
-						updatedDevice.associations = await getAssociations(
-							nodeId,
-						);
-					}
-					setDevices({
-						...devicesRef.current,
-						[nodeId]: updatedDevice,
-					});
-				}
-			} else if (id.match(deviceStatusRegex)) {
-				// A device's status was changed
-				const nodeId = parseInt(deviceStatusRegex.exec(id)![1], 10);
-				const updatedDevice = devicesRef.current?.[nodeId];
-				if (updatedDevice) {
-					updatedDevice.status = state.val as any;
-					setDevices({
-						...devicesRef.current,
-						[nodeId]: updatedDevice,
-					});
-				}
-			} else if (id === adapterAliveId) {
-				setAdapterRunning(!!state?.val);
-			} else if (id === driverReadyId) {
-				setDriverReady(!!state?.val);
-			}
-		};
-
-		const onObjectChange: ioBroker.ObjectChangeHandler = async (
-			id,
-			obj,
-		) => {
-			if (!id.startsWith(namespace) || !deviceIdRegex.test(id)) return;
-			if (obj) {
-				// New or changed device object
-				if (
-					obj.type === "device" &&
-					typeof obj.native.id === "number"
-				) {
-					const nodeId = obj.native.id;
-					const device: Device = {
-						id,
-						value: obj,
-						ready: await getNodeReady(namespace, nodeId),
-						status: await getNodeStatus(namespace, nodeId),
-					};
-					if (device.ready) {
-						device.associationGroups = await getAssociationGroups(
-							nodeId,
-						);
-						device.associations = await getAssociations(nodeId);
-					}
-					setDevices({ ...devicesRef.current, [nodeId]: device });
-				}
-			} else {
-				const nodeId = parseInt(deviceIdRegex.exec(id)![1], 10);
-				const newDevices = { ...devicesRef.current };
-				delete newDevices[nodeId];
-				setDevices(newDevices);
-			}
-		};
-
-		(async () => {
-			setDevices(
-				await loadDevices(namespace, {
-					ready: true,
-					associations: true,
-					status: true,
-				}),
-			);
-
-			socket.on("stateChange", onStateChange);
-			socket.on("objectChange", onObjectChange);
-
-			setAdapterRunning(!!(await getStateAsync(adapterAliveId)).val);
-			setDriverReady(!!(await getStateAsync(driverReadyId)).val);
-		})();
-
-		// componentWillUnmount
-		return () => {
-			socket.removeEventHandler("stateChange", onStateChange);
-			socket.removeEventHandler("objectChange", onObjectChange);
-		};
-	}, []);
+	const { devices, updateDevices } = React.useContext(DevicesContext);
+	const { alive: adapterRunning, connected: driverReady } = React.useContext(
+		AdapterContext,
+	);
 
 	async function saveAssociation(
 		nodeId: number,
@@ -143,15 +20,9 @@ export function Associations() {
 	): Promise<void> {
 		if (prev) await deleteAssociation(nodeId, prev);
 		await addAssociation(nodeId, current);
-
-		// Update devices
-		setDevices(
-			await loadDevices(namespace, {
-				ready: true,
-				associations: true,
-				status: true,
-			}),
-		);
+		// Associations are not reflected in states, so we need to
+		// manually update them
+		await updateDevices();
 	}
 
 	async function deleteAssociation(
@@ -159,15 +30,9 @@ export function Associations() {
 		association: AssociationDefinition,
 	): Promise<void> {
 		await removeAssociation(nodeId, association);
-
-		// Update devices
-		setDevices(
-			await loadDevices(namespace, {
-				ready: true,
-				associations: true,
-				status: true,
-			}),
-		);
+		// Associations are not reflected in states, so we need to
+		// manually update them
+		await updateDevices();
 	}
 
 	const devicesAsArray = devices

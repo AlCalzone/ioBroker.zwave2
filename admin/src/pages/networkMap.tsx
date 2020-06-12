@@ -1,34 +1,12 @@
 import * as React from "react";
-import { drawNetworkMap } from "../lib/networkMap";
 import { NotRunning } from "../components/notRunning";
-import {
-	subscribeStatesAsync,
-	unsubscribeStatesAsync,
-	getStateAsync,
-} from "../lib/backend";
+import { drawNetworkMap } from "../lib/networkMap";
+import { AdapterContext } from "../lib/useAdapter";
 
 export function NetworkMap() {
-	const [adapterRunning, setAdapterRunning] = React.useState(false);
-	const [driverReady, setDriverReady] = React.useState(false);
-
-	React.useEffect(() => {
-		const aliveId = `system.adapter.${adapter}.${instance}.alive`;
-		const readyId = `${adapter}.${instance}.info.connection`;
-		// componentDidMount
-		(async () => {
-			socket.on("stateChange", async (id, state) => {
-				if (!state || !state.ack) return;
-				if (id === aliveId) {
-					setAdapterRunning(!!state?.val);
-				} else if (id === readyId) {
-					setDriverReady(!!state?.val);
-				}
-			});
-
-			setAdapterRunning(!!(await getStateAsync(aliveId)).val);
-			setDriverReady(!!(await getStateAsync(readyId)).val);
-		})();
-	}, []);
+	const { alive: adapterRunning, connected: driverReady } = React.useContext(
+		AdapterContext,
+	);
 
 	React.useEffect(() => {
 		if (adapterRunning && driverReady) {

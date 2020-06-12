@@ -12,7 +12,10 @@ import {
 	subscribeObjectsAsync,
 	unsubscribeStatesAsync,
 	unsubscribeObjectsAsync,
+	Device,
 } from "./lib/backend";
+import { useDevices, DevicesContext } from "./lib/useDevices";
+import { useAdapter, AdapterContext } from "./lib/useAdapter";
 
 // layout components
 interface RootProps {
@@ -21,52 +24,55 @@ interface RootProps {
 }
 
 let namespace: string;
+let systemStates: string;
+let adapterStates: string;
 
-export class Root extends React.Component<RootProps /*, RootState*/> {
-	constructor(props: RootProps) {
-		super(props);
-		this.state = {};
-	}
+function Root(props: RootProps) {
+	const [devices, updateDevices] = useDevices();
+	const [alive, connected] = useAdapter();
 
-	public componentDidMount() {
-		namespace = `${adapter}.${instance}`;
-		// subscribe to changes
-		const systemStates = `system.adapter.${namespace}.*`;
-		const adapterStates = `${namespace}.*`;
-		window.addEventListener("unload", () => this.onUnload());
-		void subscribeStatesAsync(systemStates);
-		void subscribeObjectsAsync(adapterStates);
-		void subscribeStatesAsync(adapterStates);
-	}
-
-	public componentWillUnmount() {
-		this.onUnload();
-	}
-
-	private onUnload() {
-		namespace = `${adapter}.${instance}`;
-		const systemStates = `system.adapter.${namespace}.*`;
-		const adapterStates = `${namespace}.*`;
+	// Subscribe and unsubscribe from states and objects
+	function onUnload() {
 		void unsubscribeStatesAsync(systemStates);
 		void unsubscribeObjectsAsync(adapterStates);
 		void unsubscribeStatesAsync(adapterStates);
 	}
 
-	public render() {
-		return (
-			<Tabs
-				labels={["Settings", "Devices", "Associations", "Network map"]}
-			>
-				<Settings
-					settings={this.props.settings}
-					onChange={this.props.onSettingsChanged}
-				/>
-				<Devices />
-				<Associations />
-				<NetworkMap />
-			</Tabs>
-		);
-	}
+	React.useEffect(() => {
+		namespace = `${adapter}.${instance}`;
+		// subscribe to changes
+		systemStates = `system.adapter.${namespace}.*`;
+		adapterStates = `${namespace}.*`;
+		window.addEventListener("unload", () => onUnload());
+		void subscribeStatesAsync(systemStates);
+		void subscribeObjectsAsync(adapterStates);
+		void subscribeStatesAsync(adapterStates);
+
+		return onUnload;
+	}, []);
+
+	return (
+		<DevicesContext.Provider value={{ devices, updateDevices }}>
+			<AdapterContext.Provider value={{ alive, connected }}>
+				<Tabs
+					labels={[
+						"Settings",
+						"Devices",
+						"Associations",
+						"Network map",
+					]}
+				>
+					<Settings
+						settings={props.settings}
+						onChange={props.onSettingsChanged}
+					/>
+					<Devices />
+					<Associations />
+					<NetworkMap />
+				</Tabs>
+			</AdapterContext.Provider>
+		</DevicesContext.Provider>
+	);
 }
 
 let curSettings: Record<string, unknown>;
