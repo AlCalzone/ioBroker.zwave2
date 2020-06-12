@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "1.1.0",
+        "version": "1.2.0",
         "news": {
+            "1.2.0": {
+                "en": "Added a possibility to restart the interview for single nodes\nThe cached lifeline associations (for `Multi Channel Association` and `Association` CCs) are now updated if they are changed during the interview",
+                "de": "Es wurde die Möglichkeit hinzugefügt, das Interview für einzelne Knoten neu zu starten\nDie zwischengespeicherten Lifeline-Zuordnungen (für \"Multi Channel Association\" - und \"Association\" -CCs) werden jetzt aktualisiert, wenn sie während des Interviews geändert werden",
+                "ru": "Добавлена возможность перезапустить интервью для отдельных узлов\nКэшированные ассоциации каналов жизни (для «Многоканальной ассоциации» и «Ассоциации» CC) теперь обновляются, если они изменяются во время интервью",
+                "pt": "Foi adicionada a possibilidade de reiniciar a entrevista para nós únicos\nAs associações da linha de vida em cache (para os CCs `Multicanal Association` e` Association`) agora são atualizadas se forem alteradas durante a entrevista",
+                "nl": "Mogelijkheid toegevoegd om het interview voor afzonderlijke knooppunten opnieuw te starten\nDe gecachete levenslijnassociaties (voor `Multi Channel Association` en` Association` CCs) worden nu bijgewerkt als ze tijdens het interview worden gewijzigd",
+                "fr": "Ajout d'une possibilité de redémarrer l'interview pour les nœuds uniques\nLes associations de lignes de vie mises en cache (pour les CC «Multi Channel Association» et «Association») sont désormais mises à jour si elles sont modifiées pendant l'interview.",
+                "it": "Aggiunta la possibilità di riavviare l'intervista per singoli nodi\nLe associazioni della linea di vita memorizzate nella cache (per i CC \"Associazione multi canale\" e \"Associazione\") sono ora aggiornate se cambiate durante l'intervista",
+                "es": "Se agregó la posibilidad de reiniciar la entrevista para nodos individuales\nLas asociaciones de línea de vida almacenadas en caché (para CC de `Multi Association 'y` Association`) ahora se actualizan si se cambian durante la entrevista",
+                "pl": "Dodano możliwość ponownego uruchomienia wywiadu dla pojedynczych węzłów\nPowiązane buforowane linie życia (dla `Multi Association Association` i` Association` CC) są teraz aktualizowane, jeśli zostaną zmienione podczas wywiadu",
+                "zh-cn": "添加了重新启动单个节点的采访的可能性\n如果在访问期间更改了缓存的生命线关联（针对“多渠道关联”和“关联” CC），则将对其进行更新"
+            },
             "1.1.0": {
                 "en": "Added support for `Door Lock CC V4`\nAdded support for `Lock CC`\nFixed the `E5` issue with Danfoss thermostats (hopefully)\nFixed an issue where sleeping nodes could block the entire send queue\nFixed an issue where some CCs did not store the received values\nFixed an issue where the values of endpoint 1 of some multichannel devices were not updated\nThe node interview is no longer aborted if a response for the following requests times out:\nBattery status\nBattery health\nBinary Sensor status\nMultilevel Sensor status",
                 "de": "Unterstützung für \"Türschloss CC V4\" hinzugefügt\nUnterstützung für \"Lock CC\" hinzugefügt\nDas E5-Problem mit Danfoss-Thermostaten wurde behoben (hoffentlich)\nEs wurde ein Problem behoben, durch das schlafende Knoten die gesamte Sendewarteschlange blockieren konnten\nEs wurde ein Problem behoben, bei dem einige CCs die empfangenen Werte nicht speicherten\nEs wurde ein Problem behoben, bei dem die Werte von Endpunkt 1 einiger Mehrkanalgeräte nicht aktualisiert wurden\nDas Knoteninterview wird nicht mehr abgebrochen, wenn eine Antwort auf die folgenden Anforderungen abläuft:\nBatteriestatus\nBatteriezustand\nStatus des binären Sensors\nStatus des mehrstufigen Sensors",
@@ -230,18 +242,6 @@
                 "es": "* **BREAKING** versión mínima de Node.js aumentada a 10 \n* **BREAKING** se han eliminado algunos estados duplicados para el punto final raíz \n* La curación de la red ahora actualiza las rutas de todos los nodos al controlador y entre los nodos asociados\n* Consumo de CPU y acceso al sistema de archivos significativamente reducidos durante el inicio del adaptador\n* Soporte agregado para el `Color Switch CC`\n* Se corrigió un bloqueo que ocurría al intentar establecer un valor de configuración no válido\n* Dependencias actualizadas",
                 "pl": "* **ŁAMANIE** Podniesiono minimalną wersję Node.js do 10 \n* **ZŁAMANIE** Niektóre zduplikowane stany dla głównego punktu końcowego zostały usunięte \n* Funkcja uzdrawiania sieci aktualizuje teraz trasy ze wszystkich węzłów do kontrolera i między powiązanymi węzłami\n* Znacząco zmniejszone zużycie procesora i dostęp do systemu plików podczas uruchamiania adaptera\n* Dodano wsparcie dla `Color Switch CC`\n* Naprawiono awarię występującą podczas próby ustawienia nieprawidłowej wartości konfiguracji\n* Zaktualizowano zależności",
                 "zh-cn": "* **BREAKING** 将最低Node.js版本提高到10 \n* **BREAKING** 根端点的某些重复状态已被删除 \n*网络修复现在可以更新从所有节点到控制器以及关联节点之间的路由\n*在适配器启动期间显着减少了CPU消耗和文件系统访问\n*增加了对`Color Switch CC`的支持\n*修复了尝试设置无效配置值时发生的崩溃\n*更新了依赖"
-            },
-            "0.11.7": {
-                "en": "* Fixed a crash that happened when setting invalid values in ioBroker\n* Fixed some compilation issues with newer typings",
-                "de": "* Es wurde ein Absturz behoben, der beim Festlegen ungültiger Werte in ioBroker auftrat\n* Einige Kompilierungsprobleme mit neueren Typisierungen wurden behoben",
-                "ru": "* Исправлен сбой, возникающий при установке недопустимых значений в ioBroker\n* Исправлены некоторые проблемы компиляции с новыми наборами",
-                "pt": "* Corrigida uma falha que acontecia ao definir valores inválidos no ioBroker\n* Corrigidos alguns problemas de compilação com novas digitações",
-                "nl": "* Een crash opgelost die optrad bij het instellen van ongeldige waarden in ioBroker\n* Enkele compilatieproblemen opgelost met nieuwere typen",
-                "fr": "* Correction d'un plantage qui se produisait lors de la définition de valeurs non valides dans ioBroker\n* Correction de quelques problèmes de compilation avec des typages plus récents",
-                "it": "* Risolto un crash che si verificava quando si impostavano valori non validi in ioBroker\n* Risolti alcuni problemi di compilazione con le nuove digitazioni",
-                "es": "* Se corrigió un bloqueo que ocurría al establecer valores no válidos en ioBroker\n* Se corrigieron algunos problemas de compilación con tipings más nuevos",
-                "pl": "* Naprawiono awarię występującą podczas ustawiania nieprawidłowych wartości w ioBroker\n* Naprawiono niektóre problemy z kompilacją przy nowszych typach",
-                "zh-cn": "*修复了在ioBroker中设置无效值时发生的崩溃\n*修复了一些新类型的编译问题"
             }
         },
         "title": "Z-Wave 2",

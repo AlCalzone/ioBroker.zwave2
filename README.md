@@ -32,6 +32,10 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	### __WORK IN PROGRESS__
 -->
 
+### 1.2.0 (2020-06-12)
+* Added a possibility to restart the interview for single nodes
+* The cached lifeline associations (for `Multi Channel Association` and `Association` CCs) are now updated if they are changed during the interview
+
 ### 1.1.0 (2020-06-11)
 * Added support for `Door Lock CC V4`
 * Added support for `Lock CC`
@@ -53,16 +57,6 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 
 ### 0.14.8 (2020-06-03)
 * Fixed an issue where secure sleeping nodes could block all communication with other nodes
-
-### 0.14.7 (2020-06-03)
-* Fixed an issue where interviews could get stuck for sleeping nodes
-* Fixed a crash that happened when decoding a secure message with an unsupported payload
-
-### 0.14.6 (2020-06-02)
-* Added support for `Protection CC`
-* Fixed several bugs in `Security CC`
-* Updates from a node that span multiple messages are now correctly decoded
-* During the startup, device objects are created for asleep and dead nodes. This allows removing failed devices from the network even after the cache was cleared.
 
 ## License
 

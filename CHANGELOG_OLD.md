@@ -1,4 +1,14 @@
 # Older changes
+## 0.14.7 (2020-06-03)
+* Fixed an issue where interviews could get stuck for sleeping nodes
+* Fixed a crash that happened when decoding a secure message with an unsupported payload
+
+## 0.14.6 (2020-06-02)
+* Added support for `Protection CC`
+* Fixed several bugs in `Security CC`
+* Updates from a node that span multiple messages are now correctly decoded
+* During the startup, device objects are created for asleep and dead nodes. This allows removing failed devices from the network even after the cache was cleared.
+
 ## 0.14.5 (2020-06-01)
 * Non-securely included nodes which support Security CC should no longer stall the interview process
 * Added an indicator in the devices list to show which nodes are communicating securely
