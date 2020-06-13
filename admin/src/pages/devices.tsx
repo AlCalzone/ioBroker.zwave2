@@ -171,10 +171,10 @@ export function Devices() {
 	React.useEffect(() => hideMessage(), []);
 
 	React.useEffect(() => {
-		if (inclusion === InclusionMode.Idle) {
+		if (adapterRunning && driverReady && inclusion === InclusionMode.Idle) {
 			M.Dropdown.init(document.querySelectorAll(".dropdown-trigger"));
 		}
-	}, [inclusion]);
+	}, [adapterRunning, driverReady, inclusion]);
 
 	async function healNetwork() {
 		if (!healingNetwork) {
