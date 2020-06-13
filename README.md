@@ -32,6 +32,9 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	### __WORK IN PROGRESS__
 -->
 
+### 1.2.1 (2020-06-13)
+* The inclusion dropdown works again
+
 ### 1.2.0 (2020-06-12)
 * Added a possibility to restart the interview for single nodes
 * The cached lifeline associations (for `Multi Channel Association` and `Association` CCs) are now updated if they are changed during the interview
@@ -54,9 +57,6 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 
 ### 0.14.9 (2020-06-03)
 * Placeholder object names (e.g. `Node 003`) for non-reachable nodes are now overwritten with the correct name when the nodes are interviewed.
-
-### 0.14.8 (2020-06-03)
-* Fixed an issue where secure sleeping nodes could block all communication with other nodes
 
 ## License
 

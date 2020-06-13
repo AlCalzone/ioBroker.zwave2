@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "1.2.0",
+        "version": "1.2.1",
         "news": {
+            "1.2.1": {
+                "en": "The inclusion dropdown works again",
+                "de": "Das Dropdown-Menü für die Aufnahme funktioniert wieder",
+                "ru": "Раскрывающийся список включения снова работает",
+                "pt": "O menu suspenso de inclusão funciona novamente",
+                "nl": "De inclusie dropdown werkt weer",
+                "fr": "La liste déroulante d'inclusion fonctionne à nouveau",
+                "it": "Il menu a discesa dell'inclusione funziona di nuovo",
+                "es": "El menú desplegable de inclusión funciona nuevamente",
+                "pl": "Lista dołączeń działa ponownie",
+                "zh-cn": "包含下拉列表再次起作用"
+            },
             "1.2.0": {
                 "en": "Added a possibility to restart the interview for single nodes\nThe cached lifeline associations (for `Multi Channel Association` and `Association` CCs) are now updated if they are changed during the interview",
                 "de": "Es wurde die Möglichkeit hinzugefügt, das Interview für einzelne Knoten neu zu starten\nDie zwischengespeicherten Lifeline-Zuordnungen (für \"Multi Channel Association\" - und \"Association\" -CCs) werden jetzt aktualisiert, wenn sie während des Interviews geändert werden",
@@ -230,18 +242,6 @@
                 "es": "El archivo de caché ahora se vuelve a cargar correctamente. Esto corrige algunos informes faltantes de dispositivos multicanal más nuevos.\nLos nodos ahora se envían a dormir 1 segundo después de despertarse si no hay mensajes pendientes. Esto soluciona problemas con algunos dispositivos que esperan este comportamiento.",
                 "pl": "Plik pamięci podręcznej jest teraz poprawnie ładowany ponownie. To naprawia niektóre brakujące raporty z nowszych urządzeń wielokanałowych.\nWęzły są teraz wysyłane do trybu uśpienia 1 sekundę po przebudzeniu, jeśli nie ma żadnych oczekujących wiadomości. To rozwiązuje problemy z niektórymi urządzeniami, które oczekują takiego zachowania.",
                 "zh-cn": "现在，缓存文件已重新正确加载。这样可以修复较新的多渠道设备缺少的一些报告。\n现在，如果没有待处理的消息，则在唤醒后1秒钟将节点发送到睡眠状态。这可以修复某些设备会出现此问题的问题。"
-            },
-            "0.12.0": {
-                "en": "* **BREAKING**: Raised minimum Node.js version to 10\n* **BREAKING**: Some duplicate states for the root endpoint have been removed\n* The network heal now updates the routes from all nodes to the controller and between associated nodes\n* Significantly reduced CPU consumption and filesystem accesses during the adapter startup\n* Added support for the `Color Switch CC`\n* Fixed a crash that happened when trying to set an invalid configuration value\n* Updated dependencies",
-                "de": "* **BREAKING** Die Mindestversion von Node.js wurde auf 10 erhöht \n* **BREAKING** Einige doppelte Zustände für den Root-Endpunkt wurden entfernt \n* Die Netzwerkheilung aktualisiert jetzt die Routen von allen Knoten zum Controller und zwischen zugeordneten Knoten\n* Deutlich reduzierter CPU-Verbrauch und Dateisystemzugriffe während des Adapterstarts\n* Unterstützung für den \"Color Switch CC\" hinzugefügt\n* Ein Absturz beim Versuch, einen ungültigen Konfigurationswert festzulegen, wurde behoben\n* Abhängigkeiten aktualisiert",
-                "ru": "* **BREAKING** повышена минимальная версия Node.js до 10 \n* **BREAKING** некоторые дубликаты состояний для корневой конечной точки были удалены \n* Исцеление сети теперь обновляет маршруты от всех узлов к контроллеру и между связанными узлами\n* Значительно уменьшено потребление ресурсов процессора и файловой системы при запуске адаптера.\n* Добавлена поддержка `Color Switch CC`\n* Исправлен сбой, возникающий при попытке установить неверное значение конфигурации\n* Обновлены зависимости",
-                "pt": "* **BREAKING** versão mínima do Node.js aumentada para 10 \n* **BREAKING** alguns estados duplicados do terminal raiz foram removidos \n* A reparação da rede agora atualiza as rotas de todos os nós para o controlador e entre os nós associados\n* Consumo de CPU e acessos ao sistema de arquivos significativamente reduzidos durante a inicialização do adaptador\n* Adicionado suporte para o `Color Switch CC`\n* Corrigida uma falha que acontecia ao tentar definir um valor de configuração inválido\n* Dependências atualizadas",
-                "nl": "* **BREAKING** Verhoogde minimale Node.js-versie naar 10 \n* **BREAKING** Sommige dubbele staten voor het root-eindpunt zijn verwijderd \n* Het netwerk genezen werkt nu de routes bij van alle knooppunten naar de controller en tussen de bijbehorende knooppunten\n* Aanzienlijk verminderd CPU-verbruik en toegang tot het bestandssysteem tijdens het opstarten van de adapter\n* Ondersteuning toegevoegd voor de `Color Switch CC`\n* Een crash verholpen die optrad bij het instellen van een ongeldige configuratiewaarde\n* Bijgewerkte afhankelijkheden",
-                "fr": "* **RUPTURE** Version Node.js minimale augmentée à 10 \n* **RUPTURE** certains états en double pour le point de terminaison racine ont été supprimés \n* Le réseau soigne maintenant les itinéraires de tous les nœuds vers le contrôleur et entre les nœuds associés\n* Consommation CPU et accès au système de fichiers considérablement réduits lors du démarrage de l'adaptateur\n* Ajout de la prise en charge du «Color Switch CC»\n* Correction d'un plantage survenu lors de la tentative de définition d'une valeur de configuration non valide\n* Dépendances mises à jour",
-                "it": "* **BREAKING** versione minima di Node.js aumentata a 10 \n* **BREAKING** alcuni stati duplicati per l'endpoint radice sono stati rimossi \n* La cura della rete ora aggiorna le rotte da tutti i nodi al controller e tra i nodi associati\n* Riduzione significativa del consumo di CPU e degli accessi al filesystem durante l'avvio dell'adattatore\n* Aggiunto supporto per `Color Switch CC`\n* Risolto un crash che si verificava quando si tentava di impostare un valore di configurazione non valido\n* Dipendenze aggiornate",
-                "es": "* **BREAKING** versión mínima de Node.js aumentada a 10 \n* **BREAKING** se han eliminado algunos estados duplicados para el punto final raíz \n* La curación de la red ahora actualiza las rutas de todos los nodos al controlador y entre los nodos asociados\n* Consumo de CPU y acceso al sistema de archivos significativamente reducidos durante el inicio del adaptador\n* Soporte agregado para el `Color Switch CC`\n* Se corrigió un bloqueo que ocurría al intentar establecer un valor de configuración no válido\n* Dependencias actualizadas",
-                "pl": "* **ŁAMANIE** Podniesiono minimalną wersję Node.js do 10 \n* **ZŁAMANIE** Niektóre zduplikowane stany dla głównego punktu końcowego zostały usunięte \n* Funkcja uzdrawiania sieci aktualizuje teraz trasy ze wszystkich węzłów do kontrolera i między powiązanymi węzłami\n* Znacząco zmniejszone zużycie procesora i dostęp do systemu plików podczas uruchamiania adaptera\n* Dodano wsparcie dla `Color Switch CC`\n* Naprawiono awarię występującą podczas próby ustawienia nieprawidłowej wartości konfiguracji\n* Zaktualizowano zależności",
-                "zh-cn": "* **BREAKING** 将最低Node.js版本提高到10 \n* **BREAKING** 根端点的某些重复状态已被删除 \n*网络修复现在可以更新从所有节点到控制器以及关联节点之间的路由\n*在适配器启动期间显着减少了CPU消耗和文件系统访问\n*增加了对`Color Switch CC`的支持\n*修复了尝试设置无效配置值时发生的崩溃\n*更新了依赖"
             }
         },
         "title": "Z-Wave 2",
