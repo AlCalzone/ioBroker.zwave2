@@ -1,6 +1,7 @@
 import { padStart } from "alcalzone-shared/strings";
+import type { FirmwareUpdateStatus } from "zwave-js";
 
-// WARNING: DO NOT IMPORT FROM "zwave-js" HERE
+// WARNING: DO NOT IMPORT values FROM "zwave-js" HERE
 // That will break the frontend
 
 /** Returns the id of the device object for the given node id */
@@ -21,6 +22,14 @@ export function mapToRecord<TKey extends string | number | symbol, TValue>(
 export interface NetworkHealPollResponse {
 	type: "idle" | "done" | "progress";
 	progress?: Record<number, "pending" | "done" | "failed" | "skipped">;
+}
+
+export interface FirmwareUpdatePollResponse {
+	type: "done" | "progress";
+	sentFragments?: number;
+	totalFragments?: number;
+	status?: FirmwareUpdateStatus;
+	waitTime?: number;
 }
 
 export interface AssociationDefinition {

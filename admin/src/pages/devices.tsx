@@ -1,5 +1,8 @@
 import * as React from "react";
-import { InclusionMode } from "../../../src/lib/shared";
+import {
+	InclusionMode,
+	FirmwareUpdatePollResponse,
+} from "../../../src/lib/shared";
 import type { NetworkHealPollResponse } from "../../../src/lib/shared";
 import { Modal } from "../components/modal";
 import { NodeActions } from "../components/nodeActions";
@@ -45,7 +48,7 @@ async function pollHealingStatus(): Promise<any> {
 
 async function doClearCache(): Promise<void> {
 	return new Promise((resolve, reject) => {
-		sendTo(null, "clearCache", null, async ({ error, result }) => {
+		sendTo(null, "clearCache", null, ({ error, result }) => {
 			if (result === "ok") {
 				resolve();
 			} else {
@@ -57,11 +60,39 @@ async function doClearCache(): Promise<void> {
 
 async function removeFailedNode(nodeId: number): Promise<void> {
 	return new Promise((resolve, reject) => {
+		sendTo(null, "removeFailedNode", { nodeId }, ({ error, result }) => {
+			if (result === "ok") {
+				resolve();
+			} else {
+				reject(error ?? result);
+			}
+		});
+	});
+}
+
+async function refreshNodeInfo(nodeId: number): Promise<void> {
+	return new Promise((resolve, reject) => {
+		sendTo(null, "refreshNodeInfo", { nodeId }, ({ error, result }) => {
+			if (result === "ok") {
+				resolve();
+			} else {
+				reject(error ?? result);
+			}
+		});
+	});
+}
+
+async function beginFirmwareUpdate(
+	nodeId: number,
+	filename: string,
+	firmware: number[],
+): Promise<void> {
+	return new Promise((resolve, reject) => {
 		sendTo(
 			null,
-			"removeFailedNode",
-			{ nodeId },
-			async ({ error, result }) => {
+			"beginFirmwareUpdate",
+			{ nodeId, filename, firmware },
+			({ error, result }) => {
 				if (result === "ok") {
 					resolve();
 				} else {
@@ -72,20 +103,26 @@ async function removeFailedNode(nodeId: number): Promise<void> {
 	});
 }
 
-async function refreshNodeInfo(nodeId: number): Promise<void> {
+async function pollFirmwareUpdateStatus(
+	nodeId: number,
+): Promise<FirmwareUpdatePollResponse> {
+	return new Promise<any>((resolve, reject) => {
+		sendTo(null, "firmwareUpdatePoll", { nodeId }, ({ error, result }) => {
+			if (error) reject(error);
+			resolve(result);
+		});
+	});
+}
+
+async function abortFirmwareUpdate(nodeId: number): Promise<void> {
 	return new Promise((resolve, reject) => {
-		sendTo(
-			null,
-			"refreshNodeInfo",
-			{ nodeId },
-			async ({ error, result }) => {
-				if (result === "ok") {
-					resolve();
-				} else {
-					reject(error ?? result);
-				}
-			},
-		);
+		sendTo(null, "abortFirmwareUpdate", { nodeId }, ({ error, result }) => {
+			if (result === "ok") {
+				resolve();
+			} else {
+				reject(error ?? result);
+			}
+		});
 	});
 }
 
@@ -478,6 +515,18 @@ export function Devices() {
 															nodeId,
 														),
 														refreshInfo: refreshNodeInfo.bind(
+															undefined,
+															nodeId,
+														),
+														updateFirmware: beginFirmwareUpdate.bind(
+															undefined,
+															nodeId,
+														),
+														abortFirmwareUpdate: abortFirmwareUpdate.bind(
+															undefined,
+															nodeId,
+														),
+														pollFirmwareUpdateStatus: pollFirmwareUpdateStatus.bind(
 															undefined,
 															nodeId,
 														),

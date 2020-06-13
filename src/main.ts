@@ -2,11 +2,23 @@
 
 import * as utils from "@iobroker/adapter-core";
 import { composeObject } from "alcalzone-shared/objects";
+import { isArray } from "alcalzone-shared/typeguards";
 import * as fs from "fs-extra";
 import * as path from "path";
-import { Driver, ZWaveNode } from "zwave-js";
-import type { Association, AssociationGroup } from "zwave-js/CommandClass";
+import {
+	Driver,
+	extractFirmware,
+	ZWaveError,
+	ZWaveErrorCodes,
+	ZWaveNode,
+} from "zwave-js";
+import type {
+	Association,
+	AssociationGroup,
+	FirmwareUpdateStatus,
+} from "zwave-js/CommandClass";
 import type { HealNodeStatus } from "zwave-js/Controller";
+import type { Firmware } from "zwave-js/Utils";
 import type {
 	ValueID,
 	ZWaveNodeMetadataUpdatedArgs,
@@ -14,6 +26,7 @@ import type {
 	ZWaveNodeValueRemovedArgs,
 	ZWaveNodeValueUpdatedArgs,
 } from "zwave-js/Values";
+import { guessFirmwareFormat } from "./lib/firmwareUpdate";
 import { Global as _ } from "./lib/global";
 import {
 	computeChannelId,
@@ -31,6 +44,7 @@ import {
 import {
 	AssociationDefinition,
 	computeDeviceId,
+	FirmwareUpdatePollResponse,
 	InclusionMode,
 	mapToRecord,
 	NetworkHealPollResponse,
@@ -250,7 +264,15 @@ export class ZWave2 extends utils.Adapter<true> {
 			.on("value added", this.onNodeValueAdded.bind(this))
 			.on("value updated", this.onNodeValueUpdated.bind(this))
 			.on("value removed", this.onNodeValueRemoved.bind(this))
-			.on("metadata updated", this.onNodeMetadataUpdated.bind(this));
+			.on("metadata updated", this.onNodeMetadataUpdated.bind(this))
+			.on(
+				"firmware update progress",
+				this.onNodeFirmwareUpdateProgress.bind(this),
+			)
+			.on(
+				"firmware update finished",
+				this.onNodeFirmwareUpdateFinished.bind(this),
+			);
 	}
 
 	private async onNodeReady(node: ZWaveNode): Promise<void> {
@@ -441,6 +463,30 @@ export class ZWave2 extends utils.Adapter<true> {
 		await extendMetadata(node, args);
 	}
 
+	private async onNodeFirmwareUpdateProgress(
+		node: ZWaveNode,
+		sentFragments: number,
+		totalFragments: number,
+	): Promise<void> {
+		this.respondToFirmwareUpdatePoll({
+			type: "progress",
+			sentFragments,
+			totalFragments,
+		});
+	}
+
+	private async onNodeFirmwareUpdateFinished(
+		node: ZWaveNode,
+		status: FirmwareUpdateStatus,
+		waitTime?: number,
+	): Promise<void> {
+		this.respondToFirmwareUpdatePoll({
+			type: "done",
+			status,
+			waitTime,
+		});
+	}
+
 	/**
 	 * Is called when adapter shuts down - callback has to be called under any circumstances!
 	 */
@@ -603,6 +649,27 @@ export class ZWave2 extends utils.Adapter<true> {
 		} else {
 			// otherwise remember the response for the next call
 			this.healNetworkPollResponse = response;
+		}
+	}
+
+	// This is used to store responses if something changed between two calls
+	private firmwareUpdatePollResponse: FirmwareUpdatePollResponse | undefined;
+	// This is used to store the callback if there was no response yet
+	private firmwareUpdatePollCallback:
+		| ((response: FirmwareUpdatePollResponse) => void)
+		| undefined;
+
+	/** Responds to a pending poll from the frontend (if there is a message outstanding) */
+	private respondToFirmwareUpdatePoll(
+		response: FirmwareUpdatePollResponse,
+	): void {
+		if (typeof this.firmwareUpdatePollCallback === "function") {
+			// If the client is waiting for a response, send it immediately
+			this.firmwareUpdatePollCallback(response);
+			this.firmwareUpdatePollCallback = undefined;
+		} else {
+			// otherwise remember the response for the next call
+			this.firmwareUpdatePollResponse = response;
 		}
 	}
 
@@ -928,6 +995,103 @@ export class ZWave2 extends utils.Adapter<true> {
 						);
 					}
 					return respond(responses.OK);
+				}
+
+				case "beginFirmwareUpdate": {
+					if (!this.driverReady) {
+						return respond(
+							responses.ERROR(
+								"The driver is not yet ready to do that!",
+							),
+						);
+					}
+					if (!requireParams("nodeId", "filename", "firmware"))
+						return;
+					const { nodeId, filename, firmware } = obj.message as any;
+					if (
+						isArray(firmware) &&
+						firmware.every((byte) => typeof byte === "number")
+					) {
+						// Extract the firmware from the uploaded file
+						const rawData = Buffer.from(firmware);
+						let actualFirmware: Firmware;
+						try {
+							const format = guessFirmwareFormat(
+								filename,
+								rawData,
+							);
+							actualFirmware = extractFirmware(rawData, format);
+						} catch (e) {
+							return respond(responses.ERROR(e.message));
+						}
+
+						// And try to start the update
+						try {
+							await this.driver.controller.nodes
+								.get(nodeId)!
+								.beginFirmwareUpdate(
+									actualFirmware.data,
+									actualFirmware.firmwareTarget,
+								);
+							this.log.info(
+								`Node ${nodeId}: Firmware update started`,
+							);
+							return respond(responses.OK);
+						} catch (e) {
+							if (
+								e instanceof ZWaveError &&
+								e.code === ZWaveErrorCodes.FirmwareUpdateCC_Busy
+							) {
+								return respond(responses.COMMAND_ACTIVE);
+							} else {
+								return respond(responses.ERROR(e.message));
+							}
+						}
+					} else {
+						return respond(
+							responses.ERROR("The firmware data is invalid!"),
+						);
+					}
+				}
+
+				case "firmwareUpdatePoll": {
+					if (this.firmwareUpdatePollResponse) {
+						// if a response is waiting to be asked for, send it immediately
+						respond(
+							responses.RESULT(this.firmwareUpdatePollResponse),
+						);
+						this.firmwareUpdatePollResponse = undefined;
+					} else {
+						// otherwise remember the callback for a later response
+						this.respondToFirmwareUpdatePoll = (result) =>
+							respond(responses.RESULT(result));
+					}
+
+					return;
+				}
+
+				case "abortFirmwareUpdate": {
+					if (!this.driverReady) {
+						return respond(
+							responses.ERROR(
+								"The driver is not yet ready to do that!",
+							),
+						);
+					}
+					if (!requireParams("nodeId")) return;
+					const { nodeId } = obj.message as any;
+
+					try {
+						await this.driver.controller.nodes
+							.get(nodeId)!
+							.abortFirmwareUpdate();
+						this.log.info(
+							`Node ${nodeId}: Firmware update aborted`,
+						);
+						return respond(responses.OK);
+					} catch (e) {
+						return respond(responses.ERROR(e.message));
+					}
 				}
 			}
 		}

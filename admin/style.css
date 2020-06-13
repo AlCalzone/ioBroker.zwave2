@@ -124,3 +124,11 @@ label > .material-icons,
 h5 > .material-icons {
 	vertical-align: bottom;
 }
+
+.modal-actions-row {
+	display: flex;
+	flex-flow: row nowrap;
+	margin: 0.5em 0;
+	justify-content: space-between;
+	align-items: center;
+}
