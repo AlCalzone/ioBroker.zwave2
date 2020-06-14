@@ -1,4 +1,7 @@
 # Older changes
+## 0.14.9 (2020-06-03)
+* Placeholder object names (e.g. `Node 003`) for non-reachable nodes are now overwritten with the correct name when the nodes are interviewed.
+
 ## 0.14.8 (2020-06-03)
 * Fixed an issue where secure sleeping nodes could block all communication with other nodes
 
