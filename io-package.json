@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "1.3.0",
+        "version": "1.3.1",
         "news": {
+            "1.3.1": {
+                "en": "Fixed an issue where secure Multi Channel Association Reports were not correctly deserialized\nFixed an issue where some associations to the root endpoint could not be removed",
+                "de": "Es wurde ein Problem behoben, bei dem sichere Multi-Channel-Zuordnungsberichte nicht korrekt deserialisiert wurden\nEs wurde ein Problem behoben, durch das einige Zuordnungen zum Stammendpunkt nicht entfernt werden konnten",
+                "ru": "Исправлена ошибка, из-за которой защищенные отчеты многоканальной ассоциации не были правильно десериализованы.\nИсправлена ошибка, из-за которой не удалось удалить некоторые ассоциации с корневой конечной точкой",
+                "pt": "Corrigido um problema em que os Relatórios de associação multicanal seguros não eram desserializados corretamente\nCorrigido um problema em que algumas associações ao terminal raiz não podiam ser removidas",
+                "nl": "Er is een probleem opgelost waarbij beveiligde Multi Channel Association-rapporten niet correct waren gedeserialiseerd\nEr is een probleem opgelost waarbij sommige koppelingen met het root-eindpunt niet konden worden verwijderd",
+                "fr": "Correction d'un problème où les rapports d'association multicanaux sécurisés n'étaient pas correctement désérialisés\nCorrection d'un problème où certaines associations au point de terminaison racine ne pouvaient pas être supprimées",
+                "it": "Risolto il problema per cui i report di associazione multicanale sicuri non venivano deserializzati correttamente\nRisolto il problema per cui alcune associazioni all'endpoint radice non potevano essere rimosse",
+                "es": "Se solucionó un problema por el cual los informes seguros de asociación de canales múltiples no se deserializaban correctamente\nSe solucionó un problema por el cual algunas asociaciones con el punto final raíz no podían eliminarse",
+                "pl": "Naprawiono problem polegający na tym, że bezpieczne raporty powiązań wielokanałowych nie były poprawnie usuwane z postaci szeregowej\nNaprawiono problem, w wyniku którego niektóre powiązania z głównym punktem końcowym nie mogły zostać usunięte",
+                "zh-cn": "修复了安全的多渠道关联报告未正确反序列化的问题\n修复了无法删除与根端点的某些关联的问题"
+            },
             "1.3.0": {
                 "en": "Added support for firmware updates. WARNING: Use at your own risk!\n`Fibaro FGMS-001 Motion sensor`: All association groups are now configured to point to the controller\nWhen re-interviewing a node, the information about its command classes is also reset",
                 "de": "Unterstützung für Firmware-Updates hinzugefügt. WARNUNG: Verwendung auf eigenes Risiko!\n`Fibaro FGMS-001 Bewegungssensor`: Alle Zuordnungsgruppen sind jetzt so konfiguriert, dass sie auf die Steuerung zeigen\nBei der erneuten Befragung eines Knotens werden auch die Informationen zu seinen Befehlsklassen zurückgesetzt",
@@ -230,18 +242,6 @@
                 "es": "Se agregó una interfaz de usuario para administrar asociaciones entre nodos",
                 "pl": "Dodano interfejs użytkownika do zarządzania powiązaniami między węzłami",
                 "zh-cn": "添加了一个用户界面来管理节点之间的关联"
-            },
-            "0.12.2": {
-                "en": "Previously missing updates from multi channel devices should now be received again\nFixed an issue where the interview process was stalled by requesting information the devices don't understand\nFixed a crash that could happen when the adapter is restarted",
-                "de": "Zuvor fehlende Updates von Mehrkanalgeräten sollten jetzt erneut empfangen werden\nEs wurde ein Problem behoben, bei dem der Interviewprozess unterbrochen wurde, indem Informationen angefordert wurden, die die Geräte nicht verstehen\nEs wurde ein Absturz behoben, der beim Neustart des Adapters auftreten konnte",
-                "ru": "Ранее пропущенные обновления от многоканальных устройств теперь должны быть получены снова\nИсправлена ошибка, из-за которой процесс интервью зависал из-за запроса информации, которую устройства не понимают\nИсправлен сбой, который мог произойти при перезапуске адаптера",
-                "pt": "Atualizações anteriormente ausentes de dispositivos multicanais agora devem ser recebidas novamente\nCorrigido um problema em que o processo de entrevista era interrompido solicitando informações que os dispositivos não entendiam\nCorrigida uma falha que poderia ocorrer quando o adaptador era reiniciado",
-                "nl": "Eerder ontbrekende updates van apparaten met meerdere kanalen moeten nu opnieuw worden ontvangen\nEr is een probleem opgelost waarbij het interviewproces werd stopgezet door informatie op te vragen die de apparaten niet begrijpen\nEen crash verholpen die kon optreden wanneer de adapter opnieuw werd opgestart",
-                "fr": "Les mises à jour précédemment manquantes des appareils multicanaux devraient maintenant être reçues à nouveau\nCorrection d'un problème où le processus d'entrevue était bloqué en demandant des informations que les appareils ne comprennent pas\nCorrection d'un plantage pouvant survenir au redémarrage de l'adaptateur",
-                "it": "Gli aggiornamenti precedentemente mancanti dai dispositivi multicanale dovrebbero ora essere ricevuti di nuovo\nRisolto il problema per cui il processo di intervista era bloccato bloccando la richiesta di informazioni che i dispositivi non capivano\nRisolto un crash che poteva verificarsi al riavvio dell'adattatore",
-                "es": "Las actualizaciones que faltaban anteriormente de dispositivos multicanal ahora deberían recibirse nuevamente\nSe solucionó un problema en el que el proceso de la entrevista se detenía al solicitar información que los dispositivos no entendían\nSe corrigió un bloqueo que podría ocurrir cuando se reinicia el adaptador",
-                "pl": "Wcześniej brakujące aktualizacje z urządzeń wielokanałowych powinny być teraz odbierane ponownie\nNaprawiono problem polegający na tym, że proces przesłuchania był zawieszony przez żądanie informacji, których urządzenia nie rozumieją\nNaprawiono awarię, która mogła wystąpić po ponownym uruchomieniu adaptera",
-                "zh-cn": "现在应该再次收到多通道设备以前缺少的更新\n修复了以下问题：通过请求设备不了解的信息而使采访过程停顿了\n修复了重启适配器后可能发生的崩溃"
             }
         },
         "title": "Z-Wave 2",

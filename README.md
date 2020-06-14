@@ -32,6 +32,10 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	### __WORK IN PROGRESS__
 -->
 
+### 1.3.1 (2020-06-14)
+* Fixed an issue where secure Multi Channel Association Reports were not correctly deserialized
+* Fixed an issue where some associations to the root endpoint could not be removed
+
 ### 1.3.0 (2020-06-14)
 * Added support for firmware updates. WARNING: Use at your own risk!
 * `Fibaro FGMS-001 Motion sensor`: All association groups are now configured to point to the controller
@@ -56,9 +60,6 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
   * Battery health
   * Binary Sensor status
   * Multilevel Sensor status
-
-### 1.0.0 (2020-06-04)
-* Changed the compatibility config queries for Danfoss thermostats, so queued setpoint changes are not overwritten
 
 ## License
 
