@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const strings_1 = require("alcalzone-shared/strings");
-// WARNING: DO NOT IMPORT FROM "zwave-js" HERE
+// WARNING: DO NOT IMPORT values FROM "zwave-js" HERE
 // That will break the frontend
 /** Returns the id of the device object for the given node id */
 function computeDeviceId(nodeId) {

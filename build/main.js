@@ -3,9 +3,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const utils = require("@iobroker/adapter-core");
 const objects_1 = require("alcalzone-shared/objects");
+const typeguards_1 = require("alcalzone-shared/typeguards");
 const fs = require("fs-extra");
 const path = require("path");
 const zwave_js_1 = require("zwave-js");
+const firmwareUpdate_1 = require("./lib/firmwareUpdate");
 const global_1 = require("./lib/global");
 const objects_2 = require("./lib/objects");
 const shared_1 = require("./lib/shared");
@@ -165,7 +167,9 @@ class ZWave2 extends utils.Adapter {
             .on("value added", this.onNodeValueAdded.bind(this))
             .on("value updated", this.onNodeValueUpdated.bind(this))
             .on("value removed", this.onNodeValueRemoved.bind(this))
-            .on("metadata updated", this.onNodeMetadataUpdated.bind(this));
+            .on("metadata updated", this.onNodeMetadataUpdated.bind(this))
+            .on("firmware update progress", this.onNodeFirmwareUpdateProgress.bind(this))
+            .on("firmware update finished", this.onNodeFirmwareUpdateFinished.bind(this));
     }
     async onNodeReady(node) {
         // Only execute this once
@@ -291,6 +295,20 @@ class ZWave2 extends utils.Adapter {
         propertyName = propertyName.substr(propertyName.lastIndexOf(".") + 1);
         this.log.debug(`Node ${node.id}: metadata updated: ${propertyName}`);
         await objects_2.extendMetadata(node, args);
+    }
+    async onNodeFirmwareUpdateProgress(node, sentFragments, totalFragments) {
+        this.respondToFirmwareUpdatePoll({
+            type: "progress",
+            sentFragments,
+            totalFragments,
+        });
+    }
+    async onNodeFirmwareUpdateFinished(node, status, waitTime) {
+        this.respondToFirmwareUpdatePoll({
+            type: "done",
+            status,
+            waitTime,
+        });
     }
     /**
      * Is called when adapter shuts down - callback has to be called under any circumstances!
@@ -429,6 +447,18 @@ class ZWave2 extends utils.Adapter {
         else {
             // otherwise remember the response for the next call
             this.healNetworkPollResponse = response;
+        }
+    }
+    /** Responds to a pending poll from the frontend (if there is a message outstanding) */
+    respondToFirmwareUpdatePoll(response) {
+        if (typeof this.firmwareUpdatePollCallback === "function") {
+            // If the client is waiting for a response, send it immediately
+            this.firmwareUpdatePollCallback(response);
+            this.firmwareUpdatePollCallback = undefined;
+        }
+        else {
+            // otherwise remember the response for the next call
+            this.firmwareUpdatePollResponse = response;
         }
     }
     /**
@@ -652,6 +682,77 @@ class ZWave2 extends utils.Adapter {
                         return respond(responses.ERROR(`Could not refresh info for node ${nodeId}: ${e.message}`));
                     }
                     return respond(responses.OK);
+                }
+                case "beginFirmwareUpdate": {
+                    if (!this.driverReady) {
+                        return respond(responses.ERROR("The driver is not yet ready to do that!"));
+                    }
+                    if (!requireParams("nodeId", "filename", "firmware"))
+                        return;
+                    const { nodeId, filename, firmware } = obj.message;
+                    if (typeguards_1.isArray(firmware) &&
+                        firmware.every((byte) => typeof byte === "number")) {
+                        // Extract the firmware from the uploaded file
+                        const rawData = Buffer.from(firmware);
+                        let actualFirmware;
+                        try {
+                            const format = firmwareUpdate_1.guessFirmwareFormat(filename, rawData);
+                            actualFirmware = zwave_js_1.extractFirmware(rawData, format);
+                        }
+                        catch (e) {
+                            return respond(responses.ERROR(e.message));
+                        }
+                        // And try to start the update
+                        try {
+                            await this.driver.controller.nodes
+                                .get(nodeId)
+                                .beginFirmwareUpdate(actualFirmware.data, actualFirmware.firmwareTarget);
+                            this.log.info(`Node ${nodeId}: Firmware update started`);
+                            return respond(responses.OK);
+                        }
+                        catch (e) {
+                            if (e instanceof zwave_js_1.ZWaveError &&
+                                e.code === zwave_js_1.ZWaveErrorCodes.FirmwareUpdateCC_Busy) {
+                                return respond(responses.COMMAND_ACTIVE);
+                            }
+                            else {
+                                return respond(responses.ERROR(e.message));
+                            }
+                        }
+                    }
+                    else {
+                        return respond(responses.ERROR("The firmware data is invalid!"));
+                    }
+                }
+                case "firmwareUpdatePoll": {
+                    if (this.firmwareUpdatePollResponse) {
+                        // if a response is waiting to be asked for, send it immediately
+                        respond(responses.RESULT(this.firmwareUpdatePollResponse));
+                        this.firmwareUpdatePollResponse = undefined;
+                    }
+                    else {
+                        // otherwise remember the callback for a later response
+                        this.respondToFirmwareUpdatePoll = (result) => respond(responses.RESULT(result));
+                    }
+                    return;
+                }
+                case "abortFirmwareUpdate": {
+                    if (!this.driverReady) {
+                        return respond(responses.ERROR("The driver is not yet ready to do that!"));
+                    }
+                    if (!requireParams("nodeId"))
+                        return;
+                    const { nodeId } = obj.message;
+                    try {
+                        await this.driver.controller.nodes
+                            .get(nodeId)
+                            .abortFirmwareUpdate();
+                        this.log.info(`Node ${nodeId}: Firmware update aborted`);
+                        return respond(responses.OK);
+                    }
+                    catch (e) {
+                        return respond(responses.ERROR(e.message));
+                    }
                 }
             }
         }

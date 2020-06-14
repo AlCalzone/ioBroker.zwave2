@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const objects_1 = require("alcalzone-shared/objects");
 const strings_1 = require("alcalzone-shared/strings");
+const CommandClass_1 = require("zwave-js/CommandClass");
 const Node_1 = require("zwave-js/Node");
 const global_1 = require("./global");
 const shared_1 = require("./shared");
@@ -85,7 +86,7 @@ function nodeToNative(node) {
             generic: node.deviceClass.generic.name,
             specific: node.deviceClass.specific.name,
         },
-    })), { endpoints: node.getEndpointCount(), secure: node.isSecure });
+    })), { endpoints: node.getEndpointCount(), secure: node.isSecure, supportsFirmwareUpdate: node.supportsCC(CommandClass_1.CommandClasses["Firmware Update Meta Data"]) });
 }
 function nodeToCommon(node) {
     return {
