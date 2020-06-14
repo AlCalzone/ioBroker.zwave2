@@ -32,6 +32,11 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	### __WORK IN PROGRESS__
 -->
 
+### __WORK IN PROGRESS__
+* Added support for firmware updates. WARNING: Use at your own risk!
+* `Fibaro FGMS-001 Motion sensor`: All association groups are now configured to point to the controller
+* When re-interviewing a node, the information about its command classes is also reset
+
 ### 1.2.1 (2020-06-13)
 * The inclusion dropdown works again
 
