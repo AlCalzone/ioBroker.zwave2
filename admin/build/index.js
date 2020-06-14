@@ -44257,6 +44257,7 @@ function NodeActions(props) {
 
   var input = React.useRef();
   var isNodeFailed = props.status === "dead" || props.status === "asleep";
+  var supportsFirmwareUpdate = props.actions.updateFirmware && props.actions.pollFirmwareUpdateStatus && props.actions.abortFirmwareUpdate;
 
   function removeNode() {
     return __awaiter(this, void 0, void 0, function () {
@@ -44525,13 +44526,16 @@ function NodeActions(props) {
                 success = result.status >= 0xfd;
                 message_1 = success ? _("firmware update successful") : _("firmware update failed");
 
-                if (result.waitTime) {
-                  message_1 += " " + _("firmware update wait time").replace("{0}", result.waitTime.toString());
-                } else {
-                  message_1 += " " + _("firmware update no wait time");
+                if (success) {
+                  if (result.waitTime) {
+                    message_1 += " " + _("firmware update wait time").replace("{0}", result.waitTime.toString());
+                  } else {
+                    message_1 += " " + _("firmware update no wait time");
+                  }
+
+                  message_1 += " " + _("firmware update wake up");
                 }
 
-                message_1 += " " + _("firmware update wake up");
                 setMessage(message_1);
                 setLoadedFile(undefined);
                 setFirmwareUpdateActive(false);
@@ -44589,7 +44593,7 @@ function NodeActions(props) {
     onClick: function onClick() {
       return removeNode();
     }
-  }, _("Remove failed node"))), React.createElement("div", {
+  }, _("Remove failed node"))), supportsFirmwareUpdate && React.createElement(React.Fragment, null, React.createElement("div", {
     className: "divider"
   }), React.createElement("div", {
     className: "modal-actions-row"
@@ -44656,7 +44660,7 @@ function NodeActions(props) {
     className: "material-icons"
   }, "close"))), message ? React.createElement("div", null, message) : React.createElement("div", {
     className: "orange-text text-darken-4"
-  }, _("firmware update warning")));
+  }, _("firmware update warning"))));
 }
 
 exports.NodeActions = NodeActions;
@@ -46098,6 +46102,7 @@ function Devices() {
     var value = _a.value,
         status = _a.status;
     var nodeId = value.native.id;
+    var supportsFirmwareUpdate = !!value.native.supportsFirmwareUpdate;
     var nodeHealStatus = networkHealProgress[nodeId];
     var healIconCssClass;
     var healIconTooltip;
@@ -46161,9 +46166,9 @@ function Devices() {
         actions: {
           remove: removeFailedNode.bind(undefined, nodeId),
           refreshInfo: refreshNodeInfo.bind(undefined, nodeId),
-          updateFirmware: beginFirmwareUpdate.bind(undefined, nodeId),
-          abortFirmwareUpdate: abortFirmwareUpdate.bind(undefined, nodeId),
-          pollFirmwareUpdateStatus: pollFirmwareUpdateStatus.bind(undefined, nodeId)
+          updateFirmware: supportsFirmwareUpdate ? beginFirmwareUpdate.bind(undefined, nodeId) : undefined,
+          abortFirmwareUpdate: supportsFirmwareUpdate ? abortFirmwareUpdate.bind(undefined, nodeId) : undefined,
+          pollFirmwareUpdateStatus: supportsFirmwareUpdate ? pollFirmwareUpdateStatus.bind(undefined, nodeId) : undefined
         },
         close: function close() {
           return setCurActionsModal(undefined);

@@ -412,6 +412,8 @@ export function Devices() {
 					{devicesAsArray.length ? (
 						devicesAsArray.map(({ value, status }) => {
 							const nodeId = value.native.id as number;
+							const supportsFirmwareUpdate = !!value.native
+								.supportsFirmwareUpdate;
 
 							const nodeHealStatus = networkHealProgress[nodeId];
 							let healIconCssClass: string;
@@ -518,18 +520,24 @@ export function Devices() {
 															undefined,
 															nodeId,
 														),
-														updateFirmware: beginFirmwareUpdate.bind(
-															undefined,
-															nodeId,
-														),
-														abortFirmwareUpdate: abortFirmwareUpdate.bind(
-															undefined,
-															nodeId,
-														),
-														pollFirmwareUpdateStatus: pollFirmwareUpdateStatus.bind(
-															undefined,
-															nodeId,
-														),
+														updateFirmware: supportsFirmwareUpdate
+															? beginFirmwareUpdate.bind(
+																	undefined,
+																	nodeId,
+															  )
+															: undefined,
+														abortFirmwareUpdate: supportsFirmwareUpdate
+															? abortFirmwareUpdate.bind(
+																	undefined,
+																	nodeId,
+															  )
+															: undefined,
+														pollFirmwareUpdateStatus: supportsFirmwareUpdate
+															? pollFirmwareUpdateStatus.bind(
+																	undefined,
+																	nodeId,
+															  )
+															: undefined,
 													}}
 													close={() =>
 														setCurActionsModal(

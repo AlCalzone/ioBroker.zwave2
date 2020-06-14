@@ -33,6 +33,10 @@ export function NodeActions(props: NodeActionsProps) {
 	const input = React.useRef<HTMLInputElement>();
 
 	const isNodeFailed = props.status === "dead" || props.status === "asleep";
+	const supportsFirmwareUpdate =
+		props.actions.updateFirmware &&
+		props.actions.pollFirmwareUpdateStatus &&
+		props.actions.abortFirmwareUpdate;
 
 	async function removeNode() {
 		setBusy(true);
@@ -120,21 +124,25 @@ export function NodeActions(props: NodeActionsProps) {
 					setFirmwareUpdateStatus(result);
 					if (result.type === "done") {
 						const success =
-							result.status >= 0xfd; /* OK_WaitingForActivation */
+							result.status! >=
+							0xfd; /* OK_WaitingForActivation */
 						let message = success
 							? _("firmware update successful")
 							: _("firmware update failed");
-						if (result.waitTime) {
-							message +=
-								" " +
-								_("firmware update wait time").replace(
-									"{0}",
-									result.waitTime.toString(),
-								);
-						} else {
-							message += " " + _("firmware update no wait time");
+						if (success) {
+							if (result.waitTime) {
+								message +=
+									" " +
+									_("firmware update wait time").replace(
+										"{0}",
+										result.waitTime.toString(),
+									);
+							} else {
+								message +=
+									" " + _("firmware update no wait time");
+							}
+							message += " " + _("firmware update wake up");
 						}
-						message += " " + _("firmware update wake up");
 						setMessage(message);
 						setLoadedFile(undefined);
 						setFirmwareUpdateActive(false);
@@ -203,109 +211,119 @@ export function NodeActions(props: NodeActionsProps) {
 				</a>
 			</div>
 
-			<div className="divider"></div>
+			{supportsFirmwareUpdate && (
+				<>
+					<div className="divider"></div>
 
-			<div className="modal-actions-row">
-				<a
-					className={`btn ${
-						!isBusy && !firmwareUpdateActive ? "" : "disabled"
-					}`}
-					onClick={loadFirmware}
-					style={{ flex: "1 0 auto" }}
-				>
-					{_("Update Firmware")}
-				</a>
-				<input
-					type="file"
-					hidden
-					id="firmwareFile"
-					accept=".exe,.ex_,.ota,.otz,.hex"
-					ref={(ref) => {
-						if (ref) input.current = ref;
-					}}
-					onChange={selectFirmware}
-				/>
-				{firmwareUpdateActive ? (
-					<>
-						<div
-							className="progress"
-							style={{
-								margin: "0 1em",
-								flex: "1 1 100%",
-							}}
+					<div className="modal-actions-row">
+						<a
+							className={`btn ${
+								!isBusy && !firmwareUpdateActive
+									? ""
+									: "disabled"
+							}`}
+							onClick={loadFirmware}
+							style={{ flex: "1 0 auto" }}
 						>
-							{Number.isNaN(updateProgressNumeric) ? (
-								<div className="indeterminate"></div>
-							) : (
+							{_("Update Firmware")}
+						</a>
+						<input
+							type="file"
+							hidden
+							id="firmwareFile"
+							accept=".exe,.ex_,.ota,.otz,.hex"
+							ref={(ref) => {
+								if (ref) input.current = ref;
+							}}
+							onChange={selectFirmware}
+						/>
+						{firmwareUpdateActive ? (
+							<>
 								<div
-									className="determinate"
+									className="progress"
 									style={{
-										width: `${updateProgressNumeric}%`,
+										margin: "0 1em",
+										flex: "1 1 100%",
 									}}
-								></div>
-							)}
-						</div>
-						{!Number.isNaN(updateProgressNumeric) && (
-							<div
+								>
+									{Number.isNaN(updateProgressNumeric) ? (
+										<div className="indeterminate"></div>
+									) : (
+										<div
+											className="determinate"
+											style={{
+												width: `${updateProgressNumeric}%`,
+											}}
+										></div>
+									)}
+								</div>
+								{!Number.isNaN(updateProgressNumeric) && (
+									<div
+										style={{
+											whiteSpace: "nowrap",
+											marginRight: "1em",
+										}}
+									>
+										{updateProgressNumeric.toLocaleString(
+											undefined,
+											{
+												minimumFractionDigits: 2,
+												maximumFractionDigits: 2,
+											},
+										)}
+										{" %"}
+									</div>
+								)}
+							</>
+						) : (
+							<span
 								style={{
-									whiteSpace: "nowrap",
-									marginRight: "1em",
+									flex: "1 1 100%",
+									textAlign: "center",
+									padding: "0 1em",
+									wordBreak: "break-all",
 								}}
 							>
-								{updateProgressNumeric.toLocaleString(
-									undefined,
-									{
-										minimumFractionDigits: 2,
-										maximumFractionDigits: 2,
-									},
-								)}
-								{" %"}
-							</div>
+								{loadedFile
+									? `${loadedFile.name} (${loadedFile.data.byteLength} bytes)`
+									: _("no file selected")}
+							</span>
 						)}
-					</>
-				) : (
-					<span
-						style={{
-							flex: "1 1 100%",
-							textAlign: "center",
-							padding: "0 1em",
-							wordBreak: "break-all",
-						}}
-					>
-						{loadedFile
-							? `${loadedFile.name} (${loadedFile.data.byteLength} bytes)`
-							: _("no file selected")}
-					</span>
-				)}
-				<a
-					className={`btn ${
-						!isBusy && !firmwareUpdateActive && loadedFile?.data
-							? ""
-							: "disabled"
-					}`}
-					title={_("start firmware update")}
-					onClick={beginFirmwareUpdate}
-					style={{ flex: "1 0 auto" }}
-				>
-					<i className="material-icons">file_upload</i>
-				</a>{" "}
-				<a
-					className={`btn red ${
-						!isBusy && firmwareUpdateActive ? "" : "disabled"
-					}`}
-					title={_("abort firmware update")}
-					onClick={abortFirmwareUpdate}
-					style={{ flex: "1 0 auto" }}
-				>
-					<i className="material-icons">close</i>
-				</a>
-			</div>
-			{message ? (
-				<div>{message}</div>
-			) : (
-				<div className="orange-text text-darken-4">
-					{_("firmware update warning")}
-				</div>
+						<a
+							className={`btn ${
+								!isBusy &&
+								!firmwareUpdateActive &&
+								loadedFile?.data
+									? ""
+									: "disabled"
+							}`}
+							title={_("start firmware update")}
+							onClick={beginFirmwareUpdate}
+							style={{ flex: "1 0 auto" }}
+						>
+							<i className="material-icons">file_upload</i>
+						</a>{" "}
+						<a
+							className={`btn red ${
+								!isBusy && firmwareUpdateActive
+									? ""
+									: "disabled"
+							}`}
+							title={_("abort firmware update")}
+							onClick={abortFirmwareUpdate}
+							style={{ flex: "1 0 auto" }}
+						>
+							<i className="material-icons">close</i>
+						</a>
+					</div>
+					{message ? (
+						<div>{message}</div>
+					) : (
+						<div className="orange-text text-darken-4">
+							{_("firmware update warning")}
+						</div>
+					)}
+				</>
 			)}
 		</>
 	);

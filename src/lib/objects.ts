@@ -1,6 +1,6 @@
 import { entries } from "alcalzone-shared/objects";
 import { padStart } from "alcalzone-shared/strings";
-import type { CommandClasses } from "zwave-js/CommandClass";
+import { CommandClasses } from "zwave-js/CommandClass";
 import { BasicDeviceClasses, NodeStatus, ZWaveNode } from "zwave-js/Node";
 import type {
 	TranslatedValueID,
@@ -109,6 +109,9 @@ function nodeToNative(node: ZWaveNode): Record<string, any> {
 		}),
 		endpoints: node.getEndpointCount(),
 		secure: node.isSecure,
+		supportsFirmwareUpdate: node.supportsCC(
+			CommandClasses["Firmware Update Meta Data"],
+		),
 	};
 }
 
