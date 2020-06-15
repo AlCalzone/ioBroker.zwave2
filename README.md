@@ -32,6 +32,9 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	### __WORK IN PROGRESS__
 -->
 
+### 1.3.2 (2020-06-15)
+* Fixed a crash that happens when a `Multi Command CC` is received
+
 ### 1.3.1 (2020-06-14)
 * Fixed an issue where secure Multi Channel Association Reports were not correctly deserialized
 * Fixed an issue where some associations to the root endpoint could not be removed
@@ -47,19 +50,6 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 ### 1.2.0 (2020-06-12)
 * Added a possibility to restart the interview for single nodes
 * The cached lifeline associations (for `Multi Channel Association` and `Association` CCs) are now updated if they are changed during the interview
-
-### 1.1.0 (2020-06-11)
-* Added support for `Door Lock CC V4`
-* Added support for `Lock CC`
-* Fixed the `E5` issue with Danfoss thermostats (hopefully)
-* Fixed an issue where sleeping nodes could block the entire send queue
-* Fixed an issue where some CCs did not store the received values
-* Fixed an issue where the values of endpoint 1 of some multichannel devices were not updated
-* The node interview is no longer aborted if a response for the following requests times out:
-  * Battery status
-  * Battery health
-  * Binary Sensor status
-  * Multilevel Sensor status
 
 ## License
 
