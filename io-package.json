@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "1.3.2",
+        "version": "1.3.3",
         "news": {
+            "1.3.3": {
+                "en": "Logfiles are now logged in the correct order and some unnecessary logging was removed\nFixed an error when using the DoorLockCC setValue API when not all configuration values have been received\nErrors while sending firmware fragments are now caught and logged\nThe adapter no longer crashes when the serial device exists but does not respond\nImproved compatibility with some devices that send invalid `Multi Channel Endpoint Find Reports`, e.g. _TKB Home TZ74 Dual Switch_",
+                "de": "Protokolldateien werden jetzt in der richtigen Reihenfolge protokolliert und einige unnötige Protokollierungen wurden entfernt\nEin Fehler bei der Verwendung der DoorLockCC setValue-API wurde behoben, wenn nicht alle Konfigurationswerte empfangen wurden\nFehler beim Senden von Firmware-Fragmenten werden jetzt abgefangen und protokolliert\nDer Adapter stürzt nicht mehr ab, wenn das serielle Gerät vorhanden ist, reagiert jedoch nicht\nVerbesserte Kompatibilität mit einigen Geräten, die ungültige \"Multi Channel Endpoint Find Reports\" senden, z. _TKB Home TZ74 Dual Switch_",
+                "ru": "Лог-файлы теперь зарегистрированы в правильном порядке, и некоторые ненужные записи были удалены\nИсправлена ошибка при использовании DoorLockCC setValue API, когда не все значения конфигурации были получены\nОшибки при отправке фрагментов прошивки теперь отлавливаются и регистрируются\nАдаптер больше не падает, когда последовательное устройство существует, но не отвечает\nУлучшена совместимость с некоторыми устройствами, которые отправляют недопустимые «отчеты о поиске многоканальной конечной точки», например, _TKB Home TZ74 Dual Switch_",
+                "pt": "Os arquivos de log agora estão registrados na ordem correta e algum log desnecessário foi removido\nCorrigido um erro ao usar a API doorLockCC setValue quando nem todos os valores de configuração foram recebidos\nErros ao enviar fragmentos de firmware agora são capturados e registrados\nO adaptador não trava mais quando o dispositivo serial existe, mas não responde\nMelhor compatibilidade com alguns dispositivos que enviam `Relatórios de localização de endpoint multicanal inválidos ', por exemplo _TKB Home TZ74 Comutador Duplo_",
+                "nl": "Logbestanden worden nu in de juiste volgorde gelogd en sommige onnodige logging is verwijderd\nEen fout verholpen bij het gebruik van de DoorLockCC setValue API wanneer niet alle configuratiewaarden zijn ontvangen\nFouten bij het verzenden van firmwarefragmenten worden nu opgevangen en vastgelegd\nDe adapter crasht niet meer wanneer het seriële apparaat bestaat, maar reageert niet\nVerbeterde compatibiliteit met sommige apparaten die ongeldige `Multi Channel Endpoint Find Reports` verzenden, bijv. _TKB Home TZ74 Dual Switch_",
+                "fr": "Les fichiers journaux sont désormais enregistrés dans le bon ordre et certains journaux inutiles ont été supprimés\nCorrection d'une erreur lors de l'utilisation de l'API setLalCC DoorLockCC lorsque toutes les valeurs de configuration n'avaient pas été reçues\nLes erreurs lors de l'envoi de fragments de firmware sont désormais détectées et enregistrées\nL'adaptateur ne se bloque plus lorsque le périphérique série existe mais ne répond pas\nAmélioration de la compatibilité avec certains appareils qui envoient des `` rapports de recherche de points de terminaison multicanaux '' invalides, par ex. _TKB Home TZ74 Dual Switch_",
+                "it": "I file di registro vengono ora registrati nell'ordine corretto e alcuni log non necessari sono stati rimossi\nRisolto un errore quando si utilizzava l'API setValue DoorLockCC quando non sono stati ricevuti tutti i valori di configurazione\nGli errori durante l'invio dei frammenti del firmware vengono ora rilevati e registrati\nL'adattatore non si arresta più in modo anomalo quando esiste il dispositivo seriale ma non risponde\nMigliore compatibilità con alcuni dispositivi che inviano \"Rapporti di ricerca endpoint multicanale non validi\", ad es. _TKB Home TZ74 Dual Switch_",
+                "es": "Los archivos de registro ahora están registrados en el orden correcto y se eliminaron algunos registros innecesarios\nSe corrigió un error al usar la API setLoal de DoorLockCC cuando no se han recibido todos los valores de configuración\nLos errores al enviar fragmentos de firmware ahora se detectan y registran\nEl adaptador ya no se bloquea cuando el dispositivo en serie existe pero no responde\nCompatibilidad mejorada con algunos dispositivos que envían informes de búsqueda de punto final multicanal no válidos, p. _TKB Home TZ74 Dual Switch_",
+                "pl": "Pliki dziennika są teraz rejestrowane w prawidłowej kolejności, a niektóre niepotrzebne rejestrowanie zostało usunięte\nNaprawiono błąd podczas używania interfejsu API setValue DoorLockCC, gdy nie wszystkie wartości konfiguracji zostały odebrane\nBłędy podczas wysyłania fragmentów oprogramowania są teraz wychwytywane i rejestrowane\nAdapter przestaje się zawieszać, gdy istnieje urządzenie szeregowe, ale nie odpowiada\nPoprawiona kompatybilność z niektórymi urządzeniami, które wysyłają nieprawidłowe raporty „Multi Channel Endpoint Find Report”, np. _TKB Home TZ74 Podwójny przełącznik_",
+                "zh-cn": "现在以正确的顺序记录日志文件，并删除了一些不必要的日志记录\n修复了在未收到所有配置值的情况下使用DoorLockCC setValue API时的错误\n现在捕获并记录了发送固件片段时的错误\n当串行设备存在但不响应时，适配器不再崩溃\n改善了与某些发送无效“多通道端点查找报告”的设备的兼容性，例如_TKB家用TZ74双开关_"
+            },
             "1.3.2": {
                 "en": "Fixed a crash that happens when a `Multi Command CC` is received",
                 "de": "Es wurde ein Absturz behoben, der auftrat, wenn ein \"Multi Command CC\" empfangen wurde",
@@ -230,18 +242,6 @@
                 "es": "Varias mejoras de estabilidad y velocidad durante la entrevista.\nEl parámetro de configuración \\ # 5 se ha eliminado del `Aeotec WallMote Quad` para las versiones de firmware` <= 1.5`",
                 "pl": "Różne poprawki stabilności i prędkości podczas wywiadu\nParametr konfiguracyjny \\ # 5 został usunięty z `Aeotec WallMote Quad` dla wersji oprogramowania <<1,5`",
                 "zh-cn": "面试中的各种稳定性和速度改进\n固件版本“ <= 1.5”的配置参数\\＃5已从“ Aeotec WallMote Quad”中删除。"
-            },
-            "0.13.1": {
-                "en": "Empty node names are now overwritten with the default name\nFixed an issue where Multi Channel Associations for older devices were missing",
-                "de": "Leere Knotennamen werden jetzt mit dem Standardnamen überschrieben\nEs wurde ein Problem behoben, bei dem Mehrkanalzuordnungen für ältere Geräte fehlten",
-                "ru": "Пустые имена узлов теперь перезаписываются именем по умолчанию\nИсправлена проблема, при которой многоканальные ассоциации для старых устройств отсутствовали",
-                "pt": "Os nomes de nós vazios agora são substituídos pelo nome padrão\nCorrigido um problema em que as associações multicanal para dispositivos mais antigos estavam ausentes",
-                "nl": "Lege knooppuntnamen worden nu overschreven door de standaardnaam\nEr is een probleem opgelost waarbij Multi Channel Associations voor oudere apparaten ontbraken",
-                "fr": "Les noms de nœuds vides sont désormais remplacés par le nom par défaut\nCorrection d'un problème où les associations multicanaux pour les appareils plus anciens manquaient",
-                "it": "I nomi dei nodi vuoti ora vengono sovrascritti con il nome predefinito\nRisolto il problema per cui mancavano le Associazioni multicanale per dispositivi meno recenti",
-                "es": "Los nombres de nodo vacíos ahora se sobrescriben con el nombre predeterminado\nSe solucionó un problema en el que faltaban las asociaciones multicanal para dispositivos más antiguos.",
-                "pl": "Puste nazwy węzłów są teraz zastępowane nazwą domyślną\nNaprawiono problem z brakiem powiązań wielokanałowych dla starszych urządzeń",
-                "zh-cn": "现在，空节点名称将被默认名称覆盖\n修复了缺少旧设备的多渠道关联的问题"
             }
         },
         "title": "Z-Wave 2",

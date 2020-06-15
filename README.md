@@ -32,6 +32,13 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	### __WORK IN PROGRESS__
 -->
 
+### 1.3.3 (2020-06-15)
+* Logfiles are now logged in the correct order and some unnecessary logging was removed
+* Fixed an error when using the DoorLockCC setValue API when not all configuration values have been received
+* Errors while sending firmware fragments are now caught and logged
+* The adapter no longer crashes when the serial device exists but does not respond
+* Improved compatibility with some devices that send invalid `Multi Channel Endpoint Find Reports`, e.g. _TKB Home TZ74 Dual Switch_
+
 ### 1.3.2 (2020-06-15)
 * Fixed a crash that happens when a `Multi Command CC` is received
 
@@ -46,10 +53,6 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 
 ### 1.2.1 (2020-06-13)
 * The inclusion dropdown works again
-
-### 1.2.0 (2020-06-12)
-* Added a possibility to restart the interview for single nodes
-* The cached lifeline associations (for `Multi Channel Association` and `Association` CCs) are now updated if they are changed during the interview
 
 ## License
 

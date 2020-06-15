@@ -1,4 +1,8 @@
 # Older changes
+## 1.2.0 (2020-06-12)
+* Added a possibility to restart the interview for single nodes
+* The cached lifeline associations (for `Multi Channel Association` and `Association` CCs) are now updated if they are changed during the interview
+
 ## 1.1.0 (2020-06-11)
 * Added support for `Door Lock CC V4`
 * Added support for `Lock CC`
