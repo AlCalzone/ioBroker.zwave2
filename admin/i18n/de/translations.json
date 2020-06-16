@@ -42,7 +42,7 @@
     "Target endpoint": "Zielendpunkt",
     "Target node": "Zielgerät",
     "The association could not be deleted!": "Verknüpfung konnte nicht gelöscht werden!",
-    "The association could not be saved!": "Verknüpfung konnte nicht gerettet werden!",
+    "The association could not be saved!": "Verknüpfung konnte nicht erstellt werden!",
     "This is not a failed node": "Dies ist kein ausgefallenes Gerät",
     "This should only be set for debugging purposes.": "Dies sollte nur zu Debugging-Zwecken aktiviert werden.",
     "Type": "Typ",
