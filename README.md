@@ -32,6 +32,11 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	### __WORK IN PROGRESS__
 -->
 
+### __WORK IN PROGRESS__
+* The association UI no longer crashes if an empty association object is returned
+* The target endpoint selection for associations is now hidden if an association does not support multiple target endpoints
+* Fixed an incompatibility with nodes that have a different number of "normal" associations than multi channel associations, e.g. _FGRM-222_
+
 ### 1.3.3 (2020-06-15)
 * Logfiles are now logged in the correct order and some unnecessary logging was removed
 * Fixed an error when using the DoorLockCC setValue API when not all configuration values have been received
