@@ -31,8 +31,8 @@ export function AssociationRow(props: AssociationRowProps) {
 	const [nodeId, setNodeId] = React.useState(props.nodeId);
 	const [endpoint, setEndpoint] = React.useState(props.endpoint);
 	const [endpointOptions, setEndpointOptions] = React.useState<
-		Record<number, any>
-	>({ 0: _("Root device") });
+		Record<string, any>
+	>({ undefined: _("Root device") });
 
 	const [isValid, setValid] = React.useState(false);
 	const [hasChanges, setHasChanges] = React.useState(false);
@@ -42,7 +42,7 @@ export function AssociationRow(props: AssociationRowProps) {
 		setHasChanges(
 			group !== props.group ||
 				nodeId !== props.nodeId ||
-				(endpoint ?? 0) !== (props.endpoint ?? 0),
+				endpoint !== props.endpoint,
 		);
 		setValid(
 			!!props.groups.find((g) => g.groupId === group) &&
@@ -69,22 +69,23 @@ export function AssociationRow(props: AssociationRowProps) {
 	React.useEffect(() => {
 		const numEndpoints =
 			props.nodes.find((n) => n.nodeId === nodeId)?.endpoints ?? 0;
-		setEndpointOptions(
-			numEndpoints > 0
-				? composeObject(
-						new Array(numEndpoints + 1)
-							.fill(0)
-							.map((_v, i) => i)
-							.map((ep) => [
-								ep as any,
-								ep === 0
-									? _("Root device")
-									: `${_("Endpoint")} ${ep}`,
-							]),
-				  )
-				: { 0: _("Root device") },
-		);
-	}, [nodeId]);
+		const groupSupportsMultiChannel = !!props.groups.find(
+			(g) => g.groupId === group,
+		)?.multiChannel;
+		if (!groupSupportsMultiChannel) {
+			setEndpointOptions({});
+			return;
+		} else {
+			const newEndpointOptions = {
+				undefined: _("Root device"),
+			};
+			for (let ep = 0; ep <= numEndpoints; ep++) {
+				newEndpointOptions[ep] =
+					ep === 0 ? _("Root endpoint") : `${_("Endpoint")} ${ep}`;
+			}
+			setEndpointOptions(newEndpointOptions);
+		}
+	}, [nodeId, group]);
 
 	const isNewAssociation =
 		props.group == undefined &&
@@ -164,10 +165,14 @@ export function AssociationRow(props: AssociationRowProps) {
 						id="endpoints"
 						key="endpoints"
 						options={endpointOptions}
-						checkedOption={(endpoint ?? 0).toString()}
+						checkedOption={String(endpoint)}
 						emptySelectionText={_("- select endpoint -")}
 						checkedChanged={(newValue) => {
-							setEndpoint(parseInt(newValue));
+							setEndpoint(
+								newValue === "undefined"
+									? undefined
+									: parseInt(newValue),
+							);
 						}}
 					/>
 				</div>

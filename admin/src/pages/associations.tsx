@@ -78,7 +78,7 @@ export function Associations() {
 							return (
 								a1.group - a2.group ||
 								a1.nodeId - a2.nodeId ||
-								(a1.endpoint ?? 0) - (a2.endpoint ?? 0)
+								(a1.endpoint ?? -1) - (a2.endpoint ?? -1)
 							);
 						});
 						const groupsAsArray = associationGroups
@@ -90,9 +90,6 @@ export function Associations() {
 							  )
 							: [];
 
-						if (associationGroups) {
-							console.warn(JSON.stringify(associationGroups));
-						}
 						const supportsMultiChannel = associationGroups
 							? Object.values(associationGroups).some(
 									(a) => !!a.multiChannel,
@@ -145,7 +142,7 @@ export function Associations() {
 																	assoc.nodeId
 																}-${
 																	assoc.endpoint ??
-																	0
+																	-1
 																}`}
 																groups={
 																	groupsAsArray

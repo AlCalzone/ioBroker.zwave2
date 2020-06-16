@@ -34,6 +34,7 @@
     "Refresh node info": "Actualizar información del nodo",
     "Remove failed node": "Eliminar nodo fallido",
     "Root device": "Dispositivo raíz",
+    "Root endpoint": "Punto final de la raíz",
     "Save association": "Guardar asociación",
     "Secure": "Seguro",
     "Select serial port": "Seleccionar puerto serie",
