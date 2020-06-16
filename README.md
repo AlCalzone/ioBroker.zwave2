@@ -32,7 +32,7 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	### __WORK IN PROGRESS__
 -->
 
-### __WORK IN PROGRESS__
+### 1.3.4 (2020-06-16)
 * The association UI no longer crashes if an empty association object is returned
 * The target endpoint selection for associations is now hidden if an association does not support multiple target endpoints
 * Fixed an incompatibility with nodes that have a different number of "normal" associations than multi channel associations, e.g. _FGRM-222_
@@ -60,9 +60,6 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 * Added support for firmware updates. WARNING: Use at your own risk!
 * `Fibaro FGMS-001 Motion sensor`: All association groups are now configured to point to the controller
 * When re-interviewing a node, the information about its command classes is also reset
-
-### 1.2.1 (2020-06-13)
-* The inclusion dropdown works again
 
 ## License
 
