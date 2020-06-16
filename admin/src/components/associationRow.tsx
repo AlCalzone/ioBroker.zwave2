@@ -121,6 +121,9 @@ export function AssociationRow(props: AssociationRowProps) {
 		}
 	}
 
+	const currentGroup = props.groups.find((g) => g.groupId === group);
+	const nodeSupportsMultiChannel = props.groups.some((g) => g.multiChannel);
+
 	return (
 		<tr>
 			<td>
@@ -145,17 +148,29 @@ export function AssociationRow(props: AssociationRowProps) {
 					}}
 				/>
 			</td>
-			<td>
-				<Dropdown
-					id="endpoints"
-					key="endpoints"
-					options={endpointOptions}
-					checkedOption={(endpoint ?? 0).toString()}
-					emptySelectionText={_("- select endpoint -")}
-					checkedChanged={(newValue) => {
-						setEndpoint(parseInt(newValue));
+			<td
+				style={{
+					display: nodeSupportsMultiChannel ? "initial" : "none",
+				}}
+			>
+				<div
+					style={{
+						display: currentGroup?.multiChannel
+							? "initial"
+							: "none",
 					}}
-				/>
+				>
+					<Dropdown
+						id="endpoints"
+						key="endpoints"
+						options={endpointOptions}
+						checkedOption={(endpoint ?? 0).toString()}
+						emptySelectionText={_("- select endpoint -")}
+						checkedChanged={(newValue) => {
+							setEndpoint(parseInt(newValue));
+						}}
+					/>
+				</div>
 			</td>
 			<td>
 				<a

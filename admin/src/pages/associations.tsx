@@ -93,11 +93,11 @@ export function Associations() {
 						if (associationGroups) {
 							console.warn(JSON.stringify(associationGroups));
 						}
-						const supportsMultiChannel =
-							(associationGroups &&
-								Object.values(associationGroups)[0]
-									?.multiChannel) ??
-							false;
+						const supportsMultiChannel = associationGroups
+							? Object.values(associationGroups).some(
+									(a) => !!a.multiChannel,
+							  )
+							: false;
 						const hasAssociations = associations
 							? Object.keys(associations).length > 0
 							: false;
