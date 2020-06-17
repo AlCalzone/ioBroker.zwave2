@@ -32,6 +32,12 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	### __WORK IN PROGRESS__
 -->
 
+### 1.3.5 (2020-06-17)
+* Added some details to the `Multi Channel Association CC` interview logging
+* Configured lifeline node associations of newer devices should now be set correctly
+* The `CRC-16 Command Encapsulation CC` is now correctly detected as implemented
+* The log file is complete again
+
 ### 1.3.4 (2020-06-16)
 * The association UI no longer crashes if an empty association object is returned
 * The target endpoint selection for associations is now hidden if an association does not support multiple target endpoints
@@ -55,11 +61,6 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 ### 1.3.1 (2020-06-14)
 * Fixed an issue where secure Multi Channel Association Reports were not correctly deserialized
 * Fixed an issue where some associations to the root endpoint could not be removed
-
-### 1.3.0 (2020-06-14)
-* Added support for firmware updates. WARNING: Use at your own risk!
-* `Fibaro FGMS-001 Motion sensor`: All association groups are now configured to point to the controller
-* When re-interviewing a node, the information about its command classes is also reset
 
 ## License
 
