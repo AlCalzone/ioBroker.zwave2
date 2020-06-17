@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "1.3.5",
+        "version": "1.3.6",
         "news": {
+            "1.3.6": {
+                "en": "Added some details to the `Multi Channel Association CC` interview logging\nConfigured lifeline node associations of newer devices should now be set correctly\n`CRC-16`-encapsulated commands can now be received\nThe log file is complete again",
+                "de": "Einige Details zur Interviewprotokollierung der \"Multi Channel Association CC\" hinzugefügt\nKonfigurierte Lifeline-Knotenzuordnungen neuerer Geräte sollten jetzt korrekt eingestellt werden\nCRC-16-gekapselte Befehle können jetzt empfangen werden\nDie Protokolldatei ist wieder vollständig",
+                "ru": "Добавлены некоторые детали в журнал интервью Multi Channel Association CC\nСконфигурированные ассоциации узлов жизнеобеспечения более новых устройств теперь должны быть установлены правильно\nИнкапсулированные команды `CRC-16` теперь могут быть получены\nФайл журнала снова завершен",
+                "pt": "Adicionados alguns detalhes ao registro de entrevista `Multi Channel Association CC`\nAssociações de nó de linha de vida configuradas de dispositivos mais novos agora devem ser definidas corretamente\nComandos encapsulados `CRC-16` agora podem ser recebidos\nO arquivo de log está completo novamente",
+                "nl": "Enkele details toegevoegd aan de gespreksregistratie van de `Multi Channel Association CC`\nDe geconfigureerde levenslijnknooppuntassociaties van nieuwere apparaten moeten nu correct worden ingesteld\nIn CRC-16 ingekapselde opdrachten kunnen nu worden ontvangen\nHet logbestand is weer compleet",
+                "fr": "Ajout de quelques détails à la journalisation des interviews `Multi Channel Association CC`\nLes associations de nœuds de ligne de vie configurées pour les nouveaux appareils doivent maintenant être définies correctement\nLes commandes encapsulées `CRC-16` peuvent maintenant être reçues\nLe fichier journal est à nouveau complet",
+                "it": "Aggiunti alcuni dettagli alla registrazione dell'intervista con `Multi Channel Association CC`\nLe associazioni dei nodi di linea di vita configurate dei dispositivi più recenti dovrebbero ora essere impostate correttamente\nOra è possibile ricevere comandi incapsulati `CRC-16`\nIl file di registro è di nuovo completo",
+                "es": "Se agregaron algunos detalles al registro de entrevistas de la 'Asociación de canales múltiples CC'\nLas asociaciones de nodos de línea de vida configuradas de dispositivos más nuevos ahora se deben configurar correctamente\nAhora se pueden recibir comandos encapsulados `CRC-16`\nEl archivo de registro está completo nuevamente.",
+                "pl": "Dodano pewne szczegóły do rejestrowania wywiadu `Multi Channel Association CC`\nSkonfigurowane skojarzenia węzłów linii życia nowszych urządzeń powinny być teraz ustawione poprawnie\nMożna teraz odbierać komendy w formacie `CRC-16`\nPlik dziennika jest ponownie gotowy",
+                "zh-cn": "在“多渠道协会CC”采访记录中添加了一些详细信息\n现在应正确设置较新设备的已配置生命线节点关联\n现在可以接收CRC-16封装的命令\n日志文件再次完成"
+            },
             "1.3.5": {
                 "en": "Added some details to the `Multi Channel Association CC` interview logging\nConfigured lifeline node associations of newer devices should now be set correctly\nThe `CRC-16 Command Encapsulation CC` is now correctly detected as implemented\nThe log file is complete again",
                 "de": "Einige Details zur Interviewprotokollierung der \"Multi Channel Association CC\" hinzugefügt\nKonfigurierte Lifeline-Knotenzuordnungen neuerer Geräte sollten jetzt korrekt eingestellt werden\nDer \"CRC-16 Command Encapsulation CC\" wird jetzt korrekt als implementiert erkannt\nDie Protokolldatei ist wieder vollständig",
@@ -230,18 +242,6 @@
                 "es": "Se corrigió la interfaz que se rompió en v0.13.3",
                 "pl": "Naprawiono frontend, który został uszkodzony w wersji 0.13.3",
                 "zh-cn": "修复了v0.13.3中损坏的前端"
-            },
-            "0.13.4": {
-                "en": "User-defined node names are now really preserved",
-                "de": "Benutzerdefinierte Knotennamen bleiben jetzt wirklich erhalten",
-                "ru": "Определенные пользователем имена узлов теперь действительно сохраняются",
-                "pt": "Os nomes de nós definidos pelo usuário agora são realmente preservados",
-                "nl": "Door de gebruiker gedefinieerde knooppuntnamen blijven nu echt behouden",
-                "fr": "Les noms de nœuds définis par l'utilisateur sont désormais vraiment préservés",
-                "it": "I nomi dei nodi definiti dall'utente ora sono davvero preservati",
-                "es": "Los nombres de nodo definidos por el usuario ahora se conservan realmente",
-                "pl": "Nazwy węzłów zdefiniowane przez użytkownika są teraz naprawdę zachowane",
-                "zh-cn": "用户定义的节点名称现已真正保留"
             }
         },
         "title": "Z-Wave 2",

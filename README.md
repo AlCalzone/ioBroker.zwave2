@@ -32,10 +32,10 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	### __WORK IN PROGRESS__
 -->
 
-### 1.3.5 (2020-06-17)
+### 1.3.6 (2020-06-17)
 * Added some details to the `Multi Channel Association CC` interview logging
 * Configured lifeline node associations of newer devices should now be set correctly
-* The `CRC-16 Command Encapsulation CC` is now correctly detected as implemented
+* `CRC-16`-encapsulated commands can now be received
 * The log file is complete again
 
 ### 1.3.4 (2020-06-16)
