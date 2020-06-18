@@ -32,7 +32,7 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	### __WORK IN PROGRESS__
 -->
 
-### 1.3.7 (2020-06-18)
+### 1.3.8 (2020-06-18)
 * Fixed transmission issues caused by overlapped secure transactions
 
 ### 1.3.6 (2020-06-17)
