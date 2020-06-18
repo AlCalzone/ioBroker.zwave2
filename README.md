@@ -32,6 +32,9 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	### __WORK IN PROGRESS__
 -->
 
+### 1.3.7 (2020-06-18)
+* Fixed transmission issues caused by overlapped secure transactions
+
 ### 1.3.6 (2020-06-17)
 * Added some details to the `Multi Channel Association CC` interview logging
 * Configured lifeline node associations of newer devices should now be set correctly
@@ -57,10 +60,6 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 
 ### 1.3.2 (2020-06-15)
 * Fixed a crash that happens when a `Multi Command CC` is received
-
-### 1.3.1 (2020-06-14)
-* Fixed an issue where secure Multi Channel Association Reports were not correctly deserialized
-* Fixed an issue where some associations to the root endpoint could not be removed
 
 ## License
 

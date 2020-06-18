@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "1.3.6",
+        "version": "1.3.7",
         "news": {
+            "1.3.7": {
+                "en": "Fixed transmission issues caused by overlapped secure transactions",
+                "de": "Übertragungsprobleme behoben, die durch überlappende sichere Transaktionen verursacht wurden",
+                "ru": "Исправлены проблемы передачи, вызванные перекрытыми безопасными транзакциями",
+                "pt": "Corrigidos problemas de transmissão causados por transações seguras sobrepostas",
+                "nl": "Vaste transmissieproblemen veroorzaakt door overlappende beveiligde transacties",
+                "fr": "Correction de problèmes de transmission causés par des transactions sécurisées se chevauchant",
+                "it": "Risolti i problemi di trasmissione causati da transazioni sicure sovrapposte",
+                "es": "Se corrigieron problemas de transmisión causados por transacciones seguras superpuestas",
+                "pl": "Naprawiono problemy z transmisją spowodowane nakładającymi się bezpiecznymi transakcjami",
+                "zh-cn": "固定交易重叠引起的传输问题"
+            },
             "1.3.6": {
                 "en": "Added some details to the `Multi Channel Association CC` interview logging\nConfigured lifeline node associations of newer devices should now be set correctly\n`CRC-16`-encapsulated commands can now be received\nThe log file is complete again",
                 "de": "Einige Details zur Interviewprotokollierung der \"Multi Channel Association CC\" hinzugefügt\nKonfigurierte Lifeline-Knotenzuordnungen neuerer Geräte sollten jetzt korrekt eingestellt werden\nCRC-16-gekapselte Befehle können jetzt empfangen werden\nDie Protokolldatei ist wieder vollständig",
@@ -230,18 +242,6 @@
                 "es": "Varias correcciones relacionadas con `Security CC` cuando la clave de red no está configurada. Esto significa que el adaptador no se bloqueará, pero en muchos casos no se producirá una comunicación significativa con nodos seguros y no se completarán las entrevistas.",
                 "pl": "Różne poprawki związane z `Security CC`, gdy klucz sieciowy nie jest skonfigurowany. Oznacza to, że adapter nie ulegnie awarii, ale w wielu przypadkach nie nastąpi znacząca komunikacja z bezpiecznymi węzłami i wywiady nie zostaną zakończone.",
                 "zh-cn": "未配置网络密钥时，与“安全CC”相关的各种修补程序。这意味着适配器不会崩溃，但是在许多情况下，不会发生与安全节点的有意义的通信，并且不会完成采访。"
-            },
-            "0.13.5": {
-                "en": "Fixed the frontend that was broken in v0.13.3",
-                "de": "Das in Version 0.13.3 fehlerhafte Frontend wurde behoben",
-                "ru": "Исправлен интерфейс, который был сломан в v0.13.3",
-                "pt": "Corrigido o frontend que estava quebrado na v0.13.3",
-                "nl": "De frontend gerepareerd die was gebroken in v0.13.3",
-                "fr": "Correction du frontend qui était cassé dans la v0.13.3",
-                "it": "Risolto il problema con il front-end rotto in v0.13.3",
-                "es": "Se corrigió la interfaz que se rompió en v0.13.3",
-                "pl": "Naprawiono frontend, który został uszkodzony w wersji 0.13.3",
-                "zh-cn": "修复了v0.13.3中损坏的前端"
             }
         },
         "title": "Z-Wave 2",
