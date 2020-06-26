@@ -1,4 +1,7 @@
 # Older changes
+## 1.3.2 (2020-06-15)
+* Fixed a crash that happens when a `Multi Command CC` is received
+
 ## 1.3.1 (2020-06-14)
 * Fixed an issue where secure Multi Channel Association Reports were not correctly deserialized
 * Fixed an issue where some associations to the root endpoint could not be removed
