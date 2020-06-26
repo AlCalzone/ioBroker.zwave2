@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const core_1 = require("@zwave-js/core");
 const objects_1 = require("alcalzone-shared/objects");
 const strings_1 = require("alcalzone-shared/strings");
-const CommandClass_1 = require("zwave-js/CommandClass");
 const Node_1 = require("zwave-js/Node");
 const global_1 = require("./global");
 const shared_1 = require("./shared");
@@ -82,11 +82,11 @@ exports.computeId = computeId;
 function nodeToNative(node) {
     return Object.assign(Object.assign({ id: node.id, manufacturerId: node.manufacturerId, productType: node.productType, productId: node.productId }, (node.deviceClass && {
         type: {
-            basic: Node_1.BasicDeviceClasses[node.deviceClass.basic],
-            generic: node.deviceClass.generic.name,
-            specific: node.deviceClass.specific.name,
+            basic: node.deviceClass.basic.label,
+            generic: node.deviceClass.generic.label,
+            specific: node.deviceClass.specific.label,
         },
-    })), { endpoints: node.getEndpointCount(), secure: node.isSecure, supportsFirmwareUpdate: node.supportsCC(CommandClass_1.CommandClasses["Firmware Update Meta Data"]) });
+    })), { endpoints: node.getEndpointCount(), secure: node.isSecure, supportsFirmwareUpdate: node.supportsCC(core_1.CommandClasses["Firmware Update Meta Data"]) });
 }
 function nodeToCommon(node) {
     return {

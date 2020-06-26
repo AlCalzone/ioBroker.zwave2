@@ -1,7 +1,7 @@
+import { CommandClasses } from "@zwave-js/core";
 import { entries } from "alcalzone-shared/objects";
 import { padStart } from "alcalzone-shared/strings";
-import { CommandClasses } from "zwave-js/CommandClass";
-import { BasicDeviceClasses, NodeStatus, ZWaveNode } from "zwave-js/Node";
+import { NodeStatus, ZWaveNode } from "zwave-js/Node";
 import type {
 	TranslatedValueID,
 	ValueMetadataNumeric,
@@ -102,9 +102,9 @@ function nodeToNative(node: ZWaveNode): Record<string, any> {
 		productId: node.productId,
 		...(node.deviceClass && {
 			type: {
-				basic: BasicDeviceClasses[node.deviceClass.basic],
-				generic: node.deviceClass.generic.name,
-				specific: node.deviceClass.specific.name,
+				basic: node.deviceClass.basic.label,
+				generic: node.deviceClass.generic.label,
+				specific: node.deviceClass.specific.label,
 			},
 		}),
 		endpoints: node.getEndpointCount(),
