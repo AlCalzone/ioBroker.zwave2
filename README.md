@@ -32,6 +32,11 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	### __WORK IN PROGRESS__
 -->
 
+### __WORK IN PROGRESS__
+* If a node fails to respond to `Multi Channel Endpoint Find`, the interview is no longer aborted and sequential endpoints are assumed instead
+* Renamed the manufacturer Goap to Qubino
+* For many Qubino devices, the lifeline now uses a node association
+
 ### 1.4.0 (2020-06-26)
 Updated `zwave-js` to v4.0.1. This includes the following features:
 * Improved support for legacy devices that don't include all CCs in the NIF, like `Fibaro FGRM 222`.
