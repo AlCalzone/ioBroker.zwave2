@@ -1,4 +1,11 @@
 # Older changes
+## 1.3.3 (2020-06-15)
+* Logfiles are now logged in the correct order and some unnecessary logging was removed
+* Fixed an error when using the DoorLockCC setValue API when not all configuration values have been received
+* Errors while sending firmware fragments are now caught and logged
+* The adapter no longer crashes when the serial device exists but does not respond
+* Improved compatibility with some devices that send invalid `Multi Channel Endpoint Find Reports`, e.g. _TKB Home TZ74 Dual Switch_
+
 ## 1.3.2 (2020-06-15)
 * Fixed a crash that happens when a `Multi Command CC` is received
 

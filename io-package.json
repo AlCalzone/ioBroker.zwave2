@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "1.4.0",
+        "version": "1.4.1",
         "news": {
+            "1.4.1": {
+                "en": "If a node fails to respond to `Multi Channel Endpoint Find`, the interview is no longer aborted and sequential endpoints are assumed instead\nRenamed the manufacturer Goap to Qubino\nFor many Qubino devices, the lifeline now uses a node association",
+                "de": "Wenn ein Knoten nicht auf \"Mehrkanal-Endpunktsuche\" reagiert, wird das Interview nicht mehr abgebrochen und stattdessen werden sequentielle Endpunkte angenommen\nDer Hersteller Goap wurde in Qubino umbenannt\nFür viele Qubino-Geräte verwendet die Rettungsleine jetzt eine Knotenzuordnung",
+                "ru": "Если узел не отвечает на «Многоканальный поиск конечной точки», интервью больше не прерывается и вместо него предполагаются последовательные конечные точки\nПереименован производитель Goap в Qubino\nДля многих устройств Qubino линия жизни теперь использует ассоциацию узлов",
+                "pt": "Se um nó falhar em responder à `Localização de ponto de extremidade multicanal ', a entrevista não será mais interrompida e os pontos de extremidade sequenciais serão assumidos.\nRenomeou o fabricante Goap para Qubino\nPara muitos dispositivos Qubino, a linha de vida agora usa uma associação de nó",
+                "nl": "Als een knooppunt niet reageert op `Multi Channel Endpoint Find`, wordt het interview niet langer afgebroken en worden in plaats daarvan sequentiële eindpunten aangenomen\nOmgedoopt tot fabrikant Goap to Qubino\nVoor veel Qubino-apparaten gebruikt de levenslijn nu een knooppuntassociatie",
+                "fr": "Si un nœud ne répond pas à la recherche de points de terminaison multicanaux, l'interview n'est plus abandonnée et les points de terminaison séquentiels sont supposés à la place.\nRenomme le fabricant Goap en Qubino\nPour de nombreux appareils Qubino, la ligne de vie utilise désormais une association de nœuds",
+                "it": "Se un nodo non risponde a \"Ricerca endpoint multicanale\", l'intervista non viene più interrotta e si ipotizzano invece endpoint sequenziali\nRinominato il produttore Goap in Qubino\nPer molti dispositivi Qubino, la linea di vita ora utilizza un'associazione di nodi",
+                "es": "Si un nodo no responde a la 'Búsqueda de punto final multicanal', la entrevista ya no se cancela y se suponen puntos finales secuenciales.\nRenombrado el fabricante Goap a Qubino\nPara muchos dispositivos Qubino, la línea de vida ahora usa una asociación de nodos",
+                "pl": "Jeśli węzeł nie zareaguje na „Multi Channel Endpoint Find”, wywiad nie jest już przerywany i zamiast tego przyjmowane są kolejne punkty końcowe\nZmieniono nazwę producenta Goap na Qubino\nW przypadku wielu urządzeń Qubino linia życia używa teraz powiązania węzła",
+                "zh-cn": "如果节点无法响应“多通道端点查找”，则访问不再中止，而是采用顺序端点\n将制造商Goap重命名为Qubino\n对于许多Qubino设备，生命线现在使用节点关联"
+            },
             "1.4.0": {
                 "en": "Updated `zwave-js` to v4.0.1. This includes the following features:\n* Improved support for legacy devices that don't include all CCs in the NIF, like `Fibaro FGRM 222`.\n* Added support for `Sound Switch CC`\n* Added support for `Alarm Sensor CC`. This CC will only be used if `Notification CC` is not supported.",
                 "de": "`Zwave-js` wurde auf v4.0.1 aktualisiert. Dies umfasst die folgenden Funktionen:\n* Verbesserte Unterstützung für ältere Geräte, die nicht alle CCs im NIF enthalten, wie z. B. \"Fibaro FGRM 222\".\n* Unterstützung für \"Sound Switch CC\" hinzugefügt\n* Unterstützung für \"Alarm Sensor CC\" hinzugefügt. Dieser CC wird nur verwendet, wenn \"Benachrichtigungs-CC\" nicht unterstützt wird.",
@@ -230,18 +242,6 @@
                 "es": "Los nodos incluidos de forma no segura que admiten Security CC ya no deberían detener el proceso de entrevista\nSe agregó un indicador en la lista de dispositivos para mostrar qué nodos se comunican de forma segura",
                 "pl": "Niezabezpieczone węzły, które obsługują Security CC, nie powinny już opóźniać procesu wywiadu\nDodano wskaźnik na liście urządzeń, aby pokazać, które węzły komunikują się bezpiecznie",
                 "zh-cn": "支持Security CC的非安全包含的节点不应再使访问过程停止\n在设备列表中添加了一个指示器，以显示哪些节点正在安全通信"
-            },
-            "0.14.4": {
-                "en": "The correct status of devices is now shown in the device table instead of unknown\nThe inclusion status is no longer incorrectly shown as active when the adapter was just started\nImproved handling and retransmission of messages that require nested communication (like Security CC).",
-                "de": "Der korrekte Status der Geräte wird jetzt in der Gerätetabelle anstelle von unbekannt angezeigt\nDer Einschlussstatus wird nicht mehr fälschlicherweise als aktiv angezeigt, wenn der Adapter gerade gestartet wurde\nVerbesserte Verarbeitung und erneute Übertragung von Nachrichten, die eine verschachtelte Kommunikation erfordern (z. B. Security CC).",
-                "ru": "Правильный статус устройств теперь отображается в таблице устройств, а не неизвестно\nСостояние включения больше не отображается некорректно как активное, когда адаптер только запускался\nУлучшена обработка и повторная передача сообщений, требующих вложенной связи (например, Security CC).",
-                "pt": "O status correto dos dispositivos agora é mostrado na tabela de dispositivos em vez de desconhecido\nO status de inclusão não é mais mostrado incorretamente como ativo quando o adaptador foi iniciado.\nManipulação e retransmissão aprimoradas de mensagens que requerem comunicação aninhada (como o Security CC).",
-                "nl": "De juiste status van apparaten wordt nu weergegeven in de apparaattabel in plaats van onbekend\nDe inclusiestatus wordt niet langer ten onrechte weergegeven als actief toen de adapter net was gestart\nVerbeterde verwerking en doorgifte van berichten waarvoor geneste communicatie vereist is (zoals Security CC).",
-                "fr": "L'état correct des appareils est maintenant affiché dans le tableau des appareils au lieu de inconnu\nLe statut d'inclusion n'est plus incorrectement affiché comme actif lorsque l'adaptateur vient d'être démarré\nAmélioration de la gestion et de la retransmission des messages qui nécessitent une communication imbriquée (comme Security CC).",
-                "it": "Lo stato corretto dei dispositivi è ora mostrato nella tabella dei dispositivi anziché sconosciuto\nLo stato dell'inclusione non viene più erroneamente mostrato come attivo all'avvio dell'adattatore\nMigliore gestione e ritrasmissione dei messaggi che richiedono comunicazioni nidificate (come Security CC).",
-                "es": "El estado correcto de los dispositivos ahora se muestra en la tabla de dispositivos en lugar de desconocido\nEl estado de inclusión ya no se muestra incorrectamente como activo cuando se acaba de iniciar el adaptador\nManejo y retransmisión mejorados de mensajes que requieren comunicación anidada (como Security CC).",
-                "pl": "Prawidłowy status urządzeń jest teraz pokazywany w tabeli urządzeń zamiast nieznany\nStatus włączenia nie jest już niepoprawnie wyświetlany jako aktywny, gdy adapter właśnie został uruchomiony\nPoprawiona obsługa i retransmisja wiadomości wymagających zagnieżdżonej komunikacji (np. Security CC).",
-                "zh-cn": "设备的正确状态现在显示在设备表中，而不是未知状态\n刚启动适配器时，包含状态不再错误地显示为活动状态\n改进了对需要嵌套通信的消息的处理和重新传输（例如Security CC）。"
             }
         },
         "title": "Z-Wave 2",

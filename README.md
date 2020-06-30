@@ -32,7 +32,7 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	### __WORK IN PROGRESS__
 -->
 
-### __WORK IN PROGRESS__
+### 1.4.1 (2020-06-30)
 * If a node fails to respond to `Multi Channel Endpoint Find`, the interview is no longer aborted and sequential endpoints are assumed instead
 * Renamed the manufacturer Goap to Qubino
 * For many Qubino devices, the lifeline now uses a node association
@@ -61,13 +61,6 @@ Updated `zwave-js` to v4.0.1. This includes the following features:
 * Creating a log file works again
 * Added support for Devolo Dimmer (MT2760) and Shutter (MT2761) (thanks @nicoh88)
 * When the interview process fails to set a lifeline association with `Multi Channel Association CC`, it now tries again with `Association CC`
-
-### 1.3.3 (2020-06-15)
-* Logfiles are now logged in the correct order and some unnecessary logging was removed
-* Fixed an error when using the DoorLockCC setValue API when not all configuration values have been received
-* Errors while sending firmware fragments are now caught and logged
-* The adapter no longer crashes when the serial device exists but does not respond
-* Improved compatibility with some devices that send invalid `Multi Channel Endpoint Find Reports`, e.g. _TKB Home TZ74 Dual Switch_
 
 ## License
 
