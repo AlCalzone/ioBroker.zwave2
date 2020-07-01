@@ -49,7 +49,7 @@
     "@babel/plugin-proposal-numeric-separator": "^7.8.3",
     "@babel/plugin-proposal-optional-chaining": "^7.10.1",
     "@babel/preset-env": "^7.9.6",
-    "@babel/preset-typescript": "^7.9.0",
+    "@babel/preset-typescript": "^7.10.4",
     "@fimbul/mithotyn": "^0.21.0",
     "@fimbul/wotan": "^0.21.1",
     "@iobroker/testing": "^2.2.0",
