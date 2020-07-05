@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "1.4.1",
+        "version": "1.4.2",
         "news": {
+            "1.4.2": {
+                "en": "During the interview, endpoint associations are now converted to node associations if required\nThe interview process no longer fails if a node supports `Notification CC V2`",
+                "de": "Während des Interviews werden Endpunktzuordnungen jetzt bei Bedarf in Knotenzuordnungen konvertiert\nDer Interviewprozess schlägt nicht mehr fehl, wenn ein Knoten \"Notification CC V2\" unterstützt",
+                "ru": "Во время интервью связи конечных точек теперь преобразуются в связи узлов при необходимости\nПроцесс интервью больше не завершается ошибкой, если узел поддерживает `Notification CC V2`",
+                "pt": "Durante a entrevista, as associações de terminais agora são convertidas em associações de nós, se necessário\nO processo de entrevista não falha mais se um nó suportar `Notification CC V2`",
+                "nl": "Tijdens het interview worden eindpuntassociaties nu indien nodig omgezet in knooppuntassociaties\nHet interviewproces mislukt niet langer als een knooppunt `Notification CC V2` ondersteunt",
+                "fr": "Au cours de l'entretien, les associations de noeuds finaux sont désormais converties en associations de nœuds si nécessaire\nLe processus d'entretien n'échoue plus si un nœud prend en charge «Notification CC V2»",
+                "it": "Durante l'intervista, le associazioni degli endpoint vengono ora convertite in associazioni di nodi, se necessario\nIl processo di intervista non fallisce più se un nodo supporta `Notification CC V2`",
+                "es": "Durante la entrevista, las asociaciones de punto final ahora se convierten en asociaciones de nodos si es necesario\nEl proceso de entrevista ya no falla si un nodo admite `Notification CC V2`",
+                "pl": "Podczas wywiadu skojarzenia punktów końcowych są w razie potrzeby konwertowane na powiązania węzłów\nProces wywiadu nie kończy się niepowodzeniem, jeśli węzeł obsługuje `Notification CC V2`",
+                "zh-cn": "采访期间，如果需要，端点关联现在会转换为节点关联\n如果节点支持`Notification CC V2`，则访问过程不再失败。"
+            },
             "1.4.1": {
                 "en": "If a node fails to respond to `Multi Channel Endpoint Find`, the interview is no longer aborted and sequential endpoints are assumed instead\nRenamed the manufacturer Goap to Qubino\nFor many Qubino devices, the lifeline now uses a node association",
                 "de": "Wenn ein Knoten nicht auf \"Mehrkanal-Endpunktsuche\" reagiert, wird das Interview nicht mehr abgebrochen und stattdessen werden sequentielle Endpunkte angenommen\nDer Hersteller Goap wurde in Qubino umbenannt\nFür viele Qubino-Geräte verwendet die Rettungsleine jetzt eine Knotenzuordnung",
@@ -230,18 +242,6 @@
                 "es": "Soporte agregado para `Protection CC`\nSe corrigieron varios errores en `Security CC`\nLas actualizaciones de un nodo que abarcan varios mensajes ahora se decodifican correctamente\nDurante el inicio, los objetos del dispositivo se crean para los nodos dormidos y muertos. Esto permite eliminar dispositivos fallidos de la red incluso después de que se borró la memoria caché.",
                 "pl": "Dodano obsługę `Protection CC`\nNaprawiono kilka błędów w „Security CC”\nAktualizacje z węzła obejmujące wiele wiadomości są teraz poprawnie dekodowane\nPodczas uruchamiania tworzone są obiekty urządzeń dla uśpionych i martwych węzłów. Pozwala to na usunięcie uszkodzonych urządzeń z sieci nawet po wyczyszczeniu pamięci podręcznej.",
                 "zh-cn": "添加了对“保护CC”的支持\n修复了“安全CC”中的几个错误\n跨多个消息的节点更新现在可以正确解码\n在启动过程中，将为睡眠节点和死节点创建设备对象。即使清除了缓存，这也可以从网络中删除故障设备。"
-            },
-            "0.14.5": {
-                "en": "Non-securely included nodes which support Security CC should no longer stall the interview process\nAdded an indicator in the devices list to show which nodes are communicating securely",
-                "de": "Nicht sicher eingeschlossene Knoten, die Security CC unterstützen, sollten den Interviewprozess nicht länger blockieren\nDer Geräteliste wurde ein Indikator hinzugefügt, der anzeigt, welche Knoten sicher kommunizieren",
-                "ru": "Небезопасно включенные узлы, которые поддерживают Security CC, больше не должны останавливать процесс интервью\nДобавлен индикатор в список устройств, чтобы показать, какие узлы безопасно взаимодействуют",
-                "pt": "Nós não seguros incluídos que suportam o Security CC não devem mais parar o processo de entrevista\nAdicionado um indicador na lista de dispositivos para mostrar quais nós estão se comunicando com segurança",
-                "nl": "Niet-veilig opgenomen knooppunten die Security CC ondersteunen, mogen het interviewproces niet langer blokkeren\nEen indicator toegevoegd in de apparatenlijst om te laten zien welke knooppunten veilig communiceren",
-                "fr": "Les nœuds non inclus de manière sécurisée qui prennent en charge Security CC ne devraient plus bloquer le processus d'interview\nAjout d'un indicateur dans la liste des appareils pour montrer quels nœuds communiquent en toute sécurité",
-                "it": "I nodi inclusi in modo non sicuro che supportano Security CC non devono più interrompere il processo di intervista\nAggiunto un indicatore nell'elenco dei dispositivi per mostrare quali nodi comunicano in modo sicuro",
-                "es": "Los nodos incluidos de forma no segura que admiten Security CC ya no deberían detener el proceso de entrevista\nSe agregó un indicador en la lista de dispositivos para mostrar qué nodos se comunican de forma segura",
-                "pl": "Niezabezpieczone węzły, które obsługują Security CC, nie powinny już opóźniać procesu wywiadu\nDodano wskaźnik na liście urządzeń, aby pokazać, które węzły komunikują się bezpiecznie",
-                "zh-cn": "支持Security CC的非安全包含的节点不应再使访问过程停止\n在设备列表中添加了一个指示器，以显示哪些节点正在安全通信"
             }
         },
         "title": "Z-Wave 2",

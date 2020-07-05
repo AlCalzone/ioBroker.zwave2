@@ -1,4 +1,14 @@
 # Older changes
+## 1.3.4 (2020-06-16)
+* The association UI no longer crashes if an empty association object is returned
+* The target endpoint selection for associations is now hidden if an association does not support multiple target endpoints
+* Fixed an incompatibility with nodes that have a different number of "normal" associations than multi channel associations, e.g. _FGRM-222_
+* The association UI now distinguishes between associations to the device and the root endpoint
+* Many fixes related to handling associations and multi channel associations
+* Creating a log file works again
+* Added support for Devolo Dimmer (MT2760) and Shutter (MT2761) (thanks @nicoh88)
+* When the interview process fails to set a lifeline association with `Multi Channel Association CC`, it now tries again with `Association CC`
+
 ## 1.3.3 (2020-06-15)
 * Logfiles are now logged in the correct order and some unnecessary logging was removed
 * Fixed an error when using the DoorLockCC setValue API when not all configuration values have been received
