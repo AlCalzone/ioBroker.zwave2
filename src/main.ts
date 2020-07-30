@@ -10,12 +10,12 @@ import {
 	extractFirmware,
 	ZWaveError,
 	ZWaveErrorCodes,
-	ZWaveNode,
+	ZWaveNode
 } from "zwave-js";
 import type {
 	Association,
 	AssociationGroup,
-	FirmwareUpdateStatus,
+	FirmwareUpdateStatus
 } from "zwave-js/CommandClass";
 import type { HealNodeStatus } from "zwave-js/Controller";
 import type { Firmware } from "zwave-js/Utils";
@@ -24,7 +24,7 @@ import type {
 	ZWaveNodeMetadataUpdatedArgs,
 	ZWaveNodeValueAddedArgs,
 	ZWaveNodeValueRemovedArgs,
-	ZWaveNodeValueUpdatedArgs,
+	ZWaveNodeValueUpdatedArgs
 } from "zwave-js/Values";
 import { guessFirmwareFormat } from "./lib/firmwareUpdate";
 import { Global as _ } from "./lib/global";
@@ -39,7 +39,7 @@ import {
 	removeNode,
 	removeValue,
 	setNodeReady,
-	setNodeStatus,
+	setNodeStatus
 } from "./lib/objects";
 import {
 	AssociationDefinition,
@@ -47,7 +47,7 @@ import {
 	FirmwareUpdatePollResponse,
 	InclusionMode,
 	mapToRecord,
-	NetworkHealPollResponse,
+	NetworkHealPollResponse
 } from "./lib/shared";
 
 export class ZWave2 extends utils.Adapter<true> {
@@ -1092,6 +1092,81 @@ export class ZWave2 extends utils.Adapter<true> {
 					} catch (e) {
 						return respond(responses.ERROR(e.message));
 					}
+				}
+
+				case "sendCommand": {
+					if (!this.driverReady) {
+						return respond(
+							responses.ERROR(
+								"The driver is not yet ready to do that!",
+							),
+						);
+					}
+
+					// Check that we got the params we need
+					if (!requireParams("nodeId", "commandClass", "command"))
+						return;
+					const {
+						nodeId,
+						endpoint,
+						commandClass,
+						command,
+						args,
+					} = obj.message as any;
+					if (typeof nodeId !== "number") {
+						return respond(
+							responses.ERROR(`nodeId must be a number`),
+						);
+					}
+					if (endpoint != undefined) {
+						if (typeof endpoint !== "number") {
+							return respond(responses.ERROR(
+								`If an endpoint is given, it must be a number!`,
+							));
+						} else if (endpoint < 0) {
+							return respond(responses.ERROR(
+								`The endpoint must not be negative!`,
+								));
+							}
+					}
+					if (typeof commandClass !== "string") {
+						return respond(
+							responses.ERROR(`commandClass must be a string`),
+						);
+					} else if (typeof command !== "string") {
+						return respond(
+							responses.ERROR(`command must be a string`),
+						);
+					}
+					if (args != undefined && !isArray(args)) {
+						return respond(
+							responses.ERROR(
+								`if args is given, it must be an array`,
+							),
+						);
+					}
+
+					const node = this.driver.controller.nodes.get(nodeId);
+					if (!node) {
+						return respond(
+							responses.ERROR(
+								`Node ${nodeId} was not found!`,
+							),
+						);
+					}
+					const ep = node.getEndpoint(endpoint ?? 0);
+					if (!endpoint) {
+						return respond(
+							responses.ERROR(
+								`Endpoint ${} ${nodeId} was not found!`,
+							),
+						);
+					}
+					const api = 
+
+					const response = await .commandClasses[commandClass][command](...args);
+
+					return;
 				}
 			}
 		}
