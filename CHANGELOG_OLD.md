@@ -1,4 +1,10 @@
 # Older changes
+## 1.3.6 (2020-06-17)
+* Added some details to the `Multi Channel Association CC` interview logging
+* Configured lifeline node associations of newer devices should now be set correctly
+* `CRC-16`-encapsulated commands can now be received
+* The log file is complete again
+
 ## 1.3.4 (2020-06-16)
 * The association UI no longer crashes if an empty association object is returned
 * The target endpoint selection for associations is now hidden if an association does not support multiple target endpoints
