@@ -12,6 +12,7 @@ import {
 	ZWaveErrorCodes,
 	ZWaveNode,
 } from "zwave-js";
+import type { CCAPI } from "zwave-js/build/lib/commandclass/API";
 import type {
 	Association,
 	AssociationGroup,
@@ -1089,6 +1090,113 @@ export class ZWave2 extends utils.Adapter<true> {
 							`Node ${nodeId}: Firmware update aborted`,
 						);
 						return respond(responses.OK);
+					} catch (e) {
+						return respond(responses.ERROR(e.message));
+					}
+				}
+
+				case "sendCommand": {
+					if (!this.driverReady) {
+						return respond(
+							responses.ERROR(
+								"The driver is not yet ready to do that!",
+							),
+						);
+					}
+
+					// Check that we got the params we need
+					if (!requireParams("nodeId", "commandClass", "command"))
+						return;
+					const {
+						nodeId,
+						endpoint: endpointIndex,
+						commandClass,
+						command,
+						args,
+					} = obj.message as any;
+					if (typeof nodeId !== "number") {
+						return respond(
+							responses.ERROR(`nodeId must be a number`),
+						);
+					}
+					if (endpointIndex != undefined) {
+						if (typeof endpointIndex !== "number") {
+							return respond(
+								responses.ERROR(
+									`If an endpoint is given, it must be a number!`,
+								),
+							);
+						} else if (endpointIndex < 0) {
+							return respond(
+								responses.ERROR(
+									`The endpoint must not be negative!`,
+								),
+							);
+						}
+					}
+					if (
+						typeof commandClass !== "string" &&
+						typeof commandClass !== "number"
+					) {
+						return respond(
+							responses.ERROR(
+								`commandClass must be a string or number`,
+							),
+						);
+					} else if (typeof command !== "string") {
+						return respond(
+							responses.ERROR(`command must be a string`),
+						);
+					}
+					if (args != undefined && !isArray(args)) {
+						return respond(
+							responses.ERROR(
+								`if args is given, it must be an array`,
+							),
+						);
+					}
+
+					const node = this.driver.controller.nodes.get(nodeId);
+					if (!node) {
+						return respond(
+							responses.ERROR(`Node ${nodeId} was not found!`),
+						);
+					}
+					const endpoint = node.getEndpoint(endpointIndex ?? 0);
+					// wotan-disable-next-line
+					if (!endpoint) {
+						return respond(
+							responses.ERROR(
+								`Endpoint ${endpointIndex} does not exist on Node ${nodeId}!`,
+							),
+						);
+					}
+					let api: CCAPI;
+					try {
+						api = (endpoint.commandClasses as any)[commandClass];
+					} catch (e) {
+						return respond(responses.ERROR(e.message));
+					}
+					if (!api.isSupported()) {
+						return respond(
+							responses.ERROR(
+								`Node ${nodeId} (Endpoint ${endpointIndex}) does not support CC ${commandClass}`,
+							),
+						);
+					} else if (!(command in api)) {
+						return respond(
+							responses.ERROR(
+								`The command ${command} does not exist for CC ${commandClass}`,
+							),
+						);
+					}
+
+					try {
+						const method = (api as any)[command].bind(api);
+						const result = args
+							? await method(...args)
+							: await method();
+						return respond(responses.RESULT(result));
 					} catch (e) {
 						return respond(responses.ERROR(e.message));
 					}

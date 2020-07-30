@@ -32,6 +32,10 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	### __WORK IN PROGRESS__
 -->
 
+### __WORK IN PROGRESS__
+* Added the possibility to send custom commands from scripts ([documentation](docs/en/sendCommand.md)).
+* Added a `reset` state under `Meter CC`
+
 ### 1.4.2 (2020-07-05)
 * During the interview, endpoint associations are now converted to node associations if required
 * The interview process no longer fails if a node supports `Notification CC V2`
