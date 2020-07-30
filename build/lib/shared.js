@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.InclusionMode = exports.mapToRecord = exports.computeDeviceId = void 0;
 const strings_1 = require("alcalzone-shared/strings");
 // WARNING: DO NOT IMPORT values FROM "zwave-js" HERE
 // That will break the frontend

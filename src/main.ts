@@ -10,12 +10,13 @@ import {
 	extractFirmware,
 	ZWaveError,
 	ZWaveErrorCodes,
-	ZWaveNode
+	ZWaveNode,
 } from "zwave-js";
+import type { CCAPI } from "zwave-js/build/lib/commandclass/API";
 import type {
 	Association,
 	AssociationGroup,
-	FirmwareUpdateStatus
+	FirmwareUpdateStatus,
 } from "zwave-js/CommandClass";
 import type { HealNodeStatus } from "zwave-js/Controller";
 import type { Firmware } from "zwave-js/Utils";
@@ -24,7 +25,7 @@ import type {
 	ZWaveNodeMetadataUpdatedArgs,
 	ZWaveNodeValueAddedArgs,
 	ZWaveNodeValueRemovedArgs,
-	ZWaveNodeValueUpdatedArgs
+	ZWaveNodeValueUpdatedArgs,
 } from "zwave-js/Values";
 import { guessFirmwareFormat } from "./lib/firmwareUpdate";
 import { Global as _ } from "./lib/global";
@@ -39,7 +40,7 @@ import {
 	removeNode,
 	removeValue,
 	setNodeReady,
-	setNodeStatus
+	setNodeStatus,
 } from "./lib/objects";
 import {
 	AssociationDefinition,
@@ -47,7 +48,7 @@ import {
 	FirmwareUpdatePollResponse,
 	InclusionMode,
 	mapToRecord,
-	NetworkHealPollResponse
+	NetworkHealPollResponse,
 } from "./lib/shared";
 
 export class ZWave2 extends utils.Adapter<true> {
@@ -1108,7 +1109,7 @@ export class ZWave2 extends utils.Adapter<true> {
 						return;
 					const {
 						nodeId,
-						endpoint,
+						endpoint: endpointIndex,
 						commandClass,
 						command,
 						args,
@@ -1118,20 +1119,29 @@ export class ZWave2 extends utils.Adapter<true> {
 							responses.ERROR(`nodeId must be a number`),
 						);
 					}
-					if (endpoint != undefined) {
-						if (typeof endpoint !== "number") {
-							return respond(responses.ERROR(
-								`If an endpoint is given, it must be a number!`,
-							));
-						} else if (endpoint < 0) {
-							return respond(responses.ERROR(
-								`The endpoint must not be negative!`,
-								));
-							}
+					if (endpointIndex != undefined) {
+						if (typeof endpointIndex !== "number") {
+							return respond(
+								responses.ERROR(
+									`If an endpoint is given, it must be a number!`,
+								),
+							);
+						} else if (endpointIndex < 0) {
+							return respond(
+								responses.ERROR(
+									`The endpoint must not be negative!`,
+								),
+							);
+						}
 					}
-					if (typeof commandClass !== "string") {
+					if (
+						typeof commandClass !== "string" &&
+						typeof commandClass !== "number"
+					) {
 						return respond(
-							responses.ERROR(`commandClass must be a string`),
+							responses.ERROR(
+								`commandClass must be a string or number`,
+							),
 						);
 					} else if (typeof command !== "string") {
 						return respond(
@@ -1149,24 +1159,46 @@ export class ZWave2 extends utils.Adapter<true> {
 					const node = this.driver.controller.nodes.get(nodeId);
 					if (!node) {
 						return respond(
-							responses.ERROR(
-								`Node ${nodeId} was not found!`,
-							),
+							responses.ERROR(`Node ${nodeId} was not found!`),
 						);
 					}
-					const ep = node.getEndpoint(endpoint ?? 0);
+					const endpoint = node.getEndpoint(endpointIndex ?? 0);
 					if (!endpoint) {
 						return respond(
 							responses.ERROR(
-								`Endpoint ${} ${nodeId} was not found!`,
+								`Endpoint ${endpointIndex} does not exist on Node ${nodeId}!`,
 							),
 						);
 					}
-					const api = 
+					let api: CCAPI;
+					try {
+						api = (endpoint.commandClasses as any)[commandClass];
+					} catch (e) {
+						return respond(responses.ERROR(e.message));
+					}
+					if (!api.isSupported()) {
+						return respond(
+							responses.ERROR(
+								`Node ${nodeId} (Endpoint ${endpointIndex}) does not support CC ${commandClass}`,
+							),
+						);
+					} else if (!(command in api)) {
+						return respond(
+							responses.ERROR(
+								`The command ${command} does not exist for CC ${commandClass}`,
+							),
+						);
+					}
 
-					const response = await .commandClasses[commandClass][command](...args);
-
-					return;
+					try {
+						const method = (api as any)[command].bind(api);
+						const result = args
+							? await method(...args)
+							: await method();
+						return respond(responses.RESULT(result));
+					} catch (e) {
+						return respond(responses.ERROR(e.message));
+					}
 				}
 			}
 		}
