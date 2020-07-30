@@ -1163,6 +1163,7 @@ export class ZWave2 extends utils.Adapter<true> {
 						);
 					}
 					const endpoint = node.getEndpoint(endpointIndex ?? 0);
+					// wotan-disable-next-line
 					if (!endpoint) {
 						return respond(
 							responses.ERROR(

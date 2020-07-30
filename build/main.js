@@ -789,6 +789,7 @@ class ZWave2 extends utils.Adapter {
                         return respond(responses.ERROR(`Node ${nodeId} was not found!`));
                     }
                     const endpoint = node.getEndpoint(endpointIndex !== null && endpointIndex !== void 0 ? endpointIndex : 0);
+                    // wotan-disable-next-line
                     if (!endpoint) {
                         return respond(responses.ERROR(`Endpoint ${endpointIndex} does not exist on Node ${nodeId}!`));
                     }
