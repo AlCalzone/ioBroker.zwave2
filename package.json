@@ -69,7 +69,7 @@
     "@types/react-dom": "^16.9.8",
     "@types/sinon": "^9.0.1",
     "@types/sinon-chai": "^3.2.4",
-    "@typescript-eslint/eslint-plugin": "^2.33.0",
+    "@typescript-eslint/eslint-plugin": "^2.34.0",
     "@typescript-eslint/parser": "^2.33.0",
     "axios": "^0.19.2",
     "chai": "^4.2.0",
