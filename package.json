@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "@iobroker/adapter-core": "^2.4.0",
-    "alcalzone-shared": "^2.2.0",
+    "alcalzone-shared": "^3.0.0",
     "fs-extra": "^9.0.1",
     "zwave-js": "^4.0.6"
   },
