@@ -32,6 +32,10 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	### __WORK IN PROGRESS__
 -->
 
+### __WORK IN PROGRESS__
+* Added the possibility to send `Multilevel Sensor Report`s from scripts
+* Dependency updates for bug and security fixes
+
 ### 1.5.0 (2020-07-30)
 * Added the possibility to send custom commands from scripts ([documentation](docs/en/sendCommand.md)).
 * Added a `reset` state under `Meter CC`

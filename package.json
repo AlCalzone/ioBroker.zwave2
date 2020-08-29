@@ -37,7 +37,7 @@
     "@iobroker/adapter-core": "^2.4.0",
     "alcalzone-shared": "^3.0.0",
     "fs-extra": "^9.0.1",
-    "zwave-js": "^4.0.6"
+    "zwave-js": "^4.1.0"
   },
   "devDependencies": {
     "@alcalzone/release-script": "^1.5.1",
