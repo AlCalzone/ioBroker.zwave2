@@ -1,4 +1,7 @@
 # Older changes
+## 1.3.8 (2020-06-18)
+* Fixed transmission issues caused by overlapped secure transactions
+
 ## 1.3.6 (2020-06-17)
 * Added some details to the `Multi Channel Association CC` interview logging
 * Configured lifeline node associations of newer devices should now be set correctly

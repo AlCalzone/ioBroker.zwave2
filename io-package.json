@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "1.5.0",
+        "version": "1.6.0",
         "news": {
+            "1.6.0": {
+                "en": "Added the possibility to send `Multilevel Sensor Report`s from scripts\nDependency updates for bug and security fixes",
+                "de": "Es wurde die Möglichkeit hinzugefügt, \"Multilevel Sensor Report\" aus Skripten zu senden\nAbhängigkeitsaktualisierungen für Fehler- und Sicherheitskorrekturen",
+                "ru": "Добавлена возможность отправки `Multilevel Sensor Report`s из скриптов\nОбновления зависимостей для исправлений ошибок и безопасности",
+                "pt": "Adicionada a possibilidade de enviar `Relatório de Sensor Multinível`s de scripts\nAtualizações de dependência para correções de bugs e segurança",
+                "nl": "De mogelijkheid toegevoegd om `Multilevel Sensor Report`s vanuit scripts te versturen\nAfhankelijkheidsupdates voor bug- en beveiligingsoplossingen",
+                "fr": "Ajout de la possibilité d'envoyer des rapports de capteur à plusieurs niveaux à partir de scripts\nMises à jour des dépendances pour les corrections de bogues et de sécurité",
+                "it": "Aggiunta la possibilità di inviare \"Report sui sensori multilivello\" dagli script\nAggiornamenti delle dipendenze per correzioni di bug e sicurezza",
+                "es": "Se agregó la posibilidad de enviar informes de sensores multinivel desde scripts\nActualizaciones de dependencia para correcciones de errores y seguridad",
+                "pl": "Dodano możliwość wysyłania `Multilevel Sensor Report` ze skryptów\nAktualizacje zależności dla poprawek błędów i zabezpieczeń",
+                "zh-cn": "添加了从脚本发送“多级传感器报告”的可能性\n漏洞和安全修复程序的依赖关系更新"
+            },
             "1.5.0": {
                 "en": "Added the possibility to send custom commands from scripts ([documentation](docs/en/sendCommand.md)).\nAdded a `reset` state under `Meter CC`\nBugfix: Logs are no longer split across multiple files",
                 "de": "Es wurde die Möglichkeit hinzugefügt, benutzerdefinierte Befehle aus Skripten zu senden ([Dokumentation] (docs / de / sendCommand.md)).\nEin \"Reset\" -Zustand wurde unter \"Meter CC\" hinzugefügt\nBugfix: Protokolle werden nicht mehr auf mehrere Dateien aufgeteilt",
@@ -230,18 +242,6 @@
                 "es": "Se corrigió un problema por el cual los nodos dormidos seguros podían bloquear toda comunicación con otros nodos",
                 "pl": "Naprawiono problem, w którym bezpieczne uśpione węzły mogły blokować całą komunikację z innymi węzłami",
                 "zh-cn": "修复了安全的睡眠节点可能会阻止与其他节点进行所有通信的问题"
-            },
-            "0.14.7": {
-                "en": "Fixed an issue where interviews could get stuck for sleeping nodes\nFixed a crash that happened when decoding a secure message with an unsupported payload",
-                "de": "Es wurde ein Problem behoben, durch das Interviews für schlafende Knoten hängen blieben\nEs wurde ein Absturz behoben, der beim Dekodieren einer sicheren Nachricht mit einer nicht unterstützten Nutzlast auftrat",
-                "ru": "Исправлена ошибка, из-за которой интервью могли застрять в спящих узлах.\nИсправлен сбой, возникающий при декодировании защищенного сообщения с неподдерживаемой полезной нагрузкой.",
-                "pt": "Corrigido um problema em que as entrevistas podiam ficar paralisadas para nós adormecidos\nCorrigida uma falha que acontecia ao decodificar uma mensagem segura com uma carga útil não suportada",
-                "nl": "Er is een probleem opgelost waarbij interviews vast konden lopen voor slaapknooppunten\nEen crash verholpen die zich voordeed bij het decoderen van een beveiligd bericht met een niet-ondersteunde payload",
-                "fr": "Correction d'un problème où les interviews pouvaient se bloquer pour les nœuds endormis\nCorrection d'un plantage qui se produisait lors du décodage d'un message sécurisé avec une charge utile non prise en charge",
-                "it": "Risolto il problema per cui le interviste potevano rimanere bloccate per i nodi dormienti\nRisolto un crash che si verificava durante la decodifica di un messaggio sicuro con un payload non supportato",
-                "es": "Se solucionó un problema por el cual las entrevistas podían atascarse para nodos dormidos\nSe corrigió un bloqueo que ocurría al decodificar un mensaje seguro con una carga útil no compatible",
-                "pl": "Naprawiono problem, w wyniku którego wywiady mogły zacinać się w węzłach uśpionych\nNaprawiono awarię występującą podczas dekodowania bezpiecznej wiadomości o nieobsługiwanym ładunku",
-                "zh-cn": "修复了采访可能陷入睡眠节点的问题\n修复了在解码不支持有效负载的安全消息时发生的崩溃"
             }
         },
         "title": "Z-Wave 2",
