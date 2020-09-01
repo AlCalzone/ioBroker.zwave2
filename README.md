@@ -32,6 +32,9 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	### __WORK IN PROGRESS__
 -->
 
+### 1.6.1 (2020-09-01)
+* Fixed interview issues with devices that claim they support `Basic CC`, but don't respond
+
 ### 1.6.0 (2020-08-29)
 * Added the possibility to send `Multilevel Sensor Report`s from scripts
 * Dependency updates for bug and security fixes
@@ -49,12 +52,6 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 * If a node fails to respond to `Multi Channel Endpoint Find`, the interview is no longer aborted and sequential endpoints are assumed instead
 * Renamed the manufacturer Goap to Qubino
 * For many Qubino devices, the lifeline now uses a node association
-
-### 1.4.0 (2020-06-26)
-Updated `zwave-js` to v4.0.1. This includes the following features:
-* Improved support for legacy devices that don't include all CCs in the NIF, like `Fibaro FGRM 222`.
-* Added support for `Sound Switch CC`
-* Added support for `Alarm Sensor CC`. This CC will only be used if `Notification CC` is not supported.
 
 ## License
 

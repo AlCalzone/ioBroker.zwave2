@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "1.6.0",
+        "version": "1.6.1",
         "news": {
+            "1.6.1": {
+                "en": "Fixed interview issues with devices that claim they support `Basic CC`, but don't respond",
+                "de": "Interviewprobleme mit Geräten behoben, die behaupten, dass sie \"Basic CC\" unterstützen, aber nicht antworten",
+                "ru": "Исправлены проблемы с интервью с устройствами, которые утверждают, что поддерживают `Basic CC`, но не отвечают",
+                "pt": "Problemas de entrevista corrigidos com dispositivos que afirmam ser compatíveis com `CC básico`, mas não respondem",
+                "nl": "Interviewproblemen opgelost met apparaten die beweren dat ze `Basic CC` ondersteunen, maar niet reageren",
+                "fr": "Correction de problèmes d'entretien avec des appareils qui prétendent prendre en charge `Basic CC`, mais ne répondent pas",
+                "it": "Risolti i problemi di intervista con dispositivi che affermano di supportare \"CC di base\", ma non rispondono",
+                "es": "Se corrigieron problemas de entrevistas con dispositivos que afirman ser compatibles con \"Basic CC\", pero no responden",
+                "pl": "Naprawiono problemy z rozmową kwalifikacyjną z urządzeniami, które twierdzą, że obsługują „Basic CC”, ale nie odpowiadają",
+                "zh-cn": "修复了声称支持“基本抄送”但不响应的设备的采访问题"
+            },
             "1.6.0": {
                 "en": "Added the possibility to send `Multilevel Sensor Report`s from scripts\nDependency updates for bug and security fixes",
                 "de": "Es wurde die Möglichkeit hinzugefügt, \"Multilevel Sensor Report\" aus Skripten zu senden\nAbhängigkeitsaktualisierungen für Fehler- und Sicherheitskorrekturen",
@@ -230,18 +242,6 @@
                 "es": "Los nombres de objeto de marcador de posición (por ejemplo, `Nodo 003`) para nodos no accesibles ahora se sobrescriben con el nombre correcto cuando se entrevistan los nodos.",
                 "pl": "Nazwy obiektów zastępczych (np. „Węzeł 003”) dla nieosiągalnych węzłów są teraz zastępowane poprawną nazwą podczas przesłuchiwania węzłów.",
                 "zh-cn": "现在，在访问节点时，不可达节点的占位符对象名称（例如，“节点003”）将被正确的名称覆盖。"
-            },
-            "0.14.8": {
-                "en": "Fixed an issue where secure sleeping nodes could block all communication with other nodes",
-                "de": "Es wurde ein Problem behoben, durch das sichere schlafende Knoten die gesamte Kommunikation mit anderen Knoten blockieren konnten",
-                "ru": "Исправлена ошибка, из-за которой безопасные спящие узлы могли блокировать все коммуникации с другими узлами.",
-                "pt": "Corrigido um problema em que nós inativos seguros podiam bloquear toda a comunicação com outros nós",
-                "nl": "Er is een probleem opgelost waarbij veilige slaapknooppunten alle communicatie met andere knooppunten konden blokkeren",
-                "fr": "Correction d'un problème où les nœuds de sommeil sécurisés pouvaient bloquer toutes les communications avec d'autres nœuds",
-                "it": "Risolto il problema per cui i nodi dormienti sicuri potevano bloccare tutte le comunicazioni con altri nodi",
-                "es": "Se corrigió un problema por el cual los nodos dormidos seguros podían bloquear toda comunicación con otros nodos",
-                "pl": "Naprawiono problem, w którym bezpieczne uśpione węzły mogły blokować całą komunikację z innymi węzłami",
-                "zh-cn": "修复了安全的睡眠节点可能会阻止与其他节点进行所有通信的问题"
             }
         },
         "title": "Z-Wave 2",
