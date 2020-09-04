@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "1.6.2",
+        "version": "1.6.3",
         "news": {
+            "1.6.3": {
+                "en": "Further performance optimization\nImproved compatibility with devices that send invalid `Multi Channel CC` commands",
+                "de": "Weitere Leistungsoptimierung\nVerbesserte Kompatibilität mit Geräten, die ungültige Mehrkanal-CC-Befehle senden",
+                "ru": "Дальнейшая оптимизация производительности\nУлучшена совместимость с устройствами, которые отправляют недопустимые команды `Multi Channel CC`.",
+                "pt": "Otimização de desempenho adicional\nCompatibilidade aprimorada com dispositivos que enviam comandos `Multi Channel CC` inválidos",
+                "nl": "Verdere prestatie-optimalisatie\nVerbeterde compatibiliteit met apparaten die ongeldige `Multi Channel CC`-opdrachten verzenden",
+                "fr": "Optimisation supplémentaire des performances\nAmélioration de la compatibilité avec les appareils qui envoient des commandes `Multi Channel CC` invalides",
+                "it": "Ulteriore ottimizzazione delle prestazioni\nMigliorata la compatibilità con i dispositivi che inviano comandi \"CC multicanale\" non validi",
+                "es": "Mayor optimización del rendimiento\nCompatibilidad mejorada con dispositivos que envían comandos \"CC multicanal\" no válidos",
+                "pl": "Dalsza optymalizacja wydajności\nPoprawiona kompatybilność z urządzeniami, które wysyłają nieprawidłowe polecenia `Multi Channel CC`",
+                "zh-cn": "进一步的性能优化\n改进了与发送无效“多通道CC”命令的设备的兼容性"
+            },
             "1.6.2": {
                 "en": "Reduced CPU load in large networks",
                 "de": "Reduzierte CPU-Auslastung in großen Netzwerken",
@@ -230,18 +242,6 @@
                 "es": "Soporte agregado para `Door Lock CC V4`\nSoporte agregado para `Lock CC`\nSe solucionó el problema `E5` con los termostatos Danfoss (con suerte)\nSe solucionó un problema por el cual los nodos dormidos podían bloquear toda la cola de envío\nSe solucionó un problema por el cual algunos CC no almacenaban los valores recibidos\nSe solucionó un problema por el cual los valores del punto final 1 de algunos dispositivos multicanal no se actualizaban\nLa entrevista de nodo ya no se cancela si se agota el tiempo de espera de una respuesta a las siguientes solicitudes:\nEstado de la batería\nEstado de la batería\nEstado del sensor binario\nEstado del sensor multinivel",
                 "pl": "Dodano obsługę „Door Lock CC V4”\nDodano obsługę `Lock CC`\nNaprawiono problem „E5” z termostatami Danfoss (mam nadzieję)\nNaprawiono problem, w którym uśpione węzły mogły blokować całą kolejkę wysyłania\nNaprawiono problem, w którym niektóre CC nie zapisywały otrzymanych wartości\nNaprawiono problem polegający na tym, że wartości punktu końcowego 1 niektórych urządzeń wielokanałowych nie były aktualizowane\nWywiad z węzłem nie jest już przerywany, jeśli upłynie limit czasu odpowiedzi na następujące żądania:\nStan baterii\nKondycja baterii\nStatus czujnika binarnego\nStatus czujnika wielopoziomowego",
                 "zh-cn": "增加了对“ Door Lock CC V4”的支持\n添加了对“ Lock CC”的支持\n修复了Danfoss温控器的“ E5”问题（希望如此）\n修复了休眠节点可能会阻塞整个发送队列的问题\n修复了某些抄送未存储接收到的值的问题\n修复了某些多通道设备的端点1的值未更新的问题\n如果对以下请求的响应超时，则节点采访不再中止：\n电池状态\n电池健康\n二进制传感器状态\n多级传感器状态"
-            },
-            "1.0.0": {
-                "en": "Changed the compatibility config queries for Danfoss thermostats, so queued setpoint changes are not overwritten",
-                "de": "Die Kompatibilitätskonfigurationsabfragen für Danfoss-Thermostate wurden geändert, sodass Änderungen der Sollwerte in der Warteschlange nicht überschrieben werden",
-                "ru": "Изменены запросы конфигурации совместимости для термостатов Danfoss, поэтому изменения заданного значения в очереди не перезаписываются",
-                "pt": "Foram alteradas as consultas de configuração de compatibilidade para termostatos Danfoss, para que as alterações no ponto de ajuste na fila não sejam substituídas",
-                "nl": "De compatibiliteitsconfiguratievragen voor Danfoss-thermostaten gewijzigd, dus wijzigingen in instelpunten in de wachtrij worden niet overschreven",
-                "fr": "Modification des requêtes de configuration de compatibilité pour les thermostats Danfoss, afin que les modifications de point de consigne en file d'attente ne soient pas écrasées",
-                "it": "Modificate le query di configurazione della compatibilità per i termostati Danfoss, quindi le modifiche del setpoint in coda non vengono sovrascritte",
-                "es": "Se modificaron las consultas de configuración de compatibilidad para los termostatos Danfoss, por lo que los cambios en el punto de referencia en cola no se sobrescriben",
-                "pl": "Zmieniono zapytania konfiguracji zgodności dla termostatów Danfoss, więc zmiany wartości zadanej w kolejce nie są nadpisywane",
-                "zh-cn": "更改了丹佛斯恒温器的兼容性配置查询，因此排队的设定值更改不会被覆盖"
             }
         },
         "title": "Z-Wave 2",

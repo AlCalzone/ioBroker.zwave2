@@ -32,7 +32,7 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	### __WORK IN PROGRESS__
 -->
 
-### __WORK IN PROGRESS__
+### 1.6.3 (2020-09-04)
 * Further performance optimization
 * Improved compatibility with devices that send invalid `Multi Channel CC` commands
 
@@ -50,10 +50,6 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 * Added the possibility to send custom commands from scripts ([documentation](docs/en/sendCommand.md)).
 * Added a `reset` state under `Meter CC`
 * Bugfix: Logs are no longer split across multiple files
-
-### 1.4.2 (2020-07-05)
-* During the interview, endpoint associations are now converted to node associations if required
-* The interview process no longer fails if a node supports `Notification CC V2`
 
 ## License
 

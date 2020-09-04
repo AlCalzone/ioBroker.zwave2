@@ -1,4 +1,8 @@
 # Older changes
+## 1.4.2 (2020-07-05)
+* During the interview, endpoint associations are now converted to node associations if required
+* The interview process no longer fails if a node supports `Notification CC V2`
+
 ## 1.4.1 (2020-06-30)
 * If a node fails to respond to `Multi Channel Endpoint Find`, the interview is no longer aborted and sequential endpoints are assumed instead
 * Renamed the manufacturer Goap to Qubino
