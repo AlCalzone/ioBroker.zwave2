@@ -32,6 +32,10 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	### __WORK IN PROGRESS__
 -->
 
+### __WORK IN PROGRESS__
+* Further performance optimization
+* Improved compatibility with devices that send invalid `Multi Channel CC` commands
+
 ### 1.6.2 (2020-09-04)
 * Reduced CPU load in large networks
 
