@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "1.6.1",
+        "version": "1.6.2",
         "news": {
+            "1.6.2": {
+                "en": "Reduced CPU load in large networks",
+                "de": "Reduzierte CPU-Auslastung in großen Netzwerken",
+                "ru": "Снижение нагрузки на ЦП в больших сетях",
+                "pt": "Carga de CPU reduzida em redes grandes",
+                "nl": "Verminderde CPU-belasting in grote netwerken",
+                "fr": "Charge CPU réduite dans les grands réseaux",
+                "it": "Riduzione del carico della CPU nelle reti di grandi dimensioni",
+                "es": "Carga de CPU reducida en redes grandes",
+                "pl": "Zmniejszone obciążenie procesora w dużych sieciach",
+                "zh-cn": "减少大型网络中的CPU负载"
+            },
             "1.6.1": {
                 "en": "Fixed interview issues with devices that claim they support `Basic CC`, but don't respond",
                 "de": "Interviewprobleme mit Geräten behoben, die behaupten, dass sie \"Basic CC\" unterstützen, aber nicht antworten",
@@ -230,18 +242,6 @@
                 "es": "Se modificaron las consultas de configuración de compatibilidad para los termostatos Danfoss, por lo que los cambios en el punto de referencia en cola no se sobrescriben",
                 "pl": "Zmieniono zapytania konfiguracji zgodności dla termostatów Danfoss, więc zmiany wartości zadanej w kolejce nie są nadpisywane",
                 "zh-cn": "更改了丹佛斯恒温器的兼容性配置查询，因此排队的设定值更改不会被覆盖"
-            },
-            "0.14.9": {
-                "en": "Placeholder object names (e.g. `Node 003`) for non-reachable nodes are now overwritten with the correct name when the nodes are interviewed.",
-                "de": "Platzhalterobjektnamen (z. B. \"Knoten 003\") für nicht erreichbare Knoten werden jetzt mit dem richtigen Namen überschrieben, wenn die Knoten befragt werden.",
-                "ru": "Имена объектов-заполнителей (например, `Node 003`) для недоступных узлов теперь перезаписываются с правильным именем при опросе узлов.",
-                "pt": "Os nomes de objetos de espaço reservado (por exemplo, \"Nó 003\") para nós inacessíveis agora são substituídos pelo nome correto quando os nós são entrevistados.",
-                "nl": "Namen van tijdelijke aanduiding-objecten (bijv. `Knooppunt 003`) voor niet-bereikbare knooppunten worden nu overschreven met de juiste naam wanneer de knooppunten worden geïnterviewd.",
-                "fr": "Les noms d'objet d'espace réservé (par exemple, `` Node 003`) pour les nœuds non accessibles sont désormais remplacés par le nom correct lorsque les nœuds sont interrogés.",
-                "it": "I nomi degli oggetti segnaposto (ad es. \"Nodo 003\") per i nodi non raggiungibili ora vengono sovrascritti con il nome corretto quando vengono intervistati i nodi.",
-                "es": "Los nombres de objeto de marcador de posición (por ejemplo, `Nodo 003`) para nodos no accesibles ahora se sobrescriben con el nombre correcto cuando se entrevistan los nodos.",
-                "pl": "Nazwy obiektów zastępczych (np. „Węzeł 003”) dla nieosiągalnych węzłów są teraz zastępowane poprawną nazwą podczas przesłuchiwania węzłów.",
-                "zh-cn": "现在，在访问节点时，不可达节点的占位符对象名称（例如，“节点003”）将被正确的名称覆盖。"
             }
         },
         "title": "Z-Wave 2",

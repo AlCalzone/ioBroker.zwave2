@@ -32,6 +32,9 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	### __WORK IN PROGRESS__
 -->
 
+### 1.6.2 (2020-09-04)
+* Reduced CPU load in large networks
+
 ### 1.6.1 (2020-09-01)
 * Fixed interview issues with devices that claim they support `Basic CC`, but don't respond
 
@@ -47,11 +50,6 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 ### 1.4.2 (2020-07-05)
 * During the interview, endpoint associations are now converted to node associations if required
 * The interview process no longer fails if a node supports `Notification CC V2`
-
-### 1.4.1 (2020-06-30)
-* If a node fails to respond to `Multi Channel Endpoint Find`, the interview is no longer aborted and sequential endpoints are assumed instead
-* Renamed the manufacturer Goap to Qubino
-* For many Qubino devices, the lifeline now uses a node association
 
 ## License
 
