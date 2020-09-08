@@ -292,7 +292,7 @@ export class ZWave2 extends utils.Adapter<true> {
 		await setNodeStatus(
 			node.id,
 			node.id === this.driver.controller.ownNodeId
-				? "awake"
+				? "alive"
 				: nodeStatusToStatusState(node.status),
 		);
 		await setNodeReady(node.id, true);

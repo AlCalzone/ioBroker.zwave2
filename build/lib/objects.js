@@ -13,6 +13,8 @@ function nodeStatusToStatusState(status) {
             return "awake";
         case Node_1.NodeStatus.Asleep:
             return "asleep";
+        case Node_1.NodeStatus.Alive:
+            return "alive";
         case Node_1.NodeStatus.Dead:
             return "dead";
         case Node_1.NodeStatus.Unknown:

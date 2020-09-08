@@ -183,7 +183,7 @@ class ZWave2 extends utils.Adapter {
         await objects_2.extendNode(node);
         // Set the node status
         await objects_2.setNodeStatus(node.id, node.id === this.driver.controller.ownNodeId
-            ? "awake"
+            ? "alive"
             : objects_2.nodeStatusToStatusState(node.status));
         await objects_2.setNodeReady(node.id, true);
         // Skip channel creation for the controller node

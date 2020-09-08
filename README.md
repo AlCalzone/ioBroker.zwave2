@@ -32,6 +32,9 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	### __WORK IN PROGRESS__
 -->
 
+### __WORK IN PROGRESS__
+* Test compatibility with zwave-js 5.x.
+
 ### 1.6.3 (2020-09-04)
 * Further performance optimization
 * Improved compatibility with devices that send invalid `Multi Channel CC` commands

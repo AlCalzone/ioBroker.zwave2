@@ -26,6 +26,8 @@ export function nodeStatusToStatusState(status: NodeStatus): string {
 			return "awake";
 		case NodeStatus.Asleep:
 			return "asleep";
+		case NodeStatus.Alive:
+			return "alive";
 		case NodeStatus.Dead:
 			return "dead";
 		case NodeStatus.Unknown:
