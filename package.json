@@ -1,6 +1,6 @@
 {
   "name": "iobroker.zwave2",
-  "version": "1.6.3",
+  "version": "1.7.0-alpha.0",
   "description": "A better Z-Wave integration for ioBroker",
   "author": {
     "name": "AlCalzone",

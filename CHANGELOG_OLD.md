@@ -1,4 +1,9 @@
 # Older changes
+## 1.5.0 (2020-07-30)
+* Added the possibility to send custom commands from scripts ([documentation](docs/en/sendCommand.md)).
+* Added a `reset` state under `Meter CC`
+* Bugfix: Logs are no longer split across multiple files
+
 ## 1.4.2 (2020-07-05)
 * During the interview, endpoint associations are now converted to node associations if required
 * The interview process no longer fails if a node supports `Notification CC V2`
