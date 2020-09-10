@@ -25,6 +25,13 @@ const languages = {
 	"zh-cn": {}
 };
 
+function sanitizeJsonString(str) {
+	return str
+		.replace(/\\/g, '\\\\')
+		.replace(/"/g, '\\"')
+	;
+}
+
 function lang2data(lang, isFlat) {
 	let str = isFlat ? "" : "{\n";
 	let count = 0;
@@ -34,8 +41,8 @@ function lang2data(lang, isFlat) {
 			if (isFlat) {
 				str += (lang[w] === "" ? (isFlat[w] || w) : lang[w]) + "\n";
 			} else {
-				const key = '    "' + w.replace(/"/g, '\\"') + '": ';
-				str += key + '"' + lang[w].replace(/"/g, '\\"') + '",\n';
+				const key = '    "' + sanitizeJsonString(w) + '": ';
+				str += key + '"' + sanitizeJsonString(lang[w]) + '",\n';
 			}
 		}
 	}
@@ -78,11 +85,11 @@ function writeWordJs(data, src) {
 	text += "systemDictionary = {\n";
 	for (const word in data) {
 		if (data.hasOwnProperty(word)) {
-			text += "    " + padRight('"' + word.replace(/"/g, '\\"') + '": {', 50);
+			text += "    " + padRight('"' + sanitizeJsonString(word) + '": {', 50);
 			let line = "";
 			for (const lang in data[word]) {
 				if (data[word].hasOwnProperty(lang)) {
-					line += '"' + lang + '": "' + padRight(data[word][lang].replace(/"/g, '\\"') + '",', 50) + " ";
+					line += '"' + lang + '": "' + padRight(sanitizeJsonString(data[word][lang]) + '",', 50) + " ";
 				}
 			}
 			if (line) {
