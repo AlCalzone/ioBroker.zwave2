@@ -1,9 +1,9 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "1.7.0-alpha.0",
+        "version": "1.7.0-alpha.1",
         "news": {
-            "1.7.0-alpha.0": {
+            "1.7.0-alpha.1": {
                 "en": "Test compatibility with zwave-js 5.x.",
                 "de": "Testkompatibilität mit zwave-js 5.x.",
                 "ru": "Протестируйте совместимость с zwave-js 5.x.",

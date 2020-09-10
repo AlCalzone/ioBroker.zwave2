@@ -32,7 +32,7 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	### __WORK IN PROGRESS__
 -->
 
-### 1.7.0-alpha.0 (2020-09-08)
+### 1.7.0-alpha.1 (2020-09-10)
 * Test compatibility with zwave-js 5.x.
 
 ### 1.6.3 (2020-09-04)
