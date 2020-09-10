@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "1.6.3",
+        "version": "1.6.4",
         "news": {
+            "1.6.4": {
+                "en": "Added a configuration file for `ABUS CFA3010`",
+                "de": "Eine Konfigurationsdatei für \"ABUS CFA3010\" wurde hinzugefügt",
+                "ru": "Добавлен файл конфигурации для `ABUS CFA3010`",
+                "pt": "Adicionado um arquivo de configuração para `ABUS CFA3010`",
+                "nl": "Een configuratiebestand toegevoegd voor `ABUS CFA3010`",
+                "fr": "Ajout d'un fichier de configuration pour `ABUS CFA3010`",
+                "it": "Aggiunto un file di configurazione per `ABUS CFA3010`",
+                "es": "Se agregó un archivo de configuración para `ABUS CFA3010`",
+                "pl": "Dodano plik konfiguracyjny dla `ABUS CFA3010`",
+                "zh-cn": "添加了ABUS CFA3010的配置文件"
+            },
             "1.6.3": {
                 "en": "Further performance optimization\nImproved compatibility with devices that send invalid `Multi Channel CC` commands",
                 "de": "Weitere Leistungsoptimierung\nVerbesserte Kompatibilität mit Geräten, die ungültige Mehrkanal-CC-Befehle senden",
@@ -230,18 +242,6 @@
                 "es": "Se agregó la posibilidad de reiniciar la entrevista para nodos individuales\nLas asociaciones de línea de vida almacenadas en caché (para CC de `Multi Association 'y` Association`) ahora se actualizan si se cambian durante la entrevista",
                 "pl": "Dodano możliwość ponownego uruchomienia wywiadu dla pojedynczych węzłów\nPowiązane buforowane linie życia (dla `Multi Association Association` i` Association` CC) są teraz aktualizowane, jeśli zostaną zmienione podczas wywiadu",
                 "zh-cn": "添加了重新启动单个节点的采访的可能性\n如果在访问期间更改了缓存的生命线关联（针对“多渠道关联”和“关联” CC），则将对其进行更新"
-            },
-            "1.1.0": {
-                "en": "Added support for `Door Lock CC V4`\nAdded support for `Lock CC`\nFixed the `E5` issue with Danfoss thermostats (hopefully)\nFixed an issue where sleeping nodes could block the entire send queue\nFixed an issue where some CCs did not store the received values\nFixed an issue where the values of endpoint 1 of some multichannel devices were not updated\nThe node interview is no longer aborted if a response for the following requests times out:\nBattery status\nBattery health\nBinary Sensor status\nMultilevel Sensor status",
-                "de": "Unterstützung für \"Türschloss CC V4\" hinzugefügt\nUnterstützung für \"Lock CC\" hinzugefügt\nDas E5-Problem mit Danfoss-Thermostaten wurde behoben (hoffentlich)\nEs wurde ein Problem behoben, durch das schlafende Knoten die gesamte Sendewarteschlange blockieren konnten\nEs wurde ein Problem behoben, bei dem einige CCs die empfangenen Werte nicht speicherten\nEs wurde ein Problem behoben, bei dem die Werte von Endpunkt 1 einiger Mehrkanalgeräte nicht aktualisiert wurden\nDas Knoteninterview wird nicht mehr abgebrochen, wenn eine Antwort auf die folgenden Anforderungen abläuft:\nBatteriestatus\nBatteriezustand\nStatus des binären Sensors\nStatus des mehrstufigen Sensors",
-                "ru": "Добавлена поддержка `Door Lock CC V4`\nДобавлена поддержка `Lock CC`\nИсправлена проблема с `E5` с термостатами Danfoss (надеюсь)\nИсправлена ошибка, из-за которой спящие узлы могли блокировать всю очередь отправки.\nИсправлена проблема, когда некоторые CC не сохраняли полученные значения\nИсправлена ошибка, из-за которой значения конечной точки 1 некоторых многоканальных устройств не обновлялись\nИнтервью узла больше не прерывается, если время ожидания ответа на следующие запросы:\nЗаряд батареи\nЗдоровье батареи\nСостояние двоичного датчика\nСостояние многоуровневого датчика",
-                "pt": "Adicionado suporte para `Door Lock CC V4`\nAdicionado suporte para o `Lock CC`\nCorrigido o problema `E5` com os termostatos Danfoss (espero)\nCorrigido um problema em que os nós inativos podiam bloquear toda a fila de envio\nCorrigido um problema em que alguns CCs não armazenavam os valores recebidos\nCorrigido um problema em que os valores do terminal 1 de alguns dispositivos multicanais não eram atualizados\nA entrevista do nó não será mais interrompida se o tempo limite de uma resposta para os seguintes pedidos:\nStatus da bateria\nFuncionamento da bateria\nStatus do sensor binário\nStatus do sensor multinível",
-                "nl": "Ondersteuning toegevoegd voor `Door Lock CC V4`\nOndersteuning toegevoegd voor `Lock CC`\nHet 'E5'-probleem met Danfoss-thermostaten opgelost (hopelijk)\nEr is een probleem opgelost waarbij slaapknooppunten de hele verzendwachtrij konden blokkeren\nEr is een probleem opgelost waarbij sommige CC's de ontvangen waarden niet hadden opgeslagen\nEr is een probleem opgelost waarbij de waarden van eindpunt 1 van sommige meerkanaals apparaten niet werden bijgewerkt\nHet knooppuntinterview wordt niet meer afgebroken als er een time-out optreedt voor de volgende verzoeken:\nBatterij status\nBatterijstatus\nStatus binaire sensor\nStatus sensor op meerdere niveaus",
-                "fr": "Ajout de la prise en charge de `Door Lock CC V4`\nAjout de la prise en charge de `Lock CC`\nCorrection du problème `E5` avec les thermostats Danfoss (avec un peu de chance)\nCorrection d'un problème où les nœuds en veille pouvaient bloquer toute la file d'attente d'envoi\nCorrection d'un problème où certains CC ne stockaient pas les valeurs reçues\nCorrection d'un problème où les valeurs du point de terminaison 1 de certains appareils multicanaux n'étaient pas mises à jour\nL'interview de noeud n'est plus abandonnée si une réponse pour les demandes suivantes expire:\nÉtat de la batterie\nSanté de la batterie\nÉtat du capteur binaire\nÉtat du capteur à plusieurs niveaux",
-                "it": "Aggiunto supporto per `Door Lock CC V4`\nAggiunto supporto per `Lock CC`\nRisolto il problema `E5` con i termostati Danfoss (si spera)\nRisolto il problema per cui i nodi dormienti potevano bloccare l'intera coda di invio\nRisolto il problema per cui alcuni CC non memorizzavano i valori ricevuti\nRisolto il problema per cui i valori dell'endpoint 1 di alcuni dispositivi multicanale non venivano aggiornati\nL'intervista al nodo non viene più interrotta se scade una risposta per le seguenti richieste:\nStato della batteria\nSalute della batteria\nStato del sensore binario\nStato del sensore multilivello",
-                "es": "Soporte agregado para `Door Lock CC V4`\nSoporte agregado para `Lock CC`\nSe solucionó el problema `E5` con los termostatos Danfoss (con suerte)\nSe solucionó un problema por el cual los nodos dormidos podían bloquear toda la cola de envío\nSe solucionó un problema por el cual algunos CC no almacenaban los valores recibidos\nSe solucionó un problema por el cual los valores del punto final 1 de algunos dispositivos multicanal no se actualizaban\nLa entrevista de nodo ya no se cancela si se agota el tiempo de espera de una respuesta a las siguientes solicitudes:\nEstado de la batería\nEstado de la batería\nEstado del sensor binario\nEstado del sensor multinivel",
-                "pl": "Dodano obsługę „Door Lock CC V4”\nDodano obsługę `Lock CC`\nNaprawiono problem „E5” z termostatami Danfoss (mam nadzieję)\nNaprawiono problem, w którym uśpione węzły mogły blokować całą kolejkę wysyłania\nNaprawiono problem, w którym niektóre CC nie zapisywały otrzymanych wartości\nNaprawiono problem polegający na tym, że wartości punktu końcowego 1 niektórych urządzeń wielokanałowych nie były aktualizowane\nWywiad z węzłem nie jest już przerywany, jeśli upłynie limit czasu odpowiedzi na następujące żądania:\nStan baterii\nKondycja baterii\nStatus czujnika binarnego\nStatus czujnika wielopoziomowego",
-                "zh-cn": "增加了对“ Door Lock CC V4”的支持\n添加了对“ Lock CC”的支持\n修复了Danfoss温控器的“ E5”问题（希望如此）\n修复了休眠节点可能会阻塞整个发送队列的问题\n修复了某些抄送未存储接收到的值的问题\n修复了某些多通道设备的端点1的值未更新的问题\n如果对以下请求的响应超时，则节点采访不再中止：\n电池状态\n电池健康\n二进制传感器状态\n多级传感器状态"
             }
         },
         "title": "Z-Wave 2",
