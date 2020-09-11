@@ -22,7 +22,6 @@ export interface UseIoBrokerStateOptions<
  * @param stateId The state id to access
  */
 export function useIoBrokerState<
-	// wotan-disable-next-line no-misused-generics
 	T extends ioBroker.State["val"] = ioBroker.State["val"]
 >(
 	stateId: string,

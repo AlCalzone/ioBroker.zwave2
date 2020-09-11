@@ -19,7 +19,6 @@ exports.isObject = isObject;
  * @param it The variable to test
  */
 function isArray(it) {
-    // wotan-disable-next-line no-useless-predicate
     if (Array.isArray != null)
         return Array.isArray(it);
     return Object.prototype.toString.call(it) === "[object Array]";

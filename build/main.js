@@ -1,5 +1,4 @@
 "use strict";
-// wotan-disable async-function-assignability
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ZWave2 = void 0;
 const utils = require("@iobroker/adapter-core");
@@ -469,7 +468,6 @@ class ZWave2 extends utils.Adapter {
     async onMessage(obj) {
         // responds to the adapter that sent the original message
         const respond = (response) => {
-            // wotan-disable-next-line no-useless-predicate
             if (obj.callback)
                 this.sendTo(obj.from, obj.command, response, obj.callback);
         };
@@ -496,7 +494,6 @@ class ZWave2 extends utils.Adapter {
             }
             return true;
         }
-        // wotan-disable-next-line no-useless-predicate
         if (obj) {
             switch (obj.command) {
                 case "getNetworkMap": {
@@ -789,7 +786,6 @@ class ZWave2 extends utils.Adapter {
                         return respond(responses.ERROR(`Node ${nodeId} was not found!`));
                     }
                     const endpoint = node.getEndpoint(endpointIndex !== null && endpointIndex !== void 0 ? endpointIndex : 0);
-                    // wotan-disable-next-line
                     if (!endpoint) {
                         return respond(responses.ERROR(`Endpoint ${endpointIndex} does not exist on Node ${nodeId}!`));
                     }
