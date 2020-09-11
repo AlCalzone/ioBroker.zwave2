@@ -12,7 +12,15 @@ module.exports = {
 	],
 	plugins: [],
 	rules: {
-		"@typescript-eslint/ban-ts-ignore": "warn",
+		"@typescript-eslint/ban-ts-comment": [
+			"error",
+			{
+				"ts-expect-error": false,
+				"ts-ignore": true,
+				"ts-nocheck": true,
+				"ts-check": false,
+			},
+		],
 		"@typescript-eslint/no-parameter-properties": "off",
 		"@typescript-eslint/no-explicit-any": "off",
 		"@typescript-eslint/no-use-before-define": [

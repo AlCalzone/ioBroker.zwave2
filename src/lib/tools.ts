@@ -4,7 +4,7 @@ import axios from "axios";
  * Tests whether the given variable is a real object and not an Array
  * @param it The variable to test
  */
-export function isObject(it: any): it is object {
+export function isObject<T>(it: T): it is T & Record<string, any> {
 	// This is necessary because:
 	// typeof null === 'object'
 	// typeof [] === 'object'
@@ -16,7 +16,7 @@ export function isObject(it: any): it is object {
  * Tests whether the given variable is really an Array
  * @param it The variable to test
  */
-export function isArray(it: any): it is any[] {
+export function isArray<T>(it: T): it is T & any[] {
 	// wotan-disable-next-line no-useless-predicate
 	if (Array.isArray != null) return Array.isArray(it);
 	return Object.prototype.toString.call(it) === "[object Array]";
