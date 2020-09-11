@@ -50,8 +50,6 @@
     "@babel/plugin-proposal-optional-chaining": "^7.11.0",
     "@babel/preset-env": "^7.11.5",
     "@babel/preset-typescript": "^7.10.4",
-    "@fimbul/mithotyn": "^0.21.0",
-    "@fimbul/wotan": "^0.21.1",
     "@iobroker/testing": "^2.3.0",
     "@types/chai": "^4.2.12",
     "@types/chai-as-promised": "^7.1.3",
@@ -69,8 +67,8 @@
     "@types/react-dom": "^16.9.8",
     "@types/sinon": "^9.0.5",
     "@types/sinon-chai": "^3.2.4",
-    "@typescript-eslint/eslint-plugin": "^2.34.0",
-    "@typescript-eslint/parser": "^2.34.0",
+    "@typescript-eslint/eslint-plugin": "^4.1.0",
+    "@typescript-eslint/parser": "^4.1.0",
     "axios": "^0.20.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
@@ -94,7 +92,7 @@
     "sinon-chai": "^3.5.0",
     "source-map-support": "^0.5.19",
     "ts-node": "^9.0.0",
-    "typescript": "^3.9.7"
+    "typescript": "^4.0.2"
   },
   "scripts": {
     "prebuild": "rimraf ./build",
@@ -112,8 +110,7 @@
     "test": "npm run test:ts && npm run test:package",
     "coverage": "nyc npm run test:ts",
     "lint:ts": "eslint --ext .ts src",
-    "lint:wotan": "wotan",
-    "lint": "npm run lint:ts && npm run lint:wotan",
+    "lint": "npm run lint:ts",
     "update_iob": "start update_iob.bat",
     "start": "NO_CACHE=true LOGLEVEL=debug node --inspect build/main.js --force --logs",
     "release": "release-script"

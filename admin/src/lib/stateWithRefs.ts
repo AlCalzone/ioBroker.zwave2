@@ -1,6 +1,5 @@
-import * as React from "react";
 import type { Dispatch, MutableRefObject, SetStateAction } from "react";
-// wotan-disable no-misused-generics
+import * as React from "react";
 
 export function useStateWithRef<S = undefined>(): [
 	S | undefined,

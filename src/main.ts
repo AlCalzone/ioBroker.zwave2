@@ -1,5 +1,3 @@
-// wotan-disable async-function-assignability
-
 import * as utils from "@iobroker/adapter-core";
 import { composeObject } from "alcalzone-shared/objects";
 import { isArray } from "alcalzone-shared/typeguards";
@@ -681,7 +679,6 @@ export class ZWave2 extends utils.Adapter<true> {
 	private async onMessage(obj: ioBroker.Message): Promise<void> {
 		// responds to the adapter that sent the original message
 		const respond = (response: any): void => {
-			// wotan-disable-next-line no-useless-predicate
 			if (obj.callback)
 				this.sendTo(obj.from, obj.command, response, obj.callback);
 		};
@@ -709,7 +706,6 @@ export class ZWave2 extends utils.Adapter<true> {
 			return true;
 		}
 
-		// wotan-disable-next-line no-useless-predicate
 		if (obj) {
 			switch (obj.command) {
 				case "getNetworkMap": {
@@ -1163,7 +1159,6 @@ export class ZWave2 extends utils.Adapter<true> {
 						);
 					}
 					const endpoint = node.getEndpoint(endpointIndex ?? 0);
-					// wotan-disable-next-line
 					if (!endpoint) {
 						return respond(
 							responses.ERROR(
