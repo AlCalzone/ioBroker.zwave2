@@ -6,6 +6,7 @@ import * as path from "path";
 import {
 	Driver,
 	extractFirmware,
+	NodeStatus,
 	ZWaveError,
 	ZWaveErrorCodes,
 	ZWaveNode,
@@ -392,27 +393,55 @@ export class ZWave2 extends utils.Adapter<true> {
 		);
 	}
 
-	private async onNodeWakeUp(node: ZWaveNode): Promise<void> {
+	private async onNodeWakeUp(
+		node: ZWaveNode,
+		oldStatus: NodeStatus,
+	): Promise<void> {
 		await setNodeStatus(node.id, "awake");
-		this.log.info(`Node ${node.id}: is now awake`);
+		this.log.info(
+			`Node ${node.id} is ${
+				oldStatus === NodeStatus.Unknown ? "" : "now "
+			}awake`,
+		);
 	}
 
-	private async onNodeSleep(node: ZWaveNode): Promise<void> {
+	private async onNodeSleep(
+		node: ZWaveNode,
+		oldStatus: NodeStatus,
+	): Promise<void> {
 		await setNodeStatus(node.id, "asleep");
-		this.log.info(`Node ${node.id}: is now asleep`);
+		this.log.info(
+			`Node ${node.id} is ${
+				oldStatus === NodeStatus.Unknown ? "" : "now "
+			}asleep`,
+		);
 
 		// ensure we have a device object or users cannot remove failed nodes from the network
 		await this.ensureDeviceObject(node);
 	}
 
-	private async onNodeAlive(node: ZWaveNode): Promise<void> {
+	private async onNodeAlive(
+		node: ZWaveNode,
+		oldStatus: NodeStatus,
+	): Promise<void> {
 		await setNodeStatus(node.id, "alive");
-		this.log.info(`Node ${node.id}: has returned from the dead`);
+		if (oldStatus === NodeStatus.Dead) {
+			this.log.info(`Node ${node.id}: has returned from the dead`);
+		} else {
+			this.log.info(`Node ${node.id} is alive`);
+		}
 	}
 
-	private async onNodeDead(node: ZWaveNode): Promise<void> {
+	private async onNodeDead(
+		node: ZWaveNode,
+		oldStatus: NodeStatus,
+	): Promise<void> {
 		await setNodeStatus(node.id, "dead");
-		this.log.info(`Node ${node.id}: is now dead`);
+		this.log.info(
+			`Node ${node.id} is ${
+				oldStatus === NodeStatus.Unknown ? "" : "now "
+			}dead`,
+		);
 
 		// ensure we have a device object or users cannot remove failed nodes from the network
 		await this.ensureDeviceObject(node);

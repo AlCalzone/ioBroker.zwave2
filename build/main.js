@@ -252,23 +252,28 @@ class ZWave2 extends utils.Adapter {
     async onNodeInterviewCompleted(node) {
         this.log.info(`Node ${node.id}: interview completed, all values are updated`);
     }
-    async onNodeWakeUp(node) {
+    async onNodeWakeUp(node, oldStatus) {
         await objects_2.setNodeStatus(node.id, "awake");
-        this.log.info(`Node ${node.id}: is now awake`);
+        this.log.info(`Node ${node.id} is ${oldStatus === zwave_js_1.NodeStatus.Unknown ? "" : "now "}awake`);
     }
-    async onNodeSleep(node) {
+    async onNodeSleep(node, oldStatus) {
         await objects_2.setNodeStatus(node.id, "asleep");
-        this.log.info(`Node ${node.id}: is now asleep`);
+        this.log.info(`Node ${node.id} is ${oldStatus === zwave_js_1.NodeStatus.Unknown ? "" : "now "}asleep`);
         // ensure we have a device object or users cannot remove failed nodes from the network
         await this.ensureDeviceObject(node);
     }
-    async onNodeAlive(node) {
+    async onNodeAlive(node, oldStatus) {
         await objects_2.setNodeStatus(node.id, "alive");
-        this.log.info(`Node ${node.id}: has returned from the dead`);
+        if (oldStatus === zwave_js_1.NodeStatus.Dead) {
+            this.log.info(`Node ${node.id}: has returned from the dead`);
+        }
+        else {
+            this.log.info(`Node ${node.id} is alive`);
+        }
     }
-    async onNodeDead(node) {
+    async onNodeDead(node, oldStatus) {
         await objects_2.setNodeStatus(node.id, "dead");
-        this.log.info(`Node ${node.id}: is now dead`);
+        this.log.info(`Node ${node.id} is ${oldStatus === zwave_js_1.NodeStatus.Unknown ? "" : "now "}dead`);
         // ensure we have a device object or users cannot remove failed nodes from the network
         await this.ensureDeviceObject(node);
     }
