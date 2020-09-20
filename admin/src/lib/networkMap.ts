@@ -17,6 +17,8 @@ export function drawNetworkMap(selector: string, nodes: NodeInfo[]) {
 		.fill(0)
 		.map(() => new Array(nodes.length).fill(0));
 	function addLink(from, to) {
+		// Avoid crashing when a node has an outdated neighbor table
+		if (from == undefined || to == undefined) return;
 		matrix[from][to] = matrix[to][from] = 1;
 	}
 
@@ -33,7 +35,7 @@ export function drawNetworkMap(selector: string, nodes: NodeInfo[]) {
 	}
 
 	// Scale the flows for equal sized nodes
-	const sum = arr => arr.reduce((acc, cur) => acc + cur, 0);
+	const sum = (arr) => arr.reduce((acc, cur) => acc + cur, 0);
 	let maxSum = Math.max(...matrix.map(sum));
 	if (maxSum === 0) maxSum = 1;
 
@@ -46,13 +48,13 @@ export function drawNetworkMap(selector: string, nodes: NodeInfo[]) {
 			row[i] = 1 / maxSum;
 			disconnected.add(nodes[i].id);
 		} else {
-			matrix[i] = row.map(val => val / maxSum);
+			matrix[i] = row.map((val) => val / maxSum);
 		}
 	}
 	// Make Node 1 larger
 	const node1Factor = 1.5;
 	const row0Sum = sum(matrix[0]);
-	matrix[0] = matrix[0].map(val => (val * node1Factor) / row0Sum);
+	matrix[0] = matrix[0].map((val) => (val * node1Factor) / row0Sum);
 	const matrixSum = sum(matrix.map(sum));
 	// row0Sum = node1Factor
 
@@ -84,9 +86,7 @@ export function drawNetworkMap(selector: string, nodes: NodeInfo[]) {
 		.sortChords(ascending)
 		.sortSubgroups(() => 1)(matrix);
 
-	var arcs = arc()
-		.innerRadius(innerRadius)
-		.outerRadius(outerRadius);
+	var arcs = arc().innerRadius(innerRadius).outerRadius(outerRadius);
 
 	var ribbonGenerator = ribbon().radius(innerRadius);
 	const colorScale = scaleOrdinal()
@@ -107,7 +107,7 @@ export function drawNetworkMap(selector: string, nodes: NodeInfo[]) {
 		.append("linearGradient")
 		.attr("id", getGradID)
 		.attr("gradientUnits", "userSpaceOnUse")
-		.attr("x1", function(d, i) {
+		.attr("x1", function (d, i) {
 			return (
 				innerRadius *
 				Math.cos(
@@ -117,7 +117,7 @@ export function drawNetworkMap(selector: string, nodes: NodeInfo[]) {
 				)
 			);
 		})
-		.attr("y1", function(d, i) {
+		.attr("y1", function (d, i) {
 			return (
 				innerRadius *
 				Math.sin(
@@ -127,7 +127,7 @@ export function drawNetworkMap(selector: string, nodes: NodeInfo[]) {
 				)
 			);
 		})
-		.attr("x2", function(d, i) {
+		.attr("x2", function (d, i) {
 			return (
 				innerRadius *
 				Math.cos(
@@ -137,7 +137,7 @@ export function drawNetworkMap(selector: string, nodes: NodeInfo[]) {
 				)
 			);
 		})
-		.attr("y2", function(d, i) {
+		.attr("y2", function (d, i) {
 			return (
 				innerRadius *
 				Math.sin(
@@ -153,13 +153,13 @@ export function drawNetworkMap(selector: string, nodes: NodeInfo[]) {
 	grads
 		.append("stop")
 		.attr("offset", "0%")
-		.attr("stop-color", d => colorScale(d.source.index));
+		.attr("stop-color", (d) => colorScale(d.source.index));
 
 	//set the ending color (at 100%)
 	grads
 		.append("stop")
 		.attr("offset", "100%")
-		.attr("stop-color", d => colorScale(d.target.index));
+		.attr("stop-color", (d) => colorScale(d.target.index));
 
 	// add the groups on the inner part of the circle
 	const node = svg
@@ -171,12 +171,12 @@ export function drawNetworkMap(selector: string, nodes: NodeInfo[]) {
 
 	// Create the node arcs
 	node.append("path")
-		.style("fill", d => colorScale(d.index))
+		.style("fill", (d) => colorScale(d.index))
 		.attr("d", arcs);
 
 	// Create the labels
 	node.append("text")
-		.each(d => (d.angle = (d.startAngle + d.endAngle) / 2))
+		.each((d) => (d.angle = (d.startAngle + d.endAngle) / 2))
 		// .attr("dy", "-0.25em")
 		.attr(
 			"class",
@@ -185,11 +185,11 @@ export function drawNetworkMap(selector: string, nodes: NodeInfo[]) {
 					disconnected.has(nodes[i].id) ? " disconnected" : ""
 				}`,
 		)
-		.attr("text-anchor", d =>
+		.attr("text-anchor", (d) =>
 			d.angle - firstNodeRotation > Math.PI ? "end" : null,
 		)
 		.attr("dominant-baseline", "middle")
-		.attr("transform", d => {
+		.attr("transform", (d) => {
 			return (
 				"rotate(" +
 				((d.angle * 180) / Math.PI - 90) +
@@ -218,9 +218,9 @@ export function drawNetworkMap(selector: string, nodes: NodeInfo[]) {
 	svg.datum(chord)
 		.append("g")
 		.selectAll("path")
-		.data(d =>
+		.data((d) =>
 			d.filter(
-				c =>
+				(c) =>
 					c.source.index !== c.target.index &&
 					c.source.value > 0 &&
 					c.target.value > 0,
@@ -230,8 +230,8 @@ export function drawNetworkMap(selector: string, nodes: NodeInfo[]) {
 		.append("path")
 		.attr(
 			"class",
-			d => `chord chord-${d.source.index} chord-${d.target.index}`,
+			(d) => `chord chord-${d.source.index} chord-${d.target.index}`,
 		)
-		.style("fill", d => `url(#${getGradID(d)})`)
+		.style("fill", (d) => `url(#${getGradID(d)})`)
 		.attr("d", ribbonGenerator);
 }
