@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "1.7.0-alpha.2",
+        "version": "1.7.0-alpha.3",
         "news": {
+            "1.7.0-alpha.3": {
+                "en": "Test compatibility with zwave-js 5.x.",
+                "de": "Testkompatibilität mit zwave-js 5.x.",
+                "ru": "Протестируйте совместимость с zwave-js 5.x.",
+                "pt": "Teste a compatibilidade com zwave-js 5.x.",
+                "nl": "Test de compatibiliteit met zwave-js 5.x.",
+                "fr": "Tester la compatibilité avec zwave-js 5.x.",
+                "it": "Verifica la compatibilità con zwave-js 5.x.",
+                "es": "Pruebe la compatibilidad con zwave-js 5.x.",
+                "pl": "Przetestuj zgodność z zwave-js 5.x.",
+                "zh-cn": "测试与zwave-js 5.x的兼容性。"
+            },
             "1.7.0-alpha.2": {
                 "en": "Test compatibility with zwave-js 5.x.",
                 "de": "Testkompatibilität mit zwave-js 5.x.",
@@ -230,18 +242,6 @@
                 "es": "El menú desplegable de inclusión funciona nuevamente",
                 "pl": "Lista dołączeń działa ponownie",
                 "zh-cn": "包含下拉列表再次起作用"
-            },
-            "1.2.0": {
-                "en": "Added a possibility to restart the interview for single nodes\nThe cached lifeline associations (for `Multi Channel Association` and `Association` CCs) are now updated if they are changed during the interview",
-                "de": "Es wurde die Möglichkeit hinzugefügt, das Interview für einzelne Knoten neu zu starten\nDie zwischengespeicherten Lifeline-Zuordnungen (für \"Multi Channel Association\" - und \"Association\" -CCs) werden jetzt aktualisiert, wenn sie während des Interviews geändert werden",
-                "ru": "Добавлена возможность перезапустить интервью для отдельных узлов\nКэшированные ассоциации каналов жизни (для «Многоканальной ассоциации» и «Ассоциации» CC) теперь обновляются, если они изменяются во время интервью",
-                "pt": "Foi adicionada a possibilidade de reiniciar a entrevista para nós únicos\nAs associações da linha de vida em cache (para os CCs `Multicanal Association` e` Association`) agora são atualizadas se forem alteradas durante a entrevista",
-                "nl": "Mogelijkheid toegevoegd om het interview voor afzonderlijke knooppunten opnieuw te starten\nDe gecachete levenslijnassociaties (voor `Multi Channel Association` en` Association` CCs) worden nu bijgewerkt als ze tijdens het interview worden gewijzigd",
-                "fr": "Ajout d'une possibilité de redémarrer l'interview pour les nœuds uniques\nLes associations de lignes de vie mises en cache (pour les CC «Multi Channel Association» et «Association») sont désormais mises à jour si elles sont modifiées pendant l'interview.",
-                "it": "Aggiunta la possibilità di riavviare l'intervista per singoli nodi\nLe associazioni della linea di vita memorizzate nella cache (per i CC \"Associazione multi canale\" e \"Associazione\") sono ora aggiornate se cambiate durante l'intervista",
-                "es": "Se agregó la posibilidad de reiniciar la entrevista para nodos individuales\nLas asociaciones de línea de vida almacenadas en caché (para CC de `Multi Association 'y` Association`) ahora se actualizan si se cambian durante la entrevista",
-                "pl": "Dodano możliwość ponownego uruchomienia wywiadu dla pojedynczych węzłów\nPowiązane buforowane linie życia (dla `Multi Association Association` i` Association` CC) są teraz aktualizowane, jeśli zostaną zmienione podczas wywiadu",
-                "zh-cn": "添加了重新启动单个节点的采访的可能性\n如果在访问期间更改了缓存的生命线关联（针对“多渠道关联”和“关联” CC），则将对其进行更新"
             }
         },
         "title": "Z-Wave 2",
