@@ -41,6 +41,7 @@ import {
 	setNodeReady,
 	setNodeStatus,
 } from "./lib/objects";
+import { enumerateSerialPorts } from "./lib/serialPorts";
 import {
 	AssociationDefinition,
 	computeDeviceId,
@@ -767,30 +768,8 @@ export class ZWave2 extends utils.Adapter<true> {
 				}
 
 				case "getSerialPorts": {
-					try {
-						const ports = await Driver.enumerateSerialPorts();
-						respond(responses.RESULT(ports));
-					} catch (e) {
-						if (e.code === "ENOENT" && /udevadm/.test(e.message)) {
-							// This can happen on linux, however serialport does not handle the error
-							respond(
-								responses.ERROR(
-									"udevadm was not found on PATH",
-								),
-							);
-							this.log.warn(
-								`Cannot list serial ports because "udevadm" was not found on PATH!`,
-							);
-							this.log.warn(
-								`If it is installed, add it to the PATH env variable.`,
-							);
-							this.log.warn(
-								`Otherwise, install it using "apt install udev"`,
-							);
-						} else {
-							respond(responses.ERROR(e.message));
-						}
-					}
+					const ports = await enumerateSerialPorts(this);
+					respond(responses.RESULT(ports));
 					return;
 				}
 
