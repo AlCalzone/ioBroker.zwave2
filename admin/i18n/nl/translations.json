@@ -67,6 +67,7 @@
     "firmware update wait time": "Het apparaat wordt opnieuw bevraagd in {0} seconden.",
     "firmware update wake up": "Je zou kunnen hebben om wakker te worden van het apparaat weer.",
     "firmware update warning": "WAARSCHUWING: Gebruik op eigen risico! Wij nemen geen enkele verantwoordelijkheid indien uw apparaten niet werken na een update.",
+    "hosted port tip": "U kunt ook verbinding maken met een gehoste seriële poort met behulp van 'tcp://hostnaam:poort'",
     "loading...": "bezig met laden...",
     "network key confirm": "Dit overschrijft de bestaande sleutel en de adapter niet in staat zijn om te communiceren met de reeds opgenomen veilige apparaten. Wilt u doorgaan?",
     "network key tooltip": "16 bytes in hexadecimale vorm (32 tekens 0-9, a-f). Zonder spaties, zonder kommas, zonder dat dit leidt '0x'.",

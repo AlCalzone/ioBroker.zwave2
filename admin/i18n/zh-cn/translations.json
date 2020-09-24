@@ -67,6 +67,7 @@
     "firmware update wait time": "该设备将重新采访了{0}秒钟。",
     "firmware update wake up": "你可能已经醒来的设备。",
     "firmware update warning": "警告：使用在自己的风险！ 我们不采取任何责任，如果你的设备不工作之后更新。",
+    "hosted port tip": "您还可以使用'tcp：//hostname：port'格式连接到托管串行端口。",
     "loading...": "载入中...",
     "network key confirm": "这将复盖现有关键和适配器不能够与已列入安全的设备。 你想继续吗？",
     "network key tooltip": "16字节进制形式(32字0-9，a-f)。 没有空间，没有逗号，而不导致'0x'.",

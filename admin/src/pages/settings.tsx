@@ -17,7 +17,6 @@ interface SettingsState {
 	[key: string]: unknown;
 	serialport?: string;
 	writeLogFile?: boolean;
-	_serialports?: string[];
 	networkKey?: string;
 }
 
@@ -72,6 +71,7 @@ export class Settings extends React.Component<SettingsProps, SettingsState> {
 	}
 
 	private chkWriteLogFile: HTMLInputElement | null | undefined;
+	private txtPort: HTMLInputElement | null | undefined;
 
 	private parseChangedSetting(
 		target: HTMLInputElement | HTMLSelectElement,
@@ -187,7 +187,14 @@ export class Settings extends React.Component<SettingsProps, SettingsState> {
 			if (error) {
 				console.error(error);
 			} else if (result && result.length) {
-				this.setState({ _serialports: result });
+				if (this.txtPort) {
+					M.Autocomplete.init(this.txtPort, {
+						data: composeObject(result.map((port) => [port, null])),
+						minLength: 0,
+						onAutocomplete: (text) =>
+							this.doHandleChange("serialport", text),
+					});
+				}
 			}
 		});
 	}
@@ -205,39 +212,21 @@ export class Settings extends React.Component<SettingsProps, SettingsState> {
 	}
 
 	public render() {
-		// Add the currently configured serial port to the list if it is not in there
-		const serialports = this.state._serialports;
-		if (
-			serialports &&
-			this.state.serialport &&
-			!serialports.includes(this.state.serialport)
-		) {
-			serialports.unshift(this.state.serialport);
-		}
 		return (
 			<>
 				<div className="row">
 					<div className="col s4 input-field">
-						{serialports && serialports.length ? (
-							<Dropdown
-								id="serialport"
-								options={serialports}
-								checkedOption={this.state.serialport}
-								emptySelectionText={_("none selected")}
-								checkedChanged={(newValue) =>
-									this.doHandleChange("serialport", newValue)
-								}
-							/>
-						) : (
-							<input
-								className="value"
-								id="serialport"
-								type="text"
-								value={this.getSetting("serialport") as any}
-								onChange={this.handleChange}
-							/>
-						)}
+						<input
+							className="value"
+							id="serialport"
+							type="text"
+							value={this.getSetting("serialport") as any}
+							onChange={this.handleChange}
+							ref={(me) => (this.txtPort = me)}
+						/>
 						<Label for="serialport" text="Select serial port" />
+						<br />
+						<span>{_("hosted port tip")}</span>
 					</div>
 					<div className="col s5 input-field">
 						<input

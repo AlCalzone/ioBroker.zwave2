@@ -67,6 +67,7 @@
     "firmware update wait time": "Das Gerät wird in {0} Sekunden neu interviewt.",
     "firmware update wake up": "Eventuell müssen Sie es erneut aufwecken.",
     "firmware update warning": "WARNUNG: Benutzung auf eigene Gefahr! Wir übernehmen keine Verantwortung, wenn Ihre Geräte nach einem Update nicht funktionieren.",
+    "hosted port tip": "Um einen gehosteten seriellen Port zu nutzen, einfach mittels 'tcp://hostname:port' verbinden.",
     "loading...": "Wird geladen...",
     "network key confirm": "Der vorhandene Schlüssel wird überschrieben, weshalb der Adapter nicht mehr mit bereits eingebundenen sicheren Geräten kommunizieren kann. Möchten Sie fortfahren?",
     "network key tooltip": "16 bytes in hexadezimaler Form (32 Zeichen 0-9, a-f). Ohne Leerzeichen, ohne Komma, ohne führende '0x'.",

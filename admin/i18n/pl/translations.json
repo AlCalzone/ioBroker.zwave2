@@ -67,6 +67,7 @@
     "firmware update wait time": "Urządzenie będzie ponownie przesłuchany w {0} sekund.",
     "firmware update wake up": "Być może trzeba będzie ponownie obudzić urządzenia.",
     "firmware update warning": "Ostrzeżenie: używaj na własne ryzyko! Nie ponosimy odpowiedzialności, jeśli twoje urządzenie nie działa po aktualizacji.",
+    "hosted port tip": "Możesz także połączyć się z hostowanym portem szeregowym za pomocą formularza 'tcp://hosta:port'",
     "loading...": "Ładuję...",
     "network key confirm": "Spowoduje to nadpisanie istniejącego klucza i zasilacz nie będzie w stanie komunikować się z włączonymi już chronionych urządzeń. Czy na pewno chcesz kontynuować?",
     "network key tooltip": "16 bajtów w formacie hex (32 znaki 0-9, a-F). Bez spacji, bez przecinków, bez wiodących '0x'.",

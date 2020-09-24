@@ -10,6 +10,7 @@ const zwave_js_1 = require("zwave-js");
 const firmwareUpdate_1 = require("./lib/firmwareUpdate");
 const global_1 = require("./lib/global");
 const objects_2 = require("./lib/objects");
+const serialPorts_1 = require("./lib/serialPorts");
 const shared_1 = require("./lib/shared");
 class ZWave2 extends utils.Adapter {
     constructor(options = {}) {
@@ -516,22 +517,8 @@ class ZWave2 extends utils.Adapter {
                     return;
                 }
                 case "getSerialPorts": {
-                    try {
-                        const ports = await zwave_js_1.Driver.enumerateSerialPorts();
-                        respond(responses.RESULT(ports));
-                    }
-                    catch (e) {
-                        if (e.code === "ENOENT" && /udevadm/.test(e.message)) {
-                            // This can happen on linux, however serialport does not handle the error
-                            respond(responses.ERROR("udevadm was not found on PATH"));
-                            this.log.warn(`Cannot list serial ports because "udevadm" was not found on PATH!`);
-                            this.log.warn(`If it is installed, add it to the PATH env variable.`);
-                            this.log.warn(`Otherwise, install it using "apt install udev"`);
-                        }
-                        else {
-                            respond(responses.ERROR(e.message));
-                        }
-                    }
+                    const ports = await serialPorts_1.enumerateSerialPorts(this);
+                    respond(responses.RESULT(ports));
                     return;
                 }
                 case "beginHealingNetwork": {

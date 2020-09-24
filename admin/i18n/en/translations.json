@@ -67,6 +67,7 @@
     "firmware update wait time": "The device will be re-interviewed in {0} seconds.",
     "firmware update wake up": "You might have to wake up the device again.",
     "firmware update warning": "WARNING: Use at your own risk! We don't take any responsibility if your devices don't work after an update.",
+    "hosted port tip": "You can also connect to a hosted serialport using the form 'tcp://hostname:port'",
     "loading...": "loading...",
     "network key confirm": "This will overwrite the existing key and the adapter won't be able to communicate with already-included secure devices. Do you want to continue?",
     "network key tooltip": "16 bytes in hexadecimal form (32 characters 0-9, a-f). Without spaces, without commas, without leading '0x'.",

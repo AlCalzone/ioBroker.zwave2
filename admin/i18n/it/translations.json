@@ -67,6 +67,7 @@
     "firmware update wait time": "Il dispositivo sarà nuovamente intervistati in {0} secondi.",
     "firmware update wake up": "Si potrebbe avere a svegliarsi di nuovo il dispositivo.",
     "firmware update warning": "AVVERTENZA: Usare a proprio rischio e pericolo! Non ci assumiamo alcuna responsabilità se le periferiche non funzionano dopo l'aggiornamento.",
+    "hosted port tip": "Puoi anche connetterti a una porta seriale ospitata utilizzando il modulo 'tcp://hostname:port'",
     "loading...": "Caricamento in corso...",
     "network key confirm": "Questo sovrascriverà la chiave esistente e l'adattatore non essere in grado di comunicare con già inclusi dispositivi sicuri. Vuoi continuare?",
     "network key tooltip": "16 byte in esadecimale (32 caratteri 0-9, a-f). Senza spazi, senza virgole, senza leader '0x'.",

@@ -67,6 +67,7 @@
     "firmware update wait time": "L'appareil sera interrogé à nouveau en {0} secondes.",
     "firmware update wake up": "Vous pourriez avoir à se réveiller de nouveau l'appareil.",
     "firmware update warning": "AVERTISSEMENT: Utilisez à votre propre risque! Nous ne prenons aucune responsabilité si vos appareils ne fonctionnent pas après une mise à jour.",
+    "hosted port tip": "Vous pouvez également vous connecter à un port série hébergé avec 'tcp://hostname:port'",
     "loading...": "chargement...",
     "network key confirm": "Cela permettra de remplacer la clé et la carte ne sera pas en mesure de communiquer avec déjà inclus dispositifs sécurisés. Voulez-vous continuer?",
     "network key tooltip": "De 16 octets en hexadécimal (32 caractères 0-9, a-f). Sans espaces, sans virgule, sans leader '0x'.",
