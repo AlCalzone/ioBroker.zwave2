@@ -239,7 +239,9 @@ class ZWave2 extends utils.Adapter {
         // Prepare data points for all the node's values
         for (const valueId of allValueIDs) {
             const value = node.getValue(valueId);
-            await objects_2.extendValue(node, Object.assign(Object.assign({}, valueId), { newValue: value }));
+            await objects_2.extendValue(node, Object.assign(Object.assign({}, valueId), { newValue: value }), 
+            // The value is cached
+            true);
         }
     }
     async ensureDeviceObject(node) {
@@ -280,13 +282,13 @@ class ZWave2 extends utils.Adapter {
     async onNodeValueAdded(node, args) {
         let propertyName = objects_2.computeId(node.id, args);
         propertyName = propertyName.substr(propertyName.lastIndexOf(".") + 1);
-        this.log.debug(`Node ${node.id}: value added: ${propertyName} => ${args.newValue}`);
+        this.log.debug(`Node ${node.id}: value added: ${propertyName} => ${String(args.newValue)}`);
         await objects_2.extendValue(node, args);
     }
     async onNodeValueUpdated(node, args) {
         let propertyName = objects_2.computeId(node.id, args);
         propertyName = propertyName.substr(propertyName.lastIndexOf(".") + 1);
-        this.log.debug(`Node ${node.id}: value updated: ${propertyName} => ${args.newValue}`);
+        this.log.debug(`Node ${node.id}: value updated: ${propertyName} => ${String(args.newValue)}`);
         await objects_2.extendValue(node, args);
     }
     async onNodeValueRemoved(node, args) {

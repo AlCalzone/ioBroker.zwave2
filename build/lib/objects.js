@@ -180,7 +180,7 @@ async function extendCC(node, cc, ccName) {
     }
 }
 exports.extendCC = extendCC;
-async function extendValue(node, args) {
+async function extendValue(node, args, fromCache = false) {
     var _a;
     const stateId = computeId(node.id, args);
     await extendMetadata(node, args);
@@ -188,6 +188,8 @@ async function extendValue(node, args) {
         await global_1.Global.adapter.setStateAsync(stateId, {
             val: ((_a = args.newValue) !== null && _a !== void 0 ? _a : null),
             ack: true,
+            // Set cached values with a lower quality (substitute value from device or instance), so scripts can ignore the update
+            q: fromCache ? 0x40 : undefined,
         });
     }
     catch (e) {

@@ -231,6 +231,7 @@ export async function extendCC(
 export async function extendValue(
 	node: ZWaveNode,
 	args: ZWaveNodeValueAddedArgs | ZWaveNodeValueUpdatedArgs,
+	fromCache: boolean = false,
 ): Promise<void> {
 	const stateId = computeId(node.id, args);
 
@@ -239,6 +240,8 @@ export async function extendValue(
 		await _.adapter.setStateAsync(stateId, {
 			val: (args.newValue ?? null) as any,
 			ack: true,
+			// Set cached values with a lower quality (substitute value from device or instance), so scripts can ignore the update
+			q: fromCache ? 0x40 : undefined,
 		});
 	} catch (e) {
 		_.adapter.log.error(`Cannot set state "${stateId}" in ioBroker: ${e}`);

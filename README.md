@@ -25,6 +25,13 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 | --- | --- | --- |
 | ![](docs/de/images/config-params.png) | vs | ![](docs/de/images/config-params-legacy.png) |
 
+---
+
+## Documentation and usage
+* [FAQ](docs/en/FAQ.md)
+
+---
+
 ## Changelog
 [Older changes](CHANGELOG_OLD.md)
 <!--
@@ -32,8 +39,9 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	### __WORK IN PROGRESS__
 -->
 
-### 1.7.0-alpha.3 (2020-09-23)
+### __WORK IN PROGRESS__
 * Test compatibility with zwave-js 5.x.
+* The `quality` parameter is now set for state updates when reading (potentially stale) values from the cache
 
 ### 1.6.3 (2020-09-04)
 * Further performance optimization

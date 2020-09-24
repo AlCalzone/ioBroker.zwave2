@@ -370,10 +370,15 @@ export class ZWave2 extends utils.Adapter<true> {
 		// Prepare data points for all the node's values
 		for (const valueId of allValueIDs) {
 			const value = node.getValue(valueId);
-			await extendValue(node, {
-				...valueId,
-				newValue: value,
-			});
+			await extendValue(
+				node,
+				{
+					...valueId,
+					newValue: value,
+				},
+				// The value is cached
+				true,
+			);
 		}
 	}
 
@@ -454,7 +459,9 @@ export class ZWave2 extends utils.Adapter<true> {
 		let propertyName = computeId(node.id, args);
 		propertyName = propertyName.substr(propertyName.lastIndexOf(".") + 1);
 		this.log.debug(
-			`Node ${node.id}: value added: ${propertyName} => ${args.newValue}`,
+			`Node ${node.id}: value added: ${propertyName} => ${String(
+				args.newValue,
+			)}`,
 		);
 		await extendValue(node, args);
 	}
@@ -466,7 +473,9 @@ export class ZWave2 extends utils.Adapter<true> {
 		let propertyName = computeId(node.id, args);
 		propertyName = propertyName.substr(propertyName.lastIndexOf(".") + 1);
 		this.log.debug(
-			`Node ${node.id}: value updated: ${propertyName} => ${args.newValue}`,
+			`Node ${node.id}: value updated: ${propertyName} => ${String(
+				args.newValue,
+			)}`,
 		);
 		await extendValue(node, args);
 	}
