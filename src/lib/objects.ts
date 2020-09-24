@@ -237,12 +237,16 @@ export async function extendValue(
 
 	await extendMetadata(node, args);
 	try {
-		await _.adapter.setStateAsync(stateId, {
+		const state: ioBroker.SettableState = {
 			val: (args.newValue ?? null) as any,
 			ack: true,
+		};
+		// TODO: remove this after JS-Controller 3.2 is stable
+		if (fromCache) {
 			// Set cached values with a lower quality (substitute value from device or instance), so scripts can ignore the update
-			q: fromCache ? 0x40 : undefined,
-		});
+			state.q = 0x40;
+		}
+		await _.adapter.setStateAsync(stateId, state);
 	} catch (e) {
 		_.adapter.log.error(`Cannot set state "${stateId}" in ioBroker: ${e}`);
 	}
