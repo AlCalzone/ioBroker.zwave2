@@ -39,7 +39,7 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	### __WORK IN PROGRESS__
 -->
 
-### 1.7.0-alpha.5 (2020-09-24)
+### 1.7.0-alpha.6 (2020-09-25)
 * The `quality` parameter is now set for state updates when reading (potentially stale) values from the cache
 * Changed the serialport setting field to use autocomplete instead of a dropdown, added a tip how to use serial-over-tcp connections
 * Upgraded `zwave-js` to version 5.0.0. This includes many changes including the following:
