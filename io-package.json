@@ -1,333 +1,352 @@
 {
-	"common": {
-		"name": "zwave2",
-		"version": "1.7.0-alpha.6",
-		"news": {
-			"1.6.3": {
-				"en": "Further performance optimization\nImproved compatibility with devices that send invalid `Multi Channel CC` commands",
-				"de": "Weitere Leistungsoptimierung\nVerbesserte Kompatibilität mit Geräten, die ungültige Mehrkanal-CC-Befehle senden",
-				"ru": "Дальнейшая оптимизация производительности\nУлучшена совместимость с устройствами, которые отправляют недопустимые команды `Multi Channel CC`.",
-				"pt": "Otimização de desempenho adicional\nCompatibilidade aprimorada com dispositivos que enviam comandos `Multi Channel CC` inválidos",
-				"nl": "Verdere prestatie-optimalisatie\nVerbeterde compatibiliteit met apparaten die ongeldige `Multi Channel CC`-opdrachten verzenden",
-				"fr": "Optimisation supplémentaire des performances\nAmélioration de la compatibilité avec les appareils qui envoient des commandes `Multi Channel CC` invalides",
-				"it": "Ulteriore ottimizzazione delle prestazioni\nMigliorata la compatibilità con i dispositivi che inviano comandi \"CC multicanale\" non validi",
-				"es": "Mayor optimización del rendimiento\nCompatibilidad mejorada con dispositivos que envían comandos \"CC multicanal\" no válidos",
-				"pl": "Dalsza optymalizacja wydajności\nPoprawiona kompatybilność z urządzeniami, które wysyłają nieprawidłowe polecenia `Multi Channel CC`",
-				"zh-cn": "进一步的性能优化\n改进了与发送无效“多通道CC”命令的设备的兼容性"
-			},
-			"1.6.2": {
-				"en": "Reduced CPU load in large networks",
-				"de": "Reduzierte CPU-Auslastung in großen Netzwerken",
-				"ru": "Снижение нагрузки на ЦП в больших сетях",
-				"pt": "Carga de CPU reduzida em redes grandes",
-				"nl": "Verminderde CPU-belasting in grote netwerken",
-				"fr": "Charge CPU réduite dans les grands réseaux",
-				"it": "Riduzione del carico della CPU nelle reti di grandi dimensioni",
-				"es": "Carga de CPU reducida en redes grandes",
-				"pl": "Zmniejszone obciążenie procesora w dużych sieciach",
-				"zh-cn": "减少大型网络中的CPU负载"
-			},
-			"1.6.1": {
-				"en": "Fixed interview issues with devices that claim they support `Basic CC`, but don't respond",
-				"de": "Interviewprobleme mit Geräten behoben, die behaupten, dass sie \"Basic CC\" unterstützen, aber nicht antworten",
-				"ru": "Исправлены проблемы с интервью с устройствами, которые утверждают, что поддерживают `Basic CC`, но не отвечают",
-				"pt": "Problemas de entrevista corrigidos com dispositivos que afirmam ser compatíveis com `CC básico`, mas não respondem",
-				"nl": "Interviewproblemen opgelost met apparaten die beweren dat ze `Basic CC` ondersteunen, maar niet reageren",
-				"fr": "Correction de problèmes d'entretien avec des appareils qui prétendent prendre en charge `Basic CC`, mais ne répondent pas",
-				"it": "Risolti i problemi di intervista con dispositivi che affermano di supportare \"CC di base\", ma non rispondono",
-				"es": "Se corrigieron problemas de entrevistas con dispositivos que afirman ser compatibles con \"Basic CC\", pero no responden",
-				"pl": "Naprawiono problemy z rozmową kwalifikacyjną z urządzeniami, które twierdzą, że obsługują „Basic CC”, ale nie odpowiadają",
-				"zh-cn": "修复了声称支持“基本抄送”但不响应的设备的采访问题"
-			},
-			"1.6.0": {
-				"en": "Added the possibility to send `Multilevel Sensor Report`s from scripts\nDependency updates for bug and security fixes",
-				"de": "Es wurde die Möglichkeit hinzugefügt, \"Multilevel Sensor Report\" aus Skripten zu senden\nAbhängigkeitsaktualisierungen für Fehler- und Sicherheitskorrekturen",
-				"ru": "Добавлена возможность отправки `Multilevel Sensor Report`s из скриптов\nОбновления зависимостей для исправлений ошибок и безопасности",
-				"pt": "Adicionada a possibilidade de enviar `Relatório de Sensor Multinível`s de scripts\nAtualizações de dependência para correções de bugs e segurança",
-				"nl": "De mogelijkheid toegevoegd om `Multilevel Sensor Report`s vanuit scripts te versturen\nAfhankelijkheidsupdates voor bug- en beveiligingsoplossingen",
-				"fr": "Ajout de la possibilité d'envoyer des rapports de capteur à plusieurs niveaux à partir de scripts\nMises à jour des dépendances pour les corrections de bogues et de sécurité",
-				"it": "Aggiunta la possibilità di inviare \"Report sui sensori multilivello\" dagli script\nAggiornamenti delle dipendenze per correzioni di bug e sicurezza",
-				"es": "Se agregó la posibilidad de enviar informes de sensores multinivel desde scripts\nActualizaciones de dependencia para correcciones de errores y seguridad",
-				"pl": "Dodano możliwość wysyłania `Multilevel Sensor Report` ze skryptów\nAktualizacje zależności dla poprawek błędów i zabezpieczeń",
-				"zh-cn": "添加了从脚本发送“多级传感器报告”的可能性\n漏洞和安全修复程序的依赖关系更新"
-			},
-			"1.5.0": {
-				"en": "Added the possibility to send custom commands from scripts ([documentation](docs/en/sendCommand.md)).\nAdded a `reset` state under `Meter CC`\nBugfix: Logs are no longer split across multiple files",
-				"de": "Es wurde die Möglichkeit hinzugefügt, benutzerdefinierte Befehle aus Skripten zu senden ([Dokumentation] (docs / de / sendCommand.md)).\nEin \"Reset\" -Zustand wurde unter \"Meter CC\" hinzugefügt\nBugfix: Protokolle werden nicht mehr auf mehrere Dateien aufgeteilt",
-				"ru": "Добавлена возможность отправки пользовательских команд из скриптов ([документация] (docs / en / sendCommand.md)).\nДобавлено состояние сброса в Meter CC\nИсправлено: журналы больше не разделяются на несколько файлов",
-				"pt": "Foi adicionada a possibilidade de enviar comandos personalizados a partir de scripts ([documentação] (docs / en / sendCommand.md)).\nAdicionado um estado de `reset` em` Meter CC`\nCorreção de bug: os logs não são mais divididos em vários arquivos",
-				"nl": "Mogelijkheid toegevoegd om aangepaste opdrachten vanuit scripts te verzenden ([documentatie] (docs / en / sendCommand.md)).\nEen `reset` status toegevoegd onder` Meter CC`\nBugfix: Logs zijn niet langer verdeeld over meerdere bestanden",
-				"fr": "Ajout de la possibilité d'envoyer des commandes personnalisées à partir de scripts ([documentation] (docs / en / sendCommand.md)).\nAjout d'un état `reset` sous` Meter CC`\nCorrectif: les journaux ne sont plus répartis sur plusieurs fichiers",
-				"it": "Aggiunta la possibilità di inviare comandi personalizzati dagli script ([documentazione] (docs / en / sendCommand.md)).\nAggiunto uno stato `reset` sotto` Meter CC`\nBugfix: i log non sono più suddivisi su più file",
-				"es": "Se agregó la posibilidad de enviar comandos personalizados desde scripts ([documentación] (docs / en / sendCommand.md)).\nSe agregó un estado `reset` en` Meter CC`\nCorrección de errores: los registros ya no se dividen en varios archivos",
-				"pl": "Dodano możliwość wysyłania niestandardowych poleceń ze skryptów ([dokumentacja] (docs / en / sendCommand.md)).\nDodano stan „reset” w „Meter CC”\nPoprawka: dzienniki nie są już dzielone na wiele plików",
-				"zh-cn": "添加了从脚本（[documentation]（docs / zh / sendCommand.md））发送自定义命令的可能性。\n在“仪表CC”下添加了“重置”状态\n错误修正：日志不再拆分成多个文件"
-			},
-			"1.4.2": {
-				"en": "During the interview, endpoint associations are now converted to node associations if required\nThe interview process no longer fails if a node supports `Notification CC V2`",
-				"de": "Während des Interviews werden Endpunktzuordnungen jetzt bei Bedarf in Knotenzuordnungen konvertiert\nDer Interviewprozess schlägt nicht mehr fehl, wenn ein Knoten \"Notification CC V2\" unterstützt",
-				"ru": "Во время интервью связи конечных точек теперь преобразуются в связи узлов при необходимости\nПроцесс интервью больше не завершается ошибкой, если узел поддерживает `Notification CC V2`",
-				"pt": "Durante a entrevista, as associações de terminais agora são convertidas em associações de nós, se necessário\nO processo de entrevista não falha mais se um nó suportar `Notification CC V2`",
-				"nl": "Tijdens het interview worden eindpuntassociaties nu indien nodig omgezet in knooppuntassociaties\nHet interviewproces mislukt niet langer als een knooppunt `Notification CC V2` ondersteunt",
-				"fr": "Au cours de l'entretien, les associations de noeuds finaux sont désormais converties en associations de nœuds si nécessaire\nLe processus d'entretien n'échoue plus si un nœud prend en charge «Notification CC V2»",
-				"it": "Durante l'intervista, le associazioni degli endpoint vengono ora convertite in associazioni di nodi, se necessario\nIl processo di intervista non fallisce più se un nodo supporta `Notification CC V2`",
-				"es": "Durante la entrevista, las asociaciones de punto final ahora se convierten en asociaciones de nodos si es necesario\nEl proceso de entrevista ya no falla si un nodo admite `Notification CC V2`",
-				"pl": "Podczas wywiadu skojarzenia punktów końcowych są w razie potrzeby konwertowane na powiązania węzłów\nProces wywiadu nie kończy się niepowodzeniem, jeśli węzeł obsługuje `Notification CC V2`",
-				"zh-cn": "采访期间，如果需要，端点关联现在会转换为节点关联\n如果节点支持`Notification CC V2`，则访问过程不再失败。"
-			},
-			"1.4.1": {
-				"en": "If a node fails to respond to `Multi Channel Endpoint Find`, the interview is no longer aborted and sequential endpoints are assumed instead\nRenamed the manufacturer Goap to Qubino\nFor many Qubino devices, the lifeline now uses a node association",
-				"de": "Wenn ein Knoten nicht auf \"Mehrkanal-Endpunktsuche\" reagiert, wird das Interview nicht mehr abgebrochen und stattdessen werden sequentielle Endpunkte angenommen\nDer Hersteller Goap wurde in Qubino umbenannt\nFür viele Qubino-Geräte verwendet die Rettungsleine jetzt eine Knotenzuordnung",
-				"ru": "Если узел не отвечает на «Многоканальный поиск конечной точки», интервью больше не прерывается и вместо него предполагаются последовательные конечные точки\nПереименован производитель Goap в Qubino\nДля многих устройств Qubino линия жизни теперь использует ассоциацию узлов",
-				"pt": "Se um nó falhar em responder à `Localização de ponto de extremidade multicanal ', a entrevista não será mais interrompida e os pontos de extremidade sequenciais serão assumidos.\nRenomeou o fabricante Goap para Qubino\nPara muitos dispositivos Qubino, a linha de vida agora usa uma associação de nó",
-				"nl": "Als een knooppunt niet reageert op `Multi Channel Endpoint Find`, wordt het interview niet langer afgebroken en worden in plaats daarvan sequentiële eindpunten aangenomen\nOmgedoopt tot fabrikant Goap to Qubino\nVoor veel Qubino-apparaten gebruikt de levenslijn nu een knooppuntassociatie",
-				"fr": "Si un nœud ne répond pas à la recherche de points de terminaison multicanaux, l'interview n'est plus abandonnée et les points de terminaison séquentiels sont supposés à la place.\nRenomme le fabricant Goap en Qubino\nPour de nombreux appareils Qubino, la ligne de vie utilise désormais une association de nœuds",
-				"it": "Se un nodo non risponde a \"Ricerca endpoint multicanale\", l'intervista non viene più interrotta e si ipotizzano invece endpoint sequenziali\nRinominato il produttore Goap in Qubino\nPer molti dispositivi Qubino, la linea di vita ora utilizza un'associazione di nodi",
-				"es": "Si un nodo no responde a la 'Búsqueda de punto final multicanal', la entrevista ya no se cancela y se suponen puntos finales secuenciales.\nRenombrado el fabricante Goap a Qubino\nPara muchos dispositivos Qubino, la línea de vida ahora usa una asociación de nodos",
-				"pl": "Jeśli węzeł nie zareaguje na „Multi Channel Endpoint Find”, wywiad nie jest już przerywany i zamiast tego przyjmowane są kolejne punkty końcowe\nZmieniono nazwę producenta Goap na Qubino\nW przypadku wielu urządzeń Qubino linia życia używa teraz powiązania węzła",
-				"zh-cn": "如果节点无法响应“多通道端点查找”，则访问不再中止，而是采用顺序端点\n将制造商Goap重命名为Qubino\n对于许多Qubino设备，生命线现在使用节点关联"
-			},
-			"1.4.0": {
-				"en": "Updated `zwave-js` to v4.0.1. This includes the following features:\n* Improved support for legacy devices that don't include all CCs in the NIF, like `Fibaro FGRM 222`.\n* Added support for `Sound Switch CC`\n* Added support for `Alarm Sensor CC`. This CC will only be used if `Notification CC` is not supported.",
-				"de": "`Zwave-js` wurde auf v4.0.1 aktualisiert. Dies umfasst die folgenden Funktionen:\n* Verbesserte Unterstützung für ältere Geräte, die nicht alle CCs im NIF enthalten, wie z. B. \"Fibaro FGRM 222\".\n* Unterstützung für \"Sound Switch CC\" hinzugefügt\n* Unterstützung für \"Alarm Sensor CC\" hinzugefügt. Dieser CC wird nur verwendet, wenn \"Benachrichtigungs-CC\" nicht unterstützt wird.",
-				"ru": "Обновлен `zwave-js` до v4.0.1. Это включает в себя следующие функции:\n* Улучшена поддержка устаревших устройств, которые не включают все CC в NIF, например, `Fibaro FGRM 222`.\n* Добавлена поддержка `Sound Switch CC`\n* Добавлена поддержка `Alarm Sensor CC`. Этот CC будет использоваться только в том случае, если `Notification CC` не поддерживается.",
-				"pt": "Atualizado `zwave-js` para a v4.0.1. Isso inclui os seguintes recursos:\n* Suporte aprimorado para dispositivos legados que não incluem todos os CCs no NIF, como o `Fibaro FGRM 222`.\n* Adicionado suporte para o `Sound Switch CC`\n* Adicionado suporte para `Alarm Sensor CC`. Este CC será usado apenas se o `Notification CC` não for suportado.",
-				"nl": "`Zwave-js` bijgewerkt naar v4.0.1. Dit omvat de volgende kenmerken:\n* Verbeterde ondersteuning voor oudere apparaten die niet alle CC's in de NIF bevatten, zoals `Fibaro FGRM 222`.\n* Ondersteuning toegevoegd voor `Sound Switch CC`\n* Ondersteuning toegevoegd voor `Alarm Sensor CC`. Deze CC wordt alleen gebruikt als `Notification CC` niet wordt ondersteund.",
-				"fr": "Mise à jour de `zwave-js` vers v4.0.1. Cela inclut les fonctionnalités suivantes:\n* Prise en charge améliorée des appareils hérités qui n'incluent pas tous les CC dans le NIF, comme `Fibaro FGRM 222`.\n* Ajout de la prise en charge de «Sound Switch CC»\n* Ajout de la prise en charge de «Alarm Sensor CC». Ce CC ne sera utilisé que si «Notification CC» n'est pas pris en charge.",
-				"it": "Aggiornato `zwave-js` a v4.0.1. Ciò include le seguenti funzionalità:\n* Supporto migliorato per i dispositivi legacy che non includono tutti i CC nel NIF, come `Fibaro FGRM 222`.\n* Aggiunto supporto per `Sound Switch CC`\n* Aggiunto supporto per `Alarm Sensor CC`. Questo CC verrà utilizzato solo se \"Notifica CC\" non è supportato.",
-				"es": "Actualizado `zwave-js` a v4.0.1. Esto incluye las siguientes características:\n* Soporte mejorado para dispositivos heredados que no incluyen todos los CC en el NIF, como `Fibaro FGRM 222`.\n* Soporte agregado para `Sound Switch CC`\n* Se agregó soporte para `Alarm Sensor CC`. Este CC solo se utilizará si no se admite `Notificación CC`.",
-				"pl": "Zaktualizowano `zwave-js` do wersji 4.0.1. Obejmuje to następujące funkcje:\n* Poprawiona obsługa starszych urządzeń, które nie zawierają wszystkich CC w NIF, takich jak `Fibaro FGRM 222`.\n* Dodano wsparcie dla `Sound Switch CC`\n* Dodano obsługę `Alarm Sensor CC`. To CC będzie używane tylko wtedy, gdy „Notification CC” nie jest obsługiwane.",
-				"zh-cn": "将`zwave-js`更新为v4.0.1。这包括以下功能：\n*改进了对不包含NIF中所有CC的旧式设备的支持，例如“ Fibaro FGRM 222”。\n*添加了对“声音开关CC”的支持\n*增加了对“警报传感器CC”的支持。仅当不支持`Notification CC`时，才使用此CC。"
-			},
-			"1.3.8": {
-				"en": "Fixed transmission issues caused by overlapped secure transactions",
-				"de": "Übertragungsprobleme behoben, die durch überlappende sichere Transaktionen verursacht wurden",
-				"ru": "Исправлены проблемы передачи, вызванные перекрытыми безопасными транзакциями",
-				"pt": "Corrigidos problemas de transmissão causados por transações seguras sobrepostas",
-				"nl": "Vaste transmissieproblemen veroorzaakt door overlappende beveiligde transacties",
-				"fr": "Correction de problèmes de transmission causés par des transactions sécurisées se chevauchant",
-				"it": "Risolti i problemi di trasmissione causati da transazioni sicure sovrapposte",
-				"es": "Se corrigieron problemas de transmisión causados por transacciones seguras superpuestas",
-				"pl": "Naprawiono problemy z transmisją spowodowane nakładającymi się bezpiecznymi transakcjami",
-				"zh-cn": "固定交易重叠引起的传输问题"
-			},
-			"1.3.7": {
-				"en": "Fixed transmission issues caused by overlapped secure transactions",
-				"de": "Übertragungsprobleme behoben, die durch überlappende sichere Transaktionen verursacht wurden",
-				"ru": "Исправлены проблемы передачи, вызванные перекрытыми безопасными транзакциями",
-				"pt": "Corrigidos problemas de transmissão causados por transações seguras sobrepostas",
-				"nl": "Vaste transmissieproblemen veroorzaakt door overlappende beveiligde transacties",
-				"fr": "Correction de problèmes de transmission causés par des transactions sécurisées se chevauchant",
-				"it": "Risolti i problemi di trasmissione causati da transazioni sicure sovrapposte",
-				"es": "Se corrigieron problemas de transmisión causados por transacciones seguras superpuestas",
-				"pl": "Naprawiono problemy z transmisją spowodowane nakładającymi się bezpiecznymi transakcjami",
-				"zh-cn": "固定交易重叠引起的传输问题"
-			},
-			"1.3.6": {
-				"en": "Added some details to the `Multi Channel Association CC` interview logging\nConfigured lifeline node associations of newer devices should now be set correctly\n`CRC-16`-encapsulated commands can now be received\nThe log file is complete again",
-				"de": "Einige Details zur Interviewprotokollierung der \"Multi Channel Association CC\" hinzugefügt\nKonfigurierte Lifeline-Knotenzuordnungen neuerer Geräte sollten jetzt korrekt eingestellt werden\nCRC-16-gekapselte Befehle können jetzt empfangen werden\nDie Protokolldatei ist wieder vollständig",
-				"ru": "Добавлены некоторые детали в журнал интервью Multi Channel Association CC\nСконфигурированные ассоциации узлов жизнеобеспечения более новых устройств теперь должны быть установлены правильно\nИнкапсулированные команды `CRC-16` теперь могут быть получены\nФайл журнала снова завершен",
-				"pt": "Adicionados alguns detalhes ao registro de entrevista `Multi Channel Association CC`\nAssociações de nó de linha de vida configuradas de dispositivos mais novos agora devem ser definidas corretamente\nComandos encapsulados `CRC-16` agora podem ser recebidos\nO arquivo de log está completo novamente",
-				"nl": "Enkele details toegevoegd aan de gespreksregistratie van de `Multi Channel Association CC`\nDe geconfigureerde levenslijnknooppuntassociaties van nieuwere apparaten moeten nu correct worden ingesteld\nIn CRC-16 ingekapselde opdrachten kunnen nu worden ontvangen\nHet logbestand is weer compleet",
-				"fr": "Ajout de quelques détails à la journalisation des interviews `Multi Channel Association CC`\nLes associations de nœuds de ligne de vie configurées pour les nouveaux appareils doivent maintenant être définies correctement\nLes commandes encapsulées `CRC-16` peuvent maintenant être reçues\nLe fichier journal est à nouveau complet",
-				"it": "Aggiunti alcuni dettagli alla registrazione dell'intervista con `Multi Channel Association CC`\nLe associazioni dei nodi di linea di vita configurate dei dispositivi più recenti dovrebbero ora essere impostate correttamente\nOra è possibile ricevere comandi incapsulati `CRC-16`\nIl file di registro è di nuovo completo",
-				"es": "Se agregaron algunos detalles al registro de entrevistas de la 'Asociación de canales múltiples CC'\nLas asociaciones de nodos de línea de vida configuradas de dispositivos más nuevos ahora se deben configurar correctamente\nAhora se pueden recibir comandos encapsulados `CRC-16`\nEl archivo de registro está completo nuevamente.",
-				"pl": "Dodano pewne szczegóły do rejestrowania wywiadu `Multi Channel Association CC`\nSkonfigurowane skojarzenia węzłów linii życia nowszych urządzeń powinny być teraz ustawione poprawnie\nMożna teraz odbierać komendy w formacie `CRC-16`\nPlik dziennika jest ponownie gotowy",
-				"zh-cn": "在“多渠道协会CC”采访记录中添加了一些详细信息\n现在应正确设置较新设备的已配置生命线节点关联\n现在可以接收CRC-16封装的命令\n日志文件再次完成"
-			},
-			"1.3.5": {
-				"en": "Added some details to the `Multi Channel Association CC` interview logging\nConfigured lifeline node associations of newer devices should now be set correctly\nThe `CRC-16 Command Encapsulation CC` is now correctly detected as implemented\nThe log file is complete again",
-				"de": "Einige Details zur Interviewprotokollierung der \"Multi Channel Association CC\" hinzugefügt\nKonfigurierte Lifeline-Knotenzuordnungen neuerer Geräte sollten jetzt korrekt eingestellt werden\nDer \"CRC-16 Command Encapsulation CC\" wird jetzt korrekt als implementiert erkannt\nDie Protokolldatei ist wieder vollständig",
-				"ru": "Добавлены некоторые детали в журнал интервью Multi Channel Association CC\nСконфигурированные ассоциации узлов жизнеобеспечения более новых устройств теперь должны быть установлены правильно\n`CRC-16 Command Encapsulation CC` теперь правильно определяется как реализованный\nФайл журнала снова завершен",
-				"pt": "Adicionados alguns detalhes ao registro de entrevista `Multi Channel Association CC`\nAssociações de nó de linha de vida configuradas de dispositivos mais novos agora devem ser definidas corretamente\nO `CRC-16 Command Encapsulation CC` agora está corretamente detectado como implementado\nO arquivo de log está completo novamente",
-				"nl": "Enkele details toegevoegd aan de gespreksregistratie van de `Multi Channel Association CC`\nDe geconfigureerde levenslijnknooppuntassociaties van nieuwere apparaten moeten nu correct worden ingesteld\nDe `CRC-16 Command Encapsulation CC` wordt nu correct gedetecteerd als geïmplementeerd\nHet logbestand is weer compleet",
-				"fr": "Ajout de quelques détails à la journalisation des interviews `Multi Channel Association CC`\nLes associations de nœuds de ligne de vie configurées pour les nouveaux appareils doivent maintenant être définies correctement\nLe `CRC-16 Command Encapsulation CC` est maintenant correctement détecté comme implémenté\nLe fichier journal est à nouveau complet",
-				"it": "Aggiunti alcuni dettagli alla registrazione dell'intervista con `Multi Channel Association CC`\nLe associazioni dei nodi di linea di vita configurate dei dispositivi più recenti dovrebbero ora essere impostate correttamente\nIl `CRC-16 Command Encapsulation CC` è ora correttamente rilevato come implementato\nIl file di registro è di nuovo completo",
-				"es": "Se agregaron algunos detalles al registro de entrevistas de la 'Asociación de canales múltiples CC'\nLas asociaciones de nodos de línea de vida configuradas de dispositivos más nuevos ahora se deben configurar correctamente\nEl `CRC-16 Command Encapsulation CC` ahora se detecta correctamente como implementado\nEl archivo de registro está completo nuevamente.",
-				"pl": "Dodano pewne szczegóły do rejestrowania wywiadu `Multi Channel Association CC`\nSkonfigurowane skojarzenia węzłów linii życia nowszych urządzeń powinny być teraz ustawione poprawnie\n`CRC-16 Command Encapsulation CC` jest teraz poprawnie wykrywany jako zaimplementowany\nPlik dziennika jest ponownie gotowy",
-				"zh-cn": "在“多渠道协会CC”采访记录中添加了一些详细信息\n现在应正确设置较新设备的已配置生命线节点关联\n现在已正确检测到“ CRC-16命令封装CC”已实现\n日志文件再次完成"
-			},
-			"1.3.4": {
-				"en": "The association UI no longer crashes if an empty association object is returned\nThe target endpoint selection for associations is now hidden if an association does not support multiple target endpoints\nFixed an incompatibility with nodes that have a different number of \"normal\" associations than multi channel associations, e.g. _FGRM-222_\nThe association UI now distinguishes between associations to the device and the root endpoint\nMany fixes related to handling associations and multi channel associations\nCreating a log file works again\nAdded support for Devolo Dimmer (MT2760) and Shutter (MT2761) (thanks @nicoh88)\nWhen the interview process fails to set a lifeline association with `Multi Channel Association CC`, it now tries again with `Association CC`",
-				"de": "Die Assoziations-Benutzeroberfläche stürzt nicht mehr ab, wenn ein leeres Assoziationsobjekt zurückgegeben wird\nDie Auswahl des Zielendpunkts für Zuordnungen ist jetzt ausgeblendet, wenn eine Zuordnung nicht mehrere Zielendpunkte unterstützt\nEs wurde eine Inkompatibilität mit Knoten behoben, die eine andere Anzahl von \"normalen\" Assoziationen als Mehrkanalassoziationen aufweisen, z. _FGRM-222_\nDie Zuordnungs-Benutzeroberfläche unterscheidet jetzt zwischen Zuordnungen zum Gerät und zum Stammendpunkt\nViele Korrekturen im Zusammenhang mit der Behandlung von Assoziationen und Mehrkanalassoziationen\nDas Erstellen einer Protokolldatei funktioniert erneut\nUnterstützung für Devolo Dimmer (MT2760) und Shutter (MT2761) hinzugefügt (danke @ nicoh88)\nWenn der Interviewprozess keine Lifeline-Zuordnung zu \"Multi Channel Association CC\" festlegen kann, wird er es jetzt erneut mit \"Association CC\" versuchen",
-				"ru": "Пользовательский интерфейс ассоциации больше не падает, если возвращается пустой объект ассоциации\nВыбор целевой конечной точки для ассоциаций теперь скрыт, если ассоциация не поддерживает несколько целевых конечных точек.\nИсправлена несовместимость с узлами, которые имеют другое количество «нормальных» ассоциаций, чем многоканальные ассоциации, например _FGRM-222_\nПользовательский интерфейс ассоциации теперь различает ассоциации с устройством и корневой конечной точкой\nМного исправлений, связанных с обработкой ассоциаций и многоканальных ассоциаций\nСоздание файла журнала снова работает\nДобавлена поддержка Devolo Dimmer (MT2760) и Shutter (MT2761) (спасибо @ nicoh88)\nКогда в процессе собеседования не удается установить связь с каналом «Многоканальная ассоциация CC», он снова пытается выполнить «Ассоциация CC»",
-				"pt": "A interface do usuário da associação não trava mais se um objeto de associação vazio for retornado\nA seleção do terminal de destino para associações agora está oculta se uma associação não suportar vários terminais de destino\nCorrigida uma incompatibilidade com os nós que têm um número diferente de associações \"normais\" das associações multicanal, por exemplo _FGRM-222_\nA interface do usuário da associação agora distingue entre associações ao dispositivo e o ponto de extremidade raiz\nMuitas correções relacionadas ao tratamento de associações e associações multicanal\nCriar um arquivo de log funciona novamente\nAdicionado suporte para o Devolo Dimmer (MT2760) e o Shutter (MT2761) (obrigado @ nicoh88)\nQuando o processo de entrevista falha ao definir uma associação da linha de vida com a `Associação Multicanal CC`, agora tenta novamente com a` Associação CC`",
-				"nl": "De associatie-UI loopt niet meer vast als een leeg associatieobject wordt geretourneerd\nDe doeleindpuntselectie voor koppelingen is nu verborgen als een koppeling niet meerdere doeleindpunten ondersteunt\nEen incompatibiliteit opgelost met knooppunten die een ander aantal \"normale\" associaties hebben dan multi-kanaalassociaties, b.v. _FGRM-222_\nDe associatie-UI maakt nu onderscheid tussen associaties met het apparaat en het root-eindpunt\nVeel oplossingen hebben betrekking op het omgaan met associaties en multi-channel associaties\nHet aanmaken van een logbestand werkt weer\nOndersteuning toegevoegd voor Devolo Dimmer (MT2760) en Shutter (MT2761) (bedankt @ nicoh88)\nWanneer het interviewproces er niet in slaagt een levenslijnassociatie in te stellen met `Multi Channel Association CC`, probeert het nu opnieuw met` Association CC`",
-				"fr": "L'interface utilisateur d'association ne se bloque plus si un objet d'association vide est renvoyé\nLa sélection de point de terminaison cible pour les associations est désormais masquée si une association ne prend pas en charge plusieurs points de terminaison cible\nCorrection d'une incompatibilité avec les nœuds qui ont un nombre d'associations \"normal\" différent de celui des associations multicanaux, par ex. _FGRM-222_\nL'interface utilisateur d'association distingue désormais les associations avec le périphérique et le point de terminaison racine\nDe nombreux correctifs liés à la gestion des associations et des associations multicanaux\nLa création d'un fichier journal fonctionne à nouveau\nPrise en charge supplémentaire de Devolo Dimmer (MT2760) et Shutter (MT2761) (merci @ nicoh88)\nLorsque le processus d'entrevue ne parvient pas à définir une association de ligne de vie avec «Multi Channel Association CC», il essaie à nouveau avec «Association CC»",
-				"it": "L'interfaccia utente dell'associazione non si arresta più in modo anomalo se viene restituito un oggetto associazione vuoto\nLa selezione dell'endpoint di destinazione per le associazioni è ora nascosta se un'associazione non supporta più endpoint di destinazione\nRisolta un'incompatibilità con nodi con un numero diverso di associazioni \"normali\" rispetto alle associazioni multicanale, ad es. _FGRM-222_\nL'interfaccia utente dell'associazione ora distingue tra le associazioni al dispositivo e l'endpoint radice\nMolte correzioni legate alla gestione delle associazioni e delle associazioni multicanale\nLa creazione di un file di registro funziona di nuovo\nAggiunto supporto per Devolo Dimmer (MT2760) e Shutter (MT2761) (grazie @ nicoh88)\nQuando il processo di intervista non riesce a stabilire un'associazione di sicurezza con `Multi Channel Association CC`, ora riprova con` Association CC`",
-				"es": "La IU de asociación ya no se bloquea si se devuelve un objeto de asociación vacío\nLa selección del punto final objetivo para las asociaciones ahora está oculta si una asociación no admite múltiples puntos finales objetivo\nSe corrigió una incompatibilidad con nodos que tienen un número diferente de asociaciones \"normales\" que las asociaciones multicanal, p. _FGRM-222_\nLa interfaz de usuario de asociación ahora distingue entre asociaciones con el dispositivo y el punto final raíz\nMuchas correcciones relacionadas con el manejo de asociaciones y asociaciones multicanal\nCrear un archivo de registro funciona nuevamente\nSoporte adicional para Devolo Dimmer (MT2760) y Shutter (MT2761) (gracias @ nicoh88)\nCuando el proceso de la entrevista no puede establecer una asociación de línea de vida con `Multi Channel Association CC`, ahora intenta nuevamente con` Association CC`",
-				"pl": "Interfejs interfejsu asocjacji nie ulega już awarii, jeśli zwracany jest pusty obiekt asocjacji\nWybór docelowego punktu końcowego dla powiązań jest teraz ukryty, jeśli powiązanie nie obsługuje wielu docelowych punktów końcowych\nNaprawiono niezgodność z węzłami, które mają inną liczbę „normalnych” skojarzeń niż skojarzenia wielokanałowe, np. _FGRM-222_\nInterfejs użytkownika skojarzenia rozróżnia teraz powiązania z urządzeniem i głównym punktem końcowym\nWiele poprawek związanych z obsługą skojarzeń i powiązań wielokanałowych\nTworzenie pliku dziennika działa ponownie\nDodano obsługę Devolo Dimmer (MT2760) i Shutter (MT2761) (dzięki @ nicoh88)\nKiedy proces wywiadu nie ustanawia powiązania z linią życia z `Multi Channel Association CC`, teraz próbuje ponownie z` Association CC`",
-				"zh-cn": "如果返回空的关联对象，则关联UI不再崩溃\n如果关联不支持多个目标端点，则将隐藏关联的目标端点选择\n修复了与“正常”关联数比多通道关联数不同的节点的不兼容问题。 _FGRM-222_\n现在，关联UI可以区分与设备和根端点的关联\n与处理关联和多渠道关联有关的许多修复\n创建日志文件再次起作用\n增加了对Devolo调光器（MT2760）和快门（MT2761）的支持（感谢@ nicoh88）\n当采访过程无法通过“多渠道关联CC”设置生命线关联时，现在会再次尝试使用“关联CC”。"
-			},
-			"1.3.3": {
-				"en": "Logfiles are now logged in the correct order and some unnecessary logging was removed\nFixed an error when using the DoorLockCC setValue API when not all configuration values have been received\nErrors while sending firmware fragments are now caught and logged\nThe adapter no longer crashes when the serial device exists but does not respond\nImproved compatibility with some devices that send invalid `Multi Channel Endpoint Find Reports`, e.g. _TKB Home TZ74 Dual Switch_",
-				"de": "Protokolldateien werden jetzt in der richtigen Reihenfolge protokolliert und einige unnötige Protokollierungen wurden entfernt\nEin Fehler bei der Verwendung der DoorLockCC setValue-API wurde behoben, wenn nicht alle Konfigurationswerte empfangen wurden\nFehler beim Senden von Firmware-Fragmenten werden jetzt abgefangen und protokolliert\nDer Adapter stürzt nicht mehr ab, wenn das serielle Gerät vorhanden ist, reagiert jedoch nicht\nVerbesserte Kompatibilität mit einigen Geräten, die ungültige \"Multi Channel Endpoint Find Reports\" senden, z. _TKB Home TZ74 Dual Switch_",
-				"ru": "Лог-файлы теперь зарегистрированы в правильном порядке, и некоторые ненужные записи были удалены\nИсправлена ошибка при использовании DoorLockCC setValue API, когда не все значения конфигурации были получены\nОшибки при отправке фрагментов прошивки теперь отлавливаются и регистрируются\nАдаптер больше не падает, когда последовательное устройство существует, но не отвечает\nУлучшена совместимость с некоторыми устройствами, которые отправляют недопустимые «отчеты о поиске многоканальной конечной точки», например, _TKB Home TZ74 Dual Switch_",
-				"pt": "Os arquivos de log agora estão registrados na ordem correta e algum log desnecessário foi removido\nCorrigido um erro ao usar a API doorLockCC setValue quando nem todos os valores de configuração foram recebidos\nErros ao enviar fragmentos de firmware agora são capturados e registrados\nO adaptador não trava mais quando o dispositivo serial existe, mas não responde\nMelhor compatibilidade com alguns dispositivos que enviam `Relatórios de localização de endpoint multicanal inválidos ', por exemplo _TKB Home TZ74 Comutador Duplo_",
-				"nl": "Logbestanden worden nu in de juiste volgorde gelogd en sommige onnodige logging is verwijderd\nEen fout verholpen bij het gebruik van de DoorLockCC setValue API wanneer niet alle configuratiewaarden zijn ontvangen\nFouten bij het verzenden van firmwarefragmenten worden nu opgevangen en vastgelegd\nDe adapter crasht niet meer wanneer het seriële apparaat bestaat, maar reageert niet\nVerbeterde compatibiliteit met sommige apparaten die ongeldige `Multi Channel Endpoint Find Reports` verzenden, bijv. _TKB Home TZ74 Dual Switch_",
-				"fr": "Les fichiers journaux sont désormais enregistrés dans le bon ordre et certains journaux inutiles ont été supprimés\nCorrection d'une erreur lors de l'utilisation de l'API setLalCC DoorLockCC lorsque toutes les valeurs de configuration n'avaient pas été reçues\nLes erreurs lors de l'envoi de fragments de firmware sont désormais détectées et enregistrées\nL'adaptateur ne se bloque plus lorsque le périphérique série existe mais ne répond pas\nAmélioration de la compatibilité avec certains appareils qui envoient des `` rapports de recherche de points de terminaison multicanaux '' invalides, par ex. _TKB Home TZ74 Dual Switch_",
-				"it": "I file di registro vengono ora registrati nell'ordine corretto e alcuni log non necessari sono stati rimossi\nRisolto un errore quando si utilizzava l'API setValue DoorLockCC quando non sono stati ricevuti tutti i valori di configurazione\nGli errori durante l'invio dei frammenti del firmware vengono ora rilevati e registrati\nL'adattatore non si arresta più in modo anomalo quando esiste il dispositivo seriale ma non risponde\nMigliore compatibilità con alcuni dispositivi che inviano \"Rapporti di ricerca endpoint multicanale non validi\", ad es. _TKB Home TZ74 Dual Switch_",
-				"es": "Los archivos de registro ahora están registrados en el orden correcto y se eliminaron algunos registros innecesarios\nSe corrigió un error al usar la API setLoal de DoorLockCC cuando no se han recibido todos los valores de configuración\nLos errores al enviar fragmentos de firmware ahora se detectan y registran\nEl adaptador ya no se bloquea cuando el dispositivo en serie existe pero no responde\nCompatibilidad mejorada con algunos dispositivos que envían informes de búsqueda de punto final multicanal no válidos, p. _TKB Home TZ74 Dual Switch_",
-				"pl": "Pliki dziennika są teraz rejestrowane w prawidłowej kolejności, a niektóre niepotrzebne rejestrowanie zostało usunięte\nNaprawiono błąd podczas używania interfejsu API setValue DoorLockCC, gdy nie wszystkie wartości konfiguracji zostały odebrane\nBłędy podczas wysyłania fragmentów oprogramowania są teraz wychwytywane i rejestrowane\nAdapter przestaje się zawieszać, gdy istnieje urządzenie szeregowe, ale nie odpowiada\nPoprawiona kompatybilność z niektórymi urządzeniami, które wysyłają nieprawidłowe raporty „Multi Channel Endpoint Find Report”, np. _TKB Home TZ74 Podwójny przełącznik_",
-				"zh-cn": "现在以正确的顺序记录日志文件，并删除了一些不必要的日志记录\n修复了在未收到所有配置值的情况下使用DoorLockCC setValue API时的错误\n现在捕获并记录了发送固件片段时的错误\n当串行设备存在但不响应时，适配器不再崩溃\n改善了与某些发送无效“多通道端点查找报告”的设备的兼容性，例如_TKB家用TZ74双开关_"
-			},
-			"1.3.2": {
-				"en": "Fixed a crash that happens when a `Multi Command CC` is received",
-				"de": "Es wurde ein Absturz behoben, der auftrat, wenn ein \"Multi Command CC\" empfangen wurde",
-				"ru": "Исправлен сбой, возникающий при получении «Multi Command CC»",
-				"pt": "Corrigida uma falha que acontece quando um `Multi Command CC` é recebido",
-				"nl": "Een crash gerepareerd die optreedt wanneer een `Multi Command CC` wordt ontvangen",
-				"fr": "Correction d'un plantage qui se produisait lors de la réception d'un CC multi-commandes",
-				"it": "Risolto un crash che si verificava quando si riceve un `Multi Command CC`",
-				"es": "Se corrigió un bloqueo que ocurre cuando se recibe un `Multi Command CC`",
-				"pl": "Naprawiono awarię występującą po otrzymaniu „Multi Command CC”",
-				"zh-cn": "修复了当收到“多命令抄送”时发生的崩溃"
-			},
-			"1.3.1": {
-				"en": "Fixed an issue where secure Multi Channel Association Reports were not correctly deserialized\nFixed an issue where some associations to the root endpoint could not be removed",
-				"de": "Es wurde ein Problem behoben, bei dem sichere Multi-Channel-Zuordnungsberichte nicht korrekt deserialisiert wurden\nEs wurde ein Problem behoben, durch das einige Zuordnungen zum Stammendpunkt nicht entfernt werden konnten",
-				"ru": "Исправлена ошибка, из-за которой защищенные отчеты многоканальной ассоциации не были правильно десериализованы.\nИсправлена ошибка, из-за которой не удалось удалить некоторые ассоциации с корневой конечной точкой",
-				"pt": "Corrigido um problema em que os Relatórios de associação multicanal seguros não eram desserializados corretamente\nCorrigido um problema em que algumas associações ao terminal raiz não podiam ser removidas",
-				"nl": "Er is een probleem opgelost waarbij beveiligde Multi Channel Association-rapporten niet correct waren gedeserialiseerd\nEr is een probleem opgelost waarbij sommige koppelingen met het root-eindpunt niet konden worden verwijderd",
-				"fr": "Correction d'un problème où les rapports d'association multicanaux sécurisés n'étaient pas correctement désérialisés\nCorrection d'un problème où certaines associations au point de terminaison racine ne pouvaient pas être supprimées",
-				"it": "Risolto il problema per cui i report di associazione multicanale sicuri non venivano deserializzati correttamente\nRisolto il problema per cui alcune associazioni all'endpoint radice non potevano essere rimosse",
-				"es": "Se solucionó un problema por el cual los informes seguros de asociación de canales múltiples no se deserializaban correctamente\nSe solucionó un problema por el cual algunas asociaciones con el punto final raíz no podían eliminarse",
-				"pl": "Naprawiono problem polegający na tym, że bezpieczne raporty powiązań wielokanałowych nie były poprawnie usuwane z postaci szeregowej\nNaprawiono problem, w wyniku którego niektóre powiązania z głównym punktem końcowym nie mogły zostać usunięte",
-				"zh-cn": "修复了安全的多渠道关联报告未正确反序列化的问题\n修复了无法删除与根端点的某些关联的问题"
-			},
-			"1.3.0": {
-				"en": "Added support for firmware updates. WARNING: Use at your own risk!\n`Fibaro FGMS-001 Motion sensor`: All association groups are now configured to point to the controller\nWhen re-interviewing a node, the information about its command classes is also reset",
-				"de": "Unterstützung für Firmware-Updates hinzugefügt. WARNUNG: Verwendung auf eigenes Risiko!\n`Fibaro FGMS-001 Bewegungssensor`: Alle Zuordnungsgruppen sind jetzt so konfiguriert, dass sie auf die Steuerung zeigen\nBei der erneuten Befragung eines Knotens werden auch die Informationen zu seinen Befehlsklassen zurückgesetzt",
-				"ru": "Добавлена поддержка обновлений прошивки. ВНИМАНИЕ: Используйте на свой страх и риск!\n`Fibaro FGMS-001 Датчик движения`: все группы ассоциаций теперь настроены так, чтобы указывать на контроллер\nПри повторном опросе узла информация о его классах команд также сбрасывается",
-				"pt": "Adicionado suporte para atualizações de firmware. AVISO: Use por sua conta e risco!\n`Fibaro FGMS-001 Motion sensor`: Todos os grupos de associações agora estão configurados para apontar para o controlador\nAo entrevistar novamente um nó, as informações sobre suas classes de comando também são redefinidas",
-				"nl": "Ondersteuning toegevoegd voor firmware-updates. WAARSCHUWING: Gebruik op eigen risico!\n`Fibaro FGMS-001 Bewegingssensor`: Alle associatiegroepen zijn nu geconfigureerd om naar de controller te wijzen\nBij het opnieuw interviewen van een knooppunt wordt de informatie over de opdrachtklassen ook gereset",
-				"fr": "Ajout de la prise en charge des mises à jour du firmware. AVERTISSEMENT: utilisez à vos risques et périls!\n`Fibaro FGMS-001 Motion sensor`: Tous les groupes d'association sont maintenant configurés pour pointer vers le contrôleur\nLors d'une nouvelle interview d'un nœud, les informations sur ses classes de commandes sont également réinitialisées",
-				"it": "Aggiunto supporto per gli aggiornamenti del firmware. ATTENZIONE: utilizzare a proprio rischio!\n`Sensore di movimento Fibaro FGMS-001`: Tutti i gruppi di associazione sono ora configurati per puntare al controller\nQuando si intervista nuovamente un nodo, vengono ripristinate anche le informazioni sulle sue classi di comando",
-				"es": "Soporte agregado para actualizaciones de firmware. ADVERTENCIA: ¡Utilícelo bajo su propio riesgo!\n`Sensor de movimiento Fibaro FGMS-001`: Todos los grupos de asociación ahora están configurados para apuntar al controlador\nAl volver a entrevistar un nodo, la información sobre sus clases de comando también se restablece",
-				"pl": "Dodano obsługę aktualizacji oprogramowania układowego. OSTRZEŻENIE: Używaj na własne ryzyko!\n`Fibaro FGMS-001 Czujnik ruchu`: Wszystkie grupy asocjacyjne są teraz skonfigurowane tak, aby wskazywały na kontroler\nPodczas ponownej rozmowy z węzłem informacje o jego klasach poleceń są również resetowane",
-				"zh-cn": "添加了对固件更新的支持。警告：使用风险自负！\n“ Fibaro FGMS-001运动传感器”：现在将所有关联组配置为指向控制器\n重新访问节点时，还将重置有关其命令类的信息"
-			}
-		},
-		"title": "Z-Wave 2",
-		"titleLang": {
-			"en": "Z-Wave 2",
-			"de": "Z-Wave 2",
-			"ru": "Z-Wave 2",
-			"pt": "Z-Wave 2",
-			"nl": "Z-Wave 2",
-			"fr": "Z-Wave 2",
-			"it": "Z-Wave 2",
-			"es": "Z-Wave 2",
-			"pl": "Z-Wave 2",
-			"zh-cn": "Z-Wave 2"
-		},
-		"desc": {
-			"en": "The better Z-Wave integration",
-			"de": "Die bessere Z-Wave-Integration",
-			"ru": "Лучшая интеграция Z-Wave",
-			"pt": "A melhor integração do Z-Wave",
-			"nl": "De betere Z-Wave-integratie",
-			"fr": "La meilleure intégration Z-Wave",
-			"it": "La migliore integrazione di Z-Wave",
-			"es": "La mejor integración de Z-Wave",
-			"pl": "Lepsza integracja Z-Wave",
-			"zh-cn": "更好的Z-Wave集成"
-		},
-		"authors": ["AlCalzone <d.griesel@gmx.net>"],
-		"keywords": ["zwave", "z-wave", "zwave2", "z-wave 2"],
-		"license": "MIT",
-		"platform": "Javascript/Node.js",
-		"main": "build/main.js",
-		"icon": "zwave2.svg",
-		"enabled": true,
-		"dataFolder": "zwave2.%INSTANCE%",
-		"extIcon": "https://raw.githubusercontent.com/AlCalzone/ioBroker.zwave2/master/admin/zwave2.svg?sanitize=true",
-		"readme": "https://github.com/AlCalzone/ioBroker.zwave2/blob/master/README.md",
-		"loglevel": "info",
-		"mode": "daemon",
-		"type": "hardware",
-		"compact": true,
-		"materialize": true,
-		"messagebox": true,
-		"connectionType": "local",
-		"dataSource": "push",
-		"dependencies": [
-			{
-				"js-controller": ">=2.0.0"
-			}
-		]
-	},
-	"native": {
-		"serialport": "",
-		"writeLogFile": false,
-		"networkKey": ""
-	},
-	"objects": [],
-	"instanceObjects": [
-		{
-			"_id": "info",
-			"type": "channel",
-			"common": {
-				"name": "Information"
-			},
-			"native": {}
-		},
-		{
-			"_id": "info.connection",
-			"type": "state",
-			"common": {
-				"role": "indicator.connected",
-				"name": "Whether the Z-Wave driver is ready",
-				"type": "boolean",
-				"read": true,
-				"write": false,
-				"def": false
-			},
-			"native": {}
-		},
-		{
-			"_id": "info.inclusion",
-			"type": "state",
-			"common": {
-				"role": "state",
-				"name": "Which state the inclusion of nodes is in",
-				"type": "number",
-				"read": true,
-				"write": true,
-				"def": 0,
-				"states": {
-					"0": "Idle",
-					"1": "Non-secure",
-					"2": "Secure"
-				}
-			},
-			"native": {}
-		},
-		{
-			"_id": "info.exclusion",
-			"type": "state",
-			"common": {
-				"role": "state",
-				"name": "Whether the exclusion of nodes is active",
-				"type": "boolean",
-				"read": true,
-				"write": true,
-				"def": false
-			},
-			"native": {}
-		},
-		{
-			"_id": "info.healingNetwork",
-			"type": "state",
-			"common": {
-				"role": "state",
-				"name": "Whether a network heal is currently in progress",
-				"type": "boolean",
-				"read": true,
-				"write": false,
-				"def": false
-			},
-			"native": {}
-		}
-	]
+    "common": {
+        "name": "zwave2",
+        "version": "1.7.0-alpha.7",
+        "news": {
+            "1.7.0-alpha.7": {
+                "en": "The `quality` parameter is now set for state updates when reading (potentially stale) values from the cache\nChanged the serialport setting field to use autocomplete instead of a dropdown, added a tip how to use serial-over-tcp connections\nUpgraded `zwave-js` to version 5.0.0. This includes many changes including the following:\nThe driver has been completely rewritten with state machines for a well-defined program flow and better testability. This should solve issues where communication may get stuck for unknown reasons.\nAll interview messages now automatically have a lower priority than most other messages, e.g. the ones created by user interaction. This should make the network feel much more responsive while an interview process is active.\nImproved performance of reading from the Value DB\nA node is no longer marked as dead or asleep if it fails to respond to a `Configuration CC::Get` request. This can happen if the parameter is not supported.\nThe interview for sensor-type CCs is now skipped if a timeout occurs waiting for a response. Previously the whole interview was aborted.\nIf a node that is known to be included securely does not respond to the `Security CC` interview, it is no longer assumed to be non-secure\nIf a node that is assumed to be included non-securely sends secure commands, it is now marked as secure and the interview will be restarted\nAdded a configuration file for `ABUS CFA3010`.\nAdded a configuration file for `Everspring AC301`\nRemoved parameter #5 from `Aeon Labs ZW130` because it doesn't seem to be supported in any firmware version\nIn addition to real serial ports, serial-over-tcp connections (e.g. by using `ser2net`) are now supported. Use these `ser2net` settings to host a serial port: `<external-port>:raw:0:<path-to-serial>:115200 8DATABITS NONE 1STOPBIT`\nFixed a crash that could occur when assembling a partial message while the driver is not ready yet.",
+                "de": "Der Parameter \"Qualität\" wird jetzt für Statusaktualisierungen festgelegt, wenn (möglicherweise veraltete) Werte aus dem Cache gelesen werden\nDas Einstellungsfeld für den seriellen Anschluss wurde so geändert, dass anstelle eines Dropdowns die automatische Vervollständigung verwendet wird. Außerdem wurde ein Tipp zur Verwendung von Serial-over-TCP-Verbindungen hinzugefügt\n`Zwave-js` wurde auf Version 5.0.0 aktualisiert. Dies beinhaltet viele Änderungen, einschließlich der folgenden:\nDer Treiber wurde mit Zustandsautomaten komplett neu geschrieben, um einen genau definierten Programmablauf und eine bessere Testbarkeit zu gewährleisten. Dies sollte Probleme lösen, bei denen die Kommunikation aus unbekannten Gründen hängen bleiben kann.\nAlle Interviewnachrichten haben jetzt automatisch eine niedrigere Priorität als die meisten anderen Nachrichten, z. diejenigen, die durch Benutzerinteraktion erstellt wurden. Dadurch sollte sich das Netzwerk viel reaktionsfähiger fühlen, während ein Interviewprozess aktiv ist.\nVerbesserte Leseleistung aus der Wertedatenbank\nEin Knoten wird nicht mehr als tot oder schlafend markiert, wenn er nicht auf eine \"Configuration CC :: Get\" -Anforderung reagiert. Dies kann passieren, wenn der Parameter nicht unterstützt wird.\nDas Interview für CCs vom Sensortyp wird jetzt übersprungen, wenn eine Zeitüberschreitung auftritt, die auf eine Antwort wartet. Zuvor wurde das gesamte Interview abgebrochen.\nWenn ein Knoten, von dem bekannt ist, dass er sicher eingeschlossen ist, nicht auf das \"Security CC\" -Interview antwortet, wird nicht mehr davon ausgegangen, dass er nicht sicher ist\nWenn ein Knoten, von dem angenommen wird, dass er nicht sicher enthalten ist, sichere Befehle sendet, wird er jetzt als sicher markiert und das Interview wird neu gestartet\nEine Konfigurationsdatei für \"ABUS CFA3010\" wurde hinzugefügt.\nEine Konfigurationsdatei für \"Everspring AC301\" wurde hinzugefügt\nParameter Nr. 5 wurde aus `Aeon Labs ZW130` entfernt, da er in keiner Firmware-Version unterstützt zu werden scheint\nZusätzlich zu echten seriellen Ports werden jetzt Serial-over-TCP-Verbindungen (z. B. unter Verwendung von \"ser2net\") unterstützt. Verwenden Sie diese `ser2net`-Einstellungen, um eine serielle Schnittstelle zu hosten:` <externer-Port>: raw: 0: <Pfad-zu-seriell>: 115200 8DATABITS NONE 1STOPBIT`\nEs wurde ein Absturz behoben, der beim Zusammenstellen einer Teilnachricht auftreten konnte, während der Treiber noch nicht bereit war.",
+                "ru": "Параметр `quality` теперь установлен для обновления состояния при чтении (потенциально устаревших) значений из кеша\nИзменено поле настройки последовательного порта, чтобы использовать автозаполнение вместо раскрывающегося списка, добавлен совет, как использовать соединения последовательного порта через TCP.\n`Zwave-js` обновлен до версии 5.0.0. Это включает в себя множество изменений, в том числе следующие:\nДрайвер был полностью переписан с использованием конечных автоматов для четко определенного потока программы и лучшей тестируемости. Это должно решить проблемы, при которых связь может зависать по неизвестным причинам.\nВсе сообщения интервью теперь автоматически имеют более низкий приоритет, чем большинство других сообщений, например те, которые созданы взаимодействием с пользователем. Это должно сделать сеть более отзывчивой, пока идет процесс собеседования.\nПовышена производительность чтения из Value DB.\nУзел больше не помечается как мертвый или спящий, если он не отвечает на запрос Configuration CC :: Get. Это может произойти, если параметр не поддерживается.\nИнтервью для CC сенсорного типа теперь пропускается, если истекает время ожидания ответа. Ранее все интервью было прервано.\nЕсли узел, о котором известно, что он защищен, не отвечает на интервью `Security CC`, он больше не считается незащищенным.\nЕсли узел, который предполагается включить в небезопасный режим, отправляет безопасные команды, он теперь помечается как безопасный и интервью будет перезапущено.\nДобавлен файл конфигурации для `ABUS CFA3010`.\nДобавлен файл конфигурации для `Everspring AC301`\nУдален параметр # 5 из `Aeon Labs ZW130`, потому что он, похоже, не поддерживается ни в одной версии прошивки.\nВ дополнение к реальным последовательным портам теперь поддерживаются соединения serial-over-tcp (например, с использованием ser2net). Используйте эти настройки `ser2net` для размещения последовательного порта:` <external-port>: raw: 0: <path-to-serial>: 115200 8DATABITS NONE 1STOPBIT`\nИсправлен сбой, который мог произойти при сборке частичного сообщения, когда драйвер еще не готов.",
+                "pt": "O parâmetro `quality` agora está definido para atualizações de estado ao ler (potencialmente obsoletos) valores do cache\nAlterado o campo de configuração serialport para usar autocomplete em vez de um menu suspenso, adicionada uma dica de como usar conexões serial-over-tcp\nAtualizado `zwave-js` para a versão 5.0.0. Isso inclui muitas mudanças, incluindo o seguinte:\nO driver foi completamente reescrito com máquinas de estado para um fluxo de programa bem definido e melhor testabilidade. Isso deve resolver os problemas em que a comunicação pode travar por motivos desconhecidos.\nTodas as mensagens de entrevista agora têm automaticamente uma prioridade menor do que a maioria das outras mensagens, por exemplo aqueles criados pela interação do usuário. Isso deve fazer com que a rede se sinta muito mais responsiva enquanto um processo de entrevista está ativo.\nMelhor desempenho de leitura do Value DB\nUm nó não é mais marcado como morto ou adormecido se ele falhar em responder a uma solicitação de `Configuração CC :: Get`. Isso pode acontecer se o parâmetro não for compatível.\nA entrevista para CCs do tipo sensor agora é ignorada se ocorrer um tempo limite à espera de uma resposta. Anteriormente, toda a entrevista foi abortada.\nSe um nó que é conhecido por estar incluído com segurança não responde à entrevista do `CC de segurança`, ele não é mais considerado não seguro\nSe um nó que é considerado incluído de forma não segura enviar comandos seguros, ele agora é marcado como seguro e a entrevista será reiniciada\nAdicionado um arquivo de configuração para `ABUS CFA3010`.\nAdicionado um arquivo de configuração para `Everspring AC301`\nRemovido o parâmetro nº 5 do `Aeon Labs ZW130` porque não parece ser compatível com nenhuma versão de firmware\nAlém de portas seriais reais, conexões serial-over-tcp (por exemplo, usando `ser2net`) agora são suportadas. Use essas configurações `ser2net` para hospedar uma porta serial:` <external-port>: raw: 0: <path-to-serial>: 115200 8DATABITS NONE 1STOPBIT`\nCorrigido um travamento que poderia ocorrer ao montar uma mensagem parcial enquanto o driver ainda não estava pronto.",
+                "nl": "De parameter 'kwaliteit' is nu ingesteld voor statusupdates bij het lezen van (mogelijk verouderde) waarden uit de cache\nHet instellingenveld voor de seriële poort gewijzigd om autocomplete te gebruiken in plaats van een vervolgkeuzelijst, een tip toegevoegd voor het gebruik van seriële over-tcp-verbindingen\nUpgrade van `zwave-js` naar versie 5.0.0. Dit omvat veel wijzigingen, waaronder de volgende:\nDe driver is volledig herschreven met state machines voor een goed gedefinieerde programmastroom en betere testbaarheid. Dit zou problemen moeten oplossen waarbij communicatie om onbekende redenen kan vastlopen.\nAlle interviewberichten hebben nu automatisch een lagere prioriteit dan de meeste andere berichten, bijv. degenen die zijn gemaakt door gebruikersinteractie. Dit zou ervoor moeten zorgen dat het netwerk veel responsiever voelt terwijl een interviewproces actief is.\nVerbeterde leesprestaties van de waarde-DB\nEen knooppunt wordt niet langer gemarkeerd als dood of in slaap als het niet reageert op een `Configuration CC :: Get` verzoek. Dit kan gebeuren als de parameter niet wordt ondersteund.\nHet interview voor CC's van het sensortype wordt nu overgeslagen als er een time-out optreedt tijdens het wachten op een antwoord. Eerder werd het hele interview afgebroken.\nAls een knooppunt waarvan bekend is dat het veilig is opgenomen niet reageert op het `Security CC`-interview, wordt niet langer aangenomen dat het niet veilig is\nAls een knooppunt waarvan wordt aangenomen dat het niet-veilig is opgenomen, beveiligde opdrachten verzendt, wordt het nu gemarkeerd als veilig en wordt het interview opnieuw gestart\nEen configuratiebestand toegevoegd voor `ABUS CFA3010`.\nEen configuratiebestand toegevoegd voor `Everspring AC301`\nParameter # 5 verwijderd uit `Aeon Labs ZW130` omdat het in geen enkele firmwareversie lijkt te worden ondersteund\nNaast echte seriële poorten worden nu ook serieel-over-tcp-verbindingen (bijvoorbeeld door gebruik te maken van `ser2net`) ondersteund. Gebruik deze `ser2net` instellingen om een seriële poort te hosten:` <external-port>: raw: 0: <path-to-serial>: 115200 8DATABITS NONE 1STOPBIT`\nEen crash verholpen die kon optreden bij het samenstellen van een gedeeltelijk bericht terwijl de driver nog niet gereed was.",
+                "fr": "Le paramètre `quality` est maintenant défini pour les mises à jour d'état lors de la lecture de valeurs (potentiellement périmées) dans le cache\nModification du champ de paramètre du port série pour utiliser la saisie semi-automatique au lieu d'une liste déroulante, ajout d'un conseil sur l'utilisation des connexions série sur TCP\nMise à jour de `zwave-js` vers la version 5.0.0. Cela inclut de nombreux changements, notamment les suivants:\nLe pilote a été complètement réécrit avec des machines à états pour un flux de programme bien défini et une meilleure testabilité. Cela devrait résoudre les problèmes où la communication peut être bloquée pour des raisons inconnues.\nTous les messages d'interview ont désormais automatiquement une priorité inférieure à la plupart des autres messages, par ex. ceux créés par l'interaction de l'utilisateur. Cela devrait permettre au réseau de se sentir beaucoup plus réactif lorsqu'un processus d'entrevue est actif.\nAmélioration des performances de lecture de la base de données Value\nUn nœud n'est plus marqué comme mort ou endormi s'il ne répond pas à une requête `Configuration CC :: Get`. Cela peut se produire si le paramètre n'est pas pris en charge.\nL'interview pour les CC de type capteur est désormais ignorée si un délai d'attente se produit dans l'attente d'une réponse. Auparavant, toute l'interview était interrompue.\nSi un nœud connu pour être inclus de manière sécurisée ne répond pas à l'interview «Security CC», il n'est plus considéré comme non sécurisé\nSi un nœud supposé être inclus envoie des commandes sécurisées de manière non sécurisée, il est désormais marqué comme sécurisé et l'interview sera redémarrée\nAjout d'un fichier de configuration pour `ABUS CFA3010`.\nAjout d'un fichier de configuration pour `Everspring AC301`\nSuppression du paramètre n ° 5 de `Aeon Labs ZW130` car il ne semble pas être pris en charge dans aucune version de firmware\nEn plus des ports série réels, les connexions série sur TCP (par exemple en utilisant `ser2net`) sont désormais prises en charge. Utilisez ces paramètres `ser2net` pour héberger un port série:` <external-port>: raw: 0: <path-to-serial>: 115200 8DATABITS NONE 1STOPBIT`\nCorrection d'un plantage pouvant survenir lors de l'assemblage d'un message partiel alors que le pilote n'est pas encore prêt.",
+                "it": "Il parametro `quality` ora è impostato per gli aggiornamenti di stato durante la lettura di valori (potenzialmente obsoleti) dalla cache\nModificato il campo di impostazione della porta seriale per utilizzare il completamento automatico invece di un menu a discesa, aggiunto un suggerimento su come utilizzare le connessioni serial-over-tcp\nAggiornato `zwave-js` alla versione 5.0.0. Ciò include molte modifiche, tra cui le seguenti:\nIl driver è stato completamente riscritto con macchine a stati per un flusso di programma ben definito e una migliore testabilità. Ciò dovrebbe risolvere i problemi in cui la comunicazione potrebbe bloccarsi per motivi sconosciuti.\nTutti i messaggi dell'intervista ora hanno automaticamente una priorità inferiore rispetto alla maggior parte degli altri messaggi, ad es. quelli creati dall'interazione dell'utente. Questo dovrebbe rendere la rete molto più reattiva mentre è attivo un processo di intervista.\nMiglioramento delle prestazioni di lettura dal Value DB\nUn nodo non è più contrassegnato come morto o addormentato se non risponde a una richiesta di `Configuration CC :: Get`. Ciò può accadere se il parametro non è supportato.\nL'intervista per i CC di tipo sensore viene ora saltata se si verifica un timeout in attesa di una risposta. In precedenza, l'intera intervista veniva interrotta.\nSe un nodo noto per essere incluso in modo sicuro non risponde all'intervista di `Security CC`, non si presume più che sia non sicuro\nSe un nodo che si presume sia incluso in modo non sicuro invia comandi sicuri, ora è contrassegnato come sicuro e l'intervista verrà riavviata\nAggiunto un file di configurazione per `ABUS CFA3010`.\nAggiunto un file di configurazione per `Everspring AC301`\nParametro # 5 rimosso da `Aeon Labs ZW130` perché non sembra essere supportato in nessuna versione del firmware\nOltre alle porte seriali reali, ora sono supportate le connessioni seriali su TCP (ad es. Usando `ser2net`). Usa queste impostazioni di `ser2net` per ospitare una porta seriale:` <external-port>: raw: 0: <path-to-serial>: 115200 8DATABITS NONE 1STOPBIT`\nRisolto un crash che poteva verificarsi durante l'assemblaggio di un messaggio parziale mentre il driver non era ancora pronto.",
+                "es": "El parámetro `calidad` ahora está configurado para actualizaciones de estado al leer valores (potencialmente obsoletos) de la caché\nSe modificó el campo de configuración del puerto de serie para usar autocompletar en lugar de un menú desplegable, se agregó un consejo sobre cómo usar conexiones en serie sobre tcp\nSe actualizó `zwave-js` a la versión 5.0.0. Esto incluye muchos cambios, incluidos los siguientes:\nEl controlador se ha reescrito completamente con máquinas de estado para un flujo de programa bien definido y una mejor capacidad de prueba. Esto debería resolver problemas en los que la comunicación puede atascarse por razones desconocidas.\nTodos los mensajes de entrevistas ahora tienen automáticamente una prioridad más baja que la mayoría de los demás mensajes, p. Ej. los creados por la interacción del usuario. Esto debería hacer que la red se sienta mucho más receptiva mientras el proceso de entrevista está activo.\nRendimiento mejorado de lectura de Value DB\nUn nodo ya no está marcado como inactivo o dormido si no responde a una solicitud de `Configuration CC :: Get`. Esto puede suceder si el parámetro no es compatible.\nLa entrevista para CC de tipo sensor ahora se omite si se agota el tiempo de espera de una respuesta. Previamente se abortó toda la entrevista.\nSi un nodo que se sabe que está incluido de forma segura no responde a la entrevista de `Security CC`, ya no se supone que no sea seguro.\nSi un nodo que se supone que está incluido envía comandos seguros de forma no segura, ahora se marca como seguro y se reinicia la entrevista.\nSe agregó un archivo de configuración para `ABUS CFA3010`.\nSe agregó un archivo de configuración para `Everspring AC301`\nSe eliminó el parámetro # 5 de `Aeon Labs ZW130` porque parece que no es compatible con ninguna versión de firmware.\nAdemás de los puertos serie reales, ahora se admiten las conexiones serie sobre tcp (por ejemplo, mediante el uso de `ser2net`). Utilice estos ajustes de `ser2net` para alojar un puerto serie:` <puerto-external>: raw: 0: <ruta-a-serie>: 115200 8DATABITS NONE 1STOPBIT`\nSe corrigió un bloqueo que podría ocurrir al ensamblar un mensaje parcial cuando el controlador aún no está listo.",
+                "pl": "Parametr „quality” jest teraz ustawiony na aktualizacje stanu podczas odczytywania (potencjalnie nieaktualnych) wartości z pamięci podręcznej\nZmieniono pole ustawień portu szeregowego, aby używać autouzupełniania zamiast listy rozwijanej, dodano wskazówkę, jak używać połączeń szeregowych przez tcp\nZaktualizowany plik „zwave-js” do wersji 5.0.0. Obejmuje to wiele zmian, w tym następujące:\nSterownik został całkowicie przepisany z maszynami stanu, aby zapewnić dobrze zdefiniowany przepływ programu i lepszą testowalność. Powinno to rozwiązać problemy, w których komunikacja może utknąć z nieznanych przyczyn.\nWszystkie wiadomości z wywiadami mają teraz automatycznie niższy priorytet niż większość innych wiadomości, np. te stworzone przez interakcję użytkownika. Powinno to sprawić, że sieć będzie lepiej reagować, gdy proces rozmowy kwalifikacyjnej jest aktywny.\nPoprawiona wydajność odczytu z bazy danych wartości\nWęzeł nie jest już oznaczany jako martwy lub uśpiony, jeśli nie odpowie na żądanie „Configuration CC :: Get”. Może się tak zdarzyć, jeśli parametr nie jest obsługiwany.\nWywiad dla CC z czujnikiem jest teraz pomijany, jeśli nastąpi przekroczenie czasu oczekiwania na odpowiedź. Wcześniej cały wywiad został przerwany.\nJeśli węzeł, o którym wiadomo, że jest dołączony bezpiecznie, nie odpowie na przesłuchanie w „CC Security”, nie zakłada się już, że jest niezabezpieczony\nJeśli węzeł, który ma zostać uwzględniony w sposób niezabezpieczony, wysyła bezpieczne polecenia, jest teraz oznaczony jako bezpieczny i rozmowa zostanie wznowiona\nDodano plik konfiguracyjny dla `ABUS CFA3010`.\nDodano plik konfiguracyjny dla `Everspring AC301`\nUsunięto parametr # 5 z `Aeon Labs ZW130`, ponieważ wydaje się, że nie jest obsługiwany w żadnej wersji oprogramowania układowego\nOprócz rzeczywistych portów szeregowych, obsługiwane są teraz połączenia szeregowe za pośrednictwem protokołu TCP (np. Przy użyciu „ser2net”). Użyj tych ustawień `ser2net` do obsługi portu szeregowego:` <port-zewnętrzny>: surowy: 0: <ścieżka-do-serial>: 115200 8 DATABITS NONE 1STOPBIT`\nNaprawiono awarię, która mogła wystąpić podczas tworzenia częściowej wiadomości, gdy sterownik nie jest jeszcze gotowy.",
+                "zh-cn": "现在，当从缓存中读取（可能是过时的）值时，会为状态更新设置“ quality”参数\n将serialport设置字段更改为使用自动完成功能而不是下拉菜单，并添加了有关如何使用TCP上串行连接的提示\n将zwave-js升级到5.0.0版本。这包括许多更改，包括以下内容：\n该驱动程序已完全用状态机重写，以实现定义良好的程序流和更好的可测试性。这应该可以解决由于未知原因而导致通信阻塞的问题。\n现在，所有采访消息的优先级都自动低于大多数其他消息，例如由用户交互创建的内容。这将使网络在进行采访过程时感觉更加敏感。\n改进了从Value DB读取的性能\n如果节点无法响应“配置CC :: Get”请求，则不再标记为已死或处于睡眠状态。如果不支持该参数，则会发生这种情况。\n如果在等待响应时发生超时，则将跳过对传感器类型CC的访问。以前，整个采访都被中止了。\n如果已知安全包含的节点未响应“安全CC”采访，则不再认为该节点是不安全的\n如果假定包含非安全节点的节点发送安全命令，则该节点现在被标记为安全，并且采访将重新开始\n为“ ABUS CFA3010”添加了配置文件。\n添加了“ Everspring AC301”的配置文件\n从“ Aeon Labs ZW130”中删除了参数＃5，因为任何固件版本似乎都不支持该参数\n除了实际的串行端口，现在还支持tcp串行连接（例如，通过使用“ ser2net”）。使用以下“ ser2net”设置来托管串行端口：`<external-port>：raw：0：<path-to-serial>：115200 8DATABITS NONE 1STOPBIT`\n修复了在驱动程序尚未准备好时组装部分消息时可能发生的崩溃。"
+            },
+            "1.6.3": {
+                "en": "Further performance optimization\nImproved compatibility with devices that send invalid `Multi Channel CC` commands",
+                "de": "Weitere Leistungsoptimierung\nVerbesserte Kompatibilität mit Geräten, die ungültige Mehrkanal-CC-Befehle senden",
+                "ru": "Дальнейшая оптимизация производительности\nУлучшена совместимость с устройствами, которые отправляют недопустимые команды `Multi Channel CC`.",
+                "pt": "Otimização de desempenho adicional\nCompatibilidade aprimorada com dispositivos que enviam comandos `Multi Channel CC` inválidos",
+                "nl": "Verdere prestatie-optimalisatie\nVerbeterde compatibiliteit met apparaten die ongeldige `Multi Channel CC`-opdrachten verzenden",
+                "fr": "Optimisation supplémentaire des performances\nAmélioration de la compatibilité avec les appareils qui envoient des commandes `Multi Channel CC` invalides",
+                "it": "Ulteriore ottimizzazione delle prestazioni\nMigliorata la compatibilità con i dispositivi che inviano comandi \"CC multicanale\" non validi",
+                "es": "Mayor optimización del rendimiento\nCompatibilidad mejorada con dispositivos que envían comandos \"CC multicanal\" no válidos",
+                "pl": "Dalsza optymalizacja wydajności\nPoprawiona kompatybilność z urządzeniami, które wysyłają nieprawidłowe polecenia `Multi Channel CC`",
+                "zh-cn": "进一步的性能优化\n改进了与发送无效“多通道CC”命令的设备的兼容性"
+            },
+            "1.6.2": {
+                "en": "Reduced CPU load in large networks",
+                "de": "Reduzierte CPU-Auslastung in großen Netzwerken",
+                "ru": "Снижение нагрузки на ЦП в больших сетях",
+                "pt": "Carga de CPU reduzida em redes grandes",
+                "nl": "Verminderde CPU-belasting in grote netwerken",
+                "fr": "Charge CPU réduite dans les grands réseaux",
+                "it": "Riduzione del carico della CPU nelle reti di grandi dimensioni",
+                "es": "Carga de CPU reducida en redes grandes",
+                "pl": "Zmniejszone obciążenie procesora w dużych sieciach",
+                "zh-cn": "减少大型网络中的CPU负载"
+            },
+            "1.6.1": {
+                "en": "Fixed interview issues with devices that claim they support `Basic CC`, but don't respond",
+                "de": "Interviewprobleme mit Geräten behoben, die behaupten, dass sie \"Basic CC\" unterstützen, aber nicht antworten",
+                "ru": "Исправлены проблемы с интервью с устройствами, которые утверждают, что поддерживают `Basic CC`, но не отвечают",
+                "pt": "Problemas de entrevista corrigidos com dispositivos que afirmam ser compatíveis com `CC básico`, mas não respondem",
+                "nl": "Interviewproblemen opgelost met apparaten die beweren dat ze `Basic CC` ondersteunen, maar niet reageren",
+                "fr": "Correction de problèmes d'entretien avec des appareils qui prétendent prendre en charge `Basic CC`, mais ne répondent pas",
+                "it": "Risolti i problemi di intervista con dispositivi che affermano di supportare \"CC di base\", ma non rispondono",
+                "es": "Se corrigieron problemas de entrevistas con dispositivos que afirman ser compatibles con \"Basic CC\", pero no responden",
+                "pl": "Naprawiono problemy z rozmową kwalifikacyjną z urządzeniami, które twierdzą, że obsługują „Basic CC”, ale nie odpowiadają",
+                "zh-cn": "修复了声称支持“基本抄送”但不响应的设备的采访问题"
+            },
+            "1.6.0": {
+                "en": "Added the possibility to send `Multilevel Sensor Report`s from scripts\nDependency updates for bug and security fixes",
+                "de": "Es wurde die Möglichkeit hinzugefügt, \"Multilevel Sensor Report\" aus Skripten zu senden\nAbhängigkeitsaktualisierungen für Fehler- und Sicherheitskorrekturen",
+                "ru": "Добавлена возможность отправки `Multilevel Sensor Report`s из скриптов\nОбновления зависимостей для исправлений ошибок и безопасности",
+                "pt": "Adicionada a possibilidade de enviar `Relatório de Sensor Multinível`s de scripts\nAtualizações de dependência para correções de bugs e segurança",
+                "nl": "De mogelijkheid toegevoegd om `Multilevel Sensor Report`s vanuit scripts te versturen\nAfhankelijkheidsupdates voor bug- en beveiligingsoplossingen",
+                "fr": "Ajout de la possibilité d'envoyer des rapports de capteur à plusieurs niveaux à partir de scripts\nMises à jour des dépendances pour les corrections de bogues et de sécurité",
+                "it": "Aggiunta la possibilità di inviare \"Report sui sensori multilivello\" dagli script\nAggiornamenti delle dipendenze per correzioni di bug e sicurezza",
+                "es": "Se agregó la posibilidad de enviar informes de sensores multinivel desde scripts\nActualizaciones de dependencia para correcciones de errores y seguridad",
+                "pl": "Dodano możliwość wysyłania `Multilevel Sensor Report` ze skryptów\nAktualizacje zależności dla poprawek błędów i zabezpieczeń",
+                "zh-cn": "添加了从脚本发送“多级传感器报告”的可能性\n漏洞和安全修复程序的依赖关系更新"
+            },
+            "1.5.0": {
+                "en": "Added the possibility to send custom commands from scripts ([documentation](docs/en/sendCommand.md)).\nAdded a `reset` state under `Meter CC`\nBugfix: Logs are no longer split across multiple files",
+                "de": "Es wurde die Möglichkeit hinzugefügt, benutzerdefinierte Befehle aus Skripten zu senden ([Dokumentation] (docs / de / sendCommand.md)).\nEin \"Reset\" -Zustand wurde unter \"Meter CC\" hinzugefügt\nBugfix: Protokolle werden nicht mehr auf mehrere Dateien aufgeteilt",
+                "ru": "Добавлена возможность отправки пользовательских команд из скриптов ([документация] (docs / en / sendCommand.md)).\nДобавлено состояние сброса в Meter CC\nИсправлено: журналы больше не разделяются на несколько файлов",
+                "pt": "Foi adicionada a possibilidade de enviar comandos personalizados a partir de scripts ([documentação] (docs / en / sendCommand.md)).\nAdicionado um estado de `reset` em` Meter CC`\nCorreção de bug: os logs não são mais divididos em vários arquivos",
+                "nl": "Mogelijkheid toegevoegd om aangepaste opdrachten vanuit scripts te verzenden ([documentatie] (docs / en / sendCommand.md)).\nEen `reset` status toegevoegd onder` Meter CC`\nBugfix: Logs zijn niet langer verdeeld over meerdere bestanden",
+                "fr": "Ajout de la possibilité d'envoyer des commandes personnalisées à partir de scripts ([documentation] (docs / en / sendCommand.md)).\nAjout d'un état `reset` sous` Meter CC`\nCorrectif: les journaux ne sont plus répartis sur plusieurs fichiers",
+                "it": "Aggiunta la possibilità di inviare comandi personalizzati dagli script ([documentazione] (docs / en / sendCommand.md)).\nAggiunto uno stato `reset` sotto` Meter CC`\nBugfix: i log non sono più suddivisi su più file",
+                "es": "Se agregó la posibilidad de enviar comandos personalizados desde scripts ([documentación] (docs / en / sendCommand.md)).\nSe agregó un estado `reset` en` Meter CC`\nCorrección de errores: los registros ya no se dividen en varios archivos",
+                "pl": "Dodano możliwość wysyłania niestandardowych poleceń ze skryptów ([dokumentacja] (docs / en / sendCommand.md)).\nDodano stan „reset” w „Meter CC”\nPoprawka: dzienniki nie są już dzielone na wiele plików",
+                "zh-cn": "添加了从脚本（[documentation]（docs / zh / sendCommand.md））发送自定义命令的可能性。\n在“仪表CC”下添加了“重置”状态\n错误修正：日志不再拆分成多个文件"
+            },
+            "1.4.2": {
+                "en": "During the interview, endpoint associations are now converted to node associations if required\nThe interview process no longer fails if a node supports `Notification CC V2`",
+                "de": "Während des Interviews werden Endpunktzuordnungen jetzt bei Bedarf in Knotenzuordnungen konvertiert\nDer Interviewprozess schlägt nicht mehr fehl, wenn ein Knoten \"Notification CC V2\" unterstützt",
+                "ru": "Во время интервью связи конечных точек теперь преобразуются в связи узлов при необходимости\nПроцесс интервью больше не завершается ошибкой, если узел поддерживает `Notification CC V2`",
+                "pt": "Durante a entrevista, as associações de terminais agora são convertidas em associações de nós, se necessário\nO processo de entrevista não falha mais se um nó suportar `Notification CC V2`",
+                "nl": "Tijdens het interview worden eindpuntassociaties nu indien nodig omgezet in knooppuntassociaties\nHet interviewproces mislukt niet langer als een knooppunt `Notification CC V2` ondersteunt",
+                "fr": "Au cours de l'entretien, les associations de noeuds finaux sont désormais converties en associations de nœuds si nécessaire\nLe processus d'entretien n'échoue plus si un nœud prend en charge «Notification CC V2»",
+                "it": "Durante l'intervista, le associazioni degli endpoint vengono ora convertite in associazioni di nodi, se necessario\nIl processo di intervista non fallisce più se un nodo supporta `Notification CC V2`",
+                "es": "Durante la entrevista, las asociaciones de punto final ahora se convierten en asociaciones de nodos si es necesario\nEl proceso de entrevista ya no falla si un nodo admite `Notification CC V2`",
+                "pl": "Podczas wywiadu skojarzenia punktów końcowych są w razie potrzeby konwertowane na powiązania węzłów\nProces wywiadu nie kończy się niepowodzeniem, jeśli węzeł obsługuje `Notification CC V2`",
+                "zh-cn": "采访期间，如果需要，端点关联现在会转换为节点关联\n如果节点支持`Notification CC V2`，则访问过程不再失败。"
+            },
+            "1.4.1": {
+                "en": "If a node fails to respond to `Multi Channel Endpoint Find`, the interview is no longer aborted and sequential endpoints are assumed instead\nRenamed the manufacturer Goap to Qubino\nFor many Qubino devices, the lifeline now uses a node association",
+                "de": "Wenn ein Knoten nicht auf \"Mehrkanal-Endpunktsuche\" reagiert, wird das Interview nicht mehr abgebrochen und stattdessen werden sequentielle Endpunkte angenommen\nDer Hersteller Goap wurde in Qubino umbenannt\nFür viele Qubino-Geräte verwendet die Rettungsleine jetzt eine Knotenzuordnung",
+                "ru": "Если узел не отвечает на «Многоканальный поиск конечной точки», интервью больше не прерывается и вместо него предполагаются последовательные конечные точки\nПереименован производитель Goap в Qubino\nДля многих устройств Qubino линия жизни теперь использует ассоциацию узлов",
+                "pt": "Se um nó falhar em responder à `Localização de ponto de extremidade multicanal ', a entrevista não será mais interrompida e os pontos de extremidade sequenciais serão assumidos.\nRenomeou o fabricante Goap para Qubino\nPara muitos dispositivos Qubino, a linha de vida agora usa uma associação de nó",
+                "nl": "Als een knooppunt niet reageert op `Multi Channel Endpoint Find`, wordt het interview niet langer afgebroken en worden in plaats daarvan sequentiële eindpunten aangenomen\nOmgedoopt tot fabrikant Goap to Qubino\nVoor veel Qubino-apparaten gebruikt de levenslijn nu een knooppuntassociatie",
+                "fr": "Si un nœud ne répond pas à la recherche de points de terminaison multicanaux, l'interview n'est plus abandonnée et les points de terminaison séquentiels sont supposés à la place.\nRenomme le fabricant Goap en Qubino\nPour de nombreux appareils Qubino, la ligne de vie utilise désormais une association de nœuds",
+                "it": "Se un nodo non risponde a \"Ricerca endpoint multicanale\", l'intervista non viene più interrotta e si ipotizzano invece endpoint sequenziali\nRinominato il produttore Goap in Qubino\nPer molti dispositivi Qubino, la linea di vita ora utilizza un'associazione di nodi",
+                "es": "Si un nodo no responde a la 'Búsqueda de punto final multicanal', la entrevista ya no se cancela y se suponen puntos finales secuenciales.\nRenombrado el fabricante Goap a Qubino\nPara muchos dispositivos Qubino, la línea de vida ahora usa una asociación de nodos",
+                "pl": "Jeśli węzeł nie zareaguje na „Multi Channel Endpoint Find”, wywiad nie jest już przerywany i zamiast tego przyjmowane są kolejne punkty końcowe\nZmieniono nazwę producenta Goap na Qubino\nW przypadku wielu urządzeń Qubino linia życia używa teraz powiązania węzła",
+                "zh-cn": "如果节点无法响应“多通道端点查找”，则访问不再中止，而是采用顺序端点\n将制造商Goap重命名为Qubino\n对于许多Qubino设备，生命线现在使用节点关联"
+            },
+            "1.4.0": {
+                "en": "Updated `zwave-js` to v4.0.1. This includes the following features:\n* Improved support for legacy devices that don't include all CCs in the NIF, like `Fibaro FGRM 222`.\n* Added support for `Sound Switch CC`\n* Added support for `Alarm Sensor CC`. This CC will only be used if `Notification CC` is not supported.",
+                "de": "`Zwave-js` wurde auf v4.0.1 aktualisiert. Dies umfasst die folgenden Funktionen:\n* Verbesserte Unterstützung für ältere Geräte, die nicht alle CCs im NIF enthalten, wie z. B. \"Fibaro FGRM 222\".\n* Unterstützung für \"Sound Switch CC\" hinzugefügt\n* Unterstützung für \"Alarm Sensor CC\" hinzugefügt. Dieser CC wird nur verwendet, wenn \"Benachrichtigungs-CC\" nicht unterstützt wird.",
+                "ru": "Обновлен `zwave-js` до v4.0.1. Это включает в себя следующие функции:\n* Улучшена поддержка устаревших устройств, которые не включают все CC в NIF, например, `Fibaro FGRM 222`.\n* Добавлена поддержка `Sound Switch CC`\n* Добавлена поддержка `Alarm Sensor CC`. Этот CC будет использоваться только в том случае, если `Notification CC` не поддерживается.",
+                "pt": "Atualizado `zwave-js` para a v4.0.1. Isso inclui os seguintes recursos:\n* Suporte aprimorado para dispositivos legados que não incluem todos os CCs no NIF, como o `Fibaro FGRM 222`.\n* Adicionado suporte para o `Sound Switch CC`\n* Adicionado suporte para `Alarm Sensor CC`. Este CC será usado apenas se o `Notification CC` não for suportado.",
+                "nl": "`Zwave-js` bijgewerkt naar v4.0.1. Dit omvat de volgende kenmerken:\n* Verbeterde ondersteuning voor oudere apparaten die niet alle CC's in de NIF bevatten, zoals `Fibaro FGRM 222`.\n* Ondersteuning toegevoegd voor `Sound Switch CC`\n* Ondersteuning toegevoegd voor `Alarm Sensor CC`. Deze CC wordt alleen gebruikt als `Notification CC` niet wordt ondersteund.",
+                "fr": "Mise à jour de `zwave-js` vers v4.0.1. Cela inclut les fonctionnalités suivantes:\n* Prise en charge améliorée des appareils hérités qui n'incluent pas tous les CC dans le NIF, comme `Fibaro FGRM 222`.\n* Ajout de la prise en charge de «Sound Switch CC»\n* Ajout de la prise en charge de «Alarm Sensor CC». Ce CC ne sera utilisé que si «Notification CC» n'est pas pris en charge.",
+                "it": "Aggiornato `zwave-js` a v4.0.1. Ciò include le seguenti funzionalità:\n* Supporto migliorato per i dispositivi legacy che non includono tutti i CC nel NIF, come `Fibaro FGRM 222`.\n* Aggiunto supporto per `Sound Switch CC`\n* Aggiunto supporto per `Alarm Sensor CC`. Questo CC verrà utilizzato solo se \"Notifica CC\" non è supportato.",
+                "es": "Actualizado `zwave-js` a v4.0.1. Esto incluye las siguientes características:\n* Soporte mejorado para dispositivos heredados que no incluyen todos los CC en el NIF, como `Fibaro FGRM 222`.\n* Soporte agregado para `Sound Switch CC`\n* Se agregó soporte para `Alarm Sensor CC`. Este CC solo se utilizará si no se admite `Notificación CC`.",
+                "pl": "Zaktualizowano `zwave-js` do wersji 4.0.1. Obejmuje to następujące funkcje:\n* Poprawiona obsługa starszych urządzeń, które nie zawierają wszystkich CC w NIF, takich jak `Fibaro FGRM 222`.\n* Dodano wsparcie dla `Sound Switch CC`\n* Dodano obsługę `Alarm Sensor CC`. To CC będzie używane tylko wtedy, gdy „Notification CC” nie jest obsługiwane.",
+                "zh-cn": "将`zwave-js`更新为v4.0.1。这包括以下功能：\n*改进了对不包含NIF中所有CC的旧式设备的支持，例如“ Fibaro FGRM 222”。\n*添加了对“声音开关CC”的支持\n*增加了对“警报传感器CC”的支持。仅当不支持`Notification CC`时，才使用此CC。"
+            },
+            "1.3.8": {
+                "en": "Fixed transmission issues caused by overlapped secure transactions",
+                "de": "Übertragungsprobleme behoben, die durch überlappende sichere Transaktionen verursacht wurden",
+                "ru": "Исправлены проблемы передачи, вызванные перекрытыми безопасными транзакциями",
+                "pt": "Corrigidos problemas de transmissão causados por transações seguras sobrepostas",
+                "nl": "Vaste transmissieproblemen veroorzaakt door overlappende beveiligde transacties",
+                "fr": "Correction de problèmes de transmission causés par des transactions sécurisées se chevauchant",
+                "it": "Risolti i problemi di trasmissione causati da transazioni sicure sovrapposte",
+                "es": "Se corrigieron problemas de transmisión causados por transacciones seguras superpuestas",
+                "pl": "Naprawiono problemy z transmisją spowodowane nakładającymi się bezpiecznymi transakcjami",
+                "zh-cn": "固定交易重叠引起的传输问题"
+            },
+            "1.3.7": {
+                "en": "Fixed transmission issues caused by overlapped secure transactions",
+                "de": "Übertragungsprobleme behoben, die durch überlappende sichere Transaktionen verursacht wurden",
+                "ru": "Исправлены проблемы передачи, вызванные перекрытыми безопасными транзакциями",
+                "pt": "Corrigidos problemas de transmissão causados por transações seguras sobrepostas",
+                "nl": "Vaste transmissieproblemen veroorzaakt door overlappende beveiligde transacties",
+                "fr": "Correction de problèmes de transmission causés par des transactions sécurisées se chevauchant",
+                "it": "Risolti i problemi di trasmissione causati da transazioni sicure sovrapposte",
+                "es": "Se corrigieron problemas de transmisión causados por transacciones seguras superpuestas",
+                "pl": "Naprawiono problemy z transmisją spowodowane nakładającymi się bezpiecznymi transakcjami",
+                "zh-cn": "固定交易重叠引起的传输问题"
+            },
+            "1.3.6": {
+                "en": "Added some details to the `Multi Channel Association CC` interview logging\nConfigured lifeline node associations of newer devices should now be set correctly\n`CRC-16`-encapsulated commands can now be received\nThe log file is complete again",
+                "de": "Einige Details zur Interviewprotokollierung der \"Multi Channel Association CC\" hinzugefügt\nKonfigurierte Lifeline-Knotenzuordnungen neuerer Geräte sollten jetzt korrekt eingestellt werden\nCRC-16-gekapselte Befehle können jetzt empfangen werden\nDie Protokolldatei ist wieder vollständig",
+                "ru": "Добавлены некоторые детали в журнал интервью Multi Channel Association CC\nСконфигурированные ассоциации узлов жизнеобеспечения более новых устройств теперь должны быть установлены правильно\nИнкапсулированные команды `CRC-16` теперь могут быть получены\nФайл журнала снова завершен",
+                "pt": "Adicionados alguns detalhes ao registro de entrevista `Multi Channel Association CC`\nAssociações de nó de linha de vida configuradas de dispositivos mais novos agora devem ser definidas corretamente\nComandos encapsulados `CRC-16` agora podem ser recebidos\nO arquivo de log está completo novamente",
+                "nl": "Enkele details toegevoegd aan de gespreksregistratie van de `Multi Channel Association CC`\nDe geconfigureerde levenslijnknooppuntassociaties van nieuwere apparaten moeten nu correct worden ingesteld\nIn CRC-16 ingekapselde opdrachten kunnen nu worden ontvangen\nHet logbestand is weer compleet",
+                "fr": "Ajout de quelques détails à la journalisation des interviews `Multi Channel Association CC`\nLes associations de nœuds de ligne de vie configurées pour les nouveaux appareils doivent maintenant être définies correctement\nLes commandes encapsulées `CRC-16` peuvent maintenant être reçues\nLe fichier journal est à nouveau complet",
+                "it": "Aggiunti alcuni dettagli alla registrazione dell'intervista con `Multi Channel Association CC`\nLe associazioni dei nodi di linea di vita configurate dei dispositivi più recenti dovrebbero ora essere impostate correttamente\nOra è possibile ricevere comandi incapsulati `CRC-16`\nIl file di registro è di nuovo completo",
+                "es": "Se agregaron algunos detalles al registro de entrevistas de la 'Asociación de canales múltiples CC'\nLas asociaciones de nodos de línea de vida configuradas de dispositivos más nuevos ahora se deben configurar correctamente\nAhora se pueden recibir comandos encapsulados `CRC-16`\nEl archivo de registro está completo nuevamente.",
+                "pl": "Dodano pewne szczegóły do rejestrowania wywiadu `Multi Channel Association CC`\nSkonfigurowane skojarzenia węzłów linii życia nowszych urządzeń powinny być teraz ustawione poprawnie\nMożna teraz odbierać komendy w formacie `CRC-16`\nPlik dziennika jest ponownie gotowy",
+                "zh-cn": "在“多渠道协会CC”采访记录中添加了一些详细信息\n现在应正确设置较新设备的已配置生命线节点关联\n现在可以接收CRC-16封装的命令\n日志文件再次完成"
+            },
+            "1.3.5": {
+                "en": "Added some details to the `Multi Channel Association CC` interview logging\nConfigured lifeline node associations of newer devices should now be set correctly\nThe `CRC-16 Command Encapsulation CC` is now correctly detected as implemented\nThe log file is complete again",
+                "de": "Einige Details zur Interviewprotokollierung der \"Multi Channel Association CC\" hinzugefügt\nKonfigurierte Lifeline-Knotenzuordnungen neuerer Geräte sollten jetzt korrekt eingestellt werden\nDer \"CRC-16 Command Encapsulation CC\" wird jetzt korrekt als implementiert erkannt\nDie Protokolldatei ist wieder vollständig",
+                "ru": "Добавлены некоторые детали в журнал интервью Multi Channel Association CC\nСконфигурированные ассоциации узлов жизнеобеспечения более новых устройств теперь должны быть установлены правильно\n`CRC-16 Command Encapsulation CC` теперь правильно определяется как реализованный\nФайл журнала снова завершен",
+                "pt": "Adicionados alguns detalhes ao registro de entrevista `Multi Channel Association CC`\nAssociações de nó de linha de vida configuradas de dispositivos mais novos agora devem ser definidas corretamente\nO `CRC-16 Command Encapsulation CC` agora está corretamente detectado como implementado\nO arquivo de log está completo novamente",
+                "nl": "Enkele details toegevoegd aan de gespreksregistratie van de `Multi Channel Association CC`\nDe geconfigureerde levenslijnknooppuntassociaties van nieuwere apparaten moeten nu correct worden ingesteld\nDe `CRC-16 Command Encapsulation CC` wordt nu correct gedetecteerd als geïmplementeerd\nHet logbestand is weer compleet",
+                "fr": "Ajout de quelques détails à la journalisation des interviews `Multi Channel Association CC`\nLes associations de nœuds de ligne de vie configurées pour les nouveaux appareils doivent maintenant être définies correctement\nLe `CRC-16 Command Encapsulation CC` est maintenant correctement détecté comme implémenté\nLe fichier journal est à nouveau complet",
+                "it": "Aggiunti alcuni dettagli alla registrazione dell'intervista con `Multi Channel Association CC`\nLe associazioni dei nodi di linea di vita configurate dei dispositivi più recenti dovrebbero ora essere impostate correttamente\nIl `CRC-16 Command Encapsulation CC` è ora correttamente rilevato come implementato\nIl file di registro è di nuovo completo",
+                "es": "Se agregaron algunos detalles al registro de entrevistas de la 'Asociación de canales múltiples CC'\nLas asociaciones de nodos de línea de vida configuradas de dispositivos más nuevos ahora se deben configurar correctamente\nEl `CRC-16 Command Encapsulation CC` ahora se detecta correctamente como implementado\nEl archivo de registro está completo nuevamente.",
+                "pl": "Dodano pewne szczegóły do rejestrowania wywiadu `Multi Channel Association CC`\nSkonfigurowane skojarzenia węzłów linii życia nowszych urządzeń powinny być teraz ustawione poprawnie\n`CRC-16 Command Encapsulation CC` jest teraz poprawnie wykrywany jako zaimplementowany\nPlik dziennika jest ponownie gotowy",
+                "zh-cn": "在“多渠道协会CC”采访记录中添加了一些详细信息\n现在应正确设置较新设备的已配置生命线节点关联\n现在已正确检测到“ CRC-16命令封装CC”已实现\n日志文件再次完成"
+            },
+            "1.3.4": {
+                "en": "The association UI no longer crashes if an empty association object is returned\nThe target endpoint selection for associations is now hidden if an association does not support multiple target endpoints\nFixed an incompatibility with nodes that have a different number of \"normal\" associations than multi channel associations, e.g. _FGRM-222_\nThe association UI now distinguishes between associations to the device and the root endpoint\nMany fixes related to handling associations and multi channel associations\nCreating a log file works again\nAdded support for Devolo Dimmer (MT2760) and Shutter (MT2761) (thanks @nicoh88)\nWhen the interview process fails to set a lifeline association with `Multi Channel Association CC`, it now tries again with `Association CC`",
+                "de": "Die Assoziations-Benutzeroberfläche stürzt nicht mehr ab, wenn ein leeres Assoziationsobjekt zurückgegeben wird\nDie Auswahl des Zielendpunkts für Zuordnungen ist jetzt ausgeblendet, wenn eine Zuordnung nicht mehrere Zielendpunkte unterstützt\nEs wurde eine Inkompatibilität mit Knoten behoben, die eine andere Anzahl von \"normalen\" Assoziationen als Mehrkanalassoziationen aufweisen, z. _FGRM-222_\nDie Zuordnungs-Benutzeroberfläche unterscheidet jetzt zwischen Zuordnungen zum Gerät und zum Stammendpunkt\nViele Korrekturen im Zusammenhang mit der Behandlung von Assoziationen und Mehrkanalassoziationen\nDas Erstellen einer Protokolldatei funktioniert erneut\nUnterstützung für Devolo Dimmer (MT2760) und Shutter (MT2761) hinzugefügt (danke @ nicoh88)\nWenn der Interviewprozess keine Lifeline-Zuordnung zu \"Multi Channel Association CC\" festlegen kann, wird er es jetzt erneut mit \"Association CC\" versuchen",
+                "ru": "Пользовательский интерфейс ассоциации больше не падает, если возвращается пустой объект ассоциации\nВыбор целевой конечной точки для ассоциаций теперь скрыт, если ассоциация не поддерживает несколько целевых конечных точек.\nИсправлена несовместимость с узлами, которые имеют другое количество «нормальных» ассоциаций, чем многоканальные ассоциации, например _FGRM-222_\nПользовательский интерфейс ассоциации теперь различает ассоциации с устройством и корневой конечной точкой\nМного исправлений, связанных с обработкой ассоциаций и многоканальных ассоциаций\nСоздание файла журнала снова работает\nДобавлена поддержка Devolo Dimmer (MT2760) и Shutter (MT2761) (спасибо @ nicoh88)\nКогда в процессе собеседования не удается установить связь с каналом «Многоканальная ассоциация CC», он снова пытается выполнить «Ассоциация CC»",
+                "pt": "A interface do usuário da associação não trava mais se um objeto de associação vazio for retornado\nA seleção do terminal de destino para associações agora está oculta se uma associação não suportar vários terminais de destino\nCorrigida uma incompatibilidade com os nós que têm um número diferente de associações \"normais\" das associações multicanal, por exemplo _FGRM-222_\nA interface do usuário da associação agora distingue entre associações ao dispositivo e o ponto de extremidade raiz\nMuitas correções relacionadas ao tratamento de associações e associações multicanal\nCriar um arquivo de log funciona novamente\nAdicionado suporte para o Devolo Dimmer (MT2760) e o Shutter (MT2761) (obrigado @ nicoh88)\nQuando o processo de entrevista falha ao definir uma associação da linha de vida com a `Associação Multicanal CC`, agora tenta novamente com a` Associação CC`",
+                "nl": "De associatie-UI loopt niet meer vast als een leeg associatieobject wordt geretourneerd\nDe doeleindpuntselectie voor koppelingen is nu verborgen als een koppeling niet meerdere doeleindpunten ondersteunt\nEen incompatibiliteit opgelost met knooppunten die een ander aantal \"normale\" associaties hebben dan multi-kanaalassociaties, b.v. _FGRM-222_\nDe associatie-UI maakt nu onderscheid tussen associaties met het apparaat en het root-eindpunt\nVeel oplossingen hebben betrekking op het omgaan met associaties en multi-channel associaties\nHet aanmaken van een logbestand werkt weer\nOndersteuning toegevoegd voor Devolo Dimmer (MT2760) en Shutter (MT2761) (bedankt @ nicoh88)\nWanneer het interviewproces er niet in slaagt een levenslijnassociatie in te stellen met `Multi Channel Association CC`, probeert het nu opnieuw met` Association CC`",
+                "fr": "L'interface utilisateur d'association ne se bloque plus si un objet d'association vide est renvoyé\nLa sélection de point de terminaison cible pour les associations est désormais masquée si une association ne prend pas en charge plusieurs points de terminaison cible\nCorrection d'une incompatibilité avec les nœuds qui ont un nombre d'associations \"normal\" différent de celui des associations multicanaux, par ex. _FGRM-222_\nL'interface utilisateur d'association distingue désormais les associations avec le périphérique et le point de terminaison racine\nDe nombreux correctifs liés à la gestion des associations et des associations multicanaux\nLa création d'un fichier journal fonctionne à nouveau\nPrise en charge supplémentaire de Devolo Dimmer (MT2760) et Shutter (MT2761) (merci @ nicoh88)\nLorsque le processus d'entrevue ne parvient pas à définir une association de ligne de vie avec «Multi Channel Association CC», il essaie à nouveau avec «Association CC»",
+                "it": "L'interfaccia utente dell'associazione non si arresta più in modo anomalo se viene restituito un oggetto associazione vuoto\nLa selezione dell'endpoint di destinazione per le associazioni è ora nascosta se un'associazione non supporta più endpoint di destinazione\nRisolta un'incompatibilità con nodi con un numero diverso di associazioni \"normali\" rispetto alle associazioni multicanale, ad es. _FGRM-222_\nL'interfaccia utente dell'associazione ora distingue tra le associazioni al dispositivo e l'endpoint radice\nMolte correzioni legate alla gestione delle associazioni e delle associazioni multicanale\nLa creazione di un file di registro funziona di nuovo\nAggiunto supporto per Devolo Dimmer (MT2760) e Shutter (MT2761) (grazie @ nicoh88)\nQuando il processo di intervista non riesce a stabilire un'associazione di sicurezza con `Multi Channel Association CC`, ora riprova con` Association CC`",
+                "es": "La IU de asociación ya no se bloquea si se devuelve un objeto de asociación vacío\nLa selección del punto final objetivo para las asociaciones ahora está oculta si una asociación no admite múltiples puntos finales objetivo\nSe corrigió una incompatibilidad con nodos que tienen un número diferente de asociaciones \"normales\" que las asociaciones multicanal, p. _FGRM-222_\nLa interfaz de usuario de asociación ahora distingue entre asociaciones con el dispositivo y el punto final raíz\nMuchas correcciones relacionadas con el manejo de asociaciones y asociaciones multicanal\nCrear un archivo de registro funciona nuevamente\nSoporte adicional para Devolo Dimmer (MT2760) y Shutter (MT2761) (gracias @ nicoh88)\nCuando el proceso de la entrevista no puede establecer una asociación de línea de vida con `Multi Channel Association CC`, ahora intenta nuevamente con` Association CC`",
+                "pl": "Interfejs interfejsu asocjacji nie ulega już awarii, jeśli zwracany jest pusty obiekt asocjacji\nWybór docelowego punktu końcowego dla powiązań jest teraz ukryty, jeśli powiązanie nie obsługuje wielu docelowych punktów końcowych\nNaprawiono niezgodność z węzłami, które mają inną liczbę „normalnych” skojarzeń niż skojarzenia wielokanałowe, np. _FGRM-222_\nInterfejs użytkownika skojarzenia rozróżnia teraz powiązania z urządzeniem i głównym punktem końcowym\nWiele poprawek związanych z obsługą skojarzeń i powiązań wielokanałowych\nTworzenie pliku dziennika działa ponownie\nDodano obsługę Devolo Dimmer (MT2760) i Shutter (MT2761) (dzięki @ nicoh88)\nKiedy proces wywiadu nie ustanawia powiązania z linią życia z `Multi Channel Association CC`, teraz próbuje ponownie z` Association CC`",
+                "zh-cn": "如果返回空的关联对象，则关联UI不再崩溃\n如果关联不支持多个目标端点，则将隐藏关联的目标端点选择\n修复了与“正常”关联数比多通道关联数不同的节点的不兼容问题。 _FGRM-222_\n现在，关联UI可以区分与设备和根端点的关联\n与处理关联和多渠道关联有关的许多修复\n创建日志文件再次起作用\n增加了对Devolo调光器（MT2760）和快门（MT2761）的支持（感谢@ nicoh88）\n当采访过程无法通过“多渠道关联CC”设置生命线关联时，现在会再次尝试使用“关联CC”。"
+            },
+            "1.3.3": {
+                "en": "Logfiles are now logged in the correct order and some unnecessary logging was removed\nFixed an error when using the DoorLockCC setValue API when not all configuration values have been received\nErrors while sending firmware fragments are now caught and logged\nThe adapter no longer crashes when the serial device exists but does not respond\nImproved compatibility with some devices that send invalid `Multi Channel Endpoint Find Reports`, e.g. _TKB Home TZ74 Dual Switch_",
+                "de": "Protokolldateien werden jetzt in der richtigen Reihenfolge protokolliert und einige unnötige Protokollierungen wurden entfernt\nEin Fehler bei der Verwendung der DoorLockCC setValue-API wurde behoben, wenn nicht alle Konfigurationswerte empfangen wurden\nFehler beim Senden von Firmware-Fragmenten werden jetzt abgefangen und protokolliert\nDer Adapter stürzt nicht mehr ab, wenn das serielle Gerät vorhanden ist, reagiert jedoch nicht\nVerbesserte Kompatibilität mit einigen Geräten, die ungültige \"Multi Channel Endpoint Find Reports\" senden, z. _TKB Home TZ74 Dual Switch_",
+                "ru": "Лог-файлы теперь зарегистрированы в правильном порядке, и некоторые ненужные записи были удалены\nИсправлена ошибка при использовании DoorLockCC setValue API, когда не все значения конфигурации были получены\nОшибки при отправке фрагментов прошивки теперь отлавливаются и регистрируются\nАдаптер больше не падает, когда последовательное устройство существует, но не отвечает\nУлучшена совместимость с некоторыми устройствами, которые отправляют недопустимые «отчеты о поиске многоканальной конечной точки», например, _TKB Home TZ74 Dual Switch_",
+                "pt": "Os arquivos de log agora estão registrados na ordem correta e algum log desnecessário foi removido\nCorrigido um erro ao usar a API doorLockCC setValue quando nem todos os valores de configuração foram recebidos\nErros ao enviar fragmentos de firmware agora são capturados e registrados\nO adaptador não trava mais quando o dispositivo serial existe, mas não responde\nMelhor compatibilidade com alguns dispositivos que enviam `Relatórios de localização de endpoint multicanal inválidos ', por exemplo _TKB Home TZ74 Comutador Duplo_",
+                "nl": "Logbestanden worden nu in de juiste volgorde gelogd en sommige onnodige logging is verwijderd\nEen fout verholpen bij het gebruik van de DoorLockCC setValue API wanneer niet alle configuratiewaarden zijn ontvangen\nFouten bij het verzenden van firmwarefragmenten worden nu opgevangen en vastgelegd\nDe adapter crasht niet meer wanneer het seriële apparaat bestaat, maar reageert niet\nVerbeterde compatibiliteit met sommige apparaten die ongeldige `Multi Channel Endpoint Find Reports` verzenden, bijv. _TKB Home TZ74 Dual Switch_",
+                "fr": "Les fichiers journaux sont désormais enregistrés dans le bon ordre et certains journaux inutiles ont été supprimés\nCorrection d'une erreur lors de l'utilisation de l'API setLalCC DoorLockCC lorsque toutes les valeurs de configuration n'avaient pas été reçues\nLes erreurs lors de l'envoi de fragments de firmware sont désormais détectées et enregistrées\nL'adaptateur ne se bloque plus lorsque le périphérique série existe mais ne répond pas\nAmélioration de la compatibilité avec certains appareils qui envoient des `` rapports de recherche de points de terminaison multicanaux '' invalides, par ex. _TKB Home TZ74 Dual Switch_",
+                "it": "I file di registro vengono ora registrati nell'ordine corretto e alcuni log non necessari sono stati rimossi\nRisolto un errore quando si utilizzava l'API setValue DoorLockCC quando non sono stati ricevuti tutti i valori di configurazione\nGli errori durante l'invio dei frammenti del firmware vengono ora rilevati e registrati\nL'adattatore non si arresta più in modo anomalo quando esiste il dispositivo seriale ma non risponde\nMigliore compatibilità con alcuni dispositivi che inviano \"Rapporti di ricerca endpoint multicanale non validi\", ad es. _TKB Home TZ74 Dual Switch_",
+                "es": "Los archivos de registro ahora están registrados en el orden correcto y se eliminaron algunos registros innecesarios\nSe corrigió un error al usar la API setLoal de DoorLockCC cuando no se han recibido todos los valores de configuración\nLos errores al enviar fragmentos de firmware ahora se detectan y registran\nEl adaptador ya no se bloquea cuando el dispositivo en serie existe pero no responde\nCompatibilidad mejorada con algunos dispositivos que envían informes de búsqueda de punto final multicanal no válidos, p. _TKB Home TZ74 Dual Switch_",
+                "pl": "Pliki dziennika są teraz rejestrowane w prawidłowej kolejności, a niektóre niepotrzebne rejestrowanie zostało usunięte\nNaprawiono błąd podczas używania interfejsu API setValue DoorLockCC, gdy nie wszystkie wartości konfiguracji zostały odebrane\nBłędy podczas wysyłania fragmentów oprogramowania są teraz wychwytywane i rejestrowane\nAdapter przestaje się zawieszać, gdy istnieje urządzenie szeregowe, ale nie odpowiada\nPoprawiona kompatybilność z niektórymi urządzeniami, które wysyłają nieprawidłowe raporty „Multi Channel Endpoint Find Report”, np. _TKB Home TZ74 Podwójny przełącznik_",
+                "zh-cn": "现在以正确的顺序记录日志文件，并删除了一些不必要的日志记录\n修复了在未收到所有配置值的情况下使用DoorLockCC setValue API时的错误\n现在捕获并记录了发送固件片段时的错误\n当串行设备存在但不响应时，适配器不再崩溃\n改善了与某些发送无效“多通道端点查找报告”的设备的兼容性，例如_TKB家用TZ74双开关_"
+            },
+            "1.3.2": {
+                "en": "Fixed a crash that happens when a `Multi Command CC` is received",
+                "de": "Es wurde ein Absturz behoben, der auftrat, wenn ein \"Multi Command CC\" empfangen wurde",
+                "ru": "Исправлен сбой, возникающий при получении «Multi Command CC»",
+                "pt": "Corrigida uma falha que acontece quando um `Multi Command CC` é recebido",
+                "nl": "Een crash gerepareerd die optreedt wanneer een `Multi Command CC` wordt ontvangen",
+                "fr": "Correction d'un plantage qui se produisait lors de la réception d'un CC multi-commandes",
+                "it": "Risolto un crash che si verificava quando si riceve un `Multi Command CC`",
+                "es": "Se corrigió un bloqueo que ocurre cuando se recibe un `Multi Command CC`",
+                "pl": "Naprawiono awarię występującą po otrzymaniu „Multi Command CC”",
+                "zh-cn": "修复了当收到“多命令抄送”时发生的崩溃"
+            },
+            "1.3.1": {
+                "en": "Fixed an issue where secure Multi Channel Association Reports were not correctly deserialized\nFixed an issue where some associations to the root endpoint could not be removed",
+                "de": "Es wurde ein Problem behoben, bei dem sichere Multi-Channel-Zuordnungsberichte nicht korrekt deserialisiert wurden\nEs wurde ein Problem behoben, durch das einige Zuordnungen zum Stammendpunkt nicht entfernt werden konnten",
+                "ru": "Исправлена ошибка, из-за которой защищенные отчеты многоканальной ассоциации не были правильно десериализованы.\nИсправлена ошибка, из-за которой не удалось удалить некоторые ассоциации с корневой конечной точкой",
+                "pt": "Corrigido um problema em que os Relatórios de associação multicanal seguros não eram desserializados corretamente\nCorrigido um problema em que algumas associações ao terminal raiz não podiam ser removidas",
+                "nl": "Er is een probleem opgelost waarbij beveiligde Multi Channel Association-rapporten niet correct waren gedeserialiseerd\nEr is een probleem opgelost waarbij sommige koppelingen met het root-eindpunt niet konden worden verwijderd",
+                "fr": "Correction d'un problème où les rapports d'association multicanaux sécurisés n'étaient pas correctement désérialisés\nCorrection d'un problème où certaines associations au point de terminaison racine ne pouvaient pas être supprimées",
+                "it": "Risolto il problema per cui i report di associazione multicanale sicuri non venivano deserializzati correttamente\nRisolto il problema per cui alcune associazioni all'endpoint radice non potevano essere rimosse",
+                "es": "Se solucionó un problema por el cual los informes seguros de asociación de canales múltiples no se deserializaban correctamente\nSe solucionó un problema por el cual algunas asociaciones con el punto final raíz no podían eliminarse",
+                "pl": "Naprawiono problem polegający na tym, że bezpieczne raporty powiązań wielokanałowych nie były poprawnie usuwane z postaci szeregowej\nNaprawiono problem, w wyniku którego niektóre powiązania z głównym punktem końcowym nie mogły zostać usunięte",
+                "zh-cn": "修复了安全的多渠道关联报告未正确反序列化的问题\n修复了无法删除与根端点的某些关联的问题"
+            },
+            "1.3.0": {
+                "en": "Added support for firmware updates. WARNING: Use at your own risk!\n`Fibaro FGMS-001 Motion sensor`: All association groups are now configured to point to the controller\nWhen re-interviewing a node, the information about its command classes is also reset",
+                "de": "Unterstützung für Firmware-Updates hinzugefügt. WARNUNG: Verwendung auf eigenes Risiko!\n`Fibaro FGMS-001 Bewegungssensor`: Alle Zuordnungsgruppen sind jetzt so konfiguriert, dass sie auf die Steuerung zeigen\nBei der erneuten Befragung eines Knotens werden auch die Informationen zu seinen Befehlsklassen zurückgesetzt",
+                "ru": "Добавлена поддержка обновлений прошивки. ВНИМАНИЕ: Используйте на свой страх и риск!\n`Fibaro FGMS-001 Датчик движения`: все группы ассоциаций теперь настроены так, чтобы указывать на контроллер\nПри повторном опросе узла информация о его классах команд также сбрасывается",
+                "pt": "Adicionado suporte para atualizações de firmware. AVISO: Use por sua conta e risco!\n`Fibaro FGMS-001 Motion sensor`: Todos os grupos de associações agora estão configurados para apontar para o controlador\nAo entrevistar novamente um nó, as informações sobre suas classes de comando também são redefinidas",
+                "nl": "Ondersteuning toegevoegd voor firmware-updates. WAARSCHUWING: Gebruik op eigen risico!\n`Fibaro FGMS-001 Bewegingssensor`: Alle associatiegroepen zijn nu geconfigureerd om naar de controller te wijzen\nBij het opnieuw interviewen van een knooppunt wordt de informatie over de opdrachtklassen ook gereset",
+                "fr": "Ajout de la prise en charge des mises à jour du firmware. AVERTISSEMENT: utilisez à vos risques et périls!\n`Fibaro FGMS-001 Motion sensor`: Tous les groupes d'association sont maintenant configurés pour pointer vers le contrôleur\nLors d'une nouvelle interview d'un nœud, les informations sur ses classes de commandes sont également réinitialisées",
+                "it": "Aggiunto supporto per gli aggiornamenti del firmware. ATTENZIONE: utilizzare a proprio rischio!\n`Sensore di movimento Fibaro FGMS-001`: Tutti i gruppi di associazione sono ora configurati per puntare al controller\nQuando si intervista nuovamente un nodo, vengono ripristinate anche le informazioni sulle sue classi di comando",
+                "es": "Soporte agregado para actualizaciones de firmware. ADVERTENCIA: ¡Utilícelo bajo su propio riesgo!\n`Sensor de movimiento Fibaro FGMS-001`: Todos los grupos de asociación ahora están configurados para apuntar al controlador\nAl volver a entrevistar un nodo, la información sobre sus clases de comando también se restablece",
+                "pl": "Dodano obsługę aktualizacji oprogramowania układowego. OSTRZEŻENIE: Używaj na własne ryzyko!\n`Fibaro FGMS-001 Czujnik ruchu`: Wszystkie grupy asocjacyjne są teraz skonfigurowane tak, aby wskazywały na kontroler\nPodczas ponownej rozmowy z węzłem informacje o jego klasach poleceń są również resetowane",
+                "zh-cn": "添加了对固件更新的支持。警告：使用风险自负！\n“ Fibaro FGMS-001运动传感器”：现在将所有关联组配置为指向控制器\n重新访问节点时，还将重置有关其命令类的信息"
+            }
+        },
+        "title": "Z-Wave 2",
+        "titleLang": {
+            "en": "Z-Wave 2",
+            "de": "Z-Wave 2",
+            "ru": "Z-Wave 2",
+            "pt": "Z-Wave 2",
+            "nl": "Z-Wave 2",
+            "fr": "Z-Wave 2",
+            "it": "Z-Wave 2",
+            "es": "Z-Wave 2",
+            "pl": "Z-Wave 2",
+            "zh-cn": "Z-Wave 2"
+        },
+        "desc": {
+            "en": "The better Z-Wave integration",
+            "de": "Die bessere Z-Wave-Integration",
+            "ru": "Лучшая интеграция Z-Wave",
+            "pt": "A melhor integração do Z-Wave",
+            "nl": "De betere Z-Wave-integratie",
+            "fr": "La meilleure intégration Z-Wave",
+            "it": "La migliore integrazione di Z-Wave",
+            "es": "La mejor integración de Z-Wave",
+            "pl": "Lepsza integracja Z-Wave",
+            "zh-cn": "更好的Z-Wave集成"
+        },
+        "authors": [
+            "AlCalzone <d.griesel@gmx.net>"
+        ],
+        "keywords": [
+            "zwave",
+            "z-wave",
+            "zwave2",
+            "z-wave 2"
+        ],
+        "license": "MIT",
+        "platform": "Javascript/Node.js",
+        "main": "build/main.js",
+        "icon": "zwave2.svg",
+        "enabled": true,
+        "dataFolder": "zwave2.%INSTANCE%",
+        "extIcon": "https://raw.githubusercontent.com/AlCalzone/ioBroker.zwave2/master/admin/zwave2.svg?sanitize=true",
+        "readme": "https://github.com/AlCalzone/ioBroker.zwave2/blob/master/README.md",
+        "loglevel": "info",
+        "mode": "daemon",
+        "type": "hardware",
+        "compact": true,
+        "materialize": true,
+        "messagebox": true,
+        "connectionType": "local",
+        "dataSource": "push",
+        "dependencies": [
+            {
+                "js-controller": ">=2.0.0"
+            }
+        ]
+    },
+    "native": {
+        "serialport": "",
+        "writeLogFile": false,
+        "networkKey": ""
+    },
+    "objects": [],
+    "instanceObjects": [
+        {
+            "_id": "info",
+            "type": "channel",
+            "common": {
+                "name": "Information"
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.connection",
+            "type": "state",
+            "common": {
+                "role": "indicator.connected",
+                "name": "Whether the Z-Wave driver is ready",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "def": false
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.inclusion",
+            "type": "state",
+            "common": {
+                "role": "state",
+                "name": "Which state the inclusion of nodes is in",
+                "type": "number",
+                "read": true,
+                "write": true,
+                "def": 0,
+                "states": {
+                    "0": "Idle",
+                    "1": "Non-secure",
+                    "2": "Secure"
+                }
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.exclusion",
+            "type": "state",
+            "common": {
+                "role": "state",
+                "name": "Whether the exclusion of nodes is active",
+                "type": "boolean",
+                "read": true,
+                "write": true,
+                "def": false
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.healingNetwork",
+            "type": "state",
+            "common": {
+                "role": "state",
+                "name": "Whether a network heal is currently in progress",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "def": false
+            },
+            "native": {}
+        }
+    ]
 }
