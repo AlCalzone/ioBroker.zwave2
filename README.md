@@ -39,7 +39,7 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	### __WORK IN PROGRESS__
 -->
 
-### __WORK IN PROGRESS__
+### 1.7.0 (2020-09-25)
 * The `quality` parameter is now set for state updates when reading (potentially stale) values from the cache
 * Changed the serialport setting field to use autocomplete instead of a dropdown, added a tip how to use serial-over-tcp connections
 * The adapter will now attempt to restart if starting the driver fails
