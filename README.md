@@ -39,9 +39,10 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	### __WORK IN PROGRESS__
 -->
 
-### 1.7.0-alpha.7 (2020-09-25)
+### __WORK IN PROGRESS__
 * The `quality` parameter is now set for state updates when reading (potentially stale) values from the cache
 * Changed the serialport setting field to use autocomplete instead of a dropdown, added a tip how to use serial-over-tcp connections
+* The adapter will now attempt to restart if starting the driver fails
 * Upgraded `zwave-js` to version 5.0.0. This includes many changes including the following:
   * The driver has been completely rewritten with state machines for a well-defined program flow and better testability. This should solve issues where communication may get stuck for unknown reasons.
   * All interview messages now automatically have a lower priority than most other messages, e.g. the ones created by user interaction. This should make the network feel much more responsive while an interview process is active.

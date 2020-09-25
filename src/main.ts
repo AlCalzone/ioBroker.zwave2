@@ -552,6 +552,17 @@ export class ZWave2 extends utils.Adapter<true> {
 	 */
 	private async onZWaveError(error: Error): Promise<void> {
 		this.log.error(error.message);
+
+		if (
+			error instanceof ZWaveError &&
+			error.code === ZWaveErrorCodes.Driver_Failed
+		) {
+			// This should not happen too regularly, so ask JS-Controller to restart the adapter
+			this.log.error(`Restarting the adapter in a second...`);
+			setTimeout(() => {
+				this.terminate(utils.EXIT_CODES.START_IMMEDIATELY_AFTER_STOP);
+			}, 1000);
+		}
 	}
 
 	/**

@@ -343,6 +343,14 @@ class ZWave2 extends utils.Adapter {
      */
     async onZWaveError(error) {
         this.log.error(error.message);
+        if (error instanceof zwave_js_1.ZWaveError &&
+            error.code === zwave_js_1.ZWaveErrorCodes.Driver_Failed) {
+            // This should not happen too regularly, so ask JS-Controller to restart the adapter
+            this.log.error(`Restarting the adapter in a second...`);
+            setTimeout(() => {
+                this.terminate(utils.EXIT_CODES.START_IMMEDIATELY_AFTER_STOP);
+            }, 1000);
+        }
     }
     /**
      * Is called if a subscribed object changes
