@@ -185,12 +185,16 @@ async function extendValue(node, args, fromCache = false) {
     const stateId = computeId(node.id, args);
     await extendMetadata(node, args);
     try {
-        await global_1.Global.adapter.setStateAsync(stateId, {
+        const state = {
             val: ((_a = args.newValue) !== null && _a !== void 0 ? _a : null),
             ack: true,
+        };
+        // TODO: remove this after JS-Controller 3.2 is stable
+        if (fromCache) {
             // Set cached values with a lower quality (substitute value from device or instance), so scripts can ignore the update
-            q: fromCache ? 0x40 : undefined,
-        });
+            state.q = 0x40;
+        }
+        await global_1.Global.adapter.setStateAsync(stateId, state);
     }
     catch (e) {
         global_1.Global.adapter.log.error(`Cannot set state "${stateId}" in ioBroker: ${e}`);

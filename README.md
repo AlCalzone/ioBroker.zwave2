@@ -39,7 +39,7 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	### __WORK IN PROGRESS__
 -->
 
-### 1.7.0-alpha.6 (2020-09-25)
+### __WORK IN PROGRESS__
 * The `quality` parameter is now set for state updates when reading (potentially stale) values from the cache
 * Changed the serialport setting field to use autocomplete instead of a dropdown, added a tip how to use serial-over-tcp connections
 * Upgraded `zwave-js` to version 5.0.0. This includes many changes including the following:
@@ -54,6 +54,7 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
   * Added a configuration file for `Everspring AC301`
   * Removed parameter #5 from `Aeon Labs ZW130` because it doesn't seem to be supported in any firmware version
   * In addition to real serial ports, serial-over-tcp connections (e.g. by using `ser2net`) are now supported. Use these `ser2net` settings to host a serial port: `<external-port>:raw:0:<path-to-serial>:115200 8DATABITS NONE 1STOPBIT`
+  * Fixed a crash that could occur when assembling a partial message while the driver is not ready yet.
 
 ### 1.6.3 (2020-09-04)
 * Further performance optimization
