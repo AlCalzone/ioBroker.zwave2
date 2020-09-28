@@ -29,6 +29,7 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 
 ## Documentation and usage
 * [FAQ](docs/en/FAQ.md)
+* [Troubleshooting](docs/en/troubleshooting.md) · [bei Problemen](docs/de/bei-problemen.md)
 
 ---
 
