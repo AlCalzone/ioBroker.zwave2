@@ -4,5 +4,7 @@ declare namespace ioBroker {
 		writeLogFile: boolean;
 		clearCache: boolean;
 		networkKey: string;
+		driver_increaseTimeouts: boolean;
+		driver_increaseSendAttempts: boolean;
 	}
 }

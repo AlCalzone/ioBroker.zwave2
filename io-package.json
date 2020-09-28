@@ -279,7 +279,9 @@
     "native": {
         "serialport": "",
         "writeLogFile": false,
-        "networkKey": ""
+        "networkKey": "",
+        "driver_increaseTimeouts": false,
+        "driver_increaseSendAttempts": false
     },
     "objects": [],
     "instanceObjects": [

@@ -71,6 +71,8 @@ export class Settings extends React.Component<SettingsProps, SettingsState> {
 	}
 
 	private chkWriteLogFile: HTMLInputElement | null | undefined;
+	private chkIncreaseDriverTimeouts: HTMLInputElement | null | undefined;
+	private chkIncreaseDriverSendAttempts: HTMLInputElement | null | undefined;
 	private txtPort: HTMLInputElement | null | undefined;
 
 	private parseChangedSetting(
@@ -178,8 +180,14 @@ export class Settings extends React.Component<SettingsProps, SettingsState> {
 		M.updateTextFields();
 
 		// Fix materialize checkboxes
-		if (this.chkWriteLogFile != null) {
-			$(this.chkWriteLogFile).on("click", this.handleChange as any);
+		for (const checkbox of [
+			this.chkWriteLogFile,
+			this.chkIncreaseDriverTimeouts,
+			this.chkIncreaseDriverSendAttempts,
+		]) {
+			if (checkbox != null) {
+				$(checkbox).on("click", this.handleChange as any);
+			}
 		}
 
 		// Try to retrieve a list of serial ports
@@ -201,8 +209,14 @@ export class Settings extends React.Component<SettingsProps, SettingsState> {
 
 	public componentWillUnmount() {
 		// Fix materialize checkboxes
-		if (this.chkWriteLogFile != null) {
-			$(this.chkWriteLogFile).off("click", this.handleChange as any);
+		for (const checkbox of [
+			this.chkWriteLogFile,
+			this.chkIncreaseDriverTimeouts,
+			this.chkIncreaseDriverSendAttempts,
+		]) {
+			if (checkbox != null) {
+				$(checkbox).off("click", this.handleChange as any);
+			}
 		}
 	}
 
@@ -276,6 +290,50 @@ export class Settings extends React.Component<SettingsProps, SettingsState> {
 								"This should only be set for debugging purposes.",
 							)}
 						</span>
+					</div>
+				</div>
+				<div className="row">
+					<div className="col s6">
+						<label htmlFor="driver_increaseTimeouts">
+							<input
+								type="checkbox"
+								className="value"
+								id="driver_increaseTimeouts"
+								defaultChecked={
+									this.getSetting(
+										"driver_increaseTimeouts",
+									) as any
+								}
+								ref={(me) =>
+									(this.chkIncreaseDriverTimeouts = me)
+								}
+							/>
+							<CheckboxLabel
+								text="Increase driver timeouts"
+								tooltip="increase timeouts tooltip"
+							/>
+						</label>
+					</div>
+					<div className="col s6">
+						<label htmlFor="driver_increaseSendAttempts">
+							<input
+								type="checkbox"
+								className="value"
+								id="driver_increaseSendAttempts"
+								defaultChecked={
+									this.getSetting(
+										"driver_increaseSendAttempts",
+									) as any
+								}
+								ref={(me) =>
+									(this.chkIncreaseDriverSendAttempts = me)
+								}
+							/>
+							<CheckboxLabel
+								text="Increase send attempts"
+								tooltip="increase send attempts tooltip"
+							/>
+						</label>
 					</div>
 				</div>
 			</>

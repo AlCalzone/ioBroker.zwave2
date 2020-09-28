@@ -10,6 +10,7 @@ import {
 	ZWaveError,
 	ZWaveErrorCodes,
 	ZWaveNode,
+	ZWaveOptions,
 } from "zwave-js";
 import type { CCAPI } from "zwave-js/build/lib/commandclass/API";
 import type {
@@ -109,12 +110,31 @@ export class ZWave2 extends utils.Adapter<true> {
 			process.env.LOGTOFILE = "true";
 		}
 
+		// Apply adapter configuration
+		const timeouts: Partial<ZWaveOptions["timeouts"]> | undefined = this
+			.config.driver_increaseTimeouts
+			? {
+					ack: 2000,
+					response: 3000,
+					report: 5000,
+			  }
+			: undefined;
+		const attempts: Partial<ZWaveOptions["attempts"]> | undefined = this
+			.config.driver_increaseSendAttempts
+			? {
+					sendData: 5,
+			  }
+			: undefined;
+		const networkKey: Buffer | undefined =
+			this.config.networkKey?.length === 32
+				? Buffer.from(this.config.networkKey, "hex")
+				: undefined;
+
 		this.driver = new Driver(this.config.serialport, {
+			timeouts,
+			attempts,
 			cacheDir,
-			networkKey:
-				this.config.networkKey?.length === 32
-					? Buffer.from(this.config.networkKey, "hex")
-					: undefined,
+			networkKey,
 		});
 		this.driver.once("driver ready", async () => {
 			this.driverReady = true;

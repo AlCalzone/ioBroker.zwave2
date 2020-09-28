@@ -53,11 +53,29 @@ class ZWave2 extends utils.Adapter {
         if (this.config.writeLogFile) {
             process.env.LOGTOFILE = "true";
         }
+        // Apply adapter configuration
+        const timeouts = this
+            .config.driver_increaseTimeouts
+            ? {
+                ack: 2000,
+                response: 3000,
+                report: 5000,
+            }
+            : undefined;
+        const attempts = this
+            .config.driver_increaseSendAttempts
+            ? {
+                sendData: 5,
+            }
+            : undefined;
+        const networkKey = ((_a = this.config.networkKey) === null || _a === void 0 ? void 0 : _a.length) === 32
+            ? Buffer.from(this.config.networkKey, "hex")
+            : undefined;
         this.driver = new zwave_js_1.Driver(this.config.serialport, {
+            timeouts,
+            attempts,
             cacheDir,
-            networkKey: ((_a = this.config.networkKey) === null || _a === void 0 ? void 0 : _a.length) === 32
-                ? Buffer.from(this.config.networkKey, "hex")
-                : undefined,
+            networkKey,
         });
         this.driver.once("driver ready", async () => {
             this.driverReady = true;

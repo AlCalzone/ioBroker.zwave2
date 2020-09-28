@@ -120,9 +120,10 @@ label > i[title] {
 	white-space: nowrap;
 }
 
+span > .material-icons,
 label > .material-icons,
 h5 > .material-icons {
-	vertical-align: bottom;
+	vertical-align: middle;
 }
 
 .modal-actions-row {

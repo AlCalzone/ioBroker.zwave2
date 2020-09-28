@@ -79,5 +79,9 @@
     "unknown": "unbekannt",
     "wake up device": "Bitte das Gerät aufwecken!",
     "yes": "ja",
-    "zwave2 adapter settings": "Adaptereinstellungen für Z-Wave 2"
+    "zwave2 adapter settings": "Adaptereinstellungen für Z-Wave 2",
+    "Increase driver timeouts": "Treiber-Timeouts erhöhen",
+    "Increase send attempts": "Sendeversuche erhöhen",
+    "increase send attempts tooltip": "Kann aktiviert werden, um das Senden von Befehlen öfter zu wiederholen, wenn einige Geräte eine schlechte Verbindung haben. Kann die Stabilität auf Kosten einer trägeren Kommunikation erhöhen. Man sollte zuerst versuchen, das Netzwerk zu heilen.",
+    "increase timeouts tooltip": "Kann aktiviert werden, wenn die Logs häufig Zeitüberschreitungen enthalten oder die serielle Schnittstelle über eine TCP-Verbindung verbunden ist. Kann die Stabilität auf Kosten einer trägeren Kommunikation erhöhen."
 }
