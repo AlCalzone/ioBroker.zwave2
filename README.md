@@ -41,7 +41,7 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 -->
 
 ### __WORK IN PROGRESS__
-Updated to `zwave-js@5.2.0`:
+* Added an option to improve the compatibility with legacy switches. If this option is enabled, `targetValue` (Binary and Multilevel Switch) will be overwritten with `currentValue` whenever `currentValue` is updated.
 * When healing the network, the progress should now show up immediately
 * Fixed two crash sources
 * Several improvements to `Notification CC`

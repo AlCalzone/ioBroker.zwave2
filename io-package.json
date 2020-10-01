@@ -293,7 +293,8 @@
         "writeLogFile": false,
         "networkKey": "",
         "driver_increaseTimeouts": false,
-        "driver_increaseSendAttempts": false
+        "driver_increaseSendAttempts": false,
+        "switchCompat": false
     },
     "objects": [],
     "instanceObjects": [

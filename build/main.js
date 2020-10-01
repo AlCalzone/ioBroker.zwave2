@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ZWave2 = void 0;
 const utils = require("@iobroker/adapter-core");
+const core_1 = require("@zwave-js/core");
 const objects_1 = require("alcalzone-shared/objects");
 const typeguards_1 = require("alcalzone-shared/typeguards");
 const fs = require("fs-extra");
@@ -303,12 +304,24 @@ class ZWave2 extends utils.Adapter {
         propertyName = propertyName.substr(propertyName.lastIndexOf(".") + 1);
         this.log.debug(`Node ${node.id}: value added: ${propertyName} => ${String(args.newValue)}`);
         await objects_2.extendValue(node, args);
+        if (this.config.switchCompat)
+            await this.syncSwitchStates(node, args);
     }
     async onNodeValueUpdated(node, args) {
         let propertyName = objects_2.computeId(node.id, args);
         propertyName = propertyName.substr(propertyName.lastIndexOf(".") + 1);
         this.log.debug(`Node ${node.id}: value updated: ${propertyName} => ${String(args.newValue)}`);
         await objects_2.extendValue(node, args);
+        if (this.config.switchCompat)
+            await this.syncSwitchStates(node, args);
+    }
+    /** Overwrites `targetValue` states with `currentValue` */
+    async syncSwitchStates(node, args) {
+        if ((args.commandClass === core_1.CommandClasses["Binary Switch"] ||
+            args.commandClass === core_1.CommandClasses["Multilevel Switch"]) &&
+            args.property === "currentValue") {
+            await objects_2.extendValue(node, Object.assign(Object.assign({}, args), { property: "targetValue", propertyName: "targetValue" }));
+        }
     }
     async onNodeValueRemoved(node, args) {
         let propertyName = objects_2.computeId(node.id, args);

@@ -1,4 +1,5 @@
 import * as utils from "@iobroker/adapter-core";
+import { CommandClasses } from "@zwave-js/core";
 import { composeObject } from "alcalzone-shared/objects";
 import { isArray } from "alcalzone-shared/typeguards";
 import * as fs from "fs-extra";
@@ -485,6 +486,7 @@ export class ZWave2 extends utils.Adapter<true> {
 			)}`,
 		);
 		await extendValue(node, args);
+		if (this.config.switchCompat) await this.syncSwitchStates(node, args);
 	}
 
 	private async onNodeValueUpdated(
@@ -499,6 +501,25 @@ export class ZWave2 extends utils.Adapter<true> {
 			)}`,
 		);
 		await extendValue(node, args);
+		if (this.config.switchCompat) await this.syncSwitchStates(node, args);
+	}
+
+	/** Overwrites `targetValue` states with `currentValue` */
+	private async syncSwitchStates(
+		node: ZWaveNode,
+		args: ZWaveNodeValueAddedArgs | ZWaveNodeValueUpdatedArgs,
+	): Promise<void> {
+		if (
+			(args.commandClass === CommandClasses["Binary Switch"] ||
+				args.commandClass === CommandClasses["Multilevel Switch"]) &&
+			args.property === "currentValue"
+		) {
+			await extendValue(node, {
+				...args,
+				property: "targetValue",
+				propertyName: "targetValue",
+			});
+		}
 	}
 
 	private async onNodeValueRemoved(

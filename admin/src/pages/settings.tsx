@@ -73,6 +73,7 @@ export class Settings extends React.Component<SettingsProps, SettingsState> {
 	private chkWriteLogFile: HTMLInputElement | null | undefined;
 	private chkIncreaseDriverTimeouts: HTMLInputElement | null | undefined;
 	private chkIncreaseDriverSendAttempts: HTMLInputElement | null | undefined;
+	private chkSwitchCompat: HTMLInputElement | null | undefined;
 	private txtPort: HTMLInputElement | null | undefined;
 
 	private parseChangedSetting(
@@ -184,6 +185,7 @@ export class Settings extends React.Component<SettingsProps, SettingsState> {
 			this.chkWriteLogFile,
 			this.chkIncreaseDriverTimeouts,
 			this.chkIncreaseDriverSendAttempts,
+			this.chkSwitchCompat,
 		]) {
 			if (checkbox != null) {
 				$(checkbox).on("click", this.handleChange as any);
@@ -213,6 +215,7 @@ export class Settings extends React.Component<SettingsProps, SettingsState> {
 			this.chkWriteLogFile,
 			this.chkIncreaseDriverTimeouts,
 			this.chkIncreaseDriverSendAttempts,
+			this.chkSwitchCompat,
 		]) {
 			if (checkbox != null) {
 				$(checkbox).off("click", this.handleChange as any);
@@ -290,6 +293,23 @@ export class Settings extends React.Component<SettingsProps, SettingsState> {
 								"This should only be set for debugging purposes.",
 							)}
 						</span>
+					</div>
+					<div className="col s6">
+						<label htmlFor="switchCompat">
+							<input
+								type="checkbox"
+								className="value"
+								id="switchCompat"
+								defaultChecked={
+									this.getSetting("switchCompat") as any
+								}
+								ref={(me) => (this.chkSwitchCompat = me)}
+							/>
+							<CheckboxLabel
+								text="Legacy switch compatibility"
+								tooltip="switch compat tooltip"
+							/>
+						</label>
 					</div>
 				</div>
 				<div className="row">

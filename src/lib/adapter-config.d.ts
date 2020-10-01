@@ -6,5 +6,6 @@ declare namespace ioBroker {
 		networkKey: string;
 		driver_increaseTimeouts: boolean;
 		driver_increaseSendAttempts: boolean;
+		switchCompat: boolean;
 	}
 }
