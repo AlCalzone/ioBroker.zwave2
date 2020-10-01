@@ -40,7 +40,7 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	### __WORK IN PROGRESS__
 -->
 
-### __WORK IN PROGRESS__
+### 1.7.2 (2020-10-01)
 * Added an option to improve the compatibility with legacy switches. If this option is enabled, `targetValue` (Binary and Multilevel Switch) will be overwritten with `currentValue` whenever `currentValue` is updated.
 * When healing the network, the progress should now show up immediately
 * Fixed two crash sources
@@ -79,9 +79,6 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 
 ### 1.6.2 (2020-09-04)
 * Reduced CPU load in large networks
-
-### 1.6.1 (2020-09-01)
-* Fixed interview issues with devices that claim they support `Basic CC`, but don't respond
 
 ## License
 

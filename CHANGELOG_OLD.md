@@ -1,4 +1,7 @@
 # Older changes
+## 1.6.1 (2020-09-01)
+* Fixed interview issues with devices that claim they support `Basic CC`, but don't respond
+
 ## 1.6.0 (2020-08-29)
 * Added the possibility to send `Multilevel Sensor Report`s from scripts
 * Dependency updates for bug and security fixes
