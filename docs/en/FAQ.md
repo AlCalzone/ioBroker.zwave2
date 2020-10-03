@@ -9,7 +9,7 @@ To avoid triggering in this case, check the `q` parameter before reacting:
 ```js
 on("zwave2.0.Node_002.Binary_Switch.currentValue", (obj) => {
 	// Ignore updates from the cache
-	if (obj.q !== 0) return;
+	if (obj.state.q !== 0) return;
 
 	// react to the trigger as usual ...
 });
