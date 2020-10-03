@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "1.7.2",
+        "version": "1.7.3",
         "news": {
+            "1.7.3": {
+                "en": "Fixed two crashes during the `Notification CC` interview",
+                "de": "Zwei Abstürze während des \"Notification CC\" -Interviews wurden behoben",
+                "ru": "Исправлены два сбоя во время интервью `Notification CC`",
+                "pt": "Consertou duas falhas durante a entrevista `Notificação CC`",
+                "nl": "Twee crashes opgelost tijdens het `Notification CC`-interview",
+                "fr": "Correction de deux plantages lors de l'interview `Notification CC`",
+                "it": "Risolti due crash durante l'intervista \"Notification CC\"",
+                "es": "Se corrigieron dos bloqueos durante la entrevista de \"Notificación CC\"",
+                "pl": "Naprawiono dwie awarie podczas rozmowy kwalifikacyjnej `Notification CC`",
+                "zh-cn": "修复了“ Notification CC”采访期间的两次崩溃"
+            },
             "1.7.2": {
                 "en": "Added an option to improve the compatibility with legacy switches. If this option is enabled, `targetValue` (Binary and Multilevel Switch) will be overwritten with `currentValue` whenever `currentValue` is updated.\nWhen healing the network, the progress should now show up immediately\nFixed two crash sources\nSeveral improvements to `Notification CC`\nThe interview now detects whether a node is push or pull\nPush nodes now have their supporting values set to idle if no value is yet known\nPull nodes are now auto-refreshed every 6 hours and on wakeup\nIncluding secure devices now fails if the device takes too long to respond (as required by the specifications)",
                 "de": "Es wurde eine Option hinzugefügt, um die Kompatibilität mit älteren Switches zu verbessern. Wenn diese Option aktiviert ist, wird \"targetValue\" (Binär- und Multilevel-Switch) bei jeder Aktualisierung von \"currentValue\" mit \"currentValue\" überschrieben.\nWenn Sie das Netzwerk heilen, sollte der Fortschritt jetzt sofort angezeigt werden\nZwei Absturzquellen wurden behoben\nMehrere Verbesserungen an \"Notification CC\"\nDas Interview erkennt nun, ob ein Knoten gedrückt oder gezogen wird\nBei Push-Knoten werden die unterstützenden Werte jetzt auf Leerlauf gesetzt, wenn noch kein Wert bekannt ist\nPull-Knoten werden jetzt alle 6 Stunden und beim Aufwecken automatisch aktualisiert\nDas Einschließen sicherer Geräte schlägt jetzt fehl, wenn das Gerät zu lange braucht, um zu reagieren (gemäß den Spezifikationen).",
@@ -230,18 +242,6 @@
                 "es": "Se solucionó un problema por el cual los informes seguros de asociación de canales múltiples no se deserializaban correctamente\nSe solucionó un problema por el cual algunas asociaciones con el punto final raíz no podían eliminarse",
                 "pl": "Naprawiono problem polegający na tym, że bezpieczne raporty powiązań wielokanałowych nie były poprawnie usuwane z postaci szeregowej\nNaprawiono problem, w wyniku którego niektóre powiązania z głównym punktem końcowym nie mogły zostać usunięte",
                 "zh-cn": "修复了安全的多渠道关联报告未正确反序列化的问题\n修复了无法删除与根端点的某些关联的问题"
-            },
-            "1.3.0": {
-                "en": "Added support for firmware updates. WARNING: Use at your own risk!\n`Fibaro FGMS-001 Motion sensor`: All association groups are now configured to point to the controller\nWhen re-interviewing a node, the information about its command classes is also reset",
-                "de": "Unterstützung für Firmware-Updates hinzugefügt. WARNUNG: Verwendung auf eigenes Risiko!\n`Fibaro FGMS-001 Bewegungssensor`: Alle Zuordnungsgruppen sind jetzt so konfiguriert, dass sie auf die Steuerung zeigen\nBei der erneuten Befragung eines Knotens werden auch die Informationen zu seinen Befehlsklassen zurückgesetzt",
-                "ru": "Добавлена поддержка обновлений прошивки. ВНИМАНИЕ: Используйте на свой страх и риск!\n`Fibaro FGMS-001 Датчик движения`: все группы ассоциаций теперь настроены так, чтобы указывать на контроллер\nПри повторном опросе узла информация о его классах команд также сбрасывается",
-                "pt": "Adicionado suporte para atualizações de firmware. AVISO: Use por sua conta e risco!\n`Fibaro FGMS-001 Motion sensor`: Todos os grupos de associações agora estão configurados para apontar para o controlador\nAo entrevistar novamente um nó, as informações sobre suas classes de comando também são redefinidas",
-                "nl": "Ondersteuning toegevoegd voor firmware-updates. WAARSCHUWING: Gebruik op eigen risico!\n`Fibaro FGMS-001 Bewegingssensor`: Alle associatiegroepen zijn nu geconfigureerd om naar de controller te wijzen\nBij het opnieuw interviewen van een knooppunt wordt de informatie over de opdrachtklassen ook gereset",
-                "fr": "Ajout de la prise en charge des mises à jour du firmware. AVERTISSEMENT: utilisez à vos risques et périls!\n`Fibaro FGMS-001 Motion sensor`: Tous les groupes d'association sont maintenant configurés pour pointer vers le contrôleur\nLors d'une nouvelle interview d'un nœud, les informations sur ses classes de commandes sont également réinitialisées",
-                "it": "Aggiunto supporto per gli aggiornamenti del firmware. ATTENZIONE: utilizzare a proprio rischio!\n`Sensore di movimento Fibaro FGMS-001`: Tutti i gruppi di associazione sono ora configurati per puntare al controller\nQuando si intervista nuovamente un nodo, vengono ripristinate anche le informazioni sulle sue classi di comando",
-                "es": "Soporte agregado para actualizaciones de firmware. ADVERTENCIA: ¡Utilícelo bajo su propio riesgo!\n`Sensor de movimiento Fibaro FGMS-001`: Todos los grupos de asociación ahora están configurados para apuntar al controlador\nAl volver a entrevistar un nodo, la información sobre sus clases de comando también se restablece",
-                "pl": "Dodano obsługę aktualizacji oprogramowania układowego. OSTRZEŻENIE: Używaj na własne ryzyko!\n`Fibaro FGMS-001 Czujnik ruchu`: Wszystkie grupy asocjacyjne są teraz skonfigurowane tak, aby wskazywały na kontroler\nPodczas ponownej rozmowy z węzłem informacje o jego klasach poleceń są również resetowane",
-                "zh-cn": "添加了对固件更新的支持。警告：使用风险自负！\n“ Fibaro FGMS-001运动传感器”：现在将所有关联组配置为指向控制器\n重新访问节点时，还将重置有关其命令类的信息"
             }
         },
         "title": "Z-Wave 2",

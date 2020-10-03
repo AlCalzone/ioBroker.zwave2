@@ -1,4 +1,7 @@
 # Older changes
+## 1.6.2 (2020-09-04)
+* Reduced CPU load in large networks
+
 ## 1.6.1 (2020-09-01)
 * Fixed interview issues with devices that claim they support `Basic CC`, but don't respond
 
