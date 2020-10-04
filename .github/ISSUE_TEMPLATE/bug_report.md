@@ -6,6 +6,16 @@ labels: ""
 assignees: ""
 ---
 
+<!--
+	🚨🚨🚨 STOP! STOP! STOP! 🚨🚨🚨
+
+	Before opening an issue, please check the troubleshooting section if your problem is described there:
+	https://github.com/AlCalzone/ioBroker.zwave2/blob/master/docs/en/troubleshooting.md
+
+	Vor dem Erstellen eines Issues bitte prüfen, ob das Problem hier beschrieben ist:
+	https://github.com/AlCalzone/ioBroker.zwave2/blob/master/docs/de/bei-problemen.md
+-->
+
 **Describe the bug**  
 A clear and concise description of what the bug is.
 
