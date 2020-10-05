@@ -1,4 +1,8 @@
 # Older changes
+## 1.6.3 (2020-09-04)
+* Further performance optimization
+* Improved compatibility with devices that send invalid `Multi Channel CC` commands
+
 ## 1.6.2 (2020-09-04)
 * Reduced CPU load in large networks
 
