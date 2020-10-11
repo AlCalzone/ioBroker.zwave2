@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "1.7.4",
+        "version": "1.7.5",
         "news": {
+            "1.7.5": {
+                "en": "Fixed the creation of some missing states (`Alarm Sensor CC` in idle state, `Multilevel Switch CC` V1/V2)\nWhen a message should be sent to a node that is assumed to be dead, the node is now pinged first to check if it is really dead\nImproved compatibility with devices that support `Notification CC V2+` but send `V1` commands.",
+                "de": "Die Erstellung einiger fehlender Zustände wurde behoben (\"Alarmsensor CC\" im Ruhezustand, \"Multilevel Switch CC\" V1 / V2).\nWenn eine Nachricht an einen Knoten gesendet werden soll, von dem angenommen wird, dass er tot ist, wird der Knoten jetzt zuerst gepingt, um zu überprüfen, ob er wirklich tot ist\nVerbesserte Kompatibilität mit Geräten, die \"Notification CC V2 +\" unterstützen, aber \"V1\" -Befehle senden.",
+                "ru": "Исправлено создание некоторых недостающих состояний ('Alarm Sensor CC' в состоянии ожидания, 'Multilevel Switch CC' V1 / V2)\nКогда сообщение должно быть отправлено на узел, который считается мертвым, узел теперь сначала проверяется, чтобы проверить, действительно ли он мертв.\nУлучшена совместимость с устройствами, которые поддерживают Notification CC V2 +, но отправляют команды V1.",
+                "pt": "Corrigida a criação de alguns estados ausentes (ʻAlarm Sensor CC` em estado inativo, `Multilevel Switch CC` V1 / V2)\nQuando uma mensagem deve ser enviada a um nó que se supõe estar morto, o nó agora recebe ping primeiro para verificar se está realmente morto\nCompatibilidade aprimorada com dispositivos que suportam `Notificação CC V2 +`, mas enviam comandos `V1`.",
+                "nl": "Oplossing voor het creëren van enkele ontbrekende toestanden (ʻAlarm Sensor CC` in rusttoestand, `Multilevel Switch CC` V1 / V2)\nWanneer een bericht moet worden verzonden naar een knooppunt waarvan wordt aangenomen dat het dood is, wordt het knooppunt nu eerst gepingd om te controleren of het echt dood is\nVerbeterde compatibiliteit met apparaten die `Notification CC V2 +` ondersteunen maar `V1` commando's versturen.",
+                "fr": "Correction de la création de certains états manquants (ʻAlarm Sensor CC` en état de repos, `Multilevel Switch CC` V1 / V2)\nLorsqu'un message doit être envoyé à un nœud supposé mort, le nœud est maintenant envoyé en premier pour vérifier s'il est vraiment mort\nAmélioration de la compatibilité avec les appareils qui prennent en charge `Notification CC V2 +` mais envoient des commandes `V1`.",
+                "it": "Corretta la creazione di alcuni stati mancanti (ʻAlarm Sensor CC` in idle state, `Multilevel Switch CC` V1 / V2)\nQuando un messaggio deve essere inviato a un nodo che si presume sia morto, il nodo ora viene prima pingato per verificare se è davvero morto\nCompatibilità migliorata con i dispositivi che supportano \"Notification CC V2 +\" ma inviano comandi \"V1\".",
+                "es": "Se corrigió la creación de algunos estados faltantes (ʻAlarm Sensor CC` en estado inactivo, `Multilevel Switch CC` V1 / V2)\nCuando se debe enviar un mensaje a un nodo que se supone que está muerto, ahora se hace ping al nodo primero para verificar si está realmente muerto\nCompatibilidad mejorada con dispositivos que admiten `Notification CC V2 +` pero envían comandos `V1`.",
+                "pl": "Naprawiono tworzenie niektórych brakujących stanów („Alarm Sensor CC” w stanie bezczynności, „Multilevel Switch CC” V1 / V2)\nKiedy wiadomość powinna zostać wysłana do węzła, który jest uważany za martwy, najpierw wysyłany jest ping, aby sprawdzić, czy naprawdę jest martwy\nPoprawiona kompatybilność z urządzeniami, które obsługują `Notification CC V2 +`, ale wysyłają polecenia `V1`.",
+                "zh-cn": "修复了一些丢失状态的创建（“ Alarm Sensor CC”处于空闲状态，“ Multilevel Switch CC” V1 / V2）\n当将消息发送到假定已失效的节点时，现在首先对节点执行ping操作，以检查它是否真的失效\n与支持“ Notification CC V2 +”但发送“ V1”命令的设备之间的兼容性得到改善。"
+            },
             "1.7.4": {
                 "en": "Added a configuration file for `Electronic Solutions DBMZ EU`\nFixed a crash when receiving truncated messages\nFixed a crash when trying to send secure commands with an expired nonce (`Security CC requires a nonce to be sent!`)\nSeveral fixes regarding battery-powered nodes (this should prevent the dreaded `E5` error on some thermostats, which was back since v1.7.0), including: \nBattery-powered nodes are actively sent to sleep again when they have no pending messages\nCompatibility queries are now discarded when the node is asleep, avoiding duplicate queries on wakeup\nSending a node to sleep now continues to work even if it failed once",
                 "de": "Eine Konfigurationsdatei für \"Electronic Solutions DBMZ EU\" wurde hinzugefügt\nEin Absturz beim Empfang abgeschnittener Nachrichten wurde behoben\nEin Absturz beim Versuch, sichere Befehle mit einer abgelaufenen Nonce zu senden, wurde behoben (`Security CC erfordert das Senden einer Nonce!`)\nMehrere Korrekturen in Bezug auf batteriebetriebene Knoten (dies sollte den gefürchteten \"E5\" -Fehler bei einigen Thermostaten verhindern, der seit Version 1.7.0 zurück war), einschließlich:\nBatteriebetriebene Knoten werden aktiv wieder in den Ruhezustand versetzt, wenn keine ausstehenden Nachrichten vorliegen\nKompatibilitätsabfragen werden jetzt verworfen, wenn der Knoten schläft, wodurch doppelte Abfragen beim Aufwecken vermieden werden\nDas Senden eines Knotens in den Ruhezustand funktioniert jetzt auch dann weiter, wenn er einmal fehlgeschlagen ist",
@@ -230,18 +242,6 @@
                 "es": "Los archivos de registro ahora están registrados en el orden correcto y se eliminaron algunos registros innecesarios\nSe corrigió un error al usar la API setLoal de DoorLockCC cuando no se han recibido todos los valores de configuración\nLos errores al enviar fragmentos de firmware ahora se detectan y registran\nEl adaptador ya no se bloquea cuando el dispositivo en serie existe pero no responde\nCompatibilidad mejorada con algunos dispositivos que envían informes de búsqueda de punto final multicanal no válidos, p. _TKB Home TZ74 Dual Switch_",
                 "pl": "Pliki dziennika są teraz rejestrowane w prawidłowej kolejności, a niektóre niepotrzebne rejestrowanie zostało usunięte\nNaprawiono błąd podczas używania interfejsu API setValue DoorLockCC, gdy nie wszystkie wartości konfiguracji zostały odebrane\nBłędy podczas wysyłania fragmentów oprogramowania są teraz wychwytywane i rejestrowane\nAdapter przestaje się zawieszać, gdy istnieje urządzenie szeregowe, ale nie odpowiada\nPoprawiona kompatybilność z niektórymi urządzeniami, które wysyłają nieprawidłowe raporty „Multi Channel Endpoint Find Report”, np. _TKB Home TZ74 Podwójny przełącznik_",
                 "zh-cn": "现在以正确的顺序记录日志文件，并删除了一些不必要的日志记录\n修复了在未收到所有配置值的情况下使用DoorLockCC setValue API时的错误\n现在捕获并记录了发送固件片段时的错误\n当串行设备存在但不响应时，适配器不再崩溃\n改善了与某些发送无效“多通道端点查找报告”的设备的兼容性，例如_TKB家用TZ74双开关_"
-            },
-            "1.3.2": {
-                "en": "Fixed a crash that happens when a `Multi Command CC` is received",
-                "de": "Es wurde ein Absturz behoben, der auftrat, wenn ein \"Multi Command CC\" empfangen wurde",
-                "ru": "Исправлен сбой, возникающий при получении «Multi Command CC»",
-                "pt": "Corrigida uma falha que acontece quando um `Multi Command CC` é recebido",
-                "nl": "Een crash gerepareerd die optreedt wanneer een `Multi Command CC` wordt ontvangen",
-                "fr": "Correction d'un plantage qui se produisait lors de la réception d'un CC multi-commandes",
-                "it": "Risolto un crash che si verificava quando si riceve un `Multi Command CC`",
-                "es": "Se corrigió un bloqueo que ocurre cuando se recibe un `Multi Command CC`",
-                "pl": "Naprawiono awarię występującą po otrzymaniu „Multi Command CC”",
-                "zh-cn": "修复了当收到“多命令抄送”时发生的崩溃"
             }
         },
         "title": "Z-Wave 2",
