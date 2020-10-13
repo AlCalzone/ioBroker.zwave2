@@ -1,4 +1,4 @@
-import { CommandClasses } from "@zwave-js/core";
+import { CommandClasses, ValueMetadata } from "@zwave-js/core";
 import { entries } from "alcalzone-shared/objects";
 import { padStart } from "alcalzone-shared/strings";
 import { NodeStatus, ZWaveNode } from "zwave-js/Node";
@@ -260,10 +260,14 @@ export async function extendMetadata(
 	const metadata =
 		("metadata" in args && args.metadata) || node.getValueMetadata(args);
 
+	const stateType = valueTypeToIOBrokerType(metadata.type);
+	// TODO: Try to detect more specific roles depending on the CC type
+	const stateRole = metadataToStateRole(stateType, metadata);
+
 	const objectDefinition: ioBroker.SettableObjectWorker<ioBroker.StateObject> = {
 		type: "state",
 		common: {
-			role: "value", // TODO: Determine based on the CC type
+			role: stateRole,
 			read: metadata.readable,
 			write: metadata.writeable,
 			name: metadata.label
@@ -272,7 +276,7 @@ export async function extendMetadata(
 				  }`
 				: stateId,
 			desc: metadata.description,
-			type: valueTypeToIOBrokerType(metadata.type),
+			type: stateType,
 			min: (metadata as ValueMetadataNumeric).min,
 			max: (metadata as ValueMetadataNumeric).max,
 			def: (metadata as ValueMetadataNumeric).default,
@@ -327,6 +331,22 @@ function valueTypeToIOBrokerType(
 			if (valueType.endsWith("[]")) return "array";
 	}
 	return "mixed";
+}
+
+function metadataToStateRole(
+	stateType: ioBroker.StateCommon["type"],
+	meta: ValueMetadata,
+): ioBroker.StateCommon["role"] {
+	if (stateType === "number") {
+		return meta.writeable ? "level" : "value";
+	} else if (stateType === "boolean") {
+		return meta.readable && meta.writeable
+			? "switch"
+			: meta.readable
+			? "indicator"
+			: "button";
+	}
+	return "state";
 }
 
 export async function setNodeStatus(
