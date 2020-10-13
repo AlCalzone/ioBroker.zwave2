@@ -306,7 +306,8 @@
         "networkKey": "",
         "driver_increaseTimeouts": false,
         "driver_increaseSendAttempts": false,
-        "switchCompat": false
+        "switchCompat": false,
+        "preserveStateNames": false
     },
     "objects": [],
     "instanceObjects": [

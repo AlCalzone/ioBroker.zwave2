@@ -34,6 +34,7 @@
     "Node": "Узел",
     "Node is not ready": "Узел не готов",
     "Non-secure": "Non-Secure",
+    "Preserve state names": "Не перезаписывайте названия состояний",
     "Refresh node info": "Обновить информацию об узле",
     "Remove failed node": "Удалить неисправный узел",
     "Root device": "Корневое устройство",

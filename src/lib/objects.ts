@@ -1,4 +1,4 @@
-import { CommandClasses } from "@zwave-js/core";
+import { CommandClasses, ValueMetadata } from "@zwave-js/core";
 import { entries } from "alcalzone-shared/objects";
 import { padStart } from "alcalzone-shared/strings";
 import { NodeStatus, ZWaveNode } from "zwave-js/Node";
@@ -260,19 +260,34 @@ export async function extendMetadata(
 	const metadata =
 		("metadata" in args && args.metadata) || node.getValueMetadata(args);
 
+	const stateType = valueTypeToIOBrokerType(metadata.type);
+	// TODO: Try to detect more specific roles depending on the CC type
+	const stateRole = metadataToStateRole(stateType, metadata);
+
+	const originalObject =
+		_.adapter.oObjects[`${_.adapter.namespace}.${stateId}`];
+
+	const newStateName =
+		_.adapter.config.preserveStateNames && originalObject?.common.name
+			? // Keep the original name if one exists and it should be preserved
+			  originalObject.common.name
+			: // Otherwise try to construct a new name from the metadata
+			metadata.label
+			? `${metadata.label}${
+					args.endpoint ? ` (Endpoint ${args.endpoint})` : ""
+			  }`
+			: // and fall back to the state ID if that is missing
+			  stateId;
+
 	const objectDefinition: ioBroker.SettableObjectWorker<ioBroker.StateObject> = {
 		type: "state",
 		common: {
-			role: "value", // TODO: Determine based on the CC type
+			role: stateRole,
 			read: metadata.readable,
 			write: metadata.writeable,
-			name: metadata.label
-				? `${metadata.label}${
-						args.endpoint ? ` (Endpoint ${args.endpoint})` : ""
-				  }`
-				: stateId,
+			name: newStateName,
 			desc: metadata.description,
-			type: valueTypeToIOBrokerType(metadata.type),
+			type: stateType,
 			min: (metadata as ValueMetadataNumeric).min,
 			max: (metadata as ValueMetadataNumeric).max,
 			def: (metadata as ValueMetadataNumeric).default,
@@ -291,8 +306,6 @@ export async function extendMetadata(
 		} as any,
 	};
 
-	const originalObject =
-		_.adapter.oObjects[`${_.adapter.namespace}.${stateId}`];
 	if (originalObject == undefined) {
 		await _.adapter.setObjectAsync(stateId, objectDefinition);
 	} else if (
@@ -327,6 +340,22 @@ function valueTypeToIOBrokerType(
 			if (valueType.endsWith("[]")) return "array";
 	}
 	return "mixed";
+}
+
+function metadataToStateRole(
+	stateType: ioBroker.StateCommon["type"],
+	meta: ValueMetadata,
+): ioBroker.StateCommon["role"] {
+	if (stateType === "number") {
+		return meta.writeable ? "level" : "value";
+	} else if (stateType === "boolean") {
+		return meta.readable && meta.writeable
+			? "switch"
+			: meta.readable
+			? "indicator"
+			: "button";
+	}
+	return "state";
 }
 
 export async function setNodeStatus(

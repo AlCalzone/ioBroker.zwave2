@@ -34,6 +34,7 @@
     "Node": "Node",
     "Node is not ready": "Node is not ready",
     "Non-secure": "Non-secure",
+    "Preserve state names": "Don't overwrite state names",
     "Refresh node info": "Refresh node info",
     "Remove failed node": "Remove failed node",
     "Root device": "Root device",

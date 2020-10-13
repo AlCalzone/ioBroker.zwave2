@@ -73,6 +73,7 @@ export class Settings extends React.Component<SettingsProps, SettingsState> {
 	private chkWriteLogFile: HTMLInputElement | null | undefined;
 	private chkIncreaseDriverTimeouts: HTMLInputElement | null | undefined;
 	private chkIncreaseDriverSendAttempts: HTMLInputElement | null | undefined;
+	private chkPreserveStateNames: HTMLInputElement | null | undefined;
 	private chkSwitchCompat: HTMLInputElement | null | undefined;
 	private txtPort: HTMLInputElement | null | undefined;
 
@@ -186,6 +187,7 @@ export class Settings extends React.Component<SettingsProps, SettingsState> {
 			this.chkIncreaseDriverTimeouts,
 			this.chkIncreaseDriverSendAttempts,
 			this.chkSwitchCompat,
+			this.chkPreserveStateNames,
 		]) {
 			if (checkbox != null) {
 				$(checkbox).on("click", this.handleChange as any);
@@ -216,6 +218,7 @@ export class Settings extends React.Component<SettingsProps, SettingsState> {
 			this.chkIncreaseDriverTimeouts,
 			this.chkIncreaseDriverSendAttempts,
 			this.chkSwitchCompat,
+			this.chkPreserveStateNames,
 		]) {
 			if (checkbox != null) {
 				$(checkbox).off("click", this.handleChange as any);
@@ -353,6 +356,22 @@ export class Settings extends React.Component<SettingsProps, SettingsState> {
 								text="Increase send attempts"
 								tooltip="increase send attempts tooltip"
 							/>
+						</label>
+					</div>
+				</div>
+				<div className="row">
+					<div className="col s6">
+						<label htmlFor="preserveStateNames">
+							<input
+								type="checkbox"
+								className="value"
+								id="preserveStateNames"
+								defaultChecked={
+									this.getSetting("preserveStateNames") as any
+								}
+								ref={(me) => (this.chkPreserveStateNames = me)}
+							/>
+							<CheckboxLabel text="Preserve state names" />
 						</label>
 					</div>
 				</div>
