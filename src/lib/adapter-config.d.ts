@@ -7,5 +7,6 @@ declare namespace ioBroker {
 		driver_increaseTimeouts: boolean;
 		driver_increaseSendAttempts: boolean;
 		switchCompat: boolean;
+		preserveStateNames: boolean;
 	}
 }

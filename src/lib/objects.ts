@@ -264,17 +264,28 @@ export async function extendMetadata(
 	// TODO: Try to detect more specific roles depending on the CC type
 	const stateRole = metadataToStateRole(stateType, metadata);
 
+	const originalObject =
+		_.adapter.oObjects[`${_.adapter.namespace}.${stateId}`];
+
+	const newStateName =
+		_.adapter.config.preserveStateNames && originalObject?.common.name
+			? // Keep the original name if one exists and it should be preserved
+			  originalObject.common.name
+			: // Otherwise try to construct a new name from the metadata
+			metadata.label
+			? `${metadata.label}${
+					args.endpoint ? ` (Endpoint ${args.endpoint})` : ""
+			  }`
+			: // and fall back to the state ID if that is missing
+			  stateId;
+
 	const objectDefinition: ioBroker.SettableObjectWorker<ioBroker.StateObject> = {
 		type: "state",
 		common: {
 			role: stateRole,
 			read: metadata.readable,
 			write: metadata.writeable,
-			name: metadata.label
-				? `${metadata.label}${
-						args.endpoint ? ` (Endpoint ${args.endpoint})` : ""
-				  }`
-				: stateId,
+			name: newStateName,
 			desc: metadata.description,
 			type: stateType,
 			min: (metadata as ValueMetadataNumeric).min,
@@ -295,8 +306,6 @@ export async function extendMetadata(
 		} as any,
 	};
 
-	const originalObject =
-		_.adapter.oObjects[`${_.adapter.namespace}.${stateId}`];
 	if (originalObject == undefined) {
 		await _.adapter.setObjectAsync(stateId, objectDefinition);
 	} else if (
