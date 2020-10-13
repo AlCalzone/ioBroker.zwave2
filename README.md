@@ -42,6 +42,7 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 
 ### __WORK IN PROGRESS__
 * The roles of states are now determined depending on the value they represent instead of just `"value"`
+* Added a new option to configure if user-defined names for states may be overwritten
 
 ### 1.7.5 (2020-10-11)
 * Fixed the creation of some missing states (`Alarm Sensor CC` in idle state, `Multilevel Switch CC` V1/V2)
