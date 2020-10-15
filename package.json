@@ -1,6 +1,6 @@
 {
   "name": "iobroker.zwave2",
-  "version": "1.7.5",
+  "version": "1.7.6",
   "description": "A better Z-Wave integration for ioBroker",
   "author": {
     "name": "AlCalzone",
@@ -37,7 +37,7 @@
     "@iobroker/adapter-core": "^2.4.0",
     "alcalzone-shared": "^3.0.0",
     "fs-extra": "^9.0.1",
-    "zwave-js": "^5.3.0"
+    "zwave-js": "^5.3.1"
   },
   "devDependencies": {
     "@alcalzone/release-script": "^1.8.1",

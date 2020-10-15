@@ -1,4 +1,9 @@
 # Older changes
+## 1.7.1 (2020-09-29)
+* Added two options to increase the driver timeouts and/or send attempts. This should allow increasing the network stability at the cost of decreased responsiveness.
+* Added support for `User Code CC V2`
+* Fix: Nodes are no longer marked as dead or asleep if they acknowledge a message but don't respond to it
+
 ## 1.7.0 (2020-09-25)
 * The `quality` parameter is now set for state updates when reading (potentially stale) values from the cache
 * Changed the serialport setting field to use autocomplete instead of a dropdown, added a tip how to use serial-over-tcp connections
