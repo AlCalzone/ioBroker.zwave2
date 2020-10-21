@@ -37,7 +37,7 @@
     "@iobroker/adapter-core": "^2.4.0",
     "alcalzone-shared": "^3.0.0",
     "fs-extra": "^9.0.1",
-    "zwave-js": "^5.3.1"
+    "zwave-js": "^5.3.2"
   },
   "devDependencies": {
     "@alcalzone/release-script": "^1.8.1",
@@ -72,6 +72,7 @@
     "axios": "^0.20.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
+    "cross-env": "^7.0.2",
     "d3": "^6.2.0",
     "eslint": "^7.10.0",
     "eslint-config-prettier": "^6.12.0",
@@ -96,7 +97,7 @@
   },
   "scripts": {
     "prebuild": "rimraf ./build",
-    "build:parcel": "parcel build admin/src/index.tsx -d admin/build --public-url .",
+    "build:parcel": "cross-env NODE_ENV=production parcel build admin/src/index.tsx -d admin/build --public-url .",
     "build:ts": "tsc -p tsconfig.build.json",
     "check:ts": "tsc -p tsconfig.build.json --noEmit",
     "build": "npm run build:ts && npm run build:parcel",
