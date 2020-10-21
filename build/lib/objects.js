@@ -194,7 +194,13 @@ async function extendValue(node, args, fromCache = false) {
             // Set cached values with a lower quality (substitute value from device or instance), so scripts can ignore the update
             state.q = 0x40;
         }
-        await global_1.Global.adapter.setStateAsync(stateId, state);
+        if (fromCache) {
+            // Avoid queueing too many events when reading from cache
+            await global_1.Global.adapter.setStateChangedAsync(stateId, state);
+        }
+        else {
+            await global_1.Global.adapter.setStateAsync(stateId, state);
+        }
     }
     catch (e) {
         global_1.Global.adapter.log.error(`Cannot set state "${stateId}" in ioBroker: ${e}`);

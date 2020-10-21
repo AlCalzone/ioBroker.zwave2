@@ -7,21 +7,23 @@ import * as path from "path";
 import {
 	Driver,
 	extractFirmware,
+	InterviewStage,
 	NodeStatus,
 	ZWaveError,
 	ZWaveErrorCodes,
 	ZWaveNode,
 	ZWaveOptions,
 } from "zwave-js";
-import type { CCAPI } from "zwave-js/build/lib/commandclass/API";
 import type {
 	Association,
 	AssociationGroup,
+	CCAPI,
 	FirmwareUpdateStatus,
 } from "zwave-js/CommandClass";
 import type { HealNodeStatus } from "zwave-js/Controller";
 import type { Firmware } from "zwave-js/Utils";
 import type {
+	TranslatedValueID,
 	ValueID,
 	ZWaveNodeMetadataUpdatedArgs,
 	ZWaveNodeValueAddedArgs,
@@ -166,8 +168,11 @@ export class ZWave2 extends utils.Adapter<true> {
 					nodeStatusToStatusState(node.status),
 				);
 				await setNodeReady(nodeId, node.ready);
-
 				this.addNodeEventHandlers(node);
+
+				// And immediately populate ioBroker states with the values from cache,
+				// so they can be overwritten with fresh ones later
+				await this.extendNodeObjectsAndStates(node);
 
 				// Make sure we didn't miss the ready event
 				if (node.ready) void this.onNodeReady(node);
@@ -304,11 +309,6 @@ export class ZWave2 extends utils.Adapter<true> {
 
 		this.log.info(`Node ${node.id}: ready to use`);
 
-		const nodeAbsoluteId = `${this.namespace}.${computeDeviceId(node.id)}`;
-
-		// Make sure the device object exists and is up to date
-		await extendNode(node);
-
 		// Set the node status
 		await setNodeStatus(
 			node.id,
@@ -318,17 +318,71 @@ export class ZWave2 extends utils.Adapter<true> {
 		);
 		await setNodeReady(node.id, true);
 
-		// Skip channel creation for the controller node
+		const allValueIDs = node.getDefinedValueIDs();
+		await this.extendNodeObjectsAndStates(node, allValueIDs);
+		// The controller node has no states and channels we need to clean up
+		if (!node.isControllerNode()) {
+			await this.cleanupNodeObjectsAndStates(node, allValueIDs);
+		}
+	}
+
+	private async extendNodeObjectsAndStates(
+		node: ZWaveNode,
+		allValueIDs?: TranslatedValueID[],
+	): Promise<void> {
+		// Make sure the device object exists and is up to date
+		await extendNode(node);
+
+		// Skip channel and state creation for the controller node
 		if (node.isControllerNode()) return;
 
-		// Find out which channels and states need to exist
-		const allValueIDs = node.getDefinedValueIDs();
+		// Collect all objects and states we have values for
+		allValueIDs ??= node.getDefinedValueIDs();
 		const uniqueCCs = allValueIDs
 			.map((vid) => [vid.commandClass, vid.commandClassName] as const)
 			.filter(
 				([cc], index, arr) =>
 					arr.findIndex(([_cc]) => _cc === cc) === index,
 			);
+
+		// Make sure all channel objects are up to date
+		for (const [cc, ccName] of uniqueCCs) {
+			await extendCC(node, cc, ccName);
+		}
+
+		// Prepare data points for all the node's values. Skip this step if the interview
+		// was just completed for the first time because this will incorrectly mark all fresh values as stale
+		if (node.interviewStage < InterviewStage.Complete) {
+			for (const valueId of allValueIDs) {
+				const value = node.getValue(valueId);
+				await extendValue(
+					node,
+					{
+						...valueId,
+						newValue: value,
+					},
+					// The value is cached
+					true,
+				);
+			}
+		}
+	}
+
+	private async cleanupNodeObjectsAndStates(
+		node: ZWaveNode,
+		allValueIDs?: TranslatedValueID[],
+	): Promise<void> {
+		// Find out which channels and states need to exist
+		allValueIDs ??= node.getDefinedValueIDs();
+		const uniqueCCs = allValueIDs
+			.map((vid) => [vid.commandClass, vid.commandClassName] as const)
+			.filter(
+				([cc], index, arr) =>
+					arr.findIndex(([_cc]) => _cc === cc) === index,
+			);
+
+		const nodeAbsoluteId = `${this.namespace}.${computeDeviceId(node.id)}`;
+
 		const desiredChannelIds = new Set(
 			uniqueCCs.map(
 				([, ccName]) =>
@@ -382,25 +436,6 @@ export class ZWave2 extends utils.Adapter<true> {
 			} catch (e) {
 				/* it's fine */
 			}
-		}
-
-		// Make sure all channel objects are up to date
-		for (const [cc, ccName] of uniqueCCs) {
-			await extendCC(node, cc, ccName);
-		}
-
-		// Prepare data points for all the node's values
-		for (const valueId of allValueIDs) {
-			const value = node.getValue(valueId);
-			await extendValue(
-				node,
-				{
-					...valueId,
-					newValue: value,
-				},
-				// The value is cached
-				true,
-			);
 		}
 	}
 
