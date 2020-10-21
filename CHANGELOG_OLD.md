@@ -1,4 +1,14 @@
 # Older changes
+## 1.7.2 (2020-10-01)
+* Added an option to improve the compatibility with legacy switches. If this option is enabled, `targetValue` (Binary and Multilevel Switch) will be overwritten with `currentValue` whenever `currentValue` is updated.
+* When healing the network, the progress should now show up immediately
+* Fixed two crash sources
+* Several improvements to `Notification CC`
+  * The interview now detects whether a node is push or pull
+  * Push nodes now have their supporting values set to idle if no value is yet known
+  * Pull nodes are now auto-refreshed every 6 hours and on wakeup
+* Including secure devices now fails if the device takes too long to respond (as required by the specifications)
+
 ## 1.7.1 (2020-09-29)
 * Added two options to increase the driver timeouts and/or send attempts. This should allow increasing the network stability at the cost of decreased responsiveness.
 * Added support for `User Code CC V2`
