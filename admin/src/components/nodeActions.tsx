@@ -32,7 +32,10 @@ export function NodeActions(props: NodeActionsProps) {
 
 	const input = React.useRef<HTMLInputElement>();
 
-	const isNodeFailed = props.status === "dead" || props.status === "asleep";
+	// It can happen that the controller does not react to commands for a failed node,
+	// so the status won't change. We need to allow removing the node in this case too,
+	// so just forbid removing alive or awake nodes
+	const isNodeFailed = props.status !== "alive" && props.status !== "awake";
 	const supportsFirmwareUpdate =
 		props.actions.updateFirmware &&
 		props.actions.pollFirmwareUpdateStatus &&
