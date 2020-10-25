@@ -1,4 +1,7 @@
 # Older changes
+## 1.7.3 (2020-10-03)
+* Fixed two crashes during the `Notification CC` interview
+
 ## 1.7.2 (2020-10-01)
 * Added an option to improve the compatibility with legacy switches. If this option is enabled, `targetValue` (Binary and Multilevel Switch) will be overwritten with `currentValue` whenever `currentValue` is updated.
 * When healing the network, the progress should now show up immediately

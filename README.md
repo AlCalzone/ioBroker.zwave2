@@ -40,7 +40,7 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	### __WORK IN PROGRESS__
 -->
 
-### __WORK IN PROGRESS__
+### 1.7.8 (2020-10-25)
 * Fixed a crash while sending a `Door Lock` command under specific circumstances
 * The timespan that a node is assumed to be awake is now prolonged when it acknowledges a command
 * Fixed a bug where `Alarm Sensor CC` reports could be assigned to a non-existing node
@@ -77,9 +77,6 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
   * Battery-powered nodes are actively sent to sleep again when they have no pending messages
   * Compatibility queries are now discarded when the node is asleep, avoiding duplicate queries on wakeup
   * Sending a node to sleep now continues to work even if it failed once
-
-### 1.7.3 (2020-10-03)
-* Fixed two crashes during the `Notification CC` interview
 
 ## License
 
