@@ -394,7 +394,13 @@ class ZWave2 extends utils.Adapter {
      * Is called when the Z-Wave lib has a non-critical error
      */
     async onZWaveError(error) {
-        this.log.error(error.message);
+        let level = "error";
+        // Treat non-critical errors as warnings
+        if (error instanceof zwave_js_1.ZWaveError &&
+            error.code === zwave_js_1.ZWaveErrorCodes.Controller_NodeInsecureCommunication) {
+            level = "warn";
+        }
+        this.log[level](error.message);
         if (error instanceof zwave_js_1.ZWaveError &&
             error.code === zwave_js_1.ZWaveErrorCodes.Driver_Failed) {
             // This should not happen too regularly, so ask JS-Controller to restart the adapter

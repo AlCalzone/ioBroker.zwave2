@@ -627,7 +627,16 @@ export class ZWave2 extends utils.Adapter<true> {
 	 * Is called when the Z-Wave lib has a non-critical error
 	 */
 	private async onZWaveError(error: Error): Promise<void> {
-		this.log.error(error.message);
+		let level: "warn" | "error" = "error";
+		// Treat non-critical errors as warnings
+		if (
+			error instanceof ZWaveError &&
+			error.code === ZWaveErrorCodes.Controller_NodeInsecureCommunication
+		) {
+			level = "warn";
+		}
+
+		this.log[level](error.message);
 
 		if (
 			error instanceof ZWaveError &&
