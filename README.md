@@ -40,6 +40,9 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	### __WORK IN PROGRESS__
 -->
 
+### __WORK IN PROGRESS__
+* Fixed a crash in the adapter settings when a node's device type is not yet set
+
 ### 1.7.8 (2020-10-25)
 * Fixed a crash while sending a `Door Lock` command under specific circumstances
 * The timespan that a node is assumed to be awake is now prolonged when it acknowledges a command

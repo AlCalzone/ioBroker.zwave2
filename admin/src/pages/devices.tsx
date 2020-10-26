@@ -466,7 +466,10 @@ export function Devices() {
 										)}
 										{value.common.name}
 									</td>
-									<td>{(value.native as any).type.basic}</td>
+									<td>
+										{(value.native as any).type?.basic ??
+											_("unknown")}
+									</td>
 									<td>
 										{/* Whether the device is reachable */}
 										<i
