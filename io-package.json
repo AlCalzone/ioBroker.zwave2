@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "1.7.8",
+        "version": "1.7.9",
         "news": {
+            "1.7.9": {
+                "en": "Fixed a crash in the adapter settings when a node's device type is not yet set",
+                "de": "Ein Absturz in den Adaptereinstellungen wurde behoben, wenn der Gerätetyp eines Knotens noch nicht festgelegt wurde",
+                "ru": "Исправлен сбой в настройках адаптера, когда тип устройства узла еще не установлен",
+                "pt": "Corrigida uma falha nas configurações do adaptador quando o tipo de dispositivo de um nó ainda não foi definido",
+                "nl": "Een crash verholpen in de adapterinstellingen wanneer het apparaattype van een knooppunt nog niet is ingesteld",
+                "fr": "Correction d'un crash dans les paramètres de l'adaptateur lorsque le type de périphérique d'un nœud n'est pas encore défini",
+                "it": "Risolto un arresto anomalo nelle impostazioni dell'adattatore quando il tipo di dispositivo di un nodo non è ancora impostato",
+                "es": "Se corrigió un bloqueo en la configuración del adaptador cuando el tipo de dispositivo de un nodo aún no estaba configurado",
+                "pl": "Naprawiono awarię w ustawieniach adaptera, gdy typ urządzenia węzła nie jest jeszcze ustawiony",
+                "zh-cn": "修复了尚未设置节点的设备类型时适配器设置的崩溃"
+            },
             "1.7.8": {
                 "en": "Fixed a crash while sending a `Door Lock` command under specific circumstances\nThe timespan that a node is assumed to be awake is now prolonged when it acknowledges a command\nFixed a bug where `Alarm Sensor CC` reports could be assigned to a non-existing node\nIncluding nodes which can act as controllers is now supported\nFor nodes with an `unknown` status, the \"remove failed node\" button is now enabled\nThe loglevel for warnings about insecure communication because of a missing network key has been reduced to warning.",
                 "de": "Ein Absturz beim Senden eines \"Türschloss\" -Befehls wurde unter bestimmten Umständen behoben\nDie Zeitspanne, in der angenommen wird, dass ein Knoten wach ist, wird jetzt verlängert, wenn er einen Befehl bestätigt\nEs wurde ein Fehler behoben, durch den \"Alarmsensor-CC\" -Berichte einem nicht vorhandenen Knoten zugewiesen werden konnten\nDas Einschließen von Knoten, die als Controller fungieren können, wird jetzt unterstützt\nFür Knoten mit dem Status \"Unbekannt\" ist jetzt die Schaltfläche \"Fehlerhaften Knoten entfernen\" aktiviert\nDie Google-Ebene für Warnungen vor unsicherer Kommunikation aufgrund eines fehlenden Netzwerkschlüssels wurde auf Warnung reduziert.",
@@ -230,18 +242,6 @@
                 "es": "Se corrigieron problemas de transmisión causados por transacciones seguras superpuestas",
                 "pl": "Naprawiono problemy z transmisją spowodowane nakładającymi się bezpiecznymi transakcjami",
                 "zh-cn": "固定交易重叠引起的传输问题"
-            },
-            "1.3.6": {
-                "en": "Added some details to the `Multi Channel Association CC` interview logging\nConfigured lifeline node associations of newer devices should now be set correctly\n`CRC-16`-encapsulated commands can now be received\nThe log file is complete again",
-                "de": "Einige Details zur Interviewprotokollierung der \"Multi Channel Association CC\" hinzugefügt\nKonfigurierte Lifeline-Knotenzuordnungen neuerer Geräte sollten jetzt korrekt eingestellt werden\nCRC-16-gekapselte Befehle können jetzt empfangen werden\nDie Protokolldatei ist wieder vollständig",
-                "ru": "Добавлены некоторые детали в журнал интервью Multi Channel Association CC\nСконфигурированные ассоциации узлов жизнеобеспечения более новых устройств теперь должны быть установлены правильно\nИнкапсулированные команды `CRC-16` теперь могут быть получены\nФайл журнала снова завершен",
-                "pt": "Adicionados alguns detalhes ao registro de entrevista `Multi Channel Association CC`\nAssociações de nó de linha de vida configuradas de dispositivos mais novos agora devem ser definidas corretamente\nComandos encapsulados `CRC-16` agora podem ser recebidos\nO arquivo de log está completo novamente",
-                "nl": "Enkele details toegevoegd aan de gespreksregistratie van de `Multi Channel Association CC`\nDe geconfigureerde levenslijnknooppuntassociaties van nieuwere apparaten moeten nu correct worden ingesteld\nIn CRC-16 ingekapselde opdrachten kunnen nu worden ontvangen\nHet logbestand is weer compleet",
-                "fr": "Ajout de quelques détails à la journalisation des interviews `Multi Channel Association CC`\nLes associations de nœuds de ligne de vie configurées pour les nouveaux appareils doivent maintenant être définies correctement\nLes commandes encapsulées `CRC-16` peuvent maintenant être reçues\nLe fichier journal est à nouveau complet",
-                "it": "Aggiunti alcuni dettagli alla registrazione dell'intervista con `Multi Channel Association CC`\nLe associazioni dei nodi di linea di vita configurate dei dispositivi più recenti dovrebbero ora essere impostate correttamente\nOra è possibile ricevere comandi incapsulati `CRC-16`\nIl file di registro è di nuovo completo",
-                "es": "Se agregaron algunos detalles al registro de entrevistas de la 'Asociación de canales múltiples CC'\nLas asociaciones de nodos de línea de vida configuradas de dispositivos más nuevos ahora se deben configurar correctamente\nAhora se pueden recibir comandos encapsulados `CRC-16`\nEl archivo de registro está completo nuevamente.",
-                "pl": "Dodano pewne szczegóły do rejestrowania wywiadu `Multi Channel Association CC`\nSkonfigurowane skojarzenia węzłów linii życia nowszych urządzeń powinny być teraz ustawione poprawnie\nMożna teraz odbierać komendy w formacie `CRC-16`\nPlik dziennika jest ponownie gotowy",
-                "zh-cn": "在“多渠道协会CC”采访记录中添加了一些详细信息\n现在应正确设置较新设备的已配置生命线节点关联\n现在可以接收CRC-16封装的命令\n日志文件再次完成"
             }
         },
         "title": "Z-Wave 2",

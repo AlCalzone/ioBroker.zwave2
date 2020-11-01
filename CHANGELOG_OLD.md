@@ -1,4 +1,13 @@
 # Older changes
+## 1.7.4 (2020-10-05)
+* Added a configuration file for `Electronic Solutions DBMZ EU`
+* Fixed a crash when receiving truncated messages
+* Fixed a crash when trying to send secure commands with an expired nonce (`Security CC requires a nonce to be sent!`)
+* Several fixes regarding battery-powered nodes (this should prevent the dreaded `E5` error on some thermostats, which was back since v1.7.0), including: 
+  * Battery-powered nodes are actively sent to sleep again when they have no pending messages
+  * Compatibility queries are now discarded when the node is asleep, avoiding duplicate queries on wakeup
+  * Sending a node to sleep now continues to work even if it failed once
+
 ## 1.7.3 (2020-10-03)
 * Fixed two crashes during the `Notification CC` interview
 

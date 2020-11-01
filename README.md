@@ -40,7 +40,7 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	### __WORK IN PROGRESS__
 -->
 
-### __WORK IN PROGRESS__
+### 1.7.9 (2020-11-01)
 * Fixed a crash in the adapter settings when a node's device type is not yet set
 
 ### 1.7.8 (2020-10-25)
@@ -71,15 +71,6 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 * Fixed the creation of some missing states (`Alarm Sensor CC` in idle state, `Multilevel Switch CC` V1/V2)
 * When a message should be sent to a node that is assumed to be dead, the node is now pinged first to check if it is really dead
 * Improved compatibility with devices that support `Notification CC V2+` but send `V1` commands.
-
-### 1.7.4 (2020-10-05)
-* Added a configuration file for `Electronic Solutions DBMZ EU`
-* Fixed a crash when receiving truncated messages
-* Fixed a crash when trying to send secure commands with an expired nonce (`Security CC requires a nonce to be sent!`)
-* Several fixes regarding battery-powered nodes (this should prevent the dreaded `E5` error on some thermostats, which was back since v1.7.0), including: 
-  * Battery-powered nodes are actively sent to sleep again when they have no pending messages
-  * Compatibility queries are now discarded when the node is asleep, avoiding duplicate queries on wakeup
-  * Sending a node to sleep now continues to work even if it failed once
 
 ## License
 
