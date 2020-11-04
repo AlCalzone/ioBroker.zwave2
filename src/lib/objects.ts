@@ -243,7 +243,7 @@ export async function extendValue(
 			newValue = buffer2hex(newValue);
 		}
 		const state: ioBroker.SettableState = {
-			val: (args.newValue ?? null) as any,
+			val: newValue as any,
 			ack: true,
 		};
 		// TODO: remove this after JS-Controller 3.2 is stable
