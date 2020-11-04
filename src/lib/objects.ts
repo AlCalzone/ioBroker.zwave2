@@ -12,7 +12,7 @@ import type {
 	ZWaveNodeValueUpdatedArgs,
 } from "zwave-js/Values";
 import { Global as _ } from "./global";
-import { computeDeviceId } from "./shared";
+import { buffer2hex, computeDeviceId } from "./shared";
 
 type ZWaveNodeArgs =
 	| ZWaveNodeValueAddedArgs
@@ -237,6 +237,11 @@ export async function extendValue(
 
 	await extendMetadata(node, args);
 	try {
+		let newValue = args.newValue ?? null;
+		if (Buffer.isBuffer(newValue)) {
+			// We cannot store Buffers in ioBroker, encode them as HEX
+			newValue = buffer2hex(newValue);
+		}
 		const state: ioBroker.SettableState = {
 			val: (args.newValue ?? null) as any,
 			ack: true,

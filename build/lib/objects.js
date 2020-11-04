@@ -181,12 +181,17 @@ async function extendCC(node, cc, ccName) {
 }
 exports.extendCC = extendCC;
 async function extendValue(node, args, fromCache = false) {
-    var _a;
+    var _a, _b;
     const stateId = computeId(node.id, args);
     await extendMetadata(node, args);
     try {
+        let newValue = (_a = args.newValue) !== null && _a !== void 0 ? _a : null;
+        if (Buffer.isBuffer(newValue)) {
+            // We cannot store Buffers in ioBroker, encode them as HEX
+            newValue = shared_1.buffer2hex(newValue);
+        }
         const state = {
-            val: ((_a = args.newValue) !== null && _a !== void 0 ? _a : null),
+            val: ((_b = args.newValue) !== null && _b !== void 0 ? _b : null),
             ack: true,
         };
         // TODO: remove this after JS-Controller 3.2 is stable

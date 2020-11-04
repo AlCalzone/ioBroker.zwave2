@@ -471,8 +471,13 @@ class ZWave2 extends utils.Adapter {
                     this.log.error(`Node ${nodeId} does not exist!`);
                     return;
                 }
+                let newValue = state.val;
+                if (typeof newValue === "string" && shared_1.isBufferAsHex(newValue)) {
+                    newValue = shared_1.bufferFromHex(newValue);
+                }
                 try {
-                    await node.setValue(valueId, state.val);
+                    await node.setValue(valueId, newValue);
+                    // Don't use newValue to update ioBroker states, these are only for zwave-js
                     await this.setStateAsync(id, { val: state.val, ack: true });
                 }
                 catch (e) {

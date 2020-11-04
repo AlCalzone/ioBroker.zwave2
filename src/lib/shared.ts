@@ -19,6 +19,20 @@ export function mapToRecord<TKey extends string | number | symbol, TValue>(
 	return ret;
 }
 
+export function buffer2hex(buffer: Buffer): string {
+	if (buffer.length === 0) return "";
+	return `0x${buffer.toString("hex")}`;
+}
+
+/** Parses a buffer from a string has the form 0x[a-f0-9]+ */
+export function bufferFromHex(hex: string): Buffer {
+	return Buffer.from(hex.substr(2), "hex");
+}
+
+export function isBufferAsHex(str: string): boolean {
+	return /^0x([a-fA-F0-9]{2})+$/.test(str);
+}
+
 export interface NetworkHealPollResponse {
 	type: "idle" | "done" | "progress";
 	progress?: Record<number, "pending" | "done" | "failed" | "skipped">;

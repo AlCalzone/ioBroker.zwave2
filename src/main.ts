@@ -48,9 +48,11 @@ import {
 import { enumerateSerialPorts } from "./lib/serialPorts";
 import {
 	AssociationDefinition,
+	bufferFromHex,
 	computeDeviceId,
 	FirmwareUpdatePollResponse,
 	InclusionMode,
+	isBufferAsHex,
 	mapToRecord,
 	NetworkHealPollResponse,
 } from "./lib/shared";
@@ -727,8 +729,15 @@ export class ZWave2 extends utils.Adapter<true> {
 					return;
 				}
 
+				// Some CCs accept Buffers. In order to edit them in ioBroker, we support parsing strings like "0xbada55" as Buffers.
+				let newValue: unknown = state.val;
+				if (typeof newValue === "string" && isBufferAsHex(newValue)) {
+					newValue = bufferFromHex(newValue);
+				}
+
 				try {
-					await node.setValue(valueId, state.val);
+					await node.setValue(valueId, newValue);
+					// Don't use newValue to update ioBroker states, these are only for zwave-js
 					await this.setStateAsync(id, { val: state.val, ack: true });
 				} catch (e) {
 					this.log.error(e.message);
