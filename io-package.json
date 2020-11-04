@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "1.7.9",
+        "version": "1.7.10",
         "news": {
+            "1.7.10": {
+                "en": "Improved compatibility with devices that don't follow the `User Code CC` and `Notification CC` specifications correctly (like Zipato Keypad)\nAdded the ability to edit binary values (e.g. RFID codes) using hexadecimal strings, e.g. `0xbada55`.",
+                "de": "Verbesserte Kompatibilität mit Geräten, die den Spezifikationen \"User Code CC\" und \"Notification CC\" nicht korrekt entsprechen (wie Zipato Keypad)\nEs wurde die Möglichkeit hinzugefügt, Binärwerte (z. B. RFID-Codes) unter Verwendung von hexadezimalen Zeichenfolgen, z. `0xbada55`.",
+                "ru": "Улучшена совместимость с устройствами, которые не соответствуют спецификациям ʻUser Code CC` и `Notification CC` (например, Zipato Keypad).\nДобавлена возможность редактировать двоичные значения (например, коды RFID) с использованием шестнадцатеричных строк, например `0xbada55`.",
+                "pt": "Compatibilidade aprimorada com dispositivos que não seguem as especificações do `Código de usuário CC` e` Notificação CC` corretamente (como teclado Zipato)\nAdicionada a capacidade de editar valores binários (por exemplo, códigos RFID) usando strings hexadecimais, por exemplo `0xbada55`.",
+                "nl": "Verbeterde compatibiliteit met apparaten die de ʻUser Code CC` en `Notification CC` specificaties niet correct volgen (zoals Zipato Keypad)\nDe mogelijkheid toegevoegd om binaire waarden (bijv.RFID-codes) te bewerken met hexadecimale strings, bijv. `0xbada55`.",
+                "fr": "Amélioration de la compatibilité avec les appareils qui ne respectent pas correctement les spécifications «User Code CC» et «Notification CC» (comme Zipato Keypad)\nAjout de la possibilité de modifier les valeurs binaires (par exemple, les codes RFID) à l'aide de chaînes hexadécimales, par exemple `0xbada55`.",
+                "it": "Compatibilità migliorata con i dispositivi che non seguono correttamente le specifiche ʻAser Code CC` e `Notification CC` (come Zipato Keypad)\nAggiunta la possibilità di modificare i valori binari (ad es. Codici RFID) utilizzando stringhe esadecimali, ad es. \"0xbada55\".",
+                "es": "Compatibilidad mejorada con dispositivos que no siguen las especificaciones de \"Código de usuario CC\" y \"Notificación CC\" correctamente (como el teclado Zipato)\nSe agregó la capacidad de editar valores binarios (por ejemplo, códigos RFID) utilizando cadenas hexadecimales, por ejemplo. `0xbada55`.",
+                "pl": "Poprawiona kompatybilność z urządzeniami, które nie są zgodne ze specyfikacjami „User Code CC” i „Notification CC” (np. Zipato Keypad)\nDodano możliwość edycji wartości binarnych (np. Kodów RFID) za pomocą ciągów szesnastkowych, np. „0xbada55”.",
+                "zh-cn": "改进了与未正确遵循“用户代码CC”和“通知CC”规范的设备的兼容性（例如Zipato键盘）\n新增了使用十六进制字符串（例如）编辑二进制值（例如RFID代码）的功能。 0xbada55。"
+            },
             "1.7.9": {
                 "en": "Fixed a crash in the adapter settings when a node's device type is not yet set",
                 "de": "Ein Absturz in den Adaptereinstellungen wurde behoben, wenn der Gerätetyp eines Knotens noch nicht festgelegt wurde",
@@ -220,18 +232,6 @@
                 "zh-cn": "将`zwave-js`更新为v4.0.1。这包括以下功能：\n*改进了对不包含NIF中所有CC的旧式设备的支持，例如“ Fibaro FGRM 222”。\n*添加了对“声音开关CC”的支持\n*增加了对“警报传感器CC”的支持。仅当不支持`Notification CC`时，才使用此CC。"
             },
             "1.3.8": {
-                "en": "Fixed transmission issues caused by overlapped secure transactions",
-                "de": "Übertragungsprobleme behoben, die durch überlappende sichere Transaktionen verursacht wurden",
-                "ru": "Исправлены проблемы передачи, вызванные перекрытыми безопасными транзакциями",
-                "pt": "Corrigidos problemas de transmissão causados por transações seguras sobrepostas",
-                "nl": "Vaste transmissieproblemen veroorzaakt door overlappende beveiligde transacties",
-                "fr": "Correction de problèmes de transmission causés par des transactions sécurisées se chevauchant",
-                "it": "Risolti i problemi di trasmissione causati da transazioni sicure sovrapposte",
-                "es": "Se corrigieron problemas de transmisión causados por transacciones seguras superpuestas",
-                "pl": "Naprawiono problemy z transmisją spowodowane nakładającymi się bezpiecznymi transakcjami",
-                "zh-cn": "固定交易重叠引起的传输问题"
-            },
-            "1.3.7": {
                 "en": "Fixed transmission issues caused by overlapped secure transactions",
                 "de": "Übertragungsprobleme behoben, die durch überlappende sichere Transaktionen verursacht wurden",
                 "ru": "Исправлены проблемы передачи, вызванные перекрытыми безопасными транзакциями",

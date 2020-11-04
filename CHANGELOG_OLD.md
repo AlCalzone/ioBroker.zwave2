@@ -1,4 +1,9 @@
 # Older changes
+## 1.7.5 (2020-10-11)
+* Fixed the creation of some missing states (`Alarm Sensor CC` in idle state, `Multilevel Switch CC` V1/V2)
+* When a message should be sent to a node that is assumed to be dead, the node is now pinged first to check if it is really dead
+* Improved compatibility with devices that support `Notification CC V2+` but send `V1` commands.
+
 ## 1.7.4 (2020-10-05)
 * Added a configuration file for `Electronic Solutions DBMZ EU`
 * Fixed a crash when receiving truncated messages
