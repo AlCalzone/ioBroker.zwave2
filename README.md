@@ -40,6 +40,10 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	### __WORK IN PROGRESS__
 -->
 
+### __WORK IN PROGRESS__
+* Improved compatibility with devices that don't follow the `User Code CC` and `Notification CC` specifications correctly (like Zipato Keypad)
+* Added the ability to edit binary values (e.g. RFID codes) using hexadecimal strings, e.g. `0xbada55`.
+
 ### 1.7.9 (2020-11-01)
 * Fixed a crash in the adapter settings when a node's device type is not yet set
 
