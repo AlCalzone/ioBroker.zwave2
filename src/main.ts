@@ -1,5 +1,5 @@
 import * as utils from "@iobroker/adapter-core";
-import { CommandClasses } from "@zwave-js/core";
+import { CommandClasses, Duration } from "@zwave-js/core";
 import { composeObject } from "alcalzone-shared/objects";
 import { isArray } from "alcalzone-shared/typeguards";
 import * as fs from "fs-extra";
@@ -18,6 +18,7 @@ import type {
 	Association,
 	AssociationGroup,
 	CCAPI,
+	CommandClass,
 	FirmwareUpdateStatus,
 } from "zwave-js/CommandClass";
 import type { HealNodeStatus } from "zwave-js/Controller";
@@ -301,7 +302,8 @@ export class ZWave2 extends utils.Adapter<true> {
 			.on(
 				"firmware update finished",
 				this.onNodeFirmwareUpdateFinished.bind(this),
-			);
+			)
+			.on("notification", this.onNodeNotification.bind(this));
 	}
 
 	private async onNodeReady(node: ZWaveNode): Promise<void> {
@@ -601,6 +603,19 @@ export class ZWave2 extends utils.Adapter<true> {
 			status,
 			waitTime,
 		});
+	}
+
+	private async onNodeNotification(
+		node: ZWaveNode,
+		notificationLabel: string,
+		parameters?:
+			| Buffer
+			| Duration
+			| CommandClass
+			| Record<string, number>
+			| undefined,
+	): Promise<void> {
+		// TODO:
 	}
 
 	/**
