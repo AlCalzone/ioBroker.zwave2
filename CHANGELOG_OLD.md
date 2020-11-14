@@ -1,4 +1,9 @@
 # Older changes
+## 1.7.6 (2020-10-15)
+* The roles of states are now determined depending on the value they represent instead of just `"value"`
+* Added a new option to configure if user-defined names for states may be overwritten
+* The `targetValue` state of `Color Switch CC` no longer has `write` set to `false`
+
 ## 1.7.5 (2020-10-11)
 * Fixed the creation of some missing states (`Alarm Sensor CC` in idle state, `Multilevel Switch CC` V1/V2)
 * When a message should be sent to a node that is assumed to be dead, the node is now pinged first to check if it is really dead
