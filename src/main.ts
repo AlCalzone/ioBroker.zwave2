@@ -39,6 +39,7 @@ import {
 	extendCC,
 	extendMetadata,
 	extendNode,
+	extendNotification,
 	extendValue,
 	nodeStatusToStatusState,
 	removeNode,
@@ -426,7 +427,9 @@ export class ZWave2 extends utils.Adapter<true> {
 			// select those states that are not desired
 			.filter((id) => !desiredStateIds.has(id))
 			// filter out those states that are not under a CC channel
-			.filter((id) => id.slice(nodeAbsoluteId.length + 1).includes("."));
+			.filter((id) => id.slice(nodeAbsoluteId.length + 1).includes("."))
+			// and filter out those states that are for a notification event
+			.filter((id) => !this.oObjects[id]?.native?.notificationEvent);
 
 		for (const id of unusedStates) {
 			this.log.warn(`Deleting orphaned state ${id}`);
@@ -615,7 +618,10 @@ export class ZWave2 extends utils.Adapter<true> {
 			| Record<string, number>
 			| undefined,
 	): Promise<void> {
-		// TODO:
+		this.log.debug(
+			`Node ${node.id}: received notification: ${notificationLabel}`,
+		);
+		await extendNotification(node, notificationLabel, parameters);
 	}
 
 	/**

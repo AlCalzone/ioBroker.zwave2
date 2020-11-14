@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.setNodeReady = exports.setNodeStatus = exports.removeValue = exports.extendMetadata = exports.extendValue = exports.extendCC = exports.removeNode = exports.extendNode = exports.computeId = exports.computeChannelId = exports.ccNameToChannelIdFragment = exports.nameToStateId = exports.nodeStatusToStatusState = void 0;
+exports.extendNotification = exports.computeNotificationId = exports.setNodeReady = exports.setNodeStatus = exports.removeValue = exports.extendMetadata = exports.extendValue = exports.extendCC = exports.removeNode = exports.extendNode = exports.computeId = exports.computeChannelId = exports.ccNameToChannelIdFragment = exports.nameToStateId = exports.nodeStatusToStatusState = void 0;
 const core_1 = require("@zwave-js/core");
 const objects_1 = require("alcalzone-shared/objects");
 const strings_1 = require("alcalzone-shared/strings");
@@ -115,14 +115,7 @@ async function extendNode(node) {
         common: Object.assign(Object.assign(Object.assign({}, nodeCommon), originalObject === null || originalObject === void 0 ? void 0 : originalObject.common), { name: newName }),
         native: nodeToNative(node),
     };
-    // check if we have to update anything
-    if (originalObject == undefined ||
-        JSON.stringify(originalObject.common) !==
-            JSON.stringify(desiredObject.common) ||
-        JSON.stringify(originalObject.native) !==
-            JSON.stringify(desiredObject.native)) {
-        await global_1.Global.adapter.setObjectAsync(deviceId, desiredObject);
-    }
+    await setOrExtendObject(deviceId, desiredObject, originalObject);
 }
 exports.extendNode = extendNode;
 /** Removed all objects that belong to a node */
@@ -181,7 +174,7 @@ async function extendCC(node, cc, ccName) {
 }
 exports.extendCC = extendCC;
 async function extendValue(node, args, fromCache = false) {
-    var _a, _b;
+    var _a;
     const stateId = computeId(node.id, args);
     await extendMetadata(node, args);
     try {
@@ -191,7 +184,7 @@ async function extendValue(node, args, fromCache = false) {
             newValue = shared_1.buffer2hex(newValue);
         }
         const state = {
-            val: ((_b = args.newValue) !== null && _b !== void 0 ? _b : null),
+            val: newValue,
             ack: true,
         };
         // TODO: remove this after JS-Controller 3.2 is stable
@@ -253,15 +246,7 @@ async function extendMetadata(node, args) {
             steps: metadata.steps,
         },
     };
-    if (originalObject == undefined) {
-        await global_1.Global.adapter.setObjectAsync(stateId, objectDefinition);
-    }
-    else if (JSON.stringify(objectDefinition.common) !==
-        JSON.stringify(originalObject.common) ||
-        JSON.stringify(objectDefinition.native) !==
-            JSON.stringify(originalObject.native)) {
-        await global_1.Global.adapter.extendObjectAsync(stateId, objectDefinition);
-    }
+    await setOrExtendObject(stateId, objectDefinition, originalObject);
 }
 exports.extendMetadata = extendMetadata;
 async function removeValue(nodeId, args) {
@@ -330,4 +315,106 @@ async function setNodeReady(nodeId, ready) {
     await global_1.Global.adapter.setStateAsync(stateId, ready, true);
 }
 exports.setNodeReady = setNodeReady;
+function computeNotificationId(nodeId, label, property) {
+    return [
+        shared_1.computeDeviceId(nodeId),
+        ccNameToChannelIdFragment("Notification"),
+        [nameToStateId(label), property && nameToStateId(property)]
+            .filter((s) => !!s)
+            .join("_"),
+    ].join(".");
+}
+exports.computeNotificationId = computeNotificationId;
+async function setOrExtendObject(id, definition, original) {
+    if (original == undefined) {
+        await global_1.Global.adapter.setObjectAsync(id, definition);
+    }
+    else if (JSON.stringify(definition.common) !== JSON.stringify(original.common) ||
+        JSON.stringify(definition.native) !== JSON.stringify(original.native)) {
+        await global_1.Global.adapter.extendObjectAsync(id, definition);
+    }
+}
+async function setNotificationValue(nodeId, label, property, value = true) {
+    var _a;
+    const stateId = computeNotificationId(nodeId, label, property);
+    const originalObject = global_1.Global.adapter.oObjects[`${global_1.Global.adapter.namespace}.${stateId}`];
+    const newStateName = global_1.Global.adapter.config.preserveStateNames && (originalObject === null || originalObject === void 0 ? void 0 : originalObject.common.name)
+        ? // Keep the original name if one exists and it should be preserved
+            originalObject.common.name
+        : // Otherwise use the given label (and property name)
+            `${label}${!!property ? ` (${property})` : ""}`;
+    const objectDefinition = {
+        type: "state",
+        common: typeof value === "boolean"
+            ? {
+                role: "indicator",
+                read: true,
+                write: false,
+                name: newStateName,
+                type: "boolean",
+            }
+            : typeof value === "number"
+                ? {
+                    role: "value",
+                    read: true,
+                    write: false,
+                    name: newStateName,
+                    type: "number",
+                }
+                : value instanceof core_1.Duration
+                    ? {
+                        role: "value.interval",
+                        read: true,
+                        write: false,
+                        name: newStateName,
+                        type: "number",
+                        unit: "seconds",
+                    }
+                    : {
+                        role: "text",
+                        read: true,
+                        write: false,
+                        name: newStateName,
+                        type: "string",
+                    },
+        native: {
+            nodeId: nodeId,
+            notificationEvent: true,
+        },
+    };
+    // Translate the value into something useful
+    let val;
+    if (value instanceof core_1.Duration) {
+        val = value.toMilliseconds();
+        if (val == undefined)
+            val = "unknown";
+        else
+            val /= 1000;
+    }
+    else {
+        val = value;
+    }
+    await setOrExtendObject(stateId, objectDefinition, originalObject);
+    await global_1.Global.adapter.setStateAsync(stateId, {
+        val,
+        expire: (_a = global_1.Global.adapter.config.notificationEventValidity) !== null && _a !== void 0 ? _a : 1000,
+    }, true);
+}
+async function extendNotification(node, label, parameters) {
+    if (parameters == undefined) {
+        await setNotificationValue(node.id, label, undefined, true);
+    }
+    else if (Buffer.isBuffer(parameters)) {
+        await setNotificationValue(node.id, label, undefined, parameters.toString("hex"));
+    }
+    else if (parameters instanceof core_1.Duration) {
+        await setNotificationValue(node.id, label, undefined, parameters);
+    }
+    else {
+        for (const [key, value] of Object.entries(parameters)) {
+            await setNotificationValue(node.id, label, key, value);
+        }
+    }
+}
+exports.extendNotification = extendNotification;
 //# sourceMappingURL=objects.js.map

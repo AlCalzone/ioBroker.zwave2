@@ -192,7 +192,8 @@ class ZWave2 extends utils.Adapter {
             .on("value removed", this.onNodeValueRemoved.bind(this))
             .on("metadata updated", this.onNodeMetadataUpdated.bind(this))
             .on("firmware update progress", this.onNodeFirmwareUpdateProgress.bind(this))
-            .on("firmware update finished", this.onNodeFirmwareUpdateFinished.bind(this));
+            .on("firmware update finished", this.onNodeFirmwareUpdateFinished.bind(this))
+            .on("notification", this.onNodeNotification.bind(this));
     }
     async onNodeReady(node) {
         // Only execute this once
@@ -268,7 +269,9 @@ class ZWave2 extends utils.Adapter {
             // select those states that are not desired
             .filter((id) => !desiredStateIds.has(id))
             // filter out those states that are not under a CC channel
-            .filter((id) => id.slice(nodeAbsoluteId.length + 1).includes("."));
+            .filter((id) => id.slice(nodeAbsoluteId.length + 1).includes("."))
+            // and filter out those states that are for a notification event
+            .filter((id) => { var _a, _b; return !((_b = (_a = this.oObjects[id]) === null || _a === void 0 ? void 0 : _a.native) === null || _b === void 0 ? void 0 : _b.notificationEvent); });
         for (const id of unusedStates) {
             this.log.warn(`Deleting orphaned state ${id}`);
             try {
@@ -369,6 +372,10 @@ class ZWave2 extends utils.Adapter {
             status,
             waitTime,
         });
+    }
+    async onNodeNotification(node, notificationLabel, parameters) {
+        this.log.debug(`Node ${node.id}: received notification: ${notificationLabel}`);
+        await objects_2.extendNotification(node, notificationLabel, parameters);
     }
     /**
      * Is called when adapter shuts down - callback has to be called under any circumstances!
@@ -471,6 +478,7 @@ class ZWave2 extends utils.Adapter {
                     this.log.error(`Node ${nodeId} does not exist!`);
                     return;
                 }
+                // Some CCs accept Buffers. In order to edit them in ioBroker, we support parsing strings like "0xbada55" as Buffers.
                 let newValue = state.val;
                 if (typeof newValue === "string" && shared_1.isBufferAsHex(newValue)) {
                     newValue = shared_1.bufferFromHex(newValue);
