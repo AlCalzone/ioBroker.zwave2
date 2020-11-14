@@ -1,6 +1,7 @@
-import { CommandClasses, ValueMetadata } from "@zwave-js/core";
+import { CommandClasses, Duration, ValueMetadata } from "@zwave-js/core";
 import { entries } from "alcalzone-shared/objects";
 import { padStart } from "alcalzone-shared/strings";
+import type { CommandClass } from "zwave-js/CommandClass";
 import { NodeStatus, ZWaveNode } from "zwave-js/Node";
 import type {
 	TranslatedValueID,
@@ -152,16 +153,7 @@ export async function extendNode(node: ZWaveNode): Promise<void> {
 		native: nodeToNative(node),
 	};
 
-	// check if we have to update anything
-	if (
-		originalObject == undefined ||
-		JSON.stringify(originalObject.common) !==
-			JSON.stringify(desiredObject.common) ||
-		JSON.stringify(originalObject.native) !==
-			JSON.stringify(desiredObject.native)
-	) {
-		await _.adapter.setObjectAsync(deviceId, desiredObject);
-	}
+	await setOrExtendObject(deviceId, desiredObject, originalObject);
 }
 
 /** Removed all objects that belong to a node */
@@ -316,16 +308,7 @@ export async function extendMetadata(
 		} as any,
 	};
 
-	if (originalObject == undefined) {
-		await _.adapter.setObjectAsync(stateId, objectDefinition);
-	} else if (
-		JSON.stringify(objectDefinition.common) !==
-			JSON.stringify(originalObject.common) ||
-		JSON.stringify(objectDefinition.native) !==
-			JSON.stringify(originalObject.native)
-	) {
-		await _.adapter.extendObjectAsync(stateId, objectDefinition);
-	}
+	await setOrExtendObject(stateId, objectDefinition, originalObject);
 }
 
 export async function removeValue(
@@ -406,4 +389,140 @@ export async function setNodeReady(
 		native: {},
 	});
 	await _.adapter.setStateAsync(stateId, ready, true);
+}
+
+export function computeNotificationId(
+	nodeId: number,
+	label: string,
+	property?: string,
+): string {
+	return [
+		computeDeviceId(nodeId),
+		ccNameToChannelIdFragment("Notification"),
+		[nameToStateId(label), property && nameToStateId(property)]
+			.filter((s) => !!s)
+			.join("_"),
+	].join(".");
+}
+
+async function setOrExtendObject(
+	id: string,
+	definition: ioBroker.SettableObject,
+	original: ioBroker.Object | undefined,
+) {
+	if (original == undefined) {
+		await _.adapter.setObjectAsync(id, definition);
+	} else if (
+		JSON.stringify(definition.common) !== JSON.stringify(original.common) ||
+		JSON.stringify(definition.native) !== JSON.stringify(original.native)
+	) {
+		await _.adapter.extendObjectAsync(id, definition);
+	}
+}
+
+async function setNotificationValue(
+	nodeId: number,
+	label: string,
+	property: string | undefined,
+	value: boolean | number | string | Duration = true,
+): Promise<void> {
+	const stateId = computeNotificationId(nodeId, label, property);
+	const originalObject =
+		_.adapter.oObjects[`${_.adapter.namespace}.${stateId}`];
+
+	const newStateName =
+		_.adapter.config.preserveStateNames && originalObject?.common.name
+			? // Keep the original name if one exists and it should be preserved
+			  originalObject.common.name
+			: // Otherwise use the given label (and property name)
+			  `${label}${!!property ? ` (${property})` : ""}`;
+
+	const objectDefinition: ioBroker.SettableObjectWorker<ioBroker.StateObject> = {
+		type: "state",
+		common:
+			typeof value === "boolean"
+				? {
+						role: "indicator",
+						read: true,
+						write: false,
+						name: newStateName,
+						type: "boolean",
+				  }
+				: typeof value === "number"
+				? {
+						role: "value",
+						read: true,
+						write: false,
+						name: newStateName,
+						type: "number",
+				  }
+				: value instanceof Duration
+				? {
+						role: "value.interval",
+						read: true,
+						write: false,
+						name: newStateName,
+						type: "number",
+						unit: "seconds",
+				  }
+				: {
+						role: "text",
+						read: true,
+						write: false,
+						name: newStateName,
+						type: "string",
+				  },
+		native: {
+			nodeId: nodeId,
+			notificationEvent: true,
+		},
+	};
+
+	// Translate the value into something useful
+	let val;
+	if (value instanceof Duration) {
+		val = value.toMilliseconds();
+		if (val == undefined) val = "unknown";
+		else val /= 1000;
+	} else {
+		val = value;
+	}
+
+	await setOrExtendObject(stateId, objectDefinition, originalObject);
+	await _.adapter.setStateAsync(
+		stateId,
+		{
+			val,
+			expire: _.adapter.config.notificationEventValidity ?? 1000,
+		},
+		true,
+	);
+}
+
+export async function extendNotification(
+	node: ZWaveNode,
+	label: string,
+	parameters?:
+		| Buffer
+		| Duration
+		| CommandClass
+		| Record<string, number>
+		| undefined,
+): Promise<void> {
+	if (parameters == undefined) {
+		await setNotificationValue(node.id, label, undefined, true);
+	} else if (Buffer.isBuffer(parameters)) {
+		await setNotificationValue(
+			node.id,
+			label,
+			undefined,
+			parameters.toString("hex"),
+		);
+	} else if (parameters instanceof Duration) {
+		await setNotificationValue(node.id, label, undefined, parameters);
+	} else {
+		for (const [key, value] of Object.entries(parameters)) {
+			await setNotificationValue(node.id, label, key, value);
+		}
+	}
 }

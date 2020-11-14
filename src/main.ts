@@ -1,5 +1,5 @@
 import * as utils from "@iobroker/adapter-core";
-import { CommandClasses } from "@zwave-js/core";
+import { CommandClasses, Duration } from "@zwave-js/core";
 import { composeObject } from "alcalzone-shared/objects";
 import { isArray } from "alcalzone-shared/typeguards";
 import * as fs from "fs-extra";
@@ -18,6 +18,7 @@ import type {
 	Association,
 	AssociationGroup,
 	CCAPI,
+	CommandClass,
 	FirmwareUpdateStatus,
 } from "zwave-js/CommandClass";
 import type { HealNodeStatus } from "zwave-js/Controller";
@@ -38,6 +39,7 @@ import {
 	extendCC,
 	extendMetadata,
 	extendNode,
+	extendNotification,
 	extendValue,
 	nodeStatusToStatusState,
 	removeNode,
@@ -301,7 +303,8 @@ export class ZWave2 extends utils.Adapter<true> {
 			.on(
 				"firmware update finished",
 				this.onNodeFirmwareUpdateFinished.bind(this),
-			);
+			)
+			.on("notification", this.onNodeNotification.bind(this));
 	}
 
 	private async onNodeReady(node: ZWaveNode): Promise<void> {
@@ -424,7 +427,9 @@ export class ZWave2 extends utils.Adapter<true> {
 			// select those states that are not desired
 			.filter((id) => !desiredStateIds.has(id))
 			// filter out those states that are not under a CC channel
-			.filter((id) => id.slice(nodeAbsoluteId.length + 1).includes("."));
+			.filter((id) => id.slice(nodeAbsoluteId.length + 1).includes("."))
+			// and filter out those states that are for a notification event
+			.filter((id) => !this.oObjects[id]?.native?.notificationEvent);
 
 		for (const id of unusedStates) {
 			this.log.warn(`Deleting orphaned state ${id}`);
@@ -601,6 +606,22 @@ export class ZWave2 extends utils.Adapter<true> {
 			status,
 			waitTime,
 		});
+	}
+
+	private async onNodeNotification(
+		node: ZWaveNode,
+		notificationLabel: string,
+		parameters?:
+			| Buffer
+			| Duration
+			| CommandClass
+			| Record<string, number>
+			| undefined,
+	): Promise<void> {
+		this.log.debug(
+			`Node ${node.id}: received notification: ${notificationLabel}`,
+		);
+		await extendNotification(node, notificationLabel, parameters);
 	}
 
 	/**

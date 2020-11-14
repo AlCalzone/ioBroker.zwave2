@@ -8,5 +8,6 @@ declare namespace ioBroker {
 		driver_increaseSendAttempts: boolean;
 		switchCompat: boolean;
 		preserveStateNames: boolean;
+		notificationEventValidity: number;
 	}
 }
