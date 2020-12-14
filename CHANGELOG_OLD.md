@@ -1,4 +1,15 @@
 # Older changes
+## 1.7.7 (2020-10-21)
+* Objects and states are now created for all nodes immediately after the driver is ready
+* States are no longer marked as stale (orange) after a node was interviewed for the first time
+* Fixed an error that would cause the interview of nodes with `User Code CC` V1 to abort
+* Fixed an error that would cause the interview of nodes which support `Central Scene CC` but not `Association Group Information CC` to abort
+* For several CCs, the interview now continues without a fresh value if the node does not respond to a non-critical request
+* Fixed the secure inclusion process for some devices that would behave strangely when nonces were sent without requesting an acknowledgement
+* Fixed an error during logging of a `DoorLockCC::ConfigurationSet` command
+* After a complete interview, battery-powered nodes that are temporarily mains-powered (e.g. Multisensor 6 with USB power), are no longer sent into a "go to sleep" loop
+* When a node requests multiple nonces in a short timespan, only respond to the most recent request
+
 ## 1.7.6 (2020-10-15)
 * The roles of states are now determined depending on the value they represent instead of just `"value"`
 * Added a new option to configure if user-defined names for states may be overwritten
