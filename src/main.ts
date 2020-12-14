@@ -1150,7 +1150,9 @@ export class ZWave2 extends utils.Adapter<true> {
 					const { nodeId, filename, firmware } = obj.message as any;
 					if (
 						isArray(firmware) &&
-						firmware.every((byte) => typeof byte === "number")
+						firmware.every(
+							(byte: unknown) => typeof byte === "number",
+						)
 					) {
 						// Extract the firmware from the uploaded file
 						const rawData = Buffer.from(firmware);
