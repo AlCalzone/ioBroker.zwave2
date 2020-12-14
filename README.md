@@ -40,6 +40,21 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	### __WORK IN PROGRESS__
 -->
 
+### __WORK IN PROGRESS__
+* The `targetValue` of switch-type CCs is no longer overwritten with `undefined` when a report without target value is received
+* Added a config file for `Jasco ZW3010`
+* Added a config file for `HeatIt Z-TRM3`
+* Added a config file for `Eurotronic Air quality sensor (Luftgütesensor)`
+* Improved support for `Qubino Flush 2 Relay`
+* The `Multi Channel Association CC`, `Z-Wave+ CC` and `Node Naming and Location CC` values are now hidden
+* `Color Switch CC`: Setting the **warm white** `targetValue` no longer falsely claims that the `propertyKey` is missing
+* Removed some debug logging which could blow up the log file size
+* Removing a node association no longer throws an error when both multi channel and normal associations are supported.
+* `Notification CC Reports` are now parsed correctly when the `V1 Alarm` bytes are not zero
+* Added support for `*.gbl` firmware files and Aeotec updater executables which include a checksum and a target chip byte.
+* Fixed an issue where the wrong response could be mapped to some commands
+* ... and some more minor bugfixes
+
 ### 1.8.0 (2020-11-14)
 * Improved config files for Fibaro Keyfob (no special chars anymore) and Shenzhen Neo PD03Z
 * Non-critical steps during the interview of `Central Scene CC`, `Configuration CC V3+` and `Association Group Info CC` are now skipped when the node does not respond or responds incorrectly
