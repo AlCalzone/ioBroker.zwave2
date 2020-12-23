@@ -1,4 +1,12 @@
 # Older changes
+## 1.7.8 (2020-10-25)
+* Fixed a crash while sending a `Door Lock` command under specific circumstances
+* The timespan that a node is assumed to be awake is now prolonged when it acknowledges a command
+* Fixed a bug where `Alarm Sensor CC` reports could be assigned to a non-existing node
+* Including nodes which can act as controllers is now supported
+* For nodes with an `unknown` status, the "remove failed node" button is now enabled
+* The loglevel for warnings about insecure communication because of a missing network key has been reduced to warning.
+
 ## 1.7.7 (2020-10-21)
 * Objects and states are now created for all nodes immediately after the driver is ready
 * States are no longer marked as stale (orange) after a node was interviewed for the first time

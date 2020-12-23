@@ -40,7 +40,7 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	### __WORK IN PROGRESS__
 -->
 
-### __WORK IN PROGRESS__
+### 1.8.2 (2020-12-23)
 * When a node does not respond because it is asleep, the message is no longer discarded. This should improve the interview behavior of sleeping nodes.
 * Added new config files
 * Fixed wrong label and description for Z-Wave.Me UZB
@@ -79,14 +79,6 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 
 ### 1.7.9 (2020-11-01)
 * Fixed a crash in the adapter settings when a node's device type is not yet set
-
-### 1.7.8 (2020-10-25)
-* Fixed a crash while sending a `Door Lock` command under specific circumstances
-* The timespan that a node is assumed to be awake is now prolonged when it acknowledges a command
-* Fixed a bug where `Alarm Sensor CC` reports could be assigned to a non-existing node
-* Including nodes which can act as controllers is now supported
-* For nodes with an `unknown` status, the "remove failed node" button is now enabled
-* The loglevel for warnings about insecure communication because of a missing network key has been reduced to warning.
 
 ## License
 
