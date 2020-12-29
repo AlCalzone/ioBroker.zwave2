@@ -316,7 +316,11 @@ export async function removeValue(
 	args: ZWaveNodeValueRemovedArgs,
 ): Promise<void> {
 	const stateId = computeId(nodeId, args);
-	await _.adapter.delObjectAsync(stateId);
+	try {
+		await _.adapter.delObjectAsync(stateId);
+	} catch {
+		// ignore, the object does not exist
+	}
 }
 
 function valueTypeToIOBrokerType(
