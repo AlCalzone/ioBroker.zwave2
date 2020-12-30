@@ -1,4 +1,7 @@
 # Older changes
+## 1.7.9 (2020-11-01)
+* Fixed a crash in the adapter settings when a node's device type is not yet set
+
 ## 1.7.8 (2020-10-25)
 * Fixed a crash while sending a `Door Lock` command under specific circumstances
 * The timespan that a node is assumed to be awake is now prolonged when it acknowledges a command
