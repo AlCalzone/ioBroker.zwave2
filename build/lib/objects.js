@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.extendNotification = exports.computeNotificationId = exports.setNodeReady = exports.setNodeStatus = exports.removeValue = exports.extendMetadata = exports.extendValue = exports.extendCC = exports.removeNode = exports.extendNode = exports.computeId = exports.computeChannelId = exports.ccNameToChannelIdFragment = exports.nameToStateId = exports.nodeStatusToStatusState = void 0;
+exports.extendNotification = exports.computeNotificationId = exports.setNodeReady = exports.setNodeStatus = exports.removeValue = exports.extendMetadata = exports.extendNotificationValue = exports.extendValue = exports.extendCC = exports.removeNode = exports.extendNode = exports.computeId = exports.computeChannelId = exports.ccNameToChannelIdFragment = exports.nameToStateId = exports.nodeStatusToStatusState = void 0;
 const core_1 = require("@zwave-js/core");
 const objects_1 = require("alcalzone-shared/objects");
 const strings_1 = require("alcalzone-shared/strings");
@@ -205,6 +205,28 @@ async function extendValue(node, args, fromCache = false) {
     }
 }
 exports.extendValue = extendValue;
+async function extendNotificationValue(node, args) {
+    var _a;
+    const stateId = computeId(node.id, args);
+    await extendMetadata(node, args);
+    try {
+        let value = (_a = args.value) !== null && _a !== void 0 ? _a : null;
+        if (Buffer.isBuffer(value)) {
+            // We cannot store Buffers in ioBroker, encode them as HEX
+            value = shared_1.buffer2hex(value);
+        }
+        const state = {
+            val: value,
+            ack: true,
+            expire: 1,
+        };
+        await global_1.Global.adapter.setStateAsync(stateId, state);
+    }
+    catch (e) {
+        global_1.Global.adapter.log.error(`Cannot set state "${stateId}" in ioBroker: ${e}`);
+    }
+}
+exports.extendNotificationValue = extendNotificationValue;
 async function extendMetadata(node, args) {
     const stateId = computeId(node.id, args);
     const metadata = ("metadata" in args && args.metadata) || node.getValueMetadata(args);
@@ -251,7 +273,12 @@ async function extendMetadata(node, args) {
 exports.extendMetadata = extendMetadata;
 async function removeValue(nodeId, args) {
     const stateId = computeId(nodeId, args);
-    await global_1.Global.adapter.delObjectAsync(stateId);
+    try {
+        await global_1.Global.adapter.delObjectAsync(stateId);
+    }
+    catch (_a) {
+        // ignore, the object does not exist
+    }
 }
 exports.removeValue = removeValue;
 function valueTypeToIOBrokerType(valueType) {

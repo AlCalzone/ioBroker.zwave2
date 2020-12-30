@@ -15,6 +15,10 @@ import {
 	ZWaveOptions,
 } from "zwave-js";
 import type {
+	NodeInterviewFailedEventArgs,
+	ZWaveNodeValueNotificationArgs,
+} from "zwave-js/build/lib/node/Types";
+import type {
 	Association,
 	AssociationGroup,
 	CCAPI,
@@ -40,6 +44,7 @@ import {
 	extendMetadata,
 	extendNode,
 	extendNotification,
+	extendNotificationValue,
 	extendValue,
 	nodeStatusToStatusState,
 	removeNode,
@@ -112,18 +117,12 @@ export class ZWave2 extends utils.Adapter<true> {
 			return;
 		}
 
-		// Enable zwave-js logging
-		if (this.config.writeLogFile) {
-			process.env.LOGTOFILE = "true";
-		}
-
 		// Apply adapter configuration
 		const timeouts: Partial<ZWaveOptions["timeouts"]> | undefined = this
 			.config.driver_increaseTimeouts
 			? {
 					ack: 2000,
 					response: 3000,
-					report: 5000,
 			  }
 			: undefined;
 		const attempts: Partial<ZWaveOptions["attempts"]> | undefined = this
@@ -140,7 +139,12 @@ export class ZWave2 extends utils.Adapter<true> {
 		this.driver = new Driver(this.config.serialport, {
 			timeouts,
 			attempts,
-			cacheDir,
+			logConfig: {
+				logToFile: !!this.config.writeLogFile,
+			},
+			storage: {
+				cacheDir,
+			},
 			networkKey,
 		});
 		this.driver.once("driver ready", async () => {
@@ -287,6 +291,7 @@ export class ZWave2 extends utils.Adapter<true> {
 
 	private addNodeEventHandlers(node: ZWaveNode): void {
 		node.on("ready", this.onNodeReady.bind(this))
+			.on("interview failed", this.onNodeInterviewFailed.bind(this))
 			.on("interview completed", this.onNodeInterviewCompleted.bind(this))
 			.on("wake up", this.onNodeWakeUp.bind(this))
 			.on("sleep", this.onNodeSleep.bind(this))
@@ -295,6 +300,7 @@ export class ZWave2 extends utils.Adapter<true> {
 			.on("value added", this.onNodeValueAdded.bind(this))
 			.on("value updated", this.onNodeValueUpdated.bind(this))
 			.on("value removed", this.onNodeValueRemoved.bind(this))
+			.on("value notification", this.onNodeValueNotification.bind(this))
 			.on("metadata updated", this.onNodeMetadataUpdated.bind(this))
 			.on(
 				"firmware update progress",
@@ -456,9 +462,24 @@ export class ZWave2 extends utils.Adapter<true> {
 		}
 	}
 
+	private async onNodeInterviewFailed(
+		node: ZWaveNode,
+		args: NodeInterviewFailedEventArgs,
+	): Promise<void> {
+		if (args.isFinal) {
+			this.log.error(
+				`Node ${node.id} interview failed: ${args.errorMessage}`,
+			);
+		} else {
+			this.log.warn(
+				`Node ${node.id} interview failed: ${args.errorMessage}`,
+			);
+		}
+	}
+
 	private async onNodeInterviewCompleted(node: ZWaveNode): Promise<void> {
 		this.log.info(
-			`Node ${node.id}: interview completed, all values are updated`,
+			`Node ${node.id} interview completed, all values are updated`,
 		);
 	}
 
@@ -544,6 +565,20 @@ export class ZWave2 extends utils.Adapter<true> {
 		);
 		await extendValue(node, args);
 		if (this.config.switchCompat) await this.syncSwitchStates(node, args);
+	}
+
+	private async onNodeValueNotification(
+		node: ZWaveNode,
+		args: ZWaveNodeValueNotificationArgs,
+	): Promise<void> {
+		let propertyName = computeId(node.id, args);
+		propertyName = propertyName.substr(propertyName.lastIndexOf(".") + 1);
+		this.log.debug(
+			`Node ${node.id}: value notification: ${propertyName} = ${String(
+				args.value,
+			)}`,
+		);
+		await extendNotificationValue(node, args);
 	}
 
 	/** Overwrites `targetValue` states with `currentValue` */

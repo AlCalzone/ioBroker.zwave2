@@ -1,6 +1,7 @@
 import { CommandClasses, Duration, ValueMetadata } from "@zwave-js/core";
 import { entries } from "alcalzone-shared/objects";
 import { padStart } from "alcalzone-shared/strings";
+import type { ZWaveNodeValueNotificationArgs } from "zwave-js/build/lib/node/Types";
 import type { CommandClass } from "zwave-js/CommandClass";
 import { NodeStatus, ZWaveNode } from "zwave-js/Node";
 import type {
@@ -19,6 +20,7 @@ type ZWaveNodeArgs =
 	| ZWaveNodeValueAddedArgs
 	| ZWaveNodeValueUpdatedArgs
 	| ZWaveNodeValueRemovedArgs
+	| ZWaveNodeValueNotificationArgs
 	| ZWaveNodeMetadataUpdatedArgs;
 
 export function nodeStatusToStatusState(status: NodeStatus): string {
@@ -249,6 +251,30 @@ export async function extendValue(
 		} else {
 			await _.adapter.setStateAsync(stateId, state);
 		}
+	} catch (e) {
+		_.adapter.log.error(`Cannot set state "${stateId}" in ioBroker: ${e}`);
+	}
+}
+
+export async function extendNotificationValue(
+	node: ZWaveNode,
+	args: ZWaveNodeValueNotificationArgs,
+): Promise<void> {
+	const stateId = computeId(node.id, args);
+
+	await extendMetadata(node, args);
+	try {
+		let value = args.value ?? null;
+		if (Buffer.isBuffer(value)) {
+			// We cannot store Buffers in ioBroker, encode them as HEX
+			value = buffer2hex(value);
+		}
+		const state: ioBroker.SettableState = {
+			val: value as any,
+			ack: true,
+			expire: 1,
+		};
+		await _.adapter.setStateAsync(stateId, state);
 	} catch (e) {
 		_.adapter.log.error(`Cannot set state "${stateId}" in ioBroker: ${e}`);
 	}

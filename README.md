@@ -40,6 +40,13 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	### __WORK IN PROGRESS__
 -->
 
+### __WORK IN PROGRESS__
+* Added a config file for `Technisat Dimmer and series switch`
+* The `level low` property of the `Battery CC` is now called `Battery Level Low`
+* Fixed a bug where the wrong `Binary Sensor` types were requested. To fix this, affected devices must be re-interviewed
+* The retry strategy for sending commands to nodes has been revised. This should improve communication with devices that take long to respond.
+* Some event values like `Central Scene CC` scenes are now automatically cleared after 1 second.
+
 ### 1.8.2 (2020-12-23)
 * When a node does not respond because it is asleep, the message is no longer discarded. This should improve the interview behavior of sleeping nodes.
 * Added new config files
