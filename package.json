@@ -58,7 +58,7 @@
     "@types/fs-extra": "^9.0.6",
     "@types/gulp": "^4.0.7",
     "@types/jest": "^26.0.19",
-    "@types/jquery": "^3.5.4",
+    "@types/jquery": "^3.5.5",
     "@types/materialize-css": "^1.0.8",
     "@types/mocha": "^8.2.0",
     "@types/node": "^14.14.17",
