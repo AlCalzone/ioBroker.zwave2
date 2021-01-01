@@ -57,7 +57,7 @@
     "@types/d3-scale-chromatic": "^2.0.0",
     "@types/fs-extra": "^9.0.2",
     "@types/gulp": "^4.0.7",
-    "@types/jest": "^26.0.15",
+    "@types/jest": "^26.0.19",
     "@types/jquery": "^3.5.4",
     "@types/materialize-css": "^1.0.8",
     "@types/mocha": "^8.0.4",
