@@ -48,7 +48,7 @@
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.12.1",
     "@babel/plugin-proposal-numeric-separator": "^7.12.7",
     "@babel/plugin-proposal-optional-chaining": "^7.12.7",
-    "@babel/preset-env": "^7.11.5",
+    "@babel/preset-env": "^7.12.11",
     "@babel/preset-typescript": "^7.12.7",
     "@iobroker/testing": "^2.4.0",
     "@types/chai": "^4.2.14",
