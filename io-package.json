@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "1.8.3",
+        "version": "1.8.4",
         "news": {
+            "1.8.4": {
+                "en": "Logfiles are created again",
+                "de": "Protokolldateien werden erneut erstellt",
+                "ru": "Лог-файлы создаются снова",
+                "pt": "Os arquivos de log são criados novamente",
+                "nl": "Logfiles worden opnieuw aangemaakt",
+                "fr": "Les fichiers journaux sont à nouveau créés",
+                "it": "I file di registro vengono creati di nuovo",
+                "es": "Los archivos de registro se crean de nuevo",
+                "pl": "Pliki dziennika są tworzone ponownie",
+                "zh-cn": "再次创建日志文件"
+            },
             "1.8.3": {
                 "en": "Added a config file for `Technisat Dimmer and series switch`\nThe `level low` property of the `Battery CC` is now called `Battery Level Low`\nFixed a bug where the wrong `Binary Sensor` types were requested. To fix this, affected devices must be re-interviewed\nThe retry strategy for sending commands to nodes has been revised. This should improve communication with devices that take long to respond.\nSome event values like `Central Scene CC` scenes are now automatically cleared after 1 second.",
                 "de": "Es wurde eine Konfigurationsdatei für \"Technisat Dimmer and Series Switch\" hinzugefügt\nDie Eigenschaft \"Level Low\" des \"Battery CC\" wird jetzt als \"Battery Level Low\" bezeichnet\nEs wurde ein Fehler behoben, durch den die falschen \"Binärsensor\" -Typen angefordert wurden. Um dies zu beheben, müssen betroffene Geräte erneut befragt werden\nDie Wiederholungsstrategie zum Senden von Befehlen an Knoten wurde überarbeitet. Dies sollte die Kommunikation mit Geräten verbessern, deren Reaktion lange dauert.\nEinige Ereigniswerte wie \"Central Scene CC\" -Szenen werden jetzt nach 1 Sekunde automatisch gelöscht.",
@@ -230,18 +242,6 @@
                 "es": "Se agregó la posibilidad de enviar informes de sensores multinivel desde scripts\nActualizaciones de dependencia para correcciones de errores y seguridad",
                 "pl": "Dodano możliwość wysyłania `Multilevel Sensor Report` ze skryptów\nAktualizacje zależności dla poprawek błędów i zabezpieczeń",
                 "zh-cn": "添加了从脚本发送“多级传感器报告”的可能性\n漏洞和安全修复程序的依赖关系更新"
-            },
-            "1.5.0": {
-                "en": "Added the possibility to send custom commands from scripts ([documentation](docs/en/sendCommand.md)).\nAdded a `reset` state under `Meter CC`\nBugfix: Logs are no longer split across multiple files",
-                "de": "Es wurde die Möglichkeit hinzugefügt, benutzerdefinierte Befehle aus Skripten zu senden ([Dokumentation] (docs / de / sendCommand.md)).\nEin \"Reset\" -Zustand wurde unter \"Meter CC\" hinzugefügt\nBugfix: Protokolle werden nicht mehr auf mehrere Dateien aufgeteilt",
-                "ru": "Добавлена возможность отправки пользовательских команд из скриптов ([документация] (docs / en / sendCommand.md)).\nДобавлено состояние сброса в Meter CC\nИсправлено: журналы больше не разделяются на несколько файлов",
-                "pt": "Foi adicionada a possibilidade de enviar comandos personalizados a partir de scripts ([documentação] (docs / en / sendCommand.md)).\nAdicionado um estado de `reset` em` Meter CC`\nCorreção de bug: os logs não são mais divididos em vários arquivos",
-                "nl": "Mogelijkheid toegevoegd om aangepaste opdrachten vanuit scripts te verzenden ([documentatie] (docs / en / sendCommand.md)).\nEen `reset` status toegevoegd onder` Meter CC`\nBugfix: Logs zijn niet langer verdeeld over meerdere bestanden",
-                "fr": "Ajout de la possibilité d'envoyer des commandes personnalisées à partir de scripts ([documentation] (docs / en / sendCommand.md)).\nAjout d'un état `reset` sous` Meter CC`\nCorrectif: les journaux ne sont plus répartis sur plusieurs fichiers",
-                "it": "Aggiunta la possibilità di inviare comandi personalizzati dagli script ([documentazione] (docs / en / sendCommand.md)).\nAggiunto uno stato `reset` sotto` Meter CC`\nBugfix: i log non sono più suddivisi su più file",
-                "es": "Se agregó la posibilidad de enviar comandos personalizados desde scripts ([documentación] (docs / en / sendCommand.md)).\nSe agregó un estado `reset` en` Meter CC`\nCorrección de errores: los registros ya no se dividen en varios archivos",
-                "pl": "Dodano możliwość wysyłania niestandardowych poleceń ze skryptów ([dokumentacja] (docs / en / sendCommand.md)).\nDodano stan „reset” w „Meter CC”\nPoprawka: dzienniki nie są już dzielone na wiele plików",
-                "zh-cn": "添加了从脚本（[documentation]（docs / zh / sendCommand.md））发送自定义命令的可能性。\n在“仪表CC”下添加了“重置”状态\n错误修正：日志不再拆分成多个文件"
             }
         },
         "title": "Z-Wave 2",
