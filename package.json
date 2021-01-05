@@ -40,7 +40,7 @@
     "zwave-js": "^6.0.0-alpha.2"
   },
   "devDependencies": {
-    "@alcalzone/release-script": "^1.8.1",
+    "@alcalzone/release-script": "^1.8.2",
     "@babel/cli": "^7.12.10",
     "@babel/core": "^7.12.10",
     "@babel/plugin-proposal-class-properties": "^7.12.1",
