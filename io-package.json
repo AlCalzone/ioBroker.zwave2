@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "1.8.4",
+        "version": "1.8.5",
         "news": {
+            "1.8.5": {
+                "en": "The interview is no longer aborted when a device does not respond to the Wakeup Capability query\nFixed a crash that could happen when compressing the value DB with an existing backup file\nAdded and updated several config files",
+                "de": "Das Interview wird nicht mehr abgebrochen, wenn ein Gerät nicht auf die Wakeup Capability-Abfrage antwortet\nEs wurde ein Absturz behoben, der beim Komprimieren der Wert-DB mit einer vorhandenen Sicherungsdatei auftreten konnte\nMehrere Konfigurationsdateien hinzugefügt und aktualisiert",
+                "ru": "Интервью больше не прерывается, если устройство не отвечает на запрос возможности пробуждения.\nИсправлен сбой, который мог произойти при сжатии значения DB с существующим файлом резервной копии\nДобавлены и обновлены несколько файлов конфигурации",
+                "pt": "A entrevista não é mais abortada quando um dispositivo não responde à consulta de capacidade de despertar\nCorrigida uma falha que poderia acontecer ao compactar o valor DB com um arquivo de backup existente\nAdicionados e atualizados vários arquivos de configuração",
+                "nl": "Het interview wordt niet langer afgebroken wanneer een apparaat niet reageert op de Wakeup Capability-vraag\nEen crash verholpen die kon optreden bij het comprimeren van de waarde DB met een bestaand back-upbestand\nDiverse configuratiebestanden toegevoegd en bijgewerkt",
+                "fr": "L'interview n'est plus interrompue lorsqu'un appareil ne répond pas à la requête de capacité de réveil\nCorrection d'un plantage pouvant survenir lors de la compression de la base de données de valeur avec un fichier de sauvegarde existant\nAjout et mise à jour de plusieurs fichiers de configuration",
+                "it": "L'intervista non viene più interrotta quando un dispositivo non risponde alla query sulla capacità di risveglio\nRisolto un crash che poteva verificarsi durante la compressione del valore DB con un file di backup esistente\nAggiunti e aggiornati diversi file di configurazione",
+                "es": "La entrevista ya no se cancela cuando un dispositivo no responde a la consulta de capacidad de activación.\nSe corrigió un bloqueo que podía ocurrir al comprimir la base de datos de valor con un archivo de respaldo existente\nSe agregaron y actualizaron varios archivos de configuración",
+                "pl": "Rozmowa kwalifikacyjna nie jest już przerywana, gdy urządzenie nie odpowiada na zapytanie o funkcję Wakeup\nNaprawiono awarię, która mogła wystąpić podczas kompresowania wartości DB z istniejącym plikiem kopii zapasowej\nDodano i zaktualizowałem kilka plików konfiguracyjnych",
+                "zh-cn": "当设备不响应唤醒功能查询时，访问不再中止\n修复了使用现有备份文件压缩值数据库时可能发生的崩溃\n添加并更新了几个配置文件"
+            },
             "1.8.4": {
                 "en": "Logfiles are created again",
                 "de": "Protokolldateien werden erneut erstellt",
@@ -230,18 +242,6 @@
                 "es": "Se corrigieron problemas de entrevistas con dispositivos que afirman ser compatibles con \"Basic CC\", pero no responden",
                 "pl": "Naprawiono problemy z rozmową kwalifikacyjną z urządzeniami, które twierdzą, że obsługują „Basic CC”, ale nie odpowiadają",
                 "zh-cn": "修复了声称支持“基本抄送”但不响应的设备的采访问题"
-            },
-            "1.6.0": {
-                "en": "Added the possibility to send `Multilevel Sensor Report`s from scripts\nDependency updates for bug and security fixes",
-                "de": "Es wurde die Möglichkeit hinzugefügt, \"Multilevel Sensor Report\" aus Skripten zu senden\nAbhängigkeitsaktualisierungen für Fehler- und Sicherheitskorrekturen",
-                "ru": "Добавлена возможность отправки `Multilevel Sensor Report`s из скриптов\nОбновления зависимостей для исправлений ошибок и безопасности",
-                "pt": "Adicionada a possibilidade de enviar `Relatório de Sensor Multinível`s de scripts\nAtualizações de dependência para correções de bugs e segurança",
-                "nl": "De mogelijkheid toegevoegd om `Multilevel Sensor Report`s vanuit scripts te versturen\nAfhankelijkheidsupdates voor bug- en beveiligingsoplossingen",
-                "fr": "Ajout de la possibilité d'envoyer des rapports de capteur à plusieurs niveaux à partir de scripts\nMises à jour des dépendances pour les corrections de bogues et de sécurité",
-                "it": "Aggiunta la possibilità di inviare \"Report sui sensori multilivello\" dagli script\nAggiornamenti delle dipendenze per correzioni di bug e sicurezza",
-                "es": "Se agregó la posibilidad de enviar informes de sensores multinivel desde scripts\nActualizaciones de dependencia para correcciones de errores y seguridad",
-                "pl": "Dodano możliwość wysyłania `Multilevel Sensor Report` ze skryptów\nAktualizacje zależności dla poprawek błędów i zabezpieczeń",
-                "zh-cn": "添加了从脚本发送“多级传感器报告”的可能性\n漏洞和安全修复程序的依赖关系更新"
             }
         },
         "title": "Z-Wave 2",

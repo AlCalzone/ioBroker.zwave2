@@ -1,4 +1,13 @@
 # Older changes
+## 1.8.0 (2020-11-14)
+* Improved config files for Fibaro Keyfob (no special chars anymore) and Shenzhen Neo PD03Z
+* Non-critical steps during the interview of `Central Scene CC`, `Configuration CC V3+` and `Association Group Info CC` are now skipped when the node does not respond or responds incorrectly
+* Multi Channel Lifeline Associations are no longer created automatically if the device does not support the `Multi Channel CC` - this should fix compatibility with most Qubino devices
+* Fixed an issue where marking nodes with active transaction as asleep would mess up the serial communication with the controller
+* Empty user codes are now also handled as strings instead of Buffer objects
+* The `targetValue` property for the `Binary Switch`, `Multilevel Switch` and `Basic` CCs is now created even if it has no value
+* Values for Notification events (one-time events) are now created. Previously only Notification variables were available as states
+
 ## 1.7.10 (2020-11-04)
 * Improved compatibility with devices that don't follow the `User Code CC` and `Notification CC` specifications correctly (like Zipato Keypad)
 * Added the ability to edit binary values (e.g. RFID codes) using hexadecimal strings, e.g. `0xbada55`.
