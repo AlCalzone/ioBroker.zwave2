@@ -40,6 +40,11 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	### __WORK IN PROGRESS__
 -->
 
+### __WORK IN PROGRESS__
+* The interview is no longer aborted when a device does not respond to the Wakeup Capability query
+* Fixed a crash that could happen when compressing the value DB with an existing backup file
+* Added and updated several config files
+
 ### 1.8.4 (2021-01-03)
 * Logfiles are created again
 
