@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "1.8.5",
+        "version": "1.8.6",
         "news": {
+            "1.8.6": {
+                "en": "Many, many changes... See https://github.com/zwave-js/node-zwave-js/blob/master/CHANGELOG.md#changelog for details",
+                "de": "Viele, viele Änderungen ... Weitere Informationen finden Sie unter https://github.com/zwave-js/node-zwave-js/blob/master/CHANGELOG.md#changelog",
+                "ru": "Много-много изменений ... Подробнее см. Https://github.com/zwave-js/node-zwave-js/blob/master/CHANGELOG.md#changelog.",
+                "pt": "Muitas, muitas mudanças ... Consulte https://github.com/zwave-js/node-zwave-js/blob/master/CHANGELOG.md#changelog para obter detalhes",
+                "nl": "Heel veel veranderingen ... Zie https://github.com/zwave-js/node-zwave-js/blob/master/CHANGELOG.md#changelog voor details",
+                "fr": "Beaucoup, beaucoup de changements ... Voir https://github.com/zwave-js/node-zwave-js/blob/master/CHANGELOG.md#changelog pour plus de détails",
+                "it": "Molte, molte modifiche ... Vedi https://github.com/zwave-js/node-zwave-js/blob/master/CHANGELOG.md#changelog per i dettagli",
+                "es": "Muchos, muchos cambios ... Consulte https://github.com/zwave-js/node-zwave-js/blob/master/CHANGELOG.md#changelog para obtener más detalles",
+                "pl": "Wiele, wiele zmian ... Zobacz https://github.com/zwave-js/node-zwave-js/blob/master/CHANGELOG.md#changelog po szczegóły",
+                "zh-cn": "许多很多变化...有关详细信息，请参见https://github.com/zwave-js/node-zwave-js/blob/master/CHANGELOG.md#changelog"
+            },
             "1.8.5": {
                 "en": "The interview is no longer aborted when a device does not respond to the Wakeup Capability query\nFixed a crash that could happen when compressing the value DB with an existing backup file\nAdded and updated several config files",
                 "de": "Das Interview wird nicht mehr abgebrochen, wenn ein Gerät nicht auf die Wakeup Capability-Abfrage antwortet\nEs wurde ein Absturz behoben, der beim Komprimieren der Wert-DB mit einer vorhandenen Sicherungsdatei auftreten konnte\nMehrere Konfigurationsdateien hinzugefügt und aktualisiert",
@@ -230,18 +242,6 @@
                 "es": "Carga de CPU reducida en redes grandes",
                 "pl": "Zmniejszone obciążenie procesora w dużych sieciach",
                 "zh-cn": "减少大型网络中的CPU负载"
-            },
-            "1.6.1": {
-                "en": "Fixed interview issues with devices that claim they support `Basic CC`, but don't respond",
-                "de": "Interviewprobleme mit Geräten behoben, die behaupten, dass sie \"Basic CC\" unterstützen, aber nicht antworten",
-                "ru": "Исправлены проблемы с интервью с устройствами, которые утверждают, что поддерживают `Basic CC`, но не отвечают",
-                "pt": "Problemas de entrevista corrigidos com dispositivos que afirmam ser compatíveis com `CC básico`, mas não respondem",
-                "nl": "Interviewproblemen opgelost met apparaten die beweren dat ze `Basic CC` ondersteunen, maar niet reageren",
-                "fr": "Correction de problèmes d'entretien avec des appareils qui prétendent prendre en charge `Basic CC`, mais ne répondent pas",
-                "it": "Risolti i problemi di intervista con dispositivi che affermano di supportare \"CC di base\", ma non rispondono",
-                "es": "Se corrigieron problemas de entrevistas con dispositivos que afirman ser compatibles con \"Basic CC\", pero no responden",
-                "pl": "Naprawiono problemy z rozmową kwalifikacyjną z urządzeniami, które twierdzą, że obsługują „Basic CC”, ale nie odpowiadają",
-                "zh-cn": "修复了声称支持“基本抄送”但不响应的设备的采访问题"
             }
         },
         "title": "Z-Wave 2",
