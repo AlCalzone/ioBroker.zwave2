@@ -1,4 +1,13 @@
 # Older changes
+## 1.8.2 (2020-12-23)
+* When a node does not respond because it is asleep, the message is no longer discarded. This should improve the interview behavior of sleeping nodes.
+* Added new config files
+* Fixed wrong label and description for Z-Wave.Me UZB
+* Added missing label to Binary Sensor CC
+* Added missing % unit to Battery level
+* The `targetValue` for the `Binary Switch`, `Multilevel Switch` and `Basic` CCs is no longer removed when a report without one is received
+* Some more interview timeouts are ignored
+
 ## 1.8.1 (2020-12-14)
 * The `targetValue` of switch-type CCs is no longer overwritten with `undefined` when a report without target value is received
 * Added a config file for `Jasco ZW3010`

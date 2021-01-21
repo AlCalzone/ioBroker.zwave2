@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "1.8.6",
+        "version": "1.8.7",
         "news": {
+            "1.8.7": {
+                "en": "The scene ID of `Scene Activation CC` now gets reset automatically\nFixed an error that could occur while configuring associations\nFixed two potential sources of crashes\nThe values of the root endpoint of some legacy devices are now correctly updated\nAdded support for `Aeotec aerQ ZWA009-A` US/Canada/Mexico version\nFixed invalid parameter options in many config files",
+                "de": "Die Szenen-ID von \"Scene Activation CC\" wird jetzt automatisch zurückgesetzt\nEs wurde ein Fehler behoben, der beim Konfigurieren von Zuordnungen auftreten konnte\nZwei mögliche Absturzquellen wurden behoben\nDie Werte des Root-Endpunkts einiger älterer Geräte werden jetzt korrekt aktualisiert\nUnterstützung für `Aeotec aerQ ZWA009-A` Version US / Kanada / Mexiko hinzugefügt\nIn vielen Konfigurationsdateien wurden ungültige Parameteroptionen behoben",
+                "ru": "Идентификатор сцены Scene Activation CC теперь сбрасывается автоматически.\nИсправлена ошибка, которая могла возникнуть при настройке ассоциаций\nИсправлены два потенциальных источника сбоев.\nЗначения корневой конечной точки некоторых устаревших устройств теперь правильно обновляются.\nДобавлена поддержка версии Aeotec aerQ ZWA009-A для США / Канады / Мексики.\nИсправлены неверные параметры параметров во многих файлах конфигурации",
+                "pt": "A ID da cena de `Scene Activation CC` agora é redefinida automaticamente\nCorrigido um erro que poderia ocorrer ao configurar associações\nConsertou duas fontes potenciais de falhas\nOs valores do endpoint raiz de alguns dispositivos legados agora são atualizados corretamente\nAdicionado suporte para a versão `Aeotec aerQ ZWA009-A` EUA / Canadá / México\nOpções de parâmetros inválidos corrigidos em muitos arquivos de configuração",
+                "nl": "De scène-ID van `Scene Activation CC` wordt nu automatisch gereset\nEen fout verholpen die kon optreden tijdens het configureren van koppelingen\nTwee mogelijke bronnen van crashes opgelost\nDe waarden van het root-endpoint van sommige legacy-apparaten zijn nu correct bijgewerkt\nOndersteuning toegevoegd voor `Aeotec aerQ ZWA009-A` versie VS / Canada / Mexico\nOngeldige parameteropties in veel configuratiebestanden opgelost",
+                "fr": "L'ID de scène de `Scene Activation CC` est maintenant réinitialisé automatiquement\nCorrection d'une erreur pouvant survenir lors de la configuration des associations\nCorrection de deux sources potentielles de plantages\nLes valeurs du point de terminaison racine de certains appareils hérités sont désormais correctement mises à jour\nAjout de la prise en charge de la version `Aeotec aerQ ZWA009-A` États-Unis / Canada / Mexique\nCorrection des options de paramètres invalides dans de nombreux fichiers de configuration",
+                "it": "L'ID scena di \"Scene Activation CC\" ora viene ripristinato automaticamente\nRisolto un errore che poteva verificarsi durante la configurazione delle associazioni\nRisolte due potenziali fonti di arresti anomali\nI valori dell'endpoint radice di alcuni dispositivi legacy sono ora aggiornati correttamente\nAggiunto supporto per la versione `Aeotec aerQ ZWA009-A` per Stati Uniti / Canada / Messico\nRisolte opzioni di parametri non validi in molti file di configurazione",
+                "es": "El ID de escena de `Scene Activation CC` ahora se restablece automáticamente\nSe corrigió un error que podía ocurrir al configurar asociaciones.\nSe corrigieron dos posibles fuentes de fallas.\nLos valores del punto final raíz de algunos dispositivos heredados ahora se actualizan correctamente\nSe agregó soporte para la versión `Aeotec aerQ ZWA009-A` para EE. UU., Canadá y México\nSe corrigieron las opciones de parámetros no válidos en muchos archivos de configuración",
+                "pl": "Identyfikator sceny `Scene Activation CC` jest teraz resetowany automatycznie\nNaprawiono błąd, który mógł wystąpić podczas konfigurowania skojarzeń\nNaprawiono dwa potencjalne źródła awarii\nWartości głównego punktu końcowego niektórych starszych urządzeń są teraz poprawnie aktualizowane\nDodano obsługę wersji `Aeotec aerQ ZWA009-A` US / Canada / Mexico\nNaprawiono nieprawidłowe opcje parametrów w wielu plikach konfiguracyjnych",
+                "zh-cn": "现在，“场景激活CC”的场景ID会自动重置\n修复了配置关联时可能发生的错误\n修复了两个潜在的崩溃原因\n现在，某些旧设备的根端点的值已正确更新\n添加了对`Aeotec aerQ ZWA009-A`美国/加拿大/墨西哥版本的支持\n修复了许多配置文件中的无效参数选项"
+            },
             "1.8.6": {
                 "en": "Many, many changes... See https://github.com/zwave-js/node-zwave-js/blob/master/CHANGELOG.md#changelog for details",
                 "de": "Viele, viele Änderungen ... Weitere Informationen finden Sie unter https://github.com/zwave-js/node-zwave-js/blob/master/CHANGELOG.md#changelog",
@@ -230,18 +242,6 @@
                 "es": "Mayor optimización del rendimiento\nCompatibilidad mejorada con dispositivos que envían comandos \"CC multicanal\" no válidos",
                 "pl": "Dalsza optymalizacja wydajności\nPoprawiona kompatybilność z urządzeniami, które wysyłają nieprawidłowe polecenia `Multi Channel CC`",
                 "zh-cn": "进一步的性能优化\n改进了与发送无效“多通道CC”命令的设备的兼容性"
-            },
-            "1.6.2": {
-                "en": "Reduced CPU load in large networks",
-                "de": "Reduzierte CPU-Auslastung in großen Netzwerken",
-                "ru": "Снижение нагрузки на ЦП в больших сетях",
-                "pt": "Carga de CPU reduzida em redes grandes",
-                "nl": "Verminderde CPU-belasting in grote netwerken",
-                "fr": "Charge CPU réduite dans les grands réseaux",
-                "it": "Riduzione del carico della CPU nelle reti di grandi dimensioni",
-                "es": "Carga de CPU reducida en redes grandes",
-                "pl": "Zmniejszone obciążenie procesora w dużych sieciach",
-                "zh-cn": "减少大型网络中的CPU负载"
             }
         },
         "title": "Z-Wave 2",
