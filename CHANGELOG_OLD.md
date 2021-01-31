@@ -1,4 +1,7 @@
 # Older changes
+## 1.8.4 (2021-01-03)
+* Logfiles are created again
+
 ## 1.8.3 (2020-12-30)
 * Added a config file for `Technisat Dimmer and series switch`
 * The `level low` property of the `Battery CC` is now called `Battery Level Low`
