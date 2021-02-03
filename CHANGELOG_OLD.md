@@ -1,4 +1,9 @@
 # Older changes
+## 1.8.5 (2021-01-06)
+* The interview is no longer aborted when a device does not respond to the Wakeup Capability query
+* Fixed a crash that could happen when compressing the value DB with an existing backup file
+* Added and updated several config files
+
 ## 1.8.4 (2021-01-03)
 * Logfiles are created again
 
