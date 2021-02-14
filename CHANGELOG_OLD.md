@@ -1,4 +1,7 @@
 # Older changes
+## 1.8.6 (2021-01-17)
+* Many, many changes... See https://github.com/zwave-js/node-zwave-js/blob/master/CHANGELOG.md#changelog for details
+
 ## 1.8.5 (2021-01-06)
 * The interview is no longer aborted when a device does not respond to the Wakeup Capability query
 * Fixed a crash that could happen when compressing the value DB with an existing backup file

@@ -39,7 +39,7 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	Placeholder for next versions:
 	### __WORK IN PROGRESS__
 -->
-### __WORK IN PROGRESS__
+### 1.8.11 (2021-02-14)
 * Implemented `Thermostat Fan Mode CC` and `Thermostat Fan State CC`
 * Fixed several sources of crashes
 * Fixed incorrect detection of secure nodes
@@ -74,9 +74,6 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 * The values of the root endpoint of some legacy devices are now correctly updated
 * Added support for `Aeotec aerQ ZWA009-A` US/Canada/Mexico version
 * Fixed invalid parameter options in many config files
-
-### 1.8.6 (2021-01-17)
-* Many, many changes... See https://github.com/zwave-js/node-zwave-js/blob/master/CHANGELOG.md#changelog for details
 
 ## License
 
