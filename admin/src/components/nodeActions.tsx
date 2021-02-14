@@ -25,9 +25,10 @@ export function NodeActions(props: NodeActionsProps) {
 	const [firmwareUpdateActive, setFirmwareUpdateActive] = React.useState(
 		false,
 	);
-	const [firmwareUpdateStatus, setFirmwareUpdateStatus] = React.useState<
-		FirmwareUpdatePollResponse
-	>();
+	const [
+		firmwareUpdateStatus,
+		setFirmwareUpdateStatus,
+	] = React.useState<FirmwareUpdatePollResponse>();
 	const [message, setMessage] = React.useState<string>();
 
 	const input = React.useRef<HTMLInputElement>();
@@ -234,7 +235,7 @@ export function NodeActions(props: NodeActionsProps) {
 							type="file"
 							hidden
 							id="firmwareFile"
-							accept=".exe,.ex_,.ota,.otz,.hex"
+							accept=".exe,.ex_,.ota,.otz,.hex,.bin"
 							ref={(ref) => {
 								if (ref) input.current = ref;
 							}}
