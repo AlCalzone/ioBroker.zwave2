@@ -1,4 +1,12 @@
 # Older changes
+## 1.8.7 (2021-01-21)
+* The scene ID of `Scene Activation CC` now gets reset automatically
+* Fixed an error that could occur while configuring associations
+* Fixed two potential sources of crashes
+* The values of the root endpoint of some legacy devices are now correctly updated
+* Added support for `Aeotec aerQ ZWA009-A` US/Canada/Mexico version
+* Fixed invalid parameter options in many config files
+
 ## 1.8.6 (2021-01-17)
 * Many, many changes... See https://github.com/zwave-js/node-zwave-js/blob/master/CHANGELOG.md#changelog for details
 
