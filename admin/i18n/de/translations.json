@@ -50,7 +50,7 @@
     "The association could not be saved!": "Verknüpfung konnte nicht erstellt werden!",
     "This is not a failed node": "Dies ist kein ausgefallenes Gerät",
     "This should only be set for debugging purposes.": "Dies sollte nur zu Debugging-Zwecken aktiviert werden.",
-    "Type": "Typ",
+    "Type": "Art",
     "Undo changes": "Änderungen rückgängig machen",
     "Update Firmware": "Firmware aktualisieren",
     "Write a detailed logfile": "Detaillierte Logdatei schreiben",
