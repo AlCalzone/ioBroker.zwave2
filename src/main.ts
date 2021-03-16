@@ -26,7 +26,7 @@ import type {
 	FirmwareUpdateStatus,
 } from "zwave-js/CommandClass";
 import type { HealNodeStatus } from "zwave-js/Controller";
-import type { Firmware } from "zwave-js/Utils";
+import { Firmware, guessFirmwareFileFormat } from "zwave-js/Utils";
 import type {
 	TranslatedValueID,
 	ValueID,
@@ -35,7 +35,6 @@ import type {
 	ZWaveNodeValueRemovedArgs,
 	ZWaveNodeValueUpdatedArgs,
 } from "zwave-js/Values";
-import { guessFirmwareFormat } from "./lib/firmwareUpdate";
 import { Global as _ } from "./lib/global";
 import {
 	computeChannelId,
@@ -1203,7 +1202,7 @@ export class ZWave2 extends utils.Adapter<true> {
 						const rawData = Buffer.from(firmware);
 						let actualFirmware: Firmware;
 						try {
-							const format = guessFirmwareFormat(
+							const format = guessFirmwareFileFormat(
 								filename,
 								rawData,
 							);

@@ -8,7 +8,7 @@ const typeguards_1 = require("alcalzone-shared/typeguards");
 const fs = require("fs-extra");
 const path = require("path");
 const zwave_js_1 = require("zwave-js");
-const firmwareUpdate_1 = require("./lib/firmwareUpdate");
+const Utils_1 = require("zwave-js/Utils");
 const global_1 = require("./lib/global");
 const objects_2 = require("./lib/objects");
 const serialPorts_1 = require("./lib/serialPorts");
@@ -798,7 +798,7 @@ class ZWave2 extends utils.Adapter {
                         const rawData = Buffer.from(firmware);
                         let actualFirmware;
                         try {
-                            const format = firmwareUpdate_1.guessFirmwareFormat(filename, rawData);
+                            const format = Utils_1.guessFirmwareFileFormat(filename, rawData);
                             actualFirmware = zwave_js_1.extractFirmware(rawData, format);
                         }
                         catch (e) {
