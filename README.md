@@ -39,7 +39,7 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	Placeholder for next versions:
 	### __WORK IN PROGRESS__
 -->
-### __WORK IN PROGRESS__
+### 1.9.0 (2021-03-16)
 * Upgraded to `zwave-js` version 7
 * Nodes with a completed interview are no longer queried for all their values when restarting. As a result the adapter is now ready much much faster after a restart, but you'll see many yellow values until the devices have sent updated data.
 * The device list in the configuration dialog now displays a better type for the devices, for example `Wall Controller` instead of `Routing Slave`
@@ -86,11 +86,6 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 * Many config files were added and updated
 * Improved compatibility with some devices, notably `ID Lock 150`, `Vision Security ZD2102-5`, `HomeSeer WD200+`
 * `currentValue` and similar values are now updated immediately when a set-type command succeeds. Verification is done after a short delay.
-
-### 1.8.8 (2021-01-24)
-* Fixed an issue where communication with sleeping secure nodes could get stuck
-* After changing a value, the verification of the new value happens with a larger delay to avoid capturing intermediate and outdated values
-* Several hundred device configuration files were added
 
 ## License
 

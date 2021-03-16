@@ -1,4 +1,9 @@
 # Older changes
+## 1.8.8 (2021-01-24)
+* Fixed an issue where communication with sleeping secure nodes could get stuck
+* After changing a value, the verification of the new value happens with a larger delay to avoid capturing intermediate and outdated values
+* Several hundred device configuration files were added
+
 ## 1.8.7 (2021-01-21)
 * The scene ID of `Scene Activation CC` now gets reset automatically
 * Fixed an error that could occur while configuring associations
