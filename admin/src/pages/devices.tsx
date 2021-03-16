@@ -467,7 +467,9 @@ export function Devices() {
 										{value.common.name}
 									</td>
 									<td>
-										{(value.native as any).type?.basic ??
+										{(value.native as any).type.specific ??
+											(value.native as any).type
+												.generic ??
 											_("unknown")}
 									</td>
 									<td>
