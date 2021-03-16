@@ -1,8 +1,9 @@
-.git
-.idea
+# No dot-directories except github/vscode
+.*/
+!.vscode/
+!.github/
 node_modules
 nbproject
-.cache
 
 # Sourcemaps
 maps/
@@ -14,7 +15,6 @@ Thumbs.db
 
 # NYC coverage files
 coverage
-.nyc*
 
 # i18n intermediate files
 admin/i18n/flat.txt

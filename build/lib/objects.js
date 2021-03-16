@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.extendNotification = exports.computeNotificationId = exports.setNodeReady = exports.setNodeStatus = exports.removeValue = exports.extendMetadata = exports.extendNotificationValue = exports.extendValue = exports.extendCC = exports.removeNode = exports.extendNode = exports.computeId = exports.computeChannelId = exports.ccNameToChannelIdFragment = exports.nameToStateId = exports.nodeStatusToStatusState = void 0;
+exports.extendNotification_NotificationCC = exports.computeNotificationId = exports.setNodeReady = exports.setNodeStatus = exports.removeValue = exports.extendMetadata = exports.extendNotificationValue = exports.extendValue = exports.extendCC = exports.removeNode = exports.extendNode = exports.computeId = exports.computeChannelId = exports.ccNameToChannelIdFragment = exports.nameToStateId = exports.nodeStatusToStatusState = void 0;
 const core_1 = require("@zwave-js/core");
 const objects_1 = require("alcalzone-shared/objects");
 const strings_1 = require("alcalzone-shared/strings");
@@ -342,11 +342,15 @@ async function setNodeReady(nodeId, ready) {
     await global_1.Global.adapter.setStateAsync(stateId, ready, true);
 }
 exports.setNodeReady = setNodeReady;
-function computeNotificationId(nodeId, label, property) {
+function computeNotificationId(nodeId, notificationLabel, eventLabel, property) {
     return [
         shared_1.computeDeviceId(nodeId),
         ccNameToChannelIdFragment("Notification"),
-        [nameToStateId(label), property && nameToStateId(property)]
+        [
+            nameToStateId(notificationLabel),
+            nameToStateId(eventLabel),
+            property && nameToStateId(property),
+        ]
             .filter((s) => !!s)
             .join("_"),
     ].join(".");
@@ -361,15 +365,15 @@ async function setOrExtendObject(id, definition, original) {
         await global_1.Global.adapter.extendObjectAsync(id, definition);
     }
 }
-async function setNotificationValue(nodeId, label, property, value = true) {
+async function setNotificationValue(nodeId, notificationLabel, eventLabel, property, value = true) {
     var _a;
-    const stateId = computeNotificationId(nodeId, label, property);
+    const stateId = computeNotificationId(nodeId, notificationLabel, eventLabel, property);
     const originalObject = global_1.Global.adapter.oObjects[`${global_1.Global.adapter.namespace}.${stateId}`];
     const newStateName = global_1.Global.adapter.config.preserveStateNames && (originalObject === null || originalObject === void 0 ? void 0 : originalObject.common.name)
         ? // Keep the original name if one exists and it should be preserved
             originalObject.common.name
         : // Otherwise use the given label (and property name)
-            `${label}${!!property ? ` (${property})` : ""}`;
+            `${notificationLabel}: ${eventLabel}${!!property ? ` (${property})` : ""}`;
     const objectDefinition = {
         type: "state",
         common: typeof value === "boolean"
@@ -427,21 +431,23 @@ async function setNotificationValue(nodeId, label, property, value = true) {
         expire: (_a = global_1.Global.adapter.config.notificationEventValidity) !== null && _a !== void 0 ? _a : 1000,
     }, true);
 }
-async function extendNotification(node, label, parameters) {
+/** Translates a notification for the Notification CC into states */
+async function extendNotification_NotificationCC(node, args) {
+    const { label, eventLabel, parameters } = args;
     if (parameters == undefined) {
-        await setNotificationValue(node.id, label, undefined, true);
+        await setNotificationValue(node.id, label, eventLabel, undefined, true);
     }
     else if (Buffer.isBuffer(parameters)) {
-        await setNotificationValue(node.id, label, undefined, parameters.toString("hex"));
+        await setNotificationValue(node.id, label, eventLabel, undefined, parameters.toString("hex"));
     }
     else if (parameters instanceof core_1.Duration) {
-        await setNotificationValue(node.id, label, undefined, parameters);
+        await setNotificationValue(node.id, label, eventLabel, undefined, parameters);
     }
     else {
         for (const [key, value] of Object.entries(parameters)) {
-            await setNotificationValue(node.id, label, key, value);
+            await setNotificationValue(node.id, label, eventLabel, key, value);
         }
     }
 }
-exports.extendNotification = extendNotification;
+exports.extendNotification_NotificationCC = extendNotification_NotificationCC;
 //# sourceMappingURL=objects.js.map
