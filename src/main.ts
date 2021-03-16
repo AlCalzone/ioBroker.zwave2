@@ -1,9 +1,13 @@
 import * as utils from "@iobroker/adapter-core";
-import { CommandClasses, Duration } from "@zwave-js/core";
+import { CommandClasses } from "@zwave-js/core";
 import { composeObject } from "alcalzone-shared/objects";
 import { isArray } from "alcalzone-shared/typeguards";
 import * as fs from "fs-extra";
 import * as path from "path";
+import type {
+	NodeInterviewFailedEventArgs,
+	ZWaveNodeValueNotificationArgs,
+} from "zwave-js";
 import {
 	Driver,
 	extractFirmware,
@@ -14,15 +18,11 @@ import {
 	ZWaveNode,
 	ZWaveOptions,
 } from "zwave-js";
-import type {
-	NodeInterviewFailedEventArgs,
-	ZWaveNodeValueNotificationArgs,
-} from "zwave-js/build/lib/node/Types";
+import type { ZWaveNotificationCallback } from "zwave-js/build/lib/node/Types";
 import type {
 	Association,
 	AssociationGroup,
 	CCAPI,
-	CommandClass,
 	FirmwareUpdateStatus,
 } from "zwave-js/CommandClass";
 import type { HealNodeStatus } from "zwave-js/Controller";
@@ -43,8 +43,8 @@ import {
 	extendCC,
 	extendMetadata,
 	extendNode,
-	extendNotification,
 	extendNotificationValue,
+	extendNotification_NotificationCC,
 	extendValue,
 	nodeStatusToStatusState,
 	removeNode,
@@ -81,6 +81,7 @@ export class ZWave2 extends utils.Adapter<true> {
 	private driver!: Driver;
 	private driverReady = false;
 	private readyNodes = new Set<number>();
+	private initialNodeInterviewStages = new Map<number, InterviewStage>();
 
 	/**
 	 * Is called when databases are connected and adapter received configuration.
@@ -169,6 +170,14 @@ export class ZWave2 extends utils.Adapter<true> {
 				)
 				.on("heal network done", this.onHealNetworkDone.bind(this));
 
+			// Remember in which interview stage the nodes started, so we can decide whether to mark the node values as stale or not
+			this.initialNodeInterviewStages = new Map(
+				[...this.driver.controller.nodes.values()].map((node) => [
+					node.id,
+					node.interviewStage,
+				]),
+			);
+
 			for (const [nodeId, node] of this.driver.controller.nodes) {
 				// Reset the node status
 				await setNodeStatus(
@@ -178,12 +187,14 @@ export class ZWave2 extends utils.Adapter<true> {
 				await setNodeReady(nodeId, node.ready);
 				this.addNodeEventHandlers(node);
 
-				// And immediately populate ioBroker states with the values from cache,
-				// so they can be overwritten with fresh ones later
-				await this.extendNodeObjectsAndStates(node);
-
-				// Make sure we didn't miss the ready event
-				if (node.ready) void this.onNodeReady(node);
+				if (node.ready) {
+					// If the node is already ready, sync the states with the cache
+					void this.onNodeReady(node);
+				} else {
+					// Otherwise immediately populate ioBroker states with the already-known values from cache,
+					// so they can be overwritten with fresh ones later
+					await this.extendNodeObjectsAndStates(node);
+				}
 			}
 
 			// Now we know which nodes should exist - clean up orphaned nodes
@@ -361,9 +372,14 @@ export class ZWave2 extends utils.Adapter<true> {
 			await extendCC(node, cc, ccName);
 		}
 
-		// Prepare data points for all the node's values. Skip this step if the interview
-		// was just completed for the first time because this will incorrectly mark all fresh values as stale
-		if (node.interviewStage < InterviewStage.Complete) {
+		// Sync the ioBroker states with the cached values. This must only happen if the interview is not complete yet
+		// or the node started ready. Otherwise this would incorrectly mark all fresh values as stale
+		if (
+			node.interviewStage < InterviewStage.Complete ||
+			(node.interviewStage === InterviewStage.Complete &&
+				this.initialNodeInterviewStages.get(node.id) ===
+					InterviewStage.Complete)
+		) {
 			for (const valueId of allValueIDs) {
 				const value = node.getValue(valueId);
 				await extendValue(
@@ -478,9 +494,7 @@ export class ZWave2 extends utils.Adapter<true> {
 	}
 
 	private async onNodeInterviewCompleted(node: ZWaveNode): Promise<void> {
-		this.log.info(
-			`Node ${node.id} interview completed, all values are updated`,
-		);
+		this.log.info(`Node ${node.id} interview completed`);
 	}
 
 	private async onNodeWakeUp(
@@ -643,21 +657,17 @@ export class ZWave2 extends utils.Adapter<true> {
 		});
 	}
 
-	private async onNodeNotification(
-		node: ZWaveNode,
-		notificationLabel: string,
-		parameters?:
-			| Buffer
-			| Duration
-			| CommandClass
-			| Record<string, number>
-			| undefined,
-	): Promise<void> {
-		this.log.debug(
-			`Node ${node.id}: received notification: ${notificationLabel}`,
-		);
-		await extendNotification(node, notificationLabel, parameters);
-	}
+	private onNodeNotification: ZWaveNotificationCallback = async (
+		...params
+	) => {
+		if (params[1] === CommandClasses.Notification) {
+			const [node, , args] = params;
+			this.log.debug(
+				`Node ${node.id}: received notification: ${args.label} - ${args.eventLabel}`,
+			);
+			await extendNotification_NotificationCC(node, args);
+		}
+	};
 
 	/**
 	 * Is called when adapter shuts down - callback has to be called under any circumstances!

@@ -2,7 +2,7 @@ import { CommandClasses, Duration, ValueMetadata } from "@zwave-js/core";
 import { entries } from "alcalzone-shared/objects";
 import { padStart } from "alcalzone-shared/strings";
 import type { ZWaveNodeValueNotificationArgs } from "zwave-js/build/lib/node/Types";
-import type { CommandClass } from "zwave-js/CommandClass";
+import type { ZWaveNotificationCallbackArgs_NotificationCC } from "zwave-js/CommandClass";
 import { NodeStatus, ZWaveNode } from "zwave-js/Node";
 import type {
 	TranslatedValueID,
@@ -423,13 +423,18 @@ export async function setNodeReady(
 
 export function computeNotificationId(
 	nodeId: number,
-	label: string,
+	notificationLabel: string,
+	eventLabel: string,
 	property?: string,
 ): string {
 	return [
 		computeDeviceId(nodeId),
 		ccNameToChannelIdFragment("Notification"),
-		[nameToStateId(label), property && nameToStateId(property)]
+		[
+			nameToStateId(notificationLabel),
+			nameToStateId(eventLabel),
+			property && nameToStateId(property),
+		]
 			.filter((s) => !!s)
 			.join("_"),
 	].join(".");
@@ -452,11 +457,17 @@ async function setOrExtendObject(
 
 async function setNotificationValue(
 	nodeId: number,
-	label: string,
+	notificationLabel: string,
+	eventLabel: string,
 	property: string | undefined,
 	value: boolean | number | string | Duration = true,
 ): Promise<void> {
-	const stateId = computeNotificationId(nodeId, label, property);
+	const stateId = computeNotificationId(
+		nodeId,
+		notificationLabel,
+		eventLabel,
+		property,
+	);
 	const originalObject =
 		_.adapter.oObjects[`${_.adapter.namespace}.${stateId}`];
 
@@ -465,7 +476,9 @@ async function setNotificationValue(
 			? // Keep the original name if one exists and it should be preserved
 			  originalObject.common.name
 			: // Otherwise use the given label (and property name)
-			  `${label}${!!property ? ` (${property})` : ""}`;
+			  `${notificationLabel}: ${eventLabel}${
+					!!property ? ` (${property})` : ""
+			  }`;
 
 	const objectDefinition: ioBroker.SettableObjectWorker<ioBroker.StateObject> = {
 		type: "state",
@@ -529,30 +542,33 @@ async function setNotificationValue(
 	);
 }
 
-export async function extendNotification(
+/** Translates a notification for the Notification CC into states */
+export async function extendNotification_NotificationCC(
 	node: ZWaveNode,
-	label: string,
-	parameters?:
-		| Buffer
-		| Duration
-		| CommandClass
-		| Record<string, number>
-		| undefined,
+	args: ZWaveNotificationCallbackArgs_NotificationCC,
 ): Promise<void> {
+	const { label, eventLabel, parameters } = args;
 	if (parameters == undefined) {
-		await setNotificationValue(node.id, label, undefined, true);
+		await setNotificationValue(node.id, label, eventLabel, undefined, true);
 	} else if (Buffer.isBuffer(parameters)) {
 		await setNotificationValue(
 			node.id,
 			label,
+			eventLabel,
 			undefined,
 			parameters.toString("hex"),
 		);
 	} else if (parameters instanceof Duration) {
-		await setNotificationValue(node.id, label, undefined, parameters);
+		await setNotificationValue(
+			node.id,
+			label,
+			eventLabel,
+			undefined,
+			parameters,
+		);
 	} else {
 		for (const [key, value] of Object.entries(parameters)) {
-			await setNotificationValue(node.id, label, key, value);
+			await setNotificationValue(node.id, label, eventLabel, key, value);
 		}
 	}
 }
