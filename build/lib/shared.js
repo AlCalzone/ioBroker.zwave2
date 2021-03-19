@@ -1,41 +1,68 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.InclusionMode = exports.isBufferAsHex = exports.bufferFromHex = exports.buffer2hex = exports.mapToRecord = exports.computeDeviceId = void 0;
-const strings_1 = require("alcalzone-shared/strings");
-// WARNING: DO NOT IMPORT values FROM "zwave-js" HERE
-// That will break the frontend
-/** Returns the id of the device object for the given node id */
+var __create = Object.create;
+var __defProp = Object.defineProperty;
+var __getProtoOf = Object.getPrototypeOf;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __markAsModule = (target) => __defProp(target, "__esModule", {value: true});
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, {get: all[name], enumerable: true});
+};
+var __exportStar = (target, module2, desc) => {
+  if (module2 && typeof module2 === "object" || typeof module2 === "function") {
+    for (let key of __getOwnPropNames(module2))
+      if (!__hasOwnProp.call(target, key) && key !== "default")
+        __defProp(target, key, {get: () => module2[key], enumerable: !(desc = __getOwnPropDesc(module2, key)) || desc.enumerable});
+  }
+  return target;
+};
+var __toModule = (module2) => {
+  return __exportStar(__markAsModule(__defProp(module2 != null ? __create(__getProtoOf(module2)) : {}, "default", module2 && module2.__esModule && "default" in module2 ? {get: () => module2.default, enumerable: true} : {value: module2, enumerable: true})), module2);
+};
+__markAsModule(exports);
+__export(exports, {
+  InclusionMode: () => InclusionMode,
+  buffer2hex: () => buffer2hex,
+  bufferFromHex: () => bufferFromHex,
+  computeDeviceId: () => computeDeviceId,
+  isBufferAsHex: () => isBufferAsHex,
+  mapToRecord: () => mapToRecord
+});
+var import_strings = __toModule(require("alcalzone-shared/strings"));
 function computeDeviceId(nodeId) {
-    return `Node_${strings_1.padStart(nodeId.toString(), 3, "0")}`;
+  return `Node_${(0, import_strings.padStart)(nodeId.toString(), 3, "0")}`;
 }
-exports.computeDeviceId = computeDeviceId;
 function mapToRecord(map) {
-    const ret = {};
-    for (const [k, v] of map) {
-        ret[k] = v;
-    }
-    return ret;
+  const ret = {};
+  for (const [k, v] of map) {
+    ret[k] = v;
+  }
+  return ret;
 }
-exports.mapToRecord = mapToRecord;
 function buffer2hex(buffer) {
-    if (buffer.length === 0)
-        return "";
-    return `0x${buffer.toString("hex")}`;
+  if (buffer.length === 0)
+    return "";
+  return `0x${buffer.toString("hex")}`;
 }
-exports.buffer2hex = buffer2hex;
-/** Parses a buffer from a string has the form 0x[a-f0-9]+ */
 function bufferFromHex(hex) {
-    return Buffer.from(hex.substr(2), "hex");
+  return Buffer.from(hex.substr(2), "hex");
 }
-exports.bufferFromHex = bufferFromHex;
 function isBufferAsHex(str) {
-    return /^0x([a-fA-F0-9]{2})+$/.test(str);
+  return /^0x([a-fA-F0-9]{2})+$/.test(str);
 }
-exports.isBufferAsHex = isBufferAsHex;
 var InclusionMode;
-(function (InclusionMode) {
-    InclusionMode[InclusionMode["Idle"] = 0] = "Idle";
-    InclusionMode[InclusionMode["NonSecure"] = 1] = "NonSecure";
-    InclusionMode[InclusionMode["Secure"] = 2] = "Secure";
-})(InclusionMode = exports.InclusionMode || (exports.InclusionMode = {}));
-//# sourceMappingURL=shared.js.map
+(function(InclusionMode2) {
+  InclusionMode2[InclusionMode2["Idle"] = 0] = "Idle";
+  InclusionMode2[InclusionMode2["NonSecure"] = 1] = "NonSecure";
+  InclusionMode2[InclusionMode2["Secure"] = 2] = "Secure";
+})(InclusionMode || (InclusionMode = {}));
+// Annotate the CommonJS export names for ESM import in node:
+0 && (module.exports = {
+  InclusionMode,
+  buffer2hex,
+  bufferFromHex,
+  computeDeviceId,
+  isBufferAsHex,
+  mapToRecord
+});

@@ -31,11 +31,11 @@ export class Dropdown extends React.Component<DropdownProps, DropdownState> {
 	}
 
 	private dropdown: HTMLSelectElement | null | undefined;
-	private mcssSelect: M_Select | null | undefined;
+	private mcssSelect: M.FormSelect | null | undefined;
 
 	public componentDidMount() {
 		if (this.dropdown != null) {
-			$(this.dropdown).on("change", this.readStateFromUI);
+			$(this.dropdown).on("change", this.readStateFromUI as any);
 
 			this.mcssSelect =
 				M_Select.getInstance(this.dropdown) ||
@@ -57,7 +57,7 @@ export class Dropdown extends React.Component<DropdownProps, DropdownState> {
 
 	public componentWillUnmount() {
 		if (this.dropdown != null) {
-			$(this.dropdown).off("change", this.readStateFromUI);
+			$(this.dropdown).off("change", this.readStateFromUI as any);
 		}
 	}
 

@@ -25,7 +25,7 @@ export function useIoBrokerState<
 	T extends ioBroker.State["val"] = ioBroker.State["val"]
 >(
 	stateId: string,
-	options?: UseIoBrokerStateOptions<T> = {},
+	options: UseIoBrokerStateOptions<T> = {},
 ): readonly [
 	T | undefined,
 	(value: Parameters<ioBroker.Adapter["setStateAsync"]>[1]) => Promise<void>,
