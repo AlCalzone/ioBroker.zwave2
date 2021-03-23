@@ -27,7 +27,7 @@
     "Invalid network key": "Clé réseau non valide: doit être de 16 octets (32 caractères hexadécimaux [0-9, a-f])",
     "Legacy switch compatibility": "Améliorez la compatibilité avec les anciens commutateurs",
     "Modal_Actions": "Actions",
-    "Name": "prénom",
+    "Name": "Nom",
     "Network key for secure communication": "Clé réseau pour une communication sécurisée",
     "Network map": "Carte du réseau",
     "No devices present": "Aucun appareil présent",
