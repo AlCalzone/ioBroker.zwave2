@@ -27,7 +27,7 @@
     "Invalid network key": "Неверный сетевой ключ: должен быть 16 байтов (32 шестнадцатеричных символа [0-9, a-f])",
     "Legacy switch compatibility": "Улучшение совместимости с устаревшими коммутаторами",
     "Modal_Actions": "действия",
-    "Name": "название",
+    "Name": "Имя",
     "Network key for secure communication": "Сетевой ключ для безопасного общения",
     "Network map": "Карта сети",
     "No devices present": "Устройства отсутствуют",
