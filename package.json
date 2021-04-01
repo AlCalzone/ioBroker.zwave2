@@ -42,7 +42,7 @@
   "devDependencies": {
     "@alcalzone/release-script": "^1.8.3",
     "@babel/cli": "^7.13.0",
-    "@babel/core": "^7.13.8",
+    "@babel/core": "^7.13.14",
     "@babel/plugin-proposal-class-properties": "^7.13.0",
     "@babel/plugin-proposal-decorators": "^7.13.5",
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.13.8",
