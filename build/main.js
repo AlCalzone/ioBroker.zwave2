@@ -131,6 +131,13 @@ class ZWave2 extends utils.Adapter {
       this.log.info("All nodes are ready to use");
     });
     try {
+      this.driver.enableStatistics({
+        applicationName: "ioBroker.zwave2",
+        applicationVersion: require("iobroker.zwave2/package.json").version
+      });
+    } catch (e) {
+    }
+    try {
       await this.driver.start();
     } catch (e) {
       this.log.error(`The Z-Wave driver could not be started: ${e.message}`);

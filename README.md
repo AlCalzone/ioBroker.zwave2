@@ -39,7 +39,7 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	Placeholder for next versions:
 	### __WORK IN PROGRESS__
 -->
-### 1.9.1 (2021-04-05)
+### 1.9.2 (2021-04-05)
 Upgraded to `zwave-js` version `7.1.0`. Notable changes include:
 * Added reporting of usage statistics. For details, refer to the `node-zwave-js` documentation.
 * Better support for 700-series Z-Wave sticks

@@ -222,6 +222,18 @@ export class ZWave2 extends utils.Adapter<true> {
 			this.log.info("All nodes are ready to use");
 		});
 
+		// Enable sending usage statistics
+		try {
+			this.driver.enableStatistics({
+				applicationName: "ioBroker.zwave2",
+				// eslint-disable-next-line @typescript-eslint/no-var-requires
+				applicationVersion: require("iobroker.zwave2/package.json")
+					.version,
+			});
+		} catch {
+			// ignore
+		}
+
 		try {
 			await this.driver.start();
 		} catch (e) {

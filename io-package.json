@@ -1,9 +1,9 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "1.9.1",
+        "version": "1.9.2",
         "news": {
-            "1.9.1": {
+            "1.9.2": {
                 "en": "Upgraded to `zwave-js` version `7.1.0`. Notable changes include:\n* Added reporting of usage statistics. For details, refer to the `node-zwave-js` documentation.\n* Better support for 700-series Z-Wave sticks\n* Notification values are no longer auto-reset to idle after 5 minutes by default. This behavior can now be enabled per device if necessary.\n* Several stability improvements\n\nFor a full list of changes, check out https://github.com/zwave-js/node-zwave-js/blob/master/CHANGELOG.md",
                 "de": "Upgrade auf `zwave-js` Version` 7.1.0`. Bemerkenswerte Änderungen umfassen:\n* Berichterstattung über Nutzungsstatistiken hinzugefügt. Einzelheiten finden Sie in der Dokumentation zu \"node-zwave-js\".\n* Bessere Unterstützung für Z-Wave-Sticks der Serie 700\n* Benachrichtigungswerte werden standardmäßig nach 5 Minuten nicht mehr automatisch auf Leerlauf zurückgesetzt. Dieses Verhalten kann jetzt bei Bedarf pro Gerät aktiviert werden.\n* Mehrere Stabilitätsverbesserungen\n\nEine vollständige Liste der Änderungen finden Sie unter https://github.com/zwave-js/node-zwave-js/blob/master/CHANGELOG.md",
                 "ru": "Обновлен до `zwave-js` версии` 7.1.0`. Заметные изменения включают:\n* Добавлен отчет по статистике использования. За подробностями обращайтесь к документации по `node-zwave-js`.\n* Лучшая поддержка стиков Z-Wave серии 700\n* Значения уведомлений больше не сбрасываются автоматически до состояния бездействия по умолчанию через 5 минут. Теперь при необходимости это поведение можно включить для каждого устройства.\n* Несколько улучшений стабильности\n\nПолный список изменений см. На https://github.com/zwave-js/node-zwave-js/blob/master/CHANGELOG.md.",
