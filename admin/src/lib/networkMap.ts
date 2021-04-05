@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 // Based on https://bl.ocks.org/JulienAssouline/2847e100ac7d4d3981b0f49111e185fe
 import { ascending, range } from "d3-array";
 import { chord as d3chord, ribbon } from "d3-chord";

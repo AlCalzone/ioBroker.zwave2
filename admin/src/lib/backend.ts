@@ -57,7 +57,7 @@ export async function getStateAsync(id: string): Promise<ioBroker.State> {
 		// retrieve all devices
 		socket.emit("getState", id, (err, state?: ioBroker.State) => {
 			if (err) reject(err);
-			resolve(state);
+			resolve(state!);
 		});
 	});
 }
