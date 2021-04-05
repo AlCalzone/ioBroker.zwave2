@@ -39,7 +39,7 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	Placeholder for next versions:
 	### __WORK IN PROGRESS__
 -->
-### __WORK IN PROGRESS__
+### 1.9.1 (2021-04-05)
 Upgraded to `zwave-js` version `7.1.0`. Notable changes include:
 * Added reporting of usage statistics. For details, refer to the `node-zwave-js` documentation.
 * Better support for 700-series Z-Wave sticks
@@ -89,12 +89,6 @@ For a full list of changes, check out https://github.com/zwave-js/node-zwave-js/
 * Fixed an issue where devices were incorrectly displayed as secure
 * Improved support for devices that use the legacy `Alarm CC`
 * Several improvements for Zooz and GE devices
-
-### 1.8.9 (2021-01-31)
-* Labels for the Meter CC were improved to be unique
-* Many config files were added and updated
-* Improved compatibility with some devices, notably `ID Lock 150`, `Vision Security ZD2102-5`, `HomeSeer WD200+`
-* `currentValue` and similar values are now updated immediately when a set-type command succeeds. Verification is done after a short delay.
 
 ## License
 

@@ -1,4 +1,10 @@
 # Older changes
+## 1.8.9 (2021-01-31)
+* Labels for the Meter CC were improved to be unique
+* Many config files were added and updated
+* Improved compatibility with some devices, notably `ID Lock 150`, `Vision Security ZD2102-5`, `HomeSeer WD200+`
+* `currentValue` and similar values are now updated immediately when a set-type command succeeds. Verification is done after a short delay.
+
 ## 1.8.8 (2021-01-24)
 * Fixed an issue where communication with sleeping secure nodes could get stuck
 * After changing a value, the verification of the new value happens with a larger delay to avoid capturing intermediate and outdated values
