@@ -1,4 +1,10 @@
 # Older changes
+## 1.8.10 (2021-02-03)
+* The startup should now be faster, especially if there are many sleeping devices
+* Fixed an issue where devices were incorrectly displayed as secure
+* Improved support for devices that use the legacy `Alarm CC`
+* Several improvements for Zooz and GE devices
+
 ## 1.8.9 (2021-01-31)
 * Labels for the Meter CC were improved to be unique
 * Many config files were added and updated
