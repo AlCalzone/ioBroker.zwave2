@@ -20,7 +20,7 @@ import {
 } from "zwave-js";
 import type { ZWaveNotificationCallback } from "zwave-js/build/lib/node/Types";
 import type {
-	Association,
+	AssociationAddress,
 	AssociationGroup,
 	CCAPI,
 	FirmwareUpdateStatus,
@@ -1034,7 +1034,7 @@ export class ZWave2 extends utils.Adapter<true> {
 					return respond(responses.OK);
 				}
 
-				case "getAssociationGroups": {
+				case "getEndpointIndizes": {
 					if (!this.driverReady) {
 						return respond(
 							responses.ERROR(
@@ -1044,11 +1044,36 @@ export class ZWave2 extends utils.Adapter<true> {
 					}
 					if (!requireParams("nodeId")) return;
 					const params = (obj.message as any) as Record<string, any>;
-					const nodeId: number = params.nodeId;
+
+					try {
+						const node = this.driver.controller.nodes.getOrThrow(
+							params.nodeId,
+						);
+						const ret = node.getEndpointIndizes();
+						return respond(responses.RESULT(ret));
+					} catch (e) {
+						return respond(
+							responses.ERROR(
+								`Could not get endpoint indizes for node ${params.nodeId}: ${e.message}`,
+							),
+						);
+					}
+				}
+				case "getAssociationGroups": {
+					if (!this.driverReady) {
+						return respond(
+							responses.ERROR(
+								"The driver is not yet ready to do that!",
+							),
+						);
+					}
+					if (!requireParams("source")) return;
+					const params = (obj.message as any) as Record<string, any>;
+					const source: AssociationAddress = params.source;
 
 					try {
 						const groups = this.driver.controller.getAssociationGroups(
-							nodeId,
+							source,
 						);
 						// convert map into object
 						const ret = composeObject([...groups] as [
@@ -1073,18 +1098,18 @@ export class ZWave2 extends utils.Adapter<true> {
 							),
 						);
 					}
-					if (!requireParams("nodeId")) return;
+					if (!requireParams("source")) return;
 					const params = (obj.message as any) as Record<string, any>;
-					const nodeId: number = params.nodeId;
+					const source: AssociationAddress = params.source;
 
 					try {
 						const assocs = this.driver.controller.getAssociations(
-							nodeId,
+							source,
 						);
 						// convert map into object
 						const ret = composeObject([...assocs] as [
 							any,
-							Association[],
+							AssociationAddress[],
 						][]);
 						return respond(responses.RESULT(ret));
 					} catch (e) {
@@ -1110,16 +1135,20 @@ export class ZWave2 extends utils.Adapter<true> {
 					const definition: AssociationDefinition =
 						params.association;
 
+					const source: AssociationAddress = {
+						nodeId,
+						endpoint: definition.sourceEndpoint,
+					};
+					const target: AssociationAddress = {
+						nodeId: definition.nodeId,
+						endpoint: definition.endpoint,
+					};
+
 					try {
 						await this.driver.controller.addAssociations(
-							nodeId,
-							definition.groupId,
-							[
-								{
-									nodeId: definition.targetNodeId,
-									endpoint: definition.endpoint,
-								},
-							],
+							source,
+							definition.group,
+							[target],
 						);
 						return respond(responses.OK);
 					} catch (e) {
@@ -1145,16 +1174,20 @@ export class ZWave2 extends utils.Adapter<true> {
 					const definition: AssociationDefinition =
 						params.association;
 
+					const source: AssociationAddress = {
+						nodeId,
+						endpoint: definition.sourceEndpoint,
+					};
+					const target: AssociationAddress = {
+						nodeId: definition.nodeId,
+						endpoint: definition.endpoint,
+					};
+
 					try {
 						await this.driver.controller.removeAssociations(
-							nodeId,
-							definition.groupId,
-							[
-								{
-									nodeId: definition.targetNodeId,
-									endpoint: definition.endpoint,
-								},
-							],
+							source,
+							definition.group,
+							[target],
 						);
 						return respond(responses.OK);
 					} catch (e) {

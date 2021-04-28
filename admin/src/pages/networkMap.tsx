@@ -1,5 +1,5 @@
 import * as React from "react";
-import { NotRunning } from "../components/notRunning";
+import { NotRunning } from "../components/messages";
 import { drawNetworkMap } from "../lib/networkMap";
 import { AdapterContext } from "../lib/useAdapter";
 

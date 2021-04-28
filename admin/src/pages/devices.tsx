@@ -10,7 +10,7 @@ import type { Device } from "../lib/backend";
 import { statusToCssClass, statusToIconName } from "../lib/shared";
 import { DevicesContext } from "../lib/useDevices";
 import { useIoBrokerState } from "../lib/useIoBrokerState";
-import { NotRunning } from "../components/notRunning";
+import { NotRunning } from "../components/messages";
 import { AdapterContext } from "../lib/useAdapter";
 
 async function beginHealingNetwork(): Promise<void> {

@@ -46,3 +46,4 @@ class Global {
 0 && (module.exports = {
   Global
 });
+//# sourceMappingURL=global.js.map

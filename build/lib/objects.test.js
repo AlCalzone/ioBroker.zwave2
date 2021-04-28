@@ -60,3 +60,4 @@ describe("lib/objects => nameToStateId()", () => {
     }
   });
 });
+//# sourceMappingURL=objects.test.js.map

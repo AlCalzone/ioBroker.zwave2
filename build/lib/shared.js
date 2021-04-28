@@ -66,3 +66,4 @@ var InclusionMode;
   isBufferAsHex,
   mapToRecord
 });
+//# sourceMappingURL=shared.js.map

@@ -112,7 +112,8 @@ function nodeToNative(node: ZWaveNode): Record<string, any> {
 				specific: node.deviceClass.specific.label,
 			},
 		}),
-		endpoints: node.getEndpointCount(),
+		// endpoints: node.getEndpointCount(),
+		endpointIndizes: node.getEndpointIndizes(),
 		secure: node.isSecure,
 		supportsFirmwareUpdate: node.supportsCC(
 			CommandClasses["Firmware Update Meta Data"],
