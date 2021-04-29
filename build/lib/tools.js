@@ -80,3 +80,4 @@ async function translateGoogle(text, targetLang) {
   translateGoogle,
   translateText
 });
+//# sourceMappingURL=tools.js.map

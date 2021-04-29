@@ -13,12 +13,15 @@ if (opts.react) {
 			entryPoints: ["./admin/src/index"],
 			tsconfig: "./admin/tsconfig.json",
 			bundle: true,
-			minify: true,
+			minify: !cliopts.watch,
 			outdir: "admin/build",
-			sourcemap: "external",
+			sourcemap: true,
+			// sourcemap: "external",
 			logLevel: "info",
 			define: {
-				"process.env.NODE_ENV": '"production"',
+				"process.env.NODE_ENV": cliopts.watch
+					? '"development"'
+					: '"production"',
 			},
 		});
 	})().catch(() => process.exit(1));
@@ -33,7 +36,7 @@ if (opts.typescript) {
 			outdir: "build",
 			bundle: false,
 			minify: false,
-			sourcemap: "external",
+			sourcemap: true,
 			logLevel: "info",
 			platform: "node",
 			format: "cjs",
