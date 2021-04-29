@@ -1,11 +1,10 @@
 import * as React from "react";
 import {
 	Device,
-	getAssociationGroups,
-	getAssociations,
 	getNodeReady,
 	getNodeStatus,
 	loadDevices,
+	updateEndpointsAndAssociations,
 } from "./backend";
 
 export interface DevicesContextData {
@@ -39,10 +38,7 @@ export function useDevices() {
 					ready: await getNodeReady(namespace, nodeId),
 				};
 				if (device.ready) {
-					device.associationGroups = await getAssociationGroups(
-						nodeId,
-					);
-					device.associations = await getAssociations(nodeId);
+					await updateEndpointsAndAssociations(nodeId, device);
 				}
 				setDevices((devices) => ({ ...devices, [nodeId]: device }));
 			}
@@ -57,13 +53,12 @@ export function useDevices() {
 	};
 
 	const updateAssociations = async (nodeId: number) => {
-		const associationGroups = await getAssociationGroups(nodeId);
-		const associations = await getAssociations(nodeId);
+		const device = {} as Device;
+		await updateEndpointsAndAssociations(nodeId, device);
 		setDevices((devices) => {
 			const updatedDevice = devices[nodeId];
 			if (updatedDevice) {
-				updatedDevice.associationGroups = associationGroups;
-				updatedDevice.associations = associations;
+				updatedDevice.endpoints = device.endpoints;
 				return {
 					...devices,
 					[nodeId]: updatedDevice,

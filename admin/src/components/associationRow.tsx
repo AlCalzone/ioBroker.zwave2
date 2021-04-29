@@ -4,58 +4,72 @@ import { Dropdown } from "./dropdown";
 import { composeObject } from "alcalzone-shared/objects";
 import { padStart } from "alcalzone-shared/strings";
 
-export interface Association {}
-
 export interface AssociationRowProps {
-	// The defined groups and nodes including endpoints
-	groups: (AssociationGroup & { groupId: number })[];
-	nodes: { nodeId: number; endpoints?: number }[];
+	// The existing endpoints on the source node, their defined groups, and existing nodes including endpoints
+	endpoints: number[];
+	groups: ReadonlyMap<number, (AssociationGroup & { group: number })[]>;
+	nodes: { nodeId: number; endpointIndizes?: number[] }[];
 
 	// The selected association
+	sourceEndpoint: number;
 	group: number | undefined;
 	nodeId: number | undefined;
 	endpoint?: number | undefined;
 
 	// Will be called when the group should be saved
 	save(
+		sourceEndpoint: number | undefined,
 		group: number,
 		nodeId: number,
-		endpoint?: number | undefined,
+		endpoint: number | undefined,
 	): Promise<void>;
 	// Will be called when the group should be deleted
 	delete?(): Promise<void>;
 }
 
-export function AssociationRow(props: AssociationRowProps) {
+export const AssociationRow: React.FC<AssociationRowProps> = (props) => {
+	const [sourceEndpoint, setSourceEndpoint] = React.useState(
+		props.sourceEndpoint,
+	);
 	const [group, setGroup] = React.useState(props.group);
 	const [nodeId, setNodeId] = React.useState(props.nodeId);
 	const [endpoint, setEndpoint] = React.useState(props.endpoint);
 	const [endpointOptions, setEndpointOptions] = React.useState<
 		Record<string, any>
 	>({ undefined: _("Root device") });
+	const [sourceEndpointOptions, setSourceEndpointOptions] = React.useState<
+		Record<string, any>
+	>({ 0: _("Root device") });
 
 	const [isValid, setValid] = React.useState(false);
 	const [hasChanges, setHasChanges] = React.useState(false);
 	const [isBusy, setBusy] = React.useState(false);
 
+	const groups = props.groups.get(sourceEndpoint) ?? [];
+
 	React.useEffect(() => {
 		setHasChanges(
-			group !== props.group ||
+			sourceEndpoint !== props.sourceEndpoint ||
+				group !== props.group ||
 				nodeId !== props.nodeId ||
 				endpoint !== props.endpoint,
 		);
+		const groupExists = !!groups.find((g) => g.group === group);
+		const node = props.nodes.find((n) => n.nodeId === nodeId);
+		const endpointIndizes = node?.endpointIndizes ?? [];
 		setValid(
-			!!props.groups.find((g) => g.groupId === group) &&
-				!!props.nodes.find((n) => n.nodeId === nodeId) &&
-				(props.nodes.find((n) => n.nodeId === nodeId)!.endpoints ??
-					0) >= (endpoint ?? 0),
+			groupExists &&
+				!!node &&
+				(endpoint == undefined ||
+					endpoint === 0 ||
+					endpointIndizes.includes(endpoint)),
 		);
-	}, [group, nodeId, endpoint]);
+	}, [group, groups, nodeId, endpoint]);
 
 	const groupOptions = composeObject(
-		props.groups.map(({ groupId, label }) => [
-			groupId as any,
-			`${_("Group")} ${groupId}: ${label}`,
+		groups.map(({ group, label }) => [
+			group as any,
+			`${_("Group")} ${group}: ${label}`,
 		]),
 	);
 
@@ -66,11 +80,25 @@ export function AssociationRow(props: AssociationRowProps) {
 		]),
 	);
 
+	// Update the source endpoint dropdown when necessary
 	React.useEffect(() => {
-		const numEndpoints =
-			props.nodes.find((n) => n.nodeId === nodeId)?.endpoints ?? 0;
-		const groupSupportsMultiChannel = !!props.groups.find(
-			(g) => g.groupId === group,
+		const newEndpointOptions = {
+			0: _("Root device"),
+		};
+		for (const ep of props.endpoints) {
+			// The source endpoint does not distinguish between no endpoint and root device
+			if (ep === 0) continue;
+			newEndpointOptions[ep] = `${_("Endpoint")} ${ep}`;
+		}
+		setSourceEndpointOptions(newEndpointOptions);
+	}, [props.endpoints]);
+
+	// Update the target endpoint dropdown when necessary
+	React.useEffect(() => {
+		const endpointIndizes =
+			props.nodes.find((n) => n.nodeId === nodeId)?.endpointIndizes ?? [];
+		const groupSupportsMultiChannel = !!groups.find(
+			(g) => g.group === group,
 		)?.multiChannel;
 		if (!groupSupportsMultiChannel) {
 			setEndpointOptions({});
@@ -79,7 +107,7 @@ export function AssociationRow(props: AssociationRowProps) {
 			const newEndpointOptions = {
 				undefined: _("Root device"),
 			};
-			for (let ep = 0; ep <= numEndpoints; ep++) {
+			for (const ep of endpointIndizes) {
 				newEndpointOptions[ep] =
 					ep === 0 ? _("Root endpoint") : `${_("Endpoint")} ${ep}`;
 			}
@@ -88,6 +116,7 @@ export function AssociationRow(props: AssociationRowProps) {
 	}, [nodeId, group]);
 
 	const isNewAssociation =
+		props.sourceEndpoint == undefined &&
 		props.group == undefined &&
 		props.nodeId == undefined &&
 		props.endpoint == undefined;
@@ -95,16 +124,20 @@ export function AssociationRow(props: AssociationRowProps) {
 	async function saveAssociation() {
 		try {
 			setBusy(true);
-			await props.save(group!, nodeId!, endpoint);
+			await props.save(sourceEndpoint, group!, nodeId!, endpoint);
 			if (isNewAssociation) resetAssociation();
 		} catch (e) {
 			alert(_(`The association could not be saved!`));
+			console.error(
+				`The association could not be saved! Reason: ${e.message}`,
+			);
 			resetAssociation();
 		} finally {
 			setBusy(false);
 		}
 	}
 	function resetAssociation() {
+		setSourceEndpoint(props.sourceEndpoint);
 		setGroup(props.group);
 		setNodeId(props.nodeId);
 		setEndpoint(props.endpoint);
@@ -116,17 +149,31 @@ export function AssociationRow(props: AssociationRowProps) {
 			await props.delete();
 		} catch (e) {
 			alert(_(`The association could not be deleted!`));
+			console.error(
+				`The association could not be deleted! Reason: ${e.message}`,
+			);
 			resetAssociation();
 		} finally {
 			setBusy(false);
 		}
 	}
 
-	const currentGroup = props.groups.find((g) => g.groupId === group);
-	const nodeSupportsMultiChannel = props.groups.some((g) => g.multiChannel);
+	const currentGroup = groups.find((g) => g.group === group);
+	const endpointSupportsMultiChannel = groups.some((g) => g.multiChannel);
 
 	return (
 		<tr>
+			<td>
+				<Dropdown
+					id="sourceEndpoints"
+					options={sourceEndpointOptions}
+					checkedOption={sourceEndpoint.toString()}
+					emptySelectionText={_("- select endpoint -")}
+					checkedChanged={(newValue) => {
+						setSourceEndpoint(parseInt(newValue));
+					}}
+				/>
+			</td>
 			<td>
 				<Dropdown
 					id="groups"
@@ -151,7 +198,7 @@ export function AssociationRow(props: AssociationRowProps) {
 			</td>
 			<td
 				style={{
-					display: nodeSupportsMultiChannel ? "initial" : "none",
+					display: endpointSupportsMultiChannel ? "initial" : "none",
 				}}
 			>
 				<div
@@ -210,4 +257,4 @@ export function AssociationRow(props: AssociationRowProps) {
 			</td>
 		</tr>
 	);
-}
+};

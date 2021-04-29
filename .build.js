@@ -4,7 +4,7 @@ const glob = require("tiny-glob");
 
 const [opts, args] = cliopts.parse(
 	["react", "Build React sources"],
-	["typescript", "Build typescript soruces"],
+	["typescript", "Build TypeScript soruces"],
 );
 
 if (opts.react) {
@@ -16,7 +16,6 @@ if (opts.react) {
 			minify: !cliopts.watch,
 			outdir: "admin/build",
 			sourcemap: true,
-			// sourcemap: "external",
 			logLevel: "info",
 			define: {
 				"process.env.NODE_ENV": cliopts.watch

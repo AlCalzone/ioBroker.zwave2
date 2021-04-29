@@ -1,5 +1,5 @@
 import { padStart } from "alcalzone-shared/strings";
-import type { FirmwareUpdateStatus } from "zwave-js";
+import type { AssociationAddress, FirmwareUpdateStatus } from "zwave-js";
 
 // WARNING: DO NOT IMPORT values FROM "zwave-js" HERE
 // That will break the frontend
@@ -46,11 +46,10 @@ export interface FirmwareUpdatePollResponse {
 	waitTime?: number;
 }
 
-export interface AssociationDefinition {
-	groupId: number;
-	targetNodeId: number;
-	endpoint?: number;
-}
+export type AssociationDefinition = AssociationAddress & {
+	sourceEndpoint?: number;
+	group: number;
+};
 
 export enum InclusionMode {
 	Idle = 0,

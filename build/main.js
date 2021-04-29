@@ -602,16 +602,31 @@ class ZWave2 extends utils.Adapter {
           }
           return respond(responses.OK);
         }
-        case "getAssociationGroups": {
+        case "getEndpointIndizes": {
           if (!this.driverReady) {
             return respond(responses.ERROR("The driver is not yet ready to do that!"));
           }
           if (!requireParams("nodeId"))
             return;
           const params = obj.message;
-          const nodeId = params.nodeId;
           try {
-            const groups = this.driver.controller.getAssociationGroups(nodeId);
+            const node = this.driver.controller.nodes.getOrThrow(params.nodeId);
+            const ret = node.getEndpointIndizes();
+            return respond(responses.RESULT(ret));
+          } catch (e) {
+            return respond(responses.ERROR(`Could not get endpoint indizes for node ${params.nodeId}: ${e.message}`));
+          }
+        }
+        case "getAssociationGroups": {
+          if (!this.driverReady) {
+            return respond(responses.ERROR("The driver is not yet ready to do that!"));
+          }
+          if (!requireParams("source"))
+            return;
+          const params = obj.message;
+          const source = params.source;
+          try {
+            const groups = this.driver.controller.getAssociationGroups(source);
             const ret = (0, import_objects.composeObject)([...groups]);
             return respond(responses.RESULT(ret));
           } catch (e) {
@@ -622,12 +637,12 @@ class ZWave2 extends utils.Adapter {
           if (!this.driverReady) {
             return respond(responses.ERROR("The driver is not yet ready to do that!"));
           }
-          if (!requireParams("nodeId"))
+          if (!requireParams("source"))
             return;
           const params = obj.message;
-          const nodeId = params.nodeId;
+          const source = params.source;
           try {
-            const assocs = this.driver.controller.getAssociations(nodeId);
+            const assocs = this.driver.controller.getAssociations(source);
             const ret = (0, import_objects.composeObject)([...assocs]);
             return respond(responses.RESULT(ret));
           } catch (e) {
@@ -643,13 +658,16 @@ class ZWave2 extends utils.Adapter {
           const params = obj.message;
           const nodeId = params.nodeId;
           const definition = params.association;
+          const source = {
+            nodeId,
+            endpoint: definition.sourceEndpoint
+          };
+          const target = {
+            nodeId: definition.nodeId,
+            endpoint: definition.endpoint
+          };
           try {
-            await this.driver.controller.addAssociations(nodeId, definition.groupId, [
-              {
-                nodeId: definition.targetNodeId,
-                endpoint: definition.endpoint
-              }
-            ]);
+            await this.driver.controller.addAssociations(source, definition.group, [target]);
             return respond(responses.OK);
           } catch (e) {
             return respond(responses.ERROR(`Could not add association for node ${params.nodeId}: ${e.message}`));
@@ -664,13 +682,16 @@ class ZWave2 extends utils.Adapter {
           const params = obj.message;
           const nodeId = params.nodeId;
           const definition = params.association;
+          const source = {
+            nodeId,
+            endpoint: definition.sourceEndpoint
+          };
+          const target = {
+            nodeId: definition.nodeId,
+            endpoint: definition.endpoint
+          };
           try {
-            await this.driver.controller.removeAssociations(nodeId, definition.groupId, [
-              {
-                nodeId: definition.targetNodeId,
-                endpoint: definition.endpoint
-              }
-            ]);
+            await this.driver.controller.removeAssociations(source, definition.group, [target]);
             return respond(responses.OK);
           } catch (e) {
             return respond(responses.ERROR(`Could not remove association for node ${params.nodeId}: ${e.message}`));

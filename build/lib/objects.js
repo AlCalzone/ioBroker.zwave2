@@ -114,7 +114,7 @@ function nodeToNative(node) {
       specific: node.deviceClass.specific.label
     }
   }), {
-    endpoints: node.getEndpointCount(),
+    endpointIndizes: node.getEndpointIndizes(),
     secure: node.isSecure,
     supportsFirmwareUpdate: node.supportsCC(import_core.CommandClasses["Firmware Update Meta Data"])
   });

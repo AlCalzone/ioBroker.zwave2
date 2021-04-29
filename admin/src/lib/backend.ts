@@ -1,4 +1,4 @@
-import type { Association, AssociationGroup } from "zwave-js/CommandClass";
+import type { AssociationAddress, AssociationGroup } from "zwave-js";
 import {
 	AssociationDefinition,
 	computeDeviceId,
@@ -45,7 +45,7 @@ export async function setStateAsync(
 	value: Parameters<ioBroker.Adapter["setStateAsync"]>[1],
 ): Promise<void> {
 	return new Promise((resolve, reject) => {
-		socket.emit("setState", id, value, (err, result) => {
+		socket.emit("setState", id, value, (err, _result) => {
 			if (err) reject(err);
 			resolve();
 		});
@@ -67,8 +67,12 @@ export interface Device {
 	value: ioBroker.DeviceObject;
 	status?: "unknown" | "alive" | "asleep" | "awake" | "dead";
 	ready?: boolean;
+	endpoints?: Map<number, Endpoint>;
+}
+
+export interface Endpoint {
 	associationGroups?: Record<number, AssociationGroup>;
-	associations?: Record<number, Association[]>;
+	associations?: Record<number, AssociationAddress[]>;
 }
 
 export async function getNodeStatus(
@@ -89,11 +93,21 @@ export async function getNodeReady(
 	).val as boolean;
 }
 
-export async function getAssociationGroups(
+export async function getEndpointIndizes(
 	nodeId: number,
-): Promise<Device["associationGroups"]> {
-	return new Promise((resolve, reject) => {
-		sendTo(null, "getAssociationGroups", { nodeId }, ({ result }) => {
+): Promise<readonly number[]> {
+	return new Promise((resolve) => {
+		sendTo(null, "getEndpointIndizes", { nodeId }, ({ result }) => {
+			resolve(result);
+		});
+	});
+}
+
+export async function getAssociationGroups(
+	source: AssociationAddress,
+): Promise<Endpoint["associationGroups"]> {
+	return new Promise((resolve) => {
+		sendTo(null, "getAssociationGroups", { source }, ({ result }) => {
 			// Some nodes don't support associations, ignore them
 			resolve(result);
 		});
@@ -101,10 +115,10 @@ export async function getAssociationGroups(
 }
 
 export async function getAssociations(
-	nodeId: number,
-): Promise<Device["associations"]> {
-	return new Promise((resolve, reject) => {
-		sendTo(null, "getAssociations", { nodeId }, ({ result }) => {
+	source: AssociationAddress,
+): Promise<Endpoint["associations"]> {
+	return new Promise((resolve) => {
+		sendTo(null, "getAssociations", { source }, ({ result }) => {
 			// Some nodes don't support associations, ignore them
 			resolve(result);
 		});
@@ -143,6 +157,28 @@ export async function removeAssociation(
 			},
 		);
 	});
+}
+
+export async function updateEndpointsAndAssociations(
+	nodeId: number,
+	device: Device,
+): Promise<void> {
+	const endpointIndizes = [0];
+	endpointIndizes.push(...(await getEndpointIndizes(nodeId)));
+	const endpoints = new Map<number, Endpoint>();
+	for (const i of endpointIndizes) {
+		endpoints.set(i, {
+			associationGroups: await getAssociationGroups({
+				nodeId,
+				endpoint: i,
+			}),
+			associations: await getAssociations({
+				nodeId,
+				endpoint: i,
+			}),
+		});
+	}
+	device.endpoints = endpoints;
 }
 
 export async function updateConfig(): Promise<boolean> {
@@ -188,10 +224,10 @@ export async function loadDevices(
 							);
 						}
 						if (options.associations && device.ready) {
-							device.associationGroups = await getAssociationGroups(
+							await updateEndpointsAndAssociations(
 								nodeId,
+								device,
 							);
-							device.associations = await getAssociations(nodeId);
 						}
 						ret[nodeId] = device;
 					}
