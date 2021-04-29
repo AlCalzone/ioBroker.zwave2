@@ -81,6 +81,7 @@ export class ZWave2 extends utils.Adapter<true> {
 	private driverReady = false;
 	private readyNodes = new Set<number>();
 	private initialNodeInterviewStages = new Map<number, InterviewStage>();
+	private configUpdateTimeout: NodeJS.Timeout | undefined;
 
 	/**
 	 * Is called when databases are connected and adapter received configuration.
@@ -168,6 +169,14 @@ export class ZWave2 extends utils.Adapter<true> {
 					this.onHealNetworkProgress.bind(this),
 				)
 				.on("heal network done", this.onHealNetworkDone.bind(this));
+
+			// Kick off a the regular config update check
+			void this.checkForConfigUpdates();
+			void this.setStateAsync(
+				"info.configVersion",
+				this.driver.configVersion,
+				true,
+			);
 
 			// Remember in which interview stage the nodes started, so we can decide whether to mark the node values as stale or not
 			this.initialNodeInterviewStages = new Map(
@@ -680,6 +689,38 @@ export class ZWave2 extends utils.Adapter<true> {
 		}
 	};
 
+	private async checkForConfigUpdates(): Promise<void> {
+		// Check if there is a config update only if we don't know there is one
+		if (!(await this.getStateAsync("info.configUpdate"))?.val) {
+			try {
+				await this.setStateChangedAsync(
+					"info.configUpdate",
+					(await this.driver.checkForConfigUpdates()) ?? null,
+					true,
+				);
+			} catch (e) {
+				await this.setStateChangedAsync(
+					"info.configUpdate",
+					null,
+					true,
+				);
+				this.log.error(
+					`Failed to check for config updates: ${e.message}`,
+				);
+			}
+		}
+
+		// Figure out when the next update should be. New versions are normally released between 02:00 and 03:00 UTC
+		// Checking at 05:00 UTC should be safe
+		const hour = new Date().getUTCHours();
+		let timeoutHours = 5 - hour;
+		if (timeoutHours < 0) timeoutHours += 24;
+		this.configUpdateTimeout = setTimeout(
+			() => this.checkForConfigUpdates(),
+			timeoutHours * 3600 * 1000,
+		);
+	}
+
 	/**
 	 * Is called when adapter shuts down - callback has to be called under any circumstances!
 	 */
@@ -694,6 +735,9 @@ export class ZWave2 extends utils.Adapter<true> {
 				await setNodeStatus(nodeId, "unknown");
 				await setNodeReady(nodeId, false);
 			}
+
+			if (this.configUpdateTimeout)
+				clearTimeout(this.configUpdateTimeout);
 
 			this.log.info("Cleaned everything up!");
 			callback();
@@ -772,6 +816,8 @@ export class ZWave2 extends utils.Adapter<true> {
 					if (state.val)
 						await this.setInclusionMode(InclusionMode.Idle);
 					await this.setExclusionMode(state.val as any);
+					return;
+				} else if (id.startsWith(`${this.namespace}.info.`)) {
 					return;
 				}
 
@@ -1289,6 +1335,40 @@ export class ZWave2 extends utils.Adapter<true> {
 						return respond(responses.OK);
 					} catch (e) {
 						return respond(responses.ERROR(e.message));
+					}
+				}
+
+				case "updateConfig": {
+					if (!this.driverReady) {
+						return respond(
+							responses.ERROR(
+								"The driver is not yet ready to do that!",
+							),
+						);
+					}
+
+					try {
+						const result = await this.driver.installConfigUpdate();
+						await this.setStateAsync(
+							"info.configUpdate",
+							null,
+							true,
+						);
+						await this.setStateAsync(
+							"info.configVersion",
+							this.driver.configVersion,
+							true,
+						);
+						return respond(responses.RESULT(result));
+					} catch (e) {
+						this.log.error(
+							`Could not install config updates: ${e.message}`,
+						);
+						return respond(
+							responses.ERROR(
+								`Could not install config updates: ${e.message}`,
+							),
+						);
 					}
 				}
 

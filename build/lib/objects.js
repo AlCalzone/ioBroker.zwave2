@@ -427,3 +427,4 @@ async function extendNotification_NotificationCC(node, args) {
   setNodeReady,
   setNodeStatus
 });
+//# sourceMappingURL=objects.js.map

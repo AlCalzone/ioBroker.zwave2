@@ -55,3 +55,4 @@ async function enumerateSerialPorts(adapter) {
 0 && (module.exports = {
   enumerateSerialPorts
 });
+//# sourceMappingURL=serialPorts.js.map

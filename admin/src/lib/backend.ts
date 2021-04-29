@@ -145,6 +145,15 @@ export async function removeAssociation(
 	});
 }
 
+export async function updateConfig(): Promise<boolean> {
+	return new Promise((resolve, reject) => {
+		sendTo(null, "updateConfig", undefined, ({ result, error }) => {
+			if (error) reject(error);
+			resolve(result);
+		});
+	});
+}
+
 export async function loadDevices(
 	namespace: string,
 	options: {

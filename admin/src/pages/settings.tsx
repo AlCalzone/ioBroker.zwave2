@@ -3,6 +3,7 @@ import * as React from "react";
 import { Tooltip } from "iobroker-react-components";
 import { Dropdown } from "../components/dropdown";
 import { composeObject, entries } from "alcalzone-shared/objects";
+import { UpdateDeviceConfig } from "../components/updateDeviceConfig";
 
 export type OnSettingsChangedCallback = (
 	newSettings: Record<string, unknown>,
@@ -373,6 +374,12 @@ export class Settings extends React.Component<SettingsProps, SettingsState> {
 							/>
 							<CheckboxLabel text="Preserve state names" />
 						</label>
+					</div>
+				</div>
+				<div className="row"></div>
+				<div className="row">
+					<div className="col s6">
+						<UpdateDeviceConfig />
 					</div>
 				</div>
 			</>
