@@ -235,7 +235,7 @@ export function NodeActions(props: NodeActionsProps) {
 							type="file"
 							hidden
 							id="firmwareFile"
-							accept=".exe,.ex_,.ota,.otz,.hex,.gbl,.bin"
+							accept=".exe,.ex_,.ota,.otz,.hex,.hec,.gbl,.bin"
 							ref={(ref) => {
 								if (ref) input.current = ref;
 							}}
