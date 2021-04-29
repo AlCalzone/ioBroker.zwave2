@@ -101,8 +101,9 @@ class ZWave2 extends utils.Adapter {
       this.setState("info.connection", true, true);
       this.log.info(`The driver is ready. Found ${this.driver.controller.nodes.size} nodes.`);
       this.driver.controller.on("inclusion started", this.onInclusionStarted.bind(this)).on("exclusion started", this.onExclusionStarted.bind(this)).on("inclusion stopped", this.onInclusionStopped.bind(this)).on("exclusion stopped", this.onExclusionStopped.bind(this)).on("inclusion failed", this.onInclusionFailed.bind(this)).on("exclusion failed", this.onExclusionFailed.bind(this)).on("node added", this.onNodeAdded.bind(this)).on("node removed", this.onNodeRemoved.bind(this)).on("heal network progress", this.onHealNetworkProgress.bind(this)).on("heal network done", this.onHealNetworkDone.bind(this));
+      await this.setStateAsync("info.configVersion", this.driver.configVersion, true);
+      await this.setStateAsync("info.configUpdate", null, true);
       void this.checkForConfigUpdates();
-      void this.setStateAsync("info.configVersion", this.driver.configVersion, true);
       this.initialNodeInterviewStages = new Map([...this.driver.controller.nodes.values()].map((node) => [
         node.id,
         node.interviewStage
@@ -386,6 +387,7 @@ class ZWave2 extends utils.Adapter {
       }
       if (this.configUpdateTimeout)
         clearTimeout(this.configUpdateTimeout);
+      await this.setStateAsync("info.configUpdating", false, true);
       this.log.info("Cleaned everything up!");
       callback();
     } catch (e) {
@@ -750,6 +752,7 @@ class ZWave2 extends utils.Adapter {
             return respond(responses.ERROR("The driver is not yet ready to do that!"));
           }
           try {
+            await this.setStateAsync("info.configUpdating", true, true);
             const result = await this.driver.installConfigUpdate();
             await this.setStateAsync("info.configUpdate", null, true);
             await this.setStateAsync("info.configVersion", this.driver.configVersion, true);
@@ -757,6 +760,8 @@ class ZWave2 extends utils.Adapter {
           } catch (e) {
             this.log.error(`Could not install config updates: ${e.message}`);
             return respond(responses.ERROR(`Could not install config updates: ${e.message}`));
+          } finally {
+            await this.setStateAsync("info.configUpdating", false, true);
           }
         }
         case "sendCommand": {

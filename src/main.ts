@@ -171,12 +171,13 @@ export class ZWave2 extends utils.Adapter<true> {
 				.on("heal network done", this.onHealNetworkDone.bind(this));
 
 			// Kick off a the regular config update check
-			void this.checkForConfigUpdates();
-			void this.setStateAsync(
+			await this.setStateAsync(
 				"info.configVersion",
 				this.driver.configVersion,
 				true,
 			);
+			await this.setStateAsync("info.configUpdate", null, true);
+			void this.checkForConfigUpdates();
 
 			// Remember in which interview stage the nodes started, so we can decide whether to mark the node values as stale or not
 			this.initialNodeInterviewStages = new Map(
@@ -738,6 +739,8 @@ export class ZWave2 extends utils.Adapter<true> {
 
 			if (this.configUpdateTimeout)
 				clearTimeout(this.configUpdateTimeout);
+
+			await this.setStateAsync("info.configUpdating", false, true);
 
 			this.log.info("Cleaned everything up!");
 			callback();
@@ -1348,6 +1351,11 @@ export class ZWave2 extends utils.Adapter<true> {
 					}
 
 					try {
+						await this.setStateAsync(
+							"info.configUpdating",
+							true,
+							true,
+						);
 						const result = await this.driver.installConfigUpdate();
 						await this.setStateAsync(
 							"info.configUpdate",
@@ -1368,6 +1376,12 @@ export class ZWave2 extends utils.Adapter<true> {
 							responses.ERROR(
 								`Could not install config updates: ${e.message}`,
 							),
+						);
+					} finally {
+						await this.setStateAsync(
+							"info.configUpdating",
+							false,
+							true,
 						);
 					}
 				}
