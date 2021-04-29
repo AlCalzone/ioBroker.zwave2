@@ -376,6 +376,45 @@
                 "def": false
             },
             "native": {}
+        },
+        {
+            "_id": "info.configVersion",
+            "type": "state",
+            "common": {
+                "role": "state",
+                "name": "The installed version of the Z-Wave JS configuration DB",
+                "type": "string",
+                "read": true,
+                "write": false,
+                "def": false
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.configUpdate",
+            "type": "state",
+            "common": {
+                "role": "state",
+                "name": "The version of an available update for the Z-Wave JS configuration DB",
+                "type": "string",
+                "read": true,
+                "write": false,
+                "def": false
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.configUpdating",
+            "type": "state",
+            "common": {
+                "role": "state",
+                "name": "Whether the adapter is currently updating the Z-Wave JS configuration DB",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "def": false
+            },
+            "native": {}
         }
     ]
 }

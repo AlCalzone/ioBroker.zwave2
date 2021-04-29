@@ -101,6 +101,9 @@ class ZWave2 extends utils.Adapter {
       this.setState("info.connection", true, true);
       this.log.info(`The driver is ready. Found ${this.driver.controller.nodes.size} nodes.`);
       this.driver.controller.on("inclusion started", this.onInclusionStarted.bind(this)).on("exclusion started", this.onExclusionStarted.bind(this)).on("inclusion stopped", this.onInclusionStopped.bind(this)).on("exclusion stopped", this.onExclusionStopped.bind(this)).on("inclusion failed", this.onInclusionFailed.bind(this)).on("exclusion failed", this.onExclusionFailed.bind(this)).on("node added", this.onNodeAdded.bind(this)).on("node removed", this.onNodeRemoved.bind(this)).on("heal network progress", this.onHealNetworkProgress.bind(this)).on("heal network done", this.onHealNetworkDone.bind(this));
+      await this.setStateAsync("info.configVersion", this.driver.configVersion, true);
+      await this.setStateAsync("info.configUpdate", null, true);
+      void this.checkForConfigUpdates();
       this.initialNodeInterviewStages = new Map([...this.driver.controller.nodes.values()].map((node) => [
         node.id,
         node.interviewStage
@@ -356,6 +359,22 @@ class ZWave2 extends utils.Adapter {
       waitTime
     });
   }
+  async checkForConfigUpdates() {
+    var _a, _b;
+    if (!((_a = await this.getStateAsync("info.configUpdate")) == null ? void 0 : _a.val)) {
+      try {
+        await this.setStateChangedAsync("info.configUpdate", (_b = await this.driver.checkForConfigUpdates()) != null ? _b : null, true);
+      } catch (e) {
+        await this.setStateChangedAsync("info.configUpdate", null, true);
+        this.log.error(`Failed to check for config updates: ${e.message}`);
+      }
+    }
+    const hour = new Date().getUTCHours();
+    let timeoutHours = 5 - hour;
+    if (timeoutHours < 0)
+      timeoutHours += 24;
+    this.configUpdateTimeout = setTimeout(() => this.checkForConfigUpdates(), timeoutHours * 3600 * 1e3);
+  }
   async onUnload(callback) {
     try {
       this.log.info("Shutting down driver...");
@@ -366,6 +385,9 @@ class ZWave2 extends utils.Adapter {
         await (0, import_objects2.setNodeStatus)(nodeId, "unknown");
         await (0, import_objects2.setNodeReady)(nodeId, false);
       }
+      if (this.configUpdateTimeout)
+        clearTimeout(this.configUpdateTimeout);
+      await this.setStateAsync("info.configUpdating", false, true);
       this.log.info("Cleaned everything up!");
       callback();
     } catch (e) {
@@ -408,6 +430,8 @@ class ZWave2 extends utils.Adapter {
           if (state.val)
             await this.setInclusionMode(import_shared.InclusionMode.Idle);
           await this.setExclusionMode(state.val);
+          return;
+        } else if (id.startsWith(`${this.namespace}.info.`)) {
           return;
         }
         const obj = this.oObjects[id];
@@ -742,6 +766,23 @@ class ZWave2 extends utils.Adapter {
             return respond(responses.OK);
           } catch (e) {
             return respond(responses.ERROR(e.message));
+          }
+        }
+        case "updateConfig": {
+          if (!this.driverReady) {
+            return respond(responses.ERROR("The driver is not yet ready to do that!"));
+          }
+          try {
+            await this.setStateAsync("info.configUpdating", true, true);
+            const result = await this.driver.installConfigUpdate();
+            await this.setStateAsync("info.configUpdate", null, true);
+            await this.setStateAsync("info.configVersion", this.driver.configVersion, true);
+            return respond(responses.RESULT(result));
+          } catch (e) {
+            this.log.error(`Could not install config updates: ${e.message}`);
+            return respond(responses.ERROR(`Could not install config updates: ${e.message}`));
+          } finally {
+            await this.setStateAsync("info.configUpdating", false, true);
           }
         }
         case "sendCommand": {

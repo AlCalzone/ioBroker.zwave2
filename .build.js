@@ -36,7 +36,6 @@ if (opts.typescript) {
 			bundle: false,
 			minify: false,
 			sourcemap: true,
-			// sourcemap: "external",
 			logLevel: "info",
 			platform: "node",
 			format: "cjs",
