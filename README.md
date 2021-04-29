@@ -40,7 +40,7 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	Placeholder for next versions:
 	### __WORK IN PROGRESS__
 -->
-### __WORK IN PROGRESS__
+### 1.10.0 (2021-04-29)
 * The associations tab now shows the name of devices along with their node ID
 * Associations can now also be managed on the endpoints of a node
 * Experimental support for updating the embedded configuration files from the adapter configuration
@@ -88,17 +88,6 @@ For a full list of changes, check out https://github.com/zwave-js/node-zwave-js/
 * Configuration parameters may now have a unit
 * Tons of new and improved device configuration files
 * Unsolicited reports are no longer incorrectly mapped to all endpoints
-
-### 1.8.11 (2021-02-14)
-* Implemented `Thermostat Fan Mode CC` and `Thermostat Fan State CC`
-* Fixed several sources of crashes
-* Fixed incorrect detection of secure nodes
-* Certain `.hex` firmware files are now parsed correctly
-* Added support for `.bin` firmware files
-* Avoid an infinite interview loop when devices don't advertise the end of the parameter list correctly
-* Sleeping nodes are now immediately marked as ready when restarting from cache
-* Unsolicited reports are no longer mapped from the root endpoint to endpoint 1 if that endpoint does not support the CC
-* Tons of new and improved device configuration files
 
 ## License
 
