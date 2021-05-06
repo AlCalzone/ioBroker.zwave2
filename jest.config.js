@@ -9,4 +9,7 @@ module.exports = {
 	collectCoverage: false,
 	collectCoverageFrom: ["src/**/*.ts", "!src/**/*.test.ts"],
 	coverageReporters: ["lcov", "html", "text-summary"],
+	transform: {
+		"^.+\\.tsx?$": "esbuild-jest",
+	},
 };
