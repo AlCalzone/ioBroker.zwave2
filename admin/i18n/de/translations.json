@@ -63,7 +63,7 @@
     "Write a detailed logfile": "Detaillierte Logdatei schreiben",
     "abort firmware update": "Firmware-Update abbrechen",
     "adapter not ready": "Der Adapter läuft nicht oder ist noch nicht bereit!",
-    "alive": "erreichbar",
+    "alive": "alive",
     "asleep": "schläft",
     "awake": "wach",
     "clear cache procedure": "Der Adapter startet neu und interviewt alle Knoten erneut. Dies kann sehr lange dauern und einige Knoten funktionieren in der Zwischenzeit nicht wie erwartet.",
