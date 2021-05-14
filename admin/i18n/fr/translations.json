@@ -85,7 +85,7 @@
     "loading...": "chargement...",
     "network key confirm": "Cela permettra de remplacer la clé et la carte ne sera pas en mesure de communiquer avec déjà inclus dispositifs sécurisés. Voulez-vous continuer?",
     "network key tooltip": "De 16 octets en hexadécimal (32 caractères 0-9, a-f). Sans espaces, sans virgule, sans leader '0x'.",
-    "no": "pas de",
+    "no": "non",
     "no file selected": "aucun fichier sélectionné",
     "none selected": "aucune sélection",
     "pending": "en attendant",
