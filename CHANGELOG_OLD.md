@@ -1,4 +1,14 @@
 # Older changes
+## 1.8.12 (2021-02-23)
+* Implemented `Scene Actuator Configuration CC` and `Scene Controller Configuration CC`
+* Fixed an issue where sleeping nodes could block the send queue when it is not yet known whether they support `Wake Up CC`
+* Fixed a crash that could happen while logging a message while the driver is not ready yet
+* Fixed a crash that could happen while trying to bootstrap a device that does not respond after inclusion
+* The state value in `Thermostat Fan Mode CC` is now readonly
+* Configuration parameters may now have a unit
+* Tons of new and improved device configuration files
+* Unsolicited reports are no longer incorrectly mapped to all endpoints
+
 ## 1.8.11 (2021-02-14)
 * Implemented `Thermostat Fan Mode CC` and `Thermostat Fan State CC`
 * Fixed several sources of crashes
