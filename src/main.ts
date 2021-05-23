@@ -987,13 +987,16 @@ export class ZWave2 extends utils.Adapter<true> {
 						);
 					}
 
-					const map = [...this.driver.controller.nodes.values()].map(
-						(node) => ({
-							id: node.id,
-							name: `Node ${node.id}`,
-							neighbors: node.neighbors,
-						}),
-					);
+					const tasks = [
+						...this.driver.controller.nodes.values(),
+					].map(async (node) => ({
+						id: node.id,
+						name: `Node ${node.id}`,
+						neighbors: await this.driver.controller.getNodeNeighbors(
+							node.id,
+						),
+					}));
+					const map = await Promise.all(tasks);
 					respond(responses.RESULT(map));
 					return;
 				}

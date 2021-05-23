@@ -17,7 +17,7 @@ function AssociationNodeTableHeadline(
 	const { value, status } = props.device;
 	const nodeId = value.native.id as number;
 	const nodeName =
-		value.common.name && !value.common.name.startsWith("Node")
+		value.common.name && !(value.common.name as string).startsWith("Node")
 			? value.common.name
 			: undefined;
 	return (

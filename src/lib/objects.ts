@@ -1,6 +1,7 @@
 import { CommandClasses, Duration, ValueMetadata } from "@zwave-js/core";
 import { entries } from "alcalzone-shared/objects";
 import { padStart } from "alcalzone-shared/strings";
+import { isArray, isObject } from "alcalzone-shared/typeguards";
 import type { ZWaveNodeValueNotificationArgs } from "zwave-js/build/lib/node/Types";
 import type { ZWaveNotificationCallbackArgs_NotificationCC } from "zwave-js/CommandClass";
 import { NodeStatus, ZWaveNode } from "zwave-js/Node";
@@ -36,6 +37,18 @@ export function nodeStatusToStatusState(status: NodeStatus): string {
 		case NodeStatus.Unknown:
 			return "unknown";
 	}
+}
+
+function safeValue(value: unknown): ioBroker.StateValue {
+	if (value == undefined) return null;
+	if (Buffer.isBuffer(value)) {
+		// We cannot store Buffers in ioBroker, encode them as HEX
+		return buffer2hex(value);
+	} else if (isArray(value) || isObject(value)) {
+		// ioBroker requires all arrays and objects to be stringified
+		return JSON.stringify(value);
+	}
+	return value as any;
 }
 
 const isCamelCasedSafeNameRegex = /^(?!.*[\-_]$)[a-z]([a-zA-Z0-9\-_]+)$/;
@@ -121,7 +134,9 @@ function nodeToNative(node: ZWaveNode): Record<string, any> {
 	};
 }
 
-function nodeToCommon(node: ZWaveNode): ioBroker.DeviceCommon {
+function nodeToCommon(
+	node: ZWaveNode,
+): ioBroker.DeviceCommon & { name: string | undefined } {
 	return {
 		name: node.deviceConfig
 			? `${node.deviceConfig.manufacturer} ${node.deviceConfig.label}`
@@ -140,7 +155,7 @@ export async function extendNode(node: ZWaveNode): Promise<void> {
 	// update the object while preserving the existing common properties
 	const nodeCommon = nodeToCommon(node);
 	// Overwrite empty names and placeholder/fallback names
-	let newName = originalObject?.common.name;
+	let newName = originalObject?.common.name as string | undefined;
 	newName =
 		newName && !fallbackNodeNameRegex.test(newName)
 			? newName
@@ -232,19 +247,14 @@ export async function extendValue(
 
 	await extendMetadata(node, args);
 	try {
-		let newValue = args.newValue ?? null;
-		if (Buffer.isBuffer(newValue)) {
-			// We cannot store Buffers in ioBroker, encode them as HEX
-			newValue = buffer2hex(newValue);
-		}
 		const state: ioBroker.SettableState = {
-			val: newValue as any,
+			val: safeValue(args.newValue),
 			ack: true,
 		};
 		// TODO: remove this after JS-Controller 3.2 is stable
 		if (fromCache) {
 			// Set cached values with a lower quality (substitute value from device or instance), so scripts can ignore the update
-			state.q = 0x40;
+			(state as any).q = 0x40;
 		}
 		if (fromCache) {
 			// Avoid queueing too many events when reading from cache
@@ -265,13 +275,8 @@ export async function extendNotificationValue(
 
 	await extendMetadata(node, args);
 	try {
-		let value = args.value ?? null;
-		if (Buffer.isBuffer(value)) {
-			// We cannot store Buffers in ioBroker, encode them as HEX
-			value = buffer2hex(value);
-		}
 		const state: ioBroker.SettableState = {
-			val: value as any,
+			val: safeValue(args.value),
 			ack: true,
 			expire: 1,
 		};

@@ -40,6 +40,13 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	Placeholder for next versions:
 	### __WORK IN PROGRESS__
 -->
+### __WORK IN PROGRESS__
+Removed some warnings about wrong state value types in JS-Controller 3.3
+Upgraded to `zwave-js` version `7.5.1`. Notable changes include:
+* Improved stability
+* Improved healing strategy
+* Several config file changes
+
 ### 1.10.0 (2021-04-29)
 * The associations tab now shows the name of devices along with their node ID
 * Associations can now also be managed on the endpoints of a node

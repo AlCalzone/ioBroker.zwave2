@@ -539,11 +539,14 @@ class ZWave2 extends utils.Adapter {
           if (!this.driverReady) {
             return respond(responses.ERROR("The driver is not yet ready to show the network map!"));
           }
-          const map = [...this.driver.controller.nodes.values()].map((node) => ({
+          const tasks = [
+            ...this.driver.controller.nodes.values()
+          ].map(async (node) => ({
             id: node.id,
             name: `Node ${node.id}`,
-            neighbors: node.neighbors
+            neighbors: await this.driver.controller.getNodeNeighbors(node.id)
           }));
+          const map = await Promise.all(tasks);
           respond(responses.RESULT(map));
           return;
         }

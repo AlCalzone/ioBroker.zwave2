@@ -43,6 +43,7 @@ __export(exports, {
 var import_core = __toModule(require("@zwave-js/core"));
 var import_objects = __toModule(require("alcalzone-shared/objects"));
 var import_strings = __toModule(require("alcalzone-shared/strings"));
+var import_typeguards = __toModule(require("alcalzone-shared/typeguards"));
 var import_Node = __toModule(require("zwave-js/Node"));
 var import_global = __toModule(require("./global"));
 var import_shared = __toModule(require("./shared"));
@@ -59,6 +60,16 @@ function nodeStatusToStatusState(status) {
     case import_Node.NodeStatus.Unknown:
       return "unknown";
   }
+}
+function safeValue(value) {
+  if (value == void 0)
+    return null;
+  if (Buffer.isBuffer(value)) {
+    return (0, import_shared.buffer2hex)(value);
+  } else if ((0, import_typeguards.isArray)(value) || (0, import_typeguards.isObject)(value)) {
+    return JSON.stringify(value);
+  }
+  return value;
 }
 const isCamelCasedSafeNameRegex = /^(?!.*[\-_]$)[a-z]([a-zA-Z0-9\-_]+)$/;
 function nameToStateId(label) {
@@ -184,16 +195,11 @@ async function extendCC(node, cc, ccName) {
   }
 }
 async function extendValue(node, args, fromCache = false) {
-  var _a;
   const stateId = computeId(node.id, args);
   await extendMetadata(node, args);
   try {
-    let newValue = (_a = args.newValue) != null ? _a : null;
-    if (Buffer.isBuffer(newValue)) {
-      newValue = (0, import_shared.buffer2hex)(newValue);
-    }
     const state = {
-      val: newValue,
+      val: safeValue(args.newValue),
       ack: true
     };
     if (fromCache) {
@@ -209,16 +215,11 @@ async function extendValue(node, args, fromCache = false) {
   }
 }
 async function extendNotificationValue(node, args) {
-  var _a;
   const stateId = computeId(node.id, args);
   await extendMetadata(node, args);
   try {
-    let value = (_a = args.value) != null ? _a : null;
-    if (Buffer.isBuffer(value)) {
-      value = (0, import_shared.buffer2hex)(value);
-    }
     const state = {
-      val: value,
+      val: safeValue(args.value),
       ack: true,
       expire: 1
     };
