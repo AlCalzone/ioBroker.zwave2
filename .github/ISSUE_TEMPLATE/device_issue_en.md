@@ -1,6 +1,6 @@
 ---
 name: Device issue (english)
-about: Something is not working as it should
+about: Use this if you have problems with a device
 title: ""
 labels: ""
 assignees: ""

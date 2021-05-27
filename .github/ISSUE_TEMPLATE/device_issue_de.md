@@ -1,6 +1,6 @@
 ---
 name: Geräte-Problem (deutsch)
-about: ""
+about: Bei Problemen mit einem Gerät
 title: ""
 labels: ""
 assignees: ""
