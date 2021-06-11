@@ -79,7 +79,7 @@
     "firmware update wait time": "The device will be re-interviewed in {0} seconds.",
     "firmware update wake up": "You might have to wake up the device again.",
     "firmware update warning": "WARNING: Use at your own risk! We don't take any responsibility if your devices don't work after an update.",
-    "hosted port tip": "You can also connect to a hosted serialport using the form 'tcp://hostname:port'",
+    "hosted port tip": "You can also connect to a hosted serialport using the form 'tcp://hostname:port'.",
     "increase send attempts tooltip": "Can be enabled to retry sending commands more often if some devices have bad connectivity. May increase stability at the cost of slower communication. Try healing the network first.",
     "increase timeouts tooltip": "Can be enabled if logs often show timeouts or the serial port is connected over a TCP connection. May increase stability at the cost of slower communication.",
     "loading...": "loading...",
