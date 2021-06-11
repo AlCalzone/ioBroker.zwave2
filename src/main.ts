@@ -210,11 +210,13 @@ export class ZWave2 extends utils.Adapter<true> {
 			const nodeIdRegex = new RegExp(
 				`^${this.name}\\.${this.instance}\\.Node_(\\d+)`,
 			);
-			const existingNodeIds = (Object.keys(
-				await _.$$(`${this.namespace}.*`, { type: "device" }),
+			const existingNodeIds = (
+				Object.keys(
+					await _.$$(`${this.namespace}.*`, { type: "device" }),
+				)
+					.map((id: string) => id.match(nodeIdRegex)?.[1])
+					.filter((id) => !!id) as string[]
 			)
-				.map((id: string) => id.match(nodeIdRegex)?.[1])
-				.filter((id) => !!id) as string[])
 				.map((id) => parseInt(id, 10))
 				.filter((id, index, all) => all.indexOf(id) === index);
 			const unusedNodeIds = existingNodeIds.filter(
@@ -992,9 +994,10 @@ export class ZWave2 extends utils.Adapter<true> {
 					].map(async (node) => ({
 						id: node.id,
 						name: `Node ${node.id}`,
-						neighbors: await this.driver.controller.getNodeNeighbors(
-							node.id,
-						),
+						neighbors:
+							await this.driver.controller.getNodeNeighbors(
+								node.id,
+							),
 					}));
 					const map = await Promise.all(tasks);
 					respond(responses.RESULT(map));
@@ -1070,7 +1073,7 @@ export class ZWave2 extends utils.Adapter<true> {
 						);
 					}
 					if (!requireParams("nodeId")) return;
-					const params = (obj.message as any) as Record<string, any>;
+					const params = obj.message as any as Record<string, any>;
 
 					try {
 						await this.driver.controller.removeFailedNode(
@@ -1095,7 +1098,7 @@ export class ZWave2 extends utils.Adapter<true> {
 						);
 					}
 					if (!requireParams("nodeId")) return;
-					const params = (obj.message as any) as Record<string, any>;
+					const params = obj.message as any as Record<string, any>;
 
 					try {
 						const node = this.driver.controller.nodes.getOrThrow(
@@ -1120,13 +1123,12 @@ export class ZWave2 extends utils.Adapter<true> {
 						);
 					}
 					if (!requireParams("source")) return;
-					const params = (obj.message as any) as Record<string, any>;
+					const params = obj.message as any as Record<string, any>;
 					const source: AssociationAddress = params.source;
 
 					try {
-						const groups = this.driver.controller.getAssociationGroups(
-							source,
-						);
+						const groups =
+							this.driver.controller.getAssociationGroups(source);
 						// convert map into object
 						const ret = composeObject([...groups] as [
 							any,
@@ -1151,13 +1153,12 @@ export class ZWave2 extends utils.Adapter<true> {
 						);
 					}
 					if (!requireParams("source")) return;
-					const params = (obj.message as any) as Record<string, any>;
+					const params = obj.message as any as Record<string, any>;
 					const source: AssociationAddress = params.source;
 
 					try {
-						const assocs = this.driver.controller.getAssociations(
-							source,
-						);
+						const assocs =
+							this.driver.controller.getAssociations(source);
 						// convert map into object
 						const ret = composeObject([...assocs] as [
 							any,
@@ -1182,7 +1183,7 @@ export class ZWave2 extends utils.Adapter<true> {
 						);
 					}
 					if (!requireParams("nodeId", "association")) return;
-					const params = (obj.message as any) as Record<string, any>;
+					const params = obj.message as any as Record<string, any>;
 					const nodeId: number = params.nodeId;
 					const definition: AssociationDefinition =
 						params.association;
@@ -1221,7 +1222,7 @@ export class ZWave2 extends utils.Adapter<true> {
 						);
 					}
 					if (!requireParams("nodeId", "association")) return;
-					const params = (obj.message as any) as Record<string, any>;
+					const params = obj.message as any as Record<string, any>;
 					const nodeId: number = params.nodeId;
 					const definition: AssociationDefinition =
 						params.association;

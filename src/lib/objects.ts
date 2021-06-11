@@ -313,32 +313,33 @@ export async function extendMetadata(
 			: // and fall back to the state ID if that is missing
 			  stateId;
 
-	const objectDefinition: ioBroker.SettableObjectWorker<ioBroker.StateObject> = {
-		type: "state",
-		common: {
-			role: stateRole,
-			read: metadata.readable,
-			write: metadata.writeable,
-			name: newStateName,
-			desc: metadata.description,
-			type: stateType,
-			min: (metadata as ValueMetadataNumeric).min,
-			max: (metadata as ValueMetadataNumeric).max,
-			def: (metadata as ValueMetadataNumeric).default,
-			unit: (metadata as ValueMetadataNumeric).unit,
-			states: (metadata as any).states,
-		},
-		native: {
-			nodeId: node.id,
-			valueId: {
-				commandClass: args.commandClass,
-				endpoint: args.endpoint,
-				property: args.property,
-				propertyKey: args.propertyKey,
+	const objectDefinition: ioBroker.SettableObjectWorker<ioBroker.StateObject> =
+		{
+			type: "state",
+			common: {
+				role: stateRole,
+				read: metadata.readable,
+				write: metadata.writeable,
+				name: newStateName,
+				desc: metadata.description,
+				type: stateType,
+				min: (metadata as ValueMetadataNumeric).min,
+				max: (metadata as ValueMetadataNumeric).max,
+				def: (metadata as ValueMetadataNumeric).default,
+				unit: (metadata as ValueMetadataNumeric).unit,
+				states: (metadata as any).states,
 			},
-			steps: (metadata as ValueMetadataNumeric).steps,
-		} as any,
-	};
+			native: {
+				nodeId: node.id,
+				valueId: {
+					commandClass: args.commandClass,
+					endpoint: args.endpoint,
+					property: args.property,
+					propertyKey: args.propertyKey,
+				},
+				steps: (metadata as ValueMetadataNumeric).steps,
+			} as any,
+		};
 
 	await setOrExtendObject(stateId, objectDefinition, originalObject);
 }
@@ -486,46 +487,47 @@ async function setNotificationValue(
 					!!property ? ` (${property})` : ""
 			  }`;
 
-	const objectDefinition: ioBroker.SettableObjectWorker<ioBroker.StateObject> = {
-		type: "state",
-		common:
-			typeof value === "boolean"
-				? {
-						role: "indicator",
-						read: true,
-						write: false,
-						name: newStateName,
-						type: "boolean",
-				  }
-				: typeof value === "number"
-				? {
-						role: "value",
-						read: true,
-						write: false,
-						name: newStateName,
-						type: "number",
-				  }
-				: value instanceof Duration
-				? {
-						role: "value.interval",
-						read: true,
-						write: false,
-						name: newStateName,
-						type: "number",
-						unit: "seconds",
-				  }
-				: {
-						role: "text",
-						read: true,
-						write: false,
-						name: newStateName,
-						type: "string",
-				  },
-		native: {
-			nodeId: nodeId,
-			notificationEvent: true,
-		},
-	};
+	const objectDefinition: ioBroker.SettableObjectWorker<ioBroker.StateObject> =
+		{
+			type: "state",
+			common:
+				typeof value === "boolean"
+					? {
+							role: "indicator",
+							read: true,
+							write: false,
+							name: newStateName,
+							type: "boolean",
+					  }
+					: typeof value === "number"
+					? {
+							role: "value",
+							read: true,
+							write: false,
+							name: newStateName,
+							type: "number",
+					  }
+					: value instanceof Duration
+					? {
+							role: "value.interval",
+							read: true,
+							write: false,
+							name: newStateName,
+							type: "number",
+							unit: "seconds",
+					  }
+					: {
+							role: "text",
+							read: true,
+							write: false,
+							name: newStateName,
+							type: "string",
+					  },
+			native: {
+				nodeId: nodeId,
+				notificationEvent: true,
+			},
+		};
 
 	// Translate the value into something useful
 	let val;
