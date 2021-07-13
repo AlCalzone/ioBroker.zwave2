@@ -1,4 +1,13 @@
 # Older changes
+## 1.9.2 (2021-04-05)
+Upgraded to `zwave-js` version `7.1.0`. Notable changes include:
+* Added reporting of usage statistics. For details, refer to the `node-zwave-js` documentation.
+* Better support for 700-series Z-Wave sticks
+* Notification values are no longer auto-reset to idle after 5 minutes by default. This behavior can now be enabled per device if necessary.
+* Several stability improvements
+
+For a full list of changes, check out https://github.com/zwave-js/node-zwave-js/blob/master/CHANGELOG.md
+
 ## 1.9.0 (2021-03-16)
 * Upgraded to `zwave-js` version 7
 * Nodes with a completed interview are no longer queried for all their values when restarting. As a result the adapter is now ready much much faster after a restart, but you'll see many yellow values until the devices have sent updated data.
