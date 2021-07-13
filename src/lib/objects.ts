@@ -2,7 +2,6 @@ import { CommandClasses, Duration, ValueMetadata } from "@zwave-js/core";
 import { entries } from "alcalzone-shared/objects";
 import { padStart } from "alcalzone-shared/strings";
 import { isArray, isObject } from "alcalzone-shared/typeguards";
-import type { ZWaveNodeValueNotificationArgs } from "zwave-js/build/lib/node/Types";
 import type { ZWaveNotificationCallbackArgs_NotificationCC } from "zwave-js/CommandClass";
 import { NodeStatus, ZWaveNode } from "zwave-js/Node";
 import type {
@@ -11,6 +10,7 @@ import type {
 	ValueType,
 	ZWaveNodeMetadataUpdatedArgs,
 	ZWaveNodeValueAddedArgs,
+	ZWaveNodeValueNotificationArgs,
 	ZWaveNodeValueRemovedArgs,
 	ZWaveNodeValueUpdatedArgs,
 } from "zwave-js/Values";

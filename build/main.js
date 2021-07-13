@@ -1,16 +1,32 @@
 var __create = Object.create;
 var __defProp = Object.defineProperty;
+var __defProps = Object.defineProperties;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getOwnPropSymbols = Object.getOwnPropertySymbols;
 var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __getOwnPropNames = Object.getOwnPropertyNames;
-var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-var __assign = Object.assign;
+var __propIsEnum = Object.prototype.propertyIsEnumerable;
+var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, {enumerable: true, configurable: true, writable: true, value}) : obj[key] = value;
+var __spreadValues = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp.call(b, prop))
+      __defNormalProp(a, prop, b[prop]);
+  if (__getOwnPropSymbols)
+    for (var prop of __getOwnPropSymbols(b)) {
+      if (__propIsEnum.call(b, prop))
+        __defNormalProp(a, prop, b[prop]);
+    }
+  return a;
+};
+var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
 var __markAsModule = (target) => __defProp(target, "__esModule", {value: true});
 var __export = (target, all) => {
   for (var name in all)
     __defProp(target, name, {get: all[name], enumerable: true});
 };
-var __exportStar = (target, module2, desc) => {
+var __reExport = (target, module2, desc) => {
   if (module2 && typeof module2 === "object" || typeof module2 === "function") {
     for (let key of __getOwnPropNames(module2))
       if (!__hasOwnProp.call(target, key) && key !== "default")
@@ -19,7 +35,7 @@ var __exportStar = (target, module2, desc) => {
   return target;
 };
 var __toModule = (module2) => {
-  return __exportStar(__markAsModule(__defProp(module2 != null ? __create(__getProtoOf(module2)) : {}, "default", module2 && module2.__esModule && "default" in module2 ? {get: () => module2.default, enumerable: true} : {value: module2, enumerable: true})), module2);
+  return __reExport(__markAsModule(__defProp(module2 != null ? __create(__getProtoOf(module2)) : {}, "default", module2 && module2.__esModule && "default" in module2 ? {get: () => module2.default, enumerable: true} : {value: module2, enumerable: true})), module2);
 };
 __markAsModule(exports);
 __export(exports, {
@@ -39,7 +55,7 @@ var import_serialPorts = __toModule(require("./lib/serialPorts"));
 var import_shared = __toModule(require("./lib/shared"));
 class ZWave2 extends utils.Adapter {
   constructor(options = {}) {
-    super(__assign(__assign({}, options), {
+    super(__spreadProps(__spreadValues({}, options), {
       name: "zwave2",
       objects: true
     }));
@@ -223,7 +239,7 @@ class ZWave2 extends utils.Adapter {
     if (node.interviewStage < import_zwave_js.InterviewStage.Complete || node.interviewStage === import_zwave_js.InterviewStage.Complete && this.initialNodeInterviewStages.get(node.id) === import_zwave_js.InterviewStage.Complete) {
       for (const valueId of allValueIDs) {
         const value = node.getValue(valueId);
-        await (0, import_objects2.extendValue)(node, __assign(__assign({}, valueId), {
+        await (0, import_objects2.extendValue)(node, __spreadProps(__spreadValues({}, valueId), {
           newValue: value
         }), true);
       }
@@ -327,7 +343,7 @@ class ZWave2 extends utils.Adapter {
   }
   async syncSwitchStates(node, args) {
     if ((args.commandClass === import_core.CommandClasses["Binary Switch"] || args.commandClass === import_core.CommandClasses["Multilevel Switch"]) && args.property === "currentValue") {
-      await (0, import_objects2.extendValue)(node, __assign(__assign({}, args), {
+      await (0, import_objects2.extendValue)(node, __spreadProps(__spreadValues({}, args), {
         property: "targetValue",
         propertyName: "targetValue"
       }));

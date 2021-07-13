@@ -1,16 +1,32 @@
 var __create = Object.create;
 var __defProp = Object.defineProperty;
+var __defProps = Object.defineProperties;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getOwnPropSymbols = Object.getOwnPropertySymbols;
 var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __getOwnPropNames = Object.getOwnPropertyNames;
-var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-var __assign = Object.assign;
+var __propIsEnum = Object.prototype.propertyIsEnumerable;
+var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, {enumerable: true, configurable: true, writable: true, value}) : obj[key] = value;
+var __spreadValues = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp.call(b, prop))
+      __defNormalProp(a, prop, b[prop]);
+  if (__getOwnPropSymbols)
+    for (var prop of __getOwnPropSymbols(b)) {
+      if (__propIsEnum.call(b, prop))
+        __defNormalProp(a, prop, b[prop]);
+    }
+  return a;
+};
+var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
 var __markAsModule = (target) => __defProp(target, "__esModule", {value: true});
 var __export = (target, all) => {
   for (var name in all)
     __defProp(target, name, {get: all[name], enumerable: true});
 };
-var __exportStar = (target, module2, desc) => {
+var __reExport = (target, module2, desc) => {
   if (module2 && typeof module2 === "object" || typeof module2 === "function") {
     for (let key of __getOwnPropNames(module2))
       if (!__hasOwnProp.call(target, key) && key !== "default")
@@ -19,7 +35,7 @@ var __exportStar = (target, module2, desc) => {
   return target;
 };
 var __toModule = (module2) => {
-  return __exportStar(__markAsModule(__defProp(module2 != null ? __create(__getProtoOf(module2)) : {}, "default", module2 && module2.__esModule && "default" in module2 ? {get: () => module2.default, enumerable: true} : {value: module2, enumerable: true})), module2);
+  return __reExport(__markAsModule(__defProp(module2 != null ? __create(__getProtoOf(module2)) : {}, "default", module2 && module2.__esModule && "default" in module2 ? {get: () => module2.default, enumerable: true} : {value: module2, enumerable: true})), module2);
 };
 __markAsModule(exports);
 __export(exports, {
@@ -113,7 +129,7 @@ function computeId(nodeId, args) {
   ].join(".");
 }
 function nodeToNative(node) {
-  return __assign(__assign({
+  return __spreadProps(__spreadValues({
     id: node.id,
     manufacturerId: node.manufacturerId,
     productType: node.productType,
@@ -144,7 +160,7 @@ async function extendNode(node) {
   newName = newName && !fallbackNodeNameRegex.test(newName) ? newName : nodeCommon.name;
   const desiredObject = {
     type: "device",
-    common: __assign(__assign(__assign({}, nodeCommon), originalObject == null ? void 0 : originalObject.common), {
+    common: __spreadProps(__spreadValues(__spreadValues({}, nodeCommon), originalObject == null ? void 0 : originalObject.common), {
       name: newName
     }),
     native: nodeToNative(node)
@@ -157,7 +173,7 @@ async function removeNode(nodeId) {
     await import_global.Global.adapter.delForeignObjectAsync(deviceId);
   } catch (e) {
   }
-  const existingObjs = __assign(__assign({}, await import_global.Global.$$(`${deviceId}.*`, {type: "channel"})), await import_global.Global.$$(`${deviceId}.*`, {type: "state"}));
+  const existingObjs = __spreadValues(__spreadValues({}, await import_global.Global.$$(`${deviceId}.*`, {type: "channel"})), await import_global.Global.$$(`${deviceId}.*`, {type: "state"}));
   for (const [id, obj] of (0, import_objects.entries)(existingObjs)) {
     if (obj.type === "state") {
       try {
