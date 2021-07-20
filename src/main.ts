@@ -18,12 +18,12 @@ import {
 	ZWaveNode,
 	ZWaveOptions,
 } from "zwave-js";
-import type { ZWaveNotificationCallback } from "zwave-js/build/lib/node/Types";
 import type {
 	AssociationAddress,
 	AssociationGroup,
 	CCAPI,
 	FirmwareUpdateStatus,
+	ZWaveNotificationCallback,
 } from "zwave-js/CommandClass";
 import type { HealNodeStatus } from "zwave-js/Controller";
 import { Firmware, guessFirmwareFileFormat } from "zwave-js/Utils";
