@@ -97,6 +97,8 @@ export const AssociationRow: React.FC<AssociationRowProps> = (props) => {
 	React.useEffect(() => {
 		const endpointIndizes =
 			props.nodes.find((n) => n.nodeId === nodeId)?.endpointIndizes ?? [];
+		// The endpoint indizes don't include the root endpoint, so we need to add it manually
+		if (!endpointIndizes.includes(0)) endpointIndizes.unshift(0);
 		const groupSupportsMultiChannel = !!groups.find(
 			(g) => g.group === group,
 		)?.multiChannel;
