@@ -1,4 +1,8 @@
 # Older changes
+## 1.9.3 (2021-04-10)
+* Restored the old behavior for devices that report their values via the root endpoint
+* Some minor config file changes
+
 ## 1.9.2 (2021-04-05)
 Upgraded to `zwave-js` version `7.1.0`. Notable changes include:
 * Added reporting of usage statistics. For details, refer to the `node-zwave-js` documentation.
