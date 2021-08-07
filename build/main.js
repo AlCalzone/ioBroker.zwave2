@@ -387,7 +387,7 @@ class ZWave2 extends utils.Adapter {
     }
     const hour = new Date().getUTCHours();
     let timeoutHours = 5 - hour;
-    if (timeoutHours < 0)
+    if (timeoutHours <= 0)
       timeoutHours += 24;
     this.configUpdateTimeout = setTimeout(() => this.checkForConfigUpdates(), timeoutHours * 3600 * 1e3);
   }

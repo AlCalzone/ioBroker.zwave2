@@ -40,6 +40,9 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	Placeholder for next versions:
 	### __WORK IN PROGRESS__
 -->
+### __WORK IN PROGRESS__
+* Fixed a bug where the daily config update check would cause a lot of internet traffic for an hour
+
 ### 1.10.3 (2021-07-14)
 Upgraded to `zwave-js` version `7.12.0`. Notable changes include:
 * Further improved handling of the legacy `alarmType` and `alarmLevel` values under some circumstances

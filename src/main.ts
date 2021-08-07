@@ -717,7 +717,7 @@ export class ZWave2 extends utils.Adapter<true> {
 		// Checking at 05:00 UTC should be safe
 		const hour = new Date().getUTCHours();
 		let timeoutHours = 5 - hour;
-		if (timeoutHours < 0) timeoutHours += 24;
+		if (timeoutHours <= 0) timeoutHours += 24;
 		this.configUpdateTimeout = setTimeout(
 			() => this.checkForConfigUpdates(),
 			timeoutHours * 3600 * 1000,
