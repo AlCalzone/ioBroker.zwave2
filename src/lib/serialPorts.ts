@@ -1,6 +1,6 @@
 import { distinct } from "alcalzone-shared/arrays";
-import * as fs from "fs-extra";
-import * as path from "path";
+import fs from "fs-extra";
+import path from "path";
 import { Driver } from "zwave-js";
 import type { ZWave2 } from "../main";
 

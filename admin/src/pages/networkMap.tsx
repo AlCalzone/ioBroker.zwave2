@@ -1,27 +1,27 @@
-import * as React from "react";
+import React from "react";
 import { NotRunning } from "../components/messages";
 import { drawNetworkMap } from "../lib/networkMap";
-import { AdapterContext } from "../lib/useAdapter";
+import { useAdapter } from "iobroker-react/hooks";
+import { useAPI } from "../lib/useAPI";
 
-export function NetworkMap() {
-	const { alive: adapterRunning, connected: driverReady } = React.useContext(
-		AdapterContext,
-	);
+export const NetworkMap: React.FC = () => {
+	const { alive: adapterRunning, connected: driverReady } = useAdapter();
+	const api = useAPI();
 
 	React.useEffect(() => {
 		if (adapterRunning && driverReady) {
-			sendTo(null, "getNetworkMap", null, ({ error, result: nodes }) => {
-				if (error) {
-					console.error(error);
-				} else {
+			api.getNetworkMap()
+				.then((nodes) => {
 					drawNetworkMap("#map", nodes);
-				}
-			});
+				})
+				.catch((e) => {
+					console.error(e);
+				});
 		}
-	}, [adapterRunning, driverReady]);
+	}, [adapterRunning, driverReady, api]);
 	return adapterRunning && driverReady ? (
 		<div id="map"></div>
 	) : (
 		<NotRunning />
 	);
-}
+};

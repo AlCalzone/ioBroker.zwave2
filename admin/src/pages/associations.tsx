@@ -1,16 +1,15 @@
-import * as React from "react";
+import React from "react";
 import type { AssociationDefinition } from "../../../src/lib/shared";
-import { AssociationNodeTable } from "../components/associationNodeTable";
+import { AssociationNodeTable } from "../components/AssociationNodeTable";
 import { NoDevices, NotRunning } from "../components/messages";
-import { addAssociation, removeAssociation } from "../lib/backend";
-import { AdapterContext } from "../lib/useAdapter";
-import { DevicesContext } from "../lib/useDevices";
+import { useAdapter } from "iobroker-react/hooks";
+import { useDevices } from "../lib/useDevices";
+import { useAPI } from "../lib/useAPI";
 
 export const Associations: React.FC = () => {
-	const { devices, updateDevices } = React.useContext(DevicesContext);
-	const { alive: adapterRunning, connected: driverReady } = React.useContext(
-		AdapterContext,
-	);
+	const [devices, updateDevices] = useDevices();
+	const { alive: adapterRunning, connected: driverReady } = useAdapter();
+	const api = useAPI();
 
 	async function saveAssociation(
 		nodeId: number,
@@ -18,7 +17,7 @@ export const Associations: React.FC = () => {
 		current: AssociationDefinition,
 	): Promise<void> {
 		if (prev) await deleteAssociation(nodeId, prev);
-		await addAssociation(nodeId, current);
+		await api.addAssociation(nodeId, current);
 		// Associations are not reflected in states, so we need to
 		// manually update them
 		await updateDevices();
@@ -28,7 +27,7 @@ export const Associations: React.FC = () => {
 		nodeId: number,
 		association: AssociationDefinition,
 	): Promise<void> {
-		await removeAssociation(nodeId, association);
+		await api.removeAssociation(nodeId, association);
 		// Associations are not reflected in states, so we need to
 		// manually update them
 		await updateDevices();
@@ -42,7 +41,7 @@ export const Associations: React.FC = () => {
 		endpointIndizes: d.value.native.endpointIndizes as number[] | undefined,
 	}));
 
-	if (!(adapterRunning && driverReady)) return <NotRunning />;
+	if (!adapterRunning || !driverReady) return <NotRunning />;
 	if (!devicesAsArray.length) return <NoDevices />;
 
 	return (

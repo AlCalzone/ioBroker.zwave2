@@ -1,9 +1,9 @@
-import * as utils from "@iobroker/adapter-core";
+import utils from "@iobroker/adapter-core";
 import { CommandClasses } from "@zwave-js/core";
 import { composeObject } from "alcalzone-shared/objects";
 import { isArray } from "alcalzone-shared/typeguards";
-import * as fs from "fs-extra";
-import * as path from "path";
+import fs from "fs-extra";
+import path from "path";
 import type {
 	NodeInterviewFailedEventArgs,
 	ZWaveNodeValueNotificationArgs,

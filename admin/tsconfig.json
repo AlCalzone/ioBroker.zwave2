@@ -2,16 +2,24 @@
 	"extends": "../tsconfig.json",
 	"compilerOptions": {
 		"noEmit": false,
+		"noEmitOnError": false,
 		"outDir": "./build",
 		"sourceMap": true,
 		"sourceRoot": "./src",
 		"noImplicitAny": false,
-		"lib": ["es2018", "DOM"]
+		"lib": [
+			"es2018",
+			"DOM"
+		],
+		"esModuleInterop": true,
 	},
 	"include": [
 		"./**/*.ts*",
 		"../src/lib/adapter-config.d.ts",
 		"./src/lib/admin.d.ts"
 	],
-	"exclude": ["./**/*.test.ts*"]
+	"exclude": [
+		"./**/*.test.ts*",
+		"./pages/settings_old.tsx"
+	]
 }

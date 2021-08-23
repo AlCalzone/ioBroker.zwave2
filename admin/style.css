@@ -2,24 +2,15 @@
 * {
 	box-sizing: border-box;
 }
-.m {
-	/* Don't cut off dropdowns! */
-	overflow: initial;
+
+body {
+	margin: 0;
 }
-.m.adapter-container {
+
+.adapter-container {
 	height: 100%;
 	width: 100%;
 	position: relative;
-}
-
-#tabs {
-	height: 100%;
-	overflow: hidden;
-}
-#tabs > [id^="tabs"] {
-	height: calc(100% - 48px);
-	padding-top: 1rem;
-	overflow-y: auto;
 }
 
 #map {
@@ -72,58 +63,8 @@ thead td {
 	font-weight: 600;
 }
 
-.m .select-wrapper + label {
-	/* The positioning for dropdown labels is messed up */
-	transform: none !important;
-}
-
 .modal h4 {
 	background: none;
-}
-
-i.material-icons.working {
-	animation: rotation 1.5s infinite ease-in-out;
-	animation-fill-mode: forwards;
-}
-
-@keyframes rotation {
-	0% {
-		transform: rotate(0deg);
-	}
-	95% {
-		transform: rotate(720deg);
-		animation-fill-mode: none;
-	}
-	95.1% {
-		transform: rotate(0deg);
-	}
-}
-
-i.icon-button:not(.disabled) {
-	cursor: pointer;
-}
-
-i.icon-button.disabled {
-	pointer-events: none;
-}
-
-.input-field label {
-	width: 100%;
-}
-
-label > i[title] {
-	cursor: help;
-	margin-left: 0.25em;
-}
-
-.dropdown-content {
-	white-space: nowrap;
-}
-
-span > .material-icons,
-label > .material-icons,
-h5 > .material-icons {
-	vertical-align: middle;
 }
 
 .modal-actions-row {

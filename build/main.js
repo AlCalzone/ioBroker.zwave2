@@ -41,19 +41,19 @@ __markAsModule(exports);
 __export(exports, {
   ZWave2: () => ZWave2
 });
-var utils = __toModule(require("@iobroker/adapter-core"));
+var import_adapter_core = __toModule(require("@iobroker/adapter-core"));
 var import_core = __toModule(require("@zwave-js/core"));
 var import_objects = __toModule(require("alcalzone-shared/objects"));
 var import_typeguards = __toModule(require("alcalzone-shared/typeguards"));
-var fs = __toModule(require("fs-extra"));
-var path = __toModule(require("path"));
+var import_fs_extra = __toModule(require("fs-extra"));
+var import_path = __toModule(require("path"));
 var import_zwave_js = __toModule(require("zwave-js"));
 var import_Utils = __toModule(require("zwave-js/Utils"));
 var import_global = __toModule(require("./lib/global"));
 var import_objects2 = __toModule(require("./lib/objects"));
 var import_serialPorts = __toModule(require("./lib/serialPorts"));
 var import_shared = __toModule(require("./lib/shared"));
-class ZWave2 extends utils.Adapter {
+class ZWave2 extends import_adapter_core.default.Adapter {
   constructor(options = {}) {
     super(__spreadProps(__spreadValues({}, options), {
       name: "zwave2",
@@ -78,9 +78,9 @@ class ZWave2 extends utils.Adapter {
   async onReady() {
     var _a;
     import_global.Global.adapter = this;
-    const cacheDir = path.join(utils.getAbsoluteInstanceDataDir(this), "cache");
+    const cacheDir = import_path.default.join(import_adapter_core.default.getAbsoluteInstanceDataDir(this), "cache");
     if (!!this.config.clearCache) {
-      await fs.remove(cacheDir);
+      await import_fs_extra.default.remove(cacheDir);
       this.updateConfig({clearCache: false});
       return;
     }
@@ -419,7 +419,7 @@ class ZWave2 extends utils.Adapter {
     if (error instanceof import_zwave_js.ZWaveError && error.code === import_zwave_js.ZWaveErrorCodes.Driver_Failed) {
       this.log.error(`Restarting the adapter in a second...`);
       setTimeout(() => {
-        this.terminate(utils.EXIT_CODES.START_IMMEDIATELY_AFTER_STOP);
+        this.terminate(import_adapter_core.default.EXIT_CODES.START_IMMEDIATELY_AFTER_STOP);
       }, 1e3);
     }
   }

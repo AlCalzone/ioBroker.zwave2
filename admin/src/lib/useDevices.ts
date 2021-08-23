@@ -1,12 +1,6 @@
-import * as React from "react";
-import {
-	Device,
-	getNodeReady,
-	getNodeStatus,
-	loadDevices,
-	updateEndpointsAndAssociations,
-} from "./backend";
-
+import { useConnection, useGlobals } from "iobroker-react/hooks";
+import React from "react";
+import { Device, useAPI } from "./useAPI";
 export interface DevicesContextData {
 	devices: Record<number, Device>;
 	updateDevices(): Promise<void>;
@@ -14,6 +8,7 @@ export interface DevicesContextData {
 
 export const DevicesContext = React.createContext<DevicesContextData>({
 	devices: {},
+	// eslint-disable-next-line @typescript-eslint/no-empty-function
 	async updateDevices() {},
 });
 
@@ -21,9 +16,14 @@ const deviceIdRegex = /Node_(\d+)$/;
 const deviceReadyRegex = /Node_(\d+)\.ready$/;
 const deviceStatusRegex = /Node_(\d+)\.status$/;
 
-export function useDevices() {
+export function useDevices(): readonly [
+	Record<number, Device>,
+	() => Promise<void>,
+] {
+	const connection = useConnection();
 	const [devices, setDevices] = React.useState<Record<number, Device>>({});
-	const namespace = `${adapter}.${instance}`;
+	const { namespace } = useGlobals();
+	const api = useAPI();
 
 	const onObjectChange: ioBroker.ObjectChangeHandler = async (id, obj) => {
 		if (!id.startsWith(namespace) || !deviceIdRegex.test(id)) return;
@@ -34,11 +34,11 @@ export function useDevices() {
 				const device: Device = {
 					id,
 					value: obj,
-					status: await getNodeStatus(namespace, nodeId),
-					ready: await getNodeReady(namespace, nodeId),
+					status: await api.getNodeStatus(nodeId),
+					ready: await api.getNodeReady(nodeId),
 				};
 				if (device.ready) {
-					await updateEndpointsAndAssociations(nodeId, device);
+					await api.updateEndpointsAndAssociations(nodeId, device);
 				}
 				setDevices((devices) => ({ ...devices, [nodeId]: device }));
 			}
@@ -54,7 +54,7 @@ export function useDevices() {
 
 	const updateAssociations = async (nodeId: number) => {
 		const device = {} as Device;
-		await updateEndpointsAndAssociations(nodeId, device);
+		await api.updateEndpointsAndAssociations(nodeId, device);
 		setDevices((devices) => {
 			const updatedDevice = devices[nodeId];
 			if (updatedDevice) {
@@ -111,7 +111,7 @@ export function useDevices() {
 
 	async function updateDevices(): Promise<void> {
 		setDevices(
-			await loadDevices(namespace, {
+			await api.loadDevices({
 				status: true,
 				associations: true,
 				ready: true,
@@ -124,15 +124,15 @@ export function useDevices() {
 			// Load devices initially
 			await updateDevices();
 
-			// And update them on changes
-			socket.on("stateChange", onStateChange);
-			socket.on("objectChange", onObjectChange);
+			// And update them on changes - these patterns are a bit broad, but we're going to reuse them anyways
+			connection.subscribeObject(`${namespace}.Node_*`, onObjectChange);
+			connection.subscribeState(`${namespace}.Node_*`, onStateChange);
 		})();
 
 		// componentWillUnmount
 		return () => {
-			socket.removeEventHandler("stateChange", onStateChange);
-			socket.removeEventHandler("objectChange", onObjectChange);
+			connection.unsubscribeObject(`${namespace}.Node_*`, onObjectChange);
+			connection.unsubscribeState(`${namespace}.Node_*`, onStateChange);
 		};
 	}, []);
 

@@ -1,11 +1,43 @@
 import { padStart } from "alcalzone-shared/strings";
-import * as React from "react";
+import React from "react";
 import type { AssociationGroup } from "zwave-js";
 import type { AssociationDefinition } from "../../../src/lib/shared";
-import type { Device } from "../lib/backend";
-import { statusToCssClass, statusToIconName } from "../lib/shared";
-import { AssociationRow } from "./associationRow";
+import type { Device } from "../lib/useAPI";
+import { AssociationRow } from "./AssociationRow";
+import { DeviceStatusIcon } from "./DeviceStatusIcon";
 import { NodeNotReady } from "./messages";
+import { useI18n } from "iobroker-react/hooks";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Table from "@material-ui/core/Table";
+import Paper from "@material-ui/core/Paper";
+import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+
+const useStyles = makeStyles((theme) => ({
+	headline: {
+		backgroundColor: theme.palette.background.default,
+		margin: theme.spacing(-2),
+		marginBottom: 0,
+		borderBottom: `1px solid ${theme.palette.divider}`,
+		padding: theme.spacing(2),
+	},
+	nodeNumber: {
+		"& > *": {
+			verticalAlign: "middle",
+		},
+	},
+	paper: {
+		padding: theme.spacing(2),
+		backgroundColor: theme.palette.background.paper,
+		marginTop: theme.spacing(4),
+		"&:first-child": {
+			margin: 0,
+		},
+	},
+}));
 
 interface AssociationNodeTableHeadlineProps {
 	device: Device;
@@ -14,29 +46,42 @@ interface AssociationNodeTableHeadlineProps {
 function AssociationNodeTableHeadline(
 	props: AssociationNodeTableHeadlineProps,
 ) {
+	const { translate: _ } = useI18n();
+
 	const { value, status } = props.device;
 	const nodeId = value.native.id as number;
 	const nodeName =
 		value.common.name && !(value.common.name as string).startsWith("Node")
 			? value.common.name
 			: undefined;
+
+	const classes = useStyles();
+
 	return (
-		<hgroup>
-			<h5>
-				{_("Node")} {padStart(nodeId.toString(), 3, "0")}&nbsp;
-				<i
-					className={`material-icons ${statusToCssClass(status)}`}
-					title={_(status ?? "unknown")}
-				>
-					{statusToIconName(status)}
-				</i>
-			</h5>
-			{nodeName && <h6>{nodeName}</h6>}
-		</hgroup>
+		<div className={classes.headline}>
+			<Typography
+				variant="h5"
+				component="h2"
+				className={classes.nodeNumber}
+			>
+				<span>
+					{_("Node")} {padStart(nodeId.toString(), 3, "0")}
+				</span>
+				&nbsp;
+				<DeviceStatusIcon status={status} />
+			</Typography>
+			{nodeName && (
+				<Typography variant="h6" component="h3">
+					{nodeName}
+				</Typography>
+			)}
+		</div>
 	);
 }
 
 function AssociationNodeTableContent(props: AssociationNodeTableProps) {
+	const { translate: _ } = useI18n();
+
 	const { endpoints, value } = props.device;
 	const nodeId = value.native.id as number;
 
@@ -111,17 +156,19 @@ function AssociationNodeTableContent(props: AssociationNodeTableProps) {
 	}, [endpoints]);
 
 	return (
-		<table>
-			<thead>
-				<tr>
-					<td>{_("Source endpoint")}</td>
-					<td>{_("Group")}</td>
-					<td>{_("Target node")}</td>
-					{supportsMultiChannel && <td>{_("Target endpoint")}</td>}
-					<td>&nbsp;</td>
-				</tr>
-			</thead>
-			<tbody>
+		<Table>
+			<TableHead>
+				<TableRow>
+					<TableCell>{_("Source endpoint")}</TableCell>
+					<TableCell>{_("Group")}</TableCell>
+					<TableCell>{_("Target node")}</TableCell>
+					{supportsMultiChannel && (
+						<TableCell>{_("Target endpoint")}</TableCell>
+					)}
+					<TableCell>&nbsp;</TableCell>
+				</TableRow>
+			</TableHead>
+			<TableBody>
 				{hasAssociations ? (
 					associations.map((assoc) => (
 						<AssociationRow
@@ -139,6 +186,7 @@ function AssociationNodeTableContent(props: AssociationNodeTableProps) {
 							group={assoc.group}
 							nodeId={assoc.nodeId}
 							endpoint={assoc.endpoint}
+							supportsMultiChannel={supportsMultiChannel}
 							save={(
 								sourceEndpoint,
 								group,
@@ -165,9 +213,10 @@ function AssociationNodeTableContent(props: AssociationNodeTableProps) {
 					endpoints={sourceEndpoints ?? []}
 					groups={groups}
 					nodes={props.nodes.filter((n) => n.nodeId !== nodeId)}
-					sourceEndpoint={0}
+					sourceEndpoint={undefined}
 					group={undefined}
 					nodeId={undefined}
+					supportsMultiChannel={supportsMultiChannel}
 					save={(sourceEndpoint, group, targetNodeId, endpoint) => {
 						return props.saveAssociation(nodeId, undefined, {
 							sourceEndpoint,
@@ -177,8 +226,8 @@ function AssociationNodeTableContent(props: AssociationNodeTableProps) {
 						});
 					}}
 				/>
-			</tbody>
-		</table>
+			</TableBody>
+		</Table>
 	);
 }
 
@@ -208,22 +257,21 @@ export const AssociationNodeTable: React.FC<AssociationNodeTableProps> = (
 		!!endpoints &&
 		[...endpoints.values()].some((e) => !!e.associationGroups);
 
+	const classes = useStyles();
+
 	if (ready && !hasSomeAssociationGroups) {
 		// This node doesn't support associations
 		return <React.Fragment></React.Fragment>;
 	}
 
 	return (
-		<React.Fragment>
-			<div className="section">
-				<AssociationNodeTableHeadline device={props.device} />
-				{ready ? (
-					<AssociationNodeTableContent {...props} />
-				) : (
-					<NodeNotReady />
-				)}
-			</div>
-			<div className="divider"></div>
-		</React.Fragment>
+		<Paper className={classes.paper} elevation={2}>
+			<AssociationNodeTableHeadline device={props.device} />
+			{ready ? (
+				<AssociationNodeTableContent {...props} />
+			) : (
+				<NodeNotReady />
+			)}
+		</Paper>
 	);
 };

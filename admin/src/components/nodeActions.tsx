@@ -1,17 +1,18 @@
-import * as React from "react";
+import Button from "@material-ui/core/Button";
+import { makeStyles } from "@material-ui/core/styles";
+import Tooltip from "@material-ui/core/Tooltip";
+import React from "react";
 import type { FirmwareUpdatePollResponse } from "../../../src/lib/shared";
+import { useAPI } from "../lib/useAPI";
+import { useI18n } from "iobroker-react/hooks";
+import PublishIcon from "@material-ui/icons/Publish";
+import ButtonGroup from "@material-ui/core/ButtonGroup";
+import CloseIcon from "@material-ui/icons/Close";
 
 export interface NodeActionsProps {
 	nodeId: number;
 	status: string | undefined;
-	actions: {
-		remove: () => Promise<void>;
-		refreshInfo: () => Promise<void>;
-		updateFirmware?: (filename: string, data: number[]) => Promise<void>;
-		pollFirmwareUpdateStatus?: () => Promise<FirmwareUpdatePollResponse>;
-		abortFirmwareUpdate?: () => Promise<void>;
-	};
-	close: () => void;
+	supportsFirmwareUpdate: boolean;
 }
 
 interface LoadedFile {
@@ -19,34 +20,47 @@ interface LoadedFile {
 	data: Uint8Array;
 }
 
-export function NodeActions(props: NodeActionsProps) {
+const useStyles = makeStyles((theme) => ({
+	root: {
+		padding: theme.spacing(1),
+	},
+	nodeActionsRow: {
+		display: "flex",
+		flexFlow: "row nowrap",
+		margin: theme.spacing(1, 0),
+		justifyContent: "space-between",
+		alignItems: "center",
+
+		"&:not(:first-of-type)": {
+			marginTop: theme.spacing(4),
+		},
+	},
+}));
+
+export const NodeActions: React.FC<NodeActionsProps> = (props) => {
 	const [isBusy, setBusy] = React.useState(false);
 	const [loadedFile, setLoadedFile] = React.useState<LoadedFile>();
-	const [firmwareUpdateActive, setFirmwareUpdateActive] = React.useState(
-		false,
-	);
-	const [
-		firmwareUpdateStatus,
-		setFirmwareUpdateStatus,
-	] = React.useState<FirmwareUpdatePollResponse>();
+	const [firmwareUpdateActive, setFirmwareUpdateActive] =
+		React.useState(false);
+	const [firmwareUpdateStatus, setFirmwareUpdateStatus] =
+		React.useState<FirmwareUpdatePollResponse>();
 	const [message, setMessage] = React.useState<string>();
 
 	const input = React.useRef<HTMLInputElement>();
+
+	const api = useAPI();
+	const { nodeId, supportsFirmwareUpdate } = props;
+	const { translate: _ } = useI18n();
 
 	// It can happen that the controller does not react to commands for a failed node,
 	// so the status won't change. We need to allow removing the node in this case too,
 	// so just forbid removing alive or awake nodes
 	const isNodeFailed = props.status !== "alive" && props.status !== "awake";
-	const supportsFirmwareUpdate =
-		props.actions.updateFirmware &&
-		props.actions.pollFirmwareUpdateStatus &&
-		props.actions.abortFirmwareUpdate;
 
 	async function removeNode() {
 		setBusy(true);
 		try {
-			await props.actions.remove();
-			props.close();
+			await api.removeFailedNode(nodeId);
 		} catch (e) {
 			alert(e);
 		} finally {
@@ -57,8 +71,7 @@ export function NodeActions(props: NodeActionsProps) {
 	async function refreshInfo() {
 		setBusy(true);
 		try {
-			await props.actions.refreshInfo();
-			props.close();
+			await api.refreshNodeInfo(nodeId);
 		} catch (e) {
 			alert(e);
 		} finally {
@@ -80,11 +93,12 @@ export function NodeActions(props: NodeActionsProps) {
 		}
 	};
 	async function beginFirmwareUpdate() {
-		if (loadedFile?.data && props.actions.updateFirmware) {
+		if (supportsFirmwareUpdate && loadedFile?.data) {
 			setBusy(true);
 			try {
 				setFirmwareUpdateActive(true);
-				await props.actions.updateFirmware(
+				await api.beginFirmwareUpdate(
+					nodeId,
 					loadedFile.name,
 					Array.from(loadedFile.data),
 				);
@@ -99,31 +113,25 @@ export function NodeActions(props: NodeActionsProps) {
 	}
 
 	async function abortFirmwareUpdate() {
-		if (props.actions.abortFirmwareUpdate) {
-			setBusy(true);
-			try {
-				await props.actions.abortFirmwareUpdate();
-			} catch (e) {
-				alert(e);
-			} finally {
-				setBusy(false);
-				setFirmwareUpdateActive(false);
-			}
+		setBusy(true);
+		try {
+			await api.abortFirmwareUpdate(nodeId);
+		} catch (e) {
+			alert(e);
+		} finally {
+			setBusy(false);
+			setFirmwareUpdateActive(false);
 		}
 	}
 
-	// Poll the healing progress while we're updating the firmware
+	// Poll the firmware update progress while we're updating the firmware
 	const [isPolling, setIsPolling] = React.useState(false);
 	React.useEffect(() => {
 		(async () => {
-			if (
-				firmwareUpdateActive &&
-				!isPolling &&
-				props.actions.pollFirmwareUpdateStatus
-			) {
+			if (firmwareUpdateActive && !isPolling) {
 				setIsPolling(true);
 				try {
-					const result = await props.actions.pollFirmwareUpdateStatus();
+					const result = await api.pollFirmwareUpdateStatus(nodeId);
 					console.dir(result);
 					setFirmwareUpdateStatus(result);
 					if (result.type === "done") {
@@ -187,50 +195,51 @@ export function NodeActions(props: NodeActionsProps) {
 		}
 	}, [props.status, firmwareUpdateActive, firmwareUpdateStatus]);
 
+	const classes = useStyles();
+
 	return (
-		<>
-			<h5>{_("Modal_Actions")}</h5>
-			<div className="modal-actions-row">
+		<div className={classes.root}>
+			<div className={classes.nodeActionsRow}>
 				{/* Button to re-interview a node */}
-				<a
-					className={`btn ${isBusy ? "disabled" : ""}`}
+				<Button
+					disabled={isBusy}
+					variant="contained"
+					color="primary"
 					onClick={() => refreshInfo()}
 				>
 					{_("Refresh node info")}
-				</a>
-				{/* Button to remove failed nodes - only show them if the node may be failed */}
+				</Button>
 
-				<a
-					className={`btn red ${
-						!isNodeFailed || isBusy ? "disabled" : ""
-					}`}
-					title={
-						isNodeFailed
-							? undefined
-							: _("This is not a failed node")
-					}
-					onClick={() => removeNode()}
+				{/* Button to remove failed nodes - only show them if the node may be failed */}
+				<Tooltip
+					title={isNodeFailed ? "" : _("This is not a failed node")}
 				>
-					{_("Remove failed node")}
-				</a>
+					<span>
+						{/* The span is necessary to show a tooltip on a disabled button */}
+						<Button
+							disabled={!isNodeFailed || isBusy}
+							variant="contained"
+							color="primary"
+							onClick={() => removeNode()}
+						>
+							{_("Remove failed node")}
+						</Button>
+					</span>
+				</Tooltip>
 			</div>
 
 			{supportsFirmwareUpdate && (
 				<>
-					<div className="divider"></div>
-
-					<div className="modal-actions-row">
-						<a
-							className={`btn ${
-								!isBusy && !firmwareUpdateActive
-									? ""
-									: "disabled"
-							}`}
-							onClick={loadFirmware}
+					<div className={classes.nodeActionsRow}>
+						<Button
+							disabled={firmwareUpdateActive || isBusy}
+							variant="contained"
+							color="primary"
+							onClick={() => loadFirmware()}
 							style={{ flex: "1 0 auto" }}
 						>
 							{_("Update Firmware")}
-						</a>
+						</Button>
 						<input
 							type="file"
 							hidden
@@ -293,32 +302,33 @@ export function NodeActions(props: NodeActionsProps) {
 									: _("no file selected")}
 							</span>
 						)}
-						<a
-							className={`btn ${
-								!isBusy &&
-								!firmwareUpdateActive &&
-								loadedFile?.data
-									? ""
-									: "disabled"
-							}`}
-							title={_("start firmware update")}
-							onClick={beginFirmwareUpdate}
+						<ButtonGroup
+							variant="contained"
+							color="primary"
 							style={{ flex: "1 0 auto" }}
 						>
-							<i className="material-icons">file_upload</i>
-						</a>{" "}
-						<a
-							className={`btn red ${
-								!isBusy && firmwareUpdateActive
-									? ""
-									: "disabled"
-							}`}
-							title={_("abort firmware update")}
-							onClick={abortFirmwareUpdate}
-							style={{ flex: "1 0 auto" }}
-						>
-							<i className="material-icons">close</i>
-						</a>
+							<Tooltip title={_("start firmware update")}>
+								<Button
+									disabled={
+										firmwareUpdateActive ||
+										isBusy ||
+										!loadedFile?.data
+									}
+									onClick={() => beginFirmwareUpdate()}
+								>
+									<PublishIcon />
+								</Button>
+							</Tooltip>
+
+							<Tooltip title={_("abort firmware update")}>
+								<Button
+									disabled={!firmwareUpdateActive || isBusy}
+									onClick={() => abortFirmwareUpdate()}
+								>
+									<CloseIcon />
+								</Button>
+							</Tooltip>
+						</ButtonGroup>
 					</div>
 					{message ? (
 						<div>{message}</div>
@@ -329,6 +339,6 @@ export function NodeActions(props: NodeActionsProps) {
 					)}
 				</>
 			)}
-		</>
+		</div>
 	);
-}
+};

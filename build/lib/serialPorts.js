@@ -25,19 +25,19 @@ __export(exports, {
   enumerateSerialPorts: () => enumerateSerialPorts
 });
 var import_arrays = __toModule(require("alcalzone-shared/arrays"));
-var fs = __toModule(require("fs-extra"));
-var path = __toModule(require("path"));
+var import_fs_extra = __toModule(require("fs-extra"));
+var import_path = __toModule(require("path"));
 var import_zwave_js = __toModule(require("zwave-js"));
 function isSerialPort(path2) {
   if (!/(tty(S|ACM|USB|AMA|MFD)|rfcomm)/.test(path2))
     return false;
-  return fs.statSync(path2).isCharacterDevice();
+  return import_fs_extra.default.statSync(path2).isCharacterDevice();
 }
 async function enumerateSerialPorts(adapter) {
   const result = [];
   const devDirName = "/dev";
   try {
-    result.push(...(await fs.readdir(devDirName)).map((file) => path.join(devDirName, file)).filter(isSerialPort));
+    result.push(...(await import_fs_extra.default.readdir(devDirName)).map((file) => import_path.default.join(devDirName, file)).filter(isSerialPort));
   } catch (e) {
   }
   try {

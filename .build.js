@@ -10,7 +10,7 @@ const [opts, args] = cliopts.parse(
 if (opts.react) {
 	(async () => {
 		await build({
-			entryPoints: ["./admin/src/index"],
+			entryPoints: ["./admin/src/index", "./admin/src/tab"],
 			tsconfig: "./admin/tsconfig.json",
 			bundle: true,
 			minify: !cliopts.watch,

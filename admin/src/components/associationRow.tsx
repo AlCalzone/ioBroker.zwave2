@@ -1,8 +1,18 @@
-import * as React from "react";
+import React from "react";
 import type { AssociationGroup } from "zwave-js/CommandClass";
-import { Dropdown } from "./dropdown";
-import { composeObject } from "alcalzone-shared/objects";
 import { padStart } from "alcalzone-shared/strings";
+import { useI18n } from "iobroker-react/hooks";
+import { Dropdown, DropdownOption } from "iobroker-react/components";
+import ButtonGroup from "@material-ui/core/ButtonGroup";
+import Tooltip from "@material-ui/core/Tooltip";
+import Button from "@material-ui/core/Button";
+import AddIcon from "@material-ui/icons/Add";
+import SaveIcon from "@material-ui/icons/Save";
+import RestoreIcon from "@material-ui/icons/Restore";
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+import MuiTableCell from "@material-ui/core/TableCell";
+import TableRow from "@material-ui/core/TableRow";
+import { makeStyles, styled } from "@material-ui/core/styles";
 
 export interface AssociationRowProps {
 	// The existing endpoints on the source node, their defined groups, and existing nodes including endpoints
@@ -10,8 +20,11 @@ export interface AssociationRowProps {
 	groups: ReadonlyMap<number, (AssociationGroup & { group: number })[]>;
 	nodes: { nodeId: number; endpointIndizes?: number[] }[];
 
+	// Whether the target endpoint selection should be shown
+	supportsMultiChannel: boolean;
+
 	// The selected association
-	sourceEndpoint: number;
+	sourceEndpoint: number | undefined;
 	group: number | undefined;
 	nodeId: number | undefined;
 	endpoint?: number | undefined;
@@ -27,25 +40,32 @@ export interface AssociationRowProps {
 	delete?(): Promise<void>;
 }
 
+const useStyles = makeStyles((_theme) => ({
+	dropdown: {
+		width: "100%",
+	},
+}));
+
+const TableCell = styled(MuiTableCell)(({ theme }) => ({
+	padding: theme.spacing(1),
+}));
+
 export const AssociationRow: React.FC<AssociationRowProps> = (props) => {
+	const { translate: _ } = useI18n();
+
 	const [sourceEndpoint, setSourceEndpoint] = React.useState(
 		props.sourceEndpoint,
 	);
 	const [group, setGroup] = React.useState(props.group);
 	const [nodeId, setNodeId] = React.useState(props.nodeId);
 	const [endpoint, setEndpoint] = React.useState(props.endpoint);
-	const [endpointOptions, setEndpointOptions] = React.useState<
-		Record<string, any>
-	>({ undefined: _("Root device") });
-	const [sourceEndpointOptions, setSourceEndpointOptions] = React.useState<
-		Record<string, any>
-	>({ 0: _("Root device") });
 
 	const [isValid, setValid] = React.useState(false);
 	const [hasChanges, setHasChanges] = React.useState(false);
 	const [isBusy, setBusy] = React.useState(false);
 
-	const groups = props.groups.get(sourceEndpoint) ?? [];
+	const groups =
+		(sourceEndpoint != undefined && props.groups.get(sourceEndpoint)) || [];
 
 	React.useEffect(() => {
 		setHasChanges(
@@ -66,35 +86,34 @@ export const AssociationRow: React.FC<AssociationRowProps> = (props) => {
 		);
 	}, [group, groups, nodeId, endpoint]);
 
-	const groupOptions = composeObject(
-		groups.map(({ group, label }) => [
-			group as any,
-			`${_("Group")} ${group}: ${label}`,
-		]),
-	);
+	const groupOptions = groups.map(({ group, label }) => ({
+		value: group,
+		label: `${_("Group")} ${group}: ${label}`,
+	}));
 
-	const nodesOptions = composeObject(
-		props.nodes.map(({ nodeId }) => [
-			nodeId as any,
-			`${_("Node")} ${padStart(nodeId.toString(), 3, "0")}`,
-		]),
-	);
+	const nodesOptions = props.nodes.map(({ nodeId }) => ({
+		value: nodeId,
+		label: `${_("Node")} ${padStart(nodeId.toString(), 3, "0")}`,
+	}));
 
 	// Update the source endpoint dropdown when necessary
-	React.useEffect(() => {
-		const newEndpointOptions = {
-			0: _("Root device"),
-		};
+	const sourceEndpointOptions = React.useMemo(() => {
+		const newEndpointOptions: DropdownOption[] = [
+			{ value: 0, label: _("Root device") },
+		];
 		for (const ep of props.endpoints) {
 			// The source endpoint does not distinguish between no endpoint and root device
 			if (ep === 0) continue;
-			newEndpointOptions[ep] = `${_("Endpoint")} ${ep}`;
+			newEndpointOptions.push({
+				value: ep,
+				label: `${_("Endpoint")} ${ep}`,
+			});
 		}
-		setSourceEndpointOptions(newEndpointOptions);
+		return newEndpointOptions;
 	}, [props.endpoints]);
 
 	// Update the target endpoint dropdown when necessary
-	React.useEffect(() => {
+	const targetEndpointOptions = React.useMemo(() => {
 		const endpointIndizes =
 			props.nodes.find((n) => n.nodeId === nodeId)?.endpointIndizes ?? [];
 		// The endpoint indizes don't include the root endpoint, so we need to add it manually
@@ -103,19 +122,23 @@ export const AssociationRow: React.FC<AssociationRowProps> = (props) => {
 			(g) => g.group === group,
 		)?.multiChannel;
 		if (!groupSupportsMultiChannel) {
-			setEndpointOptions({});
-			return;
+			return [];
 		} else {
-			const newEndpointOptions = {
-				undefined: _("Root device"),
-			};
+			const newEndpointOptions: DropdownOption[] = [
+				{ value: "none", label: _("Root device") },
+			];
 			for (const ep of endpointIndizes) {
-				newEndpointOptions[ep] =
-					ep === 0 ? _("Root endpoint") : `${_("Endpoint")} ${ep}`;
+				newEndpointOptions.push({
+					value: ep,
+					label:
+						ep === 0
+							? _("Root endpoint")
+							: `${_("Endpoint")} ${ep}`,
+				});
 			}
-			setEndpointOptions(newEndpointOptions);
+			return newEndpointOptions;
 		}
-	}, [nodeId, group]);
+	}, [props.nodes, groups, group, nodeId]);
 
 	const isNewAssociation =
 		props.sourceEndpoint == undefined &&
@@ -163,100 +186,100 @@ export const AssociationRow: React.FC<AssociationRowProps> = (props) => {
 	const currentGroup = groups.find((g) => g.group === group);
 	const endpointSupportsMultiChannel = groups.some((g) => g.multiChannel);
 
+	const classes = useStyles();
+
 	return (
-		<tr>
-			<td>
+		<TableRow>
+			<TableCell>
 				<Dropdown
-					id="sourceEndpoints"
+					className={classes.dropdown}
 					options={sourceEndpointOptions}
-					checkedOption={sourceEndpoint.toString()}
-					emptySelectionText={_("- select endpoint -")}
-					checkedChanged={(newValue) => {
-						setSourceEndpoint(parseInt(newValue));
+					selectedOption={sourceEndpoint ?? ""}
+					placeholder={_("- select endpoint -")}
+					onChange={(e) => {
+						setSourceEndpoint(e.target.value as number);
 					}}
 				/>
-			</td>
-			<td>
+			</TableCell>
+			<TableCell>
 				<Dropdown
-					id="groups"
+					className={classes.dropdown}
 					options={groupOptions}
-					checkedOption={group?.toString()}
-					emptySelectionText={_("- select group -")}
-					checkedChanged={(newValue) => {
-						setGroup(parseInt(newValue));
+					selectedOption={group}
+					placeholder={_("- select group -")}
+					onChange={(e) => {
+						setGroup(e.target.value as number);
 					}}
 				/>
-			</td>
-			<td>
+			</TableCell>
+			<TableCell>
 				<Dropdown
-					id="nodes"
+					className={classes.dropdown}
 					options={nodesOptions}
-					checkedOption={nodeId?.toString()}
-					emptySelectionText={_("- select node -")}
-					checkedChanged={(newValue) => {
-						setNodeId(parseInt(newValue));
+					selectedOption={nodeId}
+					placeholder={_("- select node -")}
+					onChange={(e) => {
+						setNodeId(e.target.value as number);
 					}}
 				/>
-			</td>
-			<td
-				style={{
-					display: endpointSupportsMultiChannel ? "initial" : "none",
-				}}
-			>
-				<div
-					style={{
-						display: currentGroup?.multiChannel
-							? "initial"
-							: "none",
-					}}
+			</TableCell>
+			{props.supportsMultiChannel && (
+				<TableCell>
+					{currentGroup?.multiChannel &&
+						endpointSupportsMultiChannel && (
+							<Dropdown
+								className={classes.dropdown}
+								options={targetEndpointOptions}
+								selectedOption={endpoint ?? "none"}
+								placeholder={_("- select endpoint -")}
+								onChange={(e) => {
+									const value = e.target.value;
+									setEndpoint(
+										value === "none"
+											? undefined
+											: (value as number),
+									);
+								}}
+							/>
+						)}
+				</TableCell>
+			)}
+			<TableCell>
+				<ButtonGroup
+					variant="contained"
+					color="primary"
+					style={{ flex: "1 0 auto" }}
 				>
-					<Dropdown
-						id="endpoints"
-						key="endpoints"
-						options={endpointOptions}
-						checkedOption={String(endpoint)}
-						emptySelectionText={_("- select endpoint -")}
-						checkedChanged={(newValue) => {
-							setEndpoint(
-								newValue === "undefined"
-									? undefined
-									: parseInt(newValue),
-							);
-						}}
-					/>
-				</div>
-			</td>
-			<td>
-				<a
-					className={`btn ${
-						isBusy || !isValid || !hasChanges ? "disabled" : ""
-					}`}
-					title={_("Save association")}
-					onClick={saveAssociation}
-				>
-					<i className="material-icons">
-						{isNewAssociation ? "add" : "save"}
-					</i>
-				</a>
-				&nbsp;
-				<a
-					className={`btn ${isBusy || !hasChanges ? "disabled" : ""}`}
-					title={_("Undo changes")}
-					onClick={resetAssociation}
-				>
-					<i className="material-icons">restore</i>
-				</a>
-				&nbsp;
-				{!isNewAssociation && (
-					<a
-						className={`btn red ${isBusy ? "disabled" : ""}`}
-						title={_("Delete association")}
-						onClick={deleteAssociation}
-					>
-						<i className="material-icons">delete_forever</i>
-					</a>
-				)}
-			</td>
-		</tr>
+					<Tooltip title={_("Save association")}>
+						<Button
+							disabled={isBusy || !isValid || !hasChanges}
+							onClick={() => saveAssociation()}
+						>
+							{isNewAssociation ? <AddIcon /> : <SaveIcon />}
+						</Button>
+					</Tooltip>
+
+					<Tooltip title={_("Undo changes")}>
+						<Button
+							disabled={isBusy || !hasChanges}
+							onClick={() => resetAssociation()}
+						>
+							<RestoreIcon />
+						</Button>
+					</Tooltip>
+
+					{!isNewAssociation && (
+						<Tooltip title={_("Delete association")}>
+							<Button
+								disabled={isBusy}
+								onClick={() => deleteAssociation()}
+							>
+								<DeleteForeverIcon />
+							</Button>
+						</Tooltip>
+					)}
+				</ButtonGroup>
+			</TableCell>
+		</TableRow>
 	);
 };
