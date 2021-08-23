@@ -12,6 +12,7 @@ import Collapse from "@material-ui/core/Collapse";
 import { makeStyles } from "@material-ui/core/styles";
 import { NodeActions } from "./NodeActions";
 import { useI18n } from "iobroker-react/hooks";
+import { DeviceSecurityIcon } from "./DeviceSecurityIcon";
 
 export interface DeviceTableRowProps {
 	device: Device;
@@ -43,10 +44,13 @@ export const DeviceTableRow: React.FC<DeviceTableRowProps> = (props) => {
 	const { value, status } = device;
 	const nodeId = value.native.id as number;
 	const supportsFirmwareUpdate = !!value.native.supportsFirmwareUpdate;
+	const { secure, securityClasses } = value.native;
 
 	const [open, setOpen] = React.useState(false);
 	const classes = useStyles();
 	const { translate: _ } = useI18n();
+
+	console.log(`nodeId: ${nodeId}, ${JSON.stringify(value.native)}`);
 
 	return (
 		<>
@@ -66,27 +70,16 @@ export const DeviceTableRow: React.FC<DeviceTableRowProps> = (props) => {
 
 					<span>{nodeId}</span>
 				</TableCell>
-				<TableCell>
-					{value.native.secure === true && (
-						<>
-							<i
-								className="material-icons tiny"
-								title={_("device is secure")}
-								style={{
-									verticalAlign: "bottom",
-								}}
-							>
-								lock_outline
-							</i>
-							&nbsp;
-						</>
-					)}
-					{value.common.name}
-				</TableCell>
+				<TableCell>{value.common.name}</TableCell>
 				<TableCell>
 					{(value.native as any).type.specific ??
 						(value.native as any).type.generic ??
 						_("unknown")}
+				</TableCell>
+				<TableCell>
+					{secure && securityClasses && (
+						<DeviceSecurityIcon securityClasses={securityClasses} />
+					)}
 				</TableCell>
 				<TableCell>
 					{/* Whether the device is reachable */}
@@ -101,7 +94,7 @@ export const DeviceTableRow: React.FC<DeviceTableRowProps> = (props) => {
 				</TableCell>
 			</TableRow>
 			<TableRow>
-				<TableCell colSpan={4} className={classes.expanderCell}>
+				<TableCell colSpan={5} className={classes.expanderCell}>
 					<Collapse in={open} timeout="auto" unmountOnExit>
 						<NodeActions
 							nodeId={nodeId}

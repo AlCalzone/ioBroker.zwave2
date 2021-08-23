@@ -48,6 +48,7 @@ export const DeviceTable: React.FC<DeviceTableProps> = (props) => {
 							<TableCell align="right">#</TableCell>
 							<TableCell>{_("Name")}</TableCell>
 							<TableCell>{_("Type")}</TableCell>
+							<TableCell>{_("Security")}</TableCell>
 							<TableCell>{_("Status")}</TableCell>
 						</TableRow>
 					</TableHead>

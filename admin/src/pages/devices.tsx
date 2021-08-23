@@ -4,7 +4,7 @@ import {
 	NetworkHealPollResponse,
 } from "../../../src/lib/shared";
 import { useDevices } from "../lib/useDevices";
-import { NotRunning } from "../components/messages";
+import { NotRunning } from "../components/Messages";
 import {
 	useIoBrokerState,
 	useAdapter,

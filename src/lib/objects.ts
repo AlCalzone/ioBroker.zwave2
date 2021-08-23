@@ -1,4 +1,10 @@
-import { CommandClasses, Duration, ValueMetadata } from "@zwave-js/core";
+import {
+	CommandClasses,
+	Duration,
+	SecurityClass,
+	securityClassOrder,
+	ValueMetadata,
+} from "@zwave-js/core";
 import { entries } from "alcalzone-shared/objects";
 import { padStart } from "alcalzone-shared/strings";
 import { isArray, isObject } from "alcalzone-shared/typeguards";
@@ -113,6 +119,10 @@ export function computeId(nodeId: number, args: TranslatedValueID): string {
 }
 
 function nodeToNative(node: ZWaveNode): Record<string, any> {
+	const securityClasses = {} as Record<SecurityClass, boolean>;
+	for (const secClass of securityClassOrder) {
+		securityClasses[secClass] = node.hasSecurityClass(secClass) === true;
+	}
 	return {
 		id: node.id,
 		manufacturerId: node.manufacturerId,
@@ -127,6 +137,7 @@ function nodeToNative(node: ZWaveNode): Record<string, any> {
 		}),
 		// endpoints: node.getEndpointCount(),
 		endpointIndizes: node.getEndpointIndizes(),
+		securityClasses: securityClasses,
 		secure: node.isSecure,
 		supportsFirmwareUpdate: node.supportsCC(
 			CommandClasses["Firmware Update Meta Data"],

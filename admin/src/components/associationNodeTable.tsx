@@ -5,7 +5,7 @@ import type { AssociationDefinition } from "../../../src/lib/shared";
 import type { Device } from "../lib/useAPI";
 import { AssociationRow } from "./AssociationRow";
 import { DeviceStatusIcon } from "./DeviceStatusIcon";
-import { NodeNotReady } from "./messages";
+import { NodeNotReady } from "./Messages";
 import { useI18n } from "iobroker-react/hooks";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";

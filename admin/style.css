@@ -54,23 +54,3 @@ text.disconnected {
 	fill: #c90f0f;
 	font-weight: bold;
 }
-
-.divider {
-	margin: 1rem 0;
-}
-
-thead td {
-	font-weight: 600;
-}
-
-.modal h4 {
-	background: none;
-}
-
-.modal-actions-row {
-	display: flex;
-	flex-flow: row nowrap;
-	margin: 0.5em 0;
-	justify-content: space-between;
-	align-items: center;
-}
