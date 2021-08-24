@@ -2,7 +2,6 @@ import {
 	CommandClasses,
 	Duration,
 	SecurityClass,
-	securityClassOrder,
 	ValueMetadata,
 } from "@zwave-js/core";
 import { entries } from "alcalzone-shared/objects";
@@ -118,11 +117,23 @@ export function computeId(nodeId: number, args: TranslatedValueID): string {
 	].join(".");
 }
 
-function nodeToNative(node: ZWaveNode): Record<string, any> {
-	const securityClasses = {} as Record<SecurityClass, boolean>;
-	for (const secClass of securityClassOrder) {
-		securityClasses[secClass] = node.hasSecurityClass(secClass) === true;
+const secClassDefinitions = [
+	[SecurityClass.S2_AccessControl, CommandClasses["Security 2"]],
+	[SecurityClass.S2_Authenticated, CommandClasses["Security 2"]],
+	[SecurityClass.S2_Unauthenticated, CommandClasses["Security 2"]],
+	[SecurityClass.S0_Legacy, CommandClasses["Security"]],
+] as const;
+
+function securityClassesToRecord(node: ZWaveNode): Record<string, boolean> {
+	const ret = {} as Record<string, boolean>;
+	for (const [secClass, cc] of secClassDefinitions) {
+		if (!node.supportsCC(cc)) continue;
+		ret[SecurityClass[secClass]] = node.hasSecurityClass(secClass) === true;
 	}
+	return ret;
+}
+
+function nodeToNative(node: ZWaveNode): Record<string, any> {
 	return {
 		id: node.id,
 		manufacturerId: node.manufacturerId,
@@ -137,7 +148,7 @@ function nodeToNative(node: ZWaveNode): Record<string, any> {
 		}),
 		// endpoints: node.getEndpointCount(),
 		endpointIndizes: node.getEndpointIndizes(),
-		securityClasses: securityClasses,
+		securityClasses: securityClassesToRecord(node),
 		secure: node.isSecure,
 		supportsFirmwareUpdate: node.supportsCC(
 			CommandClasses["Firmware Update Meta Data"],

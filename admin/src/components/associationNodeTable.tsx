@@ -20,9 +20,12 @@ const useStyles = makeStyles((theme) => ({
 	headline: {
 		backgroundColor: theme.palette.background.default,
 		margin: theme.spacing(-2),
-		marginBottom: 0,
+		marginBottom: theme.spacing(2),
 		borderBottom: `1px solid ${theme.palette.divider}`,
 		padding: theme.spacing(2),
+	},
+	table: {
+		marginTop: theme.spacing(-2),
 	},
 	nodeNumber: {
 		"& > *": {
@@ -155,8 +158,10 @@ function AssociationNodeTableContent(props: AssociationNodeTableProps) {
 		};
 	}, [endpoints]);
 
+	const classes = useStyles();
+
 	return (
-		<Table>
+		<Table className={classes.table}>
 			<TableHead>
 				<TableRow>
 					<TableCell>{_("Source endpoint")}</TableCell>

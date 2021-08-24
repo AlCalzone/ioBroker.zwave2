@@ -128,6 +128,21 @@ function computeId(nodeId, args) {
     ].filter((s) => !!s).join("_")
   ].join(".");
 }
+const secClassDefinitions = [
+  [import_core.SecurityClass.S2_AccessControl, import_core.CommandClasses["Security 2"]],
+  [import_core.SecurityClass.S2_Authenticated, import_core.CommandClasses["Security 2"]],
+  [import_core.SecurityClass.S2_Unauthenticated, import_core.CommandClasses["Security 2"]],
+  [import_core.SecurityClass.S0_Legacy, import_core.CommandClasses["Security"]]
+];
+function securityClassesToRecord(node) {
+  const ret = {};
+  for (const [secClass, cc] of secClassDefinitions) {
+    if (!node.supportsCC(cc))
+      continue;
+    ret[import_core.SecurityClass[secClass]] = node.hasSecurityClass(secClass) === true;
+  }
+  return ret;
+}
 function nodeToNative(node) {
   return __spreadProps(__spreadValues({
     id: node.id,
@@ -142,6 +157,7 @@ function nodeToNative(node) {
     }
   }), {
     endpointIndizes: node.getEndpointIndizes(),
+    securityClasses: securityClassesToRecord(node),
     secure: node.isSecure,
     supportsFirmwareUpdate: node.supportsCC(import_core.CommandClasses["Firmware Update Meta Data"])
   });
