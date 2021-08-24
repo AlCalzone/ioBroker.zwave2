@@ -10,7 +10,7 @@ import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import Collapse from "@material-ui/core/Collapse";
 import { makeStyles } from "@material-ui/core/styles";
-import { NodeActions } from "./_nodeActions";
+import { NodeActions } from "./NodeActions";
 import { useI18n } from "iobroker-react/hooks";
 import { DeviceSecurityIcon } from "./DeviceSecurityIcon";
 

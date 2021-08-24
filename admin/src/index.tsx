@@ -13,7 +13,7 @@ import SyncIcon from "@material-ui/icons/Sync";
 import Button from "@material-ui/core/Button";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import { UpdateDeviceConfig } from "./components/_updateDeviceConfig";
+import { UpdateDeviceConfig } from "./components/UpdateDeviceConfig";
 import { TooltipIcon } from "./components/TooltipIcon";
 import type { Translations } from "iobroker-react/i18n";
 import { useAPI } from "./lib/useAPI";

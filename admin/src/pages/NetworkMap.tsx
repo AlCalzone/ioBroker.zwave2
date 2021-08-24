@@ -1,5 +1,5 @@
 import React from "react";
-import { NotRunning } from "../components/_messages";
+import { NotRunning } from "../components/Messages";
 import { drawNetworkMap } from "../lib/networkMap";
 import { useAdapter } from "iobroker-react/hooks";
 import { useAPI } from "../lib/useAPI";
