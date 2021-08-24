@@ -4,9 +4,9 @@ import ReactDOM from "react-dom";
 import { IoBrokerApp } from "iobroker-react/app";
 import type { Translations } from "iobroker-react/i18n";
 import { TabPanel } from "./components/TabPanel";
-import { Associations } from "./pages/Associations";
-import { Devices } from "./pages/Devices";
-import { NetworkMap } from "./pages/NetworkMap";
+import { Associations } from "./pages/_associations";
+import { Devices } from "./pages/_devices";
+import { NetworkMap } from "./pages/_networkMap";
 import { useI18n } from "iobroker-react/hooks";
 
 import { ErrorBoundary } from "react-error-boundary";

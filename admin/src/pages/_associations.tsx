@@ -1,7 +1,7 @@
 import React from "react";
 import type { AssociationDefinition } from "../../../src/lib/shared";
-import { AssociationNodeTable } from "../components/AssociationNodeTable";
-import { NoDevices, NotRunning } from "../components/Messages";
+import { AssociationNodeTable } from "../components/_associationNodeTable";
+import { NoDevices, NotRunning } from "../components/_messages";
 import { useAdapter } from "iobroker-react/hooks";
 import { useDevices } from "../lib/useDevices";
 import { useAPI } from "../lib/useAPI";
