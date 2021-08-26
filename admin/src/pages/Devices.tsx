@@ -1,6 +1,6 @@
 import React from "react";
-import {
-	InclusionMode,
+import type {
+	InclusionStatus,
 	NetworkHealPollResponse,
 } from "../../../src/lib/shared";
 import { useDevices } from "../lib/useDevices";
@@ -18,6 +18,14 @@ import {
 } from "../components/DeviceActionButtons";
 import { Device, useAPI } from "../lib/useAPI";
 import { DeviceTable } from "../components/DeviceTable";
+import {
+	InclusionDialog,
+	InclusionDialogProps,
+	InclusionStep,
+} from "../components/InclusionDialog";
+import { usePush } from "../lib/usePush";
+
+// interface Inclusion
 
 export const Devices: React.FC = () => {
 	const [devices] = useDevices();
@@ -25,11 +33,11 @@ export const Devices: React.FC = () => {
 	const { namespace } = useGlobals();
 	const { translate: _ } = useI18n();
 	const api = useAPI();
+	const { showNotification, showModal } = useDialogs();
 
-	const [inclusion, , setInclusion] = useIoBrokerState<InclusionMode>({
+	const [inclusion] = useIoBrokerState<boolean>({
 		id: `${namespace}.info.inclusion`,
-		defaultValue: InclusionMode.Idle,
-		transform: (value) => (value === false ? InclusionMode.Idle : value),
+		defaultValue: false,
 	});
 	const [exclusion, , setExclusion] = useIoBrokerState<boolean>({
 		id: `${namespace}.info.exclusion`,
@@ -40,12 +48,22 @@ export const Devices: React.FC = () => {
 		defaultValue: false,
 	});
 
-	const { showNotification, showModal } = useDialogs();
-
 	const [networkHealProgress, setNetworkHealProgress] = React.useState<
 		NonNullable<NetworkHealPollResponse["progress"]>
 	>({});
 	const [cacheCleared, setCacheCleared] = React.useState(false);
+
+	const [inclusionStatus, setInclusionStatus] =
+		React.useState<InclusionStatus>();
+
+	usePush((payload) => {
+		// TODO: Remove this log
+		console.log(`push event received: ${JSON.stringify(payload)}`);
+
+		if (payload.type === "inclusion") {
+			setInclusionStatus(payload.status);
+		}
+	});
 
 	async function healNetwork() {
 		if (!healingNetwork) {
@@ -63,7 +81,8 @@ export const Devices: React.FC = () => {
 	async function clearCache() {
 		if (
 			!healingNetwork &&
-			inclusion === InclusionMode.Idle &&
+			!inclusion &&
+			!inclusionStatus &&
 			!exclusion &&
 			!cacheCleared
 		) {
@@ -84,15 +103,14 @@ export const Devices: React.FC = () => {
 	}
 
 	// Poll the healing progress while we're healing
-	const [isPolling, setIsPolling] = React.useState(false);
+	const [isPollingHealingStatus, setIsPollingHealingStatus] =
+		React.useState(false);
 	React.useEffect(() => {
 		(async () => {
-			if (healingNetwork && !isPolling) {
-				console.log("isPolling: true");
-				setIsPolling(true);
+			if (healingNetwork && !isPollingHealingStatus) {
+				setIsPollingHealingStatus(true);
 				try {
 					const result = await api.pollHealingStatus();
-					console.log(`poll result: ${JSON.stringify(result)}`);
 					setNetworkHealProgress(result.progress ?? {});
 					if (result.type === "done") {
 						void showNotification(
@@ -101,16 +119,18 @@ export const Devices: React.FC = () => {
 						);
 					} else {
 						// Kick off the next poll
-						setIsPolling(false);
+						setIsPollingHealingStatus(false);
 					}
 				} catch (e) {
-					console.error(`Error while polling: ${e}`);
+					console.error(`Error while polling healing status: ${e}`);
 					// Kick off the next poll
-					setIsPolling(false);
+					setIsPollingHealingStatus(false);
 				}
 			}
 		})();
-	}, [isPolling, healingNetwork]);
+	}, [isPollingHealingStatus, healingNetwork]);
+
+	const [showInclusionModal, setShowInclusionModal] = React.useState(false);
 
 	const devicesAsArray: Device[] = [];
 	if (devices) {
@@ -120,12 +140,96 @@ export const Devices: React.FC = () => {
 		}
 	}
 
+	// Choose which inclusion step to display
+	const inclusionDialogProps = ((): InclusionDialogProps | undefined => {
+		if (!inclusionStatus && !inclusion) {
+			return {
+				step: InclusionStep.SelectStrategy,
+				onCancel: () => setShowInclusionModal(false),
+				selectStrategy: async (strategy, forceSecurity) => {
+					try {
+						await api.beginInclusion(strategy, forceSecurity);
+						setInclusionStatus({
+							type: "waitingForDevice",
+						});
+					} catch {
+						showNotification(
+							_("Failed to start inclusion"),
+							"error",
+						);
+					}
+				},
+			};
+		} else if (
+			!inclusionStatus ||
+			inclusionStatus.type === "waitingForDevice"
+		) {
+			return {
+				step: InclusionStep.IncludeDevice,
+				onCancel: () => {
+					setShowInclusionModal(false);
+					api.stopInclusion();
+				},
+			};
+		} else if (inclusionStatus.type === "busy") {
+			return {
+				step: InclusionStep.Busy,
+				onCancel: () => {
+					// Don't do anything here
+				},
+			};
+		} else if (inclusionStatus.type === "validateDSK") {
+			return {
+				step: InclusionStep.ValidateDSK,
+				dsk: inclusionStatus.dsk,
+				setPIN: (pin) => {
+					api.validateDSK(pin);
+				},
+				onCancel: () => {
+					api.validateDSK(false);
+				},
+			};
+		} else if (inclusionStatus.type === "grantSecurityClasses") {
+			return {
+				step: InclusionStep.GrantSecurityClasses,
+				request: inclusionStatus.request,
+				grantSecurityClasses: (grant) => {
+					api.grantSecurityClasses(grant);
+				},
+				onCancel: () => {
+					api.grantSecurityClasses(false);
+				},
+			};
+		} else if (inclusionStatus.type === "done") {
+			return {
+				step: InclusionStep.Result,
+				nodeId: inclusionStatus.nodeId,
+				lowSecurity: inclusionStatus.lowSecurity,
+				securityClass: inclusionStatus.securityClass,
+				onDone: () => {
+					setShowInclusionModal(false);
+					// avoid flicker while the modal is being hidden
+					setTimeout(() => {
+						setInclusionStatus(undefined);
+					}, 250);
+				},
+				onCancel: () => {
+					setShowInclusionModal(false);
+					// avoid flicker while the modal is being hidden
+					setTimeout(() => {
+						setInclusionStatus(undefined);
+					}, 250);
+				},
+			};
+		}
+	})();
+
 	return adapterRunning && driverReady ? (
 		<>
 			{/* Action buttons */}
 			<DeviceActionButtons
 				state={
-					inclusion
+					inclusion || inclusionStatus
 						? DeviceActionButtonsState.Including
 						: exclusion
 						? DeviceActionButtonsState.Excluding
@@ -133,9 +237,7 @@ export const Devices: React.FC = () => {
 						? DeviceActionButtonsState.Healing
 						: DeviceActionButtonsState.Idle
 				}
-				// TODO: This should be true/false and the strategy handled in the dialog
-				beginInclusion={() => setInclusion(InclusionMode.Secure)}
-				cancelInclusion={() => setInclusion(InclusionMode.Idle)}
+				beginInclusion={() => setShowInclusionModal(true)}
 				beginExclusion={() => setExclusion(true)}
 				cancelExclusion={() => setExclusion(false)}
 				healNetwork={healNetwork}
@@ -148,6 +250,14 @@ export const Devices: React.FC = () => {
 				healingNetwork={healingNetwork}
 				networkHealProgress={networkHealProgress}
 			/>
+
+			{/* Modal dialog for the inclusion process */}
+			{inclusionDialogProps && (
+				<InclusionDialog
+					isOpen={showInclusionModal}
+					{...inclusionDialogProps}
+				/>
+			)}
 		</>
 	) : (
 		<NotRunning />

@@ -1,5 +1,9 @@
 import { padStart } from "alcalzone-shared/strings";
-import type { AssociationAddress, FirmwareUpdateStatus } from "zwave-js";
+import type {
+	AssociationAddress,
+	FirmwareUpdateStatus,
+	InclusionGrant,
+} from "zwave-js";
 
 // WARNING: DO NOT IMPORT values FROM "zwave-js" HERE
 // That will break the frontend
@@ -33,10 +37,37 @@ export function isBufferAsHex(str: string): boolean {
 	return /^0x([a-fA-F0-9]{2})+$/.test(str);
 }
 
+export type PushMessage = {
+	type: "inclusion";
+	status: InclusionStatus;
+};
+
 export interface NetworkHealPollResponse {
 	type: "idle" | "done" | "progress";
 	progress?: Record<number, "pending" | "done" | "failed" | "skipped">;
 }
+
+export type InclusionStatus =
+	| {
+			type: "waitingForDevice";
+	  }
+	| {
+			type: "validateDSK";
+			dsk: string;
+	  }
+	| {
+			type: "grantSecurityClasses";
+			request: InclusionGrant;
+	  }
+	| {
+			type: "busy";
+	  }
+	| {
+			type: "done";
+			nodeId: number;
+			lowSecurity: boolean;
+			securityClass?: string;
+	  };
 
 export interface FirmwareUpdatePollResponse {
 	type: "done" | "progress";
@@ -50,9 +81,3 @@ export type AssociationDefinition = AssociationAddress & {
 	sourceEndpoint?: number;
 	group: number;
 };
-
-export enum InclusionMode {
-	Idle = 0,
-	NonSecure = 1,
-	Secure = 2,
-}

@@ -339,17 +339,12 @@
 			"_id": "info.inclusion",
 			"type": "state",
 			"common": {
-				"role": "state",
-				"name": "Which state the inclusion of nodes is in",
-				"type": "number",
+				"role": "indicator",
+				"name": "Whether the inclusion of nodes is active",
+				"type": "object",
 				"read": true,
-				"write": true,
-				"def": 0,
-				"states": {
-					"0": "Idle",
-					"1": "Non-secure",
-					"2": "Secure"
-				}
+				"write": false,
+				"def": false
 			},
 			"native": {}
 		},

@@ -146,6 +146,7 @@ function securityClassesToRecord(node) {
 function nodeToNative(node) {
   return __spreadProps(__spreadValues({
     id: node.id,
+    isControllerNode: node.isControllerNode(),
     manufacturerId: node.manufacturerId,
     productType: node.productType,
     productId: node.productId

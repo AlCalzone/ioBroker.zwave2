@@ -1,11 +1,18 @@
 import type { Connection } from "@iobroker/socket-client";
 import { useConnection, useGlobals } from "iobroker-react/hooks";
 import React from "react";
-import type { AssociationAddress, AssociationGroup } from "zwave-js";
+import type {
+	AssociationAddress,
+	AssociationGroup,
+	InclusionGrant,
+	InclusionStrategy,
+} from "zwave-js";
 import {
 	AssociationDefinition,
 	computeDeviceId,
 	FirmwareUpdatePollResponse,
+	NetworkHealPollResponse,
+	PushMessage,
 } from "../../../src/lib/shared";
 
 export interface Device {
@@ -63,13 +70,65 @@ export class API {
 		}
 	}
 
-	public async pollHealingStatus(): Promise<any> {
+	public async pollHealingStatus(): Promise<NetworkHealPollResponse> {
+		const { error, result } = await this.connection.sendTo<
+			SendToResult<NetworkHealPollResponse>
+		>(this.namespace, "healNetworkPoll");
+		if (error) throw error;
+		return result!;
+	}
+
+	public async registerPushCallback(
+		clearPending: boolean,
+	): Promise<PushMessage[]> {
+		const { error, result } = await this.connection.sendTo<
+			SendToResult<PushMessage[]>
+		>(this.namespace, "registerPushCallback", { clearPending });
+		if (error) throw error;
+		return result!;
+	}
+
+	public async beginInclusion(
+		strategy: InclusionStrategy,
+		forceSecurity?: boolean,
+	): Promise<void> {
 		const { error, result } = await this.connection.sendTo<SendToResult>(
 			this.namespace,
-			"healNetworkPoll",
+			"beginInclusion",
+			{ strategy, forceSecurity },
+		);
+		if (result !== "ok") {
+			throw error ?? result;
+		}
+	}
+
+	public async validateDSK(pin: string | false): Promise<void> {
+		const { error } = await this.connection.sendTo<SendToResult>(
+			this.namespace,
+			"validateDSK",
+			{ pin },
 		);
 		if (error) throw error;
-		return result;
+	}
+
+	public async grantSecurityClasses(
+		grant: InclusionGrant | false,
+	): Promise<void> {
+		const { error } = await this.connection.sendTo<SendToResult>(
+			this.namespace,
+			"grantSecurityClasses",
+			{ grant },
+		);
+		if (error) throw error;
+	}
+
+	public async stopInclusion(): Promise<boolean> {
+		const { error, result } = await this.connection.sendTo<SendToResult>(
+			this.namespace,
+			"stopInclusion",
+		);
+		if (error) throw error;
+		return result === "ok";
 	}
 
 	public async clearCache(): Promise<void> {

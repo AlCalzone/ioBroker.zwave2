@@ -43,11 +43,13 @@ __export(exports, {
 });
 var import_adapter_core = __toModule(require("@iobroker/adapter-core"));
 var import_core = __toModule(require("@zwave-js/core"));
+var import_deferred_promise = __toModule(require("alcalzone-shared/deferred-promise"));
 var import_objects = __toModule(require("alcalzone-shared/objects"));
 var import_typeguards = __toModule(require("alcalzone-shared/typeguards"));
 var import_fs_extra = __toModule(require("fs-extra"));
 var import_path = __toModule(require("path"));
 var import_zwave_js = __toModule(require("zwave-js"));
+var import_Controller = __toModule(require("zwave-js/Controller"));
 var import_Utils = __toModule(require("zwave-js/Utils"));
 var import_global = __toModule(require("./lib/global"));
 var import_objects2 = __toModule(require("./lib/objects"));
@@ -69,6 +71,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
         await (0, import_objects2.extendNotification_NotificationCC)(node, args);
       }
     };
+    this.pushPayloads = [];
     this.on("ready", this.onReady.bind(this));
     this.on("objectChange", this.onObjectChange.bind(this));
     this.on("stateChange", this.onStateChange.bind(this));
@@ -76,7 +79,6 @@ class ZWave2 extends import_adapter_core.default.Adapter {
     this.on("unload", this.onUnload.bind(this));
   }
   async onReady() {
-    var _a;
     import_global.Global.adapter = this;
     const cacheDir = import_path.default.join(import_adapter_core.default.getAbsoluteInstanceDataDir(this), "cache");
     if (!!this.config.clearCache) {
@@ -86,7 +88,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
     }
     await this.subscribeStatesAsync("*");
     this.setState("info.connection", false, true);
-    this.setState(`info.inclusion`, import_shared.InclusionMode.Idle, true);
+    this.setState(`info.inclusion`, false, true);
     this.setState(`info.exclusion`, false, true);
     this.setState("info.healingNetwork", false, true);
     if (!this.config.serialport) {
@@ -100,7 +102,21 @@ class ZWave2 extends import_adapter_core.default.Adapter {
     const attempts = this.config.driver_increaseSendAttempts ? {
       sendData: 5
     } : void 0;
-    const networkKey = ((_a = this.config.networkKey) == null ? void 0 : _a.length) === 32 ? Buffer.from(this.config.networkKey, "hex") : void 0;
+    const securityKeys = {};
+    const S0_Legacy = this.config.networkKey || this.config.networkKey_S0;
+    if (typeof S0_Legacy === "string" && S0_Legacy.length === 32) {
+      securityKeys.S0_Legacy = Buffer.from(S0_Legacy, "hex");
+    }
+    for (const secClass of [
+      "S2_AccessControl",
+      "S2_Authenticated",
+      "S2_Unauthenticated"
+    ]) {
+      const key = this.config[`networkKey_${secClass}`];
+      if (typeof key === "string" && key.length === 32) {
+        securityKeys[secClass] = Buffer.from(key, "hex");
+      }
+    }
     this.driver = new import_zwave_js.Driver(this.config.serialport, {
       timeouts,
       attempts,
@@ -110,7 +126,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
       storage: {
         cacheDir
       },
-      networkKey
+      securityKeys
     });
     this.driver.once("driver ready", async () => {
       this.driverReady = true;
@@ -136,8 +152,8 @@ class ZWave2 extends import_adapter_core.default.Adapter {
       }
       const nodeIdRegex = new RegExp(`^${this.name}\\.${this.instance}\\.Node_(\\d+)`);
       const existingNodeIds = Object.keys(await import_global.Global.$$(`${this.namespace}.*`, {type: "device"})).map((id) => {
-        var _a2;
-        return (_a2 = id.match(nodeIdRegex)) == null ? void 0 : _a2[1];
+        var _a;
+        return (_a = id.match(nodeIdRegex)) == null ? void 0 : _a[1];
       }).filter((id) => !!id).map((id) => parseInt(id, 10)).filter((id, index, all) => all.indexOf(id) === index);
       const unusedNodeIds = existingNodeIds.filter((id) => !this.driver.controller.nodes.has(id));
       for (const nodeId of unusedNodeIds) {
@@ -162,9 +178,9 @@ class ZWave2 extends import_adapter_core.default.Adapter {
       this.log.error(`The Z-Wave driver could not be started: ${e.message}`);
     }
   }
-  async onInclusionStarted(secure) {
-    this.log.info(`${secure ? "secure" : "non-secure"} inclusion started`);
-    await this.setStateAsync("info.inclusion", secure ? import_shared.InclusionMode.Secure : import_shared.InclusionMode.NonSecure, true);
+  async onInclusionStarted(_secure, strategy) {
+    this.log.info(`inclusion started (strategy: ${import_Controller.InclusionStrategy[strategy]})`);
+    await this.setStateAsync("info.inclusion", true, true);
   }
   async onExclusionStarted() {
     this.log.info("exclusion started");
@@ -172,7 +188,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
   }
   async onInclusionStopped() {
     this.log.info("inclusion stopped");
-    await this.setStateAsync("info.inclusion", import_shared.InclusionMode.Idle, true);
+    await this.setStateAsync("info.inclusion", false, true);
   }
   async onExclusionStopped() {
     this.log.info("exclusion stopped");
@@ -180,15 +196,25 @@ class ZWave2 extends import_adapter_core.default.Adapter {
   }
   async onInclusionFailed() {
     this.log.info("inclusion failed");
-    await this.setStateAsync("info.inclusion", import_shared.InclusionMode.Idle, true);
+    await this.setStateAsync("info.inclusion", false, true);
   }
   async onExclusionFailed() {
     this.log.info("exclusion failed");
     await this.setStateAsync("info.exclusion", false, true);
   }
-  async onNodeAdded(node) {
+  async onNodeAdded(node, result) {
+    var _a;
     this.log.info(`Node ${node.id}: added`);
     this.addNodeEventHandlers(node);
+    this.pushToFrontend({
+      type: "inclusion",
+      status: {
+        type: "done",
+        nodeId: node.id,
+        lowSecurity: !!result.lowSecurity,
+        securityClass: import_core.SecurityClass[(_a = node.getHighestSecurityClass()) != null ? _a : import_core.SecurityClass.None]
+      }
+    });
   }
   async onNodeRemoved(node) {
     this.log.info(`Node ${node.id}: removed`);
@@ -403,6 +429,8 @@ class ZWave2 extends import_adapter_core.default.Adapter {
       }
       if (this.configUpdateTimeout)
         clearTimeout(this.configUpdateTimeout);
+      if (this.pushPayloadExpirationTimeout)
+        clearTimeout(this.pushPayloadExpirationTimeout);
       await this.setStateAsync("info.configUpdating", false, true);
       this.log.info("Cleaned everything up!");
       callback();
@@ -437,14 +465,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
           this.log.warn(`The driver is not yet ready, ignoring state change for "${id}"`);
           return;
         }
-        if (id.endsWith("info.inclusion")) {
-          if (state.val)
-            await this.setExclusionMode(false);
-          await this.setInclusionMode(state.val);
-          return;
-        } else if (id.endsWith("info.exclusion")) {
-          if (state.val)
-            await this.setInclusionMode(import_shared.InclusionMode.Idle);
+        if (id.endsWith("info.exclusion")) {
           await this.setExclusionMode(state.val);
           return;
         } else if (id.startsWith(`${this.namespace}.info.`)) {
@@ -484,17 +505,6 @@ class ZWave2 extends import_adapter_core.default.Adapter {
       }
     }
   }
-  async setInclusionMode(mode) {
-    try {
-      if (mode !== import_shared.InclusionMode.Idle) {
-        await this.driver.controller.beginInclusion(mode === import_shared.InclusionMode.NonSecure);
-      } else {
-        await this.driver.controller.stopInclusion();
-      }
-    } catch (e) {
-      this.log.error(e.message);
-    }
-  }
   async setExclusionMode(active) {
     try {
       if (active) {
@@ -504,6 +514,21 @@ class ZWave2 extends import_adapter_core.default.Adapter {
       }
     } catch (e) {
       this.log.error(e.message);
+    }
+  }
+  pushToFrontend(payload) {
+    this.pushPayloads.push(payload);
+    if (typeof this.pushCallback === "function") {
+      this.pushCallback(this.pushPayloads);
+      this.pushPayloads.splice(0, this.pushPayloads.length);
+      this.pushCallback = void 0;
+    } else {
+      if (!this.pushPayloadExpirationTimeout) {
+        this.pushPayloadExpirationTimeout = setTimeout(() => {
+          console.warn("push timeout expired");
+          this.pushPayloads.splice(0, this.pushPayloads.length);
+        }, 2500);
+      }
     }
   }
   respondToHealNetworkPoll(response) {
@@ -523,6 +548,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
     }
   }
   async onMessage(obj) {
+    var _a, _b, _c;
     const respond = (response) => {
       if (obj.callback)
         this.sendTo(obj.from, obj.command, response, obj.callback);
@@ -571,6 +597,136 @@ class ZWave2 extends import_adapter_core.default.Adapter {
           respond(responses.RESULT(ports));
           return;
         }
+        case "registerPushCallback": {
+          const params = obj.message;
+          const clearPending = !!params.clearPending;
+          if (clearPending) {
+            this.pushPayloads.splice(0, this.pushPayloads.length);
+          }
+          if (this.pushPayloads.length) {
+            respond(responses.RESULT(this.pushPayloads));
+            this.pushPayloads.splice(0, this.pushPayloads.length);
+            if (this.pushPayloadExpirationTimeout)
+              clearTimeout(this.pushPayloadExpirationTimeout);
+          } else {
+            this.pushCallback = (result) => respond(responses.RESULT(result));
+          }
+          return;
+        }
+        case "beginInclusion": {
+          if (!this.driverReady) {
+            return respond(responses.ERROR("The driver is not yet ready to include devices!"));
+          }
+          if (!requireParams("strategy"))
+            return;
+          const params = obj.message;
+          const strategy = params.strategy;
+          const forceSecurity = !!params.forceSecurity;
+          this.validateDSKPromise = void 0;
+          this.grantSecurityClassesPromise = void 0;
+          const userCallbacks = {
+            validateDSKAndEnterPIN: (dsk) => {
+              this.validateDSKPromise = (0, import_deferred_promise.createDeferredPromise)();
+              this.pushToFrontend({
+                type: "inclusion",
+                status: {
+                  type: "validateDSK",
+                  dsk
+                }
+              });
+              this.validateDSKPromise.then(() => {
+                console.warn("validateDSKPromise resolved!");
+                console.warn(new Error().stack);
+              });
+              return this.validateDSKPromise;
+            },
+            grantSecurityClasses: (grant) => {
+              this.grantSecurityClassesPromise = (0, import_deferred_promise.createDeferredPromise)();
+              this.pushToFrontend({
+                type: "inclusion",
+                status: {
+                  type: "grantSecurityClasses",
+                  request: grant
+                }
+              });
+              this.grantSecurityClassesPromise.then(() => {
+                console.warn("grantSecurityClassesPromise resolved!");
+                console.warn(new Error().stack);
+              });
+              return this.grantSecurityClassesPromise;
+            },
+            abort: () => {
+            }
+          };
+          try {
+            const result = await this.driver.controller.beginInclusion({
+              strategy,
+              forceSecurity,
+              userCallbacks
+            });
+            this.setState("info.inclusion", true, true);
+            if (result) {
+              respond(responses.OK);
+            } else {
+              respond(responses.COMMAND_ACTIVE);
+            }
+          } catch (err) {
+            respond(responses.ERROR(err.message));
+            this.setState("info.inclusion", false, true);
+          }
+          return;
+        }
+        case "validateDSK": {
+          if (!this.driverReady) {
+            return respond(responses.ERROR("The driver is not yet ready to include devices!"));
+          }
+          if (!requireParams("pin"))
+            return;
+          const params = obj.message;
+          const pin = params.pin;
+          console.warn("RESOLVE validateDSKPromise");
+          if (!pin) {
+            (_a = this.validateDSKPromise) == null ? void 0 : _a.resolve(false);
+          } else {
+            (_b = this.validateDSKPromise) == null ? void 0 : _b.resolve(pin);
+          }
+          this.pushToFrontend({
+            type: "inclusion",
+            status: {type: "busy"}
+          });
+          respond(responses.ACK);
+          return;
+        }
+        case "grantSecurityClasses": {
+          if (!this.driverReady) {
+            return respond(responses.ERROR("The driver is not yet ready to include devices!"));
+          }
+          if (!requireParams("grant"))
+            return;
+          const params = obj.message;
+          const grant = params.grant;
+          console.warn("RESOLVE grantSecurityClassesPromise");
+          (_c = this.grantSecurityClassesPromise) == null ? void 0 : _c.resolve(grant);
+          this.pushToFrontend({
+            type: "inclusion",
+            status: {type: "busy"}
+          });
+          respond(responses.ACK);
+          return;
+        }
+        case "stopInclusion": {
+          if (!this.driverReady) {
+            return respond(responses.ERROR("The driver is not yet ready to include devices!"));
+          }
+          const result = await this.driver.controller.stopInclusion();
+          if (result) {
+            respond(responses.OK);
+            this.setState("info.inclusion", false, true);
+          } else {
+            respond(responses.COMMAND_ACTIVE);
+          }
+          return;
+        }
         case "beginHealingNetwork": {
           if (!this.driverReady) {
             return respond(responses.ERROR("The driver is not yet ready to heal the network!"));
@@ -598,7 +754,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
             respond(responses.RESULT(this.healNetworkPollResponse));
             this.healNetworkPollResponse = void 0;
           } else {
-            this.respondToHealNetworkPoll = (result) => respond(responses.RESULT(result));
+            this.healNetworkPollCallback = (result) => respond(responses.RESULT(result));
           }
           return;
         }
@@ -768,7 +924,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
             respond(responses.RESULT(this.firmwareUpdatePollResponse));
             this.firmwareUpdatePollResponse = void 0;
           } else {
-            this.respondToFirmwareUpdatePoll = (result) => respond(responses.RESULT(result));
+            this.firmwareUpdatePollCallback = (result) => respond(responses.RESULT(result));
           }
           return;
         }

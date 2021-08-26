@@ -10,7 +10,7 @@ import { makeStyles, Theme } from "@material-ui/core/styles";
 interface DeviceActionButtonsProps {
 	state: DeviceActionButtonsState;
 	beginInclusion: () => void;
-	cancelInclusion: () => void;
+	// cancelInclusion: () => void;
 	beginExclusion: () => void;
 	cancelExclusion: () => void;
 	healNetwork: () => void;
@@ -53,15 +53,11 @@ export const DeviceActionButtons: React.FC<DeviceActionButtonsProps> = (
 					props.state !== DeviceActionButtonsState.Idle &&
 					props.state !== DeviceActionButtonsState.Including
 				}
-				onClick={
-					props.state !== DeviceActionButtonsState.Including
-						? props.beginInclusion
-						: props.cancelInclusion
-				}
+				onClick={props.beginInclusion}
 			>
 				{props.state !== DeviceActionButtonsState.Including
 					? _("Include device")
-					: _("Cancel inclusion")}
+					: _("Inclusion active")}
 			</Button>
 			<Button
 				variant="contained"

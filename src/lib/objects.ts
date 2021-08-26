@@ -136,6 +136,7 @@ function securityClassesToRecord(node: ZWaveNode): Record<string, boolean> {
 function nodeToNative(node: ZWaveNode): Record<string, any> {
 	return {
 		id: node.id,
+		isControllerNode: node.isControllerNode(),
 		manufacturerId: node.manufacturerId,
 		productType: node.productType,
 		productId: node.productId,

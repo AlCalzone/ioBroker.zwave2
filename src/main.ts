@@ -1,5 +1,9 @@
 import utils from "@iobroker/adapter-core";
-import { CommandClasses } from "@zwave-js/core";
+import { CommandClasses, SecurityClass } from "@zwave-js/core";
+import {
+	createDeferredPromise,
+	DeferredPromise,
+} from "alcalzone-shared/deferred-promise";
 import { composeObject } from "alcalzone-shared/objects";
 import { isArray } from "alcalzone-shared/typeguards";
 import fs from "fs-extra";
@@ -25,7 +29,13 @@ import type {
 	FirmwareUpdateStatus,
 	ZWaveNotificationCallback,
 } from "zwave-js/CommandClass";
-import type { HealNodeStatus } from "zwave-js/Controller";
+import {
+	HealNodeStatus,
+	InclusionGrant,
+	InclusionResult,
+	InclusionStrategy,
+	InclusionUserCallbacks,
+} from "zwave-js/Controller";
 import { Firmware, guessFirmwareFileFormat } from "zwave-js/Utils";
 import type {
 	TranslatedValueID,
@@ -57,10 +67,10 @@ import {
 	bufferFromHex,
 	computeDeviceId,
 	FirmwareUpdatePollResponse,
-	InclusionMode,
 	isBufferAsHex,
 	mapToRecord,
 	NetworkHealPollResponse,
+	PushMessage,
 } from "./lib/shared";
 
 export class ZWave2 extends utils.Adapter<true> {
@@ -107,7 +117,7 @@ export class ZWave2 extends utils.Adapter<true> {
 
 		// Reset all control states
 		this.setState("info.connection", false, true);
-		this.setState(`info.inclusion`, InclusionMode.Idle, true);
+		this.setState(`info.inclusion`, false, true);
 		this.setState(`info.exclusion`, false, true);
 		this.setState("info.healingNetwork", false, true);
 
@@ -132,10 +142,22 @@ export class ZWave2 extends utils.Adapter<true> {
 					sendData: 5,
 			  }
 			: undefined;
-		const networkKey: Buffer | undefined =
-			this.config.networkKey?.length === 32
-				? Buffer.from(this.config.networkKey, "hex")
-				: undefined;
+
+		const securityKeys: ZWaveOptions["securityKeys"] = {};
+		const S0_Legacy = this.config.networkKey || this.config.networkKey_S0;
+		if (typeof S0_Legacy === "string" && S0_Legacy.length === 32) {
+			securityKeys.S0_Legacy = Buffer.from(S0_Legacy, "hex");
+		}
+		for (const secClass of [
+			"S2_AccessControl",
+			"S2_Authenticated",
+			"S2_Unauthenticated",
+		] as const) {
+			const key = this.config[`networkKey_${secClass}` as const];
+			if (typeof key === "string" && key.length === 32) {
+				securityKeys[secClass] = Buffer.from(key, "hex");
+			}
+		}
 
 		this.driver = new Driver(this.config.serialport, {
 			timeouts,
@@ -146,8 +168,9 @@ export class ZWave2 extends utils.Adapter<true> {
 			storage: {
 				cacheDir,
 			},
-			networkKey,
+			securityKeys,
 		});
+
 		this.driver.once("driver ready", async () => {
 			this.driverReady = true;
 			this.setState("info.connection", true, true);
@@ -255,13 +278,14 @@ export class ZWave2 extends utils.Adapter<true> {
 		}
 	}
 
-	private async onInclusionStarted(secure: boolean): Promise<void> {
-		this.log.info(`${secure ? "secure" : "non-secure"} inclusion started`);
-		await this.setStateAsync(
-			"info.inclusion",
-			secure ? InclusionMode.Secure : InclusionMode.NonSecure,
-			true,
+	private async onInclusionStarted(
+		_secure: boolean,
+		strategy: InclusionStrategy,
+	): Promise<void> {
+		this.log.info(
+			`inclusion started (strategy: ${InclusionStrategy[strategy]})`,
 		);
+		await this.setStateAsync("info.inclusion", true, true);
 	}
 
 	private async onExclusionStarted(): Promise<void> {
@@ -271,7 +295,7 @@ export class ZWave2 extends utils.Adapter<true> {
 
 	private async onInclusionStopped(): Promise<void> {
 		this.log.info("inclusion stopped");
-		await this.setStateAsync("info.inclusion", InclusionMode.Idle, true);
+		await this.setStateAsync("info.inclusion", false, true);
 	}
 
 	private async onExclusionStopped(): Promise<void> {
@@ -281,7 +305,7 @@ export class ZWave2 extends utils.Adapter<true> {
 
 	private async onInclusionFailed(): Promise<void> {
 		this.log.info("inclusion failed");
-		await this.setStateAsync("info.inclusion", InclusionMode.Idle, true);
+		await this.setStateAsync("info.inclusion", false, true);
 	}
 
 	private async onExclusionFailed(): Promise<void> {
@@ -289,9 +313,25 @@ export class ZWave2 extends utils.Adapter<true> {
 		await this.setStateAsync("info.exclusion", false, true);
 	}
 
-	private async onNodeAdded(node: ZWaveNode): Promise<void> {
+	private async onNodeAdded(
+		node: ZWaveNode,
+		result: InclusionResult,
+	): Promise<void> {
 		this.log.info(`Node ${node.id}: added`);
+
 		this.addNodeEventHandlers(node);
+		this.pushToFrontend({
+			type: "inclusion",
+			status: {
+				type: "done",
+				nodeId: node.id,
+				lowSecurity: !!result.lowSecurity,
+				securityClass:
+					SecurityClass[
+						node.getHighestSecurityClass() ?? SecurityClass.None
+					],
+			},
+		});
 	}
 
 	private async onNodeRemoved(node: ZWaveNode): Promise<void> {
@@ -741,6 +781,8 @@ export class ZWave2 extends utils.Adapter<true> {
 
 			if (this.configUpdateTimeout)
 				clearTimeout(this.configUpdateTimeout);
+			if (this.pushPayloadExpirationTimeout)
+				clearTimeout(this.pushPayloadExpirationTimeout);
 
 			await this.setStateAsync("info.configUpdating", false, true);
 
@@ -813,13 +855,7 @@ export class ZWave2 extends utils.Adapter<true> {
 				}
 
 				// Handle some special states first
-				if (id.endsWith("info.inclusion")) {
-					if (state.val) await this.setExclusionMode(false);
-					await this.setInclusionMode(state.val as any);
-					return;
-				} else if (id.endsWith("info.exclusion")) {
-					if (state.val)
-						await this.setInclusionMode(InclusionMode.Idle);
+				if (id.endsWith("info.exclusion")) {
 					await this.setExclusionMode(state.val as any);
 					return;
 				} else if (id.startsWith(`${this.namespace}.info.`)) {
@@ -876,21 +912,6 @@ export class ZWave2 extends utils.Adapter<true> {
 		} */
 	}
 
-	private async setInclusionMode(mode: InclusionMode): Promise<void> {
-		try {
-			if (mode !== InclusionMode.Idle) {
-				await this.driver.controller.beginInclusion(
-					mode === InclusionMode.NonSecure,
-				);
-			} else {
-				await this.driver.controller.stopInclusion();
-			}
-		} catch (e) {
-			/* nothing to do */
-			this.log.error(e.message);
-		}
-	}
-
 	private async setExclusionMode(active: boolean): Promise<void> {
 		try {
 			if (active) {
@@ -901,6 +922,32 @@ export class ZWave2 extends utils.Adapter<true> {
 		} catch (e) {
 			/* nothing to do */
 			this.log.error(e.message);
+		}
+	}
+
+	// This is used to store responses if something changed between two polls
+	private pushPayloads: PushMessage[] = [];
+	// This is used to store the callback if there was no response yet
+	private pushCallback: ((payload: PushMessage[]) => void) | undefined;
+	// This is used to timeout expired payloads when there hasn't been a poll in a while
+	private pushPayloadExpirationTimeout: NodeJS.Timeout | undefined;
+
+	/** Responds to a pending poll from the frontend (if there is a message outstanding) */
+	private pushToFrontend(payload: PushMessage): void {
+		this.pushPayloads.push(payload);
+		if (typeof this.pushCallback === "function") {
+			// If the client is waiting for a response, all pending responses immediately
+			this.pushCallback(this.pushPayloads);
+			this.pushPayloads.splice(0, this.pushPayloads.length);
+			this.pushCallback = undefined;
+		} else {
+			// otherwise start a timer so we can expire the payloads after a while
+			if (!this.pushPayloadExpirationTimeout) {
+				this.pushPayloadExpirationTimeout = setTimeout(() => {
+					console.warn("push timeout expired");
+					this.pushPayloads.splice(0, this.pushPayloads.length);
+				}, 2500);
+			}
 		}
 	}
 
@@ -943,6 +990,14 @@ export class ZWave2 extends utils.Adapter<true> {
 			this.firmwareUpdatePollResponse = response;
 		}
 	}
+
+	// The promise returned to zwave-js that is resolved when the UI calls "validateDSK"
+	private validateDSKPromise: DeferredPromise<string | false> | undefined;
+
+	// The promise returned to zwave-js that is resolved when the UI calls "grantSecurityClasses"
+	private grantSecurityClassesPromise:
+		| DeferredPromise<InclusionGrant | false>
+		| undefined;
 
 	/**
 	 * Some message was sent to this instance over message box. Used by email, pushover, text2speech, ...
@@ -1010,6 +1065,179 @@ export class ZWave2 extends utils.Adapter<true> {
 					return;
 				}
 
+				case "registerPushCallback": {
+					const params = obj.message as any as Record<string, any>;
+					const clearPending = !!params.clearPending;
+
+					if (clearPending) {
+						this.pushPayloads.splice(0, this.pushPayloads.length);
+					}
+
+					if (this.pushPayloads.length) {
+						// if a response is waiting to be asked for, send it immediately
+						respond(responses.RESULT(this.pushPayloads));
+						this.pushPayloads.splice(0, this.pushPayloads.length);
+						if (this.pushPayloadExpirationTimeout)
+							clearTimeout(this.pushPayloadExpirationTimeout);
+					} else {
+						// otherwise remember the callback for a later response
+						this.pushCallback = (result) =>
+							respond(responses.RESULT(result));
+					}
+
+					return;
+				}
+
+				case "beginInclusion": {
+					if (!this.driverReady) {
+						return respond(
+							responses.ERROR(
+								"The driver is not yet ready to include devices!",
+							),
+						);
+					}
+
+					if (!requireParams("strategy")) return;
+					const params = obj.message as any as Record<string, any>;
+					const strategy = params.strategy as InclusionStrategy;
+					const forceSecurity = !!params.forceSecurity;
+
+					this.validateDSKPromise = undefined;
+					this.grantSecurityClassesPromise = undefined;
+
+					const userCallbacks: InclusionUserCallbacks = {
+						validateDSKAndEnterPIN: (dsk) => {
+							this.validateDSKPromise = createDeferredPromise();
+							this.pushToFrontend({
+								type: "inclusion",
+								status: {
+									type: "validateDSK",
+									dsk,
+								},
+							});
+							this.validateDSKPromise.then(() => {
+								console.warn("validateDSKPromise resolved!");
+								console.warn(new Error().stack);
+							});
+							return this.validateDSKPromise;
+						},
+						grantSecurityClasses: (grant) => {
+							this.grantSecurityClassesPromise =
+								createDeferredPromise();
+							this.pushToFrontend({
+								type: "inclusion",
+								status: {
+									type: "grantSecurityClasses",
+									request: grant,
+								},
+							});
+							this.grantSecurityClassesPromise.then(() => {
+								console.warn(
+									"grantSecurityClassesPromise resolved!",
+								);
+								console.warn(new Error().stack);
+							});
+							return this.grantSecurityClassesPromise;
+						},
+						abort: () => {
+							// TODO
+						},
+					};
+
+					try {
+						const result =
+							await this.driver.controller.beginInclusion({
+								strategy: strategy as any,
+								forceSecurity,
+								userCallbacks,
+							});
+						this.setState("info.inclusion", true, true);
+
+						if (result) {
+							respond(responses.OK);
+						} else {
+							respond(responses.COMMAND_ACTIVE);
+						}
+					} catch (err) {
+						respond(responses.ERROR(err.message));
+						this.setState("info.inclusion", false, true);
+					}
+					return;
+				}
+
+				case "validateDSK": {
+					if (!this.driverReady) {
+						return respond(
+							responses.ERROR(
+								"The driver is not yet ready to include devices!",
+							),
+						);
+					}
+
+					if (!requireParams("pin")) return;
+					const params = obj.message as any as Record<string, any>;
+					const pin: string = params.pin;
+
+					console.warn("RESOLVE validateDSKPromise");
+					if (!pin) {
+						this.validateDSKPromise?.resolve(false);
+					} else {
+						this.validateDSKPromise?.resolve(pin);
+					}
+
+					this.pushToFrontend({
+						type: "inclusion",
+						status: { type: "busy" },
+					});
+
+					respond(responses.ACK);
+					return;
+				}
+
+				case "grantSecurityClasses": {
+					if (!this.driverReady) {
+						return respond(
+							responses.ERROR(
+								"The driver is not yet ready to include devices!",
+							),
+						);
+					}
+
+					if (!requireParams("grant")) return;
+					const params = obj.message as any as Record<string, any>;
+					const grant = params.grant as InclusionGrant | false;
+
+					console.warn("RESOLVE grantSecurityClassesPromise");
+					this.grantSecurityClassesPromise?.resolve(grant);
+
+					this.pushToFrontend({
+						type: "inclusion",
+						status: { type: "busy" },
+					});
+
+					respond(responses.ACK);
+					return;
+				}
+
+				case "stopInclusion": {
+					if (!this.driverReady) {
+						return respond(
+							responses.ERROR(
+								"The driver is not yet ready to include devices!",
+							),
+						);
+					}
+
+					const result = await this.driver.controller.stopInclusion();
+					if (result) {
+						respond(responses.OK);
+						this.setState("info.inclusion", false, true);
+					} else {
+						respond(responses.COMMAND_ACTIVE);
+					}
+					return;
+				}
+
 				case "beginHealingNetwork": {
 					if (!this.driverReady) {
 						return respond(
@@ -1051,7 +1279,7 @@ export class ZWave2 extends utils.Adapter<true> {
 						this.healNetworkPollResponse = undefined;
 					} else {
 						// otherwise remember the callback for a later response
-						this.respondToHealNetworkPoll = (result) =>
+						this.healNetworkPollCallback = (result) =>
 							respond(responses.RESULT(result));
 					}
 
@@ -1347,7 +1575,7 @@ export class ZWave2 extends utils.Adapter<true> {
 						this.firmwareUpdatePollResponse = undefined;
 					} else {
 						// otherwise remember the callback for a later response
-						this.respondToFirmwareUpdatePoll = (result) =>
+						this.firmwareUpdatePollCallback = (result) =>
 							respond(responses.RESULT(result));
 					}
 
