@@ -25,6 +25,7 @@ __export(exports, {
   buffer2hex: () => buffer2hex,
   bufferFromHex: () => bufferFromHex,
   computeDeviceId: () => computeDeviceId,
+  getErrorMessage: () => getErrorMessage,
   isBufferAsHex: () => isBufferAsHex,
   mapToRecord: () => mapToRecord
 });
@@ -50,11 +51,17 @@ function bufferFromHex(hex) {
 function isBufferAsHex(str) {
   return /^0x([a-fA-F0-9]{2})+$/.test(str);
 }
+function getErrorMessage(e, includeStack) {
+  if (e instanceof Error)
+    return includeStack && e.stack ? e.stack : e.message;
+  return String(e);
+}
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   buffer2hex,
   bufferFromHex,
   computeDeviceId,
+  getErrorMessage,
   isBufferAsHex,
   mapToRecord
 });

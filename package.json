@@ -98,7 +98,7 @@
     "source-map-support": "^0.5.19",
     "tiny-glob": "^0.2.9",
     "ts-node": "^10.1.0",
-    "typescript": "^4.3.5"
+    "typescript": "^4.4.2"
   },
   "scripts": {
     "prebuild": "rimraf ./build",

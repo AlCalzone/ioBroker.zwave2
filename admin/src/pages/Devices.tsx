@@ -1,5 +1,6 @@
 import React from "react";
-import type {
+import {
+	getErrorMessage,
 	InclusionStatus,
 	NetworkHealPollResponse,
 } from "../../../src/lib/shared";
@@ -72,7 +73,7 @@ export const Devices: React.FC = () => {
 				setNetworkHealProgress({});
 				await api.beginHealingNetwork();
 			} catch (e) {
-				showNotification(e.message, "error");
+				showNotification(getErrorMessage(e), "error");
 				return;
 			}
 		}
@@ -96,7 +97,7 @@ export const Devices: React.FC = () => {
 				await api.clearCache();
 				setCacheCleared(true);
 			} catch (e) {
-				showNotification(e.message, "error");
+				showNotification(getErrorMessage(e), "error");
 				return;
 			}
 		}

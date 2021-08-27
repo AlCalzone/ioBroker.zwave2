@@ -67,6 +67,7 @@ import {
 	bufferFromHex,
 	computeDeviceId,
 	FirmwareUpdatePollResponse,
+	getErrorMessage,
 	isBufferAsHex,
 	mapToRecord,
 	NetworkHealPollResponse,
@@ -273,7 +274,7 @@ export class ZWave2 extends utils.Adapter<true> {
 			await this.driver.start();
 		} catch (e) {
 			this.log.error(
-				`The Z-Wave driver could not be started: ${e.message}`,
+				`The Z-Wave driver could not be started: ${getErrorMessage(e)}`,
 			);
 		}
 	}
@@ -748,7 +749,7 @@ export class ZWave2 extends utils.Adapter<true> {
 					true,
 				);
 				this.log.error(
-					`Failed to check for config updates: ${e.message}`,
+					`Failed to check for config updates: ${getErrorMessage(e)}`,
 				);
 			}
 		}
@@ -904,7 +905,7 @@ export class ZWave2 extends utils.Adapter<true> {
 					// Don't use newValue to update ioBroker states, these are only for zwave-js
 					await this.setStateAsync(id, { val: state.val, ack: true });
 				} catch (e) {
-					this.log.error(e.message);
+					this.log.error(getErrorMessage(e));
 				}
 			}
 		} /* else {
@@ -921,7 +922,7 @@ export class ZWave2 extends utils.Adapter<true> {
 			}
 		} catch (e) {
 			/* nothing to do */
-			this.log.error(e.message);
+			this.log.error(getErrorMessage(e));
 		}
 	}
 
@@ -1158,8 +1159,8 @@ export class ZWave2 extends utils.Adapter<true> {
 						} else {
 							respond(responses.COMMAND_ACTIVE);
 						}
-					} catch (err) {
-						respond(responses.ERROR(err.message));
+					} catch (e) {
+						respond(responses.ERROR(getErrorMessage(e)));
 						this.setState("info.inclusion", false, true);
 					}
 					return;
@@ -1310,7 +1311,9 @@ export class ZWave2 extends utils.Adapter<true> {
 					} catch (e) {
 						return respond(
 							responses.ERROR(
-								`Could not remove node ${params.nodeId}: ${e.message}`,
+								`Could not remove node ${
+									params.nodeId
+								}: ${getErrorMessage(e)}`,
 							),
 						);
 					}
@@ -1337,7 +1340,9 @@ export class ZWave2 extends utils.Adapter<true> {
 					} catch (e) {
 						return respond(
 							responses.ERROR(
-								`Could not get endpoint indizes for node ${params.nodeId}: ${e.message}`,
+								`Could not get endpoint indizes for node ${
+									params.nodeId
+								}: ${getErrorMessage(e)}`,
 							),
 						);
 					}
@@ -1366,7 +1371,9 @@ export class ZWave2 extends utils.Adapter<true> {
 					} catch (e) {
 						return respond(
 							responses.ERROR(
-								`Could not get association groups for node ${params.nodeId}: ${e.message}`,
+								`Could not get association groups for node ${
+									params.nodeId
+								}: ${getErrorMessage(e)}`,
 							),
 						);
 					}
@@ -1396,7 +1403,9 @@ export class ZWave2 extends utils.Adapter<true> {
 					} catch (e) {
 						return respond(
 							responses.ERROR(
-								`Could not get associations for node ${params.nodeId}: ${e.message}`,
+								`Could not get associations for node ${
+									params.nodeId
+								}: ${getErrorMessage(e)}`,
 							),
 						);
 					}
@@ -1435,7 +1444,9 @@ export class ZWave2 extends utils.Adapter<true> {
 					} catch (e) {
 						return respond(
 							responses.ERROR(
-								`Could not add association for node ${params.nodeId}: ${e.message}`,
+								`Could not add association for node ${
+									params.nodeId
+								}: ${getErrorMessage(e)}`,
 							),
 						);
 					}
@@ -1474,7 +1485,9 @@ export class ZWave2 extends utils.Adapter<true> {
 					} catch (e) {
 						return respond(
 							responses.ERROR(
-								`Could not remove association for node ${params.nodeId}: ${e.message}`,
+								`Could not remove association for node ${
+									params.nodeId
+								}: ${getErrorMessage(e)}`,
 							),
 						);
 					}
@@ -1500,7 +1513,9 @@ export class ZWave2 extends utils.Adapter<true> {
 					} catch (e) {
 						return respond(
 							responses.ERROR(
-								`Could not refresh info for node ${nodeId}: ${e.message}`,
+								`Could not refresh info for node ${nodeId}: ${getErrorMessage(
+									e,
+								)}`,
 							),
 						);
 					}
@@ -1534,7 +1549,7 @@ export class ZWave2 extends utils.Adapter<true> {
 							);
 							actualFirmware = extractFirmware(rawData, format);
 						} catch (e) {
-							return respond(responses.ERROR(e.message));
+							return respond(responses.ERROR(getErrorMessage(e)));
 						}
 
 						// And try to start the update
@@ -1556,7 +1571,9 @@ export class ZWave2 extends utils.Adapter<true> {
 							) {
 								return respond(responses.COMMAND_ACTIVE);
 							} else {
-								return respond(responses.ERROR(e.message));
+								return respond(
+									responses.ERROR(getErrorMessage(e)),
+								);
 							}
 						}
 					} else {
@@ -1602,7 +1619,7 @@ export class ZWave2 extends utils.Adapter<true> {
 						);
 						return respond(responses.OK);
 					} catch (e) {
-						return respond(responses.ERROR(e.message));
+						return respond(responses.ERROR(getErrorMessage(e)));
 					}
 				}
 
@@ -1635,11 +1652,15 @@ export class ZWave2 extends utils.Adapter<true> {
 						return respond(responses.RESULT(result));
 					} catch (e) {
 						this.log.error(
-							`Could not install config updates: ${e.message}`,
+							`Could not install config updates: ${getErrorMessage(
+								e,
+							)}`,
 						);
 						return respond(
 							responses.ERROR(
-								`Could not install config updates: ${e.message}`,
+								`Could not install config updates: ${getErrorMessage(
+									e,
+								)}`,
 							),
 						);
 					} finally {
@@ -1730,7 +1751,7 @@ export class ZWave2 extends utils.Adapter<true> {
 					try {
 						api = (endpoint.commandClasses as any)[commandClass];
 					} catch (e) {
-						return respond(responses.ERROR(e.message));
+						return respond(responses.ERROR(getErrorMessage(e)));
 					}
 					if (!api.isSupported()) {
 						return respond(
@@ -1753,7 +1774,7 @@ export class ZWave2 extends utils.Adapter<true> {
 							: await method();
 						return respond(responses.RESULT(result));
 					} catch (e) {
-						return respond(responses.ERROR(e.message));
+						return respond(responses.ERROR(getErrorMessage(e)));
 					}
 				}
 			}
