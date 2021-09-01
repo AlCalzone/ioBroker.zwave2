@@ -2,7 +2,10 @@ import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import Tooltip from "@material-ui/core/Tooltip";
 import React from "react";
-import type { FirmwareUpdatePollResponse } from "../../../src/lib/shared";
+import {
+	FirmwareUpdatePollResponse,
+	getErrorMessage,
+} from "../../../src/lib/shared";
 import { useAPI } from "../lib/useAPI";
 import { useI18n } from "iobroker-react/hooks";
 import PublishIcon from "@material-ui/icons/Publish";
@@ -12,6 +15,8 @@ import CloseIcon from "@material-ui/icons/Close";
 export interface NodeActionsProps {
 	nodeId: number;
 	status: string | undefined;
+	isBusy: boolean;
+	setBusy: (isBusy: boolean) => void;
 	supportsFirmwareUpdate: boolean;
 }
 
@@ -38,7 +43,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const NodeActions: React.FC<NodeActionsProps> = (props) => {
-	const [isBusy, setBusy] = React.useState(false);
 	const [loadedFile, setLoadedFile] = React.useState<LoadedFile>();
 	const [firmwareUpdateActive, setFirmwareUpdateActive] =
 		React.useState(false);
@@ -49,7 +53,7 @@ export const NodeActions: React.FC<NodeActionsProps> = (props) => {
 	const input = React.useRef<HTMLInputElement>();
 
 	const api = useAPI();
-	const { nodeId, supportsFirmwareUpdate } = props;
+	const { nodeId, isBusy, setBusy, supportsFirmwareUpdate } = props;
 	const { translate: _ } = useI18n();
 
 	// It can happen that the controller does not react to commands for a failed node,
@@ -166,7 +170,7 @@ export const NodeActions: React.FC<NodeActionsProps> = (props) => {
 						setIsPolling(false);
 					}
 				} catch (e) {
-					console.error(`Error while polling: ${e}`);
+					console.error(`Error while polling: ${getErrorMessage(e)}`);
 					// Kick off the next poll
 					setIsPolling(false);
 				}

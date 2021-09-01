@@ -131,6 +131,16 @@ export class API {
 		return result === "ok";
 	}
 
+	public async softReset(): Promise<void> {
+		const { error, result } = await this.connection.sendTo<SendToResult>(
+			this.namespace,
+			"softReset",
+		);
+		if (result !== "ok") {
+			throw error ?? result;
+		}
+	}
+
 	public async clearCache(): Promise<void> {
 		const { error, result } = await this.connection.sendTo<SendToResult>(
 			this.namespace,

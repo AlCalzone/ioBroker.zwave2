@@ -34,7 +34,8 @@ export const Devices: React.FC = () => {
 	const { namespace } = useGlobals();
 	const { translate: _ } = useI18n();
 	const api = useAPI();
-	const { showNotification, showModal } = useDialogs();
+	const { showNotification } = useDialogs();
+	const [isBusy, setBusy] = React.useState(false);
 
 	const [inclusion] = useIoBrokerState<boolean>({
 		id: `${namespace}.info.inclusion`,
@@ -52,15 +53,11 @@ export const Devices: React.FC = () => {
 	const [networkHealProgress, setNetworkHealProgress] = React.useState<
 		NonNullable<NetworkHealPollResponse["progress"]>
 	>({});
-	const [cacheCleared, setCacheCleared] = React.useState(false);
 
 	const [inclusionStatus, setInclusionStatus] =
 		React.useState<InclusionStatus>();
 
 	usePush((payload) => {
-		// TODO: Remove this log
-		console.log(`push event received: ${JSON.stringify(payload)}`);
-
 		if (payload.type === "inclusion") {
 			setInclusionStatus(payload.status);
 		}
@@ -72,30 +69,6 @@ export const Devices: React.FC = () => {
 			try {
 				setNetworkHealProgress({});
 				await api.beginHealingNetwork();
-			} catch (e) {
-				showNotification(getErrorMessage(e), "error");
-				return;
-			}
-		}
-	}
-
-	async function clearCache() {
-		if (
-			!healingNetwork &&
-			!inclusion &&
-			!inclusionStatus &&
-			!exclusion &&
-			!cacheCleared
-		) {
-			// start the healing progress
-			try {
-				const result = await showModal(
-					_("Clear cache?"),
-					_("clear cache procedure"),
-				);
-				if (!result) return;
-				await api.clearCache();
-				setCacheCleared(true);
 			} catch (e) {
 				showNotification(getErrorMessage(e), "error");
 				return;
@@ -123,7 +96,11 @@ export const Devices: React.FC = () => {
 						setIsPollingHealingStatus(false);
 					}
 				} catch (e) {
-					console.error(`Error while polling healing status: ${e}`);
+					console.error(
+						`Error while polling healing status: ${getErrorMessage(
+							e,
+						)}`,
+					);
 					// Kick off the next poll
 					setIsPollingHealingStatus(false);
 				}
@@ -230,7 +207,9 @@ export const Devices: React.FC = () => {
 			{/* Action buttons */}
 			<DeviceActionButtons
 				state={
-					inclusion || inclusionStatus
+					isBusy
+						? DeviceActionButtonsState.Busy
+						: inclusion || inclusionStatus
 						? DeviceActionButtonsState.Including
 						: exclusion
 						? DeviceActionButtonsState.Excluding
@@ -243,10 +222,11 @@ export const Devices: React.FC = () => {
 				cancelExclusion={() => setExclusion(false)}
 				healNetwork={healNetwork}
 				cancelHealing={() => api.stopHealingNetwork()}
-				clearCache={clearCache}
 			/>
 
 			<DeviceTable
+				isBusy={isBusy}
+				setBusy={setBusy}
 				devices={devicesAsArray}
 				healingNetwork={healingNetwork}
 				networkHealProgress={networkHealProgress}

@@ -38,7 +38,7 @@
     "alcalzone-shared": "^4.0.0",
     "fs-extra": "^10.0.0",
     "gulp": "^4.0.2",
-    "zwave-js": "^8.1.1"
+    "zwave-js": "^8.2.2-0-pr-3262-93f5d85"
   },
   "devDependencies": {
     "@alcalzone/release-script": "^2.2.0",

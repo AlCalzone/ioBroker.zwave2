@@ -15,10 +15,13 @@ import { useI18n } from "iobroker-react/hooks";
 import { DeviceSecurityIcon } from "./DeviceSecurityIcon";
 import HomeIcon from "@material-ui/icons/Home";
 import Tooltip from "@material-ui/core/Tooltip";
+import { ControllerActions } from "./ControllerActions";
 
 export interface DeviceTableRowProps {
 	device: Device;
 	healStatus: any;
+	isBusy: boolean;
+	setBusy: (isBusy: boolean) => void;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -53,7 +56,7 @@ export const DeviceTableRow: React.FC<DeviceTableRowProps> = (props) => {
 	const supportsFirmwareUpdate = !!value.native.supportsFirmwareUpdate;
 	const { secure, securityClasses, isControllerNode } = value.native;
 
-	const [open, setOpen] = React.useState(false);
+	const [open, setOpen] = React.useState(isControllerNode);
 	const classes = useStyles();
 	const { translate: _ } = useI18n();
 
@@ -61,23 +64,17 @@ export const DeviceTableRow: React.FC<DeviceTableRowProps> = (props) => {
 		<>
 			<TableRow hover className={classes.mainRow}>
 				<TableCell className={classes.idCell}>
-					{isControllerNode ? (
-						<Tooltip title={_("Controller node")}>
-							<HomeIcon className={classes.controllerIcon} />
-						</Tooltip>
-					) : (
-						<IconButton
-							aria-label="expand row"
-							size="small"
-							onClick={() => setOpen(!open)}
-						>
-							{open ? (
-								<KeyboardArrowUpIcon />
-							) : (
-								<KeyboardArrowDownIcon />
-							)}
-						</IconButton>
-					)}
+					<IconButton
+						aria-label="expand row"
+						size="small"
+						onClick={() => setOpen(!open)}
+					>
+						{open ? (
+							<KeyboardArrowUpIcon />
+						) : (
+							<KeyboardArrowDownIcon />
+						)}
+					</IconButton>
 
 					<span style={{ marginLeft: "auto" }}>{nodeId}</span>
 				</TableCell>
@@ -93,28 +90,43 @@ export const DeviceTableRow: React.FC<DeviceTableRowProps> = (props) => {
 					)}
 				</TableCell>
 				<TableCell>
-					{/* Whether the device is reachable */}
-					<DeviceStatusIcon status={status} />
-					{/* While healing the network also show the current progress */}
-					{!!healStatus && (
+					{isControllerNode ? (
+						<Tooltip title={_("Controller node")}>
+							<HomeIcon />
+						</Tooltip>
+					) : (
 						<>
-							{" "}
-							<HealStatusIcon status={props.healStatus} />
+							{/* Whether the device is reachable */}
+							<DeviceStatusIcon status={status} />
+							{/* While healing the network also show the current progress */}
+							{!!healStatus && (
+								<>
+									{" "}
+									<HealStatusIcon status={props.healStatus} />
+								</>
+							)}
 						</>
 					)}
 				</TableCell>
 			</TableRow>
 			<TableRow>
 				<TableCell colSpan={5} className={classes.expanderCell}>
-					{!isControllerNode && (
-						<Collapse in={open} timeout="auto" unmountOnExit>
+					<Collapse in={open} timeout="auto" unmountOnExit>
+						{isControllerNode ? (
+							<ControllerActions
+								isBusy={props.isBusy}
+								setBusy={props.setBusy}
+							/>
+						) : (
 							<NodeActions
 								nodeId={nodeId}
 								status={status}
+								isBusy={props.isBusy}
+								setBusy={props.setBusy}
 								supportsFirmwareUpdate={supportsFirmwareUpdate}
 							/>
-						</Collapse>
-					)}
+						)}
+					</Collapse>
 				</TableCell>
 			</TableRow>
 		</>

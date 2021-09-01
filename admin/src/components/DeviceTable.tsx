@@ -31,6 +31,8 @@ export interface DeviceTableProps {
 	devices: Device[];
 	healingNetwork: boolean;
 	networkHealProgress: NonNullable<NetworkHealPollResponse["progress"]>;
+	isBusy: boolean;
+	setBusy: (isBusy: boolean) => void;
 }
 
 export const DeviceTable: React.FC<DeviceTableProps> = (props) => {
@@ -40,7 +42,7 @@ export const DeviceTable: React.FC<DeviceTableProps> = (props) => {
 	const { devices, healingNetwork, networkHealProgress } = props;
 
 	return (
-		<Paper className={classes.root}>
+		<Paper className={classes.root} elevation={2}>
 			<TableContainer className={classes.container}>
 				<Table>
 					<TableHead>
@@ -59,6 +61,8 @@ export const DeviceTable: React.FC<DeviceTableProps> = (props) => {
 								return (
 									<DeviceTableRow
 										key={`device-${nodeId}`}
+										isBusy={props.isBusy}
+										setBusy={props.setBusy}
 										device={device}
 										healStatus={
 											healingNetwork

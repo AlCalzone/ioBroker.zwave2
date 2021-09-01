@@ -758,6 +758,18 @@ class ZWave2 extends import_adapter_core.default.Adapter {
           }
           return;
         }
+        case "softReset": {
+          if (!this.driverReady) {
+            return respond(responses.ERROR("The driver is not yet ready!"));
+          }
+          try {
+            await this.driver.softReset();
+            respond(responses.OK);
+          } catch (e) {
+            respond(responses.ERROR((0, import_shared.getErrorMessage)(e)));
+          }
+          return;
+        }
         case "clearCache": {
           this.updateConfig({clearCache: true});
           respond(responses.OK);

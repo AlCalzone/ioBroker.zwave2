@@ -32,6 +32,9 @@ const useStyles = makeStyles((theme) => ({
 		gridGap: theme.spacing(2),
 		alignItems: "center",
 	},
+	strategyList: {
+		...theme.typography.body2,
+	},
 	waitMessageRoot: {
 		display: "grid",
 		gridTemplateColumns: "minmax(auto, 10ch) 1fr",
@@ -134,20 +137,21 @@ const SelectStrategyStep: React.FC<SelectStrategyStepProps> = (props) => {
 				<Typography variant="body2">
 					{_("Z-Wave supports the following security mechanisms:")}
 				</Typography>
-				<Typography variant="body2">
-					<ul style={{ marginTop: "0.5em" }}>
-						<li>
-							<b>Security S2</b> &ndash; {_("fast and secure")}{" "}
-							<b>{_("(recommended)")}</b>
-						</li>
-						<li>
-							<b>Security S0</b> &ndash;{" "}
-							{_("secure, but slow due to a lot of overhead")}{" "}
-							<b>{_("(use only when necessary)")}</b>
-						</li>
-						<li>{_("No encryption")}</li>
-					</ul>
-				</Typography>
+				<ul
+					className={classes.strategyList}
+					style={{ marginTop: "0.5em" }}
+				>
+					<li>
+						<b>Security S2</b> &ndash; {_("fast and secure")}{" "}
+						<b>{_("(recommended)")}</b>
+					</li>
+					<li>
+						<b>Security S0</b> &ndash;{" "}
+						{_("secure, but slow due to a lot of overhead")}{" "}
+						<b>{_("(use only when necessary)")}</b>
+					</li>
+					<li>{_("No encryption")}</li>
+				</ul>
 
 				<Typography
 					variant="body1"
@@ -487,7 +491,7 @@ const ValidateDSKStep: React.FC<ValidateDSKStepProps> = (props) => {
 	};
 
 	const handleOk = () => {
-		if (!error) props.setPIN(pin);
+		if (pin.length === 5) props.setPIN(pin);
 	};
 
 	const classes = useStyles();
@@ -526,7 +530,11 @@ const ValidateDSKStep: React.FC<ValidateDSKStepProps> = (props) => {
 				</div>
 			</DialogContent>
 			<DialogActions>
-				<Button disabled={!!error} onClick={handleOk} color="primary">
+				<Button
+					disabled={pin.length !== 5}
+					onClick={handleOk}
+					color="primary"
+				>
 					{_("OK")}
 				</Button>
 				<Button onClick={props.onCancel} color="primary">

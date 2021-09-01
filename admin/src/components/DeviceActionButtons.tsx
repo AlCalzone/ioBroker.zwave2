@@ -3,7 +3,6 @@ import React from "react";
 import PlusIcon from "@material-ui/icons/Add";
 import MinusIcon from "@material-ui/icons/Remove";
 import NetworkCheckIcon from "@material-ui/icons/NetworkCheck";
-import RestorePageIcon from "@material-ui/icons/RestorePage";
 import { useI18n } from "iobroker-react/hooks";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 
@@ -15,7 +14,6 @@ interface DeviceActionButtonsProps {
 	cancelExclusion: () => void;
 	healNetwork: () => void;
 	cancelHealing: () => void;
-	clearCache: () => void;
 }
 
 export enum DeviceActionButtonsState {
@@ -23,6 +21,7 @@ export enum DeviceActionButtonsState {
 	Including,
 	Excluding,
 	Healing,
+	Busy,
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -102,15 +101,6 @@ export const DeviceActionButtons: React.FC<DeviceActionButtonsProps> = (
 				{props.state !== DeviceActionButtonsState.Healing
 					? _("Heal network")
 					: _("Cancel healing")}
-			</Button>
-			<Button
-				variant="contained"
-				color="primary"
-				startIcon={<RestorePageIcon />}
-				disabled={props.state !== DeviceActionButtonsState.Idle}
-				onClick={props.clearCache}
-			>
-				{_("Clear cache")}
 			</Button>
 		</div>
 	);

@@ -13,6 +13,7 @@ import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import MuiTableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
 import { makeStyles, styled } from "@material-ui/core/styles";
+import { getErrorMessage } from "../../../src/lib/shared";
 
 export interface AssociationRowProps {
 	// The existing endpoints on the source node, their defined groups, and existing nodes including endpoints
@@ -154,7 +155,9 @@ export const AssociationRow: React.FC<AssociationRowProps> = (props) => {
 		} catch (e) {
 			alert(_(`The association could not be saved!`));
 			console.error(
-				`The association could not be saved! Reason: ${e.message}`,
+				`The association could not be saved! Reason: ${getErrorMessage(
+					e,
+				)}`,
 			);
 			resetAssociation();
 		} finally {
@@ -175,7 +178,9 @@ export const AssociationRow: React.FC<AssociationRowProps> = (props) => {
 		} catch (e) {
 			alert(_(`The association could not be deleted!`));
 			console.error(
-				`The association could not be deleted! Reason: ${e.message}`,
+				`The association could not be deleted! Reason: ${getErrorMessage(
+					e,
+				)}`,
 			);
 			resetAssociation();
 		} finally {

@@ -1287,6 +1287,22 @@ export class ZWave2 extends utils.Adapter<true> {
 					return;
 				}
 
+				case "softReset": {
+					if (!this.driverReady) {
+						return respond(
+							responses.ERROR("The driver is not yet ready!"),
+						);
+					}
+
+					try {
+						await this.driver.softReset();
+						respond(responses.OK);
+					} catch (e) {
+						respond(responses.ERROR(getErrorMessage(e)));
+					}
+					return;
+				}
+
 				case "clearCache": {
 					this.updateConfig({ clearCache: true });
 					respond(responses.OK);
