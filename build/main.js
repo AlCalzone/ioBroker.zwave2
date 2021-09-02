@@ -43,6 +43,7 @@ __export(exports, {
 });
 var import_adapter_core = __toModule(require("@iobroker/adapter-core"));
 var import_core = __toModule(require("@zwave-js/core"));
+var import_shared = __toModule(require("@zwave-js/shared"));
 var import_deferred_promise = __toModule(require("alcalzone-shared/deferred-promise"));
 var import_objects = __toModule(require("alcalzone-shared/objects"));
 var import_typeguards = __toModule(require("alcalzone-shared/typeguards"));
@@ -54,7 +55,7 @@ var import_Utils = __toModule(require("zwave-js/Utils"));
 var import_global = __toModule(require("./lib/global"));
 var import_objects2 = __toModule(require("./lib/objects"));
 var import_serialPorts = __toModule(require("./lib/serialPorts"));
-var import_shared = __toModule(require("./lib/shared"));
+var import_shared2 = __toModule(require("./lib/shared"));
 class ZWave2 extends import_adapter_core.default.Adapter {
   constructor(options = {}) {
     super(__spreadProps(__spreadValues({}, options), {
@@ -136,6 +137,12 @@ class ZWave2 extends import_adapter_core.default.Adapter {
       await this.setStateAsync("info.configVersion", this.driver.configVersion, true);
       await this.setStateAsync("info.configUpdate", null, true);
       void this.checkForConfigUpdates();
+      try {
+        const rfRegion = await this.driver.controller.getRFRegion();
+        await (0, import_objects2.setRFRegionState)(rfRegion);
+      } catch (e) {
+        await (0, import_objects2.setRFRegionState)(void 0);
+      }
       this.initialNodeInterviewStages = new Map([...this.driver.controller.nodes.values()].map((node) => [
         node.id,
         node.interviewStage
@@ -175,7 +182,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
     try {
       await this.driver.start();
     } catch (e) {
-      this.log.error(`The Z-Wave driver could not be started: ${(0, import_shared.getErrorMessage)(e)}`);
+      this.log.error(`The Z-Wave driver could not be started: ${(0, import_shared2.getErrorMessage)(e)}`);
     }
   }
   async onInclusionStarted(_secure, strategy) {
@@ -227,13 +234,13 @@ class ZWave2 extends import_adapter_core.default.Adapter {
       return;
     this.respondToHealNetworkPoll({
       type: "progress",
-      progress: (0, import_shared.mapToRecord)(progress)
+      progress: (0, import_shared2.mapToRecord)(progress)
     });
   }
   async onHealNetworkDone(result) {
     this.respondToHealNetworkPoll({
       type: "done",
-      progress: (0, import_shared.mapToRecord)(result)
+      progress: (0, import_shared2.mapToRecord)(result)
     });
     this.setState("info.healingNetwork", false, true);
   }
@@ -274,7 +281,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
   async cleanupNodeObjectsAndStates(node, allValueIDs) {
     allValueIDs != null ? allValueIDs : allValueIDs = node.getDefinedValueIDs();
     const uniqueCCs = allValueIDs.map((vid) => [vid.commandClass, vid.commandClassName]).filter(([cc], index, arr) => arr.findIndex(([_cc]) => _cc === cc) === index);
-    const nodeAbsoluteId = `${this.namespace}.${(0, import_shared.computeDeviceId)(node.id)}`;
+    const nodeAbsoluteId = `${this.namespace}.${(0, import_shared2.computeDeviceId)(node.id)}`;
     const desiredChannelIds = new Set(uniqueCCs.map(([, ccName]) => `${this.namespace}.${(0, import_objects2.computeChannelId)(node.id, ccName)}`));
     const existingChannelIds = Object.keys(await import_global.Global.$$(`${nodeAbsoluteId}.*`, {
       type: "channel"
@@ -308,7 +315,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
     }
   }
   async ensureDeviceObject(node) {
-    const nodeAbsoluteId = `${this.namespace}.${(0, import_shared.computeDeviceId)(node.id)}`;
+    const nodeAbsoluteId = `${this.namespace}.${(0, import_shared2.computeDeviceId)(node.id)}`;
     if (!this.readyNodes.has(node.id) && !(nodeAbsoluteId in this.oObjects)) {
       await (0, import_objects2.extendNode)(node);
     }
@@ -408,7 +415,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
         await this.setStateChangedAsync("info.configUpdate", (_b = await this.driver.checkForConfigUpdates()) != null ? _b : null, true);
       } catch (e) {
         await this.setStateChangedAsync("info.configUpdate", null, true);
-        this.log.error(`Failed to check for config updates: ${(0, import_shared.getErrorMessage)(e)}`);
+        this.log.error(`Failed to check for config updates: ${(0, import_shared2.getErrorMessage)(e)}`);
       }
     }
     const hour = new Date().getUTCHours();
@@ -493,14 +500,14 @@ class ZWave2 extends import_adapter_core.default.Adapter {
           return;
         }
         let newValue = state.val;
-        if (typeof newValue === "string" && (0, import_shared.isBufferAsHex)(newValue)) {
-          newValue = (0, import_shared.bufferFromHex)(newValue);
+        if (typeof newValue === "string" && (0, import_shared2.isBufferAsHex)(newValue)) {
+          newValue = (0, import_shared2.bufferFromHex)(newValue);
         }
         try {
           await node.setValue(valueId, newValue);
           await this.setStateAsync(id, {val: state.val, ack: true});
         } catch (e) {
-          this.log.error((0, import_shared.getErrorMessage)(e));
+          this.log.error((0, import_shared2.getErrorMessage)(e));
         }
       }
     }
@@ -513,7 +520,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
         await this.driver.controller.stopExclusion();
       }
     } catch (e) {
-      this.log.error((0, import_shared.getErrorMessage)(e));
+      this.log.error((0, import_shared2.getErrorMessage)(e));
     }
   }
   pushToFrontend(payload) {
@@ -671,7 +678,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
               respond(responses.COMMAND_ACTIVE);
             }
           } catch (e) {
-            respond(responses.ERROR((0, import_shared.getErrorMessage)(e)));
+            respond(responses.ERROR((0, import_shared2.getErrorMessage)(e)));
             this.setState("info.inclusion", false, true);
           }
           return;
@@ -766,7 +773,20 @@ class ZWave2 extends import_adapter_core.default.Adapter {
             await this.driver.softReset();
             respond(responses.OK);
           } catch (e) {
-            respond(responses.ERROR((0, import_shared.getErrorMessage)(e)));
+            respond(responses.ERROR((0, import_shared2.getErrorMessage)(e)));
+          }
+          return;
+        }
+        case "hardReset": {
+          if (!this.driverReady) {
+            return respond(responses.ERROR("The driver is not yet ready!"));
+          }
+          try {
+            await this.driver.hardReset();
+            respond(responses.OK);
+            this.restart();
+          } catch (e) {
+            respond(responses.ERROR((0, import_shared2.getErrorMessage)(e)));
           }
           return;
         }
@@ -785,7 +805,22 @@ class ZWave2 extends import_adapter_core.default.Adapter {
           try {
             await this.driver.controller.removeFailedNode(params.nodeId);
           } catch (e) {
-            return respond(responses.ERROR(`Could not remove node ${params.nodeId}: ${(0, import_shared.getErrorMessage)(e)}`));
+            return respond(responses.ERROR(`Could not remove node ${params.nodeId}: ${(0, import_shared2.getErrorMessage)(e)}`));
+          }
+          return respond(responses.OK);
+        }
+        case "setRFRegion": {
+          if (!this.driverReady) {
+            return respond(responses.ERROR("The driver is not yet ready to do that!"));
+          }
+          if (!requireParams("region"))
+            return;
+          const params = obj.message;
+          try {
+            await this.driver.controller.setRFRegion(params.region);
+            await (0, import_objects2.setRFRegionState)(params.region);
+          } catch (e) {
+            return respond(responses.ERROR(`Could not set region to ${(0, import_shared.getEnumMemberName)(import_Controller.RFRegion, params.region)}: ${(0, import_shared2.getErrorMessage)(e)}`));
           }
           return respond(responses.OK);
         }
@@ -801,7 +836,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
             const ret = node.getEndpointIndizes();
             return respond(responses.RESULT(ret));
           } catch (e) {
-            return respond(responses.ERROR(`Could not get endpoint indizes for node ${params.nodeId}: ${(0, import_shared.getErrorMessage)(e)}`));
+            return respond(responses.ERROR(`Could not get endpoint indizes for node ${params.nodeId}: ${(0, import_shared2.getErrorMessage)(e)}`));
           }
         }
         case "getAssociationGroups": {
@@ -817,7 +852,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
             const ret = (0, import_objects.composeObject)([...groups]);
             return respond(responses.RESULT(ret));
           } catch (e) {
-            return respond(responses.ERROR(`Could not get association groups for node ${params.nodeId}: ${(0, import_shared.getErrorMessage)(e)}`));
+            return respond(responses.ERROR(`Could not get association groups for node ${params.nodeId}: ${(0, import_shared2.getErrorMessage)(e)}`));
           }
         }
         case "getAssociations": {
@@ -833,7 +868,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
             const ret = (0, import_objects.composeObject)([...assocs]);
             return respond(responses.RESULT(ret));
           } catch (e) {
-            return respond(responses.ERROR(`Could not get associations for node ${params.nodeId}: ${(0, import_shared.getErrorMessage)(e)}`));
+            return respond(responses.ERROR(`Could not get associations for node ${params.nodeId}: ${(0, import_shared2.getErrorMessage)(e)}`));
           }
         }
         case "addAssociation": {
@@ -857,7 +892,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
             await this.driver.controller.addAssociations(source, definition.group, [target]);
             return respond(responses.OK);
           } catch (e) {
-            return respond(responses.ERROR(`Could not add association for node ${params.nodeId}: ${(0, import_shared.getErrorMessage)(e)}`));
+            return respond(responses.ERROR(`Could not add association for node ${params.nodeId}: ${(0, import_shared2.getErrorMessage)(e)}`));
           }
         }
         case "removeAssociation": {
@@ -881,7 +916,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
             await this.driver.controller.removeAssociations(source, definition.group, [target]);
             return respond(responses.OK);
           } catch (e) {
-            return respond(responses.ERROR(`Could not remove association for node ${params.nodeId}: ${(0, import_shared.getErrorMessage)(e)}`));
+            return respond(responses.ERROR(`Could not remove association for node ${params.nodeId}: ${(0, import_shared2.getErrorMessage)(e)}`));
           }
         }
         case "refreshNodeInfo": {
@@ -896,7 +931,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
             this.readyNodes.delete(nodeId);
             this.log.info(`Node ${nodeId}: interview restarted`);
           } catch (e) {
-            return respond(responses.ERROR(`Could not refresh info for node ${nodeId}: ${(0, import_shared.getErrorMessage)(e)}`));
+            return respond(responses.ERROR(`Could not refresh info for node ${nodeId}: ${(0, import_shared2.getErrorMessage)(e)}`));
           }
           return respond(responses.OK);
         }
@@ -914,7 +949,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
               const format = (0, import_Utils.guessFirmwareFileFormat)(filename, rawData);
               actualFirmware = (0, import_zwave_js.extractFirmware)(rawData, format);
             } catch (e) {
-              return respond(responses.ERROR((0, import_shared.getErrorMessage)(e)));
+              return respond(responses.ERROR((0, import_shared2.getErrorMessage)(e)));
             }
             try {
               await this.driver.controller.nodes.get(nodeId).beginFirmwareUpdate(actualFirmware.data, actualFirmware.firmwareTarget);
@@ -924,7 +959,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
               if (e instanceof import_zwave_js.ZWaveError && e.code === import_zwave_js.ZWaveErrorCodes.FirmwareUpdateCC_Busy) {
                 return respond(responses.COMMAND_ACTIVE);
               } else {
-                return respond(responses.ERROR((0, import_shared.getErrorMessage)(e)));
+                return respond(responses.ERROR((0, import_shared2.getErrorMessage)(e)));
               }
             }
           } else {
@@ -952,7 +987,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
             this.log.info(`Node ${nodeId}: Firmware update aborted`);
             return respond(responses.OK);
           } catch (e) {
-            return respond(responses.ERROR((0, import_shared.getErrorMessage)(e)));
+            return respond(responses.ERROR((0, import_shared2.getErrorMessage)(e)));
           }
         }
         case "updateConfig": {
@@ -966,8 +1001,8 @@ class ZWave2 extends import_adapter_core.default.Adapter {
             await this.setStateAsync("info.configVersion", this.driver.configVersion, true);
             return respond(responses.RESULT(result));
           } catch (e) {
-            this.log.error(`Could not install config updates: ${(0, import_shared.getErrorMessage)(e)}`);
-            return respond(responses.ERROR(`Could not install config updates: ${(0, import_shared.getErrorMessage)(e)}`));
+            this.log.error(`Could not install config updates: ${(0, import_shared2.getErrorMessage)(e)}`);
+            return respond(responses.ERROR(`Could not install config updates: ${(0, import_shared2.getErrorMessage)(e)}`));
           } finally {
             await this.setStateAsync("info.configUpdating", false, true);
           }
@@ -1015,7 +1050,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
           try {
             api = endpoint.commandClasses[commandClass];
           } catch (e) {
-            return respond(responses.ERROR((0, import_shared.getErrorMessage)(e)));
+            return respond(responses.ERROR((0, import_shared2.getErrorMessage)(e)));
           }
           if (!api.isSupported()) {
             return respond(responses.ERROR(`Node ${nodeId} (Endpoint ${endpointIndex}) does not support CC ${commandClass}`));
@@ -1027,7 +1062,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
             const result = args ? await method(...args) : await method();
             return respond(responses.RESULT(result));
           } catch (e) {
-            return respond(responses.ERROR((0, import_shared.getErrorMessage)(e)));
+            return respond(responses.ERROR((0, import_shared2.getErrorMessage)(e)));
           }
         }
       }

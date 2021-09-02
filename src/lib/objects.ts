@@ -1,12 +1,14 @@
 import {
 	CommandClasses,
 	Duration,
+	enumValuesToMetadataStates,
 	SecurityClass,
 	ValueMetadata,
 } from "@zwave-js/core";
 import { entries } from "alcalzone-shared/objects";
 import { padStart } from "alcalzone-shared/strings";
 import { isArray, isObject } from "alcalzone-shared/typeguards";
+import { RFRegion } from "zwave-js";
 import type { ZWaveNotificationCallbackArgs_NotificationCC } from "zwave-js/CommandClass";
 import { NodeStatus, ZWaveNode } from "zwave-js/Node";
 import type {
@@ -20,7 +22,7 @@ import type {
 	ZWaveNodeValueUpdatedArgs,
 } from "zwave-js/Values";
 import { Global as _ } from "./global";
-import { buffer2hex, computeDeviceId } from "./shared";
+import { buffer2hex, computeDeviceId, getErrorMessage } from "./shared";
 
 type ZWaveNodeArgs =
 	| ZWaveNodeValueAddedArgs
@@ -286,7 +288,9 @@ export async function extendValue(
 			await _.adapter.setStateAsync(stateId, state);
 		}
 	} catch (e) {
-		_.adapter.log.error(`Cannot set state "${stateId}" in ioBroker: ${e}`);
+		_.adapter.log.error(
+			`Cannot set state "${stateId}" in ioBroker: ${getErrorMessage(e)}`,
+		);
 	}
 }
 
@@ -305,7 +309,9 @@ export async function extendNotificationValue(
 		};
 		await _.adapter.setStateAsync(stateId, state);
 	} catch (e) {
-		_.adapter.log.error(`Cannot set state "${stateId}" in ioBroker: ${e}`);
+		_.adapter.log.error(
+			`Cannot set state "${stateId}" in ioBroker: ${getErrorMessage(e)}`,
+		);
 	}
 }
 
@@ -602,4 +608,23 @@ export async function extendNotification_NotificationCC(
 			await setNotificationValue(node.id, label, eventLabel, key, value);
 		}
 	}
+}
+
+export async function setRFRegionState(
+	rfRegion: RFRegion | undefined,
+): Promise<void> {
+	const stateId = `info.rfRegion`;
+	await _.adapter.setObjectNotExistsAsync(stateId, {
+		type: "state",
+		common: {
+			name: "RF Region",
+			role: "info.region",
+			type: "number",
+			read: true,
+			write: false,
+			states: enumValuesToMetadataStates(RFRegion),
+		},
+		native: {},
+	});
+	await _.adapter.setStateAsync(stateId, rfRegion ?? null, true);
 }

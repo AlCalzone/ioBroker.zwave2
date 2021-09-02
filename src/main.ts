@@ -1,5 +1,6 @@
 import utils from "@iobroker/adapter-core";
 import { CommandClasses, SecurityClass } from "@zwave-js/core";
+import { getEnumMemberName } from "@zwave-js/shared";
 import {
 	createDeferredPromise,
 	DeferredPromise,
@@ -35,6 +36,7 @@ import {
 	InclusionResult,
 	InclusionStrategy,
 	InclusionUserCallbacks,
+	RFRegion,
 } from "zwave-js/Controller";
 import { Firmware, guessFirmwareFileFormat } from "zwave-js/Utils";
 import type {
@@ -60,6 +62,7 @@ import {
 	removeValue,
 	setNodeReady,
 	setNodeStatus,
+	setRFRegionState,
 } from "./lib/objects";
 import { enumerateSerialPorts } from "./lib/serialPorts";
 import {
@@ -194,7 +197,7 @@ export class ZWave2 extends utils.Adapter<true> {
 				)
 				.on("heal network done", this.onHealNetworkDone.bind(this));
 
-			// Kick off a the regular config update check
+			// Kick off a regular config update check
 			await this.setStateAsync(
 				"info.configVersion",
 				this.driver.configVersion,
@@ -202,6 +205,14 @@ export class ZWave2 extends utils.Adapter<true> {
 			);
 			await this.setStateAsync("info.configUpdate", null, true);
 			void this.checkForConfigUpdates();
+
+			// Figure out which RF region the controller is using
+			try {
+				const rfRegion = await this.driver.controller.getRFRegion();
+				await setRFRegionState(rfRegion);
+			} catch {
+				await setRFRegionState(undefined);
+			}
 
 			// Remember in which interview stage the nodes started, so we can decide whether to mark the node values as stale or not
 			this.initialNodeInterviewStages = new Map(
@@ -1303,6 +1314,23 @@ export class ZWave2 extends utils.Adapter<true> {
 					return;
 				}
 
+				case "hardReset": {
+					if (!this.driverReady) {
+						return respond(
+							responses.ERROR("The driver is not yet ready!"),
+						);
+					}
+
+					try {
+						await this.driver.hardReset();
+						respond(responses.OK);
+						this.restart();
+					} catch (e) {
+						respond(responses.ERROR(getErrorMessage(e)));
+					}
+					return;
+				}
+
 				case "clearCache": {
 					this.updateConfig({ clearCache: true });
 					respond(responses.OK);
@@ -1330,6 +1358,33 @@ export class ZWave2 extends utils.Adapter<true> {
 								`Could not remove node ${
 									params.nodeId
 								}: ${getErrorMessage(e)}`,
+							),
+						);
+					}
+					return respond(responses.OK);
+				}
+
+				case "setRFRegion": {
+					if (!this.driverReady) {
+						return respond(
+							responses.ERROR(
+								"The driver is not yet ready to do that!",
+							),
+						);
+					}
+					if (!requireParams("region")) return;
+					const params = obj.message as any as Record<string, any>;
+
+					try {
+						await this.driver.controller.setRFRegion(params.region);
+						await setRFRegionState(params.region);
+					} catch (e) {
+						return respond(
+							responses.ERROR(
+								`Could not set region to ${getEnumMemberName(
+									RFRegion,
+									params.region,
+								)}: ${getErrorMessage(e)}`,
 							),
 						);
 					}

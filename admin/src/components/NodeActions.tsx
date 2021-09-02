@@ -11,6 +11,7 @@ import { useI18n } from "iobroker-react/hooks";
 import PublishIcon from "@material-ui/icons/Publish";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import CloseIcon from "@material-ui/icons/Close";
+import RestorePageIcon from "@material-ui/icons/RestorePage";
 
 export interface NodeActionsProps {
 	nodeId: number;
@@ -39,6 +40,9 @@ const useStyles = makeStyles((theme) => ({
 		"&:not(:first-of-type)": {
 			marginTop: theme.spacing(4),
 		},
+	},
+	redButton: {
+		background: theme.palette.error.main,
 	},
 }));
 
@@ -209,6 +213,7 @@ export const NodeActions: React.FC<NodeActionsProps> = (props) => {
 					disabled={isBusy}
 					variant="contained"
 					color="primary"
+					startIcon={<RestorePageIcon />}
 					onClick={() => refreshInfo()}
 				>
 					{_("Refresh node info")}
@@ -223,7 +228,7 @@ export const NodeActions: React.FC<NodeActionsProps> = (props) => {
 						<Button
 							disabled={!isNodeFailed || isBusy}
 							variant="contained"
-							color="primary"
+							className={classes.redButton}
 							onClick={() => removeNode()}
 						>
 							{_("Remove failed node")}

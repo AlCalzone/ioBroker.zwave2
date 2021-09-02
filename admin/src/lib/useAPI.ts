@@ -6,6 +6,7 @@ import type {
 	AssociationGroup,
 	InclusionGrant,
 	InclusionStrategy,
+	RFRegion,
 } from "zwave-js";
 import {
 	AssociationDefinition,
@@ -135,6 +136,16 @@ export class API {
 		const { error, result } = await this.connection.sendTo<SendToResult>(
 			this.namespace,
 			"softReset",
+		);
+		if (result !== "ok") {
+			throw error ?? result;
+		}
+	}
+
+	public async hardReset(): Promise<void> {
+		const { error, result } = await this.connection.sendTo<SendToResult>(
+			this.namespace,
+			"hardReset",
 		);
 		if (result !== "ok") {
 			throw error ?? result;
@@ -366,6 +377,17 @@ export class API {
 		>(this.namespace, "getSerialPorts");
 		if (error) throw error;
 		return result ?? [];
+	}
+
+	public async setRFRegion(region: RFRegion): Promise<void> {
+		const { error, result } = await this.connection.sendTo<SendToResult>(
+			this.namespace,
+			"setRFRegion",
+			{ region },
+		);
+		if (result !== "ok") {
+			throw error ?? result;
+		}
 	}
 }
 
