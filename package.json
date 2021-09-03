@@ -71,7 +71,6 @@
     "@types/sinon-chai": "^3.2.5",
     "@typescript-eslint/eslint-plugin": "^4.28.4",
     "@typescript-eslint/parser": "^4.28.4",
-    "@welldone-software/why-did-you-render": "^6.2.1",
     "axios": "^0.21.1",
     "chai": "^4.3.4",
     "chai-as-promised": "^7.1.1",
@@ -83,7 +82,6 @@
     "eslint-plugin-prettier": "^3.4.0",
     "estrella": "^1.4.1",
     "iobroker-react": "github:AlCalzone/iobroker-react",
-    "iobroker-react-components": "^1.0.0",
     "jest": "^27.0.6",
     "jest-extended": "^0.11.5",
     "mocha": "^9.0.3",
@@ -101,7 +99,7 @@
     "typescript": "^4.4.2"
   },
   "scripts": {
-    "prebuild": "rimraf ./build",
+    "prebuild": "rimraf build admin/build",
     "build:react": "node .build.js -react",
     "build:ts": "node .build.js -typescript",
     "check:ts": "tsc -p tsconfig.build.json --noEmit",
@@ -117,7 +115,6 @@
     "coverage": "nyc npm run test:ts",
     "lint:ts": "eslint --ext .ts src",
     "lint": "npm run lint:ts",
-    "update_iob": "start update_iob.bat",
     "start": "NO_CACHE=true LOGLEVEL=debug node --inspect build/main.js --force --logs",
     "release": "release-script"
   },
