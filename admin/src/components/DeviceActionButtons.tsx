@@ -5,6 +5,7 @@ import MinusIcon from "@material-ui/icons/Remove";
 import NetworkCheckIcon from "@material-ui/icons/NetworkCheck";
 import { useI18n } from "iobroker-react/hooks";
 import { makeStyles, Theme } from "@material-ui/core/styles";
+import clsx from "clsx";
 
 interface DeviceActionButtonsProps {
 	state: DeviceActionButtonsState;
@@ -29,6 +30,12 @@ const useStyles = makeStyles((theme: Theme) => ({
 		display: "flex",
 		flexDirection: "row",
 		gap: theme.spacing(1),
+	},
+	redButton: {
+		background: theme.palette.error.main,
+		"&:hover": {
+			background: theme.palette.error.dark,
+		},
 	},
 }));
 
@@ -82,11 +89,11 @@ export const DeviceActionButtons: React.FC<DeviceActionButtonsProps> = (
 			</Button>
 			<Button
 				variant="contained"
-				color={
-					props.state === DeviceActionButtonsState.Healing
-						? "secondary"
-						: "primary"
-				}
+				color={"primary"}
+				className={clsx(
+					props.state === DeviceActionButtonsState.Healing &&
+						classes.redButton,
+				)}
 				startIcon={<NetworkCheckIcon />}
 				disabled={
 					props.state !== DeviceActionButtonsState.Idle &&

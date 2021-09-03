@@ -72,7 +72,7 @@ const Root: React.FC = React.memo(() => {
 });
 
 ReactDOM.render(
-	<IoBrokerApp name="zwave2" translations={translations}>
+	<IoBrokerApp name={"zwave2"} translations={translations}>
 		<Root />
 	</IoBrokerApp>,
 	document.getElementById("root"),

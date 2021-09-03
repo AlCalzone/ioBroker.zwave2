@@ -69,11 +69,9 @@ import {
 	AssociationDefinition,
 	bufferFromHex,
 	computeDeviceId,
-	FirmwareUpdatePollResponse,
 	getErrorMessage,
 	isBufferAsHex,
 	mapToRecord,
-	NetworkHealPollResponse,
 	PushMessage,
 } from "./lib/shared";
 
@@ -359,18 +357,24 @@ export class ZWave2 extends utils.Adapter<true> {
 		const allDone = [...progress.values()].every((v) => v !== "pending");
 		// If this is the final progress report, skip it, so the frontend gets the "done" message
 		if (allDone) return;
-		this.respondToHealNetworkPoll({
-			type: "progress",
-			progress: mapToRecord(progress),
+		this.pushToFrontend({
+			type: "healing",
+			status: {
+				type: "progress",
+				progress: mapToRecord(progress),
+			},
 		});
 	}
 
 	private async onHealNetworkDone(
 		result: ReadonlyMap<number, HealNodeStatus>,
 	): Promise<void> {
-		this.respondToHealNetworkPoll({
-			type: "done",
-			progress: mapToRecord(result),
+		this.pushToFrontend({
+			type: "healing",
+			status: {
+				type: "done",
+				progress: mapToRecord(result),
+			},
 		});
 		this.setState("info.healingNetwork", false, true);
 	}
@@ -713,10 +717,13 @@ export class ZWave2 extends utils.Adapter<true> {
 		sentFragments: number,
 		totalFragments: number,
 	): Promise<void> {
-		this.respondToFirmwareUpdatePoll({
-			type: "progress",
-			sentFragments,
-			totalFragments,
+		this.pushToFrontend({
+			type: "firmwareUpdate",
+			progress: {
+				type: "progress",
+				sentFragments,
+				totalFragments,
+			},
 		});
 	}
 
@@ -725,10 +732,13 @@ export class ZWave2 extends utils.Adapter<true> {
 		status: FirmwareUpdateStatus,
 		waitTime?: number,
 	): Promise<void> {
-		this.respondToFirmwareUpdatePoll({
-			type: "done",
-			status,
-			waitTime,
+		this.pushToFrontend({
+			type: "firmwareUpdate",
+			progress: {
+				type: "done",
+				status,
+				waitTime,
+			},
 		});
 	}
 
@@ -940,18 +950,18 @@ export class ZWave2 extends utils.Adapter<true> {
 	// This is used to store responses if something changed between two polls
 	private pushPayloads: PushMessage[] = [];
 	// This is used to store the callback if there was no response yet
-	private pushCallback: ((payload: PushMessage[]) => void) | undefined;
+	private pushCallbacks = new Map<string, (payload: PushMessage[]) => void>();
 	// This is used to timeout expired payloads when there hasn't been a poll in a while
 	private pushPayloadExpirationTimeout: NodeJS.Timeout | undefined;
 
 	/** Responds to a pending poll from the frontend (if there is a message outstanding) */
 	private pushToFrontend(payload: PushMessage): void {
 		this.pushPayloads.push(payload);
-		if (typeof this.pushCallback === "function") {
-			// If the client is waiting for a response, all pending responses immediately
-			this.pushCallback(this.pushPayloads);
+		if (this.pushCallbacks.size > 0) {
+			// If a client is waiting for a response, send all pending responses immediately
+			this.pushCallbacks.forEach((cb) => cb(this.pushPayloads));
 			this.pushPayloads.splice(0, this.pushPayloads.length);
-			this.pushCallback = undefined;
+			this.pushCallbacks.clear();
 		} else {
 			// otherwise start a timer so we can expire the payloads after a while
 			if (!this.pushPayloadExpirationTimeout) {
@@ -960,46 +970,6 @@ export class ZWave2 extends utils.Adapter<true> {
 					this.pushPayloads.splice(0, this.pushPayloads.length);
 				}, 2500);
 			}
-		}
-	}
-
-	// This is used to store responses if something changed between two calls
-	private healNetworkPollResponse: NetworkHealPollResponse | undefined;
-	// This is used to store the callback if there was no response yet
-	private healNetworkPollCallback:
-		| ((response: NetworkHealPollResponse) => void)
-		| undefined;
-
-	/** Responds to a pending poll from the frontend (if there is a message outstanding) */
-	private respondToHealNetworkPoll(response: NetworkHealPollResponse): void {
-		if (typeof this.healNetworkPollCallback === "function") {
-			// If the client is waiting for a response, send it immediately
-			this.healNetworkPollCallback(response);
-			this.healNetworkPollCallback = undefined;
-		} else {
-			// otherwise remember the response for the next call
-			this.healNetworkPollResponse = response;
-		}
-	}
-
-	// This is used to store responses if something changed between two calls
-	private firmwareUpdatePollResponse: FirmwareUpdatePollResponse | undefined;
-	// This is used to store the callback if there was no response yet
-	private firmwareUpdatePollCallback:
-		| ((response: FirmwareUpdatePollResponse) => void)
-		| undefined;
-
-	/** Responds to a pending poll from the frontend (if there is a message outstanding) */
-	private respondToFirmwareUpdatePoll(
-		response: FirmwareUpdatePollResponse,
-	): void {
-		if (typeof this.firmwareUpdatePollCallback === "function") {
-			// If the client is waiting for a response, send it immediately
-			this.firmwareUpdatePollCallback(response);
-			this.firmwareUpdatePollCallback = undefined;
-		} else {
-			// otherwise remember the response for the next call
-			this.firmwareUpdatePollResponse = response;
 		}
 	}
 
@@ -1078,6 +1048,8 @@ export class ZWave2 extends utils.Adapter<true> {
 				}
 
 				case "registerPushCallback": {
+					if (!requireParams("uuid")) return;
+
 					const params = obj.message as any as Record<string, any>;
 					const clearPending = !!params.clearPending;
 
@@ -1086,15 +1058,17 @@ export class ZWave2 extends utils.Adapter<true> {
 					}
 
 					if (this.pushPayloads.length) {
-						// if a response is waiting to be asked for, send it immediately
+						// If we've previously stored a payload, this is the only client asking for a callback
+						// Send it the response immediately
 						respond(responses.RESULT(this.pushPayloads));
 						this.pushPayloads.splice(0, this.pushPayloads.length);
 						if (this.pushPayloadExpirationTimeout)
 							clearTimeout(this.pushPayloadExpirationTimeout);
 					} else {
 						// otherwise remember the callback for a later response
-						this.pushCallback = (result) =>
-							respond(responses.RESULT(result));
+						this.pushCallbacks.set(params.uuid, (result) =>
+							respond(responses.RESULT(result)),
+						);
 					}
 
 					return;
@@ -1281,20 +1255,6 @@ export class ZWave2 extends utils.Adapter<true> {
 					this.driver.controller.stopHealingNetwork();
 					respond(responses.OK);
 					this.setState("info.healingNetwork", false, true);
-					return;
-				}
-
-				case "healNetworkPoll": {
-					if (this.healNetworkPollResponse) {
-						// if a response is waiting to be asked for, send it immediately
-						respond(responses.RESULT(this.healNetworkPollResponse));
-						this.healNetworkPollResponse = undefined;
-					} else {
-						// otherwise remember the callback for a later response
-						this.healNetworkPollCallback = (result) =>
-							respond(responses.RESULT(result));
-					}
-
 					return;
 				}
 
@@ -1652,22 +1612,6 @@ export class ZWave2 extends utils.Adapter<true> {
 							responses.ERROR("The firmware data is invalid!"),
 						);
 					}
-				}
-
-				case "firmwareUpdatePoll": {
-					if (this.firmwareUpdatePollResponse) {
-						// if a response is waiting to be asked for, send it immediately
-						respond(
-							responses.RESULT(this.firmwareUpdatePollResponse),
-						);
-						this.firmwareUpdatePollResponse = undefined;
-					} else {
-						// otherwise remember the callback for a later response
-						this.firmwareUpdatePollCallback = (result) =>
-							respond(responses.RESULT(result));
-					}
-
-					return;
 				}
 
 				case "abortFirmwareUpdate": {

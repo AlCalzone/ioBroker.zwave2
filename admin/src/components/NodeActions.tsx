@@ -2,16 +2,19 @@ import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import Tooltip from "@material-ui/core/Tooltip";
 import React from "react";
-import {
-	FirmwareUpdatePollResponse,
-	getErrorMessage,
-} from "../../../src/lib/shared";
+import type { FirmwareUpdateProgress } from "../../../src/lib/shared";
 import { useAPI } from "../lib/useAPI";
-import { useI18n } from "iobroker-react/hooks";
+import { useDialogs, useI18n } from "iobroker-react/hooks";
 import PublishIcon from "@material-ui/icons/Publish";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import CloseIcon from "@material-ui/icons/Close";
 import RestorePageIcon from "@material-ui/icons/RestorePage";
+import { usePush } from "../lib/usePush";
+import LinearProgress from "@material-ui/core/LinearProgress";
+import Typography from "@material-ui/core/Typography";
+import clsx from "clsx";
+import MemoryIcon from "@material-ui/icons/Memory";
+import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 
 export interface NodeActionsProps {
 	nodeId: number;
@@ -28,21 +31,32 @@ interface LoadedFile {
 
 const useStyles = makeStyles((theme) => ({
 	root: {
-		padding: theme.spacing(1),
+		padding: theme.spacing(2, 0),
+		display: "grid",
+		gridTemplateColumns: "auto 1fr",
+		alignItems: "center",
+		columnGap: theme.spacing(4),
+		rowGap: theme.spacing(2),
 	},
-	nodeActionsRow: {
+	firmwareUpdate: {
+		gridColumn: "1 / span 2",
 		display: "flex",
 		flexFlow: "row nowrap",
-		margin: theme.spacing(1, 0),
 		justifyContent: "space-between",
 		alignItems: "center",
-
-		"&:not(:first-of-type)": {
-			marginTop: theme.spacing(4),
-		},
+		marginTop: theme.spacing(4),
+	},
+	firmwareUpdateMessage: {
+		gridColumn: "1 / span 2",
+	},
+	warning: {
+		color: theme.palette.warning.main,
 	},
 	redButton: {
 		background: theme.palette.error.main,
+		"&:hover": {
+			background: theme.palette.error.dark,
+		},
 	},
 }));
 
@@ -51,7 +65,7 @@ export const NodeActions: React.FC<NodeActionsProps> = (props) => {
 	const [firmwareUpdateActive, setFirmwareUpdateActive] =
 		React.useState(false);
 	const [firmwareUpdateStatus, setFirmwareUpdateStatus] =
-		React.useState<FirmwareUpdatePollResponse>();
+		React.useState<FirmwareUpdateProgress>();
 	const [message, setMessage] = React.useState<string>();
 
 	const input = React.useRef<HTMLInputElement>();
@@ -59,6 +73,8 @@ export const NodeActions: React.FC<NodeActionsProps> = (props) => {
 	const api = useAPI();
 	const { nodeId, isBusy, setBusy, supportsFirmwareUpdate } = props;
 	const { translate: _ } = useI18n();
+
+	const { showNotification } = useDialogs();
 
 	// It can happen that the controller does not react to commands for a failed node,
 	// so the status won't change. We need to allow removing the node in this case too,
@@ -105,6 +121,11 @@ export const NodeActions: React.FC<NodeActionsProps> = (props) => {
 			setBusy(true);
 			try {
 				setFirmwareUpdateActive(true);
+				setFirmwareUpdateStatus({
+					type: "progress",
+					sentFragments: 0,
+					totalFragments: 1,
+				});
 				await api.beginFirmwareUpdate(
 					nodeId,
 					loadedFile.name,
@@ -132,55 +153,45 @@ export const NodeActions: React.FC<NodeActionsProps> = (props) => {
 		}
 	}
 
-	// Poll the firmware update progress while we're updating the firmware
-	const [isPolling, setIsPolling] = React.useState(false);
-	React.useEffect(() => {
-		(async () => {
-			if (firmwareUpdateActive && !isPolling) {
-				setIsPolling(true);
-				try {
-					const result = await api.pollFirmwareUpdateStatus(nodeId);
-					console.dir(result);
-					setFirmwareUpdateStatus(result);
-					if (result.type === "done") {
-						const success =
-							result.status! >=
-							0xfd; /* OK_WaitingForActivation */
-						let message = success
-							? _("firmware update successful")
-							: _("firmware update failed");
-						if (success) {
-							if (result.waitTime) {
-								message +=
-									" " +
-									_("firmware update wait time").replace(
-										"{0}",
-										result.waitTime.toString(),
-									);
-							} else {
-								message +=
-									" " + _("firmware update no wait time");
-							}
-							message += " " + _("firmware update wake up");
+	usePush((payload) => {
+		if (payload.type === "firmwareUpdate") {
+			const progress = payload.progress;
+			setFirmwareUpdateStatus(progress);
+
+			if (progress.type === "done") {
+				const success =
+					progress.status! >= 0xfd; /* OK_WaitingForActivation */
+				if (!success) {
+					showNotification(_("firmware update failed"), "error");
+					setMessage(undefined);
+				} else {
+					let message = _("firmware update successful");
+					if (success) {
+						if (progress.waitTime) {
+							message +=
+								" " +
+								_("firmware update wait time").replace(
+									"{0}",
+									progress.waitTime.toString(),
+								);
+						} else {
+							message += " " + _("firmware update no wait time");
 						}
-						setMessage(message);
-						setLoadedFile(undefined);
-						setFirmwareUpdateActive(false);
-						setTimeout(() => {
-							setFirmwareUpdateStatus(undefined);
-						}, 10000);
-					} else {
-						// Kick off the next poll
-						setIsPolling(false);
+						message += " " + _("firmware update wake up");
 					}
-				} catch (e) {
-					console.error(`Error while polling: ${getErrorMessage(e)}`);
-					// Kick off the next poll
-					setIsPolling(false);
+					setMessage(message);
 				}
+				setLoadedFile(undefined);
+				setFirmwareUpdateActive(false);
+				setTimeout(() => {
+					setFirmwareUpdateStatus(undefined);
+				}, 10000);
+			} else {
+				// For good measure, in case someone reloaded the page
+				setFirmwareUpdateActive(true);
 			}
-		})();
-	}, [isPolling, firmwareUpdateActive]);
+		}
+	});
 
 	const updateProgressNumeric =
 		firmwareUpdateStatus?.type === "progress" &&
@@ -207,45 +218,56 @@ export const NodeActions: React.FC<NodeActionsProps> = (props) => {
 
 	return (
 		<div className={classes.root}>
-			<div className={classes.nodeActionsRow}>
-				{/* Button to re-interview a node */}
-				<Button
-					disabled={isBusy}
-					variant="contained"
-					color="primary"
-					startIcon={<RestorePageIcon />}
-					onClick={() => refreshInfo()}
-				>
-					{_("Refresh node info")}
-				</Button>
+			{/* Button to re-interview a node */}
+			<Button
+				disabled={isBusy}
+				variant="contained"
+				color="primary"
+				startIcon={<RestorePageIcon />}
+				onClick={() => refreshInfo()}
+			>
+				{_("Refresh node info")}
+			</Button>
+			<Typography variant="body2">
+				{_(
+					"Forget all information about all nodes and re-interview them. Battery-powered nodes might need to be woken up manually.",
+				)}
+			</Typography>
 
-				{/* Button to remove failed nodes - only show them if the node may be failed */}
-				<Tooltip
-					title={isNodeFailed ? "" : _("This is not a failed node")}
-				>
-					<span>
-						{/* The span is necessary to show a tooltip on a disabled button */}
-						<Button
-							disabled={!isNodeFailed || isBusy}
-							variant="contained"
-							className={classes.redButton}
-							onClick={() => removeNode()}
-						>
-							{_("Remove failed node")}
-						</Button>
-					</span>
-				</Tooltip>
-			</div>
+			{/* Button to remove failed nodes - only show them if the node may be failed */}
+			<Tooltip title={isNodeFailed ? "" : _("This is not a failed node")}>
+				<span>
+					{/* The span is necessary to show a tooltip on a disabled button */}
+					<Button
+						disabled={!isNodeFailed || isBusy}
+						variant="contained"
+						className={classes.redButton}
+						onClick={() => removeNode()}
+						startIcon={<DeleteOutlineIcon />}
+					>
+						{_("Remove failed node")}
+					</Button>
+				</span>
+			</Tooltip>
+			<Typography variant="body2">
+				{_("Remove this node from the network.")}{" "}
+				<span className={classes.warning}>
+					{_(
+						"WARNING: Only do this if you no longer have physical access.",
+					)}
+				</span>
+			</Typography>
 
 			{supportsFirmwareUpdate && (
 				<>
-					<div className={classes.nodeActionsRow}>
+					<div className={classes.firmwareUpdate}>
 						<Button
 							disabled={firmwareUpdateActive || isBusy}
 							variant="contained"
 							color="primary"
 							onClick={() => loadFirmware()}
 							style={{ flex: "1 0 auto" }}
+							startIcon={<MemoryIcon />}
 						>
 							{_("Update Firmware")}
 						</Button>
@@ -269,14 +291,12 @@ export const NodeActions: React.FC<NodeActionsProps> = (props) => {
 									}}
 								>
 									{Number.isNaN(updateProgressNumeric) ? (
-										<div className="indeterminate"></div>
+										<LinearProgress />
 									) : (
-										<div
-											className="determinate"
-											style={{
-												width: `${updateProgressNumeric}%`,
-											}}
-										></div>
+										<LinearProgress
+											variant="determinate"
+											value={updateProgressNumeric}
+										/>
 									)}
 								</div>
 								{!Number.isNaN(updateProgressNumeric) && (
@@ -340,9 +360,16 @@ export const NodeActions: React.FC<NodeActionsProps> = (props) => {
 						</ButtonGroup>
 					</div>
 					{message ? (
-						<div>{message}</div>
+						<div className={classes.firmwareUpdateMessage}>
+							{message}
+						</div>
 					) : (
-						<div className="orange-text text-darken-4">
+						<div
+							className={clsx(
+								classes.firmwareUpdateMessage,
+								classes.warning,
+							)}
+						>
 							{_("firmware update warning")}
 						</div>
 					)}

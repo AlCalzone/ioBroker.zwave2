@@ -73,6 +73,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
       }
     };
     this.pushPayloads = [];
+    this.pushCallbacks = new Map();
     this.on("ready", this.onReady.bind(this));
     this.on("objectChange", this.onObjectChange.bind(this));
     this.on("stateChange", this.onStateChange.bind(this));
@@ -232,15 +233,21 @@ class ZWave2 extends import_adapter_core.default.Adapter {
     const allDone = [...progress.values()].every((v) => v !== "pending");
     if (allDone)
       return;
-    this.respondToHealNetworkPoll({
-      type: "progress",
-      progress: (0, import_shared2.mapToRecord)(progress)
+    this.pushToFrontend({
+      type: "healing",
+      status: {
+        type: "progress",
+        progress: (0, import_shared2.mapToRecord)(progress)
+      }
     });
   }
   async onHealNetworkDone(result) {
-    this.respondToHealNetworkPoll({
-      type: "done",
-      progress: (0, import_shared2.mapToRecord)(result)
+    this.pushToFrontend({
+      type: "healing",
+      status: {
+        type: "done",
+        progress: (0, import_shared2.mapToRecord)(result)
+      }
     });
     this.setState("info.healingNetwork", false, true);
   }
@@ -395,17 +402,23 @@ class ZWave2 extends import_adapter_core.default.Adapter {
     await (0, import_objects2.extendMetadata)(node, args);
   }
   async onNodeFirmwareUpdateProgress(node, sentFragments, totalFragments) {
-    this.respondToFirmwareUpdatePoll({
-      type: "progress",
-      sentFragments,
-      totalFragments
+    this.pushToFrontend({
+      type: "firmwareUpdate",
+      progress: {
+        type: "progress",
+        sentFragments,
+        totalFragments
+      }
     });
   }
   async onNodeFirmwareUpdateFinished(node, status, waitTime) {
-    this.respondToFirmwareUpdatePoll({
-      type: "done",
-      status,
-      waitTime
+    this.pushToFrontend({
+      type: "firmwareUpdate",
+      progress: {
+        type: "done",
+        status,
+        waitTime
+      }
     });
   }
   async checkForConfigUpdates() {
@@ -525,10 +538,10 @@ class ZWave2 extends import_adapter_core.default.Adapter {
   }
   pushToFrontend(payload) {
     this.pushPayloads.push(payload);
-    if (typeof this.pushCallback === "function") {
-      this.pushCallback(this.pushPayloads);
+    if (this.pushCallbacks.size > 0) {
+      this.pushCallbacks.forEach((cb) => cb(this.pushPayloads));
       this.pushPayloads.splice(0, this.pushPayloads.length);
-      this.pushCallback = void 0;
+      this.pushCallbacks.clear();
     } else {
       if (!this.pushPayloadExpirationTimeout) {
         this.pushPayloadExpirationTimeout = setTimeout(() => {
@@ -536,22 +549,6 @@ class ZWave2 extends import_adapter_core.default.Adapter {
           this.pushPayloads.splice(0, this.pushPayloads.length);
         }, 2500);
       }
-    }
-  }
-  respondToHealNetworkPoll(response) {
-    if (typeof this.healNetworkPollCallback === "function") {
-      this.healNetworkPollCallback(response);
-      this.healNetworkPollCallback = void 0;
-    } else {
-      this.healNetworkPollResponse = response;
-    }
-  }
-  respondToFirmwareUpdatePoll(response) {
-    if (typeof this.firmwareUpdatePollCallback === "function") {
-      this.firmwareUpdatePollCallback(response);
-      this.firmwareUpdatePollCallback = void 0;
-    } else {
-      this.firmwareUpdatePollResponse = response;
     }
   }
   async onMessage(obj) {
@@ -605,6 +602,8 @@ class ZWave2 extends import_adapter_core.default.Adapter {
           return;
         }
         case "registerPushCallback": {
+          if (!requireParams("uuid"))
+            return;
           const params = obj.message;
           const clearPending = !!params.clearPending;
           if (clearPending) {
@@ -616,7 +615,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
             if (this.pushPayloadExpirationTimeout)
               clearTimeout(this.pushPayloadExpirationTimeout);
           } else {
-            this.pushCallback = (result) => respond(responses.RESULT(result));
+            this.pushCallbacks.set(params.uuid, (result) => respond(responses.RESULT(result)));
           }
           return;
         }
@@ -754,15 +753,6 @@ class ZWave2 extends import_adapter_core.default.Adapter {
           this.driver.controller.stopHealingNetwork();
           respond(responses.OK);
           this.setState("info.healingNetwork", false, true);
-          return;
-        }
-        case "healNetworkPoll": {
-          if (this.healNetworkPollResponse) {
-            respond(responses.RESULT(this.healNetworkPollResponse));
-            this.healNetworkPollResponse = void 0;
-          } else {
-            this.healNetworkPollCallback = (result) => respond(responses.RESULT(result));
-          }
           return;
         }
         case "softReset": {
@@ -965,15 +955,6 @@ class ZWave2 extends import_adapter_core.default.Adapter {
           } else {
             return respond(responses.ERROR("The firmware data is invalid!"));
           }
-        }
-        case "firmwareUpdatePoll": {
-          if (this.firmwareUpdatePollResponse) {
-            respond(responses.RESULT(this.firmwareUpdatePollResponse));
-            this.firmwareUpdatePollResponse = void 0;
-          } else {
-            this.firmwareUpdatePollCallback = (result) => respond(responses.RESULT(result));
-          }
-          return;
         }
         case "abortFirmwareUpdate": {
           if (!this.driverReady) {

@@ -1,6 +1,8 @@
 import type { Connection } from "@iobroker/socket-client";
+import { isArray } from "alcalzone-shared/typeguards";
 import { useConnection, useGlobals } from "iobroker-react/hooks";
 import React from "react";
+import { v4 as uuidv4 } from "uuid";
 import type {
 	AssociationAddress,
 	AssociationGroup,
@@ -11,8 +13,7 @@ import type {
 import {
 	AssociationDefinition,
 	computeDeviceId,
-	FirmwareUpdatePollResponse,
-	NetworkHealPollResponse,
+	getErrorMessage,
 	PushMessage,
 } from "../../../src/lib/shared";
 
@@ -45,11 +46,17 @@ export interface NodeInfo {
 	neighbors: number[];
 }
 
+export type PushCallback = (payload: PushMessage) => void;
+
 export class API {
 	public constructor(
 		private readonly namespace: string,
 		private readonly connection: Connection,
-	) {}
+	) {
+		this.uuid = uuidv4();
+	}
+
+	private readonly uuid: string;
 
 	public async beginHealingNetwork(): Promise<void> {
 		const { error, result } = await this.connection.sendTo<SendToResult>(
@@ -71,22 +78,63 @@ export class API {
 		}
 	}
 
-	public async pollHealingStatus(): Promise<NetworkHealPollResponse> {
-		const { error, result } = await this.connection.sendTo<
-			SendToResult<NetworkHealPollResponse>
-		>(this.namespace, "healNetworkPoll");
-		if (error) throw error;
-		return result!;
+	private pushCallbacks = new Set<PushCallback>();
+	private waitForPushTimeout: NodeJS.Timeout | undefined;
+
+	public addPushCallback(callback: PushCallback): void {
+		const wasEmpty = this.pushCallbacks.size === 0;
+		this.pushCallbacks.add(callback);
+		if (wasEmpty && !this.waitForPushTimeout) {
+			this.waitForPushTimeout = setTimeout(
+				() => this.waitForPush(true),
+				0,
+			);
+		}
 	}
 
-	public async registerPushCallback(
+	public removePushCallback(callback: PushCallback): void {
+		this.pushCallbacks.delete(callback);
+	}
+
+	private async _registerPushCallback(
 		clearPending: boolean,
 	): Promise<PushMessage[]> {
 		const { error, result } = await this.connection.sendTo<
 			SendToResult<PushMessage[]>
-		>(this.namespace, "registerPushCallback", { clearPending });
+		>(this.namespace, "registerPushCallback", {
+			clearPending,
+			uuid: this.uuid,
+		});
 		if (error) throw error;
 		return result!;
+	}
+
+	private async waitForPush(firstTime: boolean): Promise<void> {
+		try {
+			// Fetch pending push messages
+			const payloads = await this._registerPushCallback(firstTime);
+			firstTime = false;
+
+			// And call the push callbacks for each one of them
+			if (isArray(payloads)) {
+				for (const onPush of this.pushCallbacks) {
+					payloads.forEach((p) => onPush(p));
+				}
+			}
+		} catch (e) {
+			console.error(
+				`Getting push messages failed: ${getErrorMessage(e)}`,
+			);
+		}
+		// As long as we have a push callback pending, continue polling
+		if (this.pushCallbacks.size > 0) {
+			this.waitForPushTimeout = setTimeout(
+				() => this.waitForPush(false),
+				0,
+			);
+		} else {
+			this.waitForPushTimeout = undefined;
+		}
 	}
 
 	public async beginInclusion(
@@ -340,18 +388,6 @@ export class API {
 		}
 	}
 
-	public async pollFirmwareUpdateStatus(
-		nodeId: number,
-	): Promise<FirmwareUpdatePollResponse> {
-		const { error, result } = await this.connection.sendTo<SendToResult>(
-			this.namespace,
-			"firmwareUpdatePoll",
-			{ nodeId },
-		);
-		if (error) throw error;
-		return result;
-	}
-
 	public async abortFirmwareUpdate(nodeId: number): Promise<void> {
 		const { error, result } = await this.connection.sendTo<SendToResult>(
 			this.namespace,
@@ -391,7 +427,7 @@ export class API {
 	}
 }
 
-/** Hook to subscribe to the adapter's `alive` and `connected` states */
+/** Hook to communicate with the adapter via sendTo calls */
 export function useAPI(): API {
 	const { namespace } = useGlobals();
 	const connection = useConnection();

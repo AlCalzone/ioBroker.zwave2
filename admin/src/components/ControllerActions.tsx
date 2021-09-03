@@ -29,6 +29,9 @@ const useStyles = makeStyles((theme) => ({
 	},
 	redButton: {
 		background: theme.palette.error.main,
+		"&:hover": {
+			background: theme.palette.error.dark,
+		},
 	},
 }));
 

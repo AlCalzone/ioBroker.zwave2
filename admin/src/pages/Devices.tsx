@@ -2,7 +2,7 @@ import React from "react";
 import {
 	getErrorMessage,
 	InclusionStatus,
-	NetworkHealPollResponse,
+	NetworkHealStatus,
 } from "../../../src/lib/shared";
 import { useDevices } from "../lib/useDevices";
 import { NotRunning } from "../components/Messages";
@@ -51,7 +51,7 @@ export const Devices: React.FC = () => {
 	});
 
 	const [networkHealProgress, setNetworkHealProgress] = React.useState<
-		NonNullable<NetworkHealPollResponse["progress"]>
+		NonNullable<NetworkHealStatus["progress"]>
 	>({});
 
 	const [inclusionStatus, setInclusionStatus] =
@@ -60,6 +60,14 @@ export const Devices: React.FC = () => {
 	usePush((payload) => {
 		if (payload.type === "inclusion") {
 			setInclusionStatus(payload.status);
+		} else if (payload.type === "healing") {
+			setNetworkHealProgress(payload.status.progress ?? {});
+			if (payload.status.type === "done") {
+				void showNotification(
+					_("Healing the network was successful!"),
+					"success",
+				);
+			}
 		}
 	});
 
@@ -75,38 +83,6 @@ export const Devices: React.FC = () => {
 			}
 		}
 	}
-
-	// Poll the healing progress while we're healing
-	const [isPollingHealingStatus, setIsPollingHealingStatus] =
-		React.useState(false);
-	React.useEffect(() => {
-		(async () => {
-			if (healingNetwork && !isPollingHealingStatus) {
-				setIsPollingHealingStatus(true);
-				try {
-					const result = await api.pollHealingStatus();
-					setNetworkHealProgress(result.progress ?? {});
-					if (result.type === "done") {
-						void showNotification(
-							_("Healing the network was successful!"),
-							"success",
-						);
-					} else {
-						// Kick off the next poll
-						setIsPollingHealingStatus(false);
-					}
-				} catch (e) {
-					console.error(
-						`Error while polling healing status: ${getErrorMessage(
-							e,
-						)}`,
-					);
-					// Kick off the next poll
-					setIsPollingHealingStatus(false);
-				}
-			}
-		})();
-	}, [isPollingHealingStatus, healingNetwork]);
 
 	const [showInclusionModal, setShowInclusionModal] = React.useState(false);
 
@@ -225,7 +201,7 @@ export const Devices: React.FC = () => {
 			/>
 
 			<DeviceTable
-				isBusy={isBusy}
+				isBusy={isBusy || healingNetwork}
 				setBusy={setBusy}
 				devices={devicesAsArray}
 				healingNetwork={healingNetwork}

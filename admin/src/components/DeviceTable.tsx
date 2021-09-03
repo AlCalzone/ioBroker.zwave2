@@ -11,7 +11,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import type { Device } from "../lib/useAPI";
 import { DeviceTableRow } from "./DeviceTableRow";
-import type { NetworkHealPollResponse } from "../../../src/lib/shared";
+import type { NetworkHealStatus } from "../../../src/lib/shared";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 export interface DeviceTableProps {
 	devices: Device[];
 	healingNetwork: boolean;
-	networkHealProgress: NonNullable<NetworkHealPollResponse["progress"]>;
+	networkHealProgress: NonNullable<NetworkHealStatus["progress"]>;
 	isBusy: boolean;
 	setBusy: (isBusy: boolean) => void;
 }

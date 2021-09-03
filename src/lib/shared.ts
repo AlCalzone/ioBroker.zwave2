@@ -37,13 +37,22 @@ export function isBufferAsHex(str: string): boolean {
 	return /^0x([a-fA-F0-9]{2})+$/.test(str);
 }
 
-export type PushMessage = {
-	type: "inclusion";
-	status: InclusionStatus;
-};
+export type PushMessage =
+	| {
+			type: "inclusion";
+			status: InclusionStatus;
+	  }
+	| {
+			type: "healing";
+			status: NetworkHealStatus;
+	  }
+	| {
+			type: "firmwareUpdate";
+			progress: FirmwareUpdateProgress;
+	  };
 
-export interface NetworkHealPollResponse {
-	type: "idle" | "done" | "progress";
+export interface NetworkHealStatus {
+	type: "done" | "progress";
 	progress?: Record<number, "pending" | "done" | "failed" | "skipped">;
 }
 
@@ -69,7 +78,7 @@ export type InclusionStatus =
 			securityClass?: string;
 	  };
 
-export interface FirmwareUpdatePollResponse {
+export interface FirmwareUpdateProgress {
 	type: "done" | "progress";
 	sentFragments?: number;
 	totalFragments?: number;
