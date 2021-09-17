@@ -1,4 +1,15 @@
 # Older changes
+## 1.10.0 (2021-04-29)
+* The associations tab now shows the name of devices along with their node ID
+* Associations can now also be managed on the endpoints of a node
+* Experimental support for updating the embedded configuration files from the adapter configuration
+* Support firmware updates with `*.hec` files
+* Reduced traffic after controlling devices that report automatically
+* Fixed an issue where `Basic CC` values were not stored correctly
+* Added and updated many device configuration files
+* Stability improvements
+* Dependency updates
+
 ## 1.9.3 (2021-04-10)
 * Restored the old behavior for devices that report their values via the root endpoint
 * Some minor config file changes

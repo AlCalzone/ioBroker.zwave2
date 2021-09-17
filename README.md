@@ -40,7 +40,7 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	Placeholder for next versions:
 	### __WORK IN PROGRESS__
 -->
-### __WORK IN PROGRESS__
+### 2.0.0-alpha.0 (2021-09-17)
 Upgraded to `zwave-js` version `8.3.2`. Notable changes include:
 * **BREAKING:** Node.js `v12.22.2` is now the minimum
 * **BREAKING:** User codes are no longer queried during the interview. They need to be queried manually on demand (not implemented yet).
@@ -87,17 +87,6 @@ Upgraded to `zwave-js` version `7.5.1`. Notable changes include:
 * Improved stability
 * Improved healing strategy
 * Several config file changes
-
-### 1.10.0 (2021-04-29)
-* The associations tab now shows the name of devices along with their node ID
-* Associations can now also be managed on the endpoints of a node
-* Experimental support for updating the embedded configuration files from the adapter configuration
-* Support firmware updates with `*.hec` files
-* Reduced traffic after controlling devices that report automatically
-* Fixed an issue where `Basic CC` values were not stored correctly
-* Added and updated many device configuration files
-* Stability improvements
-* Dependency updates
 
 ## License
 
