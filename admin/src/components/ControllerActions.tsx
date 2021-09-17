@@ -12,7 +12,7 @@ import {
 import { Typography } from "@material-ui/core";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import RestorePageIcon from "@material-ui/icons/RestorePage";
-import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
+// import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
 import LanguageIcon from "@material-ui/icons/Language";
 import { getErrorMessage } from "../../../src/lib/shared";
 import type { RFRegion } from "zwave-js";
@@ -65,12 +65,12 @@ export const ControllerActions: React.FC<ControllerActionsProps> = (props) => {
 		[api, isBusy, setBusy],
 	);
 
-	// Handle soft reset
-	const softReset = React.useCallback(() => {
-		if (isBusy) return;
-		setBusy(true);
-		api.softReset().finally(() => setBusy(false));
-	}, [api, isBusy, setBusy]);
+	// // Handle soft reset
+	// const softReset = React.useCallback(() => {
+	// 	if (isBusy) return;
+	// 	setBusy(true);
+	// 	api.softReset().finally(() => setBusy(false));
+	// }, [api, isBusy, setBusy]);
 
 	const clearCache = React.useCallback(async () => {
 		if (isBusy) return;
@@ -120,7 +120,7 @@ export const ControllerActions: React.FC<ControllerActionsProps> = (props) => {
 
 	return (
 		<div className={classes.root}>
-			<Button
+			{/* <Button
 				disabled={isBusy}
 				variant="contained"
 				color="primary"
@@ -131,7 +131,7 @@ export const ControllerActions: React.FC<ControllerActionsProps> = (props) => {
 			</Button>
 			<Typography variant="body2">
 				{_("Restart the controller, e.g. when it hangs")}
-			</Typography>
+			</Typography> */}
 
 			<Button
 				disabled={isBusy}

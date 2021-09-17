@@ -33,6 +33,7 @@ export interface DeviceTableProps {
 	networkHealProgress: NonNullable<NetworkHealStatus["progress"]>;
 	isBusy: boolean;
 	setBusy: (isBusy: boolean) => void;
+	replaceFailedNode: (nodeId: number) => void;
 }
 
 export const DeviceTable: React.FC<DeviceTableProps> = (props) => {
@@ -68,6 +69,9 @@ export const DeviceTable: React.FC<DeviceTableProps> = (props) => {
 											healingNetwork
 												? networkHealProgress[nodeId]
 												: undefined
+										}
+										replaceFailedNode={() =>
+											props.replaceFailedNode(nodeId)
 										}
 									/>
 								);

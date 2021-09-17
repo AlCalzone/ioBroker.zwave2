@@ -22,6 +22,7 @@ export interface DeviceTableRowProps {
 	healStatus: any;
 	isBusy: boolean;
 	setBusy: (isBusy: boolean) => void;
+	replaceFailedNode: () => void;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -124,6 +125,7 @@ export const DeviceTableRow: React.FC<DeviceTableRowProps> = (props) => {
 								isBusy={props.isBusy}
 								setBusy={props.setBusy}
 								supportsFirmwareUpdate={supportsFirmwareUpdate}
+								replaceFailedNode={props.replaceFailedNode}
 							/>
 						)}
 					</Collapse>

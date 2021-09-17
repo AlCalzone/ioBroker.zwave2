@@ -15,12 +15,14 @@ import Typography from "@material-ui/core/Typography";
 import clsx from "clsx";
 import MemoryIcon from "@material-ui/icons/Memory";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
+import SwapHorizIcon from "@material-ui/icons/SwapHoriz";
 
 export interface NodeActionsProps {
 	nodeId: number;
 	status: string | undefined;
 	isBusy: boolean;
 	setBusy: (isBusy: boolean) => void;
+	replaceFailedNode: () => void;
 	supportsFirmwareUpdate: boolean;
 }
 
@@ -74,7 +76,7 @@ export const NodeActions: React.FC<NodeActionsProps> = (props) => {
 	const { nodeId, isBusy, setBusy, supportsFirmwareUpdate } = props;
 	const { translate: _ } = useI18n();
 
-	const { showNotification } = useDialogs();
+	const { showNotification, showModal } = useDialogs();
 
 	// It can happen that the controller does not react to commands for a failed node,
 	// so the status won't change. We need to allow removing the node in this case too,
@@ -82,6 +84,12 @@ export const NodeActions: React.FC<NodeActionsProps> = (props) => {
 	const isNodeFailed = props.status !== "alive" && props.status !== "awake";
 
 	async function removeNode() {
+		const result = await showModal(
+			_("Remove node?"),
+			_("Do you really want to remove this node from the network?"),
+		);
+		if (!result) return;
+
 		setBusy(true);
 		try {
 			await api.removeFailedNode(nodeId);
@@ -90,6 +98,14 @@ export const NodeActions: React.FC<NodeActionsProps> = (props) => {
 		} finally {
 			setBusy(false);
 		}
+	}
+
+	async function replaceNode() {
+		const result = await showModal(
+			_("Replace node?"),
+			_("Do you really want to replace this node?"),
+		);
+		if (result) props.replaceFailedNode();
 	}
 
 	async function refreshInfo() {
@@ -225,6 +241,7 @@ export const NodeActions: React.FC<NodeActionsProps> = (props) => {
 				color="primary"
 				startIcon={<RestorePageIcon />}
 				onClick={() => refreshInfo()}
+				fullWidth
 			>
 				{_("Refresh node info")}
 			</Button>
@@ -242,8 +259,9 @@ export const NodeActions: React.FC<NodeActionsProps> = (props) => {
 						disabled={!isNodeFailed || isBusy}
 						variant="contained"
 						className={classes.redButton}
-						onClick={() => removeNode()}
+						onClick={removeNode}
 						startIcon={<DeleteOutlineIcon />}
+						fullWidth
 					>
 						{_("Remove failed node")}
 					</Button>
@@ -254,6 +272,33 @@ export const NodeActions: React.FC<NodeActionsProps> = (props) => {
 				<span className={classes.warning}>
 					{_(
 						"WARNING: Only do this if you no longer have physical access.",
+					)}
+				</span>
+			</Typography>
+
+			{/* Button to replace failed nodes - only show them if the node may be failed */}
+			<Tooltip title={isNodeFailed ? "" : _("This is not a failed node")}>
+				<span>
+					{/* The span is necessary to show a tooltip on a disabled button */}
+					<Button
+						disabled={!isNodeFailed || isBusy}
+						variant="contained"
+						className={classes.redButton}
+						onClick={replaceNode}
+						startIcon={<SwapHorizIcon />}
+						fullWidth
+					>
+						{_("Replace failed node")}
+					</Button>
+				</span>
+			</Tooltip>
+			<Typography variant="body2">
+				{_(
+					"Replace this node with a different one, keeping the node ID.",
+				)}{" "}
+				<span className={classes.warning}>
+					{_(
+						"WARNING: Make sure that the node is reset before attempting this.",
 					)}
 				</span>
 			</Typography>

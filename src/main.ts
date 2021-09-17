@@ -344,17 +344,24 @@ export class ZWave2 extends utils.Adapter<true> {
 		});
 	}
 
-	private async onNodeRemoved(node: ZWaveNode): Promise<void> {
-		this.log.info(`Node ${node.id}: removed`);
+	private async onNodeRemoved(
+		node: ZWaveNode,
+		replaced: boolean,
+	): Promise<void> {
+		if (replaced) {
+			this.log.info(`Node ${node.id}: replace started`);
+			this.readyNodes.delete(node.id);
+		} else {
+			this.log.info(`Node ${node.id}: removed`);
+			this.pushToFrontend({
+				type: "inclusion",
+				status: {
+					type: "exclusionDone",
+					nodeId: node.id,
+				},
+			});
+		}
 		node.removeAllListeners();
-		this.pushToFrontend({
-			type: "inclusion",
-			status: {
-				type: "exclusionDone",
-				nodeId: node.id,
-			},
-		});
-
 		await removeNode(node.id);
 	}
 
@@ -1265,21 +1272,21 @@ export class ZWave2 extends utils.Adapter<true> {
 					return;
 				}
 
-				case "softReset": {
-					if (!this.driverReady) {
-						return respond(
-							responses.ERROR("The driver is not yet ready!"),
-						);
-					}
+				// case "softReset": {
+				// 	if (!this.driverReady) {
+				// 		return respond(
+				// 			responses.ERROR("The driver is not yet ready!"),
+				// 		);
+				// 	}
 
-					try {
-						await this.driver.softReset();
-						respond(responses.OK);
-					} catch (e) {
-						respond(responses.ERROR(getErrorMessage(e)));
-					}
-					return;
-				}
+				// 	try {
+				// 		await this.driver.softReset();
+				// 		respond(responses.OK);
+				// 	} catch (e) {
+				// 		respond(responses.ERROR(getErrorMessage(e)));
+				// 	}
+				// 	return;
+				// }
 
 				case "hardReset": {
 					if (!this.driverReady) {
@@ -1329,6 +1336,84 @@ export class ZWave2 extends utils.Adapter<true> {
 						);
 					}
 					return respond(responses.OK);
+				}
+
+				case "replaceFailedNode": {
+					if (!this.driverReady) {
+						return respond(
+							responses.ERROR(
+								"The driver is not yet ready to replace devices!",
+							),
+						);
+					}
+
+					if (!requireParams("nodeId", "strategy")) return;
+					const params = obj.message as any as Record<string, any>;
+					const strategy = params.strategy as InclusionStrategy;
+
+					this.validateDSKPromise = undefined;
+					this.grantSecurityClassesPromise = undefined;
+
+					const userCallbacks: InclusionUserCallbacks = {
+						validateDSKAndEnterPIN: (dsk) => {
+							this.validateDSKPromise = createDeferredPromise();
+							this.pushToFrontend({
+								type: "inclusion",
+								status: {
+									type: "validateDSK",
+									dsk,
+								},
+							});
+							this.validateDSKPromise.then(() => {
+								console.warn("validateDSKPromise resolved!");
+								console.warn(new Error().stack);
+							});
+							return this.validateDSKPromise;
+						},
+						grantSecurityClasses: (grant) => {
+							this.grantSecurityClassesPromise =
+								createDeferredPromise();
+							this.pushToFrontend({
+								type: "inclusion",
+								status: {
+									type: "grantSecurityClasses",
+									request: grant,
+								},
+							});
+							this.grantSecurityClassesPromise.then(() => {
+								console.warn(
+									"grantSecurityClassesPromise resolved!",
+								);
+								console.warn(new Error().stack);
+							});
+							return this.grantSecurityClassesPromise;
+						},
+						abort: () => {
+							// TODO
+						},
+					};
+
+					try {
+						const result =
+							await this.driver.controller.replaceFailedNode(
+								params.nodeId,
+								{
+									strategy: strategy as any,
+									userCallbacks,
+								},
+							);
+						this.setState("info.inclusion", true, true);
+
+						if (result) {
+							respond(responses.OK);
+						} else {
+							respond(responses.COMMAND_ACTIVE);
+						}
+					} catch (e) {
+						respond(responses.ERROR(getErrorMessage(e)));
+						this.setState("info.inclusion", false, true);
+					}
+					return;
 				}
 
 				case "setRFRegion": {

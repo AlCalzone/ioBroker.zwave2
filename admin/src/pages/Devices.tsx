@@ -95,6 +95,14 @@ export const Devices: React.FC = () => {
 		}
 	}
 
+	async function replaceFailedNode(nodeId: number) {
+		setInclusionStatus({
+			type: "chooseReplacementStrategy",
+			nodeId,
+		});
+		setShowInclusionExclusionModal(true);
+	}
+
 	// Choose which inclusion/exclusion step to display
 	const inclusionExclusionDialogProps = (():
 		| InclusionExclusionDialogProps
@@ -123,6 +131,33 @@ export const Devices: React.FC = () => {
 					} catch {
 						showNotification(
 							_("Failed to start inclusion"),
+							"error",
+						);
+					}
+				},
+			};
+		} else if (inclusionStatus?.type === "chooseReplacementStrategy") {
+			return {
+				step: InclusionExclusionStep.SelectReplacementStrategy,
+				onCancel: () => {
+					setShowInclusionExclusionModal(false);
+					// avoid flicker while the modal is being hidden
+					setTimeout(() => {
+						setInclusionStatus(undefined);
+					}, 250);
+				},
+				selectStrategy: async (strategy) => {
+					try {
+						await api.replaceFailedNode(
+							inclusionStatus.nodeId,
+							strategy,
+						);
+						setInclusionStatus({
+							type: "waitingForDevice",
+						});
+					} catch {
+						showNotification(
+							_("Failed to start replacing the node"),
 							"error",
 						);
 					}
@@ -253,6 +288,7 @@ export const Devices: React.FC = () => {
 				devices={devicesAsArray}
 				healingNetwork={healingNetwork}
 				networkHealProgress={networkHealProgress}
+				replaceFailedNode={replaceFailedNode}
 			/>
 
 			{/* Modal dialog for the inclusion process */}

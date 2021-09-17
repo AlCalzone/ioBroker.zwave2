@@ -61,6 +61,10 @@ export type InclusionExclusionStatus =
 			type: "waitingForDevice";
 	  }
 	| {
+			type: "chooseReplacementStrategy";
+			nodeId: number;
+	  }
+	| {
 			type: "validateDSK";
 			dsk: string;
 	  }

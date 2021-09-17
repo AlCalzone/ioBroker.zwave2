@@ -224,16 +224,21 @@ class ZWave2 extends import_adapter_core.default.Adapter {
       }
     });
   }
-  async onNodeRemoved(node) {
-    this.log.info(`Node ${node.id}: removed`);
+  async onNodeRemoved(node, replaced) {
+    if (replaced) {
+      this.log.info(`Node ${node.id}: replace started`);
+      this.readyNodes.delete(node.id);
+    } else {
+      this.log.info(`Node ${node.id}: removed`);
+      this.pushToFrontend({
+        type: "inclusion",
+        status: {
+          type: "exclusionDone",
+          nodeId: node.id
+        }
+      });
+    }
     node.removeAllListeners();
-    this.pushToFrontend({
-      type: "inclusion",
-      status: {
-        type: "exclusionDone",
-        nodeId: node.id
-      }
-    });
     await (0, import_objects2.removeNode)(node.id);
   }
   async onHealNetworkProgress(progress) {
@@ -762,18 +767,6 @@ class ZWave2 extends import_adapter_core.default.Adapter {
           this.setState("info.healingNetwork", false, true);
           return;
         }
-        case "softReset": {
-          if (!this.driverReady) {
-            return respond(responses.ERROR("The driver is not yet ready!"));
-          }
-          try {
-            await this.driver.softReset();
-            respond(responses.OK);
-          } catch (e) {
-            respond(responses.ERROR((0, import_shared2.getErrorMessage)(e)));
-          }
-          return;
-        }
         case "hardReset": {
           if (!this.driverReady) {
             return respond(responses.ERROR("The driver is not yet ready!"));
@@ -805,6 +798,67 @@ class ZWave2 extends import_adapter_core.default.Adapter {
             return respond(responses.ERROR(`Could not remove node ${params.nodeId}: ${(0, import_shared2.getErrorMessage)(e)}`));
           }
           return respond(responses.OK);
+        }
+        case "replaceFailedNode": {
+          if (!this.driverReady) {
+            return respond(responses.ERROR("The driver is not yet ready to replace devices!"));
+          }
+          if (!requireParams("nodeId", "strategy"))
+            return;
+          const params = obj.message;
+          const strategy = params.strategy;
+          this.validateDSKPromise = void 0;
+          this.grantSecurityClassesPromise = void 0;
+          const userCallbacks = {
+            validateDSKAndEnterPIN: (dsk) => {
+              this.validateDSKPromise = (0, import_deferred_promise.createDeferredPromise)();
+              this.pushToFrontend({
+                type: "inclusion",
+                status: {
+                  type: "validateDSK",
+                  dsk
+                }
+              });
+              this.validateDSKPromise.then(() => {
+                console.warn("validateDSKPromise resolved!");
+                console.warn(new Error().stack);
+              });
+              return this.validateDSKPromise;
+            },
+            grantSecurityClasses: (grant) => {
+              this.grantSecurityClassesPromise = (0, import_deferred_promise.createDeferredPromise)();
+              this.pushToFrontend({
+                type: "inclusion",
+                status: {
+                  type: "grantSecurityClasses",
+                  request: grant
+                }
+              });
+              this.grantSecurityClassesPromise.then(() => {
+                console.warn("grantSecurityClassesPromise resolved!");
+                console.warn(new Error().stack);
+              });
+              return this.grantSecurityClassesPromise;
+            },
+            abort: () => {
+            }
+          };
+          try {
+            const result = await this.driver.controller.replaceFailedNode(params.nodeId, {
+              strategy,
+              userCallbacks
+            });
+            this.setState("info.inclusion", true, true);
+            if (result) {
+              respond(responses.OK);
+            } else {
+              respond(responses.COMMAND_ACTIVE);
+            }
+          } catch (e) {
+            respond(responses.ERROR((0, import_shared2.getErrorMessage)(e)));
+            this.setState("info.inclusion", false, true);
+          }
+          return;
         }
         case "setRFRegion": {
           if (!this.driverReady) {

@@ -151,6 +151,20 @@ export class API {
 		}
 	}
 
+	public async replaceFailedNode(
+		nodeId: number,
+		strategy: InclusionStrategy,
+	): Promise<void> {
+		const { error, result } = await this.connection.sendTo<SendToResult>(
+			this.namespace,
+			"replaceFailedNode",
+			{ nodeId, strategy },
+		);
+		if (result !== "ok") {
+			throw error ?? result;
+		}
+	}
+
 	public async validateDSK(pin: string | false): Promise<void> {
 		const { error } = await this.connection.sendTo<SendToResult>(
 			this.namespace,
