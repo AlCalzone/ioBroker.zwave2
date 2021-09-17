@@ -1,7 +1,14 @@
-import { CommandClasses, Duration, ValueMetadata } from "@zwave-js/core";
+import {
+	CommandClasses,
+	Duration,
+	enumValuesToMetadataStates,
+	SecurityClass,
+	ValueMetadata,
+} from "@zwave-js/core";
 import { entries } from "alcalzone-shared/objects";
 import { padStart } from "alcalzone-shared/strings";
 import { isArray, isObject } from "alcalzone-shared/typeguards";
+import { RFRegion } from "zwave-js";
 import type { ZWaveNotificationCallbackArgs_NotificationCC } from "zwave-js/CommandClass";
 import { NodeStatus, ZWaveNode } from "zwave-js/Node";
 import type {
@@ -15,7 +22,7 @@ import type {
 	ZWaveNodeValueUpdatedArgs,
 } from "zwave-js/Values";
 import { Global as _ } from "./global";
-import { buffer2hex, computeDeviceId } from "./shared";
+import { buffer2hex, computeDeviceId, getErrorMessage } from "./shared";
 
 type ZWaveNodeArgs =
 	| ZWaveNodeValueAddedArgs
@@ -112,9 +119,26 @@ export function computeId(nodeId: number, args: TranslatedValueID): string {
 	].join(".");
 }
 
+const secClassDefinitions = [
+	[SecurityClass.S2_AccessControl, CommandClasses["Security 2"]],
+	[SecurityClass.S2_Authenticated, CommandClasses["Security 2"]],
+	[SecurityClass.S2_Unauthenticated, CommandClasses["Security 2"]],
+	[SecurityClass.S0_Legacy, CommandClasses["Security"]],
+] as const;
+
+function securityClassesToRecord(node: ZWaveNode): Record<string, boolean> {
+	const ret = {} as Record<string, boolean>;
+	for (const [secClass, cc] of secClassDefinitions) {
+		if (!node.supportsCC(cc)) continue;
+		ret[SecurityClass[secClass]] = node.hasSecurityClass(secClass) === true;
+	}
+	return ret;
+}
+
 function nodeToNative(node: ZWaveNode): Record<string, any> {
 	return {
 		id: node.id,
+		isControllerNode: node.isControllerNode(),
 		manufacturerId: node.manufacturerId,
 		productType: node.productType,
 		productId: node.productId,
@@ -127,6 +151,7 @@ function nodeToNative(node: ZWaveNode): Record<string, any> {
 		}),
 		// endpoints: node.getEndpointCount(),
 		endpointIndizes: node.getEndpointIndizes(),
+		securityClasses: securityClassesToRecord(node),
 		secure: node.isSecure,
 		supportsFirmwareUpdate: node.supportsCC(
 			CommandClasses["Firmware Update Meta Data"],
@@ -263,7 +288,9 @@ export async function extendValue(
 			await _.adapter.setStateAsync(stateId, state);
 		}
 	} catch (e) {
-		_.adapter.log.error(`Cannot set state "${stateId}" in ioBroker: ${e}`);
+		_.adapter.log.error(
+			`Cannot set state "${stateId}" in ioBroker: ${getErrorMessage(e)}`,
+		);
 	}
 }
 
@@ -282,7 +309,9 @@ export async function extendNotificationValue(
 		};
 		await _.adapter.setStateAsync(stateId, state);
 	} catch (e) {
-		_.adapter.log.error(`Cannot set state "${stateId}" in ioBroker: ${e}`);
+		_.adapter.log.error(
+			`Cannot set state "${stateId}" in ioBroker: ${getErrorMessage(e)}`,
+		);
 	}
 }
 
@@ -579,4 +608,23 @@ export async function extendNotification_NotificationCC(
 			await setNotificationValue(node.id, label, eventLabel, key, value);
 		}
 	}
+}
+
+export async function setRFRegionState(
+	rfRegion: RFRegion | undefined,
+): Promise<void> {
+	const stateId = `info.rfRegion`;
+	await _.adapter.setObjectNotExistsAsync(stateId, {
+		type: "state",
+		common: {
+			name: "RF Region",
+			role: "info.region",
+			type: "number",
+			read: true,
+			write: false,
+			states: enumValuesToMetadataStates(RFRegion),
+		},
+		native: {},
+	});
+	await _.adapter.setStateAsync(stateId, rfRegion ?? null, true);
 }

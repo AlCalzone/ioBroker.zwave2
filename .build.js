@@ -4,18 +4,21 @@ const glob = require("tiny-glob");
 
 const [opts, args] = cliopts.parse(
 	["react", "Build React sources"],
-	["typescript", "Build TypeScript soruces"],
+	["typescript", "Build TypeScript sources"],
 );
 
 if (opts.react) {
 	(async () => {
 		await build({
-			entryPoints: ["./admin/src/index"],
+			entryPoints: ["./admin/src/index", "./admin/src/tab"],
 			tsconfig: "./admin/tsconfig.json",
 			bundle: true,
+			splitting: true,
+			format: "esm",
 			minify: !cliopts.watch,
 			outdir: "admin/build",
 			sourcemap: true,
+			// sourcesContent: true,
 			logLevel: "info",
 			define: {
 				"process.env.NODE_ENV": cliopts.watch
@@ -29,9 +32,12 @@ if (opts.react) {
 if (opts.typescript) {
 	(async () => {
 		let entryPoints = await glob("./src/**/*.ts");
-		entryPoints = entryPoints.filter((ep) => !ep.endsWith(".d.ts"));
+		entryPoints = entryPoints.filter(
+			(ep) => !ep.endsWith(".d.ts") && !ep.endsWith(".test.ts"),
+		);
 		await build({
 			entryPoints,
+			tsconfig: "./tsconfig.build.json",
 			outdir: "build",
 			bundle: false,
 			minify: false,
@@ -39,7 +45,7 @@ if (opts.typescript) {
 			logLevel: "info",
 			platform: "node",
 			format: "cjs",
-			target: "node10",
+			target: "node12",
 		});
 	})().catch(() => process.exit(1));
 }

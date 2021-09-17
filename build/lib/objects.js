@@ -54,12 +54,14 @@ __export(exports, {
   removeNode: () => removeNode,
   removeValue: () => removeValue,
   setNodeReady: () => setNodeReady,
-  setNodeStatus: () => setNodeStatus
+  setNodeStatus: () => setNodeStatus,
+  setRFRegionState: () => setRFRegionState
 });
 var import_core = __toModule(require("@zwave-js/core"));
 var import_objects = __toModule(require("alcalzone-shared/objects"));
 var import_strings = __toModule(require("alcalzone-shared/strings"));
 var import_typeguards = __toModule(require("alcalzone-shared/typeguards"));
+var import_zwave_js = __toModule(require("zwave-js"));
 var import_Node = __toModule(require("zwave-js/Node"));
 var import_global = __toModule(require("./global"));
 var import_shared = __toModule(require("./shared"));
@@ -128,9 +130,25 @@ function computeId(nodeId, args) {
     ].filter((s) => !!s).join("_")
   ].join(".");
 }
+const secClassDefinitions = [
+  [import_core.SecurityClass.S2_AccessControl, import_core.CommandClasses["Security 2"]],
+  [import_core.SecurityClass.S2_Authenticated, import_core.CommandClasses["Security 2"]],
+  [import_core.SecurityClass.S2_Unauthenticated, import_core.CommandClasses["Security 2"]],
+  [import_core.SecurityClass.S0_Legacy, import_core.CommandClasses["Security"]]
+];
+function securityClassesToRecord(node) {
+  const ret = {};
+  for (const [secClass, cc] of secClassDefinitions) {
+    if (!node.supportsCC(cc))
+      continue;
+    ret[import_core.SecurityClass[secClass]] = node.hasSecurityClass(secClass) === true;
+  }
+  return ret;
+}
 function nodeToNative(node) {
   return __spreadProps(__spreadValues({
     id: node.id,
+    isControllerNode: node.isControllerNode(),
     manufacturerId: node.manufacturerId,
     productType: node.productType,
     productId: node.productId
@@ -142,6 +160,7 @@ function nodeToNative(node) {
     }
   }), {
     endpointIndizes: node.getEndpointIndizes(),
+    securityClasses: securityClassesToRecord(node),
     secure: node.isSecure,
     supportsFirmwareUpdate: node.supportsCC(import_core.CommandClasses["Firmware Update Meta Data"])
   });
@@ -227,7 +246,7 @@ async function extendValue(node, args, fromCache = false) {
       await import_global.Global.adapter.setStateAsync(stateId, state);
     }
   } catch (e) {
-    import_global.Global.adapter.log.error(`Cannot set state "${stateId}" in ioBroker: ${e}`);
+    import_global.Global.adapter.log.error(`Cannot set state "${stateId}" in ioBroker: ${(0, import_shared.getErrorMessage)(e)}`);
   }
 }
 async function extendNotificationValue(node, args) {
@@ -241,7 +260,7 @@ async function extendNotificationValue(node, args) {
     };
     await import_global.Global.adapter.setStateAsync(stateId, state);
   } catch (e) {
-    import_global.Global.adapter.log.error(`Cannot set state "${stateId}" in ioBroker: ${e}`);
+    import_global.Global.adapter.log.error(`Cannot set state "${stateId}" in ioBroker: ${(0, import_shared.getErrorMessage)(e)}`);
   }
 }
 async function extendMetadata(node, args) {
@@ -283,7 +302,7 @@ async function removeValue(nodeId, args) {
   const stateId = computeId(nodeId, args);
   try {
     await import_global.Global.adapter.delObjectAsync(stateId);
-  } catch (e) {
+  } catch {
   }
 }
 function valueTypeToIOBrokerType(valueType) {
@@ -425,6 +444,22 @@ async function extendNotification_NotificationCC(node, args) {
     }
   }
 }
+async function setRFRegionState(rfRegion) {
+  const stateId = `info.rfRegion`;
+  await import_global.Global.adapter.setObjectNotExistsAsync(stateId, {
+    type: "state",
+    common: {
+      name: "RF Region",
+      role: "info.region",
+      type: "number",
+      read: true,
+      write: false,
+      states: (0, import_core.enumValuesToMetadataStates)(import_zwave_js.RFRegion)
+    },
+    native: {}
+  });
+  await import_global.Global.adapter.setStateAsync(stateId, rfRegion != null ? rfRegion : null, true);
+}
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   ccNameToChannelIdFragment,
@@ -442,6 +477,7 @@ async function extendNotification_NotificationCC(node, args) {
   removeNode,
   removeValue,
   setNodeReady,
-  setNodeStatus
+  setNodeStatus,
+  setRFRegionState
 });
 //# sourceMappingURL=objects.js.map

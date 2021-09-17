@@ -40,6 +40,16 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	Placeholder for next versions:
 	### __WORK IN PROGRESS__
 -->
+### __WORK IN PROGRESS__
+* **BREAKING:** Node.js `v12.22.2` is now the minimum
+
+Upgraded to `zwave-js` version `8.1.1`. Notable changes include:
+* **BREAKING:** User codes are no longer queried during the interview. They need to be queried manually on demand (not implemented yet).
+* **BREAKING:** Reworked how endpoints and lifeline associations are handled. This solves reporting issues with many devices, but after a re-interview state IDs may change and some previously working devices may no longer report correctly. Please create an issue for every device that is affected by this.
+* Some config parameters now correctly offer `0/1` as options instead of `0/-1`
+* Fixed a bug where the cache file could be corrupted during a shutdown
+* Support for Security S2
+
 ### 1.10.4 (2021-08-07)
 * Fixed a bug where the daily config update check would cause a lot of internet traffic for an hour
 

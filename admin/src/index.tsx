@@ -1,125 +1,330 @@
-import * as React from "react";
-import * as ReactDOM from "react-dom";
+import React from "react";
+import ReactDOM from "react-dom";
 
-import { Tabs } from "iobroker-react-components";
+// import { OnSettingsChangedCallback } from "./pages/settings";
+import { SettingsApp } from "iobroker-react/app";
+import { useSettings, useI18n } from "iobroker-react/hooks";
+import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
+import SyncIcon from "@material-ui/icons/Sync";
+import Button from "@material-ui/core/Button";
+import Checkbox from "@material-ui/core/Checkbox";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import { UpdateDeviceConfig } from "./components/UpdateDeviceConfig";
+import { TooltipIcon } from "./components/TooltipIcon";
+import type { Translations } from "iobroker-react/i18n";
+import { useAPI } from "./lib/useAPI";
 
-import { OnSettingsChangedCallback, Settings } from "./pages/settings";
-import { NetworkMap } from "./pages/networkMap";
-import { Devices } from "./pages/devices";
-import { Associations } from "./pages/associations";
-import {
-	subscribeStatesAsync,
-	subscribeObjectsAsync,
-	unsubscribeStatesAsync,
-	unsubscribeObjectsAsync,
-	Device,
-} from "./lib/backend";
-import { useDevices, DevicesContext } from "./lib/useDevices";
-import { useAdapter, AdapterContext } from "./lib/useAdapter";
+const useStyles = makeStyles((theme: Theme) =>
+	createStyles({
+		root: {
+			display: "flex",
+			flexGrow: 1,
+			flexFlow: "column nowrap",
+			gap: theme.spacing(8),
+		},
+		keyGrid: {
+			display: "grid",
+			gridTemplateColumns: "1fr auto",
+			alignItems: "center",
+			gap: theme.spacing(2),
+		},
+		keyGridLabel: {
+			marginTop: theme.spacing(2),
+			gridColumn: "1 / span 2",
+		},
+		keyGrid_TextField: {
+			flexGrow: 1,
+			// flexBasis: "100%",
+		},
+		keyGrid_Button: {
+			flexGrow: 0,
+		},
+	}),
+);
 
-// layout components
-interface RootProps {
-	settings: Record<string, unknown>;
-	onSettingsChanged: OnSettingsChangedCallback;
-}
+const networkKeyFields = [
+	[
+		2 /* SecurityClass.S2_AccessControl */,
+		"networkKey_S2_AccessControl",
+		"S2 Access Control",
+	],
+	[
+		1 /* SecurityClass.S2_Authenticated */,
+		"networkKey_S2_Authenticated",
+		"S2 Authenticated",
+	],
+	[
+		0 /* SecurityClass.S2_Unauthenticated */,
+		"networkKey_S2_Unauthenticated",
+		"S2 Unauthenticated",
+	],
+	[7 /* SecurityClass.S0_Legacy */, "networkKey_S0", "S0 (Legacy)"],
+] as const;
 
-let namespace: string;
-let systemStates: string;
-let adapterStates: string;
+const SettingsPageContent: React.FC = React.memo(() => {
+	const { settings, originalSettings, setSettings } =
+		useSettings<ioBroker.AdapterConfig>();
+	const classes = useStyles();
+	const { translate: _ } = useI18n();
+	const api = useAPI();
 
-function Root(props: RootProps) {
-	const [devices, updateDevices] = useDevices();
-	const [alive, connected] = useAdapter();
+	const handleChange = <T extends keyof ioBroker.AdapterConfig>(
+		option: T,
+		value: ioBroker.AdapterConfig[T],
+	) => {
+		setSettings((s) => ({
+			...s,
+			[option]: value,
+		}));
+	};
 
-	// Subscribe and unsubscribe from states and objects
-	function onUnload() {
-		void unsubscribeStatesAsync(systemStates);
-		void unsubscribeObjectsAsync(adapterStates);
-		void unsubscribeStatesAsync(adapterStates);
-	}
+	const generateNetworkKey = (which: keyof ioBroker.AdapterConfig) => {
+		if (
+			!settings[which] ||
+			settings[which] !== originalSettings[which] ||
+			confirm(_("network key confirm"))
+		) {
+			const bytes = new Uint8Array(16);
+			window.crypto.getRandomValues(bytes);
+			const hexKey = [...bytes]
+				.map((x) => x.toString(16).padStart(2, "0"))
+				.join("");
+			handleChange(which, hexKey);
+		}
+	};
 
+	const validateNetworkKey = (which: keyof ioBroker.AdapterConfig) => {
+		const networkKey = settings[which] as string | undefined;
+		if (!networkKey) return;
+		if (!/[0-9a-fA-F]{32}/.test(networkKey)) {
+			alert(_("Invalid network key"));
+			// reset
+			handleChange(which, originalSettings[which]);
+		}
+	};
+
+	const handleNetworkKeyPaste = (
+		which: keyof ioBroker.AdapterConfig,
+		e: React.ClipboardEvent<HTMLTextAreaElement | HTMLInputElement>,
+	) => {
+		// Stop data actually being pasted
+		e.stopPropagation();
+		e.preventDefault();
+
+		// Get pasted data via clipboard API
+		// @ts-expect-error browser compatibility
+		const clipboardData = e.clipboardData || window.clipboardData;
+		let pastedData: string = clipboardData.getData("Text");
+
+		if (pastedData) {
+			// clean up any unwanted fragents
+			pastedData = pastedData
+				.trim()
+				.replace(/0x/g, "")
+				.replace(/[^0-9a-fA-F]+/g, "")
+				.toLowerCase()
+				.slice(0, 32);
+		}
+		handleChange(which, pastedData);
+	};
+
+	const [serialPorts, setSerialPorts] = React.useState<string[]>([]);
 	React.useEffect(() => {
-		namespace = `${adapter}.${instance}`;
-		// subscribe to changes
-		systemStates = `system.adapter.${namespace}.*`;
-		adapterStates = `${namespace}.*`;
-		window.addEventListener("unload", () => onUnload());
-		void subscribeStatesAsync(systemStates);
-		void subscribeObjectsAsync(adapterStates);
-		void subscribeStatesAsync(adapterStates);
-
-		return onUnload;
+		api.listSerialPorts()
+			.then((ports) => {
+				if (ports.length) {
+					setSerialPorts(ports);
+				}
+			})
+			.catch((e) => {
+				console.error(`Cannot retrieve serial ports: ${e}`);
+			});
 	}, []);
 
 	return (
-		<DevicesContext.Provider value={{ devices, updateDevices }}>
-			<AdapterContext.Provider value={{ alive, connected }}>
-				<Tabs
-					labels={[
-						"Settings",
-						"Devices",
-						"Associations",
-						"Network map",
-					]}
-				>
-					<Settings
-						settings={props.settings}
-						onChange={props.onSettingsChanged}
-					/>
-					<Devices />
-					<Associations />
-					<NetworkMap />
-				</Tabs>
-			</AdapterContext.Provider>
-		</DevicesContext.Provider>
+		<div className={classes.root}>
+			<Grid container spacing={8}>
+				<Grid container item xs={12} sm spacing={2} direction="column">
+					<Grid item xs>
+						<Autocomplete
+							options={serialPorts}
+							freeSolo={true}
+							forcePopupIcon={true}
+							noOptionsText=""
+							autoSelect={true}
+							clearOnBlur={true}
+							onChange={(event, value) =>
+								handleChange("serialport", value ?? "")
+							}
+							renderInput={(props) => (
+								<TextField
+									{...props}
+									label={_("Select serial port")}
+									margin="normal"
+								/>
+							)}
+							value={settings.serialport}
+						/>
+						<Typography variant="body2">
+							{_("hosted port tip")}
+						</Typography>
+					</Grid>
+
+					<Grid item xs>
+						<FormControlLabel
+							label={_("Write a detailed logfile")}
+							control={
+								<Checkbox
+									checked={settings.writeLogFile}
+									onChange={(event, checked) =>
+										handleChange("writeLogFile", checked)
+									}
+								/>
+							}
+						/>
+						<Typography variant="body2">
+							{_(
+								"This should only be set for debugging purposes.",
+							)}
+						</Typography>
+					</Grid>
+
+					<Grid item xs>
+						<FormControlLabel
+							label={_("Preserve state names")}
+							control={
+								<Checkbox
+									checked={settings.preserveStateNames}
+									onChange={(event, checked) =>
+										handleChange(
+											"preserveStateNames",
+											checked,
+										)
+									}
+								/>
+							}
+						/>
+					</Grid>
+
+					<Grid item xs>
+						<FormControlLabel
+							label={
+								<>
+									{_("Legacy switch compatibility")}{" "}
+									<TooltipIcon
+										tooltip={_("switch compat tooltip")}
+									/>
+								</>
+							}
+							control={
+								<Checkbox
+									checked={settings.switchCompat}
+									onChange={(event, checked) =>
+										handleChange("switchCompat", checked)
+									}
+								/>
+							}
+						/>
+					</Grid>
+				</Grid>
+
+				<Grid item xs={12} sm={7} className={classes.keyGrid}>
+					<Typography
+						variant="body1"
+						className={classes.keyGridLabel}
+					>
+						{_("Network keys for secure communication")}
+						<TooltipIcon tooltip={_("network key tooltip")} />
+					</Typography>
+
+					{networkKeyFields.map(
+						([securityClass, property, label]) => (
+							<React.Fragment
+								key={`security-class-${securityClass}`}
+							>
+								<TextField
+									className={classes.keyGrid_TextField}
+									label={label}
+									inputProps={{
+										maxLength: 32,
+										style: {
+											fontFamily: "monospace",
+										},
+										onPaste: handleNetworkKeyPaste.bind(
+											undefined,
+											property,
+										),
+									}}
+									fullWidth={true}
+									InputLabelProps={{
+										// Avoid overlapping the text if it was filled out
+										shrink: !!settings[property],
+									}}
+									value={settings[property]}
+									onChange={(event) =>
+										handleChange(
+											property,
+											event.target.value,
+										)
+									}
+									onBlur={() => validateNetworkKey(property)}
+								/>
+
+								<Button
+									className={classes.keyGrid_Button}
+									variant="contained"
+									color="primary"
+									startIcon={<SyncIcon />}
+									onClick={() => generateNetworkKey(property)}
+									style={{ whiteSpace: "nowrap" }}
+								>
+									{_("Generate key")}
+								</Button>
+							</React.Fragment>
+						),
+					)}
+				</Grid>
+			</Grid>
+
+			<UpdateDeviceConfig />
+		</div>
 	);
-}
+});
 
-let curSettings: Record<string, unknown>;
-let originalSettings: Record<string, unknown>;
-
-/**
- * Checks if any setting was changed
- */
-function hasChanges(): boolean {
-	if (
-		Object.keys(originalSettings).length !== Object.keys(curSettings).length
-	)
-		return true;
-	for (const key of Object.keys(originalSettings)) {
-		if (originalSettings[key] !== curSettings[key]) return true;
+const migrateSettings = (settings: ioBroker.AdapterConfig) => {
+	if (settings.networkKey) {
+		settings.networkKey_S0 = settings.networkKey;
+		delete settings.networkKey;
 	}
-	return false;
-}
+};
 
-// the function loadSettings has to exist ...
-(window as any).load = (
-	settings: Record<string, unknown>,
-	onChange: (hasChanges: boolean) => void,
-) => {
-	originalSettings = settings;
+const translations: Translations = {
+	en: require("./i18n/en.json"),
+	de: require("./i18n/de.json"),
+	ru: require("./i18n/ru.json"),
+	pt: require("./i18n/pt.json"),
+	nl: require("./i18n/nl.json"),
+	fr: require("./i18n/fr.json"),
+	it: require("./i18n/it.json"),
+	es: require("./i18n/es.json"),
+	pl: require("./i18n/pl.json"),
+	"zh-cn": require("./i18n/zh-cn.json"),
+};
 
-	const settingsChanged: OnSettingsChangedCallback = (newSettings) => {
-		curSettings = newSettings;
-		onChange(hasChanges());
-	};
-
-	ReactDOM.render(
-		<Root settings={settings} onSettingsChanged={settingsChanged} />,
-		document.getElementById("adapter-container") ||
-			document.getElementsByClassName("adapter-container")[0],
+const Root: React.FC = () => {
+	return (
+		<SettingsApp
+			name="zwave2"
+			afterLoad={migrateSettings}
+			translations={translations}
+		>
+			<SettingsPageContent />
+		</SettingsApp>
 	);
-
-	// Signal to admin, that no changes yet
-	onChange(false);
 };
 
-// ... and the function save has to exist.
-// you have to make sure the callback is called with the settings object as first param!
-(window as any).save = (
-	callback: (newSettings: Record<string, unknown>) => void,
-) => {
-	// save the settings
-	callback(curSettings);
-	originalSettings = curSettings;
-};
+ReactDOM.render(<Root />, document.getElementById("root"));

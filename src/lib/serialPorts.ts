@@ -1,6 +1,6 @@
 import { distinct } from "alcalzone-shared/arrays";
-import * as fs from "fs-extra";
-import * as path from "path";
+import fs from "fs-extra";
+import path from "path";
 import { Driver } from "zwave-js";
 import type { ZWave2 } from "../main";
 
@@ -27,7 +27,7 @@ export async function enumerateSerialPorts(adapter: ZWave2): Promise<string[]> {
 	// Also try to use the serial port library to find serial ports
 	try {
 		result.push(...(await Driver.enumerateSerialPorts()));
-	} catch (e) {
+	} catch (e: any) {
 		if (e.code === "ENOENT" && /udevadm/.test(e.message)) {
 			adapter.log.warn(
 				`Cannot list serial ports because "udevadm" was not found on PATH!`,

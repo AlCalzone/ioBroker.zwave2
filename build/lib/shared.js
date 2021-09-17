@@ -22,10 +22,10 @@ var __toModule = (module2) => {
 };
 __markAsModule(exports);
 __export(exports, {
-  InclusionMode: () => InclusionMode,
   buffer2hex: () => buffer2hex,
   bufferFromHex: () => bufferFromHex,
   computeDeviceId: () => computeDeviceId,
+  getErrorMessage: () => getErrorMessage,
   isBufferAsHex: () => isBufferAsHex,
   mapToRecord: () => mapToRecord
 });
@@ -51,18 +51,17 @@ function bufferFromHex(hex) {
 function isBufferAsHex(str) {
   return /^0x([a-fA-F0-9]{2})+$/.test(str);
 }
-var InclusionMode;
-(function(InclusionMode2) {
-  InclusionMode2[InclusionMode2["Idle"] = 0] = "Idle";
-  InclusionMode2[InclusionMode2["NonSecure"] = 1] = "NonSecure";
-  InclusionMode2[InclusionMode2["Secure"] = 2] = "Secure";
-})(InclusionMode || (InclusionMode = {}));
+function getErrorMessage(e, includeStack) {
+  if (e instanceof Error)
+    return includeStack && e.stack ? e.stack : e.message;
+  return String(e);
+}
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  InclusionMode,
   buffer2hex,
   bufferFromHex,
   computeDeviceId,
+  getErrorMessage,
   isBufferAsHex,
   mapToRecord
 });

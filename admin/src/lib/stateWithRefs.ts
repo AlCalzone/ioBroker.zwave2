@@ -1,5 +1,5 @@
 import type { Dispatch, MutableRefObject, SetStateAction } from "react";
-import * as React from "react";
+import React from "react";
 
 export function useStateWithRef<S = undefined>(): [
 	S | undefined,

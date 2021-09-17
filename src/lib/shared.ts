@@ -1,5 +1,9 @@
 import { padStart } from "alcalzone-shared/strings";
-import type { AssociationAddress, FirmwareUpdateStatus } from "zwave-js";
+import type {
+	AssociationAddress,
+	FirmwareUpdateStatus,
+	InclusionGrant,
+} from "zwave-js";
 
 // WARNING: DO NOT IMPORT values FROM "zwave-js" HERE
 // That will break the frontend
@@ -33,12 +37,56 @@ export function isBufferAsHex(str: string): boolean {
 	return /^0x([a-fA-F0-9]{2})+$/.test(str);
 }
 
-export interface NetworkHealPollResponse {
-	type: "idle" | "done" | "progress";
+export type PushMessage =
+	| {
+			type: "inclusion";
+			status: InclusionExclusionStatus;
+	  }
+	| {
+			type: "healing";
+			status: NetworkHealStatus;
+	  }
+	| {
+			type: "firmwareUpdate";
+			progress: FirmwareUpdateProgress;
+	  };
+
+export interface NetworkHealStatus {
+	type: "done" | "progress";
 	progress?: Record<number, "pending" | "done" | "failed" | "skipped">;
 }
 
-export interface FirmwareUpdatePollResponse {
+export type InclusionExclusionStatus =
+	| {
+			type: "waitingForDevice";
+	  }
+	| {
+			type: "chooseReplacementStrategy";
+			nodeId: number;
+	  }
+	| {
+			type: "validateDSK";
+			dsk: string;
+	  }
+	| {
+			type: "grantSecurityClasses";
+			request: InclusionGrant;
+	  }
+	| {
+			type: "busy";
+	  }
+	| {
+			type: "done";
+			nodeId: number;
+			lowSecurity: boolean;
+			securityClass?: string;
+	  }
+	| {
+			type: "exclusionDone";
+			nodeId: number;
+	  };
+
+export interface FirmwareUpdateProgress {
 	type: "done" | "progress";
 	sentFragments?: number;
 	totalFragments?: number;
@@ -51,8 +99,8 @@ export type AssociationDefinition = AssociationAddress & {
 	group: number;
 };
 
-export enum InclusionMode {
-	Idle = 0,
-	NonSecure = 1,
-	Secure = 2,
+export function getErrorMessage(e: unknown, includeStack?: boolean): string {
+	if (e instanceof Error)
+		return includeStack && e.stack ? e.stack : e.message;
+	return String(e);
 }

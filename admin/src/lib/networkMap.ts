@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 
 // Based on https://bl.ocks.org/JulienAssouline/2847e100ac7d4d3981b0f49111e185fe
@@ -8,13 +9,7 @@ import { schemeSpectral } from "d3-scale-chromatic";
 import { select } from "d3-selection";
 import { arc } from "d3-shape";
 
-export interface NodeInfo {
-	id: number;
-	name: string;
-	neighbors: number[];
-}
-
-export function drawNetworkMap(selector: string, nodes: NodeInfo[]) {
+export function drawNetworkMap(selector: string, nodes: NodeInfo[]): void {
 	const matrix = new Array(nodes.length)
 		.fill(0)
 		.map(() => new Array(nodes.length).fill(0));
@@ -88,11 +83,11 @@ export function drawNetworkMap(selector: string, nodes: NodeInfo[]) {
 		.sortChords(ascending)
 		.sortSubgroups(() => 1)(matrix);
 
-	var arcs = arc().innerRadius(innerRadius).outerRadius(outerRadius);
+	const arcs = arc().innerRadius(innerRadius).outerRadius(outerRadius);
 
-	var ribbonGenerator = ribbon().radius(innerRadius);
+	const ribbonGenerator = ribbon().radius(innerRadius);
 	const colorScale = scaleOrdinal()
-		// @ts-ignore This does work
+		// @ts-expect-error This does work
 		.domain(range(nodes.length - 1))
 		.range(schemeSpectral[Math.max(3, Math.min(11, nodes.length))]);
 
@@ -101,7 +96,7 @@ export function drawNetworkMap(selector: string, nodes: NodeInfo[]) {
 		return "linkGrad-" + d.source.index + "-" + d.target.index;
 	}
 
-	var grads = svg
+	const grads = svg
 		.append("defs")
 		.selectAll("linearGradient")
 		.data(chord)
@@ -109,7 +104,7 @@ export function drawNetworkMap(selector: string, nodes: NodeInfo[]) {
 		.append("linearGradient")
 		.attr("id", getGradID)
 		.attr("gradientUnits", "userSpaceOnUse")
-		.attr("x1", function (d, i) {
+		.attr("x1", function (d, _i) {
 			return (
 				innerRadius *
 				Math.cos(
@@ -119,7 +114,7 @@ export function drawNetworkMap(selector: string, nodes: NodeInfo[]) {
 				)
 			);
 		})
-		.attr("y1", function (d, i) {
+		.attr("y1", function (d, _i) {
 			return (
 				innerRadius *
 				Math.sin(
@@ -129,7 +124,7 @@ export function drawNetworkMap(selector: string, nodes: NodeInfo[]) {
 				)
 			);
 		})
-		.attr("x2", function (d, i) {
+		.attr("x2", function (d, _i) {
 			return (
 				innerRadius *
 				Math.cos(
@@ -139,7 +134,7 @@ export function drawNetworkMap(selector: string, nodes: NodeInfo[]) {
 				)
 			);
 		})
-		.attr("y2", function (d, i) {
+		.attr("y2", function (d, _i) {
 			return (
 				innerRadius *
 				Math.sin(
@@ -182,7 +177,7 @@ export function drawNetworkMap(selector: string, nodes: NodeInfo[]) {
 		// .attr("dy", "-0.25em")
 		.attr(
 			"class",
-			(d, i) =>
+			(_d, i) =>
 				`node-id${
 					disconnected.has(nodes[i].id) ? " disconnected" : ""
 				}`,
@@ -202,7 +197,7 @@ export function drawNetworkMap(selector: string, nodes: NodeInfo[]) {
 				(d.angle - firstNodeRotation > Math.PI ? "rotate(180)" : "")
 			);
 		})
-		.text((d, i) => `Node ${nodes[i].id}`);
+		.text((_d, i) => `Node ${nodes[i].id}`);
 	//
 	// node.append("text")
 	// 	.each(d => d.angle = (d.startAngle + d.endAngle) / 2)

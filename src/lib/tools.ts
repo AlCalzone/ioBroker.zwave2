@@ -65,7 +65,7 @@ async function translateYandex(
 			return response.data.text[0];
 		}
 		throw new Error("Invalid response for translate request");
-	} catch (e) {
+	} catch (e: any) {
 		throw new Error(`Could not translate to "${targetLang}": ${e}`);
 	}
 }
@@ -89,7 +89,7 @@ export async function translateGoogle(
 			return response.data[0][0][0];
 		}
 		throw new Error("Invalid response for translate request");
-	} catch (e) {
+	} catch (e: any) {
 		throw new Error(`Could not translate to "${targetLang}": ${e}`);
 	}
 }
