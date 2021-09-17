@@ -40,7 +40,7 @@ export function isBufferAsHex(str: string): boolean {
 export type PushMessage =
 	| {
 			type: "inclusion";
-			status: InclusionStatus;
+			status: InclusionExclusionStatus;
 	  }
 	| {
 			type: "healing";
@@ -56,7 +56,7 @@ export interface NetworkHealStatus {
 	progress?: Record<number, "pending" | "done" | "failed" | "skipped">;
 }
 
-export type InclusionStatus =
+export type InclusionExclusionStatus =
 	| {
 			type: "waitingForDevice";
 	  }
@@ -76,6 +76,10 @@ export type InclusionStatus =
 			nodeId: number;
 			lowSecurity: boolean;
 			securityClass?: string;
+	  }
+	| {
+			type: "exclusionDone";
+			nodeId: number;
 	  };
 
 export interface FirmwareUpdateProgress {

@@ -88,13 +88,16 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export enum InclusionStep {
-	SelectStrategy,
+export enum InclusionExclusionStep {
+	SelectInclusionStrategy,
+	SelectReplacementStrategy,
 	IncludeDevice,
+	ExcludeDevice,
 	GrantSecurityClasses,
 	ValidateDSK,
 	Busy,
 	Result,
+	ExclusionResult,
 }
 
 // Copied from zwave-js
@@ -109,7 +112,7 @@ export enum InclusionStrategy {
 
 // =============================================================================
 
-interface SelectStrategyStepProps {
+interface SelectInclusionStrategyStepProps {
 	selectStrategy: (
 		strategy: InclusionStrategy,
 		forceSecurity?: boolean,
@@ -117,122 +120,222 @@ interface SelectStrategyStepProps {
 	onCancel: () => void;
 }
 
-const SelectStrategyStep: React.FC<SelectStrategyStepProps> = (props) => {
-	const { translate: _ } = useI18n();
-	const classes = useStyles();
+const SelectInclusionStrategyStep: React.FC<SelectInclusionStrategyStepProps> =
+	(props) => {
+		const { translate: _ } = useI18n();
+		const classes = useStyles();
 
-	const [forceSecurity, setForceSecurity] = React.useState(false);
+		const [forceSecurity, setForceSecurity] = React.useState(false);
 
-	const strategyCaptionDefault = forceSecurity
-		? _(
-				"Security S2 when supported, Security S0 as a fallback, no encryption otherwise.",
-		  )
-		: _(
-				"Security S2 when supported, Security S0 only when necessary, no encryption otherwise.",
-		  );
+		const strategyCaptionDefault = forceSecurity
+			? _(
+					"Security S2 when supported, Security S0 as a fallback, no encryption otherwise.",
+			  )
+			: _(
+					"Security S2 when supported, Security S0 only when necessary, no encryption otherwise.",
+			  );
 
-	return (
-		<>
-			<DialogContent className={classes.strategyRoot}>
-				<Typography variant="body2">
-					{_("Z-Wave supports the following security mechanisms:")}
-				</Typography>
-				<ul
-					className={classes.strategyList}
-					style={{ marginTop: "0.5em" }}
-				>
-					<li>
-						<b>Security S2</b> &ndash; {_("fast and secure")}{" "}
-						<b>{_("(recommended)")}</b>
-					</li>
-					<li>
-						<b>Security S0</b> &ndash;{" "}
-						{_("secure, but slow due to a lot of overhead")}{" "}
-						<b>{_("(use only when necessary)")}</b>
-					</li>
-					<li>{_("No encryption")}</li>
-				</ul>
-
-				<Typography
-					variant="body1"
-					className={classes.strategyGridHeadline}
-				>
-					{_("Please choose an inclusion strategy")}:
-				</Typography>
-				<div className={classes.strategyGrid}>
-					<div
-						style={{
-							gridRow: 1,
-							display: "flex",
-							flexFlow: "column",
-						}}
+		return (
+			<>
+				<DialogContent className={classes.strategyRoot}>
+					<Typography variant="body2">
+						{_(
+							"Z-Wave supports the following security mechanisms:",
+						)}
+					</Typography>
+					<ul
+						className={classes.strategyList}
+						style={{ marginTop: "0.5em" }}
 					>
+						<li>
+							<b>Security S2</b> &ndash; {_("fast and secure")}{" "}
+							<b>{_("(recommended)")}</b>
+						</li>
+						<li>
+							<b>Security S0</b> &ndash;{" "}
+							{_("secure, but slow due to a lot of overhead")}{" "}
+							<b>{_("(use only when necessary)")}</b>
+						</li>
+						<li>{_("No encryption")}</li>
+					</ul>
+
+					<Typography
+						variant="body1"
+						className={classes.strategyGridHeadline}
+					>
+						{_("Please choose an inclusion strategy")}:
+					</Typography>
+					<div className={classes.strategyGrid}>
+						<div
+							style={{
+								gridRow: 1,
+								display: "flex",
+								flexFlow: "column",
+							}}
+						>
+							<Button
+								variant="contained"
+								color="primary"
+								onClick={() =>
+									props.selectStrategy(
+										InclusionStrategy.Default,
+										forceSecurity,
+									)
+								}
+							>
+								{_("Default (secure)")}
+							</Button>
+							<FormControlLabel
+								label={_("Prefer S0 over no encryption")}
+								control={
+									<Checkbox
+										checked={forceSecurity}
+										onChange={(event, checked) =>
+											setForceSecurity(checked)
+										}
+									/>
+								}
+							/>
+						</div>
+						<Typography
+							variant="caption"
+							style={{ alignSelf: "flex-start" }}
+						>
+							{strategyCaptionDefault}
+							<br />
+							{_(
+								"Requires user interaction during the inclusion.",
+							)}
+						</Typography>
+
 						<Button
 							variant="contained"
-							color="primary"
+							color="secondary"
+							style={{ gridRow: 2 }}
+							disabled
 							onClick={() =>
 								props.selectStrategy(
-									InclusionStrategy.Default,
-									forceSecurity,
+									InclusionStrategy.SmartStart,
 								)
 							}
 						>
-							{_("Default (secure)")}
+							{"SmartStart"}
 						</Button>
-						<FormControlLabel
-							label={_("Prefer S0 over no encryption")}
-							control={
-								<Checkbox
-									checked={forceSecurity}
-									onChange={(event, checked) =>
-										setForceSecurity(checked)
-									}
-								/>
+						<Typography variant="caption">
+							coming soon...
+						</Typography>
+
+						<Button
+							variant="contained"
+							color="default"
+							style={{ gridRow: 3 }}
+							onClick={() =>
+								props.selectStrategy(InclusionStrategy.Insecure)
 							}
-						/>
+						>
+							{_("No encryption")}
+						</Button>
 					</div>
+				</DialogContent>
+				<DialogActions>
+					<Button
+						variant="contained"
+						onClick={props.onCancel}
+						color="primary"
+					>
+						{_("Cancel")}
+					</Button>
+				</DialogActions>
+			</>
+		);
+	};
+
+// =============================================================================
+
+interface SelectReplacementStrategyStepProps {
+	selectStrategy: (strategy: InclusionStrategy) => void;
+	onCancel: () => void;
+}
+
+const SelectReplacementStrategyStep: React.FC<SelectReplacementStrategyStepProps> =
+	(props) => {
+		const { translate: _ } = useI18n();
+		const classes = useStyles();
+
+		return (
+			<>
+				<DialogContent className={classes.strategyRoot}>
 					<Typography
-						variant="caption"
-						style={{ alignSelf: "flex-start" }}
+						variant="body1"
+						className={classes.strategyGridHeadline}
 					>
-						{strategyCaptionDefault}
-						<br />
-						{_("Requires user interaction during the inclusion.")}
+						{_("Please choose a replacement strategy")}:
 					</Typography>
+					<div className={classes.strategyGrid}>
+						<Button
+							variant="contained"
+							color="primary"
+							style={{ gridRow: 1 }}
+							onClick={() =>
+								props.selectStrategy(
+									InclusionStrategy.Security_S2,
+								)
+							}
+						>
+							{_("Security S2")}
+						</Button>
+						<Typography
+							variant="caption"
+							style={{ alignSelf: "flex-start" }}
+						>
+							{_("fast and secure")}
+							<br />
+							{_("(recommended)")}
+						</Typography>
 
+						<Button
+							variant="contained"
+							color="secondary"
+							style={{ gridRow: 2 }}
+							disabled
+							onClick={() =>
+								props.selectStrategy(
+									InclusionStrategy.Security_S0,
+								)
+							}
+						>
+							{_("Security S0")}
+						</Button>
+						<Typography variant="caption">
+							{_("secure, but slow due to a lot of overhead")}
+							<br />
+							{_("(use only when necessary)")}
+						</Typography>
+
+						<Button
+							variant="contained"
+							color="default"
+							style={{ gridRow: 3 }}
+							onClick={() =>
+								props.selectStrategy(InclusionStrategy.Insecure)
+							}
+						>
+							{_("No encryption")}
+						</Button>
+					</div>
+				</DialogContent>
+				<DialogActions>
 					<Button
 						variant="contained"
-						color="secondary"
-						style={{ gridRow: 2 }}
-						disabled
-						onClick={() =>
-							props.selectStrategy(InclusionStrategy.SmartStart)
-						}
+						onClick={props.onCancel}
+						color="primary"
 					>
-						{"SmartStart"}
+						{_("Cancel")}
 					</Button>
-					<Typography variant="caption">coming soon...</Typography>
-
-					<Button
-						variant="contained"
-						color="default"
-						style={{ gridRow: 3 }}
-						onClick={() =>
-							props.selectStrategy(InclusionStrategy.Insecure)
-						}
-					>
-						{_("No encryption")}
-					</Button>
-				</div>
-			</DialogContent>
-			<DialogActions>
-				<Button onClick={props.onCancel} color="primary">
-					{_("Cancel")}
-				</Button>
-			</DialogActions>
-		</>
-	);
-};
+				</DialogActions>
+			</>
+		);
+	};
 
 // =============================================================================
 
@@ -253,7 +356,11 @@ const WaitMessageStep: React.FC<WaitMessageProps> = (props) => {
 			</DialogContent>
 			<DialogActions>
 				{props.onCancel && (
-					<Button onClick={props.onCancel} color="primary">
+					<Button
+						variant="contained"
+						onClick={props.onCancel}
+						color="primary"
+					>
 						{_("Cancel")}
 					</Button>
 				)}
@@ -455,10 +562,14 @@ const GrantSecurityClassesStep: React.FC<GrantSecurityClassesStepProps> = (
 				/>
 			</DialogContent>
 			<DialogActions>
-				<Button onClick={handleOk} color="primary">
+				<Button variant="contained" onClick={handleOk} color="primary">
 					{_("OK")}
 				</Button>
-				<Button onClick={props.onCancel} color="primary">
+				<Button
+					variant="contained"
+					onClick={props.onCancel}
+					color="primary"
+				>
 					{_("Cancel")}
 				</Button>
 			</DialogActions>
@@ -537,7 +648,11 @@ const ValidateDSKStep: React.FC<ValidateDSKStepProps> = (props) => {
 				>
 					{_("OK")}
 				</Button>
-				<Button onClick={props.onCancel} color="primary">
+				<Button
+					variant="contained"
+					onClick={props.onCancel}
+					color="primary"
+				>
 					{_("Cancel")}
 				</Button>
 			</DialogActions>
@@ -593,7 +708,11 @@ const ResultStep: React.FC<ResultStepProps> = (props) => {
 				<Typography variant="body2">{message2}</Typography>
 			</DialogContent>
 			<DialogActions>
-				<Button onClick={props.onDone} color="primary">
+				<Button
+					variant="contained"
+					onClick={props.onDone}
+					color="primary"
+				>
 					{_("OK")}
 				</Button>
 			</DialogActions>
@@ -601,21 +720,67 @@ const ResultStep: React.FC<ResultStepProps> = (props) => {
 	);
 };
 
-export type InclusionDialogProps = {
+// =============================================================================
+
+export interface ExclusionResultStepProps {
+	nodeId: number;
+	onDone: () => void;
+}
+
+const ExclusionResultStep: React.FC<ExclusionResultStepProps> = (props) => {
+	const { translate: _ } = useI18n();
+	const classes = useStyles();
+
+	return (
+		<>
+			<DialogContent className={classes.resultRoot}>
+				<CheckCircleIcon
+					className={clsx(classes.resultIcon, classes.resultIconOK)}
+				/>
+				<Typography variant="body2">
+					{_(
+						"Node %s was removed from the network!",
+						props.nodeId.toString(),
+					)}
+				</Typography>
+			</DialogContent>
+			<DialogActions>
+				<Button
+					variant="contained"
+					onClick={props.onDone}
+					color="primary"
+				>
+					{_("OK")}
+				</Button>
+			</DialogActions>
+		</>
+	);
+};
+
+export type InclusionExclusionDialogProps = {
 	onCancel: () => void;
 } & (
-	| ({ step: InclusionStep.SelectStrategy } & SelectStrategyStepProps)
-	| { step: InclusionStep.IncludeDevice }
 	| ({
-			step: InclusionStep.GrantSecurityClasses;
+			step: InclusionExclusionStep.SelectInclusionStrategy;
+	  } & SelectInclusionStrategyStepProps)
+	| ({
+			step: InclusionExclusionStep.SelectReplacementStrategy;
+	  } & SelectReplacementStrategyStepProps)
+	| { step: InclusionExclusionStep.IncludeDevice }
+	| { step: InclusionExclusionStep.ExcludeDevice }
+	| ({
+			step: InclusionExclusionStep.GrantSecurityClasses;
 	  } & GrantSecurityClassesStepProps)
-	| ({ step: InclusionStep.ValidateDSK } & ValidateDSKStepProps)
-	| { step: InclusionStep.Busy }
-	| ({ step: InclusionStep.Result } & ResultStepProps)
+	| ({ step: InclusionExclusionStep.ValidateDSK } & ValidateDSKStepProps)
+	| { step: InclusionExclusionStep.Busy }
+	| ({ step: InclusionExclusionStep.Result } & ResultStepProps)
+	| ({
+			step: InclusionExclusionStep.ExclusionResult;
+	  } & ExclusionResultStepProps)
 );
 
 export const InclusionDialog: React.FC<
-	InclusionDialogProps & { isOpen: boolean }
+	InclusionExclusionDialogProps & { isOpen: boolean }
 > = (props) => {
 	const { translate: _ } = useI18n();
 
@@ -626,21 +791,35 @@ export const InclusionDialog: React.FC<
 
 	const Content = React.useMemo(() => {
 		switch (props.step) {
-			case InclusionStep.SelectStrategy:
+			case InclusionExclusionStep.SelectInclusionStrategy:
 				return (
-					<SelectStrategyStep
+					<SelectInclusionStrategyStep
 						selectStrategy={props.selectStrategy}
 						onCancel={props.onCancel}
 					/>
 				);
-			case InclusionStep.IncludeDevice:
+			case InclusionExclusionStep.SelectReplacementStrategy:
+				return (
+					<SelectReplacementStrategyStep
+						selectStrategy={props.selectStrategy}
+						onCancel={props.onCancel}
+					/>
+				);
+			case InclusionExclusionStep.IncludeDevice:
 				return (
 					<WaitMessageStep
 						message={_("Put your device into inclusion mode")}
 						onCancel={props.onCancel}
 					/>
 				);
-			case InclusionStep.GrantSecurityClasses:
+			case InclusionExclusionStep.ExcludeDevice:
+				return (
+					<WaitMessageStep
+						message={_("Put your device into exclusion mode")}
+						onCancel={props.onCancel}
+					/>
+				);
+			case InclusionExclusionStep.GrantSecurityClasses:
 				return (
 					<GrantSecurityClassesStep
 						grantSecurityClasses={props.grantSecurityClasses}
@@ -648,7 +827,7 @@ export const InclusionDialog: React.FC<
 						onCancel={props.onCancel}
 					/>
 				);
-			case InclusionStep.ValidateDSK:
+			case InclusionExclusionStep.ValidateDSK:
 				return (
 					<ValidateDSKStep
 						dsk={props.dsk}
@@ -656,7 +835,7 @@ export const InclusionDialog: React.FC<
 						setPIN={props.setPIN}
 					/>
 				);
-			case InclusionStep.Result:
+			case InclusionExclusionStep.Result:
 				return (
 					<ResultStep
 						nodeId={props.nodeId}
@@ -665,7 +844,14 @@ export const InclusionDialog: React.FC<
 						onDone={props.onDone}
 					/>
 				);
-			case InclusionStep.Busy:
+			case InclusionExclusionStep.ExclusionResult:
+				return (
+					<ExclusionResultStep
+						nodeId={props.nodeId}
+						onDone={props.onDone}
+					/>
+				);
+			case InclusionExclusionStep.Busy:
 				return (
 					<WaitMessageStep
 						message={_(

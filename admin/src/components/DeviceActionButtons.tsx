@@ -12,7 +12,7 @@ interface DeviceActionButtonsProps {
 	beginInclusion: () => void;
 	// cancelInclusion: () => void;
 	beginExclusion: () => void;
-	cancelExclusion: () => void;
+	// cancelExclusion: () => void;
 	healNetwork: () => void;
 	cancelHealing: () => void;
 }
@@ -77,15 +77,11 @@ export const DeviceActionButtons: React.FC<DeviceActionButtonsProps> = (
 					props.state !== DeviceActionButtonsState.Idle &&
 					props.state !== DeviceActionButtonsState.Excluding
 				}
-				onClick={
-					props.state !== DeviceActionButtonsState.Excluding
-						? props.beginExclusion
-						: props.cancelExclusion
-				}
+				onClick={props.beginExclusion}
 			>
 				{props.state !== DeviceActionButtonsState.Excluding
 					? _("Exclude device")
-					: _("Cancel exclusion")}
+					: _("Exclusion active")}
 			</Button>
 			<Button
 				variant="contained"

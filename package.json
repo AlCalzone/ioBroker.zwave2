@@ -38,7 +38,7 @@
     "alcalzone-shared": "^4.0.0",
     "fs-extra": "^10.0.0",
     "gulp": "^4.0.2",
-    "zwave-js": "^8.2.2-0-pr-3262-93f5d85"
+    "zwave-js": "^8.3.2-0-pr-3262-f5cdbca"
   },
   "devDependencies": {
     "@alcalzone/release-script": "^2.2.0",
@@ -51,7 +51,7 @@
     "@babel/plugin-proposal-optional-chaining": "^7.13.12",
     "@babel/preset-env": "^7.13.12",
     "@babel/preset-typescript": "^7.13.0",
-    "@iobroker/socket-client": "file:../../Repositories/socket-client",
+    "@iobroker/socket-client": "^1.0.5",
     "@iobroker/testing": "^2.4.4",
     "@material-ui/core": "^4.12.3",
     "@material-ui/icons": "^4.11.2",

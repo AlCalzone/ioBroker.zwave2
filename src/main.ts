@@ -347,6 +347,13 @@ export class ZWave2 extends utils.Adapter<true> {
 	private async onNodeRemoved(node: ZWaveNode): Promise<void> {
 		this.log.info(`Node ${node.id}: removed`);
 		node.removeAllListeners();
+		this.pushToFrontend({
+			type: "inclusion",
+			status: {
+				type: "exclusionDone",
+				nodeId: node.id,
+			},
+		});
 
 		await removeNode(node.id);
 	}

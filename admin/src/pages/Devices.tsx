@@ -1,7 +1,7 @@
 import React from "react";
 import {
 	getErrorMessage,
-	InclusionStatus,
+	InclusionExclusionStatus,
 	NetworkHealStatus,
 } from "../../../src/lib/shared";
 import { useDevices } from "../lib/useDevices";
@@ -21,9 +21,9 @@ import { Device, useAPI } from "../lib/useAPI";
 import { DeviceTable } from "../components/DeviceTable";
 import {
 	InclusionDialog,
-	InclusionDialogProps,
-	InclusionStep,
-} from "../components/InclusionDialog";
+	InclusionExclusionDialogProps,
+	InclusionExclusionStep,
+} from "../components/InclusionExclusionDialog";
 import { usePush } from "../lib/usePush";
 
 // interface Inclusion
@@ -55,7 +55,7 @@ export const Devices: React.FC = () => {
 	>({});
 
 	const [inclusionStatus, setInclusionStatus] =
-		React.useState<InclusionStatus>();
+		React.useState<InclusionExclusionStatus>();
 
 	usePush((payload) => {
 		if (payload.type === "inclusion") {
@@ -84,7 +84,8 @@ export const Devices: React.FC = () => {
 		}
 	}
 
-	const [showInclusionModal, setShowInclusionModal] = React.useState(false);
+	const [showInclusionExclusionModal, setShowInclusionExclusionModal] =
+		React.useState(false);
 
 	const devicesAsArray: Device[] = [];
 	if (devices) {
@@ -94,12 +95,25 @@ export const Devices: React.FC = () => {
 		}
 	}
 
-	// Choose which inclusion step to display
-	const inclusionDialogProps = ((): InclusionDialogProps | undefined => {
-		if (!inclusionStatus && !inclusion) {
+	// Choose which inclusion/exclusion step to display
+	const inclusionExclusionDialogProps = (():
+		| InclusionExclusionDialogProps
+		| undefined => {
+		if (exclusion) {
 			return {
-				step: InclusionStep.SelectStrategy,
-				onCancel: () => setShowInclusionModal(false),
+				step: InclusionExclusionStep.ExcludeDevice,
+				onCancel: () => {
+					setShowInclusionExclusionModal(false);
+					// avoid flicker while the modal is being hidden
+					setTimeout(() => {
+						setExclusion(false);
+					}, 250);
+				},
+			};
+		} else if (!inclusionStatus && !inclusion) {
+			return {
+				step: InclusionExclusionStep.SelectInclusionStrategy,
+				onCancel: () => setShowInclusionExclusionModal(false),
 				selectStrategy: async (strategy, forceSecurity) => {
 					try {
 						await api.beginInclusion(strategy, forceSecurity);
@@ -119,22 +133,22 @@ export const Devices: React.FC = () => {
 			inclusionStatus.type === "waitingForDevice"
 		) {
 			return {
-				step: InclusionStep.IncludeDevice,
+				step: InclusionExclusionStep.IncludeDevice,
 				onCancel: () => {
-					setShowInclusionModal(false);
+					setShowInclusionExclusionModal(false);
 					api.stopInclusion();
 				},
 			};
 		} else if (inclusionStatus.type === "busy") {
 			return {
-				step: InclusionStep.Busy,
+				step: InclusionExclusionStep.Busy,
 				onCancel: () => {
 					// Don't do anything here
 				},
 			};
 		} else if (inclusionStatus.type === "validateDSK") {
 			return {
-				step: InclusionStep.ValidateDSK,
+				step: InclusionExclusionStep.ValidateDSK,
 				dsk: inclusionStatus.dsk,
 				setPIN: (pin) => {
 					api.validateDSK(pin);
@@ -145,7 +159,7 @@ export const Devices: React.FC = () => {
 			};
 		} else if (inclusionStatus.type === "grantSecurityClasses") {
 			return {
-				step: InclusionStep.GrantSecurityClasses,
+				step: InclusionExclusionStep.GrantSecurityClasses,
 				request: inclusionStatus.request,
 				grantSecurityClasses: (grant) => {
 					api.grantSecurityClasses(grant);
@@ -156,19 +170,38 @@ export const Devices: React.FC = () => {
 			};
 		} else if (inclusionStatus.type === "done") {
 			return {
-				step: InclusionStep.Result,
+				step: InclusionExclusionStep.Result,
 				nodeId: inclusionStatus.nodeId,
 				lowSecurity: inclusionStatus.lowSecurity,
 				securityClass: inclusionStatus.securityClass,
 				onDone: () => {
-					setShowInclusionModal(false);
+					setShowInclusionExclusionModal(false);
 					// avoid flicker while the modal is being hidden
 					setTimeout(() => {
 						setInclusionStatus(undefined);
 					}, 250);
 				},
 				onCancel: () => {
-					setShowInclusionModal(false);
+					setShowInclusionExclusionModal(false);
+					// avoid flicker while the modal is being hidden
+					setTimeout(() => {
+						setInclusionStatus(undefined);
+					}, 250);
+				},
+			};
+		} else if (inclusionStatus.type === "exclusionDone") {
+			return {
+				step: InclusionExclusionStep.ExclusionResult,
+				nodeId: inclusionStatus.nodeId,
+				onDone: () => {
+					setShowInclusionExclusionModal(false);
+					// avoid flicker while the modal is being hidden
+					setTimeout(() => {
+						setInclusionStatus(undefined);
+					}, 250);
+				},
+				onCancel: () => {
+					setShowInclusionExclusionModal(false);
 					// avoid flicker while the modal is being hidden
 					setTimeout(() => {
 						setInclusionStatus(undefined);
@@ -178,6 +211,18 @@ export const Devices: React.FC = () => {
 		}
 	})();
 
+	const isIncluding =
+		inclusion ||
+		(!!inclusionStatus &&
+			!exclusion &&
+			inclusionStatus.type !== "exclusionDone");
+	const isExcluding =
+		exclusion ||
+		(!!inclusionStatus &&
+			!inclusion &&
+			inclusionStatus.type !== "done" &&
+			inclusionStatus.type !== "exclusionDone");
+
 	return adapterRunning && driverReady ? (
 		<>
 			{/* Action buttons */}
@@ -185,17 +230,19 @@ export const Devices: React.FC = () => {
 				state={
 					isBusy
 						? DeviceActionButtonsState.Busy
-						: inclusion || inclusionStatus
+						: isIncluding
 						? DeviceActionButtonsState.Including
-						: exclusion
+						: isExcluding
 						? DeviceActionButtonsState.Excluding
 						: healingNetwork
 						? DeviceActionButtonsState.Healing
 						: DeviceActionButtonsState.Idle
 				}
-				beginInclusion={() => setShowInclusionModal(true)}
-				beginExclusion={() => setExclusion(true)}
-				cancelExclusion={() => setExclusion(false)}
+				beginInclusion={() => setShowInclusionExclusionModal(true)}
+				beginExclusion={async () => {
+					await setExclusion(true);
+					setShowInclusionExclusionModal(true);
+				}}
 				healNetwork={healNetwork}
 				cancelHealing={() => api.stopHealingNetwork()}
 			/>
@@ -209,10 +256,10 @@ export const Devices: React.FC = () => {
 			/>
 
 			{/* Modal dialog for the inclusion process */}
-			{inclusionDialogProps && (
+			{inclusionExclusionDialogProps && (
 				<InclusionDialog
-					isOpen={showInclusionModal}
-					{...inclusionDialogProps}
+					isOpen={showInclusionExclusionModal}
+					{...inclusionExclusionDialogProps}
 				/>
 			)}
 		</>

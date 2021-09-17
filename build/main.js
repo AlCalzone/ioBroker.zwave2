@@ -227,6 +227,13 @@ class ZWave2 extends import_adapter_core.default.Adapter {
   async onNodeRemoved(node) {
     this.log.info(`Node ${node.id}: removed`);
     node.removeAllListeners();
+    this.pushToFrontend({
+      type: "inclusion",
+      status: {
+        type: "exclusionDone",
+        nodeId: node.id
+      }
+    });
     await (0, import_objects2.removeNode)(node.id);
   }
   async onHealNetworkProgress(progress) {
