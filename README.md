@@ -41,14 +41,19 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	### __WORK IN PROGRESS__
 -->
 ### __WORK IN PROGRESS__
+Upgraded to `zwave-js` version `8.3.2`. Notable changes include:
 * **BREAKING:** Node.js `v12.22.2` is now the minimum
-
-Upgraded to `zwave-js` version `8.1.1`. Notable changes include:
 * **BREAKING:** User codes are no longer queried during the interview. They need to be queried manually on demand (not implemented yet).
 * **BREAKING:** Reworked how endpoints and lifeline associations are handled. This solves reporting issues with many devices, but after a re-interview state IDs may change and some previously working devices may no longer report correctly. Please create an issue for every device that is affected by this.
+* The device management was moved from the adapter settings to an extra `Z-Wave` tab.
 * Some config parameters now correctly offer `0/1` as options instead of `0/-1`
 * Fixed a bug where the cache file could be corrupted during a shutdown
 * Support for Security S2
+* Support for devices which use `Supervision CC` to send commands
+* Support for factory resetting the controller
+* Support for changing the region/frequency of the controller
+* Support for replacing failed nodes while keeping the ID
+* Some fixes for firmware updates
 
 ### 1.10.4 (2021-08-07)
 * Fixed a bug where the daily config update check would cause a lot of internet traffic for an hour
