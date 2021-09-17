@@ -141,7 +141,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
       try {
         const rfRegion = await this.driver.controller.getRFRegion();
         await (0, import_objects2.setRFRegionState)(rfRegion);
-      } catch (e) {
+      } catch {
         await (0, import_objects2.setRFRegionState)(void 0);
       }
       this.initialNodeInterviewStages = new Map([...this.driver.controller.nodes.values()].map((node) => [
@@ -178,7 +178,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
         applicationName: "ioBroker.zwave2",
         applicationVersion: require("iobroker.zwave2/package.json").version
       });
-    } catch (e) {
+    } catch {
     }
     try {
       await this.driver.start();

@@ -32,9 +32,12 @@ if (opts.react) {
 if (opts.typescript) {
 	(async () => {
 		let entryPoints = await glob("./src/**/*.ts");
-		entryPoints = entryPoints.filter((ep) => !ep.endsWith(".d.ts"));
+		entryPoints = entryPoints.filter(
+			(ep) => !ep.endsWith(".d.ts") && !ep.endsWith(".test.ts"),
+		);
 		await build({
 			entryPoints,
+			tsconfig: "./tsconfig.build.json",
 			outdir: "build",
 			bundle: false,
 			minify: false,
@@ -42,7 +45,7 @@ if (opts.typescript) {
 			logLevel: "info",
 			platform: "node",
 			format: "cjs",
-			target: "node10",
+			target: "node12",
 		});
 	})().catch(() => process.exit(1));
 }

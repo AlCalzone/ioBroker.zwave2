@@ -302,7 +302,7 @@ async function removeValue(nodeId, args) {
   const stateId = computeId(nodeId, args);
   try {
     await import_global.Global.adapter.delObjectAsync(stateId);
-  } catch (e) {
+  } catch {
   }
 }
 function valueTypeToIOBrokerType(valueType) {

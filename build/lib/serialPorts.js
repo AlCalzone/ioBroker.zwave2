@@ -38,7 +38,7 @@ async function enumerateSerialPorts(adapter) {
   const devDirName = "/dev";
   try {
     result.push(...(await import_fs_extra.default.readdir(devDirName)).map((file) => import_path.default.join(devDirName, file)).filter(isSerialPort));
-  } catch (e) {
+  } catch {
   }
   try {
     result.push(...await import_zwave_js.Driver.enumerateSerialPorts());
