@@ -7,7 +7,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import { useI18n } from "iobroker-react/hooks";
+import { useGlobals, useI18n, useIoBrokerObject } from "iobroker-react/hooks";
 import React from "react";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import WarningIcon from "@material-ui/icons/Warning";
@@ -17,6 +17,7 @@ import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import type { InclusionGrant } from "zwave-js/Controller";
+import Alert from "@material-ui/lab/Alert";
 
 const useStyles = makeStyles((theme) => ({
 	strategyRoot: {
@@ -135,6 +136,22 @@ const SelectInclusionStrategyStep: React.FC<SelectInclusionStrategyStepProps> =
 					"Security S2 when supported, Security S0 only when necessary, no encryption otherwise.",
 			  );
 
+		// Display a warning when security keys are missing
+		const { namespace } = useGlobals();
+		const [instanceObj] = useIoBrokerObject(`system.adapter.${namespace}`, {
+			subscribe: false,
+		});
+		const settings = instanceObj?.native as
+			| ioBroker.AdapterConfig
+			| undefined;
+
+		const keysMissing =
+			settings &&
+			(!settings.networkKey_S0 ||
+				!settings.networkKey_S2_AccessControl ||
+				!settings.networkKey_S2_Authenticated ||
+				!settings.networkKey_S2_Unauthenticated);
+
 		return (
 			<>
 				<DialogContent className={classes.strategyRoot}>
@@ -158,6 +175,14 @@ const SelectInclusionStrategyStep: React.FC<SelectInclusionStrategyStepProps> =
 						</li>
 						<li>{_("No encryption")}</li>
 					</ul>
+
+					{keysMissing && (
+						<Alert severity="warning">
+							{_(
+								"At least one network key is not yet configured. This can cause problems during secure inclusion.",
+							)}
+						</Alert>
+					)}
 
 					<Typography
 						variant="body1"
@@ -227,8 +252,26 @@ const SelectInclusionStrategyStep: React.FC<SelectInclusionStrategyStepProps> =
 
 						<Button
 							variant="contained"
-							color="default"
+							color="secondary"
 							style={{ gridRow: 3 }}
+							onClick={() =>
+								props.selectStrategy(
+									InclusionStrategy.Security_S0,
+								)
+							}
+						>
+							{_("Security S0")}
+						</Button>
+						<Typography variant="caption">
+							{_(
+								"Only use S0, even if S2 is available. Allows including devices that require security but don't behave correctly during S2 inclusion.",
+							)}
+						</Typography>
+
+						<Button
+							variant="contained"
+							color="default"
+							style={{ gridRow: 4 }}
 							onClick={() =>
 								props.selectStrategy(InclusionStrategy.Insecure)
 							}
