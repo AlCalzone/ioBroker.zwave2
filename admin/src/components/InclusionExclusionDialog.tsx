@@ -905,6 +905,24 @@ export const InclusionDialog: React.FC<
 		}
 	}, [props.step]);
 
+	const title = React.useMemo(() => {
+		switch (props.step) {
+			case InclusionExclusionStep.SelectInclusionStrategy:
+			case InclusionExclusionStep.IncludeDevice:
+			case InclusionExclusionStep.GrantSecurityClasses:
+			case InclusionExclusionStep.ValidateDSK:
+			case InclusionExclusionStep.Result:
+			case InclusionExclusionStep.Busy:
+				return _("Include device");
+
+			case InclusionExclusionStep.SelectReplacementStrategy:
+				return _("Replace device");
+
+			case InclusionExclusionStep.ExcludeDevice:
+			case InclusionExclusionStep.ExclusionResult:
+				return _("Exclude device");
+		}
+	}, [props.step]);
 	return (
 		<Dialog
 			open={props.isOpen}
@@ -913,9 +931,7 @@ export const InclusionDialog: React.FC<
 			aria-describedby="alert-dialog-description"
 			maxWidth={false}
 		>
-			<DialogTitle id="alert-dialog-title">
-				{_("Include device")}
-			</DialogTitle>
+			<DialogTitle id="alert-dialog-title">{title}</DialogTitle>
 			{Content}
 		</Dialog>
 	);

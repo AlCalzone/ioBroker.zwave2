@@ -34,7 +34,9 @@ export const Associations: React.FC = () => {
 	}
 
 	const devicesAsArray = devices
-		? Object.values(devices).filter(Boolean)
+		? Object.values(devices)
+				.filter(Boolean)
+				.filter((d) => !d.value.native.isControllerNode)
 		: [];
 	const nodes = devicesAsArray.map((d) => ({
 		nodeId: d.value.native.id as number,
