@@ -128,7 +128,10 @@ class ZWave2 extends import_adapter_core.default.Adapter {
       storage: {
         cacheDir
       },
-      securityKeys
+      securityKeys,
+      interview: {
+        queryAllUserCodes: true
+      }
     });
     this.driver.once("driver ready", async () => {
       this.driverReady = true;

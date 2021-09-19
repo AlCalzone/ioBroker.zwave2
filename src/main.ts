@@ -171,6 +171,10 @@ export class ZWave2 extends utils.Adapter<true> {
 				cacheDir,
 			},
 			securityKeys,
+			interview: {
+				// TODO: remove this once we have a UI to query user codes
+				queryAllUserCodes: true,
+			},
 		});
 
 		this.driver.once("driver ready", async () => {
