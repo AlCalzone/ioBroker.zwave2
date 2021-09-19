@@ -40,7 +40,7 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	Placeholder for next versions:
 	### __WORK IN PROGRESS__
 -->
-### 2.0.0-alpha.0 (2021-09-17)
+### __WORK IN PROGRESS__
 Upgraded to `zwave-js` version `8.3.2`. Notable changes include:
 * **BREAKING:** Node.js `v12.22.2` is now the minimum
 * **BREAKING:** User codes are no longer queried during the interview. They need to be queried manually on demand (not implemented yet).
