@@ -976,14 +976,20 @@ export class ZWave2 extends utils.Adapter<true> {
 	private pushCallbacks = new Map<string, (payload: PushMessage[]) => void>();
 	// This is used to timeout expired payloads when there hasn't been a poll in a while
 	private pushPayloadExpirationTimeout: NodeJS.Timeout | undefined;
+	private pushToFrontendBusy = false;
 
 	/** Responds to a pending poll from the frontend (if there is a message outstanding) */
 	private pushToFrontend(payload: PushMessage): void {
 		this.pushPayloads.push(payload);
+		if (this.pushToFrontendBusy) return;
+		this.pushToFrontendBusy = true;
 		if (this.pushCallbacks.size > 0) {
+			const payloads = this.pushPayloads.splice(
+				0,
+				this.pushPayloads.length,
+			);
 			// If a client is waiting for a response, send all pending responses immediately
-			this.pushCallbacks.forEach((cb) => cb(this.pushPayloads));
-			this.pushPayloads.splice(0, this.pushPayloads.length);
+			this.pushCallbacks.forEach((cb) => cb(payloads));
 			this.pushCallbacks.clear();
 		} else {
 			// otherwise start a timer so we can expire the payloads after a while
@@ -994,6 +1000,7 @@ export class ZWave2 extends utils.Adapter<true> {
 				}, 2500);
 			}
 		}
+		this.pushToFrontendBusy = false;
 	}
 
 	private logTransport: JSONTransport | undefined;

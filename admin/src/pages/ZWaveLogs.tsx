@@ -17,6 +17,7 @@ import clsx from "clsx";
 import Tooltip from "@material-ui/core/Tooltip";
 import { VariableSizeList as Window } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
+import throttle from "lodash/throttle";
 
 // TODO: use variable-size react window
 // https://react-window.vercel.app/#/examples/list/variable-size
@@ -99,9 +100,9 @@ export const ZWaveLogs: React.FC = () => {
 
 	const [enabled, setEnabled] = React.useState(false);
 	const [autoScroll, setAutoScroll] = React.useState(true);
-	function scrollToBottom() {
+	const scrollToBottom = throttle(() => {
 		windowRef.current?.scrollToItem(logs.length - 1, "end");
-	}
+	}, 100);
 	React.useEffect(() => {
 		if (autoScroll && logs.length > 0) {
 			scrollToBottom();

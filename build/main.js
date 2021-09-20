@@ -75,6 +75,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
     };
     this.pushPayloads = [];
     this.pushCallbacks = new Map();
+    this.pushToFrontendBusy = false;
     this.on("ready", this.onReady.bind(this));
     this.on("objectChange", this.onObjectChange.bind(this));
     this.on("stateChange", this.onStateChange.bind(this));
@@ -554,9 +555,12 @@ class ZWave2 extends import_adapter_core.default.Adapter {
   }
   pushToFrontend(payload) {
     this.pushPayloads.push(payload);
+    if (this.pushToFrontendBusy)
+      return;
+    this.pushToFrontendBusy = true;
     if (this.pushCallbacks.size > 0) {
-      this.pushCallbacks.forEach((cb) => cb(this.pushPayloads));
-      this.pushPayloads.splice(0, this.pushPayloads.length);
+      const payloads = this.pushPayloads.splice(0, this.pushPayloads.length);
+      this.pushCallbacks.forEach((cb) => cb(payloads));
       this.pushCallbacks.clear();
     } else {
       if (!this.pushPayloadExpirationTimeout) {
@@ -566,6 +570,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
         }, 2500);
       }
     }
+    this.pushToFrontendBusy = false;
   }
   async onMessage(obj) {
     var _a, _b, _c;
