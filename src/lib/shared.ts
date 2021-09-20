@@ -49,6 +49,10 @@ export type PushMessage =
 	| {
 			type: "firmwareUpdate";
 			progress: FirmwareUpdateProgress;
+	  }
+	| {
+			type: "log";
+			info: ZWaveLogInfo;
 	  };
 
 export interface NetworkHealStatus {
@@ -98,6 +102,15 @@ export type AssociationDefinition = AssociationAddress & {
 	sourceEndpoint?: number;
 	group: number;
 };
+
+export interface ZWaveLogInfo {
+	direction: string;
+	primaryTags?: string;
+	secondaryTags?: string;
+	timestamp?: string;
+	label?: string;
+	message: string;
+}
 
 export function getErrorMessage(e: unknown, includeStack?: boolean): string {
 	if (e instanceof Error)

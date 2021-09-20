@@ -10,6 +10,7 @@ import { NetworkMap } from "./pages/NetworkMap";
 import { useI18n } from "iobroker-react/hooks";
 
 import { ErrorBoundary } from "react-error-boundary";
+import { ZWaveLogs } from "./pages/ZWaveLogs";
 
 function ErrorFallback({ error, resetErrorBoundary }) {
 	return (
@@ -49,6 +50,7 @@ const Root: React.FC = React.memo(() => {
 				<Tabs value={value} onChange={handleChange}>
 					<Tab label={_("Devices")} />
 					<Tab label={_("Associations")} />
+					<Tab label={_("Z-Wave Logs")} />
 					<Tab label={_("Network map")} />
 				</Tabs>
 			</AppBar>
@@ -63,6 +65,11 @@ const Root: React.FC = React.memo(() => {
 				</ErrorBoundary>
 			</TabPanel>
 			<TabPanel value={value} index={2}>
+				<ErrorBoundary FallbackComponent={ErrorFallback}>
+					<ZWaveLogs />
+				</ErrorBoundary>
+			</TabPanel>
+			<TabPanel value={value} index={3}>
 				<ErrorBoundary FallbackComponent={ErrorFallback}>
 					<NetworkMap />
 				</ErrorBoundary>

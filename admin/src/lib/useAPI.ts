@@ -439,6 +439,26 @@ export class API {
 			throw error ?? result;
 		}
 	}
+
+	public async subscribeLogs(): Promise<void> {
+		const { error, result } = await this.connection.sendTo<SendToResult>(
+			this.namespace,
+			"subscribeLogs",
+		);
+		if (result !== "ok") {
+			throw error ?? result;
+		}
+	}
+
+	public async unsubscribeLogs(): Promise<void> {
+		const { error, result } = await this.connection.sendTo<SendToResult>(
+			this.namespace,
+			"unsubscribeLogs",
+		);
+		if (result !== "ok") {
+			throw error ?? result;
+		}
+	}
 }
 
 /** Hook to communicate with the adapter via sendTo calls */

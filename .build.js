@@ -9,8 +9,12 @@ const [opts, args] = cliopts.parse(
 
 if (opts.react) {
 	(async () => {
+		let entryPoints = await glob("./admin/src/*.tsx");
+		entryPoints = entryPoints.filter(
+			(ep) => !ep.endsWith(".d.ts") && !ep.endsWith(".test.tsx"),
+		);
 		await build({
-			entryPoints: ["./admin/src/index", "./admin/src/tab"],
+			entryPoints,
 			tsconfig: "./admin/tsconfig.json",
 			bundle: true,
 			splitting: true,

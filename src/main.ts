@@ -1,5 +1,10 @@
 import utils from "@iobroker/adapter-core";
-import { CommandClasses, SecurityClass } from "@zwave-js/core";
+import {
+	CommandClasses,
+	createDefaultTransportFormat,
+	SecurityClass,
+} from "@zwave-js/core";
+import { JSONTransport } from "@zwave-js/log-transport-json";
 import { getEnumMemberName } from "@zwave-js/shared";
 import {
 	createDeferredPromise,
@@ -991,6 +996,8 @@ export class ZWave2 extends utils.Adapter<true> {
 		}
 	}
 
+	private logTransport: JSONTransport | undefined;
+
 	// The promise returned to zwave-js that is resolved when the UI calls "validateDSK"
 	private validateDSKPromise: DeferredPromise<string | false> | undefined;
 
@@ -1887,6 +1894,53 @@ export class ZWave2 extends utils.Adapter<true> {
 					} catch (e) {
 						return respond(responses.ERROR(getErrorMessage(e)));
 					}
+				}
+
+				case "subscribeLogs": {
+					if (!this.driverReady) {
+						return respond(
+							responses.ERROR(
+								"The driver is not yet ready to do that!",
+							),
+						);
+					}
+					if (!this.logTransport) {
+						this.logTransport = new JSONTransport();
+						this.logTransport.format = createDefaultTransportFormat(
+							true,
+							false,
+						);
+
+						this.driver.updateLogConfig({
+							transports: [this.logTransport],
+						});
+
+						this.logTransport.stream.on("data", (data) => {
+							this.pushToFrontend({
+								type: "log",
+								info: data,
+							});
+						});
+					}
+					return respond(responses.OK);
+				}
+
+				case "unsubscribeLogs": {
+					if (!this.driverReady) {
+						return respond(
+							responses.ERROR(
+								"The driver is not yet ready to do that!",
+							),
+						);
+					}
+					if (this.logTransport) {
+						this.driver.updateLogConfig({
+							transports: [],
+						});
+						this.logTransport.close();
+						this.logTransport = undefined;
+					}
+					return respond(responses.OK);
 				}
 			}
 		}

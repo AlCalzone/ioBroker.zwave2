@@ -43,6 +43,7 @@ __export(exports, {
 });
 var import_adapter_core = __toModule(require("@iobroker/adapter-core"));
 var import_core = __toModule(require("@zwave-js/core"));
+var import_log_transport_json = __toModule(require("@zwave-js/log-transport-json"));
 var import_shared = __toModule(require("@zwave-js/shared"));
 var import_deferred_promise = __toModule(require("alcalzone-shared/deferred-promise"));
 var import_objects = __toModule(require("alcalzone-shared/objects"));
@@ -1109,6 +1110,38 @@ class ZWave2 extends import_adapter_core.default.Adapter {
           } catch (e) {
             return respond(responses.ERROR((0, import_shared2.getErrorMessage)(e)));
           }
+        }
+        case "subscribeLogs": {
+          if (!this.driverReady) {
+            return respond(responses.ERROR("The driver is not yet ready to do that!"));
+          }
+          if (!this.logTransport) {
+            this.logTransport = new import_log_transport_json.JSONTransport();
+            this.logTransport.format = (0, import_core.createDefaultTransportFormat)(true, false);
+            this.driver.updateLogConfig({
+              transports: [this.logTransport]
+            });
+            this.logTransport.stream.on("data", (data) => {
+              this.pushToFrontend({
+                type: "log",
+                info: data
+              });
+            });
+          }
+          return respond(responses.OK);
+        }
+        case "unsubscribeLogs": {
+          if (!this.driverReady) {
+            return respond(responses.ERROR("The driver is not yet ready to do that!"));
+          }
+          if (this.logTransport) {
+            this.driver.updateLogConfig({
+              transports: []
+            });
+            this.logTransport.close();
+            this.logTransport = void 0;
+          }
+          return respond(responses.OK);
         }
       }
     }
