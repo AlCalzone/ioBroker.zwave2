@@ -15,6 +15,11 @@ import CloudDownloadIcon from "@material-ui/icons/CloudDownload";
 import { useGlobals, useI18n } from "iobroker-react/hooks";
 import clsx from "clsx";
 import Tooltip from "@material-ui/core/Tooltip";
+import { VariableSizeList as Window } from "react-window";
+import AutoSizer from "react-virtualized-auto-sizer";
+
+// TODO: use variable-size react window
+// https://react-window.vercel.app/#/examples/list/variable-size
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -42,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
 		color: "#cccccc",
 		overflow: "auto",
 		padding: theme.spacing(2),
-		"& > pre": {
+		"& pre": {
 			margin: 0,
 		},
 	},
@@ -52,30 +57,61 @@ ansi.rgb.blue = [36, 114, 200];
 ansi.rgb.cyan = [17, 168, 205];
 ansi.rgb.green = [13, 188, 121];
 
-const AutoScroll: React.FC = () => {
-	const elementRef = React.useRef<HTMLDivElement>(null);
-	React.useEffect(() =>
-		elementRef.current?.scrollIntoView({
-			behavior: "smooth",
-		}),
-	);
-	return <div ref={elementRef} />;
-};
-
 export const ZWaveLogs: React.FC = () => {
 	const classes = useStyles();
 	const api = useAPI();
 	const { translate: _ } = useI18n();
 	const { instance } = useGlobals();
 
-	const [logs, setLogs] = React.useState("");
+	const windowRef = React.useRef<Window>(null);
+	// const rowHeights = React.useRef<Record<number, number>>({});
+
+	const [logs, setLogs] = React.useState<string[]>([]);
+	const addLog = (log: string) => {
+		setLogs((logs) => {
+			return [...logs, log];
+		});
+	};
+	const getLogHeight = (index: number) => logs[index].split("\n").length * 20; //rowHeights.current?.[index] ?? 20;
+	// function setLogHeight(index: number, size: number) {
+	// 	windowRef.current?.resetAfterIndex(0);
+	// 	rowHeights.current = { ...rowHeights.current, [index]: size };
+	// }
+
+	function renderLog({ index, style }) {
+		// const logRef = React.useRef<HTMLPreElement>(null);
+		const log = logs[index];
+
+		// React.useEffect(() => {
+		// 	if (logRef.current) {
+		// 		setLogHeight(index, logRef.current.clientHeight ?? 20);
+		// 	}
+		// }, [logRef]);
+
+		return (
+			<pre
+				style={style}
+				// ref={logRef}
+				dangerouslySetInnerHTML={{ __html: log }}
+			></pre>
+		);
+	}
+
 	const [enabled, setEnabled] = React.useState(false);
 	const [autoScroll, setAutoScroll] = React.useState(true);
+	function scrollToBottom() {
+		windowRef.current?.scrollToItem(logs.length - 1, "end");
+	}
+	React.useEffect(() => {
+		if (autoScroll && logs.length > 0) {
+			scrollToBottom();
+		}
+	}, [logs.length, autoScroll]);
 
 	const onPush = React.useCallback(
 		(payload: PushMessage) => {
 			if (payload.type === "log") {
-				console.log(payload.info.message);
+				// console.log(payload.info.message);
 				const pseudoHtml = ansi.parse(payload.info.message).spans;
 				const spans = pseudoHtml.map((span) => {
 					return `<span style="${span.css.replace(
@@ -83,9 +119,7 @@ export const ZWaveLogs: React.FC = () => {
 						"color:#1e1e1e;background:",
 					)}">${span.text}</span>`;
 				});
-				setLogs(
-					(logs) => logs + (logs ? "<br />" : "") + spans.join(""),
-				);
+				addLog(spans.join(""));
 			}
 		},
 		[setLogs],
@@ -96,20 +130,14 @@ export const ZWaveLogs: React.FC = () => {
 	const subscribeLogs = React.useCallback(() => {
 		if (enabled) return;
 		api.subscribeLogs().then(() => {
-			setLogs(
-				(logs) =>
-					logs + (logs ? "<br />" : "") + _("Subscribed to logs..."),
-			);
+			addLog(_("Subscribed to logs..."));
 			setEnabled(true);
 		});
 	}, [api, enabled]);
 	const unsubscribeLogs = React.useCallback(() => {
 		if (!enabled) return;
 		api.unsubscribeLogs().then(() => {
-			setLogs(
-				(logs) =>
-					logs + (logs ? "<br />" : "") + _("Unsubscribed logs..."),
-			);
+			addLog(_("Unsubscribed logs..."));
 			setEnabled(false);
 		});
 	}, [api, enabled]);
@@ -123,7 +151,8 @@ export const ZWaveLogs: React.FC = () => {
 	const downloadLogs = React.useCallback(() => {
 		const element = document.createElement("a");
 		const plaintext = logs
-			.replace(/\<br.*?\>/gi, "\n")
+			.join("\n")
+			// .replace(/\<br.*?\>/gi, "\n")
 			.replace(/\<.*?\>/g, "");
 		const file = new Blob([plaintext], { type: "text/plain" });
 		element.href = URL.createObjectURL(file);
@@ -205,8 +234,19 @@ export const ZWaveLogs: React.FC = () => {
 				)}
 			</div>
 			<code className={classes.code}>
-				<pre dangerouslySetInnerHTML={{ __html: logs }}></pre>
-				{autoScroll && <AutoScroll />}
+				<AutoSizer>
+					{({ height, width }) => (
+						<Window
+							itemCount={logs.length}
+							itemSize={getLogHeight}
+							width={width}
+							height={height}
+							ref={windowRef}
+						>
+							{renderLog}
+						</Window>
+					)}
+				</AutoSizer>
 			</code>
 		</div>
 	);

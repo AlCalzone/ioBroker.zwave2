@@ -40,7 +40,7 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	Placeholder for next versions:
 	### __WORK IN PROGRESS__
 -->
-### 2.0.0-alpha.2 (2021-09-20)
+### __WORK IN PROGRESS__
 * **BREAKING:** Node.js `v12.22.2` is now the minimum
 * **BREAKING:** Reworked how endpoints and lifeline associations are handled. This solves reporting issues with many devices, but after a re-interview state IDs may change and some previously working devices may no longer report correctly. Please create an issue for every device that is affected by this.
 * Upgraded to `zwave-js` version `8.3.2`
