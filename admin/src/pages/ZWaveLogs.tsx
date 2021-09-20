@@ -19,22 +19,18 @@ import { VariableSizeList as Window } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import throttle from "lodash/throttle";
 
-// TODO: use variable-size react window
-// https://react-window.vercel.app/#/examples/list/variable-size
+const lineHeight = 18;
 
 const useStyles = makeStyles((theme) => ({
 	root: {
 		display: "flex",
+		height: "100%",
 		flexFlow: "column nowrap",
 		alignItems: "stretch",
 		gap: theme.spacing(2),
 	},
 	root_window: {
-		height: "100%",
 		padding: theme.spacing(2),
-	},
-	root_embedded: {
-		height: `calc(100% - ${theme.spacing(12)}px)`,
 	},
 	buttons: {
 		flex: "0 1 auto",
@@ -46,10 +42,14 @@ const useStyles = makeStyles((theme) => ({
 		flex: 1,
 		background: "#1e1e1e",
 		color: "#cccccc",
-		overflow: "auto",
-		padding: theme.spacing(2),
+		fontSize: "14px",
+		lineHeight: `${lineHeight}px`,
+		padding: theme.spacing(2, 0),
 		"& pre": {
 			margin: 0,
+			padding: theme.spacing(0, 2),
+			fontFamily: '"Fira Code", "Consolas", "Lucida Console", monospace',
+			// fontVariantLigatures: "normal",
 		},
 	},
 }));
@@ -65,7 +65,6 @@ export const ZWaveLogs: React.FC = () => {
 	const { instance } = useGlobals();
 
 	const windowRef = React.useRef<Window>(null);
-	// const rowHeights = React.useRef<Record<number, number>>({});
 
 	const [logs, setLogs] = React.useState<string[]>([]);
 	const addLog = (log: string) => {
@@ -73,28 +72,14 @@ export const ZWaveLogs: React.FC = () => {
 			return [...logs, log];
 		});
 	};
-	const getLogHeight = (index: number) => logs[index].split("\n").length * 20; //rowHeights.current?.[index] ?? 20;
-	// function setLogHeight(index: number, size: number) {
-	// 	windowRef.current?.resetAfterIndex(0);
-	// 	rowHeights.current = { ...rowHeights.current, [index]: size };
-	// }
+	const getLogHeight = (index: number) =>
+		logs[index].split("\n").length * lineHeight;
 
 	function renderLog({ index, style }) {
-		// const logRef = React.useRef<HTMLPreElement>(null);
 		const log = logs[index];
 
-		// React.useEffect(() => {
-		// 	if (logRef.current) {
-		// 		setLogHeight(index, logRef.current.clientHeight ?? 20);
-		// 	}
-		// }, [logRef]);
-
 		return (
-			<pre
-				style={style}
-				// ref={logRef}
-				dangerouslySetInnerHTML={{ __html: log }}
-			></pre>
+			<pre style={style} dangerouslySetInnerHTML={{ __html: log }}></pre>
 		);
 	}
 
@@ -151,10 +136,7 @@ export const ZWaveLogs: React.FC = () => {
 	// Enable downloading
 	const downloadLogs = React.useCallback(() => {
 		const element = document.createElement("a");
-		const plaintext = logs
-			.join("\n")
-			// .replace(/\<br.*?\>/gi, "\n")
-			.replace(/\<.*?\>/g, "");
+		const plaintext = logs.join("\n").replace(/\<.*?\>/g, "");
 		const file = new Blob([plaintext], { type: "text/plain" });
 		element.href = URL.createObjectURL(file);
 		element.download = `zwave_${new Date()
@@ -170,18 +152,13 @@ export const ZWaveLogs: React.FC = () => {
 		window.open(
 			"log_window.html",
 			`zwave_log_${instance}`,
-			"innerWidth=960,innerHeight=600",
+			"innerWidth=1040,innerHeight=600",
 		);
 	}, []);
 	const isWindow = window.name.startsWith("zwave_log_");
 
 	return (
-		<div
-			className={clsx(
-				classes.root,
-				isWindow ? classes.root_window : classes.root_embedded,
-			)}
-		>
+		<div className={clsx(classes.root, isWindow && classes.root_window)}>
 			<div className={classes.buttons}>
 				<ButtonGroup variant="contained" color="primary">
 					<Tooltip title={_("Start logging")}>
