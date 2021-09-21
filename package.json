@@ -117,7 +117,7 @@
     "lint:ts": "eslint --ext .ts src",
     "lint": "npm run lint:ts",
     "start": "NO_CACHE=true LOGLEVEL=debug node --inspect build/main.js --force --logs",
-    "translate": "translate-adapter",
+    "translate": "translate-adapter translate",
     "release": "release-script"
   },
   "nyc": {
