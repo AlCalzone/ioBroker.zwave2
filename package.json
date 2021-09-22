@@ -45,6 +45,7 @@
     "@alcalzone/release-script-plugin-iobroker": "~3.3.0",
     "@alcalzone/release-script-plugin-license": "~3.3.0",
     "@alcalzone/release-script-plugin-manual-review": "~3.3.1",
+    "@iobroker/adapter-dev": "^0.1.0",
     "@iobroker/socket-client": "^1.0.5",
     "@iobroker/testing": "^2.5.1",
     "@material-ui/core": "^4.12.3",
@@ -80,7 +81,6 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "estrella": "^1.4.1",
-    "gulp": "^4.0.2",
     "iobroker-react": "github:AlCalzone/iobroker-react",
     "lodash": "^4.17.21",
     "mocha": "^9.1.1",
@@ -117,6 +117,7 @@
     "lint:ts": "eslint --ext .ts src",
     "lint": "npm run lint:ts",
     "start": "NO_CACHE=true LOGLEVEL=debug node --inspect build/main.js --force --logs",
+    "translate": "translate-adapter translate",
     "release": "release-script"
   },
   "nyc": {

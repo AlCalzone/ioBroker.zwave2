@@ -168,7 +168,7 @@
       "common": {
         "role": "indicator",
         "name": "Whether the inclusion of nodes is active",
-        "type": "object",
+        "type": "boolean",
         "read": true,
         "write": false,
         "def": false
