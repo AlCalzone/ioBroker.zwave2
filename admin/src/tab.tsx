@@ -11,6 +11,7 @@ import { useI18n } from "iobroker-react/hooks";
 
 import { ErrorBoundary } from "react-error-boundary";
 import { ZWaveLogs } from "./pages/ZWaveLogs";
+import { useDevices } from "./lib/useDevices";
 
 function ErrorFallback({ error, resetErrorBoundary }) {
 	return (
@@ -39,15 +40,20 @@ const Root: React.FC = React.memo(() => {
 	const [value, setValue] = React.useState(0);
 	const { translate: _ } = useI18n();
 
-	// eslint-disable-next-line @typescript-eslint/ban-types
-	const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+	const handleTabChange = (
+		// eslint-disable-next-line @typescript-eslint/ban-types
+		event: React.ChangeEvent<{}>,
+		newValue: number,
+	) => {
 		setValue(newValue);
 	};
+
+	const [devices, updateDevices] = useDevices();
 
 	return (
 		<>
 			<AppBar position="static">
-				<Tabs value={value} onChange={handleChange}>
+				<Tabs value={value} onChange={handleTabChange}>
 					<Tab label={_("Devices")} />
 					<Tab label={_("Associations")} />
 					<Tab label={_("Z-Wave Logs")} />
@@ -56,12 +62,15 @@ const Root: React.FC = React.memo(() => {
 			</AppBar>
 			<TabPanel value={value} index={0}>
 				<ErrorBoundary FallbackComponent={ErrorFallback}>
-					<Devices />
+					<Devices devices={devices} />
 				</ErrorBoundary>
 			</TabPanel>
 			<TabPanel value={value} index={1}>
 				<ErrorBoundary FallbackComponent={ErrorFallback}>
-					<Associations />
+					<Associations
+						devices={devices}
+						updateDevices={updateDevices}
+					/>
 				</ErrorBoundary>
 			</TabPanel>
 			<TabPanel value={value} index={2}>

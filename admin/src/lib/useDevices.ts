@@ -17,11 +17,11 @@ const deviceReadyRegex = /Node_(\d+)\.ready$/;
 const deviceStatusRegex = /Node_(\d+)\.status$/;
 
 export function useDevices(): readonly [
-	Record<number, Device>,
+	Record<number, Device> | undefined,
 	() => Promise<void>,
 ] {
 	const connection = useConnection();
-	const [devices, setDevices] = React.useState<Record<number, Device>>({});
+	const [devices, setDevices] = React.useState<Record<number, Device>>();
 	const { namespace } = useGlobals();
 	const api = useAPI();
 
@@ -56,7 +56,7 @@ export function useDevices(): readonly [
 		const device = {} as Device;
 		await api.updateEndpointsAndAssociations(nodeId, device);
 		setDevices((devices) => {
-			const updatedDevice = devices[nodeId];
+			const updatedDevice = devices?.[nodeId];
 			if (updatedDevice) {
 				updatedDevice.endpoints = device.endpoints;
 				return {
@@ -77,7 +77,7 @@ export function useDevices(): readonly [
 			// A device's status was changed
 			const nodeId = parseInt(deviceStatusRegex.exec(id)![1], 10);
 			setDevices((devices) => {
-				const updatedDevice = devices[nodeId];
+				const updatedDevice = devices?.[nodeId];
 				if (updatedDevice) {
 					updatedDevice.status = state.val as any;
 					return {
@@ -92,7 +92,7 @@ export function useDevices(): readonly [
 			// A device's ready state was changed
 			const nodeId = parseInt(deviceReadyRegex.exec(id)![1], 10);
 			setDevices((devices) => {
-				const updatedDevice = devices[nodeId];
+				const updatedDevice = devices?.[nodeId];
 				if (updatedDevice) {
 					updatedDevice.ready = state.val as any;
 					// schedule an update of the associations

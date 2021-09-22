@@ -4,7 +4,6 @@ import {
 	InclusionExclusionStatus,
 	NetworkHealStatus,
 } from "../../../src/lib/shared";
-import { useDevices } from "../lib/useDevices";
 import { NotRunning } from "../components/Messages";
 import {
 	useIoBrokerState,
@@ -25,11 +24,14 @@ import {
 	InclusionExclusionStep,
 } from "../components/InclusionExclusionDialog";
 import { usePush } from "../lib/usePush";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
-// interface Inclusion
+export interface DevicesProps {
+	devices: Record<number, Device> | undefined;
+}
 
-export const Devices: React.FC = () => {
-	const [devices] = useDevices();
+export const Devices: React.FC<DevicesProps> = (props) => {
+	const { devices } = props;
 	const { alive: adapterRunning, connected: driverReady } = useAdapter();
 	const { namespace } = useGlobals();
 	const { translate: _ } = useI18n();
@@ -258,7 +260,10 @@ export const Devices: React.FC = () => {
 			inclusionStatus.type !== "done" &&
 			inclusionStatus.type !== "exclusionDone");
 
-	return adapterRunning && driverReady ? (
+	if (!adapterRunning || !driverReady) return <NotRunning />;
+	if (!devices) return <CircularProgress />;
+
+	return (
 		<>
 			{/* Action buttons */}
 			<DeviceActionButtons
@@ -299,7 +304,5 @@ export const Devices: React.FC = () => {
 				/>
 			)}
 		</>
-	) : (
-		<NotRunning />
 	);
 };

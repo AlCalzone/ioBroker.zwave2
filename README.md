@@ -40,6 +40,12 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	Placeholder for next versions:
 	### __WORK IN PROGRESS__
 -->
+### __WORK IN PROGRESS__
+* Fix: Don't display "no devices present" if they haven't been loaded yet
+* Fix: Eliminated loading time when switching between "Devices" and "Associations" in tab
+* Fix: Add missing german translation for "Set RF Region"
+* Fix: The Controller node was missing from the association target nodes
+
 ### 2.0.0 (2021-09-22)
 * **BREAKING:** Node.js `v12.22.2` is now the minimum
 * **BREAKING:** Reworked how endpoints and lifeline associations are handled. This solves reporting issues with many devices, but after a re-interview state IDs may change and some previously working devices may no longer report correctly. Please create an issue for every device that is affected by this.
