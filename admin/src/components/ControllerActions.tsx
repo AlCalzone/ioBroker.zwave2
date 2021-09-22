@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 	root: {
 		padding: theme.spacing(2, 0),
 		display: "grid",
-		gridTemplateColumns: "auto 1fr",
+		gridTemplateColumns: "minmax(auto, 300px) 1fr",
 		alignItems: "center",
 		columnGap: theme.spacing(4),
 		rowGap: theme.spacing(2),
