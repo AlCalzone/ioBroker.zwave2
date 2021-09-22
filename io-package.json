@@ -1,244 +1,249 @@
 {
-  "common": {
-    "name": "zwave2",
-    "version": "2.0.0",
-    "news": {
-      "2.0.0": {
-        "en": "**BREAKING:** Node.js `v12.22.2` is now the minimum\n**BREAKING:** Reworked how endpoints and lifeline associations are handled. This solves reporting issues with many devices, but after a re-interview state IDs may change and some previously working devices may no longer report correctly. Please create an issue for every device that is affected by this.\nUpgraded to `zwave-js` version `8.3.2`\nThe device management was moved from the adapter settings to an extra `Z-Wave` tab.\nAdded a viewer for Z-Wave logs\nSome config parameters now correctly offer `0/1` as options instead of `0/-1`\nFixed a bug where the cache file could be corrupted during a shutdown\nSupport for Security S2\nSupport for devices which use `Supervision CC` to send commands\nSupport for factory resetting the controller\nSupport for changing the region/frequency of the controller\nSupport for replacing failed nodes while keeping the ID\nSome fixes for firmware updates",
-        "de": "**BREAKING:** Node.js `v12.22.2` ist jetzt das Minimum\n**BREAKING:** Die Handhabung von Endpunkten und Lifeline-Zuordnungen wurde überarbeitet. Dies löst Meldeprobleme bei vielen Geräten, aber nach einer erneuten Befragung können sich die Status-IDs ändern und einige zuvor funktionierende Geräte melden möglicherweise nicht mehr korrekt. Bitte erstellen Sie für jedes betroffene Gerät ein Problem.\nAktualisiert auf `zwave-js`-Version `8.3.2`\nDie Geräteverwaltung wurde aus den Adaptereinstellungen in einen extra Reiter „Z-Wave“ verschoben.\nViewer für Z-Wave-Protokolle hinzugefügt\nEinige Konfigurationsparameter bieten jetzt korrekt `0/1` als Optionen anstelle von `0/-1`\nEs wurde ein Fehler behoben, bei dem die Cache-Datei beim Herunterfahren beschädigt werden konnte\nUnterstützung für Security S2\nUnterstützung für Geräte, die `Supervision CC` zum Senden von Befehlen verwenden\nUnterstützung für das Zurücksetzen des Controllers auf die Werkseinstellungen\nUnterstützung zum Ändern der Region/Frequenz des Controllers\nUnterstützung für das Ersetzen ausgefallener Knoten unter Beibehaltung der ID\nEinige Fixes für Firmware-Updates",
-        "ru": "** ПОВРЕЖДЕНИЕ: ** Node.js `v12.22.2` теперь минимальный\n** BREAKING: ** Переработано, как обрабатываются конечные точки и ассоциации жизненного пути. Это решает проблемы с отчетами для многих устройств, но после повторного интервью идентификаторы состояния могут измениться, и некоторые ранее работавшие устройства могут перестать правильно сообщать. Пожалуйста, создайте проблему для каждого устройства, на которое это влияет.\nОбновлен до `zwave-js` версии` 8.3.2`\nУправление устройством перенесено из настроек адаптера на дополнительную вкладку Z-Wave.\nДобавлен просмотрщик журналов Z-Wave\nНекоторые параметры конфигурации теперь правильно предлагают в качестве параметров `0 / 1` вместо` 0 / -1`.\nИсправлена ошибка, из-за которой файл кеша мог быть поврежден во время выключения.\nПоддержка Security S2\nПоддержка устройств, которые используют Supervision CC для отправки команд\nПоддержка заводских настроек контроллера\nПоддержка смены региона / частоты контроллера\nПоддержка замены вышедших из строя узлов с сохранением идентификатора\nНекоторые исправления для обновлений прошивки",
-        "pt": "** QUEBRANDO: ** Node.js `v12.22.2` agora é o mínimo\n** QUEBRANDO: ** Reformulado como os endpoints e associações de linha de vida são tratados. Isso resolve os problemas de relatório com muitos dispositivos, mas após uma nova entrevista, os IDs podem mudar e alguns dispositivos que funcionavam anteriormente podem não ser mais relatados corretamente. Crie um problema para cada dispositivo afetado por isso.\nAtualizado para `zwave-js` versão` 8.3.2`\nO gerenciamento do dispositivo foi movido das configurações do adaptador para uma guia extra `Z-Wave`.\nAdicionado um visualizador para registros Z-Wave\nAlguns parâmetros de configuração agora oferecem corretamente `0 / 1` como opções em vez de` 0 / -1`\nCorrigido um bug em que o arquivo de cache poderia ser corrompido durante um desligamento\nSuporte para Segurança S2\nSuporte para dispositivos que usam `Supervision CC` para enviar comandos\nSuporte para redefinição de fábrica do controlador\nSuporte para alterar a região / frequência do controlador\nSuporte para substituição de nós com falha, mantendo o ID\nAlgumas correções para atualizações de firmware",
-        "nl": "**BREAKING:** Node.js `v12.22.2` is nu het minimum\n**BREAKING:** Herwerkt hoe endpoints en lifeline-associaties worden behandeld. Dit lost rapportageproblemen met veel apparaten op, maar na een nieuw interview kunnen status-ID's veranderen en sommige eerder werkende apparaten rapporteren mogelijk niet meer correct. Maak een probleem aan voor elk apparaat dat hierdoor wordt getroffen.\nOpgewaardeerd naar `zwave-js` versie `8.3.2`\nHet apparaatbeheer is verplaatst van de adapterinstellingen naar een extra 'Z-Wave'-tabblad.\nEen viewer toegevoegd voor Z-Wave logs\nSommige configuratieparameters bieden nu correct `0/1` als opties in plaats van `0/-1`\nEen bug opgelost waarbij het cachebestand beschadigd kon raken tijdens het afsluiten\nOndersteuning voor Beveiliging S2\nOndersteuning voor apparaten die `Supervision CC` gebruiken om opdrachten te verzenden\nOndersteuning voor het terugzetten naar de fabrieksinstellingen van de controller\nOndersteuning voor het wijzigen van de regio/frequentie van de controller\nOndersteuning voor het vervangen van defecte nodes met behoud van de ID\nEnkele oplossingen voor firmware-updates",
-        "fr": "**BREAKING :** Node.js `v12.22.2` est maintenant le minimum\n**BREAKING :** Remaniement de la gestion des points de terminaison et des associations de lignes de vie. Cela résout les problèmes de signalement avec de nombreux appareils, mais après un nouvel entretien, les ID d'état peuvent changer et certains appareils fonctionnant auparavant peuvent ne plus signaler correctement. Veuillez créer un problème pour chaque appareil concerné par cela.\nMise à niveau vers `zwave-js` version `8.3.2`\nLa gestion des périphériques a été déplacée des paramètres de l'adaptateur vers un onglet supplémentaire « Z-Wave ».\nAjout d'une visionneuse pour les journaux Z-Wave\nCertains paramètres de configuration proposent désormais correctement « 0/1 » comme options au lieu de « 0/-1 »\nCorrection d'un bug où le fichier de cache pouvait être corrompu lors d'un arrêt\nPrise en charge de la sécurité S2\nPrise en charge des appareils qui utilisent « Supervision CC » pour envoyer des commandes\nPrise en charge de la réinitialisation d'usine du contrôleur\nPrise en charge du changement de région/fréquence du contrôleur\nPrise en charge du remplacement des nœuds défaillants tout en conservant l'ID\nQuelques correctifs pour les mises à jour du firmware",
-        "it": "**INTERRUZIONE:** Node.js `v12.22.2` è ora il minimo\n**INTERRUZIONE:** Rielaborato il modo in cui vengono gestiti gli endpoint e le associazioni delle linee di vita. Ciò risolve i problemi di segnalazione con molti dispositivi, ma dopo una nuova intervista gli ID di stato potrebbero cambiare e alcuni dispositivi precedentemente funzionanti potrebbero non segnalare più correttamente. Si prega di creare un problema per ogni dispositivo interessato da questo problema.\nAggiornato alla versione `zwave-js` `8.3.2`\nLa gestione del dispositivo è stata spostata dalle impostazioni dell'adattatore a una scheda aggiuntiva \"Z-Wave\".\nAggiunto un visualizzatore per i log Z-Wave\nAlcuni parametri di configurazione ora offrono correttamente \"0/1\" come opzioni invece di \"0/-1\"\nRisolto un bug in cui il file della cache poteva essere danneggiato durante un arresto\nSupporto per la sicurezza S2\nSupporto per dispositivi che utilizzano `Supervision CC` per inviare comandi\nSupporto per il ripristino delle impostazioni di fabbrica del controller\nSupporto per la modifica della regione/frequenza del controller\nSupporto per la sostituzione dei nodi guasti mantenendo l'ID\nAlcune correzioni per gli aggiornamenti del firmware",
-        "es": "** ROMPIENDO: ** Node.js `v12.22.2` es ahora el mínimo\n** ROMPIENDO: ** Se modificó la forma en que se manejan los puntos finales y las asociaciones de líneas de vida. Esto resuelve problemas de informes con muchos dispositivos, pero después de una nueva entrevista, las ID de estado pueden cambiar y es posible que algunos dispositivos que funcionaban anteriormente ya no informen correctamente. Cree un problema para cada dispositivo afectado por esto.\nActualizado a la versión de `zwave-js` 8.3.2`\nLa administración del dispositivo se movió de la configuración del adaptador a una pestaña adicional \"Z-Wave\".\nSe agregó un visor para registros de Z-Wave.\nAlgunos parámetros de configuración ahora ofrecen correctamente `0 / 1` como opciones en lugar de` 0 / -1`\nSe corrigió un error por el cual el archivo de caché podría dañarse durante un apagado\nSoporte para Security S2\nSoporte para dispositivos que usan `Supervision CC` para enviar comandos\nSoporte para restablecer el controlador de fábrica\nSoporte para cambiar la región / frecuencia del controlador\nSoporte para reemplazar nodos fallidos manteniendo la identificación\nAlgunas correcciones para las actualizaciones de firmware",
-        "pl": "**BREAKING:** Node.js `v12.22.2` to teraz minimum\n**BREAKING:** Zmieniono sposób obsługi punktów końcowych i asocjacji linii życia. Rozwiązuje to problemy z raportowaniem na wielu urządzeniach, ale po ponownym przesłuchaniu identyfikatory stanu mogą się zmienić, a niektóre wcześniej działające urządzenia mogą nie zgłaszać się poprawnie. Utwórz problem dla każdego urządzenia, którego to dotyczy.\nZaktualizowano do `zwave-js` w wersji `8.3.2`\nZarządzanie urządzeniem zostało przeniesione z ustawień adaptera do dodatkowej zakładki `Z-Wave`.\nDodano przeglądarkę dzienników Z-Wave\nNiektóre parametry konfiguracyjne teraz poprawnie oferują `0/1` jako opcje zamiast `0/-1`\nNaprawiono błąd, w którym plik pamięci podręcznej mógł zostać uszkodzony podczas wyłączania\nWsparcie dla bezpieczeństwa S2\nWsparcie dla urządzeń używających `Nadzór CC` do wysyłania poleceń\nWsparcie dla przywracania ustawień fabrycznych kontrolera\nWsparcie dla zmiany regionu/częstotliwości kontrolera\nObsługa wymiany uszkodzonych węzłów przy zachowaniu identyfikatora\nNiektóre poprawki dotyczące aktualizacji oprogramowania układowego",
-        "zh-cn": "**打破：** Node.js `v12.22.2` 现在是最低要求\n** BREAKING：** 重新设计了端点和生命线关联的处理方式。这解决了许多设备的报告问题，但在重新访问后状态 ID 可能会发生变化，并且一些以前工作的设备可能不再正确报告。请为每个受此影响的设备创建一个问题。\n升级到`zwave-js` 版本`8.3.2`\n设备管理已从适配器设置移至额外的“Z-Wave”选项卡。\n添加了 Z-Wave 日志查看器\n一些配置参数现在正确地提供“0/1”作为选项而不是“0/-1”\n修复了在关机期间缓存文件可能损坏的错误\n支持安全 S2\n支持使用“Supervision CC”发送命令的设备\n支持控制器恢复出厂设置\n支持改变控制器的区域/频率\n支持在保留 ID 的同时替换故障节点\n固件更新的一些修复"
-      },
-      "1.10.4": {
-        "en": "Fixed a bug where the daily config update check would cause a lot of internet traffic for an hour",
-        "de": "Es wurde ein Fehler behoben, bei dem die tägliche Überprüfung der Konfigurationsaktualisierungen eine Stunde lang viel Internetverkehr verursachte",
-        "ru": "Исправлена ошибка, из-за которой ежедневная проверка обновлений конфигурации вызывала большой интернет-трафик в течение часа.",
-        "pt": "Corrigido um bug em que a verificação diária de atualização de configuração causava muito tráfego na Internet por uma hora",
-        "nl": "Een bug opgelost waarbij de dagelijkse controle van de configuratie-update een uur lang veel internetverkeer zou veroorzaken",
-        "fr": "Correction d'un bug où la vérification quotidienne de la mise à jour de la configuration provoquait beaucoup de trafic Internet pendant une heure",
-        "it": "Risolto un bug per cui il controllo giornaliero dell'aggiornamento della configurazione causava molto traffico Internet per un'ora",
-        "es": "Se corrigió un error por el cual la verificación diaria de actualización de la configuración causaba mucho tráfico de Internet durante una hora",
-        "pl": "Naprawiono błąd, w którym codzienne sprawdzanie aktualizacji konfiguracji powodowało duży ruch w Internecie przez godzinę",
-        "zh-cn": "修复了每日配置更新检查会导致一个小时的大量互联网流量的错误"
-      },
-      "1.10.3": {
-        "en": "Upgraded to `zwave-js` version `7.12.0`. Notable changes include:\n* Further improved handling of the legacy `alarmType` and `alarmLevel` values under some circumstances\n* Improved support for Aeotec firmware updaters\n* Nodes are no longer sent to sleep while a value change is planned to be verified\n* Hardened the checks to prevent simultaneous write-accesses for the cache files\n* The adapter should now be restarted when the serial connection is disconnected\n* Fixed a bug where associatiations on endpoints had incorrect labels\n* Updated dependencies\n* Tons of new and improved config files",
-        "de": "Auf `zwave-js`-Version `7.12.0` aktualisiert. Zu den bemerkenswerten Änderungen gehören:\n* Weiter verbesserte Handhabung der Legacy-Werte `alarmType` und `alarmLevel` unter Umständen\n* Verbesserte Unterstützung für Aeotec Firmware-Updater\n* Knoten werden nicht mehr in den Ruhezustand versetzt, während eine Wertänderung überprüft werden soll\n* Die Prüfungen wurden gehärtet, um gleichzeitige Schreibzugriffe auf die Cache-Dateien zu verhindern\n* Der Adapter sollte jetzt neu gestartet werden, wenn die serielle Verbindung getrennt wird\n* Es wurde ein Fehler behoben, bei dem Verknüpfungen auf Endpunkten falsche Beschriftungen hatten\n* Aktualisierte Abhängigkeiten\n* Tonnenweise neue und verbesserte Konfigurationsdateien",
-        "ru": "Обновлен до `zwave-js` версии` 7.12.0`. Заметные изменения включают:\n* Дальнейшее улучшение обработки устаревших значений «alarmType» и «alarmLevel» при некоторых обстоятельствах.\n* Улучшена поддержка обновлений прошивки Aeotec.\n* Узлы больше не отправляются в спящий режим, в то время как изменение значения планируется проверить\n* Усилены проверки для предотвращения одновременного доступа для записи к файлам кеша.\n* Теперь адаптер должен быть перезапущен при отключении последовательного соединения.\n* Исправлена ошибка, из-за которой ассоциации на конечных точках имели неправильные метки\n* Обновлены зависимости\n* Тонны новых и улучшенных файлов конфигурации",
-        "pt": "Atualizado para `zwave-js` versão` 7.12.0`. Mudanças notáveis incluem:\n* Tratamento aprimorado ainda mais dos valores legados de `alarmType` e` alarmLevel` em algumas circunstâncias\n* Suporte aprimorado para atualizadores de firmware Aeotec\n* Os nós não são mais enviados para hibernar enquanto uma alteração de valor está planejada para ser verificada\n* Endureceu as verificações para evitar acessos de gravação simultâneos para os arquivos de cache\n* O adaptador agora deve ser reiniciado quando a conexão serial for desconectada\n* Corrigido um bug em que as associações em endpoints tinham rótulos incorretos\n* Dependências atualizadas\n* Toneladas de arquivos de configuração novos e aprimorados",
-        "nl": "Opgewaardeerd naar `zwave-js` versie `7.12.0`. Opmerkelijke veranderingen zijn onder meer:\n* Onder bepaalde omstandigheden verder verbeterde verwerking van de legacy `alarmType` en `alarmLevel`-waarden\n* Verbeterde ondersteuning voor Aeotec firmware-updaters\n* Nodes worden niet langer in slaapstand gestuurd terwijl een waardewijziging gepland is om te worden geverifieerd\n* Verscherpte controles om gelijktijdige schrijftoegang voor de cachebestanden te voorkomen\n* De adapter moet nu opnieuw worden opgestart wanneer de seriële verbinding wordt verbroken\n* Een bug opgelost waarbij associaties op eindpunten onjuiste labels hadden\n* Bijgewerkte afhankelijkheden\n* Talloze nieuwe en verbeterde configuratiebestanden",
-        "fr": "Mise à niveau vers `zwave-js` version `7.12.0`. Les changements notables incluent :\n* Gestion encore améliorée des valeurs héritées `alarmType` et `alarmLevel` dans certaines circonstances\n* Prise en charge améliorée des mises à jour du micrologiciel Aeotec\n* Les nœuds ne sont plus mis en veille alors qu'un changement de valeur est prévu pour être vérifié\n* Renforcement des contrôles pour empêcher les accès en écriture simultanés pour les fichiers de cache\n* L'adaptateur doit maintenant être redémarré lorsque la connexion série est déconnectée\n* Correction d'un bug où les associations sur les points de terminaison avaient des étiquettes incorrectes\n* Dépendances mises à jour\n* Des tonnes de fichiers de configuration nouveaux et améliorés",
-        "it": "Aggiornato alla versione `zwave-js` `7.12.0`. I cambiamenti notevoli includono:\n* Ulteriormente migliorata la gestione dei valori legacy `alarmType` e `alarmLevel` in alcune circostanze\n* Supporto migliorato per gli aggiornamenti del firmware Aeotec\n* I nodi non vengono più messi in sospensione mentre è pianificata la verifica di una modifica del valore\n* Rafforzati i controlli per impedire accessi in scrittura simultanei per i file della cache\n* L'adattatore dovrebbe ora essere riavviato quando la connessione seriale viene disconnessa\n* Risolto un bug per cui le associazioni sugli endpoint avevano etichette errate\n* Dipendenze aggiornate\n* Tonnellate di file di configurazione nuovi e migliorati",
-        "es": "Actualizado a `zwave-js` versión` 7.12.0`. Los cambios notables incluyen:\n* Manejo aún más mejorado de los valores heredados de `alarmType` y` alarmLevel` en algunas circunstancias\n* Soporte mejorado para actualizadores de firmware Aeotec\n* Los nodos ya no se envían a dormir mientras se planea verificar un cambio de valor\n* Endureció las comprobaciones para evitar accesos de escritura simultáneos para los archivos de caché\n* El adaptador ahora debe reiniciarse cuando se desconecta la conexión en serie\n* Se corrigió un error por el cual las asociaciones en los puntos finales tenían etiquetas incorrectas.\n* Dependencias actualizadas\n* Toneladas de archivos de configuración nuevos y mejorados",
-        "pl": "Zaktualizowano do wersji `zwave-js` 7.12.0`. Godne uwagi zmiany obejmują:\n* Dalsza poprawa obsługi starszych wartości `alarmType` i `alarmLevel` w pewnych okolicznościach\n* Ulepszona obsługa aktualizacji oprogramowania Aeotec\n* Węzły nie są już wysyłane w stan uśpienia, podczas gdy planowana jest weryfikacja zmiany wartości\n* Wzmocniono kontrole, aby zapobiec jednoczesnemu dostępowi do zapisu dla plików pamięci podręcznej\n* Adapter powinien zostać ponownie uruchomiony po rozłączeniu połączenia szeregowego\n* Naprawiono błąd, w którym skojarzenia na punktach końcowych miały nieprawidłowe etykiety\n* Zaktualizowane zależności\n* Mnóstwo nowych i ulepszonych plików konfiguracyjnych",
-        "zh-cn": "升级到 `zwave-js` 版本 `7.12.0`。显着的变化包括：\n* 在某些情况下进一步改进了对旧版 `alarmType` 和 `alarmLevel` 值的处理\n* 改进了对 Aeotec 固件更新程序的支持\n* 当计划验证值更改时，节点不再被发送到休眠状态\n* 强化检查以防止同时对缓存文件进行写访问\n* 现在应该在串行连接断开时重新启动适配器\n* 修复了端点关联标签不正确的错误\n* 更新依赖\n* 大量新的和改进的配置文件"
-      },
-      "1.10.2": {
-        "en": "Upgraded to `zwave-js` version `7.7.3`. Notable changes include:\n* Improved how dropped invalid messages are logged in the Z-Wave logfile\n* Improved handling of the legacy `alarmType` and `alarmLevel` values under some circumstances\n* Improved handling of notification values for devices that support `Notification CC` version 2\n* Improved how some devices with incorrect capability reports are queried\n* Endpoints of multi channel devices should now always be queried with the correct CC version\n* Throttled some automatic queries\n* Avoid a situation where multiple instances of the adapter try to access the same cache files, potentially corrupting them\n* Improved behavior of secure communication when transmission failures are involved\n* Several new and improved config files",
-        "de": "Auf `zwave-js`-Version `7.7.3` aktualisiert. Zu den bemerkenswerten Änderungen gehören:\n* Verbesserte Protokollierung ungültiger Nachrichten in der Z-Wave-Logdatei\n* Verbesserte Handhabung der Legacy-Werte `alarmType` und `alarmLevel` unter bestimmten Umständen\n* Verbesserte Handhabung von Benachrichtigungswerten für Geräte, die `Notification CC` Version 2 unterstützen\n* Verbessert, wie einige Geräte mit falschen Fähigkeitsberichten abgefragt werden\n* Endpunkte von Mehrkanalgeräten sollten nun immer mit der richtigen CC-Version abgefragt werden\n* Einige automatische Abfragen gedrosselt\n* Vermeiden Sie Situationen, in denen mehrere Instanzen des Adapters versuchen, auf dieselben Cache-Dateien zuzugreifen und diese möglicherweise beschädigen\n* Verbessertes Verhalten der sicheren Kommunikation bei Übertragungsfehlern\n* Mehrere neue und verbesserte Konfigurationsdateien",
-        "ru": "Обновлен до `zwave-js` версии` 7.7.3`. Заметные изменения включают:\n* Улучшен способ записи сброшенных недопустимых сообщений в файл журнала Z-Wave.\n* Улучшена обработка устаревших значений «alarmType» и «alarmLevel» при некоторых обстоятельствах.\n* Улучшена обработка значений уведомлений для устройств, поддерживающих Notification CC версии 2.\n* Улучшен способ запроса некоторых устройств с неверными отчетами о возможностях.\n* Конечные точки многоканальных устройств теперь всегда должны запрашиваться с правильной версией CC\n* Задросселированы некоторые автоматические запросы\n* Избегайте ситуаций, когда несколько экземпляров адаптера пытаются получить доступ к одним и тем же файлам кеша, потенциально повреждая их\n* Улучшено поведение безопасной связи при сбоях передачи\n* Несколько новых и улучшенных файлов конфигурации",
-        "pt": "Atualizado para `zwave-js` versão` 7.7.3`. Mudanças notáveis incluem:\n* Melhorou a forma como as mensagens inválidas descartadas são registradas no arquivo de registro Z-Wave\n* Manuseio aprimorado dos valores legados `alarmType` e` alarmLevel` em algumas circunstâncias\n* Manuseio aprimorado de valores de notificação para dispositivos que suportam `Notificação CC` versão 2\n* Melhorada a forma como alguns dispositivos com relatórios de capacidade incorretos são consultados\n* Os pontos finais de dispositivos multicanais agora devem ser sempre consultados com a versão CC correta\n* Limitou algumas consultas automáticas\n* Evite uma situação em que várias instâncias do adaptador tentem acessar os mesmos arquivos de cache, potencialmente corrompendo-os\n* Melhor comportamento de comunicação segura quando falhas de transmissão estão envolvidas\n* Vários arquivos de configuração novos e aprimorados",
-        "nl": "Opgewaardeerd naar `zwave-js` versie `7.7.3`. Opmerkelijke veranderingen zijn onder meer:\n* Verbeterde manier waarop ongeldige berichten worden gelogd in het Z-Wave-logbestand\n* Verbeterde verwerking van de legacy `alarmType` en `alarmLevel` waarden onder bepaalde omstandigheden\n* Verbeterde verwerking van meldingswaarden voor apparaten die 'Notification CC'-versie 2 ondersteunen\n* Verbeterde manier waarop sommige apparaten met onjuiste capaciteitsrapporten worden opgevraagd\n* Eindpunten van apparaten met meerdere kanalen moeten nu altijd worden opgevraagd met de juiste CC-versie\n* Enkele automatische zoekopdrachten beperkt\n* Voorkom een situatie waarin meerdere instanties van de adapter toegang proberen te krijgen tot dezelfde cachebestanden, waardoor ze mogelijk beschadigd raken\n* Verbeterd gedrag van beveiligde communicatie wanneer er sprake is van transmissiefouten\n* Verschillende nieuwe en verbeterde configuratiebestanden",
-        "fr": "Mise à niveau vers la version « 7.7.3 » de `zwave-js`. Les changements notables incluent :\n* Amélioration de la façon dont les messages non valides supprimés sont enregistrés dans le fichier journal Z-Wave\n* Amélioration de la gestion des valeurs héritées `alarmType` et `alarmLevel` dans certaines circonstances\n* Amélioration de la gestion des valeurs de notification pour les appareils prenant en charge `Notification CC` version 2\n* Amélioration de la façon dont certains appareils avec des rapports de capacité incorrects sont interrogés\n* Les points de terminaison des appareils multicanaux doivent désormais toujours être interrogés avec la bonne version CC\n* Limitation de certaines requêtes automatiques\n* Évitez une situation où plusieurs instances de l'adaptateur tentent d'accéder aux mêmes fichiers de cache, les corrompant potentiellement\n* Amélioration du comportement de la communication sécurisée lorsque des échecs de transmission sont impliqués\n* Plusieurs fichiers de configuration nouveaux et améliorés",
-        "it": "Aggiornato alla versione `zwave-js` `7.7.3`. I cambiamenti notevoli includono:\n* Migliorato il modo in cui i messaggi non validi eliminati vengono registrati nel file di registro Z-Wave\n* Migliorata la gestione dei valori legacy `alarmType` e `alarmLevel` in alcune circostanze\n* Migliorata la gestione dei valori di notifica per i dispositivi che supportano \"Notifica CC\" versione 2\n* Migliorato il modo in cui vengono interrogati alcuni dispositivi con rapporti di capacità errati\n* Gli endpoint dei dispositivi multicanale dovrebbero ora essere sempre interrogati con la versione CC corretta\n* Limitate alcune query automatiche\n* Evita una situazione in cui più istanze dell'adattatore tentano di accedere agli stessi file di cache, potenzialmente danneggiandoli\n* Miglioramento del comportamento della comunicazione sicura quando sono coinvolti errori di trasmissione\n* Diversi file di configurazione nuovi e migliorati",
-        "es": "Actualizado a `zwave-js` versión` 7.7.3`. Los cambios notables incluyen:\n* Se mejoró la forma en que se registran los mensajes no válidos caídos en el archivo de registro de Z-Wave\n* Manejo mejorado de los valores heredados de `alarmType` y` alarmLevel` en algunas circunstancias\n* Manejo mejorado de los valores de notificación para dispositivos que admiten la versión 2 de `Notification CC`\n* Se mejoró la forma en que se consultan algunos dispositivos con informes de capacidad incorrectos\n* Los puntos finales de dispositivos multicanal ahora siempre deben consultarse con la versión CC correcta\n* Acelerado algunas consultas automáticas\n* Evite una situación en la que varias instancias del adaptador intenten acceder a los mismos archivos de caché, corrompiéndolos potencialmente\n* Comportamiento mejorado de la comunicación segura cuando hay fallas de transmisión involucradas\n* Varios archivos de configuración nuevos y mejorados",
-        "pl": "Zaktualizowano do wersji `zwave-js` 7.7.3`. Godne uwagi zmiany obejmują:\n* Poprawiono sposób, w jaki usunięte nieprawidłowe wiadomości są rejestrowane w pliku dziennika Z-Waveave\n* Ulepszona obsługa starszych wartości `alarmType` i `alarmLevel` w pewnych okolicznościach\n* Ulepszona obsługa wartości powiadomień dla urządzeń obsługujących `Notification CC` w wersji 2\n* Poprawiono sposób odpytywania niektórych urządzeń z nieprawidłowymi raportami o możliwościach\n* Punkty końcowe urządzeń wielokanałowych powinny być teraz zawsze odpytywane z poprawną wersją CC\n* Ograniczono niektóre automatyczne zapytania\n* Unikaj sytuacji, w których wiele instancji adaptera próbuje uzyskać dostęp do tych samych plików pamięci podręcznej, potencjalnie je uszkadzając\n* Ulepszone zachowanie bezpiecznej komunikacji w przypadku awarii transmisji\n* Kilka nowych i ulepszonych plików konfiguracyjnych",
-        "zh-cn": "升级到 `zwave-js` 版本 `7.7.3`。显着的变化包括：\n* 改进了在 Z-Wave 日志文件中记录丢弃的无效消息的方式\n* 在某些情况下改进了对旧版 `alarmType` 和 `alarmLevel` 值的处理\n* 改进了对支持“Notification CC”版本 2 的设备的通知值的处理\n* 改进了查询某些功能报告不正确的设备的方式\n* 现在应始终使用正确的 CC 版本查询多通道设备的端点\n* 限制了一些自动查询\n* 避免适配器的多个实例尝试访问相同的缓存文件，从而可能损坏它们的情况\n* 在涉及传输失败时改进了安全通信的行为\n* 几个新的和改进的配置文件"
-      },
-      "1.10.1": {
-        "en": "Removed some warnings about wrong state value types in JS-Controller 3.3\nUpgraded to `zwave-js` version `7.5.1`. Notable changes include:\n* Improved stability\n* Improved healing strategy\n* Several config file changes",
-        "de": "Einige Warnungen zu falschen Statuswerttypen in JS-Controller 3.3 wurden entfernt\nUpgrade auf `zwave-js` Version` 7.5.1`. Bemerkenswerte Änderungen umfassen:\n* Verbesserte Stabilität\n* Verbesserte Heilungsstrategie\n* Mehrere Änderungen an der Konfigurationsdatei",
-        "ru": "Удалены некоторые предупреждения о неправильных типах значений состояния в JS-Controller 3.3.\nОбновлен до `zwave-js` версии` 7.5.1`. Заметные изменения включают:\n* Повышена стабильность\n* Улучшенная стратегия исцеления\n* Несколько изменений конфигурационного файла",
-        "pt": "Removidos alguns avisos sobre tipos de valor de estado incorretos no JS-Controller 3.3\nAtualizado para `zwave-js` versão` 7.5.1`. Mudanças notáveis incluem:\n* Estabilidade aprimorada\n* Estratégia de cura aprimorada\n* Várias mudanças no arquivo de configuração",
-        "nl": "Enkele waarschuwingen verwijderd over verkeerde statuswaardetypes in JS-Controller 3.3\nOpgewaardeerd naar `zwave-js` versie` 7.5.1`. Opmerkelijke veranderingen zijn onder meer:\n* Verbeterde stabiliteit\n* Verbeterde genezingsstrategie\n* Verschillende wijzigingen in het configuratiebestand",
-        "fr": "Suppression de certains avertissements concernant les types de valeurs d'état incorrects dans JS-Controller 3.3\nMise à jour vers la version `7.5.1` de` zwave-js`. Les changements notables incluent:\n* Amélioration de la stabilité\n* Stratégie de guérison améliorée\n* Plusieurs changements de fichier de configuration",
-        "it": "Rimossi alcuni avvisi sui tipi di valore di stato errati in JS-Controller 3.3\nAggiornato alla versione `zwave-js`` 7.5.1`. Notevoli cambiamenti includono:\n* Migliore stabilità\n* Strategia di guarigione migliorata\n* Diverse modifiche al file di configurazione",
-        "es": "Se eliminaron algunas advertencias sobre tipos de valores de estado incorrectos en JS-Controller 3.3\nActualizado a la versión `7.5.1` de` zwave-js`. Los cambios notables incluyen:\n* Estabilidad mejorada\n* Estrategia de curación mejorada\n* Varios cambios en el archivo de configuración",
-        "pl": "Usunięto niektóre ostrzeżenia o błędnych typach wartości stanu w JS-Controller 3.3\nZaktualizowano do wersji „zwave-js” „7.5.1”. Istotne zmiany obejmują:\n* Poprawiona stabilność\n* Ulepszona strategia leczenia\n* Kilka zmian w pliku konfiguracyjnym",
-        "zh-cn": "删除了有关JS-Controller 3.3中错误的状态值类型的一些警告\n升级到`zwave-js`版本`7.5.1`。显着的变化包括：\n*提高稳定性\n*改善治疗策略\n*几个配置文件更改"
-      }
-    },
-    "title": "Z-Wave 2",
-    "titleLang": {
-      "en": "Z-Wave 2",
-      "de": "Z-Wave 2",
-      "ru": "Z-Wave 2",
-      "pt": "Z-Wave 2",
-      "nl": "Z-Wave 2",
-      "fr": "Z-Wave 2",
-      "it": "Z-Wave 2",
-      "es": "Z-Wave 2",
-      "pl": "Z-Wave 2",
-      "zh-cn": "Z-Wave 2"
-    },
-    "desc": {
-      "en": "The better Z-Wave integration",
-      "de": "Die bessere Z-Wave-Integration",
-      "ru": "Лучшая интеграция Z-Wave",
-      "pt": "A melhor integração do Z-Wave",
-      "nl": "De betere Z-Wave-integratie",
-      "fr": "La meilleure intégration Z-Wave",
-      "it": "La migliore integrazione di Z-Wave",
-      "es": "La mejor integración de Z-Wave",
-      "pl": "Lepsza integracja Z-Wave",
-      "zh-cn": "更好的Z-Wave集成"
-    },
-    "authors": [
-      "AlCalzone <d.griesel@gmx.net>"
-    ],
-    "keywords": [
-      "zwave",
-      "z-wave",
-      "zwave2",
-      "z-wave 2"
-    ],
-    "license": "MIT",
-    "platform": "Javascript/Node.js",
-    "main": "build/main.js",
-    "icon": "zwave2.svg",
-    "enabled": true,
-    "dataFolder": "zwave2.%INSTANCE%",
-    "extIcon": "https://raw.githubusercontent.com/AlCalzone/ioBroker.zwave2/master/admin/zwave2.svg?sanitize=true",
-    "readme": "https://github.com/AlCalzone/ioBroker.zwave2/blob/master/README.md",
-    "loglevel": "info",
-    "mode": "daemon",
-    "type": "hardware",
-    "compact": true,
-    "materialize": true,
-    "materializeTab": true,
-    "adminTab": {
-      "name": {
-        "en": "Z-Wave",
-        "de": "Z-Wave"
-      },
-      "link": "",
-      "fa-icon": "wifi"
-    },
-    "messagebox": true,
-    "connectionType": "local",
-    "dataSource": "push",
-    "dependencies": [
-      {
-        "js-controller": ">=2.0.0"
-      }
-    ]
-  },
-  "native": {
-    "serialport": "",
-    "writeLogFile": false,
-    "networkKey": "",
-    "driver_increaseTimeouts": false,
-    "driver_increaseSendAttempts": false,
-    "switchCompat": false,
-    "preserveStateNames": false,
-    "notificationEventValidity": 1000
-  },
-  "objects": [],
-  "instanceObjects": [
-    {
-      "_id": "info",
-      "type": "channel",
-      "common": {
-        "name": "Information"
-      },
-      "native": {}
-    },
-    {
-      "_id": "info.connection",
-      "type": "state",
-      "common": {
-        "role": "indicator.connected",
-        "name": "Whether the Z-Wave driver is ready",
-        "type": "boolean",
-        "read": true,
-        "write": false,
-        "def": false
-      },
-      "native": {}
-    },
-    {
-      "_id": "info.inclusion",
-      "type": "state",
-      "common": {
-        "role": "indicator",
-        "name": "Whether the inclusion of nodes is active",
-        "type": "boolean",
-        "read": true,
-        "write": false,
-        "def": false
-      },
-      "native": {}
-    },
-    {
-      "_id": "info.exclusion",
-      "type": "state",
-      "common": {
-        "role": "state",
-        "name": "Whether the exclusion of nodes is active",
-        "type": "boolean",
-        "read": true,
-        "write": true,
-        "def": false
-      },
-      "native": {}
-    },
-    {
-      "_id": "info.healingNetwork",
-      "type": "state",
-      "common": {
-        "role": "state",
-        "name": "Whether a network heal is currently in progress",
-        "type": "boolean",
-        "read": true,
-        "write": false,
-        "def": false
-      },
-      "native": {}
-    },
-    {
-      "_id": "info.configVersion",
-      "type": "state",
-      "common": {
-        "role": "state",
-        "name": "The installed version of the Z-Wave JS configuration DB",
-        "type": "string",
-        "read": true,
-        "write": false,
-        "def": false
-      },
-      "native": {}
-    },
-    {
-      "_id": "info.configUpdate",
-      "type": "state",
-      "common": {
-        "role": "state",
-        "name": "The version of an available update for the Z-Wave JS configuration DB",
-        "type": "string",
-        "read": true,
-        "write": false,
-        "def": false
-      },
-      "native": {}
-    },
-    {
-      "_id": "info.configUpdating",
-      "type": "state",
-      "common": {
-        "role": "state",
-        "name": "Whether the adapter is currently updating the Z-Wave JS configuration DB",
-        "type": "boolean",
-        "read": true,
-        "write": false,
-        "def": false
-      },
-      "native": {}
-    }
-  ]
+	"common": {
+		"name": "zwave2",
+		"version": "2.0.1",
+		"news": {
+			"2.0.1": {
+				"en": "Fix: Don't display \"no devices present\" if they haven't been loaded yet\nFix: Eliminated loading time when switching between \"Devices\" and \"Associations\" in tab\nFix: Add missing german translation for \"Set RF Region\"\nFix: The Controller node was missing from the association target nodes",
+				"de": "* Fix: Es wird nicht mehr \"keine Geräte vorhanden\" angezeigt, wenn sie noch nicht geladen wurden\n* Fix: Ladezeit beim Umschalten zwischen \"Geräte\" und \"Verknüpfungen\" im Tab eliminiert\n* Fix: Fehlende deutsche Übersetzung für \"Set RF Region\" hinzugefügt\n* Fix: Der Controller-Knoten fehlte bei der Ziel-Auswahl von Verknüfpungen",
+				"ru": "Исправлено: не отображать «устройства отсутствуют», если они еще не были загружены.\nИсправлено: Устранено время загрузки при переключении между «Устройствами» и «Связями» на вкладке.\nИсправлено: добавлен отсутствующий немецкий перевод для \"Установить регион РФ\".\nИсправлено: узел контроллера отсутствовал в целевых узлах ассоциации.",
+				"pt": "Correção: não exibe \"nenhum dispositivo presente\" se eles ainda não foram carregados\nCorreção: Tempo de carregamento eliminado ao alternar entre \"Dispositivos\" e \"Associações\" na guia\nCorreção: Adicionar tradução em alemão ausente para \"Definir região RF\"\nCorreção: o nó do controlador estava faltando nos nós de destino da associação",
+				"nl": "Oplossing: geef geen \"geen apparaten aanwezig\" weer als ze nog niet zijn geladen\nOplossing: Laadtijd geëlimineerd bij het wisselen tussen \"Apparaten\" en \"Associaties\" op het tabblad\nOplossing: ontbrekende Duitse vertaling voor \"Set RF Region\" toevoegen\nOplossing: het controllerknooppunt ontbrak in de associatiedoelknooppunten",
+				"fr": "Correction : n'affiche pas \"aucun périphérique présent\" s'ils n'ont pas encore été chargés\nCorrectif : temps de chargement supprimé lors du basculement entre « Périphériques » et « Associations » dans l'onglet\nCorrection : Ajout de la traduction allemande manquante pour \"Définir la région RF\"\nCorrectif : le nœud de contrôleur était manquant dans les nœuds cibles de l'association",
+				"it": "Correzione: non visualizzare \"nessun dispositivo presente\" se non sono ancora stati caricati\nFix: Eliminato il tempo di caricamento quando si passa da \"Dispositivi\" a \"Associazioni\" nella scheda\nCorrezione: aggiunta della traduzione tedesca mancante per \"Imposta regione RF\"\nCorrezione: il nodo Controller mancava dai nodi di destinazione dell'associazione",
+				"es": "Solución: no muestre \"no hay dispositivos presentes\" si aún no se han cargado\nSolución: se eliminó el tiempo de carga al cambiar entre \"Dispositivos\" y \"Asociaciones\" en la pestaña\nSolución: agregue la traducción alemana faltante para \"Establecer región de RF\"\nSolución: el nodo del controlador faltaba en los nodos de destino de la asociación",
+				"pl": "Poprawka: nie wyświetlaj „brak obecnych urządzeń”, jeśli nie zostały jeszcze załadowane\nPoprawka: Wyeliminowano czas ładowania podczas przełączania między „Urządzeniami” i „Powiązaniami” w zakładce\nPoprawka: Dodaj brakujące niemieckie tłumaczenie dla „Ustaw region RF”\nPoprawka: Brak węzła kontrolera w węzłach docelowych skojarzeń",
+				"zh-cn": "修复：如果尚未加载，则不显示“不存在设备”\n修复：在选项卡中的“设备”和“关联”之间切换时消除了加载时间\n修复：为“设置 RF 区域”添加缺失的德语翻译\n修复：关联目标节点中缺少控制器节点"
+			},
+			"2.0.0": {
+				"en": "**BREAKING:** Node.js `v12.22.2` is now the minimum\n**BREAKING:** Reworked how endpoints and lifeline associations are handled. This solves reporting issues with many devices, but after a re-interview state IDs may change and some previously working devices may no longer report correctly. Please create an issue for every device that is affected by this.\nUpgraded to `zwave-js` version `8.3.2`\nThe device management was moved from the adapter settings to an extra `Z-Wave` tab.\nAdded a viewer for Z-Wave logs\nSome config parameters now correctly offer `0/1` as options instead of `0/-1`\nFixed a bug where the cache file could be corrupted during a shutdown\nSupport for Security S2\nSupport for devices which use `Supervision CC` to send commands\nSupport for factory resetting the controller\nSupport for changing the region/frequency of the controller\nSupport for replacing failed nodes while keeping the ID\nSome fixes for firmware updates",
+				"de": "**BREAKING:** Node.js `v12.22.2` ist jetzt das Minimum\n**BREAKING:** Die Handhabung von Endpunkten und Lifeline-Zuordnungen wurde überarbeitet. Dies löst Meldeprobleme bei vielen Geräten, aber nach einer erneuten Befragung können sich die Status-IDs ändern und einige zuvor funktionierende Geräte melden möglicherweise nicht mehr korrekt. Bitte erstellen Sie für jedes betroffene Gerät ein Problem.\nAktualisiert auf `zwave-js`-Version `8.3.2`\nDie Geräteverwaltung wurde aus den Adaptereinstellungen in einen extra Reiter „Z-Wave“ verschoben.\nViewer für Z-Wave-Protokolle hinzugefügt\nEinige Konfigurationsparameter bieten jetzt korrekt `0/1` als Optionen anstelle von `0/-1`\nEs wurde ein Fehler behoben, bei dem die Cache-Datei beim Herunterfahren beschädigt werden konnte\nUnterstützung für Security S2\nUnterstützung für Geräte, die `Supervision CC` zum Senden von Befehlen verwenden\nUnterstützung für das Zurücksetzen des Controllers auf die Werkseinstellungen\nUnterstützung zum Ändern der Region/Frequenz des Controllers\nUnterstützung für das Ersetzen ausgefallener Knoten unter Beibehaltung der ID\nEinige Fixes für Firmware-Updates",
+				"ru": "** ПОВРЕЖДЕНИЕ: ** Node.js `v12.22.2` теперь минимальный\n** BREAKING: ** Переработано, как обрабатываются конечные точки и ассоциации жизненного пути. Это решает проблемы с отчетами для многих устройств, но после повторного интервью идентификаторы состояния могут измениться, и некоторые ранее работавшие устройства могут перестать правильно сообщать. Пожалуйста, создайте проблему для каждого устройства, на которое это влияет.\nОбновлен до `zwave-js` версии` 8.3.2`\nУправление устройством перенесено из настроек адаптера на дополнительную вкладку Z-Wave.\nДобавлен просмотрщик журналов Z-Wave\nНекоторые параметры конфигурации теперь правильно предлагают в качестве параметров `0 / 1` вместо` 0 / -1`.\nИсправлена ошибка, из-за которой файл кеша мог быть поврежден во время выключения.\nПоддержка Security S2\nПоддержка устройств, которые используют Supervision CC для отправки команд\nПоддержка заводских настроек контроллера\nПоддержка смены региона / частоты контроллера\nПоддержка замены вышедших из строя узлов с сохранением идентификатора\nНекоторые исправления для обновлений прошивки",
+				"pt": "** QUEBRANDO: ** Node.js `v12.22.2` agora é o mínimo\n** QUEBRANDO: ** Reformulado como os endpoints e associações de linha de vida são tratados. Isso resolve os problemas de relatório com muitos dispositivos, mas após uma nova entrevista, os IDs podem mudar e alguns dispositivos que funcionavam anteriormente podem não ser mais relatados corretamente. Crie um problema para cada dispositivo afetado por isso.\nAtualizado para `zwave-js` versão` 8.3.2`\nO gerenciamento do dispositivo foi movido das configurações do adaptador para uma guia extra `Z-Wave`.\nAdicionado um visualizador para registros Z-Wave\nAlguns parâmetros de configuração agora oferecem corretamente `0 / 1` como opções em vez de` 0 / -1`\nCorrigido um bug em que o arquivo de cache poderia ser corrompido durante um desligamento\nSuporte para Segurança S2\nSuporte para dispositivos que usam `Supervision CC` para enviar comandos\nSuporte para redefinição de fábrica do controlador\nSuporte para alterar a região / frequência do controlador\nSuporte para substituição de nós com falha, mantendo o ID\nAlgumas correções para atualizações de firmware",
+				"nl": "**BREAKING:** Node.js `v12.22.2` is nu het minimum\n**BREAKING:** Herwerkt hoe endpoints en lifeline-associaties worden behandeld. Dit lost rapportageproblemen met veel apparaten op, maar na een nieuw interview kunnen status-ID's veranderen en sommige eerder werkende apparaten rapporteren mogelijk niet meer correct. Maak een probleem aan voor elk apparaat dat hierdoor wordt getroffen.\nOpgewaardeerd naar `zwave-js` versie `8.3.2`\nHet apparaatbeheer is verplaatst van de adapterinstellingen naar een extra 'Z-Wave'-tabblad.\nEen viewer toegevoegd voor Z-Wave logs\nSommige configuratieparameters bieden nu correct `0/1` als opties in plaats van `0/-1`\nEen bug opgelost waarbij het cachebestand beschadigd kon raken tijdens het afsluiten\nOndersteuning voor Beveiliging S2\nOndersteuning voor apparaten die `Supervision CC` gebruiken om opdrachten te verzenden\nOndersteuning voor het terugzetten naar de fabrieksinstellingen van de controller\nOndersteuning voor het wijzigen van de regio/frequentie van de controller\nOndersteuning voor het vervangen van defecte nodes met behoud van de ID\nEnkele oplossingen voor firmware-updates",
+				"fr": "**BREAKING :** Node.js `v12.22.2` est maintenant le minimum\n**BREAKING :** Remaniement de la gestion des points de terminaison et des associations de lignes de vie. Cela résout les problèmes de signalement avec de nombreux appareils, mais après un nouvel entretien, les ID d'état peuvent changer et certains appareils fonctionnant auparavant peuvent ne plus signaler correctement. Veuillez créer un problème pour chaque appareil concerné par cela.\nMise à niveau vers `zwave-js` version `8.3.2`\nLa gestion des périphériques a été déplacée des paramètres de l'adaptateur vers un onglet supplémentaire « Z-Wave ».\nAjout d'une visionneuse pour les journaux Z-Wave\nCertains paramètres de configuration proposent désormais correctement « 0/1 » comme options au lieu de « 0/-1 »\nCorrection d'un bug où le fichier de cache pouvait être corrompu lors d'un arrêt\nPrise en charge de la sécurité S2\nPrise en charge des appareils qui utilisent « Supervision CC » pour envoyer des commandes\nPrise en charge de la réinitialisation d'usine du contrôleur\nPrise en charge du changement de région/fréquence du contrôleur\nPrise en charge du remplacement des nœuds défaillants tout en conservant l'ID\nQuelques correctifs pour les mises à jour du firmware",
+				"it": "**INTERRUZIONE:** Node.js `v12.22.2` è ora il minimo\n**INTERRUZIONE:** Rielaborato il modo in cui vengono gestiti gli endpoint e le associazioni delle linee di vita. Ciò risolve i problemi di segnalazione con molti dispositivi, ma dopo una nuova intervista gli ID di stato potrebbero cambiare e alcuni dispositivi precedentemente funzionanti potrebbero non segnalare più correttamente. Si prega di creare un problema per ogni dispositivo interessato da questo problema.\nAggiornato alla versione `zwave-js` `8.3.2`\nLa gestione del dispositivo è stata spostata dalle impostazioni dell'adattatore a una scheda aggiuntiva \"Z-Wave\".\nAggiunto un visualizzatore per i log Z-Wave\nAlcuni parametri di configurazione ora offrono correttamente \"0/1\" come opzioni invece di \"0/-1\"\nRisolto un bug in cui il file della cache poteva essere danneggiato durante un arresto\nSupporto per la sicurezza S2\nSupporto per dispositivi che utilizzano `Supervision CC` per inviare comandi\nSupporto per il ripristino delle impostazioni di fabbrica del controller\nSupporto per la modifica della regione/frequenza del controller\nSupporto per la sostituzione dei nodi guasti mantenendo l'ID\nAlcune correzioni per gli aggiornamenti del firmware",
+				"es": "** ROMPIENDO: ** Node.js `v12.22.2` es ahora el mínimo\n** ROMPIENDO: ** Se modificó la forma en que se manejan los puntos finales y las asociaciones de líneas de vida. Esto resuelve problemas de informes con muchos dispositivos, pero después de una nueva entrevista, las ID de estado pueden cambiar y es posible que algunos dispositivos que funcionaban anteriormente ya no informen correctamente. Cree un problema para cada dispositivo afectado por esto.\nActualizado a la versión de `zwave-js` 8.3.2`\nLa administración del dispositivo se movió de la configuración del adaptador a una pestaña adicional \"Z-Wave\".\nSe agregó un visor para registros de Z-Wave.\nAlgunos parámetros de configuración ahora ofrecen correctamente `0 / 1` como opciones en lugar de` 0 / -1`\nSe corrigió un error por el cual el archivo de caché podría dañarse durante un apagado\nSoporte para Security S2\nSoporte para dispositivos que usan `Supervision CC` para enviar comandos\nSoporte para restablecer el controlador de fábrica\nSoporte para cambiar la región / frecuencia del controlador\nSoporte para reemplazar nodos fallidos manteniendo la identificación\nAlgunas correcciones para las actualizaciones de firmware",
+				"pl": "**BREAKING:** Node.js `v12.22.2` to teraz minimum\n**BREAKING:** Zmieniono sposób obsługi punktów końcowych i asocjacji linii życia. Rozwiązuje to problemy z raportowaniem na wielu urządzeniach, ale po ponownym przesłuchaniu identyfikatory stanu mogą się zmienić, a niektóre wcześniej działające urządzenia mogą nie zgłaszać się poprawnie. Utwórz problem dla każdego urządzenia, którego to dotyczy.\nZaktualizowano do `zwave-js` w wersji `8.3.2`\nZarządzanie urządzeniem zostało przeniesione z ustawień adaptera do dodatkowej zakładki `Z-Wave`.\nDodano przeglądarkę dzienników Z-Wave\nNiektóre parametry konfiguracyjne teraz poprawnie oferują `0/1` jako opcje zamiast `0/-1`\nNaprawiono błąd, w którym plik pamięci podręcznej mógł zostać uszkodzony podczas wyłączania\nWsparcie dla bezpieczeństwa S2\nWsparcie dla urządzeń używających `Nadzór CC` do wysyłania poleceń\nWsparcie dla przywracania ustawień fabrycznych kontrolera\nWsparcie dla zmiany regionu/częstotliwości kontrolera\nObsługa wymiany uszkodzonych węzłów przy zachowaniu identyfikatora\nNiektóre poprawki dotyczące aktualizacji oprogramowania układowego",
+				"zh-cn": "**打破：** Node.js `v12.22.2` 现在是最低要求\n** BREAKING：** 重新设计了端点和生命线关联的处理方式。这解决了许多设备的报告问题，但在重新访问后状态 ID 可能会发生变化，并且一些以前工作的设备可能不再正确报告。请为每个受此影响的设备创建一个问题。\n升级到`zwave-js` 版本`8.3.2`\n设备管理已从适配器设置移至额外的“Z-Wave”选项卡。\n添加了 Z-Wave 日志查看器\n一些配置参数现在正确地提供“0/1”作为选项而不是“0/-1”\n修复了在关机期间缓存文件可能损坏的错误\n支持安全 S2\n支持使用“Supervision CC”发送命令的设备\n支持控制器恢复出厂设置\n支持改变控制器的区域/频率\n支持在保留 ID 的同时替换故障节点\n固件更新的一些修复"
+			},
+			"1.10.4": {
+				"en": "Fixed a bug where the daily config update check would cause a lot of internet traffic for an hour",
+				"de": "Es wurde ein Fehler behoben, bei dem die tägliche Überprüfung der Konfigurationsaktualisierungen eine Stunde lang viel Internetverkehr verursachte",
+				"ru": "Исправлена ошибка, из-за которой ежедневная проверка обновлений конфигурации вызывала большой интернет-трафик в течение часа.",
+				"pt": "Corrigido um bug em que a verificação diária de atualização de configuração causava muito tráfego na Internet por uma hora",
+				"nl": "Een bug opgelost waarbij de dagelijkse controle van de configuratie-update een uur lang veel internetverkeer zou veroorzaken",
+				"fr": "Correction d'un bug où la vérification quotidienne de la mise à jour de la configuration provoquait beaucoup de trafic Internet pendant une heure",
+				"it": "Risolto un bug per cui il controllo giornaliero dell'aggiornamento della configurazione causava molto traffico Internet per un'ora",
+				"es": "Se corrigió un error por el cual la verificación diaria de actualización de la configuración causaba mucho tráfico de Internet durante una hora",
+				"pl": "Naprawiono błąd, w którym codzienne sprawdzanie aktualizacji konfiguracji powodowało duży ruch w Internecie przez godzinę",
+				"zh-cn": "修复了每日配置更新检查会导致一个小时的大量互联网流量的错误"
+			},
+			"1.10.3": {
+				"en": "Upgraded to `zwave-js` version `7.12.0`. Notable changes include:\n* Further improved handling of the legacy `alarmType` and `alarmLevel` values under some circumstances\n* Improved support for Aeotec firmware updaters\n* Nodes are no longer sent to sleep while a value change is planned to be verified\n* Hardened the checks to prevent simultaneous write-accesses for the cache files\n* The adapter should now be restarted when the serial connection is disconnected\n* Fixed a bug where associatiations on endpoints had incorrect labels\n* Updated dependencies\n* Tons of new and improved config files",
+				"de": "Auf `zwave-js`-Version `7.12.0` aktualisiert. Zu den bemerkenswerten Änderungen gehören:\n* Weiter verbesserte Handhabung der Legacy-Werte `alarmType` und `alarmLevel` unter Umständen\n* Verbesserte Unterstützung für Aeotec Firmware-Updater\n* Knoten werden nicht mehr in den Ruhezustand versetzt, während eine Wertänderung überprüft werden soll\n* Die Prüfungen wurden gehärtet, um gleichzeitige Schreibzugriffe auf die Cache-Dateien zu verhindern\n* Der Adapter sollte jetzt neu gestartet werden, wenn die serielle Verbindung getrennt wird\n* Es wurde ein Fehler behoben, bei dem Verknüpfungen auf Endpunkten falsche Beschriftungen hatten\n* Aktualisierte Abhängigkeiten\n* Tonnenweise neue und verbesserte Konfigurationsdateien",
+				"ru": "Обновлен до `zwave-js` версии` 7.12.0`. Заметные изменения включают:\n* Дальнейшее улучшение обработки устаревших значений «alarmType» и «alarmLevel» при некоторых обстоятельствах.\n* Улучшена поддержка обновлений прошивки Aeotec.\n* Узлы больше не отправляются в спящий режим, в то время как изменение значения планируется проверить\n* Усилены проверки для предотвращения одновременного доступа для записи к файлам кеша.\n* Теперь адаптер должен быть перезапущен при отключении последовательного соединения.\n* Исправлена ошибка, из-за которой ассоциации на конечных точках имели неправильные метки\n* Обновлены зависимости\n* Тонны новых и улучшенных файлов конфигурации",
+				"pt": "Atualizado para `zwave-js` versão` 7.12.0`. Mudanças notáveis incluem:\n* Tratamento aprimorado ainda mais dos valores legados de `alarmType` e` alarmLevel` em algumas circunstâncias\n* Suporte aprimorado para atualizadores de firmware Aeotec\n* Os nós não são mais enviados para hibernar enquanto uma alteração de valor está planejada para ser verificada\n* Endureceu as verificações para evitar acessos de gravação simultâneos para os arquivos de cache\n* O adaptador agora deve ser reiniciado quando a conexão serial for desconectada\n* Corrigido um bug em que as associações em endpoints tinham rótulos incorretos\n* Dependências atualizadas\n* Toneladas de arquivos de configuração novos e aprimorados",
+				"nl": "Opgewaardeerd naar `zwave-js` versie `7.12.0`. Opmerkelijke veranderingen zijn onder meer:\n* Onder bepaalde omstandigheden verder verbeterde verwerking van de legacy `alarmType` en `alarmLevel`-waarden\n* Verbeterde ondersteuning voor Aeotec firmware-updaters\n* Nodes worden niet langer in slaapstand gestuurd terwijl een waardewijziging gepland is om te worden geverifieerd\n* Verscherpte controles om gelijktijdige schrijftoegang voor de cachebestanden te voorkomen\n* De adapter moet nu opnieuw worden opgestart wanneer de seriële verbinding wordt verbroken\n* Een bug opgelost waarbij associaties op eindpunten onjuiste labels hadden\n* Bijgewerkte afhankelijkheden\n* Talloze nieuwe en verbeterde configuratiebestanden",
+				"fr": "Mise à niveau vers `zwave-js` version `7.12.0`. Les changements notables incluent :\n* Gestion encore améliorée des valeurs héritées `alarmType` et `alarmLevel` dans certaines circonstances\n* Prise en charge améliorée des mises à jour du micrologiciel Aeotec\n* Les nœuds ne sont plus mis en veille alors qu'un changement de valeur est prévu pour être vérifié\n* Renforcement des contrôles pour empêcher les accès en écriture simultanés pour les fichiers de cache\n* L'adaptateur doit maintenant être redémarré lorsque la connexion série est déconnectée\n* Correction d'un bug où les associations sur les points de terminaison avaient des étiquettes incorrectes\n* Dépendances mises à jour\n* Des tonnes de fichiers de configuration nouveaux et améliorés",
+				"it": "Aggiornato alla versione `zwave-js` `7.12.0`. I cambiamenti notevoli includono:\n* Ulteriormente migliorata la gestione dei valori legacy `alarmType` e `alarmLevel` in alcune circostanze\n* Supporto migliorato per gli aggiornamenti del firmware Aeotec\n* I nodi non vengono più messi in sospensione mentre è pianificata la verifica di una modifica del valore\n* Rafforzati i controlli per impedire accessi in scrittura simultanei per i file della cache\n* L'adattatore dovrebbe ora essere riavviato quando la connessione seriale viene disconnessa\n* Risolto un bug per cui le associazioni sugli endpoint avevano etichette errate\n* Dipendenze aggiornate\n* Tonnellate di file di configurazione nuovi e migliorati",
+				"es": "Actualizado a `zwave-js` versión` 7.12.0`. Los cambios notables incluyen:\n* Manejo aún más mejorado de los valores heredados de `alarmType` y` alarmLevel` en algunas circunstancias\n* Soporte mejorado para actualizadores de firmware Aeotec\n* Los nodos ya no se envían a dormir mientras se planea verificar un cambio de valor\n* Endureció las comprobaciones para evitar accesos de escritura simultáneos para los archivos de caché\n* El adaptador ahora debe reiniciarse cuando se desconecta la conexión en serie\n* Se corrigió un error por el cual las asociaciones en los puntos finales tenían etiquetas incorrectas.\n* Dependencias actualizadas\n* Toneladas de archivos de configuración nuevos y mejorados",
+				"pl": "Zaktualizowano do wersji `zwave-js` 7.12.0`. Godne uwagi zmiany obejmują:\n* Dalsza poprawa obsługi starszych wartości `alarmType` i `alarmLevel` w pewnych okolicznościach\n* Ulepszona obsługa aktualizacji oprogramowania Aeotec\n* Węzły nie są już wysyłane w stan uśpienia, podczas gdy planowana jest weryfikacja zmiany wartości\n* Wzmocniono kontrole, aby zapobiec jednoczesnemu dostępowi do zapisu dla plików pamięci podręcznej\n* Adapter powinien zostać ponownie uruchomiony po rozłączeniu połączenia szeregowego\n* Naprawiono błąd, w którym skojarzenia na punktach końcowych miały nieprawidłowe etykiety\n* Zaktualizowane zależności\n* Mnóstwo nowych i ulepszonych plików konfiguracyjnych",
+				"zh-cn": "升级到 `zwave-js` 版本 `7.12.0`。显着的变化包括：\n* 在某些情况下进一步改进了对旧版 `alarmType` 和 `alarmLevel` 值的处理\n* 改进了对 Aeotec 固件更新程序的支持\n* 当计划验证值更改时，节点不再被发送到休眠状态\n* 强化检查以防止同时对缓存文件进行写访问\n* 现在应该在串行连接断开时重新启动适配器\n* 修复了端点关联标签不正确的错误\n* 更新依赖\n* 大量新的和改进的配置文件"
+			},
+			"1.10.2": {
+				"en": "Upgraded to `zwave-js` version `7.7.3`. Notable changes include:\n* Improved how dropped invalid messages are logged in the Z-Wave logfile\n* Improved handling of the legacy `alarmType` and `alarmLevel` values under some circumstances\n* Improved handling of notification values for devices that support `Notification CC` version 2\n* Improved how some devices with incorrect capability reports are queried\n* Endpoints of multi channel devices should now always be queried with the correct CC version\n* Throttled some automatic queries\n* Avoid a situation where multiple instances of the adapter try to access the same cache files, potentially corrupting them\n* Improved behavior of secure communication when transmission failures are involved\n* Several new and improved config files",
+				"de": "Auf `zwave-js`-Version `7.7.3` aktualisiert. Zu den bemerkenswerten Änderungen gehören:\n* Verbesserte Protokollierung ungültiger Nachrichten in der Z-Wave-Logdatei\n* Verbesserte Handhabung der Legacy-Werte `alarmType` und `alarmLevel` unter bestimmten Umständen\n* Verbesserte Handhabung von Benachrichtigungswerten für Geräte, die `Notification CC` Version 2 unterstützen\n* Verbessert, wie einige Geräte mit falschen Fähigkeitsberichten abgefragt werden\n* Endpunkte von Mehrkanalgeräten sollten nun immer mit der richtigen CC-Version abgefragt werden\n* Einige automatische Abfragen gedrosselt\n* Vermeiden Sie Situationen, in denen mehrere Instanzen des Adapters versuchen, auf dieselben Cache-Dateien zuzugreifen und diese möglicherweise beschädigen\n* Verbessertes Verhalten der sicheren Kommunikation bei Übertragungsfehlern\n* Mehrere neue und verbesserte Konfigurationsdateien",
+				"ru": "Обновлен до `zwave-js` версии` 7.7.3`. Заметные изменения включают:\n* Улучшен способ записи сброшенных недопустимых сообщений в файл журнала Z-Wave.\n* Улучшена обработка устаревших значений «alarmType» и «alarmLevel» при некоторых обстоятельствах.\n* Улучшена обработка значений уведомлений для устройств, поддерживающих Notification CC версии 2.\n* Улучшен способ запроса некоторых устройств с неверными отчетами о возможностях.\n* Конечные точки многоканальных устройств теперь всегда должны запрашиваться с правильной версией CC\n* Задросселированы некоторые автоматические запросы\n* Избегайте ситуаций, когда несколько экземпляров адаптера пытаются получить доступ к одним и тем же файлам кеша, потенциально повреждая их\n* Улучшено поведение безопасной связи при сбоях передачи\n* Несколько новых и улучшенных файлов конфигурации",
+				"pt": "Atualizado para `zwave-js` versão` 7.7.3`. Mudanças notáveis incluem:\n* Melhorou a forma como as mensagens inválidas descartadas são registradas no arquivo de registro Z-Wave\n* Manuseio aprimorado dos valores legados `alarmType` e` alarmLevel` em algumas circunstâncias\n* Manuseio aprimorado de valores de notificação para dispositivos que suportam `Notificação CC` versão 2\n* Melhorada a forma como alguns dispositivos com relatórios de capacidade incorretos são consultados\n* Os pontos finais de dispositivos multicanais agora devem ser sempre consultados com a versão CC correta\n* Limitou algumas consultas automáticas\n* Evite uma situação em que várias instâncias do adaptador tentem acessar os mesmos arquivos de cache, potencialmente corrompendo-os\n* Melhor comportamento de comunicação segura quando falhas de transmissão estão envolvidas\n* Vários arquivos de configuração novos e aprimorados",
+				"nl": "Opgewaardeerd naar `zwave-js` versie `7.7.3`. Opmerkelijke veranderingen zijn onder meer:\n* Verbeterde manier waarop ongeldige berichten worden gelogd in het Z-Wave-logbestand\n* Verbeterde verwerking van de legacy `alarmType` en `alarmLevel` waarden onder bepaalde omstandigheden\n* Verbeterde verwerking van meldingswaarden voor apparaten die 'Notification CC'-versie 2 ondersteunen\n* Verbeterde manier waarop sommige apparaten met onjuiste capaciteitsrapporten worden opgevraagd\n* Eindpunten van apparaten met meerdere kanalen moeten nu altijd worden opgevraagd met de juiste CC-versie\n* Enkele automatische zoekopdrachten beperkt\n* Voorkom een situatie waarin meerdere instanties van de adapter toegang proberen te krijgen tot dezelfde cachebestanden, waardoor ze mogelijk beschadigd raken\n* Verbeterd gedrag van beveiligde communicatie wanneer er sprake is van transmissiefouten\n* Verschillende nieuwe en verbeterde configuratiebestanden",
+				"fr": "Mise à niveau vers la version « 7.7.3 » de `zwave-js`. Les changements notables incluent :\n* Amélioration de la façon dont les messages non valides supprimés sont enregistrés dans le fichier journal Z-Wave\n* Amélioration de la gestion des valeurs héritées `alarmType` et `alarmLevel` dans certaines circonstances\n* Amélioration de la gestion des valeurs de notification pour les appareils prenant en charge `Notification CC` version 2\n* Amélioration de la façon dont certains appareils avec des rapports de capacité incorrects sont interrogés\n* Les points de terminaison des appareils multicanaux doivent désormais toujours être interrogés avec la bonne version CC\n* Limitation de certaines requêtes automatiques\n* Évitez une situation où plusieurs instances de l'adaptateur tentent d'accéder aux mêmes fichiers de cache, les corrompant potentiellement\n* Amélioration du comportement de la communication sécurisée lorsque des échecs de transmission sont impliqués\n* Plusieurs fichiers de configuration nouveaux et améliorés",
+				"it": "Aggiornato alla versione `zwave-js` `7.7.3`. I cambiamenti notevoli includono:\n* Migliorato il modo in cui i messaggi non validi eliminati vengono registrati nel file di registro Z-Wave\n* Migliorata la gestione dei valori legacy `alarmType` e `alarmLevel` in alcune circostanze\n* Migliorata la gestione dei valori di notifica per i dispositivi che supportano \"Notifica CC\" versione 2\n* Migliorato il modo in cui vengono interrogati alcuni dispositivi con rapporti di capacità errati\n* Gli endpoint dei dispositivi multicanale dovrebbero ora essere sempre interrogati con la versione CC corretta\n* Limitate alcune query automatiche\n* Evita una situazione in cui più istanze dell'adattatore tentano di accedere agli stessi file di cache, potenzialmente danneggiandoli\n* Miglioramento del comportamento della comunicazione sicura quando sono coinvolti errori di trasmissione\n* Diversi file di configurazione nuovi e migliorati",
+				"es": "Actualizado a `zwave-js` versión` 7.7.3`. Los cambios notables incluyen:\n* Se mejoró la forma en que se registran los mensajes no válidos caídos en el archivo de registro de Z-Wave\n* Manejo mejorado de los valores heredados de `alarmType` y` alarmLevel` en algunas circunstancias\n* Manejo mejorado de los valores de notificación para dispositivos que admiten la versión 2 de `Notification CC`\n* Se mejoró la forma en que se consultan algunos dispositivos con informes de capacidad incorrectos\n* Los puntos finales de dispositivos multicanal ahora siempre deben consultarse con la versión CC correcta\n* Acelerado algunas consultas automáticas\n* Evite una situación en la que varias instancias del adaptador intenten acceder a los mismos archivos de caché, corrompiéndolos potencialmente\n* Comportamiento mejorado de la comunicación segura cuando hay fallas de transmisión involucradas\n* Varios archivos de configuración nuevos y mejorados",
+				"pl": "Zaktualizowano do wersji `zwave-js` 7.7.3`. Godne uwagi zmiany obejmują:\n* Poprawiono sposób, w jaki usunięte nieprawidłowe wiadomości są rejestrowane w pliku dziennika Z-Waveave\n* Ulepszona obsługa starszych wartości `alarmType` i `alarmLevel` w pewnych okolicznościach\n* Ulepszona obsługa wartości powiadomień dla urządzeń obsługujących `Notification CC` w wersji 2\n* Poprawiono sposób odpytywania niektórych urządzeń z nieprawidłowymi raportami o możliwościach\n* Punkty końcowe urządzeń wielokanałowych powinny być teraz zawsze odpytywane z poprawną wersją CC\n* Ograniczono niektóre automatyczne zapytania\n* Unikaj sytuacji, w których wiele instancji adaptera próbuje uzyskać dostęp do tych samych plików pamięci podręcznej, potencjalnie je uszkadzając\n* Ulepszone zachowanie bezpiecznej komunikacji w przypadku awarii transmisji\n* Kilka nowych i ulepszonych plików konfiguracyjnych",
+				"zh-cn": "升级到 `zwave-js` 版本 `7.7.3`。显着的变化包括：\n* 改进了在 Z-Wave 日志文件中记录丢弃的无效消息的方式\n* 在某些情况下改进了对旧版 `alarmType` 和 `alarmLevel` 值的处理\n* 改进了对支持“Notification CC”版本 2 的设备的通知值的处理\n* 改进了查询某些功能报告不正确的设备的方式\n* 现在应始终使用正确的 CC 版本查询多通道设备的端点\n* 限制了一些自动查询\n* 避免适配器的多个实例尝试访问相同的缓存文件，从而可能损坏它们的情况\n* 在涉及传输失败时改进了安全通信的行为\n* 几个新的和改进的配置文件"
+			},
+			"1.10.1": {
+				"en": "Removed some warnings about wrong state value types in JS-Controller 3.3\nUpgraded to `zwave-js` version `7.5.1`. Notable changes include:\n* Improved stability\n* Improved healing strategy\n* Several config file changes",
+				"de": "Einige Warnungen zu falschen Statuswerttypen in JS-Controller 3.3 wurden entfernt\nUpgrade auf `zwave-js` Version` 7.5.1`. Bemerkenswerte Änderungen umfassen:\n* Verbesserte Stabilität\n* Verbesserte Heilungsstrategie\n* Mehrere Änderungen an der Konfigurationsdatei",
+				"ru": "Удалены некоторые предупреждения о неправильных типах значений состояния в JS-Controller 3.3.\nОбновлен до `zwave-js` версии` 7.5.1`. Заметные изменения включают:\n* Повышена стабильность\n* Улучшенная стратегия исцеления\n* Несколько изменений конфигурационного файла",
+				"pt": "Removidos alguns avisos sobre tipos de valor de estado incorretos no JS-Controller 3.3\nAtualizado para `zwave-js` versão` 7.5.1`. Mudanças notáveis incluem:\n* Estabilidade aprimorada\n* Estratégia de cura aprimorada\n* Várias mudanças no arquivo de configuração",
+				"nl": "Enkele waarschuwingen verwijderd over verkeerde statuswaardetypes in JS-Controller 3.3\nOpgewaardeerd naar `zwave-js` versie` 7.5.1`. Opmerkelijke veranderingen zijn onder meer:\n* Verbeterde stabiliteit\n* Verbeterde genezingsstrategie\n* Verschillende wijzigingen in het configuratiebestand",
+				"fr": "Suppression de certains avertissements concernant les types de valeurs d'état incorrects dans JS-Controller 3.3\nMise à jour vers la version `7.5.1` de` zwave-js`. Les changements notables incluent:\n* Amélioration de la stabilité\n* Stratégie de guérison améliorée\n* Plusieurs changements de fichier de configuration",
+				"it": "Rimossi alcuni avvisi sui tipi di valore di stato errati in JS-Controller 3.3\nAggiornato alla versione `zwave-js`` 7.5.1`. Notevoli cambiamenti includono:\n* Migliore stabilità\n* Strategia di guarigione migliorata\n* Diverse modifiche al file di configurazione",
+				"es": "Se eliminaron algunas advertencias sobre tipos de valores de estado incorrectos en JS-Controller 3.3\nActualizado a la versión `7.5.1` de` zwave-js`. Los cambios notables incluyen:\n* Estabilidad mejorada\n* Estrategia de curación mejorada\n* Varios cambios en el archivo de configuración",
+				"pl": "Usunięto niektóre ostrzeżenia o błędnych typach wartości stanu w JS-Controller 3.3\nZaktualizowano do wersji „zwave-js” „7.5.1”. Istotne zmiany obejmują:\n* Poprawiona stabilność\n* Ulepszona strategia leczenia\n* Kilka zmian w pliku konfiguracyjnym",
+				"zh-cn": "删除了有关JS-Controller 3.3中错误的状态值类型的一些警告\n升级到`zwave-js`版本`7.5.1`。显着的变化包括：\n*提高稳定性\n*改善治疗策略\n*几个配置文件更改"
+			}
+		},
+		"title": "Z-Wave 2",
+		"titleLang": {
+			"en": "Z-Wave 2",
+			"de": "Z-Wave 2",
+			"ru": "Z-Wave 2",
+			"pt": "Z-Wave 2",
+			"nl": "Z-Wave 2",
+			"fr": "Z-Wave 2",
+			"it": "Z-Wave 2",
+			"es": "Z-Wave 2",
+			"pl": "Z-Wave 2",
+			"zh-cn": "Z-Wave 2"
+		},
+		"desc": {
+			"en": "The better Z-Wave integration",
+			"de": "Die bessere Z-Wave-Integration",
+			"ru": "Лучшая интеграция Z-Wave",
+			"pt": "A melhor integração do Z-Wave",
+			"nl": "De betere Z-Wave-integratie",
+			"fr": "La meilleure intégration Z-Wave",
+			"it": "La migliore integrazione di Z-Wave",
+			"es": "La mejor integración de Z-Wave",
+			"pl": "Lepsza integracja Z-Wave",
+			"zh-cn": "更好的Z-Wave集成"
+		},
+		"authors": ["AlCalzone <d.griesel@gmx.net>"],
+		"keywords": ["zwave", "z-wave", "zwave2", "z-wave 2"],
+		"license": "MIT",
+		"platform": "Javascript/Node.js",
+		"main": "build/main.js",
+		"icon": "zwave2.svg",
+		"enabled": true,
+		"dataFolder": "zwave2.%INSTANCE%",
+		"extIcon": "https://raw.githubusercontent.com/AlCalzone/ioBroker.zwave2/master/admin/zwave2.svg?sanitize=true",
+		"readme": "https://github.com/AlCalzone/ioBroker.zwave2/blob/master/README.md",
+		"loglevel": "info",
+		"mode": "daemon",
+		"type": "hardware",
+		"compact": true,
+		"materialize": true,
+		"materializeTab": true,
+		"adminTab": {
+			"name": {
+				"en": "Z-Wave",
+				"de": "Z-Wave"
+			},
+			"link": "",
+			"fa-icon": "wifi"
+		},
+		"messagebox": true,
+		"connectionType": "local",
+		"dataSource": "push",
+		"dependencies": [
+			{
+				"js-controller": ">=2.0.0"
+			}
+		]
+	},
+	"native": {
+		"serialport": "",
+		"writeLogFile": false,
+		"networkKey": "",
+		"driver_increaseTimeouts": false,
+		"driver_increaseSendAttempts": false,
+		"switchCompat": false,
+		"preserveStateNames": false,
+		"notificationEventValidity": 1000
+	},
+	"objects": [],
+	"instanceObjects": [
+		{
+			"_id": "info",
+			"type": "channel",
+			"common": {
+				"name": "Information"
+			},
+			"native": {}
+		},
+		{
+			"_id": "info.connection",
+			"type": "state",
+			"common": {
+				"role": "indicator.connected",
+				"name": "Whether the Z-Wave driver is ready",
+				"type": "boolean",
+				"read": true,
+				"write": false,
+				"def": false
+			},
+			"native": {}
+		},
+		{
+			"_id": "info.inclusion",
+			"type": "state",
+			"common": {
+				"role": "indicator",
+				"name": "Whether the inclusion of nodes is active",
+				"type": "boolean",
+				"read": true,
+				"write": false,
+				"def": false
+			},
+			"native": {}
+		},
+		{
+			"_id": "info.exclusion",
+			"type": "state",
+			"common": {
+				"role": "state",
+				"name": "Whether the exclusion of nodes is active",
+				"type": "boolean",
+				"read": true,
+				"write": true,
+				"def": false
+			},
+			"native": {}
+		},
+		{
+			"_id": "info.healingNetwork",
+			"type": "state",
+			"common": {
+				"role": "state",
+				"name": "Whether a network heal is currently in progress",
+				"type": "boolean",
+				"read": true,
+				"write": false,
+				"def": false
+			},
+			"native": {}
+		},
+		{
+			"_id": "info.configVersion",
+			"type": "state",
+			"common": {
+				"role": "state",
+				"name": "The installed version of the Z-Wave JS configuration DB",
+				"type": "string",
+				"read": true,
+				"write": false,
+				"def": false
+			},
+			"native": {}
+		},
+		{
+			"_id": "info.configUpdate",
+			"type": "state",
+			"common": {
+				"role": "state",
+				"name": "The version of an available update for the Z-Wave JS configuration DB",
+				"type": "string",
+				"read": true,
+				"write": false,
+				"def": false
+			},
+			"native": {}
+		},
+		{
+			"_id": "info.configUpdating",
+			"type": "state",
+			"common": {
+				"role": "state",
+				"name": "Whether the adapter is currently updating the Z-Wave JS configuration DB",
+				"type": "boolean",
+				"read": true,
+				"write": false,
+				"def": false
+			},
+			"native": {}
+		}
+	]
 }

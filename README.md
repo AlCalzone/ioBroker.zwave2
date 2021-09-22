@@ -40,7 +40,7 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	Placeholder for next versions:
 	### __WORK IN PROGRESS__
 -->
-### __WORK IN PROGRESS__
+### 2.0.1 (2021-09-22)
 * Fix: Don't display "no devices present" if they haven't been loaded yet
 * Fix: Eliminated loading time when switching between "Devices" and "Associations" in tab
 * Fix: Add missing german translation for "Set RF Region"
@@ -86,13 +86,6 @@ Upgraded to `zwave-js` version `7.7.3`. Notable changes include:
 * Avoid a situation where multiple instances of the adapter try to access the same cache files, potentially corrupting them
 * Improved behavior of secure communication when transmission failures are involved
 * Several new and improved config files
-
-### 1.10.1 (2021-05-24)
-Removed some warnings about wrong state value types in JS-Controller 3.3
-Upgraded to `zwave-js` version `7.5.1`. Notable changes include:
-* Improved stability
-* Improved healing strategy
-* Several config file changes
 
 ## License
 
