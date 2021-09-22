@@ -2,6 +2,7 @@ import utils from "@iobroker/adapter-core";
 import {
 	CommandClasses,
 	createDefaultTransportFormat,
+	MAX_NODES,
 	SecurityClass,
 } from "@zwave-js/core";
 import { JSONTransport } from "@zwave-js/log-transport-json";
@@ -61,14 +62,14 @@ import {
 	computeVirtualStateId,
 	DEVICE_ID_BROADCAST,
 	ensureBroadcastNode,
-	extendBroadcastMetadata,
-	extendBroadcastNodeCC,
 	extendCC,
 	extendMetadata,
 	extendNode,
 	extendNotificationValue,
 	extendNotification_NotificationCC,
 	extendValue,
+	extendVirtualMetadata,
+	extendVirtualNodeCC,
 	nodeStatusToStatusState,
 	removeNode,
 	removeValue,
@@ -105,7 +106,7 @@ export class ZWave2 extends utils.Adapter<true> {
 	private driver!: Driver;
 	private driverReady = false;
 	private readyNodes = new Set<number>();
-	private broadcastNodeUpdated = false;
+	private virtualNodesUpdated = false;
 	private initialNodeInterviewStages = new Map<number, InterviewStage>();
 	private configUpdateTimeout: NodeJS.Timeout | undefined;
 
@@ -284,8 +285,8 @@ export class ZWave2 extends utils.Adapter<true> {
 		this.driver.once("all nodes ready", async () => {
 			this.log.info("All nodes are ready to use");
 
-			// Check if the broadast node needs to be updated
-			await this.updateBroadcastNode();
+			// Check if the the broadcast node and multicast nodes need to be updated
+			await this.updateVirtualNodes();
 		});
 
 		// Enable sending usage statistics
@@ -349,8 +350,8 @@ export class ZWave2 extends utils.Adapter<true> {
 		result: InclusionResult,
 	): Promise<void> {
 		this.log.info(`Node ${node.id}: added`);
-		// A node was added. Once it's ready, the broadcast node must be updated
-		this.broadcastNodeUpdated = false;
+		// A node was added. Once it's ready, the broadcast node and multicast nodes must be updated
+		this.virtualNodesUpdated = false;
 
 		this.addNodeEventHandlers(node);
 		this.pushToFrontend({
@@ -387,9 +388,9 @@ export class ZWave2 extends utils.Adapter<true> {
 		node.removeAllListeners();
 		await removeNode(node.id);
 
-		// Check if the broadast node needs to be updated
-		this.broadcastNodeUpdated = false;
-		await this.updateBroadcastNode();
+		// Check if the the broadcast node and multicast nodes need to be updated
+		this.virtualNodesUpdated = false;
+		await this.updateVirtualNodes();
 	}
 
 	private async onHealNetworkProgress(
@@ -467,20 +468,73 @@ export class ZWave2 extends utils.Adapter<true> {
 			await this.cleanupNodeObjectsAndStates(node, allValueIDs);
 		}
 
-		// Check if the broadast node needs to be updated
-		await this.updateBroadcastNode();
+		// Check if the the broadcast node and multicast nodes need to be updated
+		await this.updateVirtualNodes();
 	}
 
-	private async updateBroadcastNode(): Promise<void> {
+	private async updateVirtualNodes(): Promise<void> {
 		// Only update the broadcast node when something relevant changed
-		if (this.broadcastNodeUpdated) return;
-		this.broadcastNodeUpdated = true;
-		this.log.info(`Updating Broadcast node states`);
+		if (this.virtualNodesUpdated) return;
+		this.virtualNodesUpdated = true;
+		this.log.info(`Updating broadcast/multicast node states`);
 
-		const node = this.driver.controller.getBroadcastNode();
+		// Broadcast first
+		let node: VirtualNode = this.driver.controller.getBroadcastNode();
 		const allValueIDs = getVirtualValueIDs(node);
-		await this.extendBroadcastNodeObjectsAndStates(node, allValueIDs);
-		await this.cleanupBroadcastNodeObjects(node, allValueIDs);
+		// Make sure the broadcast device object exists and is up to date
+		await ensureBroadcastNode();
+		await this.extendVirtualNodeObjectsAndStates(
+			node,
+			DEVICE_ID_BROADCAST,
+			allValueIDs,
+		);
+		await this.cleanupVirtualNodeObjects(DEVICE_ID_BROADCAST, allValueIDs);
+
+		// Then all multicast nodes
+		const multicastNodes = await this.getMulticastNodeDefinitions();
+		for (const { objId, nodeIds } of multicastNodes) {
+			node = this.driver.controller.getMulticastGroup(nodeIds);
+			const deviceId = objId.substr(this.namespace.length + 1);
+			const allValueIDs = getVirtualValueIDs(node);
+			await this.extendVirtualNodeObjectsAndStates(
+				node,
+				deviceId,
+				allValueIDs,
+			);
+			await this.cleanupVirtualNodeObjects(deviceId, allValueIDs);
+		}
+	}
+
+	private async getMulticastNodeDefinitions() {
+		const devices = (
+			await this.getObjectViewAsync("system", "device", {
+				startkey: `${this.namespace}.Group_`,
+				endkey: `${this.namespace}.Group_\u9999`,
+			})
+		).rows
+			.map((r) => r.value)
+			.filter((o): o is ioBroker.DeviceObject => !!o);
+
+		const ret: { objId: string; nodeIds: number[] }[] = [];
+		for (const d of devices) {
+			if (!d.native.multicast) continue;
+			if (!isArray(d.native.nodeIds) || !d.native.nodeIds.length) {
+				continue;
+			}
+			if (
+				!d.native.nodeIds.every(
+					(n: any) =>
+						typeof n === "number" && n > 0 && n <= MAX_NODES,
+				)
+			) {
+				this.log.warn(
+					`Multicast group object ${d._id} contains invalid node IDs, ignoring it!`,
+				);
+				continue;
+			}
+			ret.push({ objId: d._id, nodeIds: d.native.nodeIds });
+		}
+		return ret;
 	}
 
 	private async extendNodeObjectsAndStates(
@@ -530,13 +584,11 @@ export class ZWave2 extends utils.Adapter<true> {
 		}
 	}
 
-	private async extendBroadcastNodeObjectsAndStates(
+	private async extendVirtualNodeObjectsAndStates(
 		node: VirtualNode,
+		deviceId: string,
 		valueIDs: VirtualValueID[],
 	): Promise<void> {
-		// Make sure the device object exists and is up to date
-		await ensureBroadcastNode();
-
 		// Collect all objects and states we have values for
 		const uniqueCCs = valueIDs
 			.map((vid) => [vid.commandClass, vid.commandClassName] as const)
@@ -547,12 +599,12 @@ export class ZWave2 extends utils.Adapter<true> {
 
 		// Make sure all channel objects are up to date
 		for (const [cc, ccName] of uniqueCCs) {
-			await extendBroadcastNodeCC(node, cc, ccName);
+			await extendVirtualNodeCC(node, deviceId, cc, ccName);
 		}
 
 		// Make sure each value ID has a corresponding state in ioBroker
 		for (const valueId of valueIDs) {
-			await extendBroadcastMetadata(node, valueId);
+			await extendVirtualMetadata(node, deviceId, valueId);
 		}
 	}
 
@@ -629,8 +681,8 @@ export class ZWave2 extends utils.Adapter<true> {
 		}
 	}
 
-	private async cleanupBroadcastNodeObjects(
-		node: VirtualNode,
+	private async cleanupVirtualNodeObjects(
+		deviceId: string,
 		valueIDs: TranslatedValueID[],
 	): Promise<void> {
 		// Find out which channels and states need to exist
@@ -641,13 +693,13 @@ export class ZWave2 extends utils.Adapter<true> {
 					arr.findIndex(([_cc]) => _cc === cc) === index,
 			);
 
-		const nodeAbsoluteId = `${this.namespace}.${DEVICE_ID_BROADCAST}`;
+		const nodeAbsoluteId = `${this.namespace}.${deviceId}`;
 
 		const desiredChannelIds = new Set(
 			uniqueCCs.map(
 				([, ccName]) =>
 					`${this.namespace}.${computeVirtualChannelId(
-						DEVICE_ID_BROADCAST,
+						deviceId,
 						ccName,
 					)}`,
 			),
@@ -660,10 +712,7 @@ export class ZWave2 extends utils.Adapter<true> {
 		const desiredStateIds = new Set(
 			valueIDs.map(
 				(vid) =>
-					`${this.namespace}.${computeVirtualStateId(
-						DEVICE_ID_BROADCAST,
-						vid,
-					)}`,
+					`${this.namespace}.${computeVirtualStateId(deviceId, vid)}`,
 			),
 		);
 		const existingStateIds = Object.keys(
@@ -1051,14 +1100,7 @@ export class ZWave2 extends utils.Adapter<true> {
 				}
 
 				const { native } = obj;
-				const isBroadcast = !!native.broadcast;
-				const nodeId: number | undefined = native.nodeId;
-				if (!isBroadcast && !nodeId) {
-					this.log.error(
-						`Node ID missing from object definition ${id}!`,
-					);
-					return;
-				}
+
 				const valueId: ValueID | undefined = native.valueId;
 				if (!(valueId && valueId.commandClass && valueId.property)) {
 					this.log.error(
@@ -1066,12 +1108,28 @@ export class ZWave2 extends utils.Adapter<true> {
 					);
 					return;
 				}
-				const node = isBroadcast
-					? this.driver.controller.getBroadcastNode()
-					: this.driver.controller.nodes.get(nodeId!);
-				if (!node) {
-					this.log.error(`Node ${nodeId} does not exist!`);
-					return;
+
+				let node: VirtualNode | ZWaveNode;
+				if (!!native.broadcast) {
+					node = this.driver.controller.getBroadcastNode();
+				} else if (isArray(native.nodeIds)) {
+					node = this.driver.controller.getMulticastGroup(
+						native.nodeIds,
+					);
+				} else {
+					const nodeId = native.nodeId;
+					if (!nodeId) {
+						this.log.error(
+							`Node ID missing from object definition ${id}!`,
+						);
+						return;
+					}
+					try {
+						node = this.driver.controller.nodes.getOrThrow(nodeId);
+					} catch {
+						this.log.error(`Node ${nodeId} does not exist!`);
+						return;
+					}
 				}
 
 				// Some CCs accept Buffers. In order to edit them in ioBroker, we support parsing strings like "0xbada55" as Buffers.

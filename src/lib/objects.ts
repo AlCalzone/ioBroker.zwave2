@@ -2,6 +2,7 @@ import {
 	CommandClasses,
 	Duration,
 	enumValuesToMetadataStates,
+	NODE_ID_BROADCAST,
 	SecurityClass,
 	ValueID,
 	ValueMetadata,
@@ -62,7 +63,7 @@ function safeValue(value: unknown): ioBroker.StateValue {
 
 const isCamelCasedSafeNameRegex = /^(?!.*[\-_]$)[a-z]([a-zA-Z0-9\-_]+)$/;
 
-export const DEVICE_ID_BROADCAST = "BROADCAST";
+export const DEVICE_ID_BROADCAST = "Broadcast";
 
 /** Converts a device label to a valid filename */
 export function nameToStateId(label: string): string {
@@ -322,14 +323,15 @@ export async function extendCC(
 	await extendCCInternal(node, computeChannelId(node.id, ccName), cc, ccName);
 }
 
-export async function extendBroadcastNodeCC(
+export async function extendVirtualNodeCC(
 	node: VirtualNode,
+	deviceId: string,
 	cc: CommandClasses,
 	ccName: string,
 ): Promise<void> {
 	await extendCCInternal(
 		node,
-		computeVirtualChannelId(DEVICE_ID_BROADCAST, ccName),
+		computeVirtualChannelId(deviceId, ccName),
 		cc,
 		ccName,
 	);
@@ -398,14 +400,24 @@ export async function extendMetadata(
 	await extendMetadataInternal(stateId, metadata, args, { nodeId: node.id });
 }
 
-export async function extendBroadcastMetadata(
+export async function extendVirtualMetadata(
 	node: VirtualNode,
+	deviceId: string,
 	{ metadata, ccVersion, ...valueId }: VirtualValueID,
 ): Promise<void> {
-	const stateId = computeVirtualStateId(DEVICE_ID_BROADCAST, valueId);
-	await extendMetadataInternal(stateId, metadata, valueId, {
-		broadcast: true,
-	});
+	const stateId = computeVirtualStateId(deviceId, valueId);
+	await extendMetadataInternal(
+		stateId,
+		metadata,
+		valueId,
+		node.id === NODE_ID_BROADCAST
+			? {
+					broadcast: true,
+			  }
+			: {
+					nodeIds: node.physicalNodes.map((n) => n.id),
+			  },
+	);
 }
 
 async function extendMetadataInternal(
