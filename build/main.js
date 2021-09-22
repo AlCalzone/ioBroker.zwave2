@@ -57,6 +57,7 @@ var import_global = __toModule(require("./lib/global"));
 var import_objects2 = __toModule(require("./lib/objects"));
 var import_serialPorts = __toModule(require("./lib/serialPorts"));
 var import_shared2 = __toModule(require("./lib/shared"));
+var import_zwave = __toModule(require("./lib/zwave"));
 class ZWave2 extends import_adapter_core.default.Adapter {
   constructor(options = {}) {
     super(__spreadProps(__spreadValues({}, options), {
@@ -65,6 +66,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
     }));
     this.driverReady = false;
     this.readyNodes = new Set();
+    this.broadcastNodeUpdated = false;
     this.initialNodeInterviewStages = new Map();
     this.onNodeNotification = async (...params) => {
       if (params[1] === import_core.CommandClasses.Notification) {
@@ -175,8 +177,9 @@ class ZWave2 extends import_adapter_core.default.Adapter {
       }
     });
     this.driver.on("error", this.onZWaveError.bind(this));
-    this.driver.once("all nodes ready", () => {
+    this.driver.once("all nodes ready", async () => {
       this.log.info("All nodes are ready to use");
+      await this.updateBroadcastNode();
     });
     try {
       this.driver.enableStatistics({
@@ -218,6 +221,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
   async onNodeAdded(node, result) {
     var _a;
     this.log.info(`Node ${node.id}: added`);
+    this.broadcastNodeUpdated = false;
     this.addNodeEventHandlers(node);
     this.pushToFrontend({
       type: "inclusion",
@@ -245,6 +249,8 @@ class ZWave2 extends import_adapter_core.default.Adapter {
     }
     node.removeAllListeners();
     await (0, import_objects2.removeNode)(node.id);
+    this.broadcastNodeUpdated = false;
+    await this.updateBroadcastNode();
   }
   async onHealNetworkProgress(progress) {
     const allDone = [...progress.values()].every((v) => v !== "pending");
@@ -283,6 +289,17 @@ class ZWave2 extends import_adapter_core.default.Adapter {
     if (!node.isControllerNode()) {
       await this.cleanupNodeObjectsAndStates(node, allValueIDs);
     }
+    await this.updateBroadcastNode();
+  }
+  async updateBroadcastNode() {
+    if (this.broadcastNodeUpdated)
+      return;
+    this.broadcastNodeUpdated = true;
+    this.log.info(`Updating Broadcast node states`);
+    const node = this.driver.controller.getBroadcastNode();
+    const allValueIDs = (0, import_zwave.getVirtualValueIDs)(node);
+    await this.extendBroadcastNodeObjectsAndStates(node, allValueIDs);
+    await this.cleanupBroadcastNodeObjects(node, allValueIDs);
   }
   async extendNodeObjectsAndStates(node, allValueIDs) {
     await (0, import_objects2.extendNode)(node);
@@ -302,6 +319,16 @@ class ZWave2 extends import_adapter_core.default.Adapter {
       }
     }
   }
+  async extendBroadcastNodeObjectsAndStates(node, valueIDs) {
+    await (0, import_objects2.ensureBroadcastNode)();
+    const uniqueCCs = valueIDs.map((vid) => [vid.commandClass, vid.commandClassName]).filter(([cc], index, arr) => arr.findIndex(([_cc]) => _cc === cc) === index);
+    for (const [cc, ccName] of uniqueCCs) {
+      await (0, import_objects2.extendBroadcastNodeCC)(node, cc, ccName);
+    }
+    for (const valueId of valueIDs) {
+      await (0, import_objects2.extendBroadcastMetadata)(node, valueId);
+    }
+  }
   async cleanupNodeObjectsAndStates(node, allValueIDs) {
     allValueIDs != null ? allValueIDs : allValueIDs = node.getDefinedValueIDs();
     const uniqueCCs = allValueIDs.map((vid) => [vid.commandClass, vid.commandClassName]).filter(([cc], index, arr) => arr.findIndex(([_cc]) => _cc === cc) === index);
@@ -310,7 +337,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
     const existingChannelIds = Object.keys(await import_global.Global.$$(`${nodeAbsoluteId}.*`, {
       type: "channel"
     }));
-    const desiredStateIds = new Set(allValueIDs.map((vid) => `${this.namespace}.${(0, import_objects2.computeId)(node.id, vid)}`));
+    const desiredStateIds = new Set(allValueIDs.map((vid) => `${this.namespace}.${(0, import_objects2.computeStateId)(node.id, vid)}`));
     const existingStateIds = Object.keys(await import_global.Global.$$(`${nodeAbsoluteId}.*`, {
       type: "state"
     }));
@@ -332,6 +359,37 @@ class ZWave2 extends import_adapter_core.default.Adapter {
         await this.delStateAsync(id);
       } catch (e) {
       }
+      try {
+        await this.delObjectAsync(id);
+      } catch (e) {
+      }
+    }
+  }
+  async cleanupBroadcastNodeObjects(node, valueIDs) {
+    const uniqueCCs = valueIDs.map((vid) => [vid.commandClass, vid.commandClassName]).filter(([cc], index, arr) => arr.findIndex(([_cc]) => _cc === cc) === index);
+    const nodeAbsoluteId = `${this.namespace}.${import_objects2.DEVICE_ID_BROADCAST}`;
+    const desiredChannelIds = new Set(uniqueCCs.map(([, ccName]) => `${this.namespace}.${(0, import_objects2.computeVirtualChannelId)(import_objects2.DEVICE_ID_BROADCAST, ccName)}`));
+    const existingChannelIds = Object.keys(await import_global.Global.$$(`${nodeAbsoluteId}.*`, {
+      type: "channel"
+    }));
+    const desiredStateIds = new Set(valueIDs.map((vid) => `${this.namespace}.${(0, import_objects2.computeVirtualStateId)(import_objects2.DEVICE_ID_BROADCAST, vid)}`));
+    const existingStateIds = Object.keys(await import_global.Global.$$(`${nodeAbsoluteId}.*`, {
+      type: "state"
+    }));
+    const unusedChannels = existingChannelIds.filter((id) => !desiredChannelIds.has(id));
+    for (const id of unusedChannels) {
+      this.log.warn(`Deleting orphaned channel ${id}`);
+      try {
+        await this.delObjectAsync(id);
+      } catch (e) {
+      }
+    }
+    const unusedStates = existingStateIds.filter((id) => !desiredStateIds.has(id)).filter((id) => id.slice(nodeAbsoluteId.length + 1).includes(".")).filter((id) => {
+      var _a, _b;
+      return !((_b = (_a = this.oObjects[id]) == null ? void 0 : _a.native) == null ? void 0 : _b.notificationEvent);
+    });
+    for (const id of unusedStates) {
+      this.log.warn(`Deleting orphaned virtual state ${id}`);
       try {
         await this.delObjectAsync(id);
       } catch (e) {
@@ -377,7 +435,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
     await this.ensureDeviceObject(node);
   }
   async onNodeValueAdded(node, args) {
-    let propertyName = (0, import_objects2.computeId)(node.id, args);
+    let propertyName = (0, import_objects2.computeStateId)(node.id, args);
     propertyName = propertyName.substr(propertyName.lastIndexOf(".") + 1);
     this.log.debug(`Node ${node.id}: value added: ${propertyName} => ${String(args.newValue)}`);
     await (0, import_objects2.extendValue)(node, args);
@@ -385,7 +443,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
       await this.syncSwitchStates(node, args);
   }
   async onNodeValueUpdated(node, args) {
-    let propertyName = (0, import_objects2.computeId)(node.id, args);
+    let propertyName = (0, import_objects2.computeStateId)(node.id, args);
     propertyName = propertyName.substr(propertyName.lastIndexOf(".") + 1);
     this.log.debug(`Node ${node.id}: value updated: ${propertyName} => ${String(args.newValue)}`);
     await (0, import_objects2.extendValue)(node, args);
@@ -393,7 +451,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
       await this.syncSwitchStates(node, args);
   }
   async onNodeValueNotification(node, args) {
-    let propertyName = (0, import_objects2.computeId)(node.id, args);
+    let propertyName = (0, import_objects2.computeStateId)(node.id, args);
     propertyName = propertyName.substr(propertyName.lastIndexOf(".") + 1);
     this.log.debug(`Node ${node.id}: value notification: ${propertyName} = ${String(args.value)}`);
     await (0, import_objects2.extendNotificationValue)(node, args);
@@ -407,13 +465,13 @@ class ZWave2 extends import_adapter_core.default.Adapter {
     }
   }
   async onNodeValueRemoved(node, args) {
-    let propertyName = (0, import_objects2.computeId)(node.id, args);
+    let propertyName = (0, import_objects2.computeStateId)(node.id, args);
     propertyName = propertyName.substr(propertyName.lastIndexOf(".") + 1);
     this.log.debug(`Node ${node.id}: value removed: ${propertyName}`);
     await (0, import_objects2.removeValue)(node.id, args);
   }
   async onNodeMetadataUpdated(node, args) {
-    let propertyName = (0, import_objects2.computeId)(node.id, args);
+    let propertyName = (0, import_objects2.computeStateId)(node.id, args);
     propertyName = propertyName.substr(propertyName.lastIndexOf(".") + 1);
     this.log.debug(`Node ${node.id}: metadata updated: ${propertyName}`);
     await (0, import_objects2.extendMetadata)(node, args);
@@ -514,8 +572,9 @@ class ZWave2 extends import_adapter_core.default.Adapter {
           return;
         }
         const {native} = obj;
+        const isBroadcast = !!native.broadcast;
         const nodeId = native.nodeId;
-        if (!nodeId) {
+        if (!isBroadcast && !nodeId) {
           this.log.error(`Node ID missing from object definition ${id}!`);
           return;
         }
@@ -524,7 +583,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
           this.log.error(`Value ID missing or incomplete in object definition ${id}!`);
           return;
         }
-        const node = this.driver.controller.nodes.get(nodeId);
+        const node = isBroadcast ? this.driver.controller.getBroadcastNode() : this.driver.controller.nodes.get(nodeId);
         if (!node) {
           this.log.error(`Node ${nodeId} does not exist!`);
           return;

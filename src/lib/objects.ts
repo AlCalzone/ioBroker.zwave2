@@ -3,6 +3,7 @@ import {
 	Duration,
 	enumValuesToMetadataStates,
 	SecurityClass,
+	ValueID,
 	ValueMetadata,
 } from "@zwave-js/core";
 import { entries } from "alcalzone-shared/objects";
@@ -10,7 +11,7 @@ import { padStart } from "alcalzone-shared/strings";
 import { isArray, isObject } from "alcalzone-shared/typeguards";
 import { RFRegion } from "zwave-js";
 import type { ZWaveNotificationCallbackArgs_NotificationCC } from "zwave-js/CommandClass";
-import { NodeStatus, ZWaveNode } from "zwave-js/Node";
+import { NodeStatus, VirtualNode, ZWaveNode } from "zwave-js/Node";
 import type {
 	TranslatedValueID,
 	ValueMetadataNumeric,
@@ -23,6 +24,7 @@ import type {
 } from "zwave-js/Values";
 import { Global as _ } from "./global";
 import { buffer2hex, computeDeviceId, getErrorMessage } from "./shared";
+import type { VirtualValueID } from "./zwave";
 
 type ZWaveNodeArgs =
 	| ZWaveNodeValueAddedArgs
@@ -59,6 +61,8 @@ function safeValue(value: unknown): ioBroker.StateValue {
 }
 
 const isCamelCasedSafeNameRegex = /^(?!.*[\-_]$)[a-z]([a-zA-Z0-9\-_]+)$/;
+
+export const DEVICE_ID_BROADCAST = "BROADCAST";
 
 /** Converts a device label to a valid filename */
 export function nameToStateId(label: string): string {
@@ -101,13 +105,27 @@ export function ccNameToChannelIdFragment(ccName: string): string {
 	return ccName.replace(/[\s]+/g, "_");
 }
 
-export function computeChannelId(nodeId: number, ccName: string): string {
-	return `${computeDeviceId(nodeId)}.${ccNameToChannelIdFragment(ccName)}`;
+function computeChannelIdInternal(prefix: string, ccName: string): string {
+	return `${prefix}.${ccNameToChannelIdFragment(ccName)}`;
 }
 
-export function computeId(nodeId: number, args: TranslatedValueID): string {
+export function computeChannelId(nodeId: number, ccName: string): string {
+	return computeChannelIdInternal(computeDeviceId(nodeId), ccName);
+}
+
+export function computeVirtualChannelId(
+	prefix: string,
+	ccName: string,
+): string {
+	return computeChannelIdInternal(prefix, ccName);
+}
+
+function computeStateIdInternal(
+	prefix: string,
+	args: TranslatedValueID,
+): string {
 	return [
-		computeDeviceId(nodeId),
+		prefix,
 		ccNameToChannelIdFragment(args.commandClassName),
 		[
 			args.propertyName?.trim() && nameToStateId(args.propertyName),
@@ -117,6 +135,20 @@ export function computeId(nodeId: number, args: TranslatedValueID): string {
 			.filter((s) => !!s)
 			.join("_"),
 	].join(".");
+}
+
+export function computeStateId(
+	nodeId: number,
+	args: TranslatedValueID,
+): string {
+	return computeStateIdInternal(computeDeviceId(nodeId), args);
+}
+
+export function computeVirtualStateId(
+	prefix: string,
+	args: TranslatedValueID,
+): string {
+	return computeStateIdInternal(prefix, args);
 }
 
 const secClassDefinitions = [
@@ -199,6 +231,25 @@ export async function extendNode(node: ZWaveNode): Promise<void> {
 	await setOrExtendObject(deviceId, desiredObject, originalObject);
 }
 
+export async function ensureBroadcastNode(): Promise<void> {
+	const deviceId = DEVICE_ID_BROADCAST;
+	const originalObject = _.adapter.oObjects[
+		`${_.adapter.namespace}.${deviceId}`
+	] as ioBroker.DeviceObject | undefined;
+
+	const desiredObject: ioBroker.SettableObject = {
+		type: "device",
+		common: {
+			name: originalObject?.common.name || "Broadcast",
+		},
+		native: {
+			broadcast: true,
+		},
+	};
+
+	await setOrExtendObject(deviceId, desiredObject, originalObject);
+}
+
 /** Removed all objects that belong to a node */
 export async function removeNode(nodeId: number): Promise<void> {
 	const deviceId = `${_.adapter.namespace}.${computeDeviceId(nodeId)}`;
@@ -230,12 +281,12 @@ export async function removeNode(nodeId: number): Promise<void> {
 	}
 }
 
-export async function extendCC(
-	node: ZWaveNode,
+async function extendCCInternal(
+	node: ZWaveNode | VirtualNode,
+	channelId: string,
 	cc: CommandClasses,
 	ccName: string,
 ): Promise<void> {
-	const channelId = computeChannelId(node.id, ccName);
 	const common = {
 		name: ccName,
 	};
@@ -263,12 +314,33 @@ export async function extendCC(
 	}
 }
 
+export async function extendCC(
+	node: ZWaveNode,
+	cc: CommandClasses,
+	ccName: string,
+): Promise<void> {
+	await extendCCInternal(node, computeChannelId(node.id, ccName), cc, ccName);
+}
+
+export async function extendBroadcastNodeCC(
+	node: VirtualNode,
+	cc: CommandClasses,
+	ccName: string,
+): Promise<void> {
+	await extendCCInternal(
+		node,
+		computeVirtualChannelId(DEVICE_ID_BROADCAST, ccName),
+		cc,
+		ccName,
+	);
+}
+
 export async function extendValue(
 	node: ZWaveNode,
 	args: ZWaveNodeValueAddedArgs | ZWaveNodeValueUpdatedArgs,
 	fromCache: boolean = false,
 ): Promise<void> {
-	const stateId = computeId(node.id, args);
+	const stateId = computeStateId(node.id, args);
 
 	await extendMetadata(node, args);
 	try {
@@ -298,7 +370,7 @@ export async function extendNotificationValue(
 	node: ZWaveNode,
 	args: ZWaveNodeValueNotificationArgs,
 ): Promise<void> {
-	const stateId = computeId(node.id, args);
+	const stateId = computeStateId(node.id, args);
 
 	await extendMetadata(node, args);
 	try {
@@ -319,10 +391,29 @@ export async function extendMetadata(
 	node: ZWaveNode,
 	args: ZWaveNodeArgs,
 ): Promise<void> {
-	const stateId = computeId(node.id, args);
+	const stateId = computeStateId(node.id, args);
 	const metadata =
 		("metadata" in args && args.metadata) || node.getValueMetadata(args);
 
+	await extendMetadataInternal(stateId, metadata, args, { nodeId: node.id });
+}
+
+export async function extendBroadcastMetadata(
+	node: VirtualNode,
+	{ metadata, ccVersion, ...valueId }: VirtualValueID,
+): Promise<void> {
+	const stateId = computeVirtualStateId(DEVICE_ID_BROADCAST, valueId);
+	await extendMetadataInternal(stateId, metadata, valueId, {
+		broadcast: true,
+	});
+}
+
+async function extendMetadataInternal(
+	stateId: string,
+	metadata: ValueMetadata,
+	valueId: ValueID,
+	nativePart: Record<string, any> = {},
+) {
 	const stateType = valueTypeToIOBrokerType(metadata.type);
 	// TODO: Try to detect more specific roles depending on the CC type
 	const stateRole = metadataToStateRole(stateType, metadata);
@@ -337,7 +428,7 @@ export async function extendMetadata(
 			: // Otherwise try to construct a new name from the metadata
 			metadata.label
 			? `${metadata.label}${
-					args.endpoint ? ` (Endpoint ${args.endpoint})` : ""
+					valueId.endpoint ? ` (Endpoint ${valueId.endpoint})` : ""
 			  }`
 			: // and fall back to the state ID if that is missing
 			  stateId;
@@ -359,12 +450,12 @@ export async function extendMetadata(
 				states: (metadata as any).states,
 			},
 			native: {
-				nodeId: node.id,
+				...nativePart,
 				valueId: {
-					commandClass: args.commandClass,
-					endpoint: args.endpoint,
-					property: args.property,
-					propertyKey: args.propertyKey,
+					commandClass: valueId.commandClass,
+					endpoint: valueId.endpoint,
+					property: valueId.property,
+					propertyKey: valueId.propertyKey,
 				},
 				steps: (metadata as ValueMetadataNumeric).steps,
 			} as any,
@@ -377,7 +468,7 @@ export async function removeValue(
 	nodeId: number,
 	args: ZWaveNodeValueRemovedArgs,
 ): Promise<void> {
-	const stateId = computeId(nodeId, args);
+	const stateId = computeStateId(nodeId, args);
 	try {
 		await _.adapter.delObjectAsync(stateId);
 	} catch {

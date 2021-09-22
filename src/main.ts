@@ -16,6 +16,7 @@ import fs from "fs-extra";
 import path from "path";
 import type {
 	NodeInterviewFailedEventArgs,
+	VirtualNode,
 	ZWaveNodeValueNotificationArgs,
 } from "zwave-js";
 import {
@@ -55,7 +56,13 @@ import type {
 import { Global as _ } from "./lib/global";
 import {
 	computeChannelId,
-	computeId,
+	computeStateId,
+	computeVirtualChannelId,
+	computeVirtualStateId,
+	DEVICE_ID_BROADCAST,
+	ensureBroadcastNode,
+	extendBroadcastMetadata,
+	extendBroadcastNodeCC,
 	extendCC,
 	extendMetadata,
 	extendNode,
@@ -79,6 +86,7 @@ import {
 	mapToRecord,
 	PushMessage,
 } from "./lib/shared";
+import { getVirtualValueIDs, VirtualValueID } from "./lib/zwave";
 
 export class ZWave2 extends utils.Adapter<true> {
 	public constructor(options: Partial<utils.AdapterOptions> = {}) {
@@ -97,6 +105,7 @@ export class ZWave2 extends utils.Adapter<true> {
 	private driver!: Driver;
 	private driverReady = false;
 	private readyNodes = new Set<number>();
+	private broadcastNodeUpdated = false;
 	private initialNodeInterviewStages = new Map<number, InterviewStage>();
 	private configUpdateTimeout: NodeJS.Timeout | undefined;
 
@@ -272,8 +281,11 @@ export class ZWave2 extends utils.Adapter<true> {
 		// Log errors from the Z-Wave lib
 		this.driver.on("error", this.onZWaveError.bind(this));
 
-		this.driver.once("all nodes ready", () => {
+		this.driver.once("all nodes ready", async () => {
 			this.log.info("All nodes are ready to use");
+
+			// Check if the broadast node needs to be updated
+			await this.updateBroadcastNode();
 		});
 
 		// Enable sending usage statistics
@@ -337,6 +349,8 @@ export class ZWave2 extends utils.Adapter<true> {
 		result: InclusionResult,
 	): Promise<void> {
 		this.log.info(`Node ${node.id}: added`);
+		// A node was added. Once it's ready, the broadcast node must be updated
+		this.broadcastNodeUpdated = false;
 
 		this.addNodeEventHandlers(node);
 		this.pushToFrontend({
@@ -372,6 +386,10 @@ export class ZWave2 extends utils.Adapter<true> {
 		}
 		node.removeAllListeners();
 		await removeNode(node.id);
+
+		// Check if the broadast node needs to be updated
+		this.broadcastNodeUpdated = false;
+		await this.updateBroadcastNode();
 	}
 
 	private async onHealNetworkProgress(
@@ -448,6 +466,21 @@ export class ZWave2 extends utils.Adapter<true> {
 		if (!node.isControllerNode()) {
 			await this.cleanupNodeObjectsAndStates(node, allValueIDs);
 		}
+
+		// Check if the broadast node needs to be updated
+		await this.updateBroadcastNode();
+	}
+
+	private async updateBroadcastNode(): Promise<void> {
+		// Only update the broadcast node when something relevant changed
+		if (this.broadcastNodeUpdated) return;
+		this.broadcastNodeUpdated = true;
+		this.log.info(`Updating Broadcast node states`);
+
+		const node = this.driver.controller.getBroadcastNode();
+		const allValueIDs = getVirtualValueIDs(node);
+		await this.extendBroadcastNodeObjectsAndStates(node, allValueIDs);
+		await this.cleanupBroadcastNodeObjects(node, allValueIDs);
 	}
 
 	private async extendNodeObjectsAndStates(
@@ -497,6 +530,32 @@ export class ZWave2 extends utils.Adapter<true> {
 		}
 	}
 
+	private async extendBroadcastNodeObjectsAndStates(
+		node: VirtualNode,
+		valueIDs: VirtualValueID[],
+	): Promise<void> {
+		// Make sure the device object exists and is up to date
+		await ensureBroadcastNode();
+
+		// Collect all objects and states we have values for
+		const uniqueCCs = valueIDs
+			.map((vid) => [vid.commandClass, vid.commandClassName] as const)
+			.filter(
+				([cc], index, arr) =>
+					arr.findIndex(([_cc]) => _cc === cc) === index,
+			);
+
+		// Make sure all channel objects are up to date
+		for (const [cc, ccName] of uniqueCCs) {
+			await extendBroadcastNodeCC(node, cc, ccName);
+		}
+
+		// Make sure each value ID has a corresponding state in ioBroker
+		for (const valueId of valueIDs) {
+			await extendBroadcastMetadata(node, valueId);
+		}
+	}
+
 	private async cleanupNodeObjectsAndStates(
 		node: ZWaveNode,
 		allValueIDs?: TranslatedValueID[],
@@ -525,7 +584,7 @@ export class ZWave2 extends utils.Adapter<true> {
 		);
 		const desiredStateIds = new Set(
 			allValueIDs.map(
-				(vid) => `${this.namespace}.${computeId(node.id, vid)}`,
+				(vid) => `${this.namespace}.${computeStateId(node.id, vid)}`,
 			),
 		);
 		const existingStateIds = Object.keys(
@@ -562,6 +621,80 @@ export class ZWave2 extends utils.Adapter<true> {
 			} catch (e) {
 				/* it's fine */
 			}
+			try {
+				await this.delObjectAsync(id);
+			} catch (e) {
+				/* it's fine */
+			}
+		}
+	}
+
+	private async cleanupBroadcastNodeObjects(
+		node: VirtualNode,
+		valueIDs: TranslatedValueID[],
+	): Promise<void> {
+		// Find out which channels and states need to exist
+		const uniqueCCs = valueIDs
+			.map((vid) => [vid.commandClass, vid.commandClassName] as const)
+			.filter(
+				([cc], index, arr) =>
+					arr.findIndex(([_cc]) => _cc === cc) === index,
+			);
+
+		const nodeAbsoluteId = `${this.namespace}.${DEVICE_ID_BROADCAST}`;
+
+		const desiredChannelIds = new Set(
+			uniqueCCs.map(
+				([, ccName]) =>
+					`${this.namespace}.${computeVirtualChannelId(
+						DEVICE_ID_BROADCAST,
+						ccName,
+					)}`,
+			),
+		);
+		const existingChannelIds = Object.keys(
+			await _.$$(`${nodeAbsoluteId}.*`, {
+				type: "channel",
+			}),
+		);
+		const desiredStateIds = new Set(
+			valueIDs.map(
+				(vid) =>
+					`${this.namespace}.${computeVirtualStateId(
+						DEVICE_ID_BROADCAST,
+						vid,
+					)}`,
+			),
+		);
+		const existingStateIds = Object.keys(
+			await _.$$(`${nodeAbsoluteId}.*`, {
+				type: "state",
+			}),
+		);
+
+		// Clean up unused channels and states
+		const unusedChannels = existingChannelIds.filter(
+			(id) => !desiredChannelIds.has(id),
+		);
+		for (const id of unusedChannels) {
+			this.log.warn(`Deleting orphaned channel ${id}`);
+			try {
+				await this.delObjectAsync(id);
+			} catch (e) {
+				/* it's fine */
+			}
+		}
+
+		const unusedStates = existingStateIds
+			// select those states that are not desired
+			.filter((id) => !desiredStateIds.has(id))
+			// filter out those states that are not under a CC channel
+			.filter((id) => id.slice(nodeAbsoluteId.length + 1).includes("."))
+			// and filter out those states that are for a notification event
+			.filter((id) => !this.oObjects[id]?.native?.notificationEvent);
+
+		for (const id of unusedStates) {
+			this.log.warn(`Deleting orphaned virtual state ${id}`);
 			try {
 				await this.delObjectAsync(id);
 			} catch (e) {
@@ -657,7 +790,7 @@ export class ZWave2 extends utils.Adapter<true> {
 		node: ZWaveNode,
 		args: ZWaveNodeValueAddedArgs,
 	): Promise<void> {
-		let propertyName = computeId(node.id, args);
+		let propertyName = computeStateId(node.id, args);
 		propertyName = propertyName.substr(propertyName.lastIndexOf(".") + 1);
 		this.log.debug(
 			`Node ${node.id}: value added: ${propertyName} => ${String(
@@ -672,7 +805,7 @@ export class ZWave2 extends utils.Adapter<true> {
 		node: ZWaveNode,
 		args: ZWaveNodeValueUpdatedArgs,
 	): Promise<void> {
-		let propertyName = computeId(node.id, args);
+		let propertyName = computeStateId(node.id, args);
 		propertyName = propertyName.substr(propertyName.lastIndexOf(".") + 1);
 		this.log.debug(
 			`Node ${node.id}: value updated: ${propertyName} => ${String(
@@ -687,7 +820,7 @@ export class ZWave2 extends utils.Adapter<true> {
 		node: ZWaveNode,
 		args: ZWaveNodeValueNotificationArgs,
 	): Promise<void> {
-		let propertyName = computeId(node.id, args);
+		let propertyName = computeStateId(node.id, args);
 		propertyName = propertyName.substr(propertyName.lastIndexOf(".") + 1);
 		this.log.debug(
 			`Node ${node.id}: value notification: ${propertyName} = ${String(
@@ -719,7 +852,7 @@ export class ZWave2 extends utils.Adapter<true> {
 		node: ZWaveNode,
 		args: ZWaveNodeValueRemovedArgs,
 	): Promise<void> {
-		let propertyName = computeId(node.id, args);
+		let propertyName = computeStateId(node.id, args);
 		propertyName = propertyName.substr(propertyName.lastIndexOf(".") + 1);
 		this.log.debug(`Node ${node.id}: value removed: ${propertyName}`);
 		await removeValue(node.id, args);
@@ -729,7 +862,7 @@ export class ZWave2 extends utils.Adapter<true> {
 		node: ZWaveNode,
 		args: ZWaveNodeMetadataUpdatedArgs,
 	): Promise<void> {
-		let propertyName = computeId(node.id, args);
+		let propertyName = computeStateId(node.id, args);
 		propertyName = propertyName.substr(propertyName.lastIndexOf(".") + 1);
 		this.log.debug(`Node ${node.id}: metadata updated: ${propertyName}`);
 		await extendMetadata(node, args);
@@ -918,8 +1051,9 @@ export class ZWave2 extends utils.Adapter<true> {
 				}
 
 				const { native } = obj;
+				const isBroadcast = !!native.broadcast;
 				const nodeId: number | undefined = native.nodeId;
-				if (!nodeId) {
+				if (!isBroadcast && !nodeId) {
 					this.log.error(
 						`Node ID missing from object definition ${id}!`,
 					);
@@ -932,7 +1066,9 @@ export class ZWave2 extends utils.Adapter<true> {
 					);
 					return;
 				}
-				const node = this.driver.controller.nodes.get(nodeId);
+				const node = isBroadcast
+					? this.driver.controller.getBroadcastNode()
+					: this.driver.controller.nodes.get(nodeId!);
 				if (!node) {
 					this.log.error(`Node ${nodeId} does not exist!`);
 					return;

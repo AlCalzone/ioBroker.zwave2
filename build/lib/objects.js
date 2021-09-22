@@ -22,6 +22,18 @@ var __spreadValues = (a, b) => {
 };
 var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
 var __markAsModule = (target) => __defProp(target, "__esModule", {value: true});
+var __objRest = (source, exclude) => {
+  var target = {};
+  for (var prop in source)
+    if (__hasOwnProp.call(source, prop) && exclude.indexOf(prop) < 0)
+      target[prop] = source[prop];
+  if (source != null && __getOwnPropSymbols)
+    for (var prop of __getOwnPropSymbols(source)) {
+      if (exclude.indexOf(prop) < 0 && __propIsEnum.call(source, prop))
+        target[prop] = source[prop];
+    }
+  return target;
+};
 var __export = (target, all) => {
   for (var name in all)
     __defProp(target, name, {get: all[name], enumerable: true});
@@ -39,10 +51,16 @@ var __toModule = (module2) => {
 };
 __markAsModule(exports);
 __export(exports, {
+  DEVICE_ID_BROADCAST: () => DEVICE_ID_BROADCAST,
   ccNameToChannelIdFragment: () => ccNameToChannelIdFragment,
   computeChannelId: () => computeChannelId,
-  computeId: () => computeId,
   computeNotificationId: () => computeNotificationId,
+  computeStateId: () => computeStateId,
+  computeVirtualChannelId: () => computeVirtualChannelId,
+  computeVirtualStateId: () => computeVirtualStateId,
+  ensureBroadcastNode: () => ensureBroadcastNode,
+  extendBroadcastMetadata: () => extendBroadcastMetadata,
+  extendBroadcastNodeCC: () => extendBroadcastNodeCC,
   extendCC: () => extendCC,
   extendMetadata: () => extendMetadata,
   extendNode: () => extendNode,
@@ -90,6 +108,7 @@ function safeValue(value) {
   return value;
 }
 const isCamelCasedSafeNameRegex = /^(?!.*[\-_]$)[a-z]([a-zA-Z0-9\-_]+)$/;
+const DEVICE_ID_BROADCAST = "BROADCAST";
 function nameToStateId(label) {
   if (isCamelCasedSafeNameRegex.test(label))
     return label;
@@ -115,13 +134,19 @@ function camelCase(str) {
 function ccNameToChannelIdFragment(ccName) {
   return ccName.replace(/[\s]+/g, "_");
 }
-function computeChannelId(nodeId, ccName) {
-  return `${(0, import_shared.computeDeviceId)(nodeId)}.${ccNameToChannelIdFragment(ccName)}`;
+function computeChannelIdInternal(prefix, ccName) {
+  return `${prefix}.${ccNameToChannelIdFragment(ccName)}`;
 }
-function computeId(nodeId, args) {
+function computeChannelId(nodeId, ccName) {
+  return computeChannelIdInternal((0, import_shared.computeDeviceId)(nodeId), ccName);
+}
+function computeVirtualChannelId(prefix, ccName) {
+  return computeChannelIdInternal(prefix, ccName);
+}
+function computeStateIdInternal(prefix, args) {
   var _a, _b;
   return [
-    (0, import_shared.computeDeviceId)(nodeId),
+    prefix,
     ccNameToChannelIdFragment(args.commandClassName),
     [
       ((_a = args.propertyName) == null ? void 0 : _a.trim()) && nameToStateId(args.propertyName),
@@ -129,6 +154,12 @@ function computeId(nodeId, args) {
       ((_b = args.propertyKeyName) == null ? void 0 : _b.trim()) && nameToStateId(args.propertyKeyName)
     ].filter((s) => !!s).join("_")
   ].join(".");
+}
+function computeStateId(nodeId, args) {
+  return computeStateIdInternal((0, import_shared.computeDeviceId)(nodeId), args);
+}
+function computeVirtualStateId(prefix, args) {
+  return computeStateIdInternal(prefix, args);
 }
 const secClassDefinitions = [
   [import_core.SecurityClass.S2_AccessControl, import_core.CommandClasses["Security 2"]],
@@ -186,6 +217,20 @@ async function extendNode(node) {
   };
   await setOrExtendObject(deviceId, desiredObject, originalObject);
 }
+async function ensureBroadcastNode() {
+  const deviceId = DEVICE_ID_BROADCAST;
+  const originalObject = import_global.Global.adapter.oObjects[`${import_global.Global.adapter.namespace}.${deviceId}`];
+  const desiredObject = {
+    type: "device",
+    common: {
+      name: (originalObject == null ? void 0 : originalObject.common.name) || "Broadcast"
+    },
+    native: {
+      broadcast: true
+    }
+  };
+  await setOrExtendObject(deviceId, desiredObject, originalObject);
+}
 async function removeNode(nodeId) {
   const deviceId = `${import_global.Global.adapter.namespace}.${(0, import_shared.computeDeviceId)(nodeId)}`;
   try {
@@ -206,8 +251,7 @@ async function removeNode(nodeId) {
     }
   }
 }
-async function extendCC(node, cc, ccName) {
-  const channelId = computeChannelId(node.id, ccName);
+async function extendCCInternal(node, channelId, cc, ccName) {
   const common = {
     name: ccName
   };
@@ -229,8 +273,14 @@ async function extendCC(node, cc, ccName) {
     });
   }
 }
+async function extendCC(node, cc, ccName) {
+  await extendCCInternal(node, computeChannelId(node.id, ccName), cc, ccName);
+}
+async function extendBroadcastNodeCC(node, cc, ccName) {
+  await extendCCInternal(node, computeVirtualChannelId(DEVICE_ID_BROADCAST, ccName), cc, ccName);
+}
 async function extendValue(node, args, fromCache = false) {
-  const stateId = computeId(node.id, args);
+  const stateId = computeStateId(node.id, args);
   await extendMetadata(node, args);
   try {
     const state = {
@@ -250,7 +300,7 @@ async function extendValue(node, args, fromCache = false) {
   }
 }
 async function extendNotificationValue(node, args) {
-  const stateId = computeId(node.id, args);
+  const stateId = computeStateId(node.id, args);
   await extendMetadata(node, args);
   try {
     const state = {
@@ -264,12 +314,22 @@ async function extendNotificationValue(node, args) {
   }
 }
 async function extendMetadata(node, args) {
-  const stateId = computeId(node.id, args);
+  const stateId = computeStateId(node.id, args);
   const metadata = "metadata" in args && args.metadata || node.getValueMetadata(args);
+  await extendMetadataInternal(stateId, metadata, args, {nodeId: node.id});
+}
+async function extendBroadcastMetadata(node, _a) {
+  var _b = _a, {metadata, ccVersion} = _b, valueId = __objRest(_b, ["metadata", "ccVersion"]);
+  const stateId = computeVirtualStateId(DEVICE_ID_BROADCAST, valueId);
+  await extendMetadataInternal(stateId, metadata, valueId, {
+    broadcast: true
+  });
+}
+async function extendMetadataInternal(stateId, metadata, valueId, nativePart = {}) {
   const stateType = valueTypeToIOBrokerType(metadata.type);
   const stateRole = metadataToStateRole(stateType, metadata);
   const originalObject = import_global.Global.adapter.oObjects[`${import_global.Global.adapter.namespace}.${stateId}`];
-  const newStateName = import_global.Global.adapter.config.preserveStateNames && (originalObject == null ? void 0 : originalObject.common.name) ? originalObject.common.name : metadata.label ? `${metadata.label}${args.endpoint ? ` (Endpoint ${args.endpoint})` : ""}` : stateId;
+  const newStateName = import_global.Global.adapter.config.preserveStateNames && (originalObject == null ? void 0 : originalObject.common.name) ? originalObject.common.name : metadata.label ? `${metadata.label}${valueId.endpoint ? ` (Endpoint ${valueId.endpoint})` : ""}` : stateId;
   const objectDefinition = {
     type: "state",
     common: {
@@ -285,21 +345,20 @@ async function extendMetadata(node, args) {
       unit: metadata.unit,
       states: metadata.states
     },
-    native: {
-      nodeId: node.id,
+    native: __spreadProps(__spreadValues({}, nativePart), {
       valueId: {
-        commandClass: args.commandClass,
-        endpoint: args.endpoint,
-        property: args.property,
-        propertyKey: args.propertyKey
+        commandClass: valueId.commandClass,
+        endpoint: valueId.endpoint,
+        property: valueId.property,
+        propertyKey: valueId.propertyKey
       },
       steps: metadata.steps
-    }
+    })
   };
   await setOrExtendObject(stateId, objectDefinition, originalObject);
 }
 async function removeValue(nodeId, args) {
-  const stateId = computeId(nodeId, args);
+  const stateId = computeStateId(nodeId, args);
   try {
     await import_global.Global.adapter.delObjectAsync(stateId);
   } catch {
@@ -462,10 +521,16 @@ async function setRFRegionState(rfRegion) {
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
+  DEVICE_ID_BROADCAST,
   ccNameToChannelIdFragment,
   computeChannelId,
-  computeId,
   computeNotificationId,
+  computeStateId,
+  computeVirtualChannelId,
+  computeVirtualStateId,
+  ensureBroadcastNode,
+  extendBroadcastMetadata,
+  extendBroadcastNodeCC,
   extendCC,
   extendMetadata,
   extendNode,
