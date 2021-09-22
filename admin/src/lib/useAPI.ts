@@ -365,8 +365,8 @@ export class API {
 	): Promise<Record<number, Device>> {
 		const ret: Record<number, Device> = {};
 		const devices = await this.connection.getObjectView(
-			this.namespace + ".",
-			this.namespace + ".\u9999",
+			this.namespace + ".Node_",
+			this.namespace + ".Node_\u9999",
 			"device",
 		);
 		for (const _device of Object.values(devices)) {

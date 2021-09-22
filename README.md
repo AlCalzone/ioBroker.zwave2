@@ -40,6 +40,9 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	Placeholder for next versions:
 	### __WORK IN PROGRESS__
 -->
+### __WORK IN PROGRESS__
+* Support broadcast commands
+
 ### 2.0.1 (2021-09-22)
 * Fix: Don't display "no devices present" if they haven't been loaded yet
 * Fix: Eliminated loading time when switching between "Devices" and "Associations" in tab
