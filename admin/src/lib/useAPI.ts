@@ -113,7 +113,6 @@ export class API {
 		try {
 			// Fetch pending push messages
 			const payloads = await this._registerPushCallback(firstTime);
-			firstTime = false;
 
 			// And call the push callbacks for each one of them
 			if (isArray(payloads)) {

@@ -17,7 +17,6 @@ export const NotRunning: React.FC = () => {
 
 export const NoDevices: React.FC = () => {
 	const { translate: _ } = useI18n();
-	return <Typography>{_("No devices present")}</Typography>;
 	return <Base>{_("No devices present")}</Base>;
 };
 
