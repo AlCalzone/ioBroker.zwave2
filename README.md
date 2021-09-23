@@ -40,7 +40,7 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	Placeholder for next versions:
 	### __WORK IN PROGRESS__
 -->
-### __WORK IN PROGRESS__
+### 2.1.0 (2021-09-23)
 * Support broadcast commands
 * Support multicast commands and managing multicast groups
 
@@ -78,18 +78,6 @@ Upgraded to `zwave-js` version `7.12.0`. Notable changes include:
 * Fixed a bug where associatiations on endpoints had incorrect labels
 * Updated dependencies
 * Tons of new and improved config files
-
-### 1.10.2 (2021-06-10)
-Upgraded to `zwave-js` version `7.7.3`. Notable changes include:
-* Improved how dropped invalid messages are logged in the Z-Wave logfile
-* Improved handling of the legacy `alarmType` and `alarmLevel` values under some circumstances
-* Improved handling of notification values for devices that support `Notification CC` version 2
-* Improved how some devices with incorrect capability reports are queried
-* Endpoints of multi channel devices should now always be queried with the correct CC version
-* Throttled some automatic queries
-* Avoid a situation where multiple instances of the adapter try to access the same cache files, potentially corrupting them
-* Improved behavior of secure communication when transmission failures are involved
-* Several new and improved config files
 
 ## License
 

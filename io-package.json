@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "zwave2",
-		"version": "2.0.1",
+		"version": "2.1.0",
 		"news": {
+			"2.1.0": {
+				"en": "Support broadcast commands\nSupport multicast commands and managing multicast groups",
+				"de": "Unterstützung von Broadcast-Befehlen\nUnterstützung von Multicast-Befehlen und Verwaltung von Multicast-Gruppen",
+				"ru": "Поддержка широковещательных команд\nПоддержка команд многоадресной рассылки и управление группами многоадресной рассылки",
+				"pt": "Comandos de transmissão de suporte\nSuporte a comandos multicast e gerenciamento de grupos multicast",
+				"nl": "Ondersteuning uitzending commando's\nOndersteuning van multicast-opdrachten en het beheren van multicast-groepen",
+				"fr": "Prise en charge des commandes de diffusion\nPrise en charge des commandes de multidiffusion et gestion des groupes de multidiffusion",
+				"it": "Supporta i comandi di trasmissione\nSupporta comandi multicast e gestione di gruppi multicast",
+				"es": "Admite comandos de transmisión\nAdmite comandos de multidifusión y gestión de grupos de multidifusión",
+				"pl": "Obsługuj polecenia transmisji\nObsługa poleceń multicast i zarządzanie grupami multicast",
+				"zh-cn": "支持广播命令\n支持组播命令和管理组播组"
+			},
 			"2.0.1": {
 				"en": "Fix: Don't display \"no devices present\" if they haven't been loaded yet\nFix: Eliminated loading time when switching between \"Devices\" and \"Associations\" in tab\nFix: Add missing german translation for \"Set RF Region\"\nFix: The Controller node was missing from the association target nodes",
 				"de": "* Fix: Es wird nicht mehr \"keine Geräte vorhanden\" angezeigt, wenn sie noch nicht geladen wurden\n* Fix: Ladezeit beim Umschalten zwischen \"Geräte\" und \"Verknüpfungen\" im Tab eliminiert\n* Fix: Fehlende deutsche Übersetzung für \"Set RF Region\" hinzugefügt\n* Fix: Der Controller-Knoten fehlte bei der Ziel-Auswahl von Verknüfpungen",
