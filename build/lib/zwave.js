@@ -42,6 +42,7 @@ __export(exports, {
   getVirtualValueIDs: () => getVirtualValueIDs
 });
 var import_core = __toModule(require("@zwave-js/core"));
+var import_arrays = __toModule(require("alcalzone-shared/arrays"));
 function getVirtualValueIDs(node) {
   const ret = new Map();
   for (const pNode of node.physicalNodes) {
@@ -60,6 +61,24 @@ function getVirtualValueIDs(node) {
         }));
       }
     }
+  }
+  const exposedEndpoints = (0, import_arrays.distinct)([...ret.values()].map((v) => v.endpoint).filter((e) => e !== void 0));
+  for (const endpoint of exposedEndpoints) {
+    const valueId = {
+      commandClass: import_core.CommandClasses.Basic,
+      commandClassName: "Basic",
+      endpoint,
+      property: "targetValue",
+      propertyName: "Target value"
+    };
+    const ccVersion = 1;
+    const metadata = __spreadProps(__spreadValues({}, import_core.ValueMetadata.WriteOnlyUInt8), {
+      label: "Target value"
+    });
+    ret.set((0, import_core.valueIdToString)(valueId), __spreadProps(__spreadValues({}, valueId), {
+      ccVersion,
+      metadata
+    }));
   }
   return [...ret.values()];
 }

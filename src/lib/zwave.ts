@@ -1,4 +1,11 @@
-import { actuatorCCs, valueIdToString, ValueMetadata } from "@zwave-js/core";
+import {
+	actuatorCCs,
+	CommandClasses,
+	valueIdToString,
+	ValueMetadata,
+	ValueMetadataNumeric,
+} from "@zwave-js/core";
+import { distinct } from "alcalzone-shared/arrays";
 import type { TranslatedValueID, VirtualNode } from "zwave-js";
 
 export interface VirtualValueID extends TranslatedValueID {
@@ -34,6 +41,32 @@ export function getVirtualValueIDs(node: VirtualNode): VirtualValueID[] {
 				});
 			}
 		}
+	}
+
+	// Basic CC is not exposed, but virtual nodes need it to control multiple different devices together
+	const exposedEndpoints = distinct(
+		[...ret.values()]
+			.map((v) => v.endpoint)
+			.filter((e): e is number => e !== undefined),
+	);
+	for (const endpoint of exposedEndpoints) {
+		const valueId: TranslatedValueID = {
+			commandClass: CommandClasses.Basic,
+			commandClassName: "Basic",
+			endpoint,
+			property: "targetValue",
+			propertyName: "Target value",
+		};
+		const ccVersion = 1;
+		const metadata: ValueMetadataNumeric = {
+			...ValueMetadata.WriteOnlyUInt8,
+			label: "Target value",
+		};
+		ret.set(valueIdToString(valueId), {
+			...valueId,
+			ccVersion,
+			metadata,
+		});
 	}
 
 	return [...ret.values()];

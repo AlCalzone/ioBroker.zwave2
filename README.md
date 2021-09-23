@@ -42,6 +42,7 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 -->
 ### __WORK IN PROGRESS__
 * Support broadcast commands
+* Support multicast commands and managing multicast groups
 
 ### 2.0.1 (2021-09-22)
 * Fix: Don't display "no devices present" if they haven't been loaded yet
