@@ -184,7 +184,7 @@ export const GroupRow: React.FC<GroupRowProps> = (props) => {
 								variant="outlined"
 								placeholder={
 									selectedNodes.length === 0
-										? _("Select nodes")
+										? _("Select at least 2 nodes")
 										: undefined
 								}
 							/>

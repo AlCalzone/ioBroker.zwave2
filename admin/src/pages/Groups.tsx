@@ -1,6 +1,6 @@
 import React from "react";
 import { useI18n } from "iobroker-react/hooks";
-import { Device, useAPI } from "../lib/useAPI";
+import type { Device } from "../lib/useAPI";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import TableContainer from "@material-ui/core/TableContainer";
@@ -12,6 +12,7 @@ import TableBody from "@material-ui/core/TableBody";
 import { GroupRow } from "../components/GroupRow";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { nameFromGroupObject, useGroups } from "../lib/useGroups";
+import Alert from "@material-ui/lab/Alert";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -32,7 +33,6 @@ export interface GroupsProps {
 }
 
 export const Groups: React.FC<GroupsProps> = (props) => {
-	const api = useAPI();
 	const classes = useStyles();
 	const { translate: _ } = useI18n();
 	const { groups, saveGroup, deleteGroup } = useGroups();
@@ -41,11 +41,17 @@ export const Groups: React.FC<GroupsProps> = (props) => {
 
 	const selectableNodes = Object.values(props.devices).filter((device) => {
 		const { isControllerNode, secure } = device.value.native;
-		return !isControllerNode /* && !secure*/;
+		return !isControllerNode && !secure;
 	});
 
 	return (
 		<>
+			<Alert severity="info">
+				{_("no multicast S0")}
+				<br />
+				{_("no multicast S2")}
+			</Alert>
+
 			<Paper className={classes.root} elevation={2}>
 				<TableContainer className={classes.container}>
 					<Table style={{ tableLayout: "auto" }}>

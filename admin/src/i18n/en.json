@@ -121,7 +121,7 @@
 	"Security S0": "Security S0",
 	"Security S2 when supported, Security S0 as a fallback, no encryption otherwise.": "Security S2 when supported, Security S0 as a fallback, no encryption otherwise.",
 	"Security S2 when supported, Security S0 only when necessary, no encryption otherwise.": "Security S2 when supported, Security S0 only when necessary, no encryption otherwise.",
-	"Select nodes": "Select nodes",
+	"Select at least 2 nodes": "Select at least 2 nodes",
 	"Select serial port": "Select serial port",
 	"Select the correct region for where you are. Using a different region may be illegal.": "Select the correct region for where you are. Using a different region may be illegal.",
 	"Set RF Region": "Set RF Region",
@@ -156,5 +156,7 @@
 	"Wipes all configuration of the controller. All connected nodes will be orphaned and have to be reset and included into the new network before they can be used again.": "Wipes all configuration of the controller. All connected nodes will be orphaned and have to be reset and included into the new network before they can be used again.",
 	"Write a detailed logfile": "Write a detailed logfile",
 	"yes": "yes",
-	"Z-Wave supports the following security mechanisms:": "Z-Wave supports the following security mechanisms:"
+	"Z-Wave supports the following security mechanisms:": "Z-Wave supports the following security mechanisms:",
+	"no multicast S0": "Nodes included with Security S0 cannot be used in multicast groups.",
+	"no multicast S2": "Group support for nodes included with Security S2 is not implemented yet."
 }
