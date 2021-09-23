@@ -147,5 +147,13 @@
     "Unsubscribed logs...": "取消订阅的日志...",
     "WARNING: Make sure that the node is reset before attempting this.": "警告：在尝试此操作之前，请确保节点已重置。",
     "WARNING: Only do this if you no longer have physical access.": "警告：仅当您不再具有物理访问权限时才执行此操作。",
-    "Wipes all configuration of the controller. All connected nodes will be orphaned and have to be reset and included into the new network before they can be used again.": "擦除控制器的所有配置。"
+    "Wipes all configuration of the controller. All connected nodes will be orphaned and have to be reset and included into the new network before they can be used again.": "擦除控制器的所有配置。",
+    "Groups": "团体",
+    "Delete group": "删除群组",
+    "Enter group name": "输入组名",
+    "Group name": "团队名字",
+    "Nodes": "节点",
+    "Save group": "保存组",
+    "The group could not be deleted!": "无法删除该组！",
+    "The group could not be saved!": "无法保存该组！"
 }

@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js", "../../node_modules/@material-ui/lab/esm/internal/svg-icons/Close.js"],
-  "mappings": "wDACe,WAAkC,EAAQ,EAAU,CACjE,GAAI,GAAU,KAAM,MAAO,GAC3B,GAAI,GAAS,EAA6B,EAAQ,GAC9C,EAAK,EAET,GAAI,OAAO,sBAAuB,CAChC,GAAI,GAAmB,OAAO,sBAAsB,GAEpD,IAAK,EAAI,EAAG,EAAI,EAAiB,OAAQ,IAEvC,AADA,EAAM,EAAiB,GACnB,IAAS,QAAQ,IAAQ,IACzB,EAAC,OAAO,UAAU,qBAAqB,KAAK,EAAQ,IACxD,GAAO,GAAO,EAAO,KAIzB,MAAO,GCjBT,MAAuB,OACvB,EAA8B,OAKvB,EAAQ,oBAA4B,AAAM,gBAAc,OAAQ,CACrE,EAAG,0GACD",
-  "names": []
-}

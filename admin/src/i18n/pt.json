@@ -147,5 +147,13 @@
     "Unsubscribed logs...": "Registros não inscritos ...",
     "WARNING: Make sure that the node is reset before attempting this.": "AVISO: certifique-se de que o nó seja redefinido antes de tentar isso.",
     "WARNING: Only do this if you no longer have physical access.": "AVISO: Faça isso somente se você não tiver mais acesso físico.",
-    "Wipes all configuration of the controller. All connected nodes will be orphaned and have to be reset and included into the new network before they can be used again.": "Limpa toda a configuração do controlador. "
+    "Wipes all configuration of the controller. All connected nodes will be orphaned and have to be reset and included into the new network before they can be used again.": "Limpa toda a configuração do controlador. ",
+    "Groups": "Grupos",
+    "Delete group": "Excluir grupo",
+    "Enter group name": "Digite o nome do grupo",
+    "Group name": "Nome do grupo",
+    "Nodes": "Nós",
+    "Save group": "Salvar grupo",
+    "The group could not be deleted!": "O grupo não pôde ser excluído!",
+    "The group could not be saved!": "O grupo não pôde ser salvo!"
 }

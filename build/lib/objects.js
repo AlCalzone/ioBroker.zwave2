@@ -59,14 +59,14 @@ __export(exports, {
   computeVirtualChannelId: () => computeVirtualChannelId,
   computeVirtualStateId: () => computeVirtualStateId,
   ensureBroadcastNode: () => ensureBroadcastNode,
-  extendBroadcastMetadata: () => extendBroadcastMetadata,
-  extendBroadcastNodeCC: () => extendBroadcastNodeCC,
   extendCC: () => extendCC,
   extendMetadata: () => extendMetadata,
   extendNode: () => extendNode,
   extendNotificationValue: () => extendNotificationValue,
   extendNotification_NotificationCC: () => extendNotification_NotificationCC,
   extendValue: () => extendValue,
+  extendVirtualMetadata: () => extendVirtualMetadata,
+  extendVirtualNodeCC: () => extendVirtualNodeCC,
   nameToStateId: () => nameToStateId,
   nodeStatusToStatusState: () => nodeStatusToStatusState,
   removeNode: () => removeNode,
@@ -108,7 +108,7 @@ function safeValue(value) {
   return value;
 }
 const isCamelCasedSafeNameRegex = /^(?!.*[\-_]$)[a-z]([a-zA-Z0-9\-_]+)$/;
-const DEVICE_ID_BROADCAST = "BROADCAST";
+const DEVICE_ID_BROADCAST = "Broadcast";
 function nameToStateId(label) {
   if (isCamelCasedSafeNameRegex.test(label))
     return label;
@@ -276,8 +276,8 @@ async function extendCCInternal(node, channelId, cc, ccName) {
 async function extendCC(node, cc, ccName) {
   await extendCCInternal(node, computeChannelId(node.id, ccName), cc, ccName);
 }
-async function extendBroadcastNodeCC(node, cc, ccName) {
-  await extendCCInternal(node, computeVirtualChannelId(DEVICE_ID_BROADCAST, ccName), cc, ccName);
+async function extendVirtualNodeCC(node, deviceId, cc, ccName) {
+  await extendCCInternal(node, computeVirtualChannelId(deviceId, ccName), cc, ccName);
 }
 async function extendValue(node, args, fromCache = false) {
   const stateId = computeStateId(node.id, args);
@@ -318,11 +318,13 @@ async function extendMetadata(node, args) {
   const metadata = "metadata" in args && args.metadata || node.getValueMetadata(args);
   await extendMetadataInternal(stateId, metadata, args, {nodeId: node.id});
 }
-async function extendBroadcastMetadata(node, _a) {
+async function extendVirtualMetadata(node, deviceId, _a) {
   var _b = _a, {metadata, ccVersion} = _b, valueId = __objRest(_b, ["metadata", "ccVersion"]);
-  const stateId = computeVirtualStateId(DEVICE_ID_BROADCAST, valueId);
-  await extendMetadataInternal(stateId, metadata, valueId, {
+  const stateId = computeVirtualStateId(deviceId, valueId);
+  await extendMetadataInternal(stateId, metadata, valueId, node.id === import_core.NODE_ID_BROADCAST ? {
     broadcast: true
+  } : {
+    nodeIds: node.physicalNodes.map((n) => n.id)
   });
 }
 async function extendMetadataInternal(stateId, metadata, valueId, nativePart = {}) {
@@ -529,14 +531,14 @@ async function setRFRegionState(rfRegion) {
   computeVirtualChannelId,
   computeVirtualStateId,
   ensureBroadcastNode,
-  extendBroadcastMetadata,
-  extendBroadcastNodeCC,
   extendCC,
   extendMetadata,
   extendNode,
   extendNotificationValue,
   extendNotification_NotificationCC,
   extendValue,
+  extendVirtualMetadata,
+  extendVirtualNodeCC,
   nameToStateId,
   nodeStatusToStatusState,
   removeNode,

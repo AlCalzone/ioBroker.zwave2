@@ -66,7 +66,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
     }));
     this.driverReady = false;
     this.readyNodes = new Set();
-    this.broadcastNodeUpdated = false;
+    this.virtualNodesUpdated = false;
     this.initialNodeInterviewStages = new Map();
     this.onNodeNotification = async (...params) => {
       if (params[1] === import_core.CommandClasses.Notification) {
@@ -179,7 +179,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
     this.driver.on("error", this.onZWaveError.bind(this));
     this.driver.once("all nodes ready", async () => {
       this.log.info("All nodes are ready to use");
-      await this.updateBroadcastNode();
+      await this.updateVirtualNodes();
     });
     try {
       this.driver.enableStatistics({
@@ -221,7 +221,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
   async onNodeAdded(node, result) {
     var _a;
     this.log.info(`Node ${node.id}: added`);
-    this.broadcastNodeUpdated = false;
+    this.virtualNodesUpdated = false;
     this.addNodeEventHandlers(node);
     this.pushToFrontend({
       type: "inclusion",
@@ -249,8 +249,8 @@ class ZWave2 extends import_adapter_core.default.Adapter {
     }
     node.removeAllListeners();
     await (0, import_objects2.removeNode)(node.id);
-    this.broadcastNodeUpdated = false;
-    await this.updateBroadcastNode();
+    this.virtualNodesUpdated = false;
+    await this.updateVirtualNodes();
   }
   async onHealNetworkProgress(progress) {
     const allDone = [...progress.values()].every((v) => v !== "pending");
@@ -289,17 +289,67 @@ class ZWave2 extends import_adapter_core.default.Adapter {
     if (!node.isControllerNode()) {
       await this.cleanupNodeObjectsAndStates(node, allValueIDs);
     }
-    await this.updateBroadcastNode();
+    await this.updateVirtualNodes();
   }
-  async updateBroadcastNode() {
-    if (this.broadcastNodeUpdated)
+  async updateVirtualNodes() {
+    if (this.virtualNodesUpdated)
       return;
-    this.broadcastNodeUpdated = true;
-    this.log.info(`Updating Broadcast node states`);
-    const node = this.driver.controller.getBroadcastNode();
+    this.virtualNodesUpdated = true;
+    this.log.info(`Updating broadcast/multicast node states`);
+    let node = this.driver.controller.getBroadcastNode();
     const allValueIDs = (0, import_zwave.getVirtualValueIDs)(node);
-    await this.extendBroadcastNodeObjectsAndStates(node, allValueIDs);
-    await this.cleanupBroadcastNodeObjects(node, allValueIDs);
+    await (0, import_objects2.ensureBroadcastNode)();
+    await this.extendVirtualNodeObjectsAndStates(node, import_objects2.DEVICE_ID_BROADCAST, allValueIDs);
+    await this.cleanupVirtualNodeObjects(import_objects2.DEVICE_ID_BROADCAST, allValueIDs);
+    const multicastNodes = await this.getMulticastNodeDefinitions();
+    for (const {objId, nodeIds} of multicastNodes) {
+      node = this.driver.controller.getMulticastGroup(nodeIds);
+      const deviceId = objId.substr(this.namespace.length + 1);
+      const allValueIDs2 = (0, import_zwave.getVirtualValueIDs)(node);
+      await this.extendVirtualNodeObjectsAndStates(node, deviceId, allValueIDs2);
+      await this.cleanupVirtualNodeObjects(deviceId, allValueIDs2);
+    }
+    await this.cleanupOrphanedMulticastNodeTrees(multicastNodes.map((n) => n.objId));
+  }
+  async getMulticastNodeDefinitions() {
+    const devices = (await this.getObjectViewAsync("system", "device", {
+      startkey: `${this.namespace}.Group_`,
+      endkey: `${this.namespace}.Group_\u9999`
+    })).rows.map((r) => r.value).filter((o) => !!o);
+    const ret = [];
+    for (const d of devices) {
+      if (!d.native.multicast)
+        continue;
+      if (!(0, import_typeguards.isArray)(d.native.nodeIds) || !d.native.nodeIds.length) {
+        continue;
+      }
+      if (!d.native.nodeIds.every((n) => typeof n === "number" && n > 0 && n <= import_core.MAX_NODES)) {
+        this.log.warn(`Multicast group object ${d._id} contains invalid node IDs, ignoring it!`);
+        continue;
+      }
+      ret.push({objId: d._id, nodeIds: d.native.nodeIds});
+    }
+    return ret;
+  }
+  async cleanupOrphanedMulticastNodeTrees(multicastGroupIds) {
+    const objectIds = [
+      ...(await this.getObjectViewAsync("system", "channel", {
+        startkey: `${this.namespace}.Group_`,
+        endkey: `${this.namespace}.Group_\u9999`
+      })).rows.map((r) => r.value),
+      ...(await this.getObjectViewAsync("system", "state", {
+        startkey: `${this.namespace}.Group_`,
+        endkey: `${this.namespace}.Group_\u9999`
+      })).rows.map((r) => r.value)
+    ].filter((o) => !!o).map((o) => o._id);
+    const orphanedIds = objectIds.filter((oid) => !multicastGroupIds.some((gid) => oid.startsWith(gid + ".")));
+    for (const id of orphanedIds) {
+      this.log.debug(`Deleting orphaned multicast object ${id}`);
+      try {
+        await this.delObjectAsync(id);
+      } catch (e) {
+      }
+    }
   }
   async extendNodeObjectsAndStates(node, allValueIDs) {
     await (0, import_objects2.extendNode)(node);
@@ -319,14 +369,13 @@ class ZWave2 extends import_adapter_core.default.Adapter {
       }
     }
   }
-  async extendBroadcastNodeObjectsAndStates(node, valueIDs) {
-    await (0, import_objects2.ensureBroadcastNode)();
+  async extendVirtualNodeObjectsAndStates(node, deviceId, valueIDs) {
     const uniqueCCs = valueIDs.map((vid) => [vid.commandClass, vid.commandClassName]).filter(([cc], index, arr) => arr.findIndex(([_cc]) => _cc === cc) === index);
     for (const [cc, ccName] of uniqueCCs) {
-      await (0, import_objects2.extendBroadcastNodeCC)(node, cc, ccName);
+      await (0, import_objects2.extendVirtualNodeCC)(node, deviceId, cc, ccName);
     }
     for (const valueId of valueIDs) {
-      await (0, import_objects2.extendBroadcastMetadata)(node, valueId);
+      await (0, import_objects2.extendVirtualMetadata)(node, deviceId, valueId);
     }
   }
   async cleanupNodeObjectsAndStates(node, allValueIDs) {
@@ -365,14 +414,14 @@ class ZWave2 extends import_adapter_core.default.Adapter {
       }
     }
   }
-  async cleanupBroadcastNodeObjects(node, valueIDs) {
+  async cleanupVirtualNodeObjects(deviceId, valueIDs) {
     const uniqueCCs = valueIDs.map((vid) => [vid.commandClass, vid.commandClassName]).filter(([cc], index, arr) => arr.findIndex(([_cc]) => _cc === cc) === index);
-    const nodeAbsoluteId = `${this.namespace}.${import_objects2.DEVICE_ID_BROADCAST}`;
-    const desiredChannelIds = new Set(uniqueCCs.map(([, ccName]) => `${this.namespace}.${(0, import_objects2.computeVirtualChannelId)(import_objects2.DEVICE_ID_BROADCAST, ccName)}`));
+    const nodeAbsoluteId = `${this.namespace}.${deviceId}`;
+    const desiredChannelIds = new Set(uniqueCCs.map(([, ccName]) => `${this.namespace}.${(0, import_objects2.computeVirtualChannelId)(deviceId, ccName)}`));
     const existingChannelIds = Object.keys(await import_global.Global.$$(`${nodeAbsoluteId}.*`, {
       type: "channel"
     }));
-    const desiredStateIds = new Set(valueIDs.map((vid) => `${this.namespace}.${(0, import_objects2.computeVirtualStateId)(import_objects2.DEVICE_ID_BROADCAST, vid)}`));
+    const desiredStateIds = new Set(valueIDs.map((vid) => `${this.namespace}.${(0, import_objects2.computeVirtualStateId)(deviceId, vid)}`));
     const existingStateIds = Object.keys(await import_global.Global.$$(`${nodeAbsoluteId}.*`, {
       type: "state"
     }));
@@ -546,11 +595,11 @@ class ZWave2 extends import_adapter_core.default.Adapter {
       }, 1e3);
     }
   }
-  onObjectChange(id, obj) {
-    if (obj) {
-      this.log.debug(`object ${id} changed: ${JSON.stringify(obj)}`);
-    } else {
-      this.log.debug(`object ${id} deleted`);
+  async onObjectChange(id, _obj) {
+    const prefix = this.namespace + ".Group_";
+    if (id.startsWith(prefix) && id.indexOf(".", prefix.length) === -1) {
+      this.virtualNodesUpdated = false;
+      await this.updateVirtualNodes();
     }
   }
   async onStateChange(id, state) {
@@ -572,21 +621,28 @@ class ZWave2 extends import_adapter_core.default.Adapter {
           return;
         }
         const {native} = obj;
-        const isBroadcast = !!native.broadcast;
-        const nodeId = native.nodeId;
-        if (!isBroadcast && !nodeId) {
-          this.log.error(`Node ID missing from object definition ${id}!`);
-          return;
-        }
         const valueId = native.valueId;
         if (!(valueId && valueId.commandClass && valueId.property)) {
           this.log.error(`Value ID missing or incomplete in object definition ${id}!`);
           return;
         }
-        const node = isBroadcast ? this.driver.controller.getBroadcastNode() : this.driver.controller.nodes.get(nodeId);
-        if (!node) {
-          this.log.error(`Node ${nodeId} does not exist!`);
-          return;
+        let node;
+        if (!!native.broadcast) {
+          node = this.driver.controller.getBroadcastNode();
+        } else if ((0, import_typeguards.isArray)(native.nodeIds)) {
+          node = this.driver.controller.getMulticastGroup(native.nodeIds);
+        } else {
+          const nodeId = native.nodeId;
+          if (!nodeId) {
+            this.log.error(`Node ID missing from object definition ${id}!`);
+            return;
+          }
+          try {
+            node = this.driver.controller.nodes.getOrThrow(nodeId);
+          } catch {
+            this.log.error(`Node ${nodeId} does not exist!`);
+            return;
+          }
         }
         let newValue = state.val;
         if (typeof newValue === "string" && (0, import_shared2.isBufferAsHex)(newValue)) {

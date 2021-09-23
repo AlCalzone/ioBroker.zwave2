@@ -147,5 +147,13 @@
     "Unsubscribed logs...": "Niesubskrybowane dzienniki...",
     "WARNING: Make sure that the node is reset before attempting this.": "OSTRZEŻENIE: Upewnij się, że węzeł jest zresetowany przed próbą tego.",
     "WARNING: Only do this if you no longer have physical access.": "OSTRZEŻENIE: Zrób to tylko wtedy, gdy nie masz już fizycznego dostępu.",
-    "Wipes all configuration of the controller. All connected nodes will be orphaned and have to be reset and included into the new network before they can be used again.": "Wymazuje całą konfigurację kontrolera. "
+    "Wipes all configuration of the controller. All connected nodes will be orphaned and have to be reset and included into the new network before they can be used again.": "Wymazuje całą konfigurację kontrolera. ",
+    "Groups": "Grupy",
+    "Delete group": "Usuń grupę",
+    "Enter group name": "Wpisz nazwę grupy",
+    "Group name": "Nazwa grupy",
+    "Nodes": "Węzły",
+    "Save group": "Zapisz grupę",
+    "The group could not be deleted!": "Nie udało się usunąć grupy!",
+    "The group could not be saved!": "Nie udało się zapisać grupy!"
 }
