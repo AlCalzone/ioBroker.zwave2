@@ -97,7 +97,6 @@ export const ZWaveLogs: React.FC = () => {
 	const onPush = React.useCallback(
 		(payload: PushMessage) => {
 			if (payload.type === "log") {
-				// console.log(payload.info.message);
 				const pseudoHtml = ansi.parse(payload.info.message).spans;
 				const spans = pseudoHtml.map((span) => {
 					return `<span style="${span.css.replace(

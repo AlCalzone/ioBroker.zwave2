@@ -147,5 +147,14 @@
     "Wipes all configuration of the controller. All connected nodes will be orphaned and have to be reset and included into the new network before they can be used again.": "Cancella tutta la configurazione del controller. ",
     "Write a detailed logfile": "Scrivi un file di registro dettagliato",
     "yes": "sì",
-    "Z-Wave supports the following security mechanisms:": "Z-Wave supports the following security mechanisms:"
+    "Z-Wave supports the following security mechanisms:": "Z-Wave supports the following security mechanisms:",
+    "Groups": "Gruppi",
+    "Delete group": "Elimina gruppo",
+    "Enter group name": "Inserisci il nome del gruppo",
+    "Group name": "Nome del gruppo",
+    "Nodes": "nodi",
+    "Save group": "Salva gruppo",
+    "Select nodes": "Seleziona nodi",
+    "The group could not be deleted!": "Impossibile eliminare il gruppo!",
+    "The group could not be saved!": "Impossibile salvare il gruppo!"
 }

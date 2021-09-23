@@ -147,5 +147,14 @@
     "Unsubscribed logs...": "Отписавшиеся журналы ...",
     "WARNING: Make sure that the node is reset before attempting this.": "ВНИМАНИЕ! Перед тем, как пытаться это сделать, убедитесь, что узел сброшен.",
     "WARNING: Only do this if you no longer have physical access.": "ВНИМАНИЕ: делайте это только в том случае, если у вас больше нет физического доступа.",
-    "Wipes all configuration of the controller. All connected nodes will be orphaned and have to be reset and included into the new network before they can be used again.": "Стирает всю конфигурацию контроллера. "
+    "Wipes all configuration of the controller. All connected nodes will be orphaned and have to be reset and included into the new network before they can be used again.": "Стирает всю конфигурацию контроллера. ",
+    "Groups": "Группы",
+    "Delete group": "Удалить группу",
+    "Enter group name": "Введите название группы",
+    "Group name": "Имя группы",
+    "Nodes": "Узлы",
+    "Save group": "Сохранить группу",
+    "Select nodes": "Выбрать узлы",
+    "The group could not be deleted!": "Группа не может быть удалена!",
+    "The group could not be saved!": "Группу не удалось сохранить!"
 }

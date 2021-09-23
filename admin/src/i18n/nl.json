@@ -147,5 +147,14 @@
     "Unsubscribed logs...": "Uitgeschreven logboeken...",
     "WARNING: Make sure that the node is reset before attempting this.": "WAARSCHUWING: Zorg ervoor dat het knooppunt opnieuw is ingesteld voordat u dit probeert.",
     "WARNING: Only do this if you no longer have physical access.": "WAARSCHUWING: Doe dit alleen als u geen fysieke toegang meer heeft.",
-    "Wipes all configuration of the controller. All connected nodes will be orphaned and have to be reset and included into the new network before they can be used again.": "Wist alle configuratie van de controller. "
+    "Wipes all configuration of the controller. All connected nodes will be orphaned and have to be reset and included into the new network before they can be used again.": "Wist alle configuratie van de controller. ",
+    "Groups": "Groepen",
+    "Delete group": "Groep verwijderen",
+    "Enter group name": "Voer groepsnaam in",
+    "Group name": "Groepsnaam",
+    "Nodes": "Knooppunten",
+    "Save group": "Groep opslaan",
+    "Select nodes": "Selecteer knooppunten",
+    "The group could not be deleted!": "De groep kan niet worden verwijderd!",
+    "The group could not be saved!": "De groep kon niet worden gered!"
 }

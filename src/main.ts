@@ -503,6 +503,11 @@ export class ZWave2 extends utils.Adapter<true> {
 			);
 			await this.cleanupVirtualNodeObjects(deviceId, allValueIDs);
 		}
+
+		// Then clean up multicast nodes that have been deleted without deleting their subtrees
+		await this.cleanupOrphanedMulticastNodeTrees(
+			multicastNodes.map((n) => n.objId),
+		);
 	}
 
 	private async getMulticastNodeDefinitions() {
@@ -535,6 +540,41 @@ export class ZWave2 extends utils.Adapter<true> {
 			ret.push({ objId: d._id, nodeIds: d.native.nodeIds });
 		}
 		return ret;
+	}
+
+	private async cleanupOrphanedMulticastNodeTrees(
+		multicastGroupIds: string[],
+	) {
+		const objectIds = [
+			...(
+				await this.getObjectViewAsync("system", "channel", {
+					startkey: `${this.namespace}.Group_`,
+					endkey: `${this.namespace}.Group_\u9999`,
+				})
+			).rows.map((r) => r.value),
+			...(
+				await this.getObjectViewAsync("system", "state", {
+					startkey: `${this.namespace}.Group_`,
+					endkey: `${this.namespace}.Group_\u9999`,
+				})
+			).rows.map((r) => r.value),
+		]
+			.filter((o): o is ioBroker.Object => !!o)
+			.map((o) => o._id);
+
+		const orphanedIds = objectIds.filter(
+			(oid) =>
+				!multicastGroupIds.some((gid) => oid.startsWith(gid + ".")),
+		);
+
+		for (const id of orphanedIds) {
+			this.log.debug(`Deleting orphaned multicast object ${id}`);
+			try {
+				await this.delObjectAsync(id);
+			} catch (e) {
+				/* it's fine */
+			}
+		}
 	}
 
 	private async extendNodeObjectsAndStates(
@@ -1050,16 +1090,16 @@ export class ZWave2 extends utils.Adapter<true> {
 	/**
 	 * Is called if a subscribed object changes
 	 */
-	private onObjectChange(
+	private async onObjectChange(
 		id: string,
-		obj: ioBroker.Object | null | undefined,
-	): void {
-		if (obj) {
-			// The object was changed
-			this.log.debug(`object ${id} changed: ${JSON.stringify(obj)}`);
-		} else {
-			// The object was deleted
-			this.log.debug(`object ${id} deleted`);
+		_obj: ioBroker.Object | null | undefined,
+	): Promise<void> {
+		const prefix = this.namespace + ".Group_";
+		if (id.startsWith(prefix) && id.indexOf(".", prefix.length) === -1) {
+			// A multicast group was changed, check if their object trees need to be updated
+			// Check if the the broadcast node and multicast nodes need to be updated
+			this.virtualNodesUpdated = false;
+			await this.updateVirtualNodes();
 		}
 	}
 

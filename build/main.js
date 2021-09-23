@@ -309,6 +309,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
       await this.extendVirtualNodeObjectsAndStates(node, deviceId, allValueIDs2);
       await this.cleanupVirtualNodeObjects(deviceId, allValueIDs2);
     }
+    await this.cleanupOrphanedMulticastNodeTrees(multicastNodes.map((n) => n.objId));
   }
   async getMulticastNodeDefinitions() {
     const devices = (await this.getObjectViewAsync("system", "device", {
@@ -329,6 +330,26 @@ class ZWave2 extends import_adapter_core.default.Adapter {
       ret.push({objId: d._id, nodeIds: d.native.nodeIds});
     }
     return ret;
+  }
+  async cleanupOrphanedMulticastNodeTrees(multicastGroupIds) {
+    const objectIds = [
+      ...(await this.getObjectViewAsync("system", "channel", {
+        startkey: `${this.namespace}.Group_`,
+        endkey: `${this.namespace}.Group_\u9999`
+      })).rows.map((r) => r.value),
+      ...(await this.getObjectViewAsync("system", "state", {
+        startkey: `${this.namespace}.Group_`,
+        endkey: `${this.namespace}.Group_\u9999`
+      })).rows.map((r) => r.value)
+    ].filter((o) => !!o).map((o) => o._id);
+    const orphanedIds = objectIds.filter((oid) => !multicastGroupIds.some((gid) => oid.startsWith(gid + ".")));
+    for (const id of orphanedIds) {
+      this.log.debug(`Deleting orphaned multicast object ${id}`);
+      try {
+        await this.delObjectAsync(id);
+      } catch (e) {
+      }
+    }
   }
   async extendNodeObjectsAndStates(node, allValueIDs) {
     await (0, import_objects2.extendNode)(node);
@@ -574,11 +595,11 @@ class ZWave2 extends import_adapter_core.default.Adapter {
       }, 1e3);
     }
   }
-  onObjectChange(id, obj) {
-    if (obj) {
-      this.log.debug(`object ${id} changed: ${JSON.stringify(obj)}`);
-    } else {
-      this.log.debug(`object ${id} deleted`);
+  async onObjectChange(id, _obj) {
+    const prefix = this.namespace + ".Group_";
+    if (id.startsWith(prefix) && id.indexOf(".", prefix.length) === -1) {
+      this.virtualNodesUpdated = false;
+      await this.updateVirtualNodes();
     }
   }
   async onStateChange(id, state) {
