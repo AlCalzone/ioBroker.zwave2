@@ -155,5 +155,8 @@
     "Nodes": "Knooppunten",
     "Save group": "Groep opslaan",
     "The group could not be deleted!": "De groep kan niet worden verwijderd!",
-    "The group could not be saved!": "De groep kon niet worden gered!"
+    "The group could not be saved!": "De groep kon niet worden gered!",
+    "Select at least 2 nodes": "Selecteer minimaal 2 knooppunten",
+    "no multicast S0": "Knooppunten die bij Security S0 worden geleverd, kunnen niet worden gebruikt in multicast-groepen.",
+    "no multicast S2": "Groepsondersteuning voor nodes die bij Security S2 zijn inbegrepen, is nog niet geïmplementeerd."
 }

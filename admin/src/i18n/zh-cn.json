@@ -155,5 +155,8 @@
     "Nodes": "节点",
     "Save group": "保存组",
     "The group could not be deleted!": "无法删除该组！",
-    "The group could not be saved!": "无法保存该组！"
+    "The group could not be saved!": "无法保存该组！",
+    "Select at least 2 nodes": "选择至少 2 个节点",
+    "no multicast S0": "安全 S0 中包含的节点不能用于多播组。",
+    "no multicast S2": "尚未实现对包含在 Security S2 中的节点的组支持。"
 }

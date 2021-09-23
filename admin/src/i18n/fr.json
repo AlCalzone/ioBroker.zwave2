@@ -155,5 +155,8 @@
     "Nodes": "Nœuds",
     "Save group": "Enregistrer le groupe",
     "The group could not be deleted!": "Le groupe n'a pas pu être supprimé !",
-    "The group could not be saved!": "Le groupe n'a pas pu être enregistré !"
+    "The group could not be saved!": "Le groupe n'a pas pu être enregistré !",
+    "Select at least 2 nodes": "Sélectionnez au moins 2 nœuds",
+    "no multicast S0": "Les nœuds inclus avec Security S0 ne peuvent pas être utilisés dans des groupes de multidiffusion.",
+    "no multicast S2": "La prise en charge de groupe pour les nœuds inclus avec Security S2 n'est pas encore implémentée."
 }

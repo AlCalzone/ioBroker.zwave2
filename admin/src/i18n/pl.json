@@ -155,5 +155,8 @@
     "Nodes": "Węzły",
     "Save group": "Zapisz grupę",
     "The group could not be deleted!": "Nie udało się usunąć grupy!",
-    "The group could not be saved!": "Nie udało się zapisać grupy!"
+    "The group could not be saved!": "Nie udało się zapisać grupy!",
+    "Select at least 2 nodes": "Wybierz co najmniej 2 węzły",
+    "no multicast S0": "Węzły zawarte w Security S0 nie mogą być używane w grupach multiemisji.",
+    "no multicast S2": "Obsługa grupowa węzłów zawartych w Security S2 nie została jeszcze zaimplementowana."
 }

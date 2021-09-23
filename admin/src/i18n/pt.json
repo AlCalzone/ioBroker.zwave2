@@ -155,5 +155,8 @@
     "Nodes": "Nós",
     "Save group": "Salvar grupo",
     "The group could not be deleted!": "O grupo não pôde ser excluído!",
-    "The group could not be saved!": "O grupo não pôde ser salvo!"
+    "The group could not be saved!": "O grupo não pôde ser salvo!",
+    "Select at least 2 nodes": "Selecione pelo menos 2 nós",
+    "no multicast S0": "Os nós incluídos no Security S0 não podem ser usados ​​em grupos multicast.",
+    "no multicast S2": "O suporte de grupo para nós incluídos no Security S2 ainda não foi implementado."
 }

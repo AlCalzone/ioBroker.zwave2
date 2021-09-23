@@ -155,5 +155,8 @@
     "Nodes": "nodi",
     "Save group": "Salva gruppo",
     "The group could not be deleted!": "Impossibile eliminare il gruppo!",
-    "The group could not be saved!": "Impossibile salvare il gruppo!"
+    "The group could not be saved!": "Impossibile salvare il gruppo!",
+    "Select at least 2 nodes": "Seleziona almeno 2 nodi",
+    "no multicast S0": "I nodi inclusi con Security S0 non possono essere utilizzati nei gruppi multicast.",
+    "no multicast S2": "Il supporto di gruppo per i nodi inclusi con Security S2 non è ancora implementato."
 }

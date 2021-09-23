@@ -137,7 +137,10 @@
 	"native": {
 		"serialport": "",
 		"writeLogFile": false,
-		"networkKey": "",
+		"networkKey_S0": "",
+		"networkKey_S2_AccessControl": "",
+		"networkKey_S2_Authenticated": "",
+		"networkKey_S2_Unauthenticated": "",
 		"driver_increaseTimeouts": false,
 		"driver_increaseSendAttempts": false,
 		"switchCompat": false,

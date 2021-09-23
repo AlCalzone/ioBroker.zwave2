@@ -155,5 +155,8 @@
     "Nodes": "Nodos",
     "Save group": "Guardar grupo",
     "The group could not be deleted!": "¡No se pudo eliminar el grupo!",
-    "The group could not be saved!": "¡El grupo no se pudo salvar!"
+    "The group could not be saved!": "¡El grupo no se pudo salvar!",
+    "Select at least 2 nodes": "Seleccione al menos 2 nodos",
+    "no multicast S0": "Los nodos incluidos con Security S0 no se pueden utilizar en grupos de multidifusión.",
+    "no multicast S2": "El soporte grupal para los nodos incluidos con Security S2 aún no está implementado."
 }

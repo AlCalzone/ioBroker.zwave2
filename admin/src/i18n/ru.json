@@ -155,5 +155,8 @@
     "Nodes": "Узлы",
     "Save group": "Сохранить группу",
     "The group could not be deleted!": "Группа не может быть удалена!",
-    "The group could not be saved!": "Группу не удалось сохранить!"
+    "The group could not be saved!": "Группу не удалось сохранить!",
+    "Select at least 2 nodes": "Выберите не менее 2 узлов",
+    "no multicast S0": "Узлы, включенные в Security S0, не могут использоваться в группах многоадресной рассылки.",
+    "no multicast S2": "Групповая поддержка узлов, включенных в Security S2, еще не реализована."
 }
