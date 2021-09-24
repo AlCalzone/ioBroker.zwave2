@@ -1,17 +1,16 @@
-import React from "react";
-
-import { useI18n } from "iobroker-react/hooks";
-import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
+import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import { useI18n } from "iobroker-react/hooks";
+import React from "react";
+import type { NetworkHealStatus } from "../../../src/lib/shared";
 import type { Device } from "../lib/useAPI";
 import { DeviceTableRow } from "./DeviceTableRow";
-import type { NetworkHealStatus } from "../../../src/lib/shared";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -53,6 +52,7 @@ export const DeviceTable: React.FC<DeviceTableProps> = (props) => {
 							<TableCell>{_("Type")}</TableCell>
 							<TableCell>{_("Security")}</TableCell>
 							<TableCell>{_("Status")}</TableCell>
+							<TableCell>{_("Statistics")}</TableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>
@@ -79,7 +79,7 @@ export const DeviceTable: React.FC<DeviceTableProps> = (props) => {
 						) : (
 							<TableRow>
 								<TableCell
-									colSpan={5}
+									colSpan={6}
 									className={classes.empty}
 								>
 									{_("No devices present")}

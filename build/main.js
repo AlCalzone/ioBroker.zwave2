@@ -141,7 +141,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
       this.driverReady = true;
       this.setState("info.connection", true, true);
       this.log.info(`The driver is ready. Found ${this.driver.controller.nodes.size} nodes.`);
-      this.driver.controller.on("inclusion started", this.onInclusionStarted.bind(this)).on("exclusion started", this.onExclusionStarted.bind(this)).on("inclusion stopped", this.onInclusionStopped.bind(this)).on("exclusion stopped", this.onExclusionStopped.bind(this)).on("inclusion failed", this.onInclusionFailed.bind(this)).on("exclusion failed", this.onExclusionFailed.bind(this)).on("node added", this.onNodeAdded.bind(this)).on("node removed", this.onNodeRemoved.bind(this)).on("heal network progress", this.onHealNetworkProgress.bind(this)).on("heal network done", this.onHealNetworkDone.bind(this));
+      this.driver.controller.on("inclusion started", this.onInclusionStarted.bind(this)).on("exclusion started", this.onExclusionStarted.bind(this)).on("inclusion stopped", this.onInclusionStopped.bind(this)).on("exclusion stopped", this.onExclusionStopped.bind(this)).on("inclusion failed", this.onInclusionFailed.bind(this)).on("exclusion failed", this.onExclusionFailed.bind(this)).on("node added", this.onNodeAdded.bind(this)).on("node removed", this.onNodeRemoved.bind(this)).on("heal network progress", this.onHealNetworkProgress.bind(this)).on("heal network done", this.onHealNetworkDone.bind(this)).on("statistics updated", this.onControllerStatisticsUpdated.bind(this));
       await this.setStateAsync("info.configVersion", this.driver.configVersion, true);
       await this.setStateAsync("info.configUpdate", null, true);
       void this.checkForConfigUpdates();
@@ -274,8 +274,11 @@ class ZWave2 extends import_adapter_core.default.Adapter {
     });
     this.setState("info.healingNetwork", false, true);
   }
+  async onControllerStatisticsUpdated(statistics) {
+    await (0, import_objects2.setControllerStatistics)(statistics);
+  }
   addNodeEventHandlers(node) {
-    node.on("ready", this.onNodeReady.bind(this)).on("interview failed", this.onNodeInterviewFailed.bind(this)).on("interview completed", this.onNodeInterviewCompleted.bind(this)).on("wake up", this.onNodeWakeUp.bind(this)).on("sleep", this.onNodeSleep.bind(this)).on("alive", this.onNodeAlive.bind(this)).on("dead", this.onNodeDead.bind(this)).on("value added", this.onNodeValueAdded.bind(this)).on("value updated", this.onNodeValueUpdated.bind(this)).on("value removed", this.onNodeValueRemoved.bind(this)).on("value notification", this.onNodeValueNotification.bind(this)).on("metadata updated", this.onNodeMetadataUpdated.bind(this)).on("firmware update progress", this.onNodeFirmwareUpdateProgress.bind(this)).on("firmware update finished", this.onNodeFirmwareUpdateFinished.bind(this)).on("notification", this.onNodeNotification.bind(this));
+    node.on("ready", this.onNodeReady.bind(this)).on("interview failed", this.onNodeInterviewFailed.bind(this)).on("interview completed", this.onNodeInterviewCompleted.bind(this)).on("wake up", this.onNodeWakeUp.bind(this)).on("sleep", this.onNodeSleep.bind(this)).on("alive", this.onNodeAlive.bind(this)).on("dead", this.onNodeDead.bind(this)).on("value added", this.onNodeValueAdded.bind(this)).on("value updated", this.onNodeValueUpdated.bind(this)).on("value removed", this.onNodeValueRemoved.bind(this)).on("value notification", this.onNodeValueNotification.bind(this)).on("metadata updated", this.onNodeMetadataUpdated.bind(this)).on("firmware update progress", this.onNodeFirmwareUpdateProgress.bind(this)).on("firmware update finished", this.onNodeFirmwareUpdateFinished.bind(this)).on("notification", this.onNodeNotification.bind(this)).on("statistics updated", this.onNodeStatisticsUpdated.bind(this));
   }
   async onNodeReady(node) {
     if (this.readyNodes.has(node.id))
@@ -545,6 +548,9 @@ class ZWave2 extends import_adapter_core.default.Adapter {
       }
     });
   }
+  async onNodeStatisticsUpdated(node, statistics) {
+    await (0, import_objects2.setNodeStatistics)(node.id, statistics);
+  }
   async checkForConfigUpdates() {
     var _a, _b;
     if (!((_a = await this.getStateAsync("info.configUpdate")) == null ? void 0 : _a.val)) {
@@ -570,12 +576,14 @@ class ZWave2 extends import_adapter_core.default.Adapter {
       for (const nodeId of allNodeIds) {
         await (0, import_objects2.setNodeStatus)(nodeId, "unknown");
         await (0, import_objects2.setNodeReady)(nodeId, false);
+        await (0, import_objects2.setNodeStatistics)(nodeId, null);
       }
       if (this.configUpdateTimeout)
         clearTimeout(this.configUpdateTimeout);
       if (this.pushPayloadExpirationTimeout)
         clearTimeout(this.pushPayloadExpirationTimeout);
       await this.setStateAsync("info.configUpdating", false, true);
+      await (0, import_objects2.setControllerStatistics)(null);
       this.log.info("Cleaned everything up!");
       callback();
     } catch (e) {

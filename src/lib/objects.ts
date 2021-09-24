@@ -10,9 +10,14 @@ import {
 import { entries } from "alcalzone-shared/objects";
 import { padStart } from "alcalzone-shared/strings";
 import { isArray, isObject } from "alcalzone-shared/typeguards";
-import { RFRegion } from "zwave-js";
+import { ControllerStatistics, RFRegion } from "zwave-js";
 import type { ZWaveNotificationCallbackArgs_NotificationCC } from "zwave-js/CommandClass";
-import { NodeStatus, VirtualNode, ZWaveNode } from "zwave-js/Node";
+import {
+	NodeStatistics,
+	NodeStatus,
+	VirtualNode,
+	ZWaveNode,
+} from "zwave-js/Node";
 import type {
 	TranslatedValueID,
 	ValueMetadataNumeric,
@@ -558,6 +563,59 @@ export async function setNodeReady(
 		native: {},
 	});
 	await _.adapter.setStateAsync(stateId, ready, true);
+}
+
+export async function setControllerStatistics(
+	statistics: ControllerStatistics | null,
+): Promise<void> {
+	const stateId = `info.statistics`;
+	await _.adapter.setObjectNotExistsAsync(stateId, {
+		type: "state",
+		common: {
+			name: "Communication statistics",
+			role: "indicator",
+			type: "object",
+			read: true,
+			write: false,
+		},
+		native: {},
+	});
+	await _.adapter.setStateAsync(
+		stateId,
+		statistics ? JSON.stringify(statistics) : null,
+		true,
+	);
+}
+
+export async function setNodeStatistics(
+	nodeId: number,
+	statistics: NodeStatistics | null,
+): Promise<void> {
+	const channelId = `${computeDeviceId(nodeId)}.info`;
+	const stateId = `${channelId}.statistics`;
+	await _.adapter.setObjectNotExistsAsync(channelId, {
+		type: "channel",
+		common: {
+			name: "Information",
+		},
+		native: {},
+	});
+	await _.adapter.setObjectNotExistsAsync(stateId, {
+		type: "state",
+		common: {
+			name: "Transmission statistics",
+			role: "indicator",
+			type: "object",
+			read: true,
+			write: false,
+		},
+		native: {},
+	});
+	await _.adapter.setStateAsync(
+		stateId,
+		statistics ? JSON.stringify(statistics) : null,
+		true,
+	);
 }
 
 export function computeNotificationId(
