@@ -1,21 +1,23 @@
-import React from "react";
-
+import Collapse from "@material-ui/core/Collapse";
+import IconButton from "@material-ui/core/IconButton";
+import { makeStyles } from "@material-ui/core/styles";
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
-import type { Device } from "../lib/useAPI";
-import { HealStatusIcon } from "./HealStatusIcon";
-import { DeviceStatusIcon } from "./DeviceStatusIcon";
-import IconButton from "@material-ui/core/IconButton";
+import Tooltip from "@material-ui/core/Tooltip";
+import HomeIcon from "@material-ui/icons/Home";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
-import Collapse from "@material-ui/core/Collapse";
-import { makeStyles } from "@material-ui/core/styles";
-import { NodeActions } from "./NodeActions";
-import { useI18n } from "iobroker-react/hooks";
-import { DeviceSecurityIcon } from "./DeviceSecurityIcon";
-import HomeIcon from "@material-ui/icons/Home";
-import Tooltip from "@material-ui/core/Tooltip";
+import { useGlobals, useI18n, useIoBrokerState } from "iobroker-react/hooks";
+import React from "react";
+import type { ControllerStatistics, NodeStatistics } from "zwave-js";
+import { computeDeviceId } from "../../../src/lib/shared";
+import type { Device } from "../lib/useAPI";
 import { ControllerActions } from "./ControllerActions";
+import { DeviceSecurityIcon } from "./DeviceSecurityIcon";
+import { DeviceStatisticsIndicator } from "./DeviceStatisticsIndicator";
+import { DeviceStatusIcon } from "./DeviceStatusIcon";
+import { HealStatusIcon } from "./HealStatusIcon";
+import { NodeActions } from "./NodeActions";
 
 export interface DeviceTableRowProps {
 	device: Device;
@@ -60,6 +62,26 @@ export const DeviceTableRow: React.FC<DeviceTableRowProps> = (props) => {
 	const [open, setOpen] = React.useState(isControllerNode);
 	const classes = useStyles();
 	const { translate: _ } = useI18n();
+
+	const { namespace } = useGlobals();
+	const [stringifiedStatistics] = useIoBrokerState<string>({
+		id: isControllerNode
+			? `${namespace}.info.statistics`
+			: `${namespace}.${computeDeviceId(nodeId)}.info.statistics`,
+	});
+	const [statistics, setStatistics] = React.useState<
+		ControllerStatistics | NodeStatistics
+	>();
+	React.useEffect(() => {
+		if (stringifiedStatistics) {
+			try {
+				const parsed = JSON.parse(stringifiedStatistics);
+				setStatistics(parsed);
+			} catch (e) {
+				console.error(e);
+			}
+		}
+	}, [stringifiedStatistics]);
 
 	return (
 		<>
@@ -109,9 +131,15 @@ export const DeviceTableRow: React.FC<DeviceTableRowProps> = (props) => {
 						</>
 					)}
 				</TableCell>
+				<TableCell>
+					<DeviceStatisticsIndicator
+						type={isControllerNode ? "controller" : "node"}
+						statistics={statistics as any}
+					/>
+				</TableCell>
 			</TableRow>
 			<TableRow>
-				<TableCell colSpan={5} className={classes.expanderCell}>
+				<TableCell colSpan={6} className={classes.expanderCell}>
 					<Collapse in={open} timeout="auto" unmountOnExit>
 						{isControllerNode ? (
 							<ControllerActions

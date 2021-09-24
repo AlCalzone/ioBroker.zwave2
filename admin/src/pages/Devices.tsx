@@ -1,30 +1,31 @@
+import CircularProgress from "@material-ui/core/CircularProgress";
+import {
+	useAdapter,
+	useDialogs,
+	useGlobals,
+	useI18n,
+	useIoBrokerState,
+} from "iobroker-react/hooks";
 import React from "react";
 import {
 	getErrorMessage,
 	InclusionExclusionStatus,
 	NetworkHealStatus,
+	PushMessage,
 } from "../../../src/lib/shared";
-import { NotRunning } from "../components/Messages";
-import {
-	useIoBrokerState,
-	useAdapter,
-	useGlobals,
-	useI18n,
-	useDialogs,
-} from "iobroker-react/hooks";
 import {
 	DeviceActionButtons,
 	DeviceActionButtonsState,
 } from "../components/DeviceActionButtons";
-import { Device, useAPI } from "../lib/useAPI";
 import { DeviceTable } from "../components/DeviceTable";
 import {
 	InclusionDialog,
 	InclusionExclusionDialogProps,
 	InclusionExclusionStep,
 } from "../components/InclusionExclusionDialog";
+import { NotRunning } from "../components/Messages";
+import { Device, useAPI } from "../lib/useAPI";
 import { usePush } from "../lib/usePush";
-import CircularProgress from "@material-ui/core/CircularProgress";
 
 export interface DevicesProps {
 	devices: Record<number, Device> | undefined;
@@ -59,19 +60,40 @@ export const Devices: React.FC<DevicesProps> = (props) => {
 	const [inclusionStatus, setInclusionStatus] =
 		React.useState<InclusionExclusionStatus>();
 
-	usePush((payload) => {
-		if (payload.type === "inclusion") {
-			setInclusionStatus(payload.status);
-		} else if (payload.type === "healing") {
-			setNetworkHealProgress(payload.status.progress ?? {});
-			if (payload.status.type === "done") {
-				void showNotification(
-					_("Healing the network was successful!"),
-					"success",
-				);
+	const onPush = React.useCallback(
+		(payload: PushMessage) => {
+			console.log("on push", payload);
+			if (payload.type === "inclusion") {
+				setInclusionStatus(payload.status);
+			} else if (payload.type === "healing") {
+				setNetworkHealProgress(payload.status.progress ?? {});
+				if (payload.status.type === "done") {
+					void showNotification(
+						_("Healing the network was successful!"),
+						"success",
+					);
+				}
 			}
+		},
+		[setInclusionStatus, setNetworkHealProgress, showNotification],
+	);
+	usePush(onPush);
+
+	// Enable displaying usage statistics while the device tab is open
+	const [statisticsSubscribed, setStatisticsSubscribed] =
+		React.useState(false);
+	React.useEffect(() => {
+		if (adapterRunning && driverReady && !statisticsSubscribed) {
+			setStatisticsSubscribed(true);
+			void api.subscribeStatistics();
 		}
-	});
+		return () => {
+			if (statisticsSubscribed) {
+				setStatisticsSubscribed(false);
+				void api.unsubscribeStatistics();
+			}
+		};
+	}, [adapterRunning, driverReady, statisticsSubscribed]);
 
 	async function healNetwork() {
 		if (!healingNetwork) {

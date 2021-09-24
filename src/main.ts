@@ -17,6 +17,7 @@ import fs from "fs-extra";
 import path from "path";
 import type {
 	NodeInterviewFailedEventArgs,
+	NodeStatistics,
 	VirtualNode,
 	ZWaveNodeValueNotificationArgs,
 } from "zwave-js";
@@ -38,6 +39,7 @@ import type {
 	ZWaveNotificationCallback,
 } from "zwave-js/CommandClass";
 import {
+	ControllerStatistics,
 	HealNodeStatus,
 	InclusionGrant,
 	InclusionResult,
@@ -73,7 +75,9 @@ import {
 	nodeStatusToStatusState,
 	removeNode,
 	removeValue,
+	setControllerStatistics,
 	setNodeReady,
+	setNodeStatistics,
 	setNodeStatus,
 	setRFRegionState,
 } from "./lib/objects";
@@ -212,7 +216,11 @@ export class ZWave2 extends utils.Adapter<true> {
 					"heal network progress",
 					this.onHealNetworkProgress.bind(this),
 				)
-				.on("heal network done", this.onHealNetworkDone.bind(this));
+				.on("heal network done", this.onHealNetworkDone.bind(this))
+				.on(
+					"statistics updated",
+					this.onControllerStatisticsUpdated.bind(this),
+				);
 
 			// Kick off a regular config update check
 			await this.setStateAsync(
@@ -421,6 +429,12 @@ export class ZWave2 extends utils.Adapter<true> {
 		this.setState("info.healingNetwork", false, true);
 	}
 
+	private async onControllerStatisticsUpdated(
+		statistics: ControllerStatistics,
+	): Promise<void> {
+		await setControllerStatistics(statistics);
+	}
+
 	private addNodeEventHandlers(node: ZWaveNode): void {
 		node.on("ready", this.onNodeReady.bind(this))
 			.on("interview failed", this.onNodeInterviewFailed.bind(this))
@@ -442,7 +456,8 @@ export class ZWave2 extends utils.Adapter<true> {
 				"firmware update finished",
 				this.onNodeFirmwareUpdateFinished.bind(this),
 			)
-			.on("notification", this.onNodeNotification.bind(this));
+			.on("notification", this.onNodeNotification.bind(this))
+			.on("statistics updated", this.onNodeStatisticsUpdated.bind(this));
 	}
 
 	private async onNodeReady(node: ZWaveNode): Promise<void> {
@@ -999,6 +1014,13 @@ export class ZWave2 extends utils.Adapter<true> {
 		}
 	};
 
+	private async onNodeStatisticsUpdated(
+		node: ZWaveNode,
+		statistics: NodeStatistics,
+	): Promise<void> {
+		await setNodeStatistics(node.id, statistics);
+	}
+
 	private async checkForConfigUpdates(): Promise<void> {
 		// Check if there is a config update only if we don't know there is one
 		if (!(await this.getStateAsync("info.configUpdate"))?.val) {
@@ -1044,6 +1066,7 @@ export class ZWave2 extends utils.Adapter<true> {
 			for (const nodeId of allNodeIds) {
 				await setNodeStatus(nodeId, "unknown");
 				await setNodeReady(nodeId, false);
+				await setNodeStatistics(nodeId, null);
 			}
 
 			if (this.configUpdateTimeout)
@@ -1052,6 +1075,7 @@ export class ZWave2 extends utils.Adapter<true> {
 				clearTimeout(this.pushPayloadExpirationTimeout);
 
 			await this.setStateAsync("info.configUpdating", false, true);
+			await setControllerStatistics(null);
 
 			this.log.info("Cleaned everything up!");
 			callback();

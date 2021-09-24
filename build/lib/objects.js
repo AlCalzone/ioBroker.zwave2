@@ -71,7 +71,9 @@ __export(exports, {
   nodeStatusToStatusState: () => nodeStatusToStatusState,
   removeNode: () => removeNode,
   removeValue: () => removeValue,
+  setControllerStatistics: () => setControllerStatistics,
   setNodeReady: () => setNodeReady,
+  setNodeStatistics: () => setNodeStatistics,
   setNodeStatus: () => setNodeStatus,
   setRFRegionState: () => setRFRegionState
 });
@@ -419,6 +421,44 @@ async function setNodeReady(nodeId, ready) {
   });
   await import_global.Global.adapter.setStateAsync(stateId, ready, true);
 }
+async function setControllerStatistics(statistics) {
+  const stateId = `info.statistics`;
+  await import_global.Global.adapter.setObjectNotExistsAsync(stateId, {
+    type: "state",
+    common: {
+      name: "Communication statistics",
+      role: "indicator",
+      type: "object",
+      read: true,
+      write: false
+    },
+    native: {}
+  });
+  await import_global.Global.adapter.setStateAsync(stateId, statistics ? JSON.stringify(statistics) : null, true);
+}
+async function setNodeStatistics(nodeId, statistics) {
+  const channelId = `${(0, import_shared.computeDeviceId)(nodeId)}.info`;
+  const stateId = `${channelId}.statistics`;
+  await import_global.Global.adapter.setObjectNotExistsAsync(channelId, {
+    type: "channel",
+    common: {
+      name: "Information"
+    },
+    native: {}
+  });
+  await import_global.Global.adapter.setObjectNotExistsAsync(stateId, {
+    type: "state",
+    common: {
+      name: "Transmission statistics",
+      role: "indicator",
+      type: "object",
+      read: true,
+      write: false
+    },
+    native: {}
+  });
+  await import_global.Global.adapter.setStateAsync(stateId, statistics ? JSON.stringify(statistics) : null, true);
+}
 function computeNotificationId(nodeId, notificationLabel, eventLabel, property) {
   return [
     (0, import_shared.computeDeviceId)(nodeId),
@@ -543,7 +583,9 @@ async function setRFRegionState(rfRegion) {
   nodeStatusToStatusState,
   removeNode,
   removeValue,
+  setControllerStatistics,
   setNodeReady,
+  setNodeStatistics,
   setNodeStatus,
   setRFRegionState
 });

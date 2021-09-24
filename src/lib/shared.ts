@@ -1,8 +1,10 @@
 import { padStart } from "alcalzone-shared/strings";
 import type {
 	AssociationAddress,
+	ControllerStatistics,
 	FirmwareUpdateStatus,
 	InclusionGrant,
+	NodeStatistics,
 } from "zwave-js";
 
 // WARNING: DO NOT IMPORT values FROM "zwave-js" HERE
@@ -116,4 +118,28 @@ export function getErrorMessage(e: unknown, includeStack?: boolean): string {
 	if (e instanceof Error)
 		return includeStack && e.stack ? e.stack : e.message;
 	return String(e);
+}
+
+export function getDefaultControllerStatistics(): ControllerStatistics {
+	return {
+		CAN: 0,
+		NAK: 0,
+		messagesDroppedRX: 0,
+		messagesDroppedTX: 0,
+		messagesRX: 0,
+		messagesTX: 0,
+		timeoutACK: 0,
+		timeoutCallback: 0,
+		timeoutResponse: 0,
+	};
+}
+
+export function getDefaultNodeStatistics(): NodeStatistics {
+	return {
+		commandsRX: 0,
+		commandsTX: 0,
+		commandsDroppedRX: 0,
+		commandsDroppedTX: 0,
+		timeoutResponse: 0,
+	};
 }
