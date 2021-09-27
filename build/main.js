@@ -393,7 +393,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
     const existingStateIds = Object.keys(await import_global.Global.$$(`${nodeAbsoluteId}.*`, {
       type: "state"
     }));
-    const unusedChannels = existingChannelIds.filter((id) => !desiredChannelIds.has(id));
+    const unusedChannels = existingChannelIds.filter((id) => !desiredChannelIds.has(id)).filter((id) => id.slice(nodeAbsoluteId.length + 1) !== "info");
     for (const id of unusedChannels) {
       this.log.warn(`Deleting orphaned channel ${id}`);
       try {
@@ -401,7 +401,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
       } catch (e) {
       }
     }
-    const unusedStates = existingStateIds.filter((id) => !desiredStateIds.has(id)).filter((id) => id.slice(nodeAbsoluteId.length + 1).includes(".")).filter((id) => {
+    const unusedStates = existingStateIds.filter((id) => !desiredStateIds.has(id)).filter((id) => id.slice(nodeAbsoluteId.length + 1).includes(".")).filter((id) => !id.slice(nodeAbsoluteId.length + 1).startsWith("info.")).filter((id) => {
       var _a, _b;
       return !((_b = (_a = this.oObjects[id]) == null ? void 0 : _a.native) == null ? void 0 : _b.notificationEvent);
     });
@@ -784,10 +784,6 @@ class ZWave2 extends import_adapter_core.default.Adapter {
                   dsk
                 }
               });
-              this.validateDSKPromise.then(() => {
-                console.warn("validateDSKPromise resolved!");
-                console.warn(new Error().stack);
-              });
               return this.validateDSKPromise;
             },
             grantSecurityClasses: (grant) => {
@@ -798,10 +794,6 @@ class ZWave2 extends import_adapter_core.default.Adapter {
                   type: "grantSecurityClasses",
                   request: grant
                 }
-              });
-              this.grantSecurityClassesPromise.then(() => {
-                console.warn("grantSecurityClassesPromise resolved!");
-                console.warn(new Error().stack);
               });
               return this.grantSecurityClassesPromise;
             },
@@ -834,7 +826,6 @@ class ZWave2 extends import_adapter_core.default.Adapter {
             return;
           const params = obj.message;
           const pin = params.pin;
-          console.warn("RESOLVE validateDSKPromise");
           if (!pin) {
             (_a = this.validateDSKPromise) == null ? void 0 : _a.resolve(false);
           } else {
@@ -951,10 +942,6 @@ class ZWave2 extends import_adapter_core.default.Adapter {
                   dsk
                 }
               });
-              this.validateDSKPromise.then(() => {
-                console.warn("validateDSKPromise resolved!");
-                console.warn(new Error().stack);
-              });
               return this.validateDSKPromise;
             },
             grantSecurityClasses: (grant) => {
@@ -965,10 +952,6 @@ class ZWave2 extends import_adapter_core.default.Adapter {
                   type: "grantSecurityClasses",
                   request: grant
                 }
-              });
-              this.grantSecurityClassesPromise.then(() => {
-                console.warn("grantSecurityClassesPromise resolved!");
-                console.warn(new Error().stack);
               });
               return this.grantSecurityClassesPromise;
             },

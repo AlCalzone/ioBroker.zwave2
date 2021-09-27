@@ -44,8 +44,12 @@ __export(exports, {
 var import_core = __toModule(require("@zwave-js/core"));
 var import_arrays = __toModule(require("alcalzone-shared/arrays"));
 function getVirtualValueIDs(node) {
+  if (node.physicalNodes.every((n) => n.isSecure === true))
+    return [];
   const ret = new Map();
   for (const pNode of node.physicalNodes) {
+    if (pNode.isSecure === true)
+      continue;
     const valueIDs = pNode.getDefinedValueIDs().filter((v) => import_core.actuatorCCs.includes(v.commandClass));
     for (const valueId of valueIDs) {
       const mapKey = (0, import_core.valueIdToString)(valueId);
