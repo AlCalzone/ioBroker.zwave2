@@ -186,11 +186,10 @@ function nodeToNative(node) {
     productType: node.productType,
     productId: node.productId
   }, node.deviceClass && {
-    type: {
+    type: __spreadValues({
       basic: node.deviceClass.basic.label,
-      generic: node.deviceClass.generic.label,
-      specific: node.deviceClass.specific.label
-    }
+      generic: node.deviceClass.generic.label
+    }, node.deviceClass.specific.key !== 0 ? {specific: node.deviceClass.specific.label} : {})
   }), {
     endpointIndizes: node.getEndpointIndizes(),
     securityClasses: securityClassesToRecord(node),

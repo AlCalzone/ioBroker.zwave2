@@ -184,7 +184,10 @@ function nodeToNative(node: ZWaveNode): Record<string, any> {
 			type: {
 				basic: node.deviceClass.basic.label,
 				generic: node.deviceClass.generic.label,
-				specific: node.deviceClass.specific.label,
+				...(node.deviceClass.specific.key !== 0x00
+					? // Only use the the specific device class if it is not "Unused"
+					  { specific: node.deviceClass.specific.label }
+					: {}),
 			},
 		}),
 		// endpoints: node.getEndpointCount(),
