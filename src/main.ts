@@ -701,9 +701,11 @@ export class ZWave2 extends utils.Adapter<true> {
 		);
 
 		// Clean up unused channels and states
-		const unusedChannels = existingChannelIds.filter(
-			(id) => !desiredChannelIds.has(id),
-		);
+		const unusedChannels = existingChannelIds
+			.filter((id) => !desiredChannelIds.has(id))
+			// filter out the info channel
+			.filter((id) => id.slice(nodeAbsoluteId.length + 1) !== "info");
+
 		for (const id of unusedChannels) {
 			this.log.warn(`Deleting orphaned channel ${id}`);
 			try {
@@ -718,6 +720,11 @@ export class ZWave2 extends utils.Adapter<true> {
 			.filter((id) => !desiredStateIds.has(id))
 			// filter out those states that are not under a CC channel
 			.filter((id) => id.slice(nodeAbsoluteId.length + 1).includes("."))
+			// or under the info channel
+			.filter(
+				(id) =>
+					!id.slice(nodeAbsoluteId.length + 1).startsWith("info."),
+			)
 			// and filter out those states that are for a notification event
 			.filter((id) => !this.oObjects[id]?.native?.notificationEvent);
 
@@ -1391,10 +1398,6 @@ export class ZWave2 extends utils.Adapter<true> {
 									dsk,
 								},
 							});
-							this.validateDSKPromise.then(() => {
-								console.warn("validateDSKPromise resolved!");
-								console.warn(new Error().stack);
-							});
 							return this.validateDSKPromise;
 						},
 						grantSecurityClasses: (grant) => {
@@ -1406,12 +1409,6 @@ export class ZWave2 extends utils.Adapter<true> {
 									type: "grantSecurityClasses",
 									request: grant,
 								},
-							});
-							this.grantSecurityClassesPromise.then(() => {
-								console.warn(
-									"grantSecurityClassesPromise resolved!",
-								);
-								console.warn(new Error().stack);
 							});
 							return this.grantSecurityClassesPromise;
 						},
@@ -1454,7 +1451,6 @@ export class ZWave2 extends utils.Adapter<true> {
 					const params = obj.message as any as Record<string, any>;
 					const pin: string = params.pin;
 
-					console.warn("RESOLVE validateDSKPromise");
 					if (!pin) {
 						this.validateDSKPromise?.resolve(false);
 					} else {
@@ -1640,10 +1636,6 @@ export class ZWave2 extends utils.Adapter<true> {
 									dsk,
 								},
 							});
-							this.validateDSKPromise.then(() => {
-								console.warn("validateDSKPromise resolved!");
-								console.warn(new Error().stack);
-							});
 							return this.validateDSKPromise;
 						},
 						grantSecurityClasses: (grant) => {
@@ -1655,12 +1647,6 @@ export class ZWave2 extends utils.Adapter<true> {
 									type: "grantSecurityClasses",
 									request: grant,
 								},
-							});
-							this.grantSecurityClassesPromise.then(() => {
-								console.warn(
-									"grantSecurityClassesPromise resolved!",
-								);
-								console.warn(new Error().stack);
 							});
 							return this.grantSecurityClassesPromise;
 						},

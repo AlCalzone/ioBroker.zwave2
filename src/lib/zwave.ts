@@ -14,10 +14,16 @@ export interface VirtualValueID extends TranslatedValueID {
 }
 
 export function getVirtualValueIDs(node: VirtualNode): VirtualValueID[] {
+	// If all nodes are secure, we can't use broadcast commands
+	if (node.physicalNodes.every((n) => n.isSecure === true)) return [];
+
 	// In order to compare value ids, we need them to be strings
 	const ret = new Map<string, VirtualValueID>();
 
 	for (const pNode of node.physicalNodes) {
+		// Secure nodes cannot be used for broadcast
+		if (pNode.isSecure === true) continue;
+
 		// Take only the actuator values
 		const valueIDs: TranslatedValueID[] = pNode
 			.getDefinedValueIDs()
