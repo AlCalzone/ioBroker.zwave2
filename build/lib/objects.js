@@ -331,9 +331,9 @@ async function extendVirtualMetadata(node, deviceId, _a) {
 }
 async function extendMetadataInternal(stateId, metadata, valueId, nativePart = {}) {
   const stateType = valueTypeToIOBrokerType(metadata.type);
-  const stateRole = metadataToStateRole(stateType, metadata);
   const originalObject = import_global.Global.adapter.oObjects[`${import_global.Global.adapter.namespace}.${stateId}`];
   const newStateName = import_global.Global.adapter.config.preserveStateNames && (originalObject == null ? void 0 : originalObject.common.name) ? originalObject.common.name : metadata.label ? `${metadata.label}${valueId.endpoint ? ` (Endpoint ${valueId.endpoint})` : ""}` : stateId;
+  const stateRole = (originalObject == null ? void 0 : originalObject.common.role) || metadataToStateRole(stateType, metadata);
   const objectDefinition = {
     type: "state",
     common: {

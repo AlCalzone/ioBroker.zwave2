@@ -433,7 +433,6 @@ async function extendMetadataInternal(
 ) {
 	const stateType = valueTypeToIOBrokerType(metadata.type);
 	// TODO: Try to detect more specific roles depending on the CC type
-	const stateRole = metadataToStateRole(stateType, metadata);
 
 	const originalObject =
 		_.adapter.oObjects[`${_.adapter.namespace}.${stateId}`];
@@ -449,6 +448,10 @@ async function extendMetadataInternal(
 			  }`
 			: // and fall back to the state ID if that is missing
 			  stateId;
+
+	// Keep the defined role if the object already exists. Our roles are not good enough for visualizations yet
+	const stateRole =
+		originalObject?.common.role || metadataToStateRole(stateType, metadata);
 
 	const objectDefinition: ioBroker.SettableObjectWorker<ioBroker.StateObject> =
 		{
