@@ -40,7 +40,7 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	Placeholder for next versions:
 	### __WORK IN PROGRESS__
 -->
-### __WORK IN PROGRESS__
+### 2.2.1 (2021-10-12)
 * Fixed a crash when removing a node that is included in a multicast group
 * Fix: writeonly `boolean` states are now set up as switches instead of buttons
 * Corrupted `Multilevel Sensor` and `Meter` reports are now filtered out
@@ -83,9 +83,6 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 * Support for changing the region/frequency of the controller
 * Support for replacing failed nodes while keeping the ID
 * Some fixes for firmware updates
-
-### 1.10.4 (2021-08-07)
-* Fixed a bug where the daily config update check would cause a lot of internet traffic for an hour
 
 ## License
 
