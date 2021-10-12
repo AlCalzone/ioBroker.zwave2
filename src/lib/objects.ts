@@ -16,6 +16,7 @@ import {
 	NodeStatistics,
 	NodeStatus,
 	VirtualNode,
+	VirtualValueID,
 	ZWaveNode,
 } from "zwave-js/Node";
 import type {
@@ -30,7 +31,6 @@ import type {
 } from "zwave-js/Values";
 import { Global as _ } from "./global";
 import { buffer2hex, computeDeviceId, getErrorMessage } from "./shared";
-import type { VirtualValueID } from "./zwave";
 
 type ZWaveNodeArgs =
 	| ZWaveNodeValueAddedArgs
@@ -522,11 +522,7 @@ function metadataToStateRole(
 	if (stateType === "number") {
 		return meta.writeable ? "level" : "value";
 	} else if (stateType === "boolean") {
-		return meta.readable && meta.writeable
-			? "switch"
-			: meta.readable
-			? "indicator"
-			: "button";
+		return meta.readable && !meta.writeable ? "indicator" : "switch";
 	}
 	return "state";
 }

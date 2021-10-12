@@ -19,6 +19,7 @@ import type {
 	NodeInterviewFailedEventArgs,
 	NodeStatistics,
 	VirtualNode,
+	VirtualValueID,
 	ZWaveNodeValueNotificationArgs,
 } from "zwave-js";
 import {
@@ -91,7 +92,6 @@ import {
 	mapToRecord,
 	PushMessage,
 } from "./lib/shared";
-import { getVirtualValueIDs, VirtualValueID } from "./lib/zwave";
 
 export class ZWave2 extends utils.Adapter<true> {
 	public constructor(options: Partial<utils.AdapterOptions> = {}) {
@@ -495,7 +495,7 @@ export class ZWave2 extends utils.Adapter<true> {
 
 		// Broadcast first
 		let node: VirtualNode = this.driver.controller.getBroadcastNode();
-		const allValueIDs = getVirtualValueIDs(node);
+		const allValueIDs = node.getDefinedValueIDs();
 		// Make sure the broadcast device object exists and is up to date
 		await ensureBroadcastNode();
 		await this.extendVirtualNodeObjectsAndStates(
@@ -508,9 +508,13 @@ export class ZWave2 extends utils.Adapter<true> {
 		// Then all multicast nodes
 		const multicastNodes = await this.getMulticastNodeDefinitions();
 		for (const { objId, nodeIds } of multicastNodes) {
-			node = this.driver.controller.getMulticastGroup(nodeIds);
+			node = this.driver.controller.getMulticastGroup(
+				nodeIds.filter((n: number) =>
+					this.driver.controller.nodes.has(n),
+				),
+			);
+			const allValueIDs = node.getDefinedValueIDs();
 			const deviceId = objId.substr(this.namespace.length + 1);
-			const allValueIDs = getVirtualValueIDs(node);
 			await this.extendVirtualNodeObjectsAndStates(
 				node,
 				deviceId,
@@ -551,6 +555,17 @@ export class ZWave2 extends utils.Adapter<true> {
 					`Multicast group object ${d._id} contains invalid node IDs, ignoring it!`,
 				);
 				continue;
+			}
+
+			const missingNodes = (d.native.nodeIds as number[]).filter(
+				(n) => !this.driver.controller.nodes.has(n),
+			);
+			if (missingNodes.length) {
+				this.log.warn(
+					`Multicast group ${
+						d._id
+					} references missing nodes ${missingNodes.join(", ")}!`,
+				);
 			}
 			ret.push({ objId: d._id, nodeIds: d.native.nodeIds });
 		}
@@ -1185,7 +1200,9 @@ export class ZWave2 extends utils.Adapter<true> {
 					node = this.driver.controller.getBroadcastNode();
 				} else if (isArray(native.nodeIds)) {
 					node = this.driver.controller.getMulticastGroup(
-						native.nodeIds,
+						native.nodeIds.filter((n: number) =>
+							this.driver.controller.nodes.has(n),
+						),
 					);
 				} else {
 					const nodeId = native.nodeId;
@@ -1479,7 +1496,6 @@ export class ZWave2 extends utils.Adapter<true> {
 					const params = obj.message as any as Record<string, any>;
 					const grant = params.grant as InclusionGrant | false;
 
-					console.warn("RESOLVE grantSecurityClassesPromise");
 					this.grantSecurityClassesPromise?.resolve(grant);
 
 					this.pushToFrontend({

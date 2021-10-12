@@ -57,7 +57,6 @@ var import_global = __toModule(require("./lib/global"));
 var import_objects2 = __toModule(require("./lib/objects"));
 var import_serialPorts = __toModule(require("./lib/serialPorts"));
 var import_shared2 = __toModule(require("./lib/shared"));
-var import_zwave = __toModule(require("./lib/zwave"));
 class ZWave2 extends import_adapter_core.default.Adapter {
   constructor(options = {}) {
     super(__spreadProps(__spreadValues({}, options), {
@@ -300,15 +299,15 @@ class ZWave2 extends import_adapter_core.default.Adapter {
     this.virtualNodesUpdated = true;
     this.log.info(`Updating broadcast/multicast node states`);
     let node = this.driver.controller.getBroadcastNode();
-    const allValueIDs = (0, import_zwave.getVirtualValueIDs)(node);
+    const allValueIDs = node.getDefinedValueIDs();
     await (0, import_objects2.ensureBroadcastNode)();
     await this.extendVirtualNodeObjectsAndStates(node, import_objects2.DEVICE_ID_BROADCAST, allValueIDs);
     await this.cleanupVirtualNodeObjects(import_objects2.DEVICE_ID_BROADCAST, allValueIDs);
     const multicastNodes = await this.getMulticastNodeDefinitions();
     for (const {objId, nodeIds} of multicastNodes) {
-      node = this.driver.controller.getMulticastGroup(nodeIds);
+      node = this.driver.controller.getMulticastGroup(nodeIds.filter((n) => this.driver.controller.nodes.has(n)));
+      const allValueIDs2 = node.getDefinedValueIDs();
       const deviceId = objId.substr(this.namespace.length + 1);
-      const allValueIDs2 = (0, import_zwave.getVirtualValueIDs)(node);
       await this.extendVirtualNodeObjectsAndStates(node, deviceId, allValueIDs2);
       await this.cleanupVirtualNodeObjects(deviceId, allValueIDs2);
     }
@@ -329,6 +328,10 @@ class ZWave2 extends import_adapter_core.default.Adapter {
       if (!d.native.nodeIds.every((n) => typeof n === "number" && n > 0 && n <= import_core.MAX_NODES)) {
         this.log.warn(`Multicast group object ${d._id} contains invalid node IDs, ignoring it!`);
         continue;
+      }
+      const missingNodes = d.native.nodeIds.filter((n) => !this.driver.controller.nodes.has(n));
+      if (missingNodes.length) {
+        this.log.warn(`Multicast group ${d._id} references missing nodes ${missingNodes.join(", ")}!`);
       }
       ret.push({objId: d._id, nodeIds: d.native.nodeIds});
     }
@@ -638,7 +641,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
         if (!!native.broadcast) {
           node = this.driver.controller.getBroadcastNode();
         } else if ((0, import_typeguards.isArray)(native.nodeIds)) {
-          node = this.driver.controller.getMulticastGroup(native.nodeIds);
+          node = this.driver.controller.getMulticastGroup(native.nodeIds.filter((n) => this.driver.controller.nodes.has(n)));
         } else {
           const nodeId = native.nodeId;
           if (!nodeId) {
@@ -846,7 +849,6 @@ class ZWave2 extends import_adapter_core.default.Adapter {
             return;
           const params = obj.message;
           const grant = params.grant;
-          console.warn("RESOLVE grantSecurityClassesPromise");
           (_c = this.grantSecurityClassesPromise) == null ? void 0 : _c.resolve(grant);
           this.pushToFrontend({
             type: "inclusion",

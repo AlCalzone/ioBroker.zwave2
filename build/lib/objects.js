@@ -385,7 +385,7 @@ function metadataToStateRole(stateType, meta) {
   if (stateType === "number") {
     return meta.writeable ? "level" : "value";
   } else if (stateType === "boolean") {
-    return meta.readable && meta.writeable ? "switch" : meta.readable ? "indicator" : "button";
+    return meta.readable && !meta.writeable ? "indicator" : "switch";
   }
   return "state";
 }
