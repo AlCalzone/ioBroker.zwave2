@@ -54,7 +54,7 @@
     "@tsconfig/node12": "^1.0.9",
     "@types/chai": "^4.2.22",
     "@types/chai-as-promised": "^7.1.4",
-    "@types/d3": "^6.7.0",
+    "@types/d3": "^7.0.0",
     "@types/d3-scale-chromatic": "^2.0.0",
     "@types/fs-extra": "^9.0.13",
     "@types/lodash": "^4.14.175",
