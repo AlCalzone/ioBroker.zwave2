@@ -19,6 +19,7 @@ if (opts.react) {
 			bundle: true,
 			splitting: true,
 			format: "esm",
+			target: "es2018",
 			minify: !cliopts.watch,
 			outdir: "admin/build",
 			sourcemap: true,
