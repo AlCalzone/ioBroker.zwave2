@@ -247,7 +247,7 @@ export const NodeActions: React.FC<NodeActionsProps> = (props) => {
 			</Button>
 			<Typography variant="body2">
 				{_(
-					"Forget all information about all nodes and re-interview them. Battery-powered nodes might need to be woken up manually.",
+					"Forget all information about this node and re-interview it. Battery-powered nodes might need to be woken up manually.",
 				)}
 			</Typography>
 

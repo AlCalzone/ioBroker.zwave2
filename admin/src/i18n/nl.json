@@ -164,5 +164,6 @@
     "Wipes all configuration of the controller. All connected nodes will be orphaned and have to be reset and included into the new network before they can be used again.": "Wist alle configuratie van de controller. ",
     "Write a detailed logfile": "Schrijf een gedetailleerd logbestand",
     "yes": "ja",
-    "Z-Wave supports the following security mechanisms:": "Z-Wave supports the following security mechanisms:"
+    "Z-Wave supports the following security mechanisms:": "Z-Wave supports the following security mechanisms:",
+    "Forget all information about this node and re-interview it. Battery-powered nodes might need to be woken up manually.": "Vergeet alle informatie over dit knooppunt en ondervraag het opnieuw. "
 }

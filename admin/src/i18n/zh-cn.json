@@ -164,5 +164,6 @@
     "Wipes all configuration of the controller. All connected nodes will be orphaned and have to be reset and included into the new network before they can be used again.": "擦除控制器的所有配置。",
     "Write a detailed logfile": "编写详细的日志文件",
     "yes": "是的",
-    "Z-Wave supports the following security mechanisms:": "Z-Wave supports the following security mechanisms:"
+    "Z-Wave supports the following security mechanisms:": "Z-Wave supports the following security mechanisms:",
+    "Forget all information about this node and re-interview it. Battery-powered nodes might need to be woken up manually.": "忘记有关此节点的所有信息并重新访问它。"
 }
