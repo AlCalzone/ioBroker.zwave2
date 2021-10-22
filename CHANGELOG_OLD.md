@@ -1,4 +1,8 @@
 # Older changes
+## 2.1.0 (2021-09-23)
+* Support broadcast commands
+* Support multicast commands and managing multicast groups
+
 ## 2.0.1 (2021-09-22)
 * Fix: Don't display "no devices present" if they haven't been loaded yet
 * Fix: Eliminated loading time when switching between "Devices" and "Associations" in tab
