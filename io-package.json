@@ -1,271 +1,264 @@
 {
-    "common": {
-        "name": "zwave2",
-        "version": "2.2.4",
-        "news": {
-            "2.2.4": {
-                "en": "Fix: Most unsupporting devices should no longer use `Supervision` by default\nMinor fixes and stability improvements\nNew and updated configuration files, see [here](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)",
-                "de": "Fix: Für die meisten Geräte, die es nicht unterstützen, wird nicht mehr standardmäßig `Supervision` verwendet\nKleinere Korrekturen und Stabilitätsverbesserungen\nNeue und aktualisierte Konfigurationsdateien, siehe [hier](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)",
-                "ru": "Исправлено: большинство неподдерживаемых устройств больше не должны использовать «Контроль» по умолчанию.\nМелкие исправления и улучшения стабильности\nНовые и обновленные файлы конфигурации см. [Здесь] (https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)",
-                "pt": "Correção: a maioria dos dispositivos incompatíveis não deve mais usar `Supervision` por padrão\nPequenas correções e melhorias de estabilidade\nArquivos de configuração novos e atualizados, veja [aqui] (https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)",
-                "nl": "Oplossing: de meeste niet-ondersteunde apparaten zouden niet langer standaard 'Supervisie' moeten gebruiken\nKleine fixes en stabiliteitsverbeteringen\nNieuwe en bijgewerkte configuratiebestanden, zie [hier](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)",
-                "fr": "Correction : la plupart des appareils non compatibles ne devraient plus utiliser la « supervision » par défaut\nCorrections mineures et améliorations de la stabilité\nFichiers de configuration nouveaux et mis à jour, voir [ici](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)",
-                "it": "Correzione: la maggior parte dei dispositivi non supportati non dovrebbe più utilizzare \"Supervisione\" per impostazione predefinita\nCorrezioni minori e miglioramenti della stabilità\nFile di configurazione nuovi e aggiornati, vedere [qui](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)",
-                "es": "Solución: la mayoría de los dispositivos no compatibles ya no deberían usar \"Supervisión\" de forma predeterminada\nPequeñas correcciones y mejoras de estabilidad.\nArchivos de configuración nuevos y actualizados, consulte [aquí] (https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)",
-                "pl": "Poprawka: większość nieobsługujących urządzeń nie powinna już domyślnie używać `Nadzór`\nDrobne poprawki i ulepszenia stabilności\nNowe i zaktualizowane pliki konfiguracyjne, zobacz [tutaj](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)",
-                "zh-cn": "修复：默认情况下，大多数不支持的设备不应再使用“监督”\n小修复和稳定性改进\n新的和更新的配置文件，见[这里](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)"
-            },
-            "2.2.3": {
-                "en": "Admin UI: Improve support for older browsers",
-                "de": "Admin-Benutzeroberfläche: Verbesserte Unterstützung für ältere Browser",
-                "ru": "Интерфейс администратора: улучшена поддержка старых браузеров.",
-                "pt": "Admin UI: melhore o suporte para navegadores mais antigos",
-                "nl": "Beheerdersinterface: ondersteuning voor oudere browsers verbeteren",
-                "fr": "Interface utilisateur d'administration : améliorer la prise en charge des anciens navigateurs",
-                "it": "Interfaccia utente di amministrazione: migliora il supporto per i browser meno recenti",
-                "es": "Interfaz de usuario de administrador: mejora la compatibilidad con navegadores más antiguos",
-                "pl": "Interfejs administratora: popraw obsługę starszych przeglądarek",
-                "zh-cn": "管理 UI：改进对旧浏览器的支持"
-            },
-            "2.2.2": {
-                "en": "Fix: Config from different instances no longer override each other",
-                "de": "Konfigurationen verschiedener Instanzen überschreiben sich nicht mehr gegenseitig",
-                "ru": "Исправлено: конфигурации из разных экземпляров больше не перекрывают друг друга.",
-                "pt": "Correção: a configuração de diferentes instâncias não se sobrepõe mais",
-                "nl": "Oplossing: configuratie van verschillende instanties overschrijven elkaar niet langer",
-                "fr": "Correction : les configurations de différentes instances ne se substituent plus les unes aux autres",
-                "it": "Correzione: la configurazione da istanze diverse non si sovrascrive più a vicenda",
-                "es": "Solución: la configuración de diferentes instancias ya no se anulan entre sí",
-                "pl": "Poprawka: Konfiguracje z różnych instancji już się nie zastępują",
-                "zh-cn": "修复：来自不同实例的配置不再相互覆盖"
-            },
-            "2.2.1": {
-                "en": "Fixed a crash when removing a node that is included in a multicast group\nFix: writeonly `boolean` states are now set up as switches instead of buttons\nCorrupted `Multilevel Sensor` and `Meter` reports are now filtered out\nFixes to auto-assigning lifeline associations\nSmall fixes to inclusion with security\nNew and updated configuration files, see [here](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0)",
-                "de": "Fix: Absturz beim Entfernen von Geräten, die in einer Multicast-Gruppe enthalten sind\nFix: Schreibgeschützte \"boolesche\" Zustände werden jetzt mit Typ \"switch\" statt \"button\" angelegt\nKorrupte \"Multilevel Sensor CC\" und \"Meter CC\" Reports werden jetzt herausgefiltert\nKorrekturen bei der automatischen Zuweisung von Lifeline Associations\nKleine Korrekturen für die sichere Inklusion von Geräten\nNeue und aktualisierte Konfigurationsdateien, siehe https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0",
-                "ru": "Исправлен сбой при удалении узла, входящего в группу многоадресной рассылки\nИсправлено: логические состояния только для записи теперь настраиваются как переключатели вместо кнопок\nПоврежденные отчеты \"Multilevel Sensor\" и \"Meter\" теперь отфильтрованы.\nИсправления для автоматического назначения ассоциаций жизненного пути.\nНебольшие исправления для включения с безопасностью\nНовые и обновленные файлы конфигурации см. [Здесь] (https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0)",
-                "pt": "Corrigida uma falha ao remover um nó que está incluído em um grupo multicast\nCorreção: os estados `booleanos` writeonly agora são configurados como interruptores em vez de botões\nRelatórios corrompidos de `Sensor multinível` e` Medidor` agora são filtrados\nCorreções para auto-atribuição de associações de linha de vida\nPequenas correções para inclusão com segurança\nArquivos de configuração novos e atualizados, veja [aqui] (https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0)",
-                "nl": "Een crash opgelost bij het verwijderen van een knooppunt dat is opgenomen in een multicast-groep\nFix: alleen-schrijven `boolean` statussen zijn nu ingesteld als schakelaars in plaats van knoppen\nBeschadigde 'Multilevel Sensor'- en 'Meter'-rapporten worden nu uitgefilterd\nOplossingen voor het automatisch toewijzen van reddingslijnassociaties\nKleine oplossingen voor opname met beveiliging\nNieuwe en bijgewerkte configuratiebestanden, zie [hier](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0)",
-                "fr": "Correction d'un plantage lors de la suppression d'un nœud inclus dans un groupe de multidiffusion\nCorrection : les états « booléens » en écriture seule sont désormais configurés comme des commutateurs au lieu de boutons\nLes rapports corrompus « Capteur multiniveau » et « Compteur » sont désormais filtrés\nCorrections de l'attribution automatique d'associations de lignes de vie\nPetites corrections à l'inclusion avec sécurité\nFichiers de configuration nouveaux et mis à jour, voir [ici](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0)",
-                "it": "Risolto un crash durante la rimozione di un nodo incluso in un gruppo multicast\nCorrezione: gli stati \"booleani\" di sola scrittura ora sono impostati come interruttori anziché come pulsanti\nI rapporti \"Sensore multilivello\" e \"Misuratore\" corrotti sono ora filtrati\nCorrezioni all'assegnazione automatica delle associazioni della linea di vita\nPiccole correzioni all'inclusione con la sicurezza\nFile di configurazione nuovi e aggiornati, vedere [qui](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0)",
-                "es": "Se corrigió un bloqueo al eliminar un nodo que está incluido en un grupo de multidifusión\nSolución: los estados `booleanos` de solo escritura ahora se configuran como interruptores en lugar de botones\nLos informes de \"Sensor multinivel\" y \"Medidor\" corruptos ahora se filtran\nCorrecciones para la asignación automática de asociaciones de líneas de vida.\nPequeñas correcciones para la inclusión con seguridad\nArchivos de configuración nuevos y actualizados, consulte [aquí] (https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0)",
-                "pl": "Naprawiono awarię podczas usuwania węzła, który jest dołączony do grupy multicast\nPoprawka: stany `boolean` tylko do zapisu są teraz ustawiane jako przełączniki zamiast przycisków\nUszkodzone raporty „Czujnik wielopoziomowy” i „Miernik” są teraz odfiltrowywane\nPoprawki automatycznego przypisywania skojarzeń linii życia\nMałe poprawki do włączenia z bezpieczeństwem\nNowe i zaktualizowane pliki konfiguracyjne, zobacz [tutaj](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0)",
-                "zh-cn": "修复了删除包含在多播组中的节点时崩溃的问题\n修复：writeonly `boolean` 状态现在设置为开关而不是按钮\n损坏的“多级传感器”和“仪表”报告现在被过滤掉了\n修复了自动分配生命线关联\n包含安全性的小修复\n新的和更新的配置文件，见[这里](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0)"
-            },
-            "2.2.0": {
-                "en": "The devices list now includes an activity indicator and statistics for each device\nImprovements to `Scene Actuator Configuration CC` and `Scene Controller Configuration CC`\nSome fixes for `Security S2` in combination with `Supervision CC`\nWorkaround for a bug in Z-Wave sticks with firmware 7.15 and higher that led to missing capabilities\nFix: The tab starts on \"Devices\" again instead of \"Groups\"\nFix: don't offer values from secure nodes under broadcast\nFix: display generic device class when specific device class is `\"Unused\"`\nFix: roles of existing states are now preserved\nMany changed and new device configuration files, see [here](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.4.0) and [here](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.4.1)",
-                "de": "Die Geräteliste enthält jetzt eine Aktivitätsanzeige und Statistiken für jedes Gerät.\nVerbesserungen an der \"Scene Actuator Configuration CC\" und der \"Scene Controller Configuration CC\".\nEinige Korrekturen für `Security S2` in Kombination mit `Supervision CC`.\nWorkaround für einen Fehler in Z-Wave-Sticks mit Firmware 7.15 und höher, der zu fehlenden Fähigkeiten führte.\nFix: Der Tab startet wieder auf \"Geräte\" statt auf \"Gruppen\".\nFix: Werte von sicheren Knoten werden nicht mehr unter Broadcast angeboten.\nFix: Anzeige der generischen Geräteklasse, wenn die spezifische Geräteklasse \"Unused\" ist.\nFix: Rollen bestehender Zustände werden nun beibehalten.\nViele geänderte und neue Gerätekonfigurationsdateien, siehe [hier](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.4.0) und [hier](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.4.1)",
-                "ru": "В список устройств добавлен индикатор активности и статистика для каждого устройства.\nУлучшения в CC Scene Actuator Configuration и CC Scene Controller Configuration.\nНекоторые исправления для Security S2 в сочетании с Supervision CC.\nОбход ошибки в стиках Z-Wave с прошивкой 7.15 и выше, которая привела к отсутствию возможностей\nИсправлено: Вкладка снова начинается с «Устройства» вместо «Группы».\nИсправлено: не предлагать значения из защищенных узлов при широковещании\nИсправлено: отображать общий класс устройства, когда конкретный класс устройства «Не используется».\nИсправлено: роли существующих состояний теперь сохраняются\nМногие измененные и новые файлы конфигурации устройства, см. [Здесь] (https://github.com/zwave-js/node-zwave-js/releases/tag/v8.4.0) и [здесь] (https:// github. com / zwave-js / node-zwave-js / Release / tag / v8.4.1)",
-                "pt": "A lista de dispositivos agora inclui um indicador de atividade e estatísticas para cada dispositivo\nMelhorias na `Configuração do Atuador de Cena CC` e` Configuração do Controlador de Cena CC`\nAlgumas correções para `Security S2` em combinação com` Supervision CC`\nSolução alternativa para um bug no Z-Wave com firmware 7.15 e superior que levou à falta de recursos\nCorreção: A guia começa em \"Dispositivos\" novamente em vez de \"Grupos\"\nCorreção: não ofereça valores de nós seguros em transmissão\nCorreção: exibir a classe de dispositivo genérico quando a classe de dispositivo específica for `\" Não utilizado \"`\nCorreção: as funções dos estados existentes agora são preservadas\nMuitos arquivos de configuração de dispositivos novos e alterados, consulte [aqui] (https://github.com/zwave-js/node-zwave-js/releases/tag/v8.4.0) e [aqui] (https:// github. com / zwave-js / node-zwave-js / releases / tag / v8.4.1)",
-                "nl": "De apparatenlijst bevat nu een activiteitsindicator en statistieken voor elk apparaat\nVerbeteringen aan `Scene Actuator Configuration CC` en `Scene Controller Configuration CC`\nEnkele oplossingen voor `Security S2` in combinatie met `Supervision CC`\nTijdelijke oplossing voor een bug in Z-Wave-sticks met firmware 7.15 en hoger die leidde tot ontbrekende mogelijkheden\nOplossing: het tabblad start opnieuw op \"Apparaten\" in plaats van \"Groepen\"\nOplossing: bied geen waarden van beveiligde knooppunten onder uitzending aan\nFix: generieke apparaatklasse weergeven wanneer specifieke apparaatklasse `\"Ongebruikt\"` . is\nFix: rollen van bestaande staten blijven nu behouden\nVeel gewijzigde en nieuwe apparaatconfiguratiebestanden, zie [hier](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.4.0) en [hier](https://github. com/zwave-js/node-zwave-js/releases/tag/v8.4.1)",
-                "fr": "La liste des appareils comprend désormais un indicateur d'activité et des statistiques pour chaque appareil\nAméliorations apportées à la \"Configuration de l'actionneur de scène CC\" et à la \"Configuration du contrôleur de scène CC\"\nQuelques correctifs pour « Security S2 » en combinaison avec « Supervision CC »\nSolution de contournement pour un bogue dans les bâtons Z-Wave avec le firmware 7.15 et supérieur qui a conduit à des capacités manquantes\nCorrectif : l'onglet démarre à nouveau sur « Appareils » au lieu de « Groupes »\nCorrectif : n'offre pas de valeurs à partir de nœuds sécurisés en diffusion\nCorrection : affichage de la classe d'appareil générique lorsqu'une classe d'appareil spécifique est `\"Non utilisé\"`\nCorrectif : les rôles des états existants sont désormais conservés\nDe nombreux fichiers de configuration de périphérique modifiés et nouveaux, voir [ici](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.4.0) et [ici](https://github. com/zwave-js/node-zwave-js/releases/tag/v8.4.1)",
-                "it": "L'elenco dei dispositivi ora include un indicatore di attività e statistiche per ciascun dispositivo\nMiglioramenti a `Scene Actuator Configuration CC` e `Scene Controller Configuration CC`\nAlcune correzioni per `Security S2` in combinazione con `Supervision CC`\nSoluzione alternativa per un bug in Z-Wave stick con firmware 7.15 e versioni successive che ha portato a funzionalità mancanti\nCorrezione: la scheda si avvia nuovamente su \"Dispositivi\" anziché su \"Gruppi\"\nCorrezione: non offrire valori da nodi sicuri in trasmissione\nCorretto: mostra la classe del dispositivo generico quando la classe del dispositivo specifica è `\"Non utilizzato\"`\nCorrezione: i ruoli degli stati esistenti ora sono preservati\nMolti file di configurazione del dispositivo modificati e nuovi, vedere [qui](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.4.0) e [qui](https://github. com/zwave-js/node-zwave-js/releases/tag/v8.4.1)",
-                "es": "La lista de dispositivos ahora incluye un indicador de actividad y estadísticas para cada dispositivo.\nMejoras en la `Configuración del actuador de escena CC` y la` Configuración del controlador de escena CC`\nAlgunas correcciones para `Security S2` en combinación con` Supervision CC`\nSolución alternativa para un error en dispositivos Z-Wave con firmware 7.15 y superior que provocó la falta de capacidades\nSolución: la pestaña comienza en \"Dispositivos\" nuevamente en lugar de \"Grupos\"\nSolución: no ofrezca valores de nodos seguros en transmisión\nSolución: muestra la clase de dispositivo genérico cuando la clase de dispositivo específica es \"No utilizada\"\nSolución: ahora se conservan los roles de los estados existentes\nMuchos archivos de configuración de dispositivos nuevos y modificados, consulte [aquí] (https://github.com/zwave-js/node-zwave-js/releases/tag/v8.4.0) y [aquí] (https:// github. com / zwave-js / node-zwave-js / releases / tag / v8.4.1)",
-                "pl": "Lista urządzeń zawiera teraz wskaźnik aktywności i statystyki dla każdego urządzenia\nUlepszenia `Scene Actuator Configuration CC` i `Scene Controller Configuration CC`\nNiektóre poprawki dla `Security S2` w połączeniu z `Supervision CC`\nObejście błędu w kijach Z-Wave z oprogramowaniem układowym 7.15 i nowszym, które prowadziło do braku możliwości\nPoprawka: karta ponownie uruchamia się na „Urządzeniach” zamiast „Grupach”\nPoprawka: nie oferuj wartości z bezpiecznych węzłów w ramach transmisji\nPoprawka: wyświetlaj ogólną klasę urządzenia, gdy określona klasa urządzenia jest `\"Nieużywana\"`\nPoprawka: role istniejących stanów są teraz zachowane\nWiele zmienionych i nowych plików konfiguracyjnych urządzeń, zobacz [tutaj](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.4.0) i [tutaj](https://github. com/zwave-js/node-zwave-js/releases/tag/v8.4.1)",
-                "zh-cn": "设备列表现在包括每个设备的活动指示器和统计信息\n对“场景执行器配置 CC”和“场景控制器配置 CC”的改进\n“Security S2”与“Supervision CC”相结合的一些修复\nZ-Wave 中的错误的解决方法坚持使用固件 7.15 及更高版本，导致功能缺失\n修复：该选项卡再次从“设备”而不是“组”开始\n修复：不要在广播下提供来自安全节点的值\n修复：当特定设备类为“未使用”时显示通用设备类\n修复：现在保留现有状态的角色\n许多更改和新的设备配置文件，请参阅[此处](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.4.0) 和[此处](https://github.com)。 com/zwave-js/node-zwave-js/releases/tag/v8.4.1)"
-            },
-            "2.1.0": {
-                "en": "Support broadcast commands\nSupport multicast commands and managing multicast groups",
-                "de": "Unterstützung von Broadcast-Befehlen\nUnterstützung von Multicast-Befehlen und Verwaltung von Multicast-Gruppen",
-                "ru": "Поддержка широковещательных команд\nПоддержка команд многоадресной рассылки и управление группами многоадресной рассылки",
-                "pt": "Comandos de transmissão de suporte\nSuporte a comandos multicast e gerenciamento de grupos multicast",
-                "nl": "Ondersteuning uitzending commando's\nOndersteuning van multicast-opdrachten en het beheren van multicast-groepen",
-                "fr": "Prise en charge des commandes de diffusion\nPrise en charge des commandes de multidiffusion et gestion des groupes de multidiffusion",
-                "it": "Supporta i comandi di trasmissione\nSupporta comandi multicast e gestione di gruppi multicast",
-                "es": "Admite comandos de transmisión\nAdmite comandos de multidifusión y gestión de grupos de multidifusión",
-                "pl": "Obsługuj polecenia transmisji\nObsługa poleceń multicast i zarządzanie grupami multicast",
-                "zh-cn": "支持广播命令\n支持组播命令和管理组播组"
-            },
-            "2.0.1": {
-                "en": "Fix: Don't display \"no devices present\" if they haven't been loaded yet\nFix: Eliminated loading time when switching between \"Devices\" and \"Associations\" in tab\nFix: Add missing german translation for \"Set RF Region\"\nFix: The Controller node was missing from the association target nodes",
-                "de": "* Fix: Es wird nicht mehr \"keine Geräte vorhanden\" angezeigt, wenn sie noch nicht geladen wurden\n* Fix: Ladezeit beim Umschalten zwischen \"Geräte\" und \"Verknüpfungen\" im Tab eliminiert\n* Fix: Fehlende deutsche Übersetzung für \"Set RF Region\" hinzugefügt\n* Fix: Der Controller-Knoten fehlte bei der Ziel-Auswahl von Verknüfpungen",
-                "ru": "Исправлено: не отображать «устройства отсутствуют», если они еще не были загружены.\nИсправлено: Устранено время загрузки при переключении между «Устройствами» и «Связями» на вкладке.\nИсправлено: добавлен отсутствующий немецкий перевод для \"Установить регион РФ\".\nИсправлено: узел контроллера отсутствовал в целевых узлах ассоциации.",
-                "pt": "Correção: não exibe \"nenhum dispositivo presente\" se eles ainda não foram carregados\nCorreção: Tempo de carregamento eliminado ao alternar entre \"Dispositivos\" e \"Associações\" na guia\nCorreção: Adicionar tradução em alemão ausente para \"Definir região RF\"\nCorreção: o nó do controlador estava faltando nos nós de destino da associação",
-                "nl": "Oplossing: geef geen \"geen apparaten aanwezig\" weer als ze nog niet zijn geladen\nOplossing: Laadtijd geëlimineerd bij het wisselen tussen \"Apparaten\" en \"Associaties\" op het tabblad\nOplossing: ontbrekende Duitse vertaling voor \"Set RF Region\" toevoegen\nOplossing: het controllerknooppunt ontbrak in de associatiedoelknooppunten",
-                "fr": "Correction : n'affiche pas \"aucun périphérique présent\" s'ils n'ont pas encore été chargés\nCorrectif : temps de chargement supprimé lors du basculement entre « Périphériques » et « Associations » dans l'onglet\nCorrection : Ajout de la traduction allemande manquante pour \"Définir la région RF\"\nCorrectif : le nœud de contrôleur était manquant dans les nœuds cibles de l'association",
-                "it": "Correzione: non visualizzare \"nessun dispositivo presente\" se non sono ancora stati caricati\nFix: Eliminato il tempo di caricamento quando si passa da \"Dispositivi\" a \"Associazioni\" nella scheda\nCorrezione: aggiunta della traduzione tedesca mancante per \"Imposta regione RF\"\nCorrezione: il nodo Controller mancava dai nodi di destinazione dell'associazione",
-                "es": "Solución: no muestre \"no hay dispositivos presentes\" si aún no se han cargado\nSolución: se eliminó el tiempo de carga al cambiar entre \"Dispositivos\" y \"Asociaciones\" en la pestaña\nSolución: agregue la traducción alemana faltante para \"Establecer región de RF\"\nSolución: el nodo del controlador faltaba en los nodos de destino de la asociación",
-                "pl": "Poprawka: nie wyświetlaj „brak obecnych urządzeń”, jeśli nie zostały jeszcze załadowane\nPoprawka: Wyeliminowano czas ładowania podczas przełączania między „Urządzeniami” i „Powiązaniami” w zakładce\nPoprawka: Dodaj brakujące niemieckie tłumaczenie dla „Ustaw region RF”\nPoprawka: Brak węzła kontrolera w węzłach docelowych skojarzeń",
-                "zh-cn": "修复：如果尚未加载，则不显示“不存在设备”\n修复：在选项卡中的“设备”和“关联”之间切换时消除了加载时间\n修复：为“设置 RF 区域”添加缺失的德语翻译\n修复：关联目标节点中缺少控制器节点"
-            }
-        },
-        "title": "Z-Wave 2",
-        "titleLang": {
-            "en": "Z-Wave 2",
-            "de": "Z-Wave 2",
-            "ru": "Z-Wave 2",
-            "pt": "Z-Wave 2",
-            "nl": "Z-Wave 2",
-            "fr": "Z-Wave 2",
-            "it": "Z-Wave 2",
-            "es": "Z-Wave 2",
-            "pl": "Z-Wave 2",
-            "zh-cn": "Z-Wave 2"
-        },
-        "desc": {
-            "en": "The better Z-Wave integration",
-            "de": "Die bessere Z-Wave-Integration",
-            "ru": "Лучшая интеграция Z-Wave",
-            "pt": "A melhor integração do Z-Wave",
-            "nl": "De betere Z-Wave-integratie",
-            "fr": "La meilleure intégration Z-Wave",
-            "it": "La migliore integrazione di Z-Wave",
-            "es": "La mejor integración de Z-Wave",
-            "pl": "Lepsza integracja Z-Wave",
-            "zh-cn": "更好的Z-Wave集成"
-        },
-        "authors": [
-            "AlCalzone <d.griesel@gmx.net>"
-        ],
-        "keywords": [
-            "zwave",
-            "z-wave",
-            "zwave2",
-            "z-wave 2"
-        ],
-        "license": "MIT",
-        "platform": "Javascript/Node.js",
-        "main": "build/main.js",
-        "icon": "zwave2.svg",
-        "enabled": true,
-        "dataFolder": "zwave2.%INSTANCE%",
-        "extIcon": "https://raw.githubusercontent.com/AlCalzone/ioBroker.zwave2/master/admin/zwave2.svg?sanitize=true",
-        "readme": "https://github.com/AlCalzone/ioBroker.zwave2/blob/master/README.md",
-        "loglevel": "info",
-        "mode": "daemon",
-        "type": "hardware",
-        "compact": true,
-        "materialize": true,
-        "materializeTab": true,
-        "adminTab": {
-            "name": {
-                "en": "Z-Wave",
-                "de": "Z-Wave"
-            },
-            "link": "",
-            "fa-icon": "wifi"
-        },
-        "messagebox": true,
-        "connectionType": "local",
-        "dataSource": "push",
-        "dependencies": [
-            {
-                "js-controller": ">=2.0.0"
-            }
-        ]
-    },
-    "native": {
-        "serialport": "",
-        "writeLogFile": false,
-        "networkKey_S0": "",
-        "networkKey_S2_AccessControl": "",
-        "networkKey_S2_Authenticated": "",
-        "networkKey_S2_Unauthenticated": "",
-        "driver_increaseTimeouts": false,
-        "driver_increaseSendAttempts": false,
-        "switchCompat": false,
-        "preserveStateNames": false,
-        "notificationEventValidity": 1000
-    },
-    "objects": [],
-    "instanceObjects": [
-        {
-            "_id": "info",
-            "type": "channel",
-            "common": {
-                "name": "Information"
-            },
-            "native": {}
-        },
-        {
-            "_id": "info.connection",
-            "type": "state",
-            "common": {
-                "role": "indicator.connected",
-                "name": "Whether the Z-Wave driver is ready",
-                "type": "boolean",
-                "read": true,
-                "write": false,
-                "def": false
-            },
-            "native": {}
-        },
-        {
-            "_id": "info.inclusion",
-            "type": "state",
-            "common": {
-                "role": "indicator",
-                "name": "Whether the inclusion of nodes is active",
-                "type": "boolean",
-                "read": true,
-                "write": false,
-                "def": false
-            },
-            "native": {}
-        },
-        {
-            "_id": "info.exclusion",
-            "type": "state",
-            "common": {
-                "role": "state",
-                "name": "Whether the exclusion of nodes is active",
-                "type": "boolean",
-                "read": true,
-                "write": true,
-                "def": false
-            },
-            "native": {}
-        },
-        {
-            "_id": "info.healingNetwork",
-            "type": "state",
-            "common": {
-                "role": "state",
-                "name": "Whether a network heal is currently in progress",
-                "type": "boolean",
-                "read": true,
-                "write": false,
-                "def": false
-            },
-            "native": {}
-        },
-        {
-            "_id": "info.configVersion",
-            "type": "state",
-            "common": {
-                "role": "state",
-                "name": "The installed version of the Z-Wave JS configuration DB",
-                "type": "string",
-                "read": true,
-                "write": false,
-                "def": false
-            },
-            "native": {}
-        },
-        {
-            "_id": "info.configUpdate",
-            "type": "state",
-            "common": {
-                "role": "state",
-                "name": "The version of an available update for the Z-Wave JS configuration DB",
-                "type": "string",
-                "read": true,
-                "write": false,
-                "def": false
-            },
-            "native": {}
-        },
-        {
-            "_id": "info.configUpdating",
-            "type": "state",
-            "common": {
-                "role": "state",
-                "name": "Whether the adapter is currently updating the Z-Wave JS configuration DB",
-                "type": "boolean",
-                "read": true,
-                "write": false,
-                "def": false
-            },
-            "native": {}
-        }
-    ]
+	"common": {
+		"name": "zwave2",
+		"version": "2.3.0",
+		"news": {
+			"2.3.0": {
+				"en": "Add soft reset (restart) function for the controller\nNew and updated configuration files, see [here](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.6.0)",
+				"de": "Soft-Reset-Funktion (Neustart) für den Controller hinzugefügt\nNeue und aktualisierte Konfigurationsdateien, siehe [hier](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.6.0)",
+				"ru": "Добавить функцию мягкого сброса (перезапуска) для контроллера\nНовые и обновленные файлы конфигурации см. [Здесь] (https://github.com/zwave-js/node-zwave-js/releases/tag/v8.6.0)",
+				"pt": "Adicionar função de soft reset (reiniciar) para o controlador\nArquivos de configuração novos e atualizados, veja [aqui] (https://github.com/zwave-js/node-zwave-js/releases/tag/v8.6.0)",
+				"nl": "Zachte reset (herstart) functie voor de controller toevoegen\nNieuwe en bijgewerkte configuratiebestanden, zie [hier](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.6.0)",
+				"fr": "Ajouter une fonction de réinitialisation logicielle (redémarrage) pour le contrôleur\nFichiers de configuration nouveaux et mis à jour, voir [ici](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.6.0)",
+				"it": "Aggiungere la funzione di soft reset (riavvio) per il controller\nFile di configurazione nuovi e aggiornati, vedere [qui](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.6.0)",
+				"es": "Agregue la función de reinicio suave (reinicio) para el controlador\nArchivos de configuración nuevos y actualizados, consulte [aquí] (https://github.com/zwave-js/node-zwave-js/releases/tag/v8.6.0)",
+				"pl": "Dodaj funkcję miękkiego resetu (restart) dla kontrolera\nNowe i zaktualizowane pliki konfiguracyjne, zobacz [tutaj](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.6.0)",
+				"zh-cn": "为控制器增加软复位（重启）功能\n新的和更新的配置文件，见[这里](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.6.0)"
+			},
+			"2.2.4": {
+				"en": "Fix: Most unsupporting devices should no longer use `Supervision` by default\nMinor fixes and stability improvements\nNew and updated configuration files, see [here](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)",
+				"de": "Fix: Für die meisten Geräte, die es nicht unterstützen, wird nicht mehr standardmäßig `Supervision` verwendet\nKleinere Korrekturen und Stabilitätsverbesserungen\nNeue und aktualisierte Konfigurationsdateien, siehe [hier](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)",
+				"ru": "Исправлено: большинство неподдерживаемых устройств больше не должны использовать «Контроль» по умолчанию.\nМелкие исправления и улучшения стабильности\nНовые и обновленные файлы конфигурации см. [Здесь] (https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)",
+				"pt": "Correção: a maioria dos dispositivos incompatíveis não deve mais usar `Supervision` por padrão\nPequenas correções e melhorias de estabilidade\nArquivos de configuração novos e atualizados, veja [aqui] (https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)",
+				"nl": "Oplossing: de meeste niet-ondersteunde apparaten zouden niet langer standaard 'Supervisie' moeten gebruiken\nKleine fixes en stabiliteitsverbeteringen\nNieuwe en bijgewerkte configuratiebestanden, zie [hier](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)",
+				"fr": "Correction : la plupart des appareils non compatibles ne devraient plus utiliser la « supervision » par défaut\nCorrections mineures et améliorations de la stabilité\nFichiers de configuration nouveaux et mis à jour, voir [ici](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)",
+				"it": "Correzione: la maggior parte dei dispositivi non supportati non dovrebbe più utilizzare \"Supervisione\" per impostazione predefinita\nCorrezioni minori e miglioramenti della stabilità\nFile di configurazione nuovi e aggiornati, vedere [qui](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)",
+				"es": "Solución: la mayoría de los dispositivos no compatibles ya no deberían usar \"Supervisión\" de forma predeterminada\nPequeñas correcciones y mejoras de estabilidad.\nArchivos de configuración nuevos y actualizados, consulte [aquí] (https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)",
+				"pl": "Poprawka: większość nieobsługujących urządzeń nie powinna już domyślnie używać `Nadzór`\nDrobne poprawki i ulepszenia stabilności\nNowe i zaktualizowane pliki konfiguracyjne, zobacz [tutaj](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)",
+				"zh-cn": "修复：默认情况下，大多数不支持的设备不应再使用“监督”\n小修复和稳定性改进\n新的和更新的配置文件，见[这里](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)"
+			},
+			"2.2.3": {
+				"en": "Admin UI: Improve support for older browsers",
+				"de": "Admin-Benutzeroberfläche: Verbesserte Unterstützung für ältere Browser",
+				"ru": "Интерфейс администратора: улучшена поддержка старых браузеров.",
+				"pt": "Admin UI: melhore o suporte para navegadores mais antigos",
+				"nl": "Beheerdersinterface: ondersteuning voor oudere browsers verbeteren",
+				"fr": "Interface utilisateur d'administration : améliorer la prise en charge des anciens navigateurs",
+				"it": "Interfaccia utente di amministrazione: migliora il supporto per i browser meno recenti",
+				"es": "Interfaz de usuario de administrador: mejora la compatibilidad con navegadores más antiguos",
+				"pl": "Interfejs administratora: popraw obsługę starszych przeglądarek",
+				"zh-cn": "管理 UI：改进对旧浏览器的支持"
+			},
+			"2.2.2": {
+				"en": "Fix: Config from different instances no longer override each other",
+				"de": "Konfigurationen verschiedener Instanzen überschreiben sich nicht mehr gegenseitig",
+				"ru": "Исправлено: конфигурации из разных экземпляров больше не перекрывают друг друга.",
+				"pt": "Correção: a configuração de diferentes instâncias não se sobrepõe mais",
+				"nl": "Oplossing: configuratie van verschillende instanties overschrijven elkaar niet langer",
+				"fr": "Correction : les configurations de différentes instances ne se substituent plus les unes aux autres",
+				"it": "Correzione: la configurazione da istanze diverse non si sovrascrive più a vicenda",
+				"es": "Solución: la configuración de diferentes instancias ya no se anulan entre sí",
+				"pl": "Poprawka: Konfiguracje z różnych instancji już się nie zastępują",
+				"zh-cn": "修复：来自不同实例的配置不再相互覆盖"
+			},
+			"2.2.1": {
+				"en": "Fixed a crash when removing a node that is included in a multicast group\nFix: writeonly `boolean` states are now set up as switches instead of buttons\nCorrupted `Multilevel Sensor` and `Meter` reports are now filtered out\nFixes to auto-assigning lifeline associations\nSmall fixes to inclusion with security\nNew and updated configuration files, see [here](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0)",
+				"de": "Fix: Absturz beim Entfernen von Geräten, die in einer Multicast-Gruppe enthalten sind\nFix: Schreibgeschützte \"boolesche\" Zustände werden jetzt mit Typ \"switch\" statt \"button\" angelegt\nKorrupte \"Multilevel Sensor CC\" und \"Meter CC\" Reports werden jetzt herausgefiltert\nKorrekturen bei der automatischen Zuweisung von Lifeline Associations\nKleine Korrekturen für die sichere Inklusion von Geräten\nNeue und aktualisierte Konfigurationsdateien, siehe https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0",
+				"ru": "Исправлен сбой при удалении узла, входящего в группу многоадресной рассылки\nИсправлено: логические состояния только для записи теперь настраиваются как переключатели вместо кнопок\nПоврежденные отчеты \"Multilevel Sensor\" и \"Meter\" теперь отфильтрованы.\nИсправления для автоматического назначения ассоциаций жизненного пути.\nНебольшие исправления для включения с безопасностью\nНовые и обновленные файлы конфигурации см. [Здесь] (https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0)",
+				"pt": "Corrigida uma falha ao remover um nó que está incluído em um grupo multicast\nCorreção: os estados `booleanos` writeonly agora são configurados como interruptores em vez de botões\nRelatórios corrompidos de `Sensor multinível` e` Medidor` agora são filtrados\nCorreções para auto-atribuição de associações de linha de vida\nPequenas correções para inclusão com segurança\nArquivos de configuração novos e atualizados, veja [aqui] (https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0)",
+				"nl": "Een crash opgelost bij het verwijderen van een knooppunt dat is opgenomen in een multicast-groep\nFix: alleen-schrijven `boolean` statussen zijn nu ingesteld als schakelaars in plaats van knoppen\nBeschadigde 'Multilevel Sensor'- en 'Meter'-rapporten worden nu uitgefilterd\nOplossingen voor het automatisch toewijzen van reddingslijnassociaties\nKleine oplossingen voor opname met beveiliging\nNieuwe en bijgewerkte configuratiebestanden, zie [hier](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0)",
+				"fr": "Correction d'un plantage lors de la suppression d'un nœud inclus dans un groupe de multidiffusion\nCorrection : les états « booléens » en écriture seule sont désormais configurés comme des commutateurs au lieu de boutons\nLes rapports corrompus « Capteur multiniveau » et « Compteur » sont désormais filtrés\nCorrections de l'attribution automatique d'associations de lignes de vie\nPetites corrections à l'inclusion avec sécurité\nFichiers de configuration nouveaux et mis à jour, voir [ici](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0)",
+				"it": "Risolto un crash durante la rimozione di un nodo incluso in un gruppo multicast\nCorrezione: gli stati \"booleani\" di sola scrittura ora sono impostati come interruttori anziché come pulsanti\nI rapporti \"Sensore multilivello\" e \"Misuratore\" corrotti sono ora filtrati\nCorrezioni all'assegnazione automatica delle associazioni della linea di vita\nPiccole correzioni all'inclusione con la sicurezza\nFile di configurazione nuovi e aggiornati, vedere [qui](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0)",
+				"es": "Se corrigió un bloqueo al eliminar un nodo que está incluido en un grupo de multidifusión\nSolución: los estados `booleanos` de solo escritura ahora se configuran como interruptores en lugar de botones\nLos informes de \"Sensor multinivel\" y \"Medidor\" corruptos ahora se filtran\nCorrecciones para la asignación automática de asociaciones de líneas de vida.\nPequeñas correcciones para la inclusión con seguridad\nArchivos de configuración nuevos y actualizados, consulte [aquí] (https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0)",
+				"pl": "Naprawiono awarię podczas usuwania węzła, który jest dołączony do grupy multicast\nPoprawka: stany `boolean` tylko do zapisu są teraz ustawiane jako przełączniki zamiast przycisków\nUszkodzone raporty „Czujnik wielopoziomowy” i „Miernik” są teraz odfiltrowywane\nPoprawki automatycznego przypisywania skojarzeń linii życia\nMałe poprawki do włączenia z bezpieczeństwem\nNowe i zaktualizowane pliki konfiguracyjne, zobacz [tutaj](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0)",
+				"zh-cn": "修复了删除包含在多播组中的节点时崩溃的问题\n修复：writeonly `boolean` 状态现在设置为开关而不是按钮\n损坏的“多级传感器”和“仪表”报告现在被过滤掉了\n修复了自动分配生命线关联\n包含安全性的小修复\n新的和更新的配置文件，见[这里](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0)"
+			},
+			"2.2.0": {
+				"en": "The devices list now includes an activity indicator and statistics for each device\nImprovements to `Scene Actuator Configuration CC` and `Scene Controller Configuration CC`\nSome fixes for `Security S2` in combination with `Supervision CC`\nWorkaround for a bug in Z-Wave sticks with firmware 7.15 and higher that led to missing capabilities\nFix: The tab starts on \"Devices\" again instead of \"Groups\"\nFix: don't offer values from secure nodes under broadcast\nFix: display generic device class when specific device class is `\"Unused\"`\nFix: roles of existing states are now preserved\nMany changed and new device configuration files, see [here](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.4.0) and [here](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.4.1)",
+				"de": "Die Geräteliste enthält jetzt eine Aktivitätsanzeige und Statistiken für jedes Gerät.\nVerbesserungen an der \"Scene Actuator Configuration CC\" und der \"Scene Controller Configuration CC\".\nEinige Korrekturen für `Security S2` in Kombination mit `Supervision CC`.\nWorkaround für einen Fehler in Z-Wave-Sticks mit Firmware 7.15 und höher, der zu fehlenden Fähigkeiten führte.\nFix: Der Tab startet wieder auf \"Geräte\" statt auf \"Gruppen\".\nFix: Werte von sicheren Knoten werden nicht mehr unter Broadcast angeboten.\nFix: Anzeige der generischen Geräteklasse, wenn die spezifische Geräteklasse \"Unused\" ist.\nFix: Rollen bestehender Zustände werden nun beibehalten.\nViele geänderte und neue Gerätekonfigurationsdateien, siehe [hier](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.4.0) und [hier](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.4.1)",
+				"ru": "В список устройств добавлен индикатор активности и статистика для каждого устройства.\nУлучшения в CC Scene Actuator Configuration и CC Scene Controller Configuration.\nНекоторые исправления для Security S2 в сочетании с Supervision CC.\nОбход ошибки в стиках Z-Wave с прошивкой 7.15 и выше, которая привела к отсутствию возможностей\nИсправлено: Вкладка снова начинается с «Устройства» вместо «Группы».\nИсправлено: не предлагать значения из защищенных узлов при широковещании\nИсправлено: отображать общий класс устройства, когда конкретный класс устройства «Не используется».\nИсправлено: роли существующих состояний теперь сохраняются\nМногие измененные и новые файлы конфигурации устройства, см. [Здесь] (https://github.com/zwave-js/node-zwave-js/releases/tag/v8.4.0) и [здесь] (https:// github. com / zwave-js / node-zwave-js / Release / tag / v8.4.1)",
+				"pt": "A lista de dispositivos agora inclui um indicador de atividade e estatísticas para cada dispositivo\nMelhorias na `Configuração do Atuador de Cena CC` e` Configuração do Controlador de Cena CC`\nAlgumas correções para `Security S2` em combinação com` Supervision CC`\nSolução alternativa para um bug no Z-Wave com firmware 7.15 e superior que levou à falta de recursos\nCorreção: A guia começa em \"Dispositivos\" novamente em vez de \"Grupos\"\nCorreção: não ofereça valores de nós seguros em transmissão\nCorreção: exibir a classe de dispositivo genérico quando a classe de dispositivo específica for `\" Não utilizado \"`\nCorreção: as funções dos estados existentes agora são preservadas\nMuitos arquivos de configuração de dispositivos novos e alterados, consulte [aqui] (https://github.com/zwave-js/node-zwave-js/releases/tag/v8.4.0) e [aqui] (https:// github. com / zwave-js / node-zwave-js / releases / tag / v8.4.1)",
+				"nl": "De apparatenlijst bevat nu een activiteitsindicator en statistieken voor elk apparaat\nVerbeteringen aan `Scene Actuator Configuration CC` en `Scene Controller Configuration CC`\nEnkele oplossingen voor `Security S2` in combinatie met `Supervision CC`\nTijdelijke oplossing voor een bug in Z-Wave-sticks met firmware 7.15 en hoger die leidde tot ontbrekende mogelijkheden\nOplossing: het tabblad start opnieuw op \"Apparaten\" in plaats van \"Groepen\"\nOplossing: bied geen waarden van beveiligde knooppunten onder uitzending aan\nFix: generieke apparaatklasse weergeven wanneer specifieke apparaatklasse `\"Ongebruikt\"` . is\nFix: rollen van bestaande staten blijven nu behouden\nVeel gewijzigde en nieuwe apparaatconfiguratiebestanden, zie [hier](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.4.0) en [hier](https://github. com/zwave-js/node-zwave-js/releases/tag/v8.4.1)",
+				"fr": "La liste des appareils comprend désormais un indicateur d'activité et des statistiques pour chaque appareil\nAméliorations apportées à la \"Configuration de l'actionneur de scène CC\" et à la \"Configuration du contrôleur de scène CC\"\nQuelques correctifs pour « Security S2 » en combinaison avec « Supervision CC »\nSolution de contournement pour un bogue dans les bâtons Z-Wave avec le firmware 7.15 et supérieur qui a conduit à des capacités manquantes\nCorrectif : l'onglet démarre à nouveau sur « Appareils » au lieu de « Groupes »\nCorrectif : n'offre pas de valeurs à partir de nœuds sécurisés en diffusion\nCorrection : affichage de la classe d'appareil générique lorsqu'une classe d'appareil spécifique est `\"Non utilisé\"`\nCorrectif : les rôles des états existants sont désormais conservés\nDe nombreux fichiers de configuration de périphérique modifiés et nouveaux, voir [ici](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.4.0) et [ici](https://github. com/zwave-js/node-zwave-js/releases/tag/v8.4.1)",
+				"it": "L'elenco dei dispositivi ora include un indicatore di attività e statistiche per ciascun dispositivo\nMiglioramenti a `Scene Actuator Configuration CC` e `Scene Controller Configuration CC`\nAlcune correzioni per `Security S2` in combinazione con `Supervision CC`\nSoluzione alternativa per un bug in Z-Wave stick con firmware 7.15 e versioni successive che ha portato a funzionalità mancanti\nCorrezione: la scheda si avvia nuovamente su \"Dispositivi\" anziché su \"Gruppi\"\nCorrezione: non offrire valori da nodi sicuri in trasmissione\nCorretto: mostra la classe del dispositivo generico quando la classe del dispositivo specifica è `\"Non utilizzato\"`\nCorrezione: i ruoli degli stati esistenti ora sono preservati\nMolti file di configurazione del dispositivo modificati e nuovi, vedere [qui](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.4.0) e [qui](https://github. com/zwave-js/node-zwave-js/releases/tag/v8.4.1)",
+				"es": "La lista de dispositivos ahora incluye un indicador de actividad y estadísticas para cada dispositivo.\nMejoras en la `Configuración del actuador de escena CC` y la` Configuración del controlador de escena CC`\nAlgunas correcciones para `Security S2` en combinación con` Supervision CC`\nSolución alternativa para un error en dispositivos Z-Wave con firmware 7.15 y superior que provocó la falta de capacidades\nSolución: la pestaña comienza en \"Dispositivos\" nuevamente en lugar de \"Grupos\"\nSolución: no ofrezca valores de nodos seguros en transmisión\nSolución: muestra la clase de dispositivo genérico cuando la clase de dispositivo específica es \"No utilizada\"\nSolución: ahora se conservan los roles de los estados existentes\nMuchos archivos de configuración de dispositivos nuevos y modificados, consulte [aquí] (https://github.com/zwave-js/node-zwave-js/releases/tag/v8.4.0) y [aquí] (https:// github. com / zwave-js / node-zwave-js / releases / tag / v8.4.1)",
+				"pl": "Lista urządzeń zawiera teraz wskaźnik aktywności i statystyki dla każdego urządzenia\nUlepszenia `Scene Actuator Configuration CC` i `Scene Controller Configuration CC`\nNiektóre poprawki dla `Security S2` w połączeniu z `Supervision CC`\nObejście błędu w kijach Z-Wave z oprogramowaniem układowym 7.15 i nowszym, które prowadziło do braku możliwości\nPoprawka: karta ponownie uruchamia się na „Urządzeniach” zamiast „Grupach”\nPoprawka: nie oferuj wartości z bezpiecznych węzłów w ramach transmisji\nPoprawka: wyświetlaj ogólną klasę urządzenia, gdy określona klasa urządzenia jest `\"Nieużywana\"`\nPoprawka: role istniejących stanów są teraz zachowane\nWiele zmienionych i nowych plików konfiguracyjnych urządzeń, zobacz [tutaj](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.4.0) i [tutaj](https://github. com/zwave-js/node-zwave-js/releases/tag/v8.4.1)",
+				"zh-cn": "设备列表现在包括每个设备的活动指示器和统计信息\n对“场景执行器配置 CC”和“场景控制器配置 CC”的改进\n“Security S2”与“Supervision CC”相结合的一些修复\nZ-Wave 中的错误的解决方法坚持使用固件 7.15 及更高版本，导致功能缺失\n修复：该选项卡再次从“设备”而不是“组”开始\n修复：不要在广播下提供来自安全节点的值\n修复：当特定设备类为“未使用”时显示通用设备类\n修复：现在保留现有状态的角色\n许多更改和新的设备配置文件，请参阅[此处](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.4.0) 和[此处](https://github.com)。 com/zwave-js/node-zwave-js/releases/tag/v8.4.1)"
+			},
+			"2.1.0": {
+				"en": "Support broadcast commands\nSupport multicast commands and managing multicast groups",
+				"de": "Unterstützung von Broadcast-Befehlen\nUnterstützung von Multicast-Befehlen und Verwaltung von Multicast-Gruppen",
+				"ru": "Поддержка широковещательных команд\nПоддержка команд многоадресной рассылки и управление группами многоадресной рассылки",
+				"pt": "Comandos de transmissão de suporte\nSuporte a comandos multicast e gerenciamento de grupos multicast",
+				"nl": "Ondersteuning uitzending commando's\nOndersteuning van multicast-opdrachten en het beheren van multicast-groepen",
+				"fr": "Prise en charge des commandes de diffusion\nPrise en charge des commandes de multidiffusion et gestion des groupes de multidiffusion",
+				"it": "Supporta i comandi di trasmissione\nSupporta comandi multicast e gestione di gruppi multicast",
+				"es": "Admite comandos de transmisión\nAdmite comandos de multidifusión y gestión de grupos de multidifusión",
+				"pl": "Obsługuj polecenia transmisji\nObsługa poleceń multicast i zarządzanie grupami multicast",
+				"zh-cn": "支持广播命令\n支持组播命令和管理组播组"
+			}
+		},
+		"title": "Z-Wave 2",
+		"titleLang": {
+			"en": "Z-Wave 2",
+			"de": "Z-Wave 2",
+			"ru": "Z-Wave 2",
+			"pt": "Z-Wave 2",
+			"nl": "Z-Wave 2",
+			"fr": "Z-Wave 2",
+			"it": "Z-Wave 2",
+			"es": "Z-Wave 2",
+			"pl": "Z-Wave 2",
+			"zh-cn": "Z-Wave 2"
+		},
+		"desc": {
+			"en": "The better Z-Wave integration",
+			"de": "Die bessere Z-Wave-Integration",
+			"ru": "Лучшая интеграция Z-Wave",
+			"pt": "A melhor integração do Z-Wave",
+			"nl": "De betere Z-Wave-integratie",
+			"fr": "La meilleure intégration Z-Wave",
+			"it": "La migliore integrazione di Z-Wave",
+			"es": "La mejor integración de Z-Wave",
+			"pl": "Lepsza integracja Z-Wave",
+			"zh-cn": "更好的Z-Wave集成"
+		},
+		"authors": ["AlCalzone <d.griesel@gmx.net>"],
+		"keywords": ["zwave", "z-wave", "zwave2", "z-wave 2"],
+		"license": "MIT",
+		"platform": "Javascript/Node.js",
+		"main": "build/main.js",
+		"icon": "zwave2.svg",
+		"enabled": true,
+		"dataFolder": "zwave2.%INSTANCE%",
+		"extIcon": "https://raw.githubusercontent.com/AlCalzone/ioBroker.zwave2/master/admin/zwave2.svg?sanitize=true",
+		"readme": "https://github.com/AlCalzone/ioBroker.zwave2/blob/master/README.md",
+		"loglevel": "info",
+		"mode": "daemon",
+		"type": "hardware",
+		"compact": true,
+		"materialize": true,
+		"materializeTab": true,
+		"adminTab": {
+			"name": {
+				"en": "Z-Wave",
+				"de": "Z-Wave"
+			},
+			"link": "",
+			"fa-icon": "wifi"
+		},
+		"messagebox": true,
+		"connectionType": "local",
+		"dataSource": "push",
+		"dependencies": [
+			{
+				"js-controller": ">=2.0.0"
+			}
+		]
+	},
+	"native": {
+		"serialport": "",
+		"writeLogFile": false,
+		"networkKey_S0": "",
+		"networkKey_S2_AccessControl": "",
+		"networkKey_S2_Authenticated": "",
+		"networkKey_S2_Unauthenticated": "",
+		"driver_increaseTimeouts": false,
+		"driver_increaseSendAttempts": false,
+		"switchCompat": false,
+		"preserveStateNames": false,
+		"notificationEventValidity": 1000
+	},
+	"objects": [],
+	"instanceObjects": [
+		{
+			"_id": "info",
+			"type": "channel",
+			"common": {
+				"name": "Information"
+			},
+			"native": {}
+		},
+		{
+			"_id": "info.connection",
+			"type": "state",
+			"common": {
+				"role": "indicator.connected",
+				"name": "Whether the Z-Wave driver is ready",
+				"type": "boolean",
+				"read": true,
+				"write": false,
+				"def": false
+			},
+			"native": {}
+		},
+		{
+			"_id": "info.inclusion",
+			"type": "state",
+			"common": {
+				"role": "indicator",
+				"name": "Whether the inclusion of nodes is active",
+				"type": "boolean",
+				"read": true,
+				"write": false,
+				"def": false
+			},
+			"native": {}
+		},
+		{
+			"_id": "info.exclusion",
+			"type": "state",
+			"common": {
+				"role": "state",
+				"name": "Whether the exclusion of nodes is active",
+				"type": "boolean",
+				"read": true,
+				"write": true,
+				"def": false
+			},
+			"native": {}
+		},
+		{
+			"_id": "info.healingNetwork",
+			"type": "state",
+			"common": {
+				"role": "state",
+				"name": "Whether a network heal is currently in progress",
+				"type": "boolean",
+				"read": true,
+				"write": false,
+				"def": false
+			},
+			"native": {}
+		},
+		{
+			"_id": "info.configVersion",
+			"type": "state",
+			"common": {
+				"role": "state",
+				"name": "The installed version of the Z-Wave JS configuration DB",
+				"type": "string",
+				"read": true,
+				"write": false,
+				"def": false
+			},
+			"native": {}
+		},
+		{
+			"_id": "info.configUpdate",
+			"type": "state",
+			"common": {
+				"role": "state",
+				"name": "The version of an available update for the Z-Wave JS configuration DB",
+				"type": "string",
+				"read": true,
+				"write": false,
+				"def": false
+			},
+			"native": {}
+		},
+		{
+			"_id": "info.configUpdating",
+			"type": "state",
+			"common": {
+				"role": "state",
+				"name": "Whether the adapter is currently updating the Z-Wave JS configuration DB",
+				"type": "boolean",
+				"read": true,
+				"write": false,
+				"def": false
+			},
+			"native": {}
+		}
+	]
 }

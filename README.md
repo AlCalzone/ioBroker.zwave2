@@ -40,7 +40,7 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	Placeholder for next versions:
 	### __WORK IN PROGRESS__
 -->
-### __WORK IN PROGRESS__
+### 2.3.0 (2021-10-25)
 * Add soft reset (restart) function for the controller
 * New and updated configuration files, see [here](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.6.0)
 
@@ -62,17 +62,6 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 * Fixes to auto-assigning lifeline associations
 * Small fixes to inclusion with security
 * New and updated configuration files, see [here](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0)
-
-### 2.2.0 (2021-09-27)
-* The devices list now includes an activity indicator and statistics for each device
-* Improvements to `Scene Actuator Configuration CC` and `Scene Controller Configuration CC`
-* Some fixes for `Security S2` in combination with `Supervision CC`
-* Workaround for a bug in Z-Wave sticks with firmware 7.15 and higher that led to missing capabilities
-* Fix: The tab starts on "Devices" again instead of "Groups"
-* Fix: don't offer values from secure nodes under broadcast
-* Fix: display generic device class when specific device class is `"Unused"`
-* Fix: roles of existing states are now preserved
-* Many changed and new device configuration files, see [here](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.4.0) and [here](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.4.1)
 
 ## License
 
