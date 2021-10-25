@@ -134,7 +134,8 @@ class ZWave2 extends import_adapter_core.default.Adapter {
       securityKeys,
       interview: {
         queryAllUserCodes: true
-      }
+      },
+      enableSoftReset: !this.config.disableSoftReset
     });
     this.driver.once("driver ready", async () => {
       this.driverReady = true;

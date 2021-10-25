@@ -69,7 +69,7 @@ const SettingsPageContent: React.FC = React.memo(() => {
 	const { settings, originalSettings, setSettings } =
 		useSettings<ioBroker.AdapterConfig>();
 	const classes = useStyles();
-	const { translate: _ } = useI18n();
+	const { translate: _, language } = useI18n();
 	const api = useAPI();
 
 	const handleChange = <T extends keyof ioBroker.AdapterConfig>(
@@ -171,6 +171,42 @@ const SettingsPageContent: React.FC = React.memo(() => {
 						/>
 						<Typography variant="body2">
 							{_("hosted port tip")}
+						</Typography>
+					</Grid>
+
+					<Grid item xs>
+						<FormControlLabel
+							label={_(
+								"Disable restarting the controller on startup",
+							)}
+							control={
+								<Checkbox
+									checked={settings.disableSoftReset}
+									onChange={(event, checked) =>
+										handleChange(
+											"disableSoftReset",
+											checked,
+										)
+									}
+								/>
+							}
+						/>
+						<Typography variant="body2">
+							{_(
+								"You can try this if the adapter does not start after updating to 2.3 or higher.",
+							)}
+							&nbsp;
+							<a
+								href={
+									language === "de"
+										? "https://github.com/AlCalzone/ioBroker.zwave2/blob/master/docs/de/bei-problemen.md#der-adapter-startet-nach-update-auf-version-23-oder-höher-nicht"
+										: "https://github.com/AlCalzone/ioBroker.zwave2/blob/master/docs/en/troubleshooting.md#the-adapter-does-not-start-after-updating-to-version-23-or-higher"
+								}
+								target="_blank"
+							>
+								{_("But read this first!")}
+							</a>
+							{}
 						</Typography>
 					</Grid>
 
