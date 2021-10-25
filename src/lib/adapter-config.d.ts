@@ -13,5 +13,6 @@ declare namespace ioBroker {
 		switchCompat: boolean;
 		preserveStateNames: boolean;
 		notificationEventValidity: number;
+		disableSoftReset: boolean;
 	}
 }

@@ -157,7 +157,8 @@
 		"driver_increaseSendAttempts": false,
 		"switchCompat": false,
 		"preserveStateNames": false,
-		"notificationEventValidity": 1000
+		"notificationEventValidity": 1000,
+		"disableSoftReset": false
 	},
 	"objects": [],
 	"instanceObjects": [

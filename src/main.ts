@@ -194,6 +194,7 @@ export class ZWave2 extends utils.Adapter<true> {
 				// TODO: remove this once we have a UI to query user codes
 				queryAllUserCodes: true,
 			},
+			enableSoftReset: !this.config.disableSoftReset,
 		});
 
 		this.driver.once("driver ready", async () => {

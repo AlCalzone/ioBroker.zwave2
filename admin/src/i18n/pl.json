@@ -166,5 +166,8 @@
     "yes": "tak",
     "Z-Wave supports the following security mechanisms:": "Z-Wave supports the following security mechanisms:",
     "Forget all information about this node and re-interview it. Battery-powered nodes might need to be woken up manually.": "Zapomnij o wszystkich informacjach o tym węźle i ponownie przeprowadź z nim wywiad. ",
-    "Restart the controller, e.g. when it hangs": "Zrestartuj kontroler, np. "
+    "Restart the controller, e.g. when it hangs": "Zrestartuj kontroler, np. ",
+    "You can try this if the adapter does not start after updating to 2.3 or higher.": "Możesz spróbować tego, jeśli adapter nie uruchamia się po aktualizacji do wersji 2.3 lub nowszej.",
+    "But read this first!": "Ale przeczytaj to najpierw!",
+    "Disable restarting the controller on startup": "Wyłącz ponowne uruchamianie kontrolera przy starcie"
 }

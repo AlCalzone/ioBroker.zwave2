@@ -166,5 +166,8 @@
     "yes": "是的",
     "Z-Wave supports the following security mechanisms:": "Z-Wave supports the following security mechanisms:",
     "Forget all information about this node and re-interview it. Battery-powered nodes might need to be woken up manually.": "忘记有关此节点的所有信息并重新访问它。",
-    "Restart the controller, e.g. when it hangs": "重新启动控制器，例如"
+    "Restart the controller, e.g. when it hangs": "重新启动控制器，例如",
+    "You can try this if the adapter does not start after updating to 2.3 or higher.": "如果更新到 2.3 或更高版本后适配器没有启动，您可以尝试此操作。",
+    "But read this first!": "但请先阅读此内容！",
+    "Disable restarting the controller on startup": "禁止在启动时重新启动控制器"
 }

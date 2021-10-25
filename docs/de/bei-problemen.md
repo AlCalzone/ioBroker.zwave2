@@ -2,6 +2,37 @@
 
 Z-Wave ist ein komplexes Protokoll, und viele Dinge können bei der Kommunikation schief gehen. Zwar sind Probleme mit diesem Adapter oder der zugrundeliegenden Bibliothek `zwave-js` nicht auszuschließen, in vielen Fällen ist ein Problem jedoch auf inkorrektes Verhalten der Geräte, eine falsche Gerätekonfiguration und/oder Netzwerkkonnektivitätsprobleme zurückzuführen. Vor dem Erstellen von Tickets bitte diesen Leitfaden befolgen.
 
+## Der Adapter startet nach Update auf Version 2.3 oder höher nicht
+
+Die Fehlermeldung sieht dabei etwa so aus:
+
+```
+Failed to initialize the driver: ZWaveError: The driver is not ready or has been destroyed
+```
+
+Wenn das auf Linux (z.B. Raspberry Pi) passiert, kann es daher kommen, dass der USB-Stick beim Neustart eine neue Adresse bekommt, z.B. diese sich von `/dev/ttyUSB0` auf `/dev/ttyUSB1` ändert.
+
+Dies kann vermieden werden, indem eine feste Adresse für den USB-Stick genutzt wird. Dazu auf der Konsole, mittels
+
+```
+ls -l /dev/serial/by-id
+```
+
+mögliche Gerätenamen auflisten und ermitteln, welcher davon dem Z-Wave Stick entspricht, erkennbar am verlinkten Pfad:
+
+```
+...
+lrwxrwxrwx 1 root root 13 Oct 25 20:19 usb-Silicon_Labs_CP2102N_USB_to_UART_Bridge_Controller_8ad925bd7b84e911a7a7a1d6217343c2-if00-port0 -> ../../ttyUSB0
+```
+
+In diesem Fall sollte in der Adapter-Konfiguration statt `/dev/ttyUSB0` der folgende Pfad eingetragen werden:
+
+```
+/dev/serial/by-id/usb-Silicon_Labs_CP2102N_USB_to_UART_Bridge_Controller_8ad925bd7b84e911a7a7a1d6217343c2-if00-port0
+```
+
+Wenn alles nicht hilft, kann der Stick-Neustart mittels der Option _Beim Adapterstart den Controller nicht neustarten_ deaktiviert werden, allerdings kann dies die Funktionalität einschränken.
+
 ## Einige Zustände fehlen
 
 Es ist sehr wahrscheinlich, dass das Interview noch nicht abgeschlossen ist. Bitte zuerst prüfen, ob der Zustand `ready` auf `wahr` steht. Falls nicht, bitte Geduld mitbringen - das erste Interview von batteriebetriebenen Knoten kann mehrere Stunden dauern. Falls das Interview nie abgeschlossen wird, gerne ein Issue aufmachen.
