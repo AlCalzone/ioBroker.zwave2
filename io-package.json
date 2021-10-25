@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "zwave2",
-		"version": "2.3.0",
+		"version": "2.3.1",
 		"news": {
+			"2.3.1": {
+				"en": "Add option to disable soft-reset, mention better solution in troubleshooting docs",
+				"de": "Option zur Deaktivierung des Soft-Resets beim Adapterstart hinzugefügt, bessere Lösung zur Fehlerbehebung in der Dokumentation erwähnt",
+				"ru": "Добавить параметр для отключения мягкого сброса, указать лучшее решение в документации по устранению неполадок",
+				"pt": "Adicione a opção de desativar a reinicialização suave, mencione a melhor solução na documentação de solução de problemas",
+				"nl": "Optie toevoegen om soft-reset uit te schakelen, betere oplossing vermelden in documenten voor probleemoplossing",
+				"fr": "Ajouter une option pour désactiver la réinitialisation logicielle, mentionner une meilleure solution dans les documents de dépannage",
+				"it": "Aggiungi l'opzione per disabilitare il soft-reset, menziona una soluzione migliore nei documenti di risoluzione dei problemi",
+				"es": "Agregue la opción para deshabilitar el restablecimiento parcial, mencione una mejor solución en los documentos de solución de problemas",
+				"pl": "Dodaj opcję wyłączenia miękkiego resetu, wspomnij o lepszym rozwiązaniu w dokumentacji rozwiązywania problemów",
+				"zh-cn": "添加禁用软重置的选项，在故障排除文档中提及更好的解决方案"
+			},
 			"2.3.0": {
 				"en": "Add soft reset (restart) function for the controller\nNew and updated configuration files, see [here](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.6.0)",
 				"de": "Soft-Reset-Funktion (Neustart) für den Controller hinzugefügt\nNeue und aktualisierte Konfigurationsdateien, siehe [hier](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.6.0)",
@@ -74,18 +86,6 @@
 				"es": "La lista de dispositivos ahora incluye un indicador de actividad y estadísticas para cada dispositivo.\nMejoras en la `Configuración del actuador de escena CC` y la` Configuración del controlador de escena CC`\nAlgunas correcciones para `Security S2` en combinación con` Supervision CC`\nSolución alternativa para un error en dispositivos Z-Wave con firmware 7.15 y superior que provocó la falta de capacidades\nSolución: la pestaña comienza en \"Dispositivos\" nuevamente en lugar de \"Grupos\"\nSolución: no ofrezca valores de nodos seguros en transmisión\nSolución: muestra la clase de dispositivo genérico cuando la clase de dispositivo específica es \"No utilizada\"\nSolución: ahora se conservan los roles de los estados existentes\nMuchos archivos de configuración de dispositivos nuevos y modificados, consulte [aquí] (https://github.com/zwave-js/node-zwave-js/releases/tag/v8.4.0) y [aquí] (https:// github. com / zwave-js / node-zwave-js / releases / tag / v8.4.1)",
 				"pl": "Lista urządzeń zawiera teraz wskaźnik aktywności i statystyki dla każdego urządzenia\nUlepszenia `Scene Actuator Configuration CC` i `Scene Controller Configuration CC`\nNiektóre poprawki dla `Security S2` w połączeniu z `Supervision CC`\nObejście błędu w kijach Z-Wave z oprogramowaniem układowym 7.15 i nowszym, które prowadziło do braku możliwości\nPoprawka: karta ponownie uruchamia się na „Urządzeniach” zamiast „Grupach”\nPoprawka: nie oferuj wartości z bezpiecznych węzłów w ramach transmisji\nPoprawka: wyświetlaj ogólną klasę urządzenia, gdy określona klasa urządzenia jest `\"Nieużywana\"`\nPoprawka: role istniejących stanów są teraz zachowane\nWiele zmienionych i nowych plików konfiguracyjnych urządzeń, zobacz [tutaj](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.4.0) i [tutaj](https://github. com/zwave-js/node-zwave-js/releases/tag/v8.4.1)",
 				"zh-cn": "设备列表现在包括每个设备的活动指示器和统计信息\n对“场景执行器配置 CC”和“场景控制器配置 CC”的改进\n“Security S2”与“Supervision CC”相结合的一些修复\nZ-Wave 中的错误的解决方法坚持使用固件 7.15 及更高版本，导致功能缺失\n修复：该选项卡再次从“设备”而不是“组”开始\n修复：不要在广播下提供来自安全节点的值\n修复：当特定设备类为“未使用”时显示通用设备类\n修复：现在保留现有状态的角色\n许多更改和新的设备配置文件，请参阅[此处](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.4.0) 和[此处](https://github.com)。 com/zwave-js/node-zwave-js/releases/tag/v8.4.1)"
-			},
-			"2.1.0": {
-				"en": "Support broadcast commands\nSupport multicast commands and managing multicast groups",
-				"de": "Unterstützung von Broadcast-Befehlen\nUnterstützung von Multicast-Befehlen und Verwaltung von Multicast-Gruppen",
-				"ru": "Поддержка широковещательных команд\nПоддержка команд многоадресной рассылки и управление группами многоадресной рассылки",
-				"pt": "Comandos de transmissão de suporte\nSuporte a comandos multicast e gerenciamento de grupos multicast",
-				"nl": "Ondersteuning uitzending commando's\nOndersteuning van multicast-opdrachten en het beheren van multicast-groepen",
-				"fr": "Prise en charge des commandes de diffusion\nPrise en charge des commandes de multidiffusion et gestion des groupes de multidiffusion",
-				"it": "Supporta i comandi di trasmissione\nSupporta comandi multicast e gestione di gruppi multicast",
-				"es": "Admite comandos de transmisión\nAdmite comandos de multidifusión y gestión de grupos de multidifusión",
-				"pl": "Obsługuj polecenia transmisji\nObsługa poleceń multicast i zarządzanie grupami multicast",
-				"zh-cn": "支持广播命令\n支持组播命令和管理组播组"
 			}
 		},
 		"title": "Z-Wave 2",

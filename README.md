@@ -40,7 +40,7 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	Placeholder for next versions:
 	### __WORK IN PROGRESS__
 -->
-### __WORK IN PROGRESS__
+### 2.3.1 (2021-10-25)
 * Add option to disable soft-reset, mention better solution in troubleshooting docs
 
 ### 2.3.0 (2021-10-25)
@@ -57,14 +57,6 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 
 ### 2.2.2 (2021-10-17)
 * Fix: Config from different instances no longer override each other
-
-### 2.2.1 (2021-10-12)
-* Fixed a crash when removing a node that is included in a multicast group
-* Fix: writeonly `boolean` states are now set up as switches instead of buttons
-* Corrupted `Multilevel Sensor` and `Meter` reports are now filtered out
-* Fixes to auto-assigning lifeline associations
-* Small fixes to inclusion with security
-* New and updated configuration files, see [here](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0)
 
 ## License
 
