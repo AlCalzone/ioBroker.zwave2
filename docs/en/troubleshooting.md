@@ -12,17 +12,26 @@ Failed to initialize the driver: ZWaveError: The driver is not ready or has been
 
 If this happens on Linux (e.g. Raspberry Pi), it can happen that the USB stick gets a new address on reboot, for example changes from `/dev/ttyUSB0` to `/dev/ttyUSB1`.
 
-This can be avoided by using a fixed address for the USB stick. To do this on the console, use
+This can be avoided by using a fixed address for the USB stick. To do this, execute
 
 ```
-ls /dev/serial/by-id
+ls -l /dev/serial/by-id
 ```
 
-to list possible device names and determine which one corresponds to the Z-Wave stick, e.g. `usb-Silicon_Labs_CP2102N_USB_to_UART_Bridge_Controller_8ad925bd7b84e911a7a1d6217343c2-if00-port0`. This name (prefixed with `/dev/serial/by-id/`) should be entered in the path in the adapter configuration, in this case it would be
+on the console and determine which of them corresponds to the Z-Wave stick, recognizable by the referenced path:
+
+```
+...
+lrwxrwx 1 root root 13 Oct 25 20:19 usb-Silicon_Labs_CP2102N_USB_to_UART_Bridge_Controller_8ad925bd7b84e911a7a1d6217343c2-if00-port0 -> ../../ttyUSB0
+```
+
+In this case
 
 ```
 /dev/serial/by-id/usb-Silicon_Labs_CP2102N_USB_to_UART_Bridge_Controller_8ad925bd7b84e911a7a7a1d6217343c2-if00-port0
 ```
+
+should be entered in the adapter configuration instead of `/dev/ttyUSB0`.
 
 If this does not help, the stick restart can be disabled using the _Disable restarting the controller on startup_ option, but this may limit functionality.
 

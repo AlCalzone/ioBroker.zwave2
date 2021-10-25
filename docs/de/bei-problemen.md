@@ -15,10 +15,17 @@ Wenn das auf Linux (z.B. Raspberry Pi) passiert, kann es daher kommen, dass der 
 Dies kann vermieden werden, indem eine feste Adresse für den USB-Stick genutzt wird. Dazu auf der Konsole, mittels
 
 ```
-ls /dev/serial/by-id
+ls -l /dev/serial/by-id
 ```
 
-mögliche Gerätenamen auflisten und ermitteln, welcher davon dem Z-Wave Stick entspricht, z.B. `usb-Silicon_Labs_CP2102N_USB_to_UART_Bridge_Controller_8ad925bd7b84e911a7a7a1d6217343c2-if00-port0`. Dieser Name sollte im Pfad in der Adapter-Konfiguration eingetragen, in diesem Fall wäre das
+mögliche Gerätenamen auflisten und ermitteln, welcher davon dem Z-Wave Stick entspricht, erkennbar am verlinkten Pfad:
+
+```
+...
+lrwxrwxrwx 1 root root 13 Oct 25 20:19 usb-Silicon_Labs_CP2102N_USB_to_UART_Bridge_Controller_8ad925bd7b84e911a7a7a1d6217343c2-if00-port0 -> ../../ttyUSB0
+```
+
+In diesem Fall sollte in der Adapter-Konfiguration statt `/dev/ttyUSB0` der folgende Pfad eingetragen werden:
 
 ```
 /dev/serial/by-id/usb-Silicon_Labs_CP2102N_USB_to_UART_Bridge_Controller_8ad925bd7b84e911a7a7a1d6217343c2-if00-port0
