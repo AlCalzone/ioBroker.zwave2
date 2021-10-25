@@ -892,6 +892,18 @@ class ZWave2 extends import_adapter_core.default.Adapter {
           this.setState("info.healingNetwork", false, true);
           return;
         }
+        case "softReset": {
+          if (!this.driverReady) {
+            return respond(responses.ERROR("The driver is not yet ready!"));
+          }
+          try {
+            await this.driver.softReset();
+            respond(responses.OK);
+          } catch (e) {
+            respond(responses.ERROR((0, import_shared2.getErrorMessage)(e)));
+          }
+          return;
+        }
         case "hardReset": {
           if (!this.driverReady) {
             return respond(responses.ERROR("The driver is not yet ready!"));

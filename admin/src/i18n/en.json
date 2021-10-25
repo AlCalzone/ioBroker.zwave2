@@ -165,5 +165,6 @@
     "Write a detailed logfile": "Write a detailed logfile",
     "yes": "yes",
     "Z-Wave supports the following security mechanisms:": "Z-Wave supports the following security mechanisms:",
-    "Forget all information about this node and re-interview it. Battery-powered nodes might need to be woken up manually.": "Forget all information about this node and re-interview it. Battery-powered nodes might need to be woken up manually."
+    "Forget all information about this node and re-interview it. Battery-powered nodes might need to be woken up manually.": "Forget all information about this node and re-interview it. Battery-powered nodes might need to be woken up manually.",
+    "Restart the controller, e.g. when it hangs": "Restart the controller, e.g. when it hangs"
 }

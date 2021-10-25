@@ -165,5 +165,6 @@
     "Write a detailed logfile": "Schrijf een gedetailleerd logbestand",
     "yes": "ja",
     "Z-Wave supports the following security mechanisms:": "Z-Wave supports the following security mechanisms:",
-    "Forget all information about this node and re-interview it. Battery-powered nodes might need to be woken up manually.": "Vergeet alle informatie over dit knooppunt en ondervraag het opnieuw. "
+    "Forget all information about this node and re-interview it. Battery-powered nodes might need to be woken up manually.": "Vergeet alle informatie over dit knooppunt en ondervraag het opnieuw. ",
+    "Restart the controller, e.g. when it hangs": "Start de besturing opnieuw, b.v. "
 }
