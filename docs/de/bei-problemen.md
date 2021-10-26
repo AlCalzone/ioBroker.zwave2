@@ -33,6 +33,8 @@ In diesem Fall sollte in der Adapter-Konfiguration statt `/dev/ttyUSB0` der folg
 
 Wenn alles nicht hilft, kann der Stick-Neustart mittels der Option _Beim Adapterstart den Controller nicht neustarten_ deaktiviert werden, allerdings kann dies die Funktionalität einschränken.
 
+> Dies ist beim zwave.me UZB1 auf jeden Fall nötig. Der Adapter versucht jedoch, diesen Stick selbstständig zu erkennen.
+
 ## Einige Zustände fehlen
 
 Es ist sehr wahrscheinlich, dass das Interview noch nicht abgeschlossen ist. Bitte zuerst prüfen, ob der Zustand `ready` auf `wahr` steht. Falls nicht, bitte Geduld mitbringen - das erste Interview von batteriebetriebenen Knoten kann mehrere Stunden dauern. Falls das Interview nie abgeschlossen wird, gerne ein Issue aufmachen.

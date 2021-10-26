@@ -35,6 +35,8 @@ should be entered in the adapter configuration instead of `/dev/ttyUSB0`.
 
 If this does not help, the stick restart can be disabled using the _Disable restarting the controller on startup_ option, but this may limit functionality.
 
+> This is definitely necessary with the zwave.me UZB1. However, the adapter tries to detect this stick by itself.
+
 ## Some states are missing
 
 It is very likely that the interview is not yet completed. Check if the `ready` state is `true`. If not, have patience - the first interview of battery-powered nodes may take several hours. If the interview never gets completed, please consider opening an issue.
