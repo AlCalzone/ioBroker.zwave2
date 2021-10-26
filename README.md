@@ -40,6 +40,9 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	Placeholder for next versions:
 	### __WORK IN PROGRESS__
 -->
+### 2.3.2 (2021-10-26)
+* Try to detect sticks (like UZB and UZB1) that are incompatible with soft-reset and automatically disable it
+
 ### 2.3.1 (2021-10-25)
 * Add option to disable soft-reset, mention better solution in troubleshooting docs
 
@@ -54,9 +57,6 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 
 ### 2.2.3 (2021-10-21)
 * Admin UI: Improve support for older browsers
-
-### 2.2.2 (2021-10-17)
-* Fix: Config from different instances no longer override each other
 
 ## License
 

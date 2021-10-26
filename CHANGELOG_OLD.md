@@ -1,4 +1,7 @@
 # Older changes
+## 2.2.2 (2021-10-17)
+* Fix: Config from different instances no longer override each other
+
 ## 2.2.1 (2021-10-12)
 * Fixed a crash when removing a node that is included in a multicast group
 * Fix: writeonly `boolean` states are now set up as switches instead of buttons
