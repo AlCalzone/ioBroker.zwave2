@@ -33,6 +33,8 @@ In this case
 
 should be entered in the adapter configuration instead of `/dev/ttyUSB0`.
 
+> ATTENTION: When running ioBroker in a virtual machine, further steps are necessary. Please continue reading [here](vm-usb.md)!
+
 If this does not help, the stick restart can be disabled using the _Disable restarting the controller on startup_ option, but this may limit functionality.
 
 > This is definitely necessary with the zwave.me UZB1. However, the adapter tries to detect this stick by itself.

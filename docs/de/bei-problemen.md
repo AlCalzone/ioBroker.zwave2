@@ -31,6 +31,8 @@ In diesem Fall sollte in der Adapter-Konfiguration statt `/dev/ttyUSB0` der folg
 /dev/serial/by-id/usb-Silicon_Labs_CP2102N_USB_to_UART_Bridge_Controller_8ad925bd7b84e911a7a7a1d6217343c2-if00-port0
 ```
 
+> ACHTUNG: Beim Betrieb von ioBroker in einer virtuellen Maschine sind weitere Schritte notwendig. Hierzu bitte [hier](vm-usb.md) weiterlesen!
+
 Wenn alles nicht hilft, kann der Stick-Neustart mittels der Option _Beim Adapterstart den Controller nicht neustarten_ deaktiviert werden, allerdings kann dies die Funktionalität einschränken.
 
 > Dies ist beim zwave.me UZB1 auf jeden Fall nötig. Der Adapter versucht jedoch, diesen Stick selbstständig zu erkennen.
