@@ -70,7 +70,7 @@
     "@typescript-eslint/eslint-plugin": "^4.32.0",
     "@typescript-eslint/parser": "^4.32.0",
     "ansicolor": "^1.1.95",
-    "axios": "^0.21.4",
+    "axios": "^0.24.0",
     "chai": "^4.3.4",
     "chai-as-promised": "^7.1.1",
     "clsx": "^1.1.1",
