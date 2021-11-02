@@ -22,11 +22,11 @@ import {
 	InclusionDialog,
 	InclusionExclusionDialogProps,
 	InclusionExclusionStep,
+	InclusionStrategy,
 } from "../components/InclusionExclusionDialog";
 import { NotRunning } from "../components/Messages";
 import { Device, useAPI } from "../lib/useAPI";
 import { usePush } from "../lib/usePush";
-
 export interface DevicesProps {
 	devices: Record<number, Device> | undefined;
 }
@@ -59,12 +59,18 @@ export const Devices: React.FC<DevicesProps> = (props) => {
 
 	const [inclusionStatus, setInclusionStatus] =
 		React.useState<InclusionExclusionStatus>();
+	const [showInclusionExclusionModal, setShowInclusionExclusionModal] =
+		React.useState(false);
 
 	const onPush = React.useCallback(
 		(payload: PushMessage) => {
 			console.log("on push", payload);
 			if (payload.type === "inclusion") {
 				setInclusionStatus(payload.status);
+				// Always show the inclusion result
+				if (payload.status.type === "done") {
+					setShowInclusionExclusionModal(true);
+				}
 			} else if (payload.type === "healing") {
 				setNetworkHealProgress(payload.status.progress ?? {});
 				if (payload.status.type === "done") {
@@ -108,9 +114,6 @@ export const Devices: React.FC<DevicesProps> = (props) => {
 		}
 	}
 
-	const [showInclusionExclusionModal, setShowInclusionExclusionModal] =
-		React.useState(false);
-
 	const devicesAsArray: Device[] = [];
 	if (devices) {
 		for (const nodeId of Object.keys(devices)) {
@@ -126,6 +129,14 @@ export const Devices: React.FC<DevicesProps> = (props) => {
 		});
 		setShowInclusionExclusionModal(true);
 	}
+
+	const closeDialog = React.useCallback(() => {
+		setShowInclusionExclusionModal(false);
+		// avoid flicker while the modal is being hidden
+		setTimeout(() => {
+			setInclusionStatus(undefined);
+		}, 250);
+	}, [setShowInclusionExclusionModal, setInclusionStatus]);
 
 	// Choose which inclusion/exclusion step to display
 	const inclusionExclusionDialogProps = (():
@@ -147,8 +158,16 @@ export const Devices: React.FC<DevicesProps> = (props) => {
 				step: InclusionExclusionStep.SelectInclusionStrategy,
 				onCancel: () => setShowInclusionExclusionModal(false),
 				selectStrategy: async (strategy, forceSecurity) => {
+					if (strategy === InclusionStrategy.QRCode) {
+						setInclusionStatus({ type: "scanQRCode" });
+						return;
+					}
+
 					try {
-						await api.beginInclusion(strategy, forceSecurity);
+						await api.beginInclusion(
+							strategy as any,
+							forceSecurity,
+						);
 						setInclusionStatus({
 							type: "waitingForDevice",
 						});
@@ -163,18 +182,12 @@ export const Devices: React.FC<DevicesProps> = (props) => {
 		} else if (inclusionStatus?.type === "chooseReplacementStrategy") {
 			return {
 				step: InclusionExclusionStep.SelectReplacementStrategy,
-				onCancel: () => {
-					setShowInclusionExclusionModal(false);
-					// avoid flicker while the modal is being hidden
-					setTimeout(() => {
-						setInclusionStatus(undefined);
-					}, 250);
-				},
+				onCancel: closeDialog,
 				selectStrategy: async (strategy) => {
 					try {
 						await api.replaceFailedNode(
 							inclusionStatus.nodeId,
-							strategy,
+							strategy as any,
 						);
 						setInclusionStatus({
 							type: "waitingForDevice",
@@ -187,6 +200,67 @@ export const Devices: React.FC<DevicesProps> = (props) => {
 					}
 				},
 			};
+		} else if (inclusionStatus?.type === "scanQRCode") {
+			return {
+				step: InclusionExclusionStep.QRCode,
+				onScan: async (code) => {
+					setInclusionStatus({ type: "busy" });
+					try {
+						const result = await api.scanQRCode(code, true);
+						if (result.type === "none") {
+							showNotification(
+								_("This is not a valid Z-Wave QR code"),
+								"warning",
+							);
+							setInclusionStatus({ type: "scanQRCode" });
+						} else if (result.type === "SmartStart") {
+							setInclusionStatus({
+								type: "resultMessage",
+								success: true,
+								title: _("Added SmartStart device"),
+								message: (
+									<>
+										{_(
+											"Successfully added SmartStart device to provisioning list.",
+										)}
+										<br />
+										{_(
+											"It will be included automatically when it announces itself.",
+										)}
+									</>
+								),
+							});
+						} else if (result.type === "S2") {
+							setInclusionStatus({
+								type: "waitingForDevice",
+							});
+						} else if (result.type === "included") {
+							setInclusionStatus({
+								type: "resultMessage",
+								success: true,
+								title: _("Already included"),
+								message: _(
+									"The device is already included as Node %s",
+									result.nodeId.toString(),
+								),
+							});
+						} else if (result.type === "provisioned") {
+							setInclusionStatus({
+								type: "resultMessage",
+								success: true,
+								title: _("Already provisioned"),
+								message: _(
+									"The device is already on the SmartStart provisioning list",
+								),
+							});
+						}
+					} catch (e) {
+						closeDialog();
+						showNotification(_("Failed to scan QR code"), "error");
+					}
+				},
+				onCancel: closeDialog,
+			};
 		} else if (
 			!inclusionStatus ||
 			inclusionStatus.type === "waitingForDevice"
@@ -195,7 +269,10 @@ export const Devices: React.FC<DevicesProps> = (props) => {
 				step: InclusionExclusionStep.IncludeDevice,
 				onCancel: () => {
 					setShowInclusionExclusionModal(false);
-					api.stopInclusion();
+					// avoid flicker while the modal is being hidden
+					setTimeout(() => {
+						api.stopInclusion();
+					}, 250);
 				},
 			};
 		} else if (inclusionStatus.type === "busy") {
@@ -233,39 +310,24 @@ export const Devices: React.FC<DevicesProps> = (props) => {
 				nodeId: inclusionStatus.nodeId,
 				lowSecurity: inclusionStatus.lowSecurity,
 				securityClass: inclusionStatus.securityClass,
-				onDone: () => {
-					setShowInclusionExclusionModal(false);
-					// avoid flicker while the modal is being hidden
-					setTimeout(() => {
-						setInclusionStatus(undefined);
-					}, 250);
-				},
-				onCancel: () => {
-					setShowInclusionExclusionModal(false);
-					// avoid flicker while the modal is being hidden
-					setTimeout(() => {
-						setInclusionStatus(undefined);
-					}, 250);
-				},
+				onDone: closeDialog,
+				onCancel: closeDialog,
 			};
 		} else if (inclusionStatus.type === "exclusionDone") {
 			return {
 				step: InclusionExclusionStep.ExclusionResult,
 				nodeId: inclusionStatus.nodeId,
-				onDone: () => {
-					setShowInclusionExclusionModal(false);
-					// avoid flicker while the modal is being hidden
-					setTimeout(() => {
-						setInclusionStatus(undefined);
-					}, 250);
-				},
-				onCancel: () => {
-					setShowInclusionExclusionModal(false);
-					// avoid flicker while the modal is being hidden
-					setTimeout(() => {
-						setInclusionStatus(undefined);
-					}, 250);
-				},
+				onDone: closeDialog,
+				onCancel: closeDialog,
+			};
+		} else if (inclusionStatus.type === "resultMessage") {
+			return {
+				step: InclusionExclusionStep.ResultMessage,
+				message: inclusionStatus.message,
+				success: inclusionStatus.success,
+				title: inclusionStatus.title,
+				onDone: closeDialog,
+				onCancel: closeDialog,
 			};
 		}
 	})();

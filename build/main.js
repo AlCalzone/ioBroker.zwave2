@@ -672,7 +672,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
   async setExclusionMode(active) {
     try {
       if (active) {
-        await this.driver.controller.beginExclusion();
+        await this.driver.controller.beginExclusion(true);
       } else {
         await this.driver.controller.stopExclusion();
       }
@@ -700,7 +700,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
     this.pushToFrontendBusy = false;
   }
   async onMessage(obj) {
-    var _a, _b, _c;
+    var _a, _b, _c, _d;
     const respond = (response) => {
       if (obj.callback)
         this.sendTo(obj.from, obj.command, response, obj.callback);
@@ -767,6 +767,115 @@ class ZWave2 extends import_adapter_core.default.Adapter {
           }
           return;
         }
+        case "scanQRCode": {
+          if (!this.driverReady) {
+            return respond(responses.ERROR("The driver is not yet ready to do that!"));
+          }
+          if (!requireParams("code"))
+            return;
+          const params = obj.message;
+          const code = params.code;
+          const include = !!params.include;
+          try {
+            const provisioning = (0, import_core.parseQRCodeString)(code);
+            const node = this.driver.controller.getNodeByDSK(provisioning.dsk);
+            if (include && node) {
+              return respond(responses.RESULT({
+                type: "included",
+                nodeId: node.id
+              }));
+            } else if (this.driver.controller.getProvisioningEntry(provisioning.dsk)) {
+              return respond(responses.RESULT(__spreadValues({
+                type: "provisioned"
+              }, provisioning)));
+            } else if (provisioning.version === import_core.QRCodeVersion.S2) {
+              if (!include) {
+                return respond(responses.RESULT({type: "S2"}));
+              }
+              try {
+                const result = await this.driver.controller.beginInclusion({
+                  strategy: import_Controller.InclusionStrategy.Security_S2,
+                  provisioning
+                });
+                this.setState("info.inclusion", true, true);
+                if (result) {
+                  return respond(responses.RESULT({type: "S2"}));
+                } else {
+                  respond(responses.COMMAND_ACTIVE);
+                }
+              } catch (e) {
+                respond(responses.ERROR((0, import_shared2.getErrorMessage)(e)));
+                this.setState("info.inclusion", false, true);
+              }
+            } else if (provisioning.version === import_core.QRCodeVersion.SmartStart) {
+              if (!include) {
+                return respond(responses.RESULT(__spreadValues({
+                  type: "SmartStart"
+                }, provisioning)));
+              }
+              this.driver.controller.provisionSmartStartNode(provisioning);
+              return respond(responses.RESULT(__spreadValues({
+                type: "SmartStart"
+              }, provisioning)));
+            }
+          } catch {
+          }
+          return respond(responses.RESULT({type: "none"}));
+        }
+        case "provisionSmartStartNode": {
+          if (!this.driverReady) {
+            return respond(responses.ERROR("The driver is not yet ready to do that!"));
+          }
+          if (!requireParams("dsk", "securityClasses"))
+            return;
+          const params = obj.message;
+          const dsk = params.dsk;
+          const securityClasses = params.securityClasses;
+          const additionalInfo = (_a = params.additionalInfo) != null ? _a : {};
+          try {
+            this.driver.controller.provisionSmartStartNode(__spreadValues({
+              dsk,
+              securityClasses
+            }, additionalInfo));
+            respond(responses.OK);
+          } catch (e) {
+            respond(responses.ERROR((0, import_shared2.getErrorMessage)(e)));
+          }
+          return;
+        }
+        case "unprovisionSmartStartNode": {
+          if (!this.driverReady) {
+            return respond(responses.ERROR("The driver is not yet ready to do that!"));
+          }
+          if (!requireParams("dsk"))
+            return;
+          const params = obj.message;
+          const dsk = params.dsk;
+          try {
+            this.driver.controller.unprovisionSmartStartNode(dsk);
+            respond(responses.OK);
+          } catch (e) {
+            respond(responses.ERROR((0, import_shared2.getErrorMessage)(e)));
+          }
+          return;
+        }
+        case "getProvisioningEntries": {
+          if (!this.driverReady) {
+            return respond(responses.ERROR("The driver is not yet ready to do that!"));
+          }
+          const result = this.driver.controller.getProvisioningEntries();
+          for (const entry of result) {
+            if (typeof entry.manufacturerId === "number" && typeof entry.productType === "number" && typeof entry.productId === "number" && typeof entry.applicationVersion === "string") {
+              const device = await this.driver.configManager.lookupDevice(entry.manufacturerId, entry.productType, entry.productId, entry.applicationVersion);
+              if (device) {
+                entry.manufacturer = device.manufacturer;
+                entry.label = device.label;
+                entry.description = device.description;
+              }
+            }
+          }
+          return respond(responses.RESULT(result));
+        }
         case "beginInclusion": {
           if (!this.driverReady) {
             return respond(responses.ERROR("The driver is not yet ready to include devices!"));
@@ -831,9 +940,9 @@ class ZWave2 extends import_adapter_core.default.Adapter {
           const params = obj.message;
           const pin = params.pin;
           if (!pin) {
-            (_a = this.validateDSKPromise) == null ? void 0 : _a.resolve(false);
+            (_b = this.validateDSKPromise) == null ? void 0 : _b.resolve(false);
           } else {
-            (_b = this.validateDSKPromise) == null ? void 0 : _b.resolve(pin);
+            (_c = this.validateDSKPromise) == null ? void 0 : _c.resolve(pin);
           }
           this.pushToFrontend({
             type: "inclusion",
@@ -850,7 +959,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
             return;
           const params = obj.message;
           const grant = params.grant;
-          (_c = this.grantSecurityClassesPromise) == null ? void 0 : _c.resolve(grant);
+          (_d = this.grantSecurityClassesPromise) == null ? void 0 : _d.resolve(grant);
           this.pushToFrontend({
             type: "inclusion",
             status: {type: "busy"}
@@ -863,9 +972,9 @@ class ZWave2 extends import_adapter_core.default.Adapter {
             return respond(responses.ERROR("The driver is not yet ready to include devices!"));
           }
           const result = await this.driver.controller.stopInclusion();
+          this.setState("info.inclusion", false, true);
           if (result) {
             respond(responses.OK);
-            this.setState("info.inclusion", false, true);
           } else {
             respond(responses.COMMAND_ACTIVE);
           }

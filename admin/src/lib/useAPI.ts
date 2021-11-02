@@ -1,4 +1,5 @@
 import type { Connection } from "@iobroker/socket-client";
+import type { SecurityClass } from "@zwave-js/core";
 import { isArray } from "alcalzone-shared/typeguards";
 import { useConnection, useGlobals } from "iobroker-react/hooks";
 import React from "react";
@@ -9,12 +10,14 @@ import type {
 	InclusionGrant,
 	InclusionStrategy,
 	RFRegion,
+	SmartStartProvisioningEntry,
 } from "zwave-js";
 import {
 	AssociationDefinition,
 	computeDeviceId,
 	getErrorMessage,
 	PushMessage,
+	ScanQRCodeResult,
 } from "../../../src/lib/shared";
 
 export interface Device {
@@ -162,6 +165,53 @@ export class API {
 		if (result !== "ok") {
 			throw error ?? result;
 		}
+	}
+
+	public async scanQRCode(
+		code: string,
+		include: boolean,
+	): Promise<ScanQRCodeResult> {
+		const { error, result } = await this.connection.sendTo<
+			SendToResult<ScanQRCodeResult>
+		>(this.namespace, "scanQRCode", { code, include });
+		if (error) throw error;
+		return result!;
+	}
+
+	public async provisionSmartStartNode(
+		dsk: string,
+		securityClasses: SecurityClass[],
+		additionalInfo?: Record<string, any>,
+	): Promise<void> {
+		const { error, result } = await this.connection.sendTo<SendToResult>(
+			this.namespace,
+			"provisionSmartStartNode",
+			{ dsk, securityClasses, additionalInfo },
+		);
+		if (result !== "ok") {
+			throw error ?? result;
+		}
+	}
+
+	public async unprovisionSmartStartNode(dsk: string): Promise<void> {
+		const { error, result } = await this.connection.sendTo<SendToResult>(
+			this.namespace,
+			"unprovisionSmartStartNode",
+			{ dsk },
+		);
+		if (result !== "ok") {
+			throw error ?? result;
+		}
+	}
+
+	public async getProvisioningEntries(): Promise<
+		SmartStartProvisioningEntry[]
+	> {
+		const { error, result } = await this.connection.sendTo<
+			SendToResult<SmartStartProvisioningEntry[]>
+		>(this.namespace, "getProvisioningEntries");
+		if (error) throw error;
+		return result!;
 	}
 
 	public async validateDSK(pin: string | false): Promise<void> {

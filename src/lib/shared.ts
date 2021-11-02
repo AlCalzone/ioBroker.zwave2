@@ -1,10 +1,12 @@
 import { padStart } from "alcalzone-shared/strings";
+import type React from "react";
 import type {
 	AssociationAddress,
 	ControllerStatistics,
 	FirmwareUpdateStatus,
 	InclusionGrant,
 	NodeStatistics,
+	SmartStartProvisioningEntry,
 } from "zwave-js";
 
 // WARNING: DO NOT IMPORT values FROM "zwave-js" HERE
@@ -79,6 +81,9 @@ export type InclusionExclusionStatus =
 			request: InclusionGrant;
 	  }
 	| {
+			type: "scanQRCode";
+	  }
+	| {
 			type: "busy";
 	  }
 	| {
@@ -90,8 +95,25 @@ export type InclusionExclusionStatus =
 	| {
 			type: "exclusionDone";
 			nodeId: number;
+	  }
+	| {
+			type: "resultMessage";
+			success: boolean;
+			title: string;
+			message: React.ReactNode;
 	  };
 
+export type ScanQRCodeResult =
+	| {
+			type: "none" | "S2";
+	  }
+	| ({
+			type: "SmartStart" | "provisioned";
+	  } & SmartStartProvisioningEntry)
+	| {
+			type: "included";
+			nodeId: number;
+	  };
 export interface FirmwareUpdateProgress {
 	type: "done" | "progress";
 	sentFragments?: number;
