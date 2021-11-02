@@ -1,4 +1,7 @@
 # Older changes
+## 2.2.3 (2021-10-21)
+* Admin UI: Improve support for older browsers
+
 ## 2.2.2 (2021-10-17)
 * Fix: Config from different instances no longer override each other
 

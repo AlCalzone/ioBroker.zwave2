@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "2.3.2",
+        "version": "2.4.0",
         "news": {
+            "2.4.0": {
+                "en": "Add support for SmartStart and inclusion of nodes with QR codes",
+                "de": "Unterstützung für SmartStart und Inklusion von Geräten mittels QR-Codes",
+                "ru": "Добавить поддержку SmartStart и включение узлов с QR-кодами",
+                "pt": "Adicione suporte para SmartStart e inclusão de nós com códigos QR",
+                "nl": "Ondersteuning toevoegen voor SmartStart en opname van nodes met QR-codes",
+                "fr": "Ajout de la prise en charge de SmartStart et inclusion de nœuds avec des codes QR",
+                "it": "Aggiungi supporto per SmartStart e inclusione di nodi con codici QR",
+                "es": "Agregue soporte para SmartStart e inclusión de nodos con códigos QR",
+                "pl": "Dodaj obsługę SmartStart i dołączanie węzłów z kodami QR",
+                "zh-cn": "添加对 SmartStart 的支持并包含带有二维码的节点"
+            },
             "2.3.2": {
                 "en": "Try to detect sticks (like UZB and UZB1) that are incompatible with soft-reset and automatically disable it",
                 "de": "Es wird versucht, Sticks (wie UZB und UZB1) zu erkennen, die mit Soft-Reset nicht kompatibel sind, und die Funktion automatisch zu deaktivieren",
@@ -74,18 +86,6 @@
                 "es": "Solución: la configuración de diferentes instancias ya no se anulan entre sí",
                 "pl": "Poprawka: Konfiguracje z różnych instancji już się nie zastępują",
                 "zh-cn": "修复：来自不同实例的配置不再相互覆盖"
-            },
-            "2.2.1": {
-                "en": "Fixed a crash when removing a node that is included in a multicast group\nFix: writeonly `boolean` states are now set up as switches instead of buttons\nCorrupted `Multilevel Sensor` and `Meter` reports are now filtered out\nFixes to auto-assigning lifeline associations\nSmall fixes to inclusion with security\nNew and updated configuration files, see [here](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0)",
-                "de": "Fix: Absturz beim Entfernen von Geräten, die in einer Multicast-Gruppe enthalten sind\nFix: Schreibgeschützte \"boolesche\" Zustände werden jetzt mit Typ \"switch\" statt \"button\" angelegt\nKorrupte \"Multilevel Sensor CC\" und \"Meter CC\" Reports werden jetzt herausgefiltert\nKorrekturen bei der automatischen Zuweisung von Lifeline Associations\nKleine Korrekturen für die sichere Inklusion von Geräten\nNeue und aktualisierte Konfigurationsdateien, siehe https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0",
-                "ru": "Исправлен сбой при удалении узла, входящего в группу многоадресной рассылки\nИсправлено: логические состояния только для записи теперь настраиваются как переключатели вместо кнопок\nПоврежденные отчеты \"Multilevel Sensor\" и \"Meter\" теперь отфильтрованы.\nИсправления для автоматического назначения ассоциаций жизненного пути.\nНебольшие исправления для включения с безопасностью\nНовые и обновленные файлы конфигурации см. [Здесь] (https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0)",
-                "pt": "Corrigida uma falha ao remover um nó que está incluído em um grupo multicast\nCorreção: os estados `booleanos` writeonly agora são configurados como interruptores em vez de botões\nRelatórios corrompidos de `Sensor multinível` e` Medidor` agora são filtrados\nCorreções para auto-atribuição de associações de linha de vida\nPequenas correções para inclusão com segurança\nArquivos de configuração novos e atualizados, veja [aqui] (https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0)",
-                "nl": "Een crash opgelost bij het verwijderen van een knooppunt dat is opgenomen in een multicast-groep\nFix: alleen-schrijven `boolean` statussen zijn nu ingesteld als schakelaars in plaats van knoppen\nBeschadigde 'Multilevel Sensor'- en 'Meter'-rapporten worden nu uitgefilterd\nOplossingen voor het automatisch toewijzen van reddingslijnassociaties\nKleine oplossingen voor opname met beveiliging\nNieuwe en bijgewerkte configuratiebestanden, zie [hier](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0)",
-                "fr": "Correction d'un plantage lors de la suppression d'un nœud inclus dans un groupe de multidiffusion\nCorrection : les états « booléens » en écriture seule sont désormais configurés comme des commutateurs au lieu de boutons\nLes rapports corrompus « Capteur multiniveau » et « Compteur » sont désormais filtrés\nCorrections de l'attribution automatique d'associations de lignes de vie\nPetites corrections à l'inclusion avec sécurité\nFichiers de configuration nouveaux et mis à jour, voir [ici](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0)",
-                "it": "Risolto un crash durante la rimozione di un nodo incluso in un gruppo multicast\nCorrezione: gli stati \"booleani\" di sola scrittura ora sono impostati come interruttori anziché come pulsanti\nI rapporti \"Sensore multilivello\" e \"Misuratore\" corrotti sono ora filtrati\nCorrezioni all'assegnazione automatica delle associazioni della linea di vita\nPiccole correzioni all'inclusione con la sicurezza\nFile di configurazione nuovi e aggiornati, vedere [qui](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0)",
-                "es": "Se corrigió un bloqueo al eliminar un nodo que está incluido en un grupo de multidifusión\nSolución: los estados `booleanos` de solo escritura ahora se configuran como interruptores en lugar de botones\nLos informes de \"Sensor multinivel\" y \"Medidor\" corruptos ahora se filtran\nCorrecciones para la asignación automática de asociaciones de líneas de vida.\nPequeñas correcciones para la inclusión con seguridad\nArchivos de configuración nuevos y actualizados, consulte [aquí] (https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0)",
-                "pl": "Naprawiono awarię podczas usuwania węzła, który jest dołączony do grupy multicast\nPoprawka: stany `boolean` tylko do zapisu są teraz ustawiane jako przełączniki zamiast przycisków\nUszkodzone raporty „Czujnik wielopoziomowy” i „Miernik” są teraz odfiltrowywane\nPoprawki automatycznego przypisywania skojarzeń linii życia\nMałe poprawki do włączenia z bezpieczeństwem\nNowe i zaktualizowane pliki konfiguracyjne, zobacz [tutaj](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0)",
-                "zh-cn": "修复了删除包含在多播组中的节点时崩溃的问题\n修复：writeonly `boolean` 状态现在设置为开关而不是按钮\n损坏的“多级传感器”和“仪表”报告现在被过滤掉了\n修复了自动分配生命线关联\n包含安全性的小修复\n新的和更新的配置文件，见[这里](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0)"
             }
         },
         "title": "Z-Wave 2",
@@ -113,15 +113,8 @@
             "pl": "Lepsza integracja Z-Wave",
             "zh-cn": "更好的Z-Wave集成"
         },
-        "authors": [
-            "AlCalzone <d.griesel@gmx.net>"
-        ],
-        "keywords": [
-            "zwave",
-            "z-wave",
-            "zwave2",
-            "z-wave 2"
-        ],
+        "authors": ["AlCalzone <d.griesel@gmx.net>"],
+        "keywords": ["zwave", "z-wave", "zwave2", "z-wave 2"],
         "license": "MIT",
         "platform": "Javascript/Node.js",
         "main": "build/main.js",
