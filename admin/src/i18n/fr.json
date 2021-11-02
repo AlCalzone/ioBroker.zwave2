@@ -191,5 +191,11 @@
     "Z-Wave Logs": "Journaux Z-Wave",
     "This is not a valid Z-Wave QR code": "Ceci n'est pas un code QR Z-Wave valide",
     "This node is already on the SmartStart provisioning list": "Ce nœud est déjà sur la liste d'approvisionnement SmartStart",
-    "This is not a SmartStart QR code. Use the devices tab to include this node.": "Ce n'est pas un code QR SmartStart. "
+    "This is not a SmartStart QR code. Use the devices tab to include this node.": "Ce n'est pas un code QR SmartStart. ",
+    "Node successfully added to provisioning list": "Nœud ajouté avec succès à la liste d'approvisionnement",
+    "The device is already included as Node %s": "Le périphérique est déjà inclus en tant que nœud %s",
+    "Added SmartStart device": "Dispositif SmartStart ajouté",
+    "Successfully added SmartStart device to provisioning list.": "L'appareil SmartStart a été ajouté avec succès à la liste d'approvisionnement.",
+    "It will be included automatically when it announces itself.": "Il sera inclus automatiquement lorsqu'il s'annoncera.",
+    "Failed to scan QR code": "Échec de la numérisation du code QR"
 }

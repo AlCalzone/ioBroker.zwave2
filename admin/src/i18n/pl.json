@@ -191,5 +191,11 @@
     "Z-Wave Logs": "Dzienniki Z-Wave",
     "This is not a valid Z-Wave QR code": "To nie jest prawidłowy kod QR Z-Wave",
     "This node is already on the SmartStart provisioning list": "Ten węzeł znajduje się już na liście udostępniania SmartStart",
-    "This is not a SmartStart QR code. Use the devices tab to include this node.": "To nie jest kod QR SmartStart. "
+    "This is not a SmartStart QR code. Use the devices tab to include this node.": "To nie jest kod QR SmartStart. ",
+    "Node successfully added to provisioning list": "Węzeł pomyślnie dodany do listy udostępniania",
+    "The device is already included as Node %s": "Urządzenie jest już uwzględnione jako węzeł %s",
+    "Added SmartStart device": "Dodano urządzenie SmartStart",
+    "Successfully added SmartStart device to provisioning list.": "Pomyślnie dodano urządzenie SmartStart do listy obsługi administracyjnej.",
+    "It will be included automatically when it announces itself.": "Zostanie dołączony automatycznie, gdy się ogłosi.",
+    "Failed to scan QR code": "Nie udało się zeskanować kodu QR"
 }

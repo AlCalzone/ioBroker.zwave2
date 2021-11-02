@@ -191,5 +191,11 @@
     "Z-Wave Logs": "Z-Wave-logboeken",
     "This is not a valid Z-Wave QR code": "Dit is geen geldige Z-Wave QR-code",
     "This node is already on the SmartStart provisioning list": "Dit knooppunt staat al op de SmartStart-inrichtingslijst",
-    "This is not a SmartStart QR code. Use the devices tab to include this node.": "Dit is geen SmartStart QR-code. "
+    "This is not a SmartStart QR code. Use the devices tab to include this node.": "Dit is geen SmartStart QR-code. ",
+    "Node successfully added to provisioning list": "Knooppunt succesvol toegevoegd aan inrichtingslijst",
+    "The device is already included as Node %s": "Het apparaat is al opgenomen als Node %s",
+    "Added SmartStart device": "SmartStart-apparaat toegevoegd",
+    "Successfully added SmartStart device to provisioning list.": "SmartStart-apparaat is toegevoegd aan de inrichtingslijst.",
+    "It will be included automatically when it announces itself.": "Het wordt automatisch opgenomen wanneer het zichzelf aankondigt.",
+    "Failed to scan QR code": "Kan QR-code niet scannen"
 }

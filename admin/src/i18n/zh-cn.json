@@ -191,5 +191,11 @@
     "Z-Wave Logs": "Z-Wave 日志",
     "This is not a valid Z-Wave QR code": "这不是有效的 Z-Wave 二维码",
     "This node is already on the SmartStart provisioning list": "此节点已在 SmartStart 配置列表中",
-    "This is not a SmartStart QR code. Use the devices tab to include this node.": "这不是 SmartStart 二维码。"
+    "This is not a SmartStart QR code. Use the devices tab to include this node.": "这不是 SmartStart 二维码。",
+    "Node successfully added to provisioning list": "节点已成功添加到配置列表",
+    "The device is already included as Node %s": "该设备已作为节点 %s 包含在内",
+    "Added SmartStart device": "添加了 SmartStart 设备",
+    "Successfully added SmartStart device to provisioning list.": "已成功将 SmartStart 设备添加到配置列表。",
+    "It will be included automatically when it announces itself.": "它将在宣布自己时自动包含在内。",
+    "Failed to scan QR code": "无法扫描二维码"
 }

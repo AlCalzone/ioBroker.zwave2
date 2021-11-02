@@ -113,8 +113,15 @@
             "pl": "Lepsza integracja Z-Wave",
             "zh-cn": "更好的Z-Wave集成"
         },
-        "authors": ["AlCalzone <d.griesel@gmx.net>"],
-        "keywords": ["zwave", "z-wave", "zwave2", "z-wave 2"],
+        "authors": [
+            "AlCalzone <d.griesel@gmx.net>"
+        ],
+        "keywords": [
+            "zwave",
+            "z-wave",
+            "zwave2",
+            "z-wave 2"
+        ],
         "license": "MIT",
         "platform": "Javascript/Node.js",
         "main": "build/main.js",

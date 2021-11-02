@@ -250,7 +250,7 @@ export const Devices: React.FC<DevicesProps> = (props) => {
 								success: true,
 								title: _("Already provisioned"),
 								message: _(
-									"The device is already on the SmartStart provisioning list",
+									"This node is already on the SmartStart provisioning list",
 								),
 							});
 						}
