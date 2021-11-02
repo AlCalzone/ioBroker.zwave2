@@ -18,6 +18,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import type { InclusionGrant } from "zwave-js/Controller";
 import Alert from "@material-ui/lab/Alert";
+import { QRScanner } from "./QRScanner";
 
 const useStyles = makeStyles((theme) => ({
 	strategyRoot: {
@@ -35,6 +36,12 @@ const useStyles = makeStyles((theme) => ({
 	},
 	strategyList: {
 		...theme.typography.body2,
+	},
+	scanQRCodeRoot: {
+		display: "flex",
+		flexFlow: "column nowrap",
+		gap: theme.spacing(1),
+		maxWidth: "600px",
 	},
 	waitMessageRoot: {
 		display: "grid",
@@ -92,6 +99,7 @@ const useStyles = makeStyles((theme) => ({
 export enum InclusionExclusionStep {
 	SelectInclusionStrategy,
 	SelectReplacementStrategy,
+	QRCode,
 	IncludeDevice,
 	ExcludeDevice,
 	GrantSecurityClasses,
@@ -99,16 +107,19 @@ export enum InclusionExclusionStep {
 	Busy,
 	Result,
 	ExclusionResult,
+	ResultMessage,
 }
 
 // Copied from zwave-js
 export enum InclusionStrategy {
 	Default = 0,
-	SmartStart,
-	Insecure,
+	Insecure = 2,
 	// Only for replacing nodes:
 	Security_S0,
 	Security_S2,
+
+	// This is not included in zwave-js
+	QRCode = -1,
 }
 
 // =============================================================================
@@ -237,18 +248,12 @@ const SelectInclusionStrategyStep: React.FC<SelectInclusionStrategyStepProps> =
 							variant="contained"
 							color="secondary"
 							style={{ gridRow: 2 }}
-							disabled
 							onClick={() =>
-								props.selectStrategy(
-									InclusionStrategy.SmartStart,
-								)
+								props.selectStrategy(InclusionStrategy.QRCode)
 							}
 						>
-							{"SmartStart"}
+							{_("Scan QR Code")}
 						</Button>
-						<Typography variant="caption">
-							coming soon...
-						</Typography>
 
 						<Button
 							variant="contained"
@@ -262,7 +267,7 @@ const SelectInclusionStrategyStep: React.FC<SelectInclusionStrategyStepProps> =
 						>
 							{_("Security S0")}
 						</Button>
-						<Typography variant="caption">
+						<Typography style={{ gridRow: 3 }} variant="caption">
 							{_(
 								"Only use S0, even if S2 is available. Allows including devices that require security but don't behave correctly during S2 inclusion.",
 							)}
@@ -296,7 +301,12 @@ const SelectInclusionStrategyStep: React.FC<SelectInclusionStrategyStepProps> =
 // =============================================================================
 
 interface SelectReplacementStrategyStepProps {
-	selectStrategy: (strategy: InclusionStrategy) => void;
+	selectStrategy: (
+		strategy:
+			| InclusionStrategy.Insecure
+			| InclusionStrategy.Security_S0
+			| InclusionStrategy.Security_S2,
+	) => void;
 	onCancel: () => void;
 }
 
@@ -379,6 +389,50 @@ const SelectReplacementStrategyStep: React.FC<SelectReplacementStrategyStepProps
 			</>
 		);
 	};
+
+// =============================================================================
+
+export interface ScanQRCodeStepProps {
+	onScan: (code: string) => void;
+	onCancel?: () => void;
+}
+
+const ScanQRCodeStep: React.FC<ScanQRCodeStepProps> = (props) => {
+	const classes = useStyles();
+	const { translate: _ } = useI18n();
+
+	const [busy, setBusy] = React.useState(false);
+	const handleScan = React.useCallback(
+		(code: string) => {
+			if (busy) return;
+			setBusy(true);
+			// Add a short delay so the scanner markers can be seen
+			setTimeout(() => {
+				props.onScan(code);
+			}, 500);
+		},
+		[busy, setBusy, props.onScan],
+	);
+
+	return (
+		<>
+			<DialogContent className={classes.scanQRCodeRoot}>
+				<QRScanner onDetect={handleScan} />
+			</DialogContent>
+			<DialogActions>
+				{props.onCancel && (
+					<Button
+						variant="contained"
+						onClick={props.onCancel}
+						color="primary"
+					>
+						{_("Cancel")}
+					</Button>
+				)}
+			</DialogActions>
+		</>
+	);
+};
 
 // =============================================================================
 
@@ -800,6 +854,55 @@ const ExclusionResultStep: React.FC<ExclusionResultStepProps> = (props) => {
 	);
 };
 
+// =============================================================================
+
+export interface ResultMessageStepProps {
+	success: boolean;
+	title: string;
+	message: React.ReactNode;
+	onDone: () => void;
+}
+
+const ResultMessageStep: React.FC<ResultMessageStepProps> = (props) => {
+	const { translate: _ } = useI18n();
+	const classes = useStyles();
+
+	const Icon = props.success ? CheckCircleIcon : WarningIcon;
+
+	return (
+		<>
+			<DialogContent className={classes.resultRoot}>
+				<Icon
+					className={clsx(
+						classes.resultIcon,
+						props.success
+							? classes.resultIconOK
+							: classes.resultIconLowSecurity,
+					)}
+				/>
+				<Typography
+					variant="body1"
+					style={{ fontWeight: "bold", fontSize: "125%" }}
+				>
+					{props.title}
+				</Typography>
+				<Typography variant="body2">{props.message}</Typography>
+			</DialogContent>
+			<DialogActions>
+				<Button
+					variant="contained"
+					onClick={props.onDone}
+					color="primary"
+				>
+					{_("OK")}
+				</Button>
+			</DialogActions>
+		</>
+	);
+};
+
+// =============================================================================
+
 export type InclusionExclusionDialogProps = {
 	onCancel: () => void;
 } & (
@@ -809,6 +912,7 @@ export type InclusionExclusionDialogProps = {
 	| ({
 			step: InclusionExclusionStep.SelectReplacementStrategy;
 	  } & SelectReplacementStrategyStepProps)
+	| ({ step: InclusionExclusionStep.QRCode } & ScanQRCodeStepProps)
 	| { step: InclusionExclusionStep.IncludeDevice }
 	| { step: InclusionExclusionStep.ExcludeDevice }
 	| ({
@@ -817,6 +921,7 @@ export type InclusionExclusionDialogProps = {
 	| ({ step: InclusionExclusionStep.ValidateDSK } & ValidateDSKStepProps)
 	| { step: InclusionExclusionStep.Busy }
 	| ({ step: InclusionExclusionStep.Result } & ResultStepProps)
+	| ({ step: InclusionExclusionStep.ResultMessage } & ResultMessageStepProps)
 	| ({
 			step: InclusionExclusionStep.ExclusionResult;
 	  } & ExclusionResultStepProps)
@@ -826,11 +931,6 @@ export const InclusionDialog: React.FC<
 	InclusionExclusionDialogProps & { isOpen: boolean }
 > = (props) => {
 	const { translate: _ } = useI18n();
-
-	// const [isOpen, setOpen] = React.useState(props.isOpen ?? false);
-	// React.useEffect(() => {
-	// 	setOpen(props.isOpen ?? false);
-	// }, [props.isOpen]);
 
 	const Content = React.useMemo(() => {
 		switch (props.step) {
@@ -845,6 +945,13 @@ export const InclusionDialog: React.FC<
 				return (
 					<SelectReplacementStrategyStep
 						selectStrategy={props.selectStrategy}
+						onCancel={props.onCancel}
+					/>
+				);
+			case InclusionExclusionStep.QRCode:
+				return (
+					<ScanQRCodeStep
+						onScan={props.onScan}
 						onCancel={props.onCancel}
 					/>
 				);
@@ -894,6 +1001,15 @@ export const InclusionDialog: React.FC<
 						onDone={props.onDone}
 					/>
 				);
+			case InclusionExclusionStep.ResultMessage:
+				return (
+					<ResultMessageStep
+						title={props.title}
+						message={props.message}
+						success={props.success}
+						onDone={props.onDone}
+					/>
+				);
 			case InclusionExclusionStep.Busy:
 				return (
 					<WaitMessageStep
@@ -913,6 +1029,7 @@ export const InclusionDialog: React.FC<
 			case InclusionExclusionStep.ValidateDSK:
 			case InclusionExclusionStep.Result:
 			case InclusionExclusionStep.Busy:
+			case InclusionExclusionStep.QRCode:
 				return _("Include device");
 
 			case InclusionExclusionStep.SelectReplacementStrategy:

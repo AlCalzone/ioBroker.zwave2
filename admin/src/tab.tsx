@@ -13,6 +13,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import { ZWaveLogs } from "./pages/ZWaveLogs";
 import { useDevices } from "./lib/useDevices";
 import { Groups } from "./pages/Groups";
+import { SmartStart } from "./pages/SmartStart";
 
 function ErrorFallback({ error, resetErrorBoundary }) {
 	return (
@@ -38,7 +39,7 @@ const translations: Translations = {
 };
 
 const Root: React.FC = React.memo(() => {
-	const [value, setValue] = React.useState(0);
+	const [value, setValue] = React.useState(1);
 	const { translate: _ } = useI18n();
 
 	const handleTabChange = (
@@ -56,6 +57,7 @@ const Root: React.FC = React.memo(() => {
 			<AppBar position="static">
 				<Tabs value={value} onChange={handleTabChange}>
 					<Tab label={_("Devices")} />
+					<Tab label={_("SmartStart")} />
 					<Tab label={_("Groups")} />
 					<Tab label={_("Associations")} />
 					<Tab label={_("Z-Wave Logs")} />
@@ -69,10 +71,15 @@ const Root: React.FC = React.memo(() => {
 			</TabPanel>
 			<TabPanel value={value} index={1}>
 				<ErrorBoundary FallbackComponent={ErrorFallback}>
-					<Groups devices={devices} />
+					<SmartStart devices={devices} />
 				</ErrorBoundary>
 			</TabPanel>
 			<TabPanel value={value} index={2}>
+				<ErrorBoundary FallbackComponent={ErrorFallback}>
+					<Groups devices={devices} />
+				</ErrorBoundary>
+			</TabPanel>
+			<TabPanel value={value} index={3}>
 				<ErrorBoundary FallbackComponent={ErrorFallback}>
 					<Associations
 						devices={devices}
@@ -80,12 +87,12 @@ const Root: React.FC = React.memo(() => {
 					/>
 				</ErrorBoundary>
 			</TabPanel>
-			<TabPanel value={value} index={3}>
+			<TabPanel value={value} index={4}>
 				<ErrorBoundary FallbackComponent={ErrorFallback}>
 					<ZWaveLogs />
 				</ErrorBoundary>
 			</TabPanel>
-			<TabPanel value={value} index={4}>
+			<TabPanel value={value} index={5}>
 				<ErrorBoundary FallbackComponent={ErrorFallback}>
 					<NetworkMap />
 				</ErrorBoundary>

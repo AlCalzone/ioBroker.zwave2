@@ -10,9 +10,7 @@ import clsx from "clsx";
 interface DeviceActionButtonsProps {
 	state: DeviceActionButtonsState;
 	beginInclusion: () => void;
-	// cancelInclusion: () => void;
 	beginExclusion: () => void;
-	// cancelExclusion: () => void;
 	healNetwork: () => void;
 	cancelHealing: () => void;
 }

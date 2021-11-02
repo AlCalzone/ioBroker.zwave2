@@ -1,265 +1,272 @@
 {
-	"common": {
-		"name": "zwave2",
-		"version": "2.3.2",
-		"news": {
-			"2.3.2": {
-				"en": "Try to detect sticks (like UZB and UZB1) that are incompatible with soft-reset and automatically disable it",
-				"de": "Es wird versucht, Sticks (wie UZB und UZB1) zu erkennen, die mit Soft-Reset nicht kompatibel sind, und die Funktion automatisch zu deaktivieren",
-				"ru": "Попытайтесь обнаружить палки (например, UZB и UZB1), несовместимые с soft-reset, и автоматически отключите его.",
-				"pt": "Tente detectar varas (como UZB e UZB1) que são incompatíveis com soft-reset e desabilite-o automaticamente",
-				"nl": "Probeer sticks (zoals UZB en UZB1) te detecteren die niet compatibel zijn met soft-reset en schakel deze automatisch uit",
-				"fr": "Essayez de détecter les bâtons (comme UZB et UZB1) qui sont incompatibles avec la réinitialisation logicielle et désactivez-le automatiquement",
-				"it": "Prova a rilevare gli stick (come UZB e UZB1) che sono incompatibili con il soft-reset e disabilitalo automaticamente",
-				"es": "Intente detectar sticks (como UZB y UZB1) que sean incompatibles con el reinicio por software y deshabilítelo automáticamente",
-				"pl": "Spróbuj wykryć drążki (takie jak UZB i UZB1), które nie są kompatybilne z miękkim resetem i automatycznie go wyłącz",
-				"zh-cn": "尝试检测与软复位不兼容的棒（如 UZB 和 UZB1）并自动禁用它"
-			},
-			"2.3.1": {
-				"en": "Add option to disable soft-reset, mention better solution in troubleshooting docs",
-				"de": "Option zur Deaktivierung des Soft-Resets beim Adapterstart hinzugefügt, bessere Lösung zur Fehlerbehebung in der Dokumentation erwähnt",
-				"ru": "Добавить параметр для отключения мягкого сброса, указать лучшее решение в документации по устранению неполадок",
-				"pt": "Adicione a opção de desativar a reinicialização suave, mencione a melhor solução na documentação de solução de problemas",
-				"nl": "Optie toevoegen om soft-reset uit te schakelen, betere oplossing vermelden in documenten voor probleemoplossing",
-				"fr": "Ajouter une option pour désactiver la réinitialisation logicielle, mentionner une meilleure solution dans les documents de dépannage",
-				"it": "Aggiungi l'opzione per disabilitare il soft-reset, menziona una soluzione migliore nei documenti di risoluzione dei problemi",
-				"es": "Agregue la opción para deshabilitar el restablecimiento parcial, mencione una mejor solución en los documentos de solución de problemas",
-				"pl": "Dodaj opcję wyłączenia miękkiego resetu, wspomnij o lepszym rozwiązaniu w dokumentacji rozwiązywania problemów",
-				"zh-cn": "添加禁用软重置的选项，在故障排除文档中提及更好的解决方案"
-			},
-			"2.3.0": {
-				"en": "Add soft reset (restart) function for the controller\nNew and updated configuration files, see [here](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.6.0)",
-				"de": "Soft-Reset-Funktion (Neustart) für den Controller hinzugefügt\nNeue und aktualisierte Konfigurationsdateien, siehe [hier](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.6.0)",
-				"ru": "Добавить функцию мягкого сброса (перезапуска) для контроллера\nНовые и обновленные файлы конфигурации см. [Здесь] (https://github.com/zwave-js/node-zwave-js/releases/tag/v8.6.0)",
-				"pt": "Adicionar função de soft reset (reiniciar) para o controlador\nArquivos de configuração novos e atualizados, veja [aqui] (https://github.com/zwave-js/node-zwave-js/releases/tag/v8.6.0)",
-				"nl": "Zachte reset (herstart) functie voor de controller toevoegen\nNieuwe en bijgewerkte configuratiebestanden, zie [hier](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.6.0)",
-				"fr": "Ajouter une fonction de réinitialisation logicielle (redémarrage) pour le contrôleur\nFichiers de configuration nouveaux et mis à jour, voir [ici](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.6.0)",
-				"it": "Aggiungere la funzione di soft reset (riavvio) per il controller\nFile di configurazione nuovi e aggiornati, vedere [qui](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.6.0)",
-				"es": "Agregue la función de reinicio suave (reinicio) para el controlador\nArchivos de configuración nuevos y actualizados, consulte [aquí] (https://github.com/zwave-js/node-zwave-js/releases/tag/v8.6.0)",
-				"pl": "Dodaj funkcję miękkiego resetu (restart) dla kontrolera\nNowe i zaktualizowane pliki konfiguracyjne, zobacz [tutaj](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.6.0)",
-				"zh-cn": "为控制器增加软复位（重启）功能\n新的和更新的配置文件，见[这里](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.6.0)"
-			},
-			"2.2.4": {
-				"en": "Fix: Most unsupporting devices should no longer use `Supervision` by default\nMinor fixes and stability improvements\nNew and updated configuration files, see [here](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)",
-				"de": "Fix: Für die meisten Geräte, die es nicht unterstützen, wird nicht mehr standardmäßig `Supervision` verwendet\nKleinere Korrekturen und Stabilitätsverbesserungen\nNeue und aktualisierte Konfigurationsdateien, siehe [hier](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)",
-				"ru": "Исправлено: большинство неподдерживаемых устройств больше не должны использовать «Контроль» по умолчанию.\nМелкие исправления и улучшения стабильности\nНовые и обновленные файлы конфигурации см. [Здесь] (https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)",
-				"pt": "Correção: a maioria dos dispositivos incompatíveis não deve mais usar `Supervision` por padrão\nPequenas correções e melhorias de estabilidade\nArquivos de configuração novos e atualizados, veja [aqui] (https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)",
-				"nl": "Oplossing: de meeste niet-ondersteunde apparaten zouden niet langer standaard 'Supervisie' moeten gebruiken\nKleine fixes en stabiliteitsverbeteringen\nNieuwe en bijgewerkte configuratiebestanden, zie [hier](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)",
-				"fr": "Correction : la plupart des appareils non compatibles ne devraient plus utiliser la « supervision » par défaut\nCorrections mineures et améliorations de la stabilité\nFichiers de configuration nouveaux et mis à jour, voir [ici](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)",
-				"it": "Correzione: la maggior parte dei dispositivi non supportati non dovrebbe più utilizzare \"Supervisione\" per impostazione predefinita\nCorrezioni minori e miglioramenti della stabilità\nFile di configurazione nuovi e aggiornati, vedere [qui](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)",
-				"es": "Solución: la mayoría de los dispositivos no compatibles ya no deberían usar \"Supervisión\" de forma predeterminada\nPequeñas correcciones y mejoras de estabilidad.\nArchivos de configuración nuevos y actualizados, consulte [aquí] (https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)",
-				"pl": "Poprawka: większość nieobsługujących urządzeń nie powinna już domyślnie używać `Nadzór`\nDrobne poprawki i ulepszenia stabilności\nNowe i zaktualizowane pliki konfiguracyjne, zobacz [tutaj](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)",
-				"zh-cn": "修复：默认情况下，大多数不支持的设备不应再使用“监督”\n小修复和稳定性改进\n新的和更新的配置文件，见[这里](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)"
-			},
-			"2.2.3": {
-				"en": "Admin UI: Improve support for older browsers",
-				"de": "Admin-Benutzeroberfläche: Verbesserte Unterstützung für ältere Browser",
-				"ru": "Интерфейс администратора: улучшена поддержка старых браузеров.",
-				"pt": "Admin UI: melhore o suporte para navegadores mais antigos",
-				"nl": "Beheerdersinterface: ondersteuning voor oudere browsers verbeteren",
-				"fr": "Interface utilisateur d'administration : améliorer la prise en charge des anciens navigateurs",
-				"it": "Interfaccia utente di amministrazione: migliora il supporto per i browser meno recenti",
-				"es": "Interfaz de usuario de administrador: mejora la compatibilidad con navegadores más antiguos",
-				"pl": "Interfejs administratora: popraw obsługę starszych przeglądarek",
-				"zh-cn": "管理 UI：改进对旧浏览器的支持"
-			},
-			"2.2.2": {
-				"en": "Fix: Config from different instances no longer override each other",
-				"de": "Konfigurationen verschiedener Instanzen überschreiben sich nicht mehr gegenseitig",
-				"ru": "Исправлено: конфигурации из разных экземпляров больше не перекрывают друг друга.",
-				"pt": "Correção: a configuração de diferentes instâncias não se sobrepõe mais",
-				"nl": "Oplossing: configuratie van verschillende instanties overschrijven elkaar niet langer",
-				"fr": "Correction : les configurations de différentes instances ne se substituent plus les unes aux autres",
-				"it": "Correzione: la configurazione da istanze diverse non si sovrascrive più a vicenda",
-				"es": "Solución: la configuración de diferentes instancias ya no se anulan entre sí",
-				"pl": "Poprawka: Konfiguracje z różnych instancji już się nie zastępują",
-				"zh-cn": "修复：来自不同实例的配置不再相互覆盖"
-			},
-			"2.2.1": {
-				"en": "Fixed a crash when removing a node that is included in a multicast group\nFix: writeonly `boolean` states are now set up as switches instead of buttons\nCorrupted `Multilevel Sensor` and `Meter` reports are now filtered out\nFixes to auto-assigning lifeline associations\nSmall fixes to inclusion with security\nNew and updated configuration files, see [here](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0)",
-				"de": "Fix: Absturz beim Entfernen von Geräten, die in einer Multicast-Gruppe enthalten sind\nFix: Schreibgeschützte \"boolesche\" Zustände werden jetzt mit Typ \"switch\" statt \"button\" angelegt\nKorrupte \"Multilevel Sensor CC\" und \"Meter CC\" Reports werden jetzt herausgefiltert\nKorrekturen bei der automatischen Zuweisung von Lifeline Associations\nKleine Korrekturen für die sichere Inklusion von Geräten\nNeue und aktualisierte Konfigurationsdateien, siehe https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0",
-				"ru": "Исправлен сбой при удалении узла, входящего в группу многоадресной рассылки\nИсправлено: логические состояния только для записи теперь настраиваются как переключатели вместо кнопок\nПоврежденные отчеты \"Multilevel Sensor\" и \"Meter\" теперь отфильтрованы.\nИсправления для автоматического назначения ассоциаций жизненного пути.\nНебольшие исправления для включения с безопасностью\nНовые и обновленные файлы конфигурации см. [Здесь] (https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0)",
-				"pt": "Corrigida uma falha ao remover um nó que está incluído em um grupo multicast\nCorreção: os estados `booleanos` writeonly agora são configurados como interruptores em vez de botões\nRelatórios corrompidos de `Sensor multinível` e` Medidor` agora são filtrados\nCorreções para auto-atribuição de associações de linha de vida\nPequenas correções para inclusão com segurança\nArquivos de configuração novos e atualizados, veja [aqui] (https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0)",
-				"nl": "Een crash opgelost bij het verwijderen van een knooppunt dat is opgenomen in een multicast-groep\nFix: alleen-schrijven `boolean` statussen zijn nu ingesteld als schakelaars in plaats van knoppen\nBeschadigde 'Multilevel Sensor'- en 'Meter'-rapporten worden nu uitgefilterd\nOplossingen voor het automatisch toewijzen van reddingslijnassociaties\nKleine oplossingen voor opname met beveiliging\nNieuwe en bijgewerkte configuratiebestanden, zie [hier](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0)",
-				"fr": "Correction d'un plantage lors de la suppression d'un nœud inclus dans un groupe de multidiffusion\nCorrection : les états « booléens » en écriture seule sont désormais configurés comme des commutateurs au lieu de boutons\nLes rapports corrompus « Capteur multiniveau » et « Compteur » sont désormais filtrés\nCorrections de l'attribution automatique d'associations de lignes de vie\nPetites corrections à l'inclusion avec sécurité\nFichiers de configuration nouveaux et mis à jour, voir [ici](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0)",
-				"it": "Risolto un crash durante la rimozione di un nodo incluso in un gruppo multicast\nCorrezione: gli stati \"booleani\" di sola scrittura ora sono impostati come interruttori anziché come pulsanti\nI rapporti \"Sensore multilivello\" e \"Misuratore\" corrotti sono ora filtrati\nCorrezioni all'assegnazione automatica delle associazioni della linea di vita\nPiccole correzioni all'inclusione con la sicurezza\nFile di configurazione nuovi e aggiornati, vedere [qui](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0)",
-				"es": "Se corrigió un bloqueo al eliminar un nodo que está incluido en un grupo de multidifusión\nSolución: los estados `booleanos` de solo escritura ahora se configuran como interruptores en lugar de botones\nLos informes de \"Sensor multinivel\" y \"Medidor\" corruptos ahora se filtran\nCorrecciones para la asignación automática de asociaciones de líneas de vida.\nPequeñas correcciones para la inclusión con seguridad\nArchivos de configuración nuevos y actualizados, consulte [aquí] (https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0)",
-				"pl": "Naprawiono awarię podczas usuwania węzła, który jest dołączony do grupy multicast\nPoprawka: stany `boolean` tylko do zapisu są teraz ustawiane jako przełączniki zamiast przycisków\nUszkodzone raporty „Czujnik wielopoziomowy” i „Miernik” są teraz odfiltrowywane\nPoprawki automatycznego przypisywania skojarzeń linii życia\nMałe poprawki do włączenia z bezpieczeństwem\nNowe i zaktualizowane pliki konfiguracyjne, zobacz [tutaj](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0)",
-				"zh-cn": "修复了删除包含在多播组中的节点时崩溃的问题\n修复：writeonly `boolean` 状态现在设置为开关而不是按钮\n损坏的“多级传感器”和“仪表”报告现在被过滤掉了\n修复了自动分配生命线关联\n包含安全性的小修复\n新的和更新的配置文件，见[这里](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0)"
-			}
-		},
-		"title": "Z-Wave 2",
-		"titleLang": {
-			"en": "Z-Wave 2",
-			"de": "Z-Wave 2",
-			"ru": "Z-Wave 2",
-			"pt": "Z-Wave 2",
-			"nl": "Z-Wave 2",
-			"fr": "Z-Wave 2",
-			"it": "Z-Wave 2",
-			"es": "Z-Wave 2",
-			"pl": "Z-Wave 2",
-			"zh-cn": "Z-Wave 2"
-		},
-		"desc": {
-			"en": "The better Z-Wave integration",
-			"de": "Die bessere Z-Wave-Integration",
-			"ru": "Лучшая интеграция Z-Wave",
-			"pt": "A melhor integração do Z-Wave",
-			"nl": "De betere Z-Wave-integratie",
-			"fr": "La meilleure intégration Z-Wave",
-			"it": "La migliore integrazione di Z-Wave",
-			"es": "La mejor integración de Z-Wave",
-			"pl": "Lepsza integracja Z-Wave",
-			"zh-cn": "更好的Z-Wave集成"
-		},
-		"authors": ["AlCalzone <d.griesel@gmx.net>"],
-		"keywords": ["zwave", "z-wave", "zwave2", "z-wave 2"],
-		"license": "MIT",
-		"platform": "Javascript/Node.js",
-		"main": "build/main.js",
-		"icon": "zwave2.svg",
-		"enabled": true,
-		"dataFolder": "zwave2.%INSTANCE%",
-		"extIcon": "https://raw.githubusercontent.com/AlCalzone/ioBroker.zwave2/master/admin/zwave2.svg?sanitize=true",
-		"readme": "https://github.com/AlCalzone/ioBroker.zwave2/blob/master/README.md",
-		"loglevel": "info",
-		"mode": "daemon",
-		"type": "hardware",
-		"compact": true,
-		"materialize": true,
-		"materializeTab": true,
-		"adminTab": {
-			"name": {
-				"en": "Z-Wave",
-				"de": "Z-Wave"
-			},
-			"link": "",
-			"fa-icon": "wifi"
-		},
-		"messagebox": true,
-		"connectionType": "local",
-		"dataSource": "push",
-		"dependencies": [
-			{
-				"js-controller": ">=2.0.0"
-			}
-		]
-	},
-	"native": {
-		"serialport": "",
-		"writeLogFile": false,
-		"networkKey_S0": "",
-		"networkKey_S2_AccessControl": "",
-		"networkKey_S2_Authenticated": "",
-		"networkKey_S2_Unauthenticated": "",
-		"driver_increaseTimeouts": false,
-		"driver_increaseSendAttempts": false,
-		"switchCompat": false,
-		"preserveStateNames": false,
-		"notificationEventValidity": 1000,
-		"disableSoftReset": false
-	},
-	"objects": [],
-	"instanceObjects": [
-		{
-			"_id": "info",
-			"type": "channel",
-			"common": {
-				"name": "Information"
-			},
-			"native": {}
-		},
-		{
-			"_id": "info.connection",
-			"type": "state",
-			"common": {
-				"role": "indicator.connected",
-				"name": "Whether the Z-Wave driver is ready",
-				"type": "boolean",
-				"read": true,
-				"write": false,
-				"def": false
-			},
-			"native": {}
-		},
-		{
-			"_id": "info.inclusion",
-			"type": "state",
-			"common": {
-				"role": "indicator",
-				"name": "Whether the inclusion of nodes is active",
-				"type": "boolean",
-				"read": true,
-				"write": false,
-				"def": false
-			},
-			"native": {}
-		},
-		{
-			"_id": "info.exclusion",
-			"type": "state",
-			"common": {
-				"role": "state",
-				"name": "Whether the exclusion of nodes is active",
-				"type": "boolean",
-				"read": true,
-				"write": true,
-				"def": false
-			},
-			"native": {}
-		},
-		{
-			"_id": "info.healingNetwork",
-			"type": "state",
-			"common": {
-				"role": "state",
-				"name": "Whether a network heal is currently in progress",
-				"type": "boolean",
-				"read": true,
-				"write": false,
-				"def": false
-			},
-			"native": {}
-		},
-		{
-			"_id": "info.configVersion",
-			"type": "state",
-			"common": {
-				"role": "state",
-				"name": "The installed version of the Z-Wave JS configuration DB",
-				"type": "string",
-				"read": true,
-				"write": false,
-				"def": false
-			},
-			"native": {}
-		},
-		{
-			"_id": "info.configUpdate",
-			"type": "state",
-			"common": {
-				"role": "state",
-				"name": "The version of an available update for the Z-Wave JS configuration DB",
-				"type": "string",
-				"read": true,
-				"write": false,
-				"def": false
-			},
-			"native": {}
-		},
-		{
-			"_id": "info.configUpdating",
-			"type": "state",
-			"common": {
-				"role": "state",
-				"name": "Whether the adapter is currently updating the Z-Wave JS configuration DB",
-				"type": "boolean",
-				"read": true,
-				"write": false,
-				"def": false
-			},
-			"native": {}
-		}
-	]
+    "common": {
+        "name": "zwave2",
+        "version": "2.3.2",
+        "news": {
+            "2.3.2": {
+                "en": "Try to detect sticks (like UZB and UZB1) that are incompatible with soft-reset and automatically disable it",
+                "de": "Es wird versucht, Sticks (wie UZB und UZB1) zu erkennen, die mit Soft-Reset nicht kompatibel sind, und die Funktion automatisch zu deaktivieren",
+                "ru": "Попытайтесь обнаружить палки (например, UZB и UZB1), несовместимые с soft-reset, и автоматически отключите его.",
+                "pt": "Tente detectar varas (como UZB e UZB1) que são incompatíveis com soft-reset e desabilite-o automaticamente",
+                "nl": "Probeer sticks (zoals UZB en UZB1) te detecteren die niet compatibel zijn met soft-reset en schakel deze automatisch uit",
+                "fr": "Essayez de détecter les bâtons (comme UZB et UZB1) qui sont incompatibles avec la réinitialisation logicielle et désactivez-le automatiquement",
+                "it": "Prova a rilevare gli stick (come UZB e UZB1) che sono incompatibili con il soft-reset e disabilitalo automaticamente",
+                "es": "Intente detectar sticks (como UZB y UZB1) que sean incompatibles con el reinicio por software y deshabilítelo automáticamente",
+                "pl": "Spróbuj wykryć drążki (takie jak UZB i UZB1), które nie są kompatybilne z miękkim resetem i automatycznie go wyłącz",
+                "zh-cn": "尝试检测与软复位不兼容的棒（如 UZB 和 UZB1）并自动禁用它"
+            },
+            "2.3.1": {
+                "en": "Add option to disable soft-reset, mention better solution in troubleshooting docs",
+                "de": "Option zur Deaktivierung des Soft-Resets beim Adapterstart hinzugefügt, bessere Lösung zur Fehlerbehebung in der Dokumentation erwähnt",
+                "ru": "Добавить параметр для отключения мягкого сброса, указать лучшее решение в документации по устранению неполадок",
+                "pt": "Adicione a opção de desativar a reinicialização suave, mencione a melhor solução na documentação de solução de problemas",
+                "nl": "Optie toevoegen om soft-reset uit te schakelen, betere oplossing vermelden in documenten voor probleemoplossing",
+                "fr": "Ajouter une option pour désactiver la réinitialisation logicielle, mentionner une meilleure solution dans les documents de dépannage",
+                "it": "Aggiungi l'opzione per disabilitare il soft-reset, menziona una soluzione migliore nei documenti di risoluzione dei problemi",
+                "es": "Agregue la opción para deshabilitar el restablecimiento parcial, mencione una mejor solución en los documentos de solución de problemas",
+                "pl": "Dodaj opcję wyłączenia miękkiego resetu, wspomnij o lepszym rozwiązaniu w dokumentacji rozwiązywania problemów",
+                "zh-cn": "添加禁用软重置的选项，在故障排除文档中提及更好的解决方案"
+            },
+            "2.3.0": {
+                "en": "Add soft reset (restart) function for the controller\nNew and updated configuration files, see [here](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.6.0)",
+                "de": "Soft-Reset-Funktion (Neustart) für den Controller hinzugefügt\nNeue und aktualisierte Konfigurationsdateien, siehe [hier](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.6.0)",
+                "ru": "Добавить функцию мягкого сброса (перезапуска) для контроллера\nНовые и обновленные файлы конфигурации см. [Здесь] (https://github.com/zwave-js/node-zwave-js/releases/tag/v8.6.0)",
+                "pt": "Adicionar função de soft reset (reiniciar) para o controlador\nArquivos de configuração novos e atualizados, veja [aqui] (https://github.com/zwave-js/node-zwave-js/releases/tag/v8.6.0)",
+                "nl": "Zachte reset (herstart) functie voor de controller toevoegen\nNieuwe en bijgewerkte configuratiebestanden, zie [hier](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.6.0)",
+                "fr": "Ajouter une fonction de réinitialisation logicielle (redémarrage) pour le contrôleur\nFichiers de configuration nouveaux et mis à jour, voir [ici](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.6.0)",
+                "it": "Aggiungere la funzione di soft reset (riavvio) per il controller\nFile di configurazione nuovi e aggiornati, vedere [qui](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.6.0)",
+                "es": "Agregue la función de reinicio suave (reinicio) para el controlador\nArchivos de configuración nuevos y actualizados, consulte [aquí] (https://github.com/zwave-js/node-zwave-js/releases/tag/v8.6.0)",
+                "pl": "Dodaj funkcję miękkiego resetu (restart) dla kontrolera\nNowe i zaktualizowane pliki konfiguracyjne, zobacz [tutaj](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.6.0)",
+                "zh-cn": "为控制器增加软复位（重启）功能\n新的和更新的配置文件，见[这里](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.6.0)"
+            },
+            "2.2.4": {
+                "en": "Fix: Most unsupporting devices should no longer use `Supervision` by default\nMinor fixes and stability improvements\nNew and updated configuration files, see [here](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)",
+                "de": "Fix: Für die meisten Geräte, die es nicht unterstützen, wird nicht mehr standardmäßig `Supervision` verwendet\nKleinere Korrekturen und Stabilitätsverbesserungen\nNeue und aktualisierte Konfigurationsdateien, siehe [hier](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)",
+                "ru": "Исправлено: большинство неподдерживаемых устройств больше не должны использовать «Контроль» по умолчанию.\nМелкие исправления и улучшения стабильности\nНовые и обновленные файлы конфигурации см. [Здесь] (https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)",
+                "pt": "Correção: a maioria dos dispositivos incompatíveis não deve mais usar `Supervision` por padrão\nPequenas correções e melhorias de estabilidade\nArquivos de configuração novos e atualizados, veja [aqui] (https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)",
+                "nl": "Oplossing: de meeste niet-ondersteunde apparaten zouden niet langer standaard 'Supervisie' moeten gebruiken\nKleine fixes en stabiliteitsverbeteringen\nNieuwe en bijgewerkte configuratiebestanden, zie [hier](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)",
+                "fr": "Correction : la plupart des appareils non compatibles ne devraient plus utiliser la « supervision » par défaut\nCorrections mineures et améliorations de la stabilité\nFichiers de configuration nouveaux et mis à jour, voir [ici](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)",
+                "it": "Correzione: la maggior parte dei dispositivi non supportati non dovrebbe più utilizzare \"Supervisione\" per impostazione predefinita\nCorrezioni minori e miglioramenti della stabilità\nFile di configurazione nuovi e aggiornati, vedere [qui](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)",
+                "es": "Solución: la mayoría de los dispositivos no compatibles ya no deberían usar \"Supervisión\" de forma predeterminada\nPequeñas correcciones y mejoras de estabilidad.\nArchivos de configuración nuevos y actualizados, consulte [aquí] (https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)",
+                "pl": "Poprawka: większość nieobsługujących urządzeń nie powinna już domyślnie używać `Nadzór`\nDrobne poprawki i ulepszenia stabilności\nNowe i zaktualizowane pliki konfiguracyjne, zobacz [tutaj](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)",
+                "zh-cn": "修复：默认情况下，大多数不支持的设备不应再使用“监督”\n小修复和稳定性改进\n新的和更新的配置文件，见[这里](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)"
+            },
+            "2.2.3": {
+                "en": "Admin UI: Improve support for older browsers",
+                "de": "Admin-Benutzeroberfläche: Verbesserte Unterstützung für ältere Browser",
+                "ru": "Интерфейс администратора: улучшена поддержка старых браузеров.",
+                "pt": "Admin UI: melhore o suporte para navegadores mais antigos",
+                "nl": "Beheerdersinterface: ondersteuning voor oudere browsers verbeteren",
+                "fr": "Interface utilisateur d'administration : améliorer la prise en charge des anciens navigateurs",
+                "it": "Interfaccia utente di amministrazione: migliora il supporto per i browser meno recenti",
+                "es": "Interfaz de usuario de administrador: mejora la compatibilidad con navegadores más antiguos",
+                "pl": "Interfejs administratora: popraw obsługę starszych przeglądarek",
+                "zh-cn": "管理 UI：改进对旧浏览器的支持"
+            },
+            "2.2.2": {
+                "en": "Fix: Config from different instances no longer override each other",
+                "de": "Konfigurationen verschiedener Instanzen überschreiben sich nicht mehr gegenseitig",
+                "ru": "Исправлено: конфигурации из разных экземпляров больше не перекрывают друг друга.",
+                "pt": "Correção: a configuração de diferentes instâncias não se sobrepõe mais",
+                "nl": "Oplossing: configuratie van verschillende instanties overschrijven elkaar niet langer",
+                "fr": "Correction : les configurations de différentes instances ne se substituent plus les unes aux autres",
+                "it": "Correzione: la configurazione da istanze diverse non si sovrascrive più a vicenda",
+                "es": "Solución: la configuración de diferentes instancias ya no se anulan entre sí",
+                "pl": "Poprawka: Konfiguracje z różnych instancji już się nie zastępują",
+                "zh-cn": "修复：来自不同实例的配置不再相互覆盖"
+            },
+            "2.2.1": {
+                "en": "Fixed a crash when removing a node that is included in a multicast group\nFix: writeonly `boolean` states are now set up as switches instead of buttons\nCorrupted `Multilevel Sensor` and `Meter` reports are now filtered out\nFixes to auto-assigning lifeline associations\nSmall fixes to inclusion with security\nNew and updated configuration files, see [here](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0)",
+                "de": "Fix: Absturz beim Entfernen von Geräten, die in einer Multicast-Gruppe enthalten sind\nFix: Schreibgeschützte \"boolesche\" Zustände werden jetzt mit Typ \"switch\" statt \"button\" angelegt\nKorrupte \"Multilevel Sensor CC\" und \"Meter CC\" Reports werden jetzt herausgefiltert\nKorrekturen bei der automatischen Zuweisung von Lifeline Associations\nKleine Korrekturen für die sichere Inklusion von Geräten\nNeue und aktualisierte Konfigurationsdateien, siehe https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0",
+                "ru": "Исправлен сбой при удалении узла, входящего в группу многоадресной рассылки\nИсправлено: логические состояния только для записи теперь настраиваются как переключатели вместо кнопок\nПоврежденные отчеты \"Multilevel Sensor\" и \"Meter\" теперь отфильтрованы.\nИсправления для автоматического назначения ассоциаций жизненного пути.\nНебольшие исправления для включения с безопасностью\nНовые и обновленные файлы конфигурации см. [Здесь] (https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0)",
+                "pt": "Corrigida uma falha ao remover um nó que está incluído em um grupo multicast\nCorreção: os estados `booleanos` writeonly agora são configurados como interruptores em vez de botões\nRelatórios corrompidos de `Sensor multinível` e` Medidor` agora são filtrados\nCorreções para auto-atribuição de associações de linha de vida\nPequenas correções para inclusão com segurança\nArquivos de configuração novos e atualizados, veja [aqui] (https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0)",
+                "nl": "Een crash opgelost bij het verwijderen van een knooppunt dat is opgenomen in een multicast-groep\nFix: alleen-schrijven `boolean` statussen zijn nu ingesteld als schakelaars in plaats van knoppen\nBeschadigde 'Multilevel Sensor'- en 'Meter'-rapporten worden nu uitgefilterd\nOplossingen voor het automatisch toewijzen van reddingslijnassociaties\nKleine oplossingen voor opname met beveiliging\nNieuwe en bijgewerkte configuratiebestanden, zie [hier](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0)",
+                "fr": "Correction d'un plantage lors de la suppression d'un nœud inclus dans un groupe de multidiffusion\nCorrection : les états « booléens » en écriture seule sont désormais configurés comme des commutateurs au lieu de boutons\nLes rapports corrompus « Capteur multiniveau » et « Compteur » sont désormais filtrés\nCorrections de l'attribution automatique d'associations de lignes de vie\nPetites corrections à l'inclusion avec sécurité\nFichiers de configuration nouveaux et mis à jour, voir [ici](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0)",
+                "it": "Risolto un crash durante la rimozione di un nodo incluso in un gruppo multicast\nCorrezione: gli stati \"booleani\" di sola scrittura ora sono impostati come interruttori anziché come pulsanti\nI rapporti \"Sensore multilivello\" e \"Misuratore\" corrotti sono ora filtrati\nCorrezioni all'assegnazione automatica delle associazioni della linea di vita\nPiccole correzioni all'inclusione con la sicurezza\nFile di configurazione nuovi e aggiornati, vedere [qui](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0)",
+                "es": "Se corrigió un bloqueo al eliminar un nodo que está incluido en un grupo de multidifusión\nSolución: los estados `booleanos` de solo escritura ahora se configuran como interruptores en lugar de botones\nLos informes de \"Sensor multinivel\" y \"Medidor\" corruptos ahora se filtran\nCorrecciones para la asignación automática de asociaciones de líneas de vida.\nPequeñas correcciones para la inclusión con seguridad\nArchivos de configuración nuevos y actualizados, consulte [aquí] (https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0)",
+                "pl": "Naprawiono awarię podczas usuwania węzła, który jest dołączony do grupy multicast\nPoprawka: stany `boolean` tylko do zapisu są teraz ustawiane jako przełączniki zamiast przycisków\nUszkodzone raporty „Czujnik wielopoziomowy” i „Miernik” są teraz odfiltrowywane\nPoprawki automatycznego przypisywania skojarzeń linii życia\nMałe poprawki do włączenia z bezpieczeństwem\nNowe i zaktualizowane pliki konfiguracyjne, zobacz [tutaj](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0)",
+                "zh-cn": "修复了删除包含在多播组中的节点时崩溃的问题\n修复：writeonly `boolean` 状态现在设置为开关而不是按钮\n损坏的“多级传感器”和“仪表”报告现在被过滤掉了\n修复了自动分配生命线关联\n包含安全性的小修复\n新的和更新的配置文件，见[这里](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.0)"
+            }
+        },
+        "title": "Z-Wave 2",
+        "titleLang": {
+            "en": "Z-Wave 2",
+            "de": "Z-Wave 2",
+            "ru": "Z-Wave 2",
+            "pt": "Z-Wave 2",
+            "nl": "Z-Wave 2",
+            "fr": "Z-Wave 2",
+            "it": "Z-Wave 2",
+            "es": "Z-Wave 2",
+            "pl": "Z-Wave 2",
+            "zh-cn": "Z-Wave 2"
+        },
+        "desc": {
+            "en": "The better Z-Wave integration",
+            "de": "Die bessere Z-Wave-Integration",
+            "ru": "Лучшая интеграция Z-Wave",
+            "pt": "A melhor integração do Z-Wave",
+            "nl": "De betere Z-Wave-integratie",
+            "fr": "La meilleure intégration Z-Wave",
+            "it": "La migliore integrazione di Z-Wave",
+            "es": "La mejor integración de Z-Wave",
+            "pl": "Lepsza integracja Z-Wave",
+            "zh-cn": "更好的Z-Wave集成"
+        },
+        "authors": [
+            "AlCalzone <d.griesel@gmx.net>"
+        ],
+        "keywords": [
+            "zwave",
+            "z-wave",
+            "zwave2",
+            "z-wave 2"
+        ],
+        "license": "MIT",
+        "platform": "Javascript/Node.js",
+        "main": "build/main.js",
+        "icon": "zwave2.svg",
+        "enabled": true,
+        "dataFolder": "zwave2.%INSTANCE%",
+        "extIcon": "https://raw.githubusercontent.com/AlCalzone/ioBroker.zwave2/master/admin/zwave2.svg?sanitize=true",
+        "readme": "https://github.com/AlCalzone/ioBroker.zwave2/blob/master/README.md",
+        "loglevel": "info",
+        "mode": "daemon",
+        "type": "hardware",
+        "compact": true,
+        "materialize": true,
+        "materializeTab": true,
+        "adminTab": {
+            "name": {
+                "en": "Z-Wave",
+                "de": "Z-Wave"
+            },
+            "link": "",
+            "fa-icon": "wifi"
+        },
+        "messagebox": true,
+        "connectionType": "local",
+        "dataSource": "push",
+        "dependencies": [
+            {
+                "js-controller": ">=2.0.0"
+            }
+        ]
+    },
+    "native": {
+        "serialport": "",
+        "writeLogFile": false,
+        "networkKey_S0": "",
+        "networkKey_S2_AccessControl": "",
+        "networkKey_S2_Authenticated": "",
+        "networkKey_S2_Unauthenticated": "",
+        "driver_increaseTimeouts": false,
+        "driver_increaseSendAttempts": false,
+        "switchCompat": false,
+        "preserveStateNames": false,
+        "notificationEventValidity": 1000,
+        "disableSoftReset": false
+    },
+    "objects": [],
+    "instanceObjects": [
+        {
+            "_id": "info",
+            "type": "channel",
+            "common": {
+                "name": "Information"
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.connection",
+            "type": "state",
+            "common": {
+                "role": "indicator.connected",
+                "name": "Whether the Z-Wave driver is ready",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "def": false
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.inclusion",
+            "type": "state",
+            "common": {
+                "role": "indicator",
+                "name": "Whether the inclusion of nodes is active",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "def": false
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.exclusion",
+            "type": "state",
+            "common": {
+                "role": "state",
+                "name": "Whether the exclusion of nodes is active",
+                "type": "boolean",
+                "read": true,
+                "write": true,
+                "def": false
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.healingNetwork",
+            "type": "state",
+            "common": {
+                "role": "state",
+                "name": "Whether a network heal is currently in progress",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "def": false
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.configVersion",
+            "type": "state",
+            "common": {
+                "role": "state",
+                "name": "The installed version of the Z-Wave JS configuration DB",
+                "type": "string",
+                "read": true,
+                "write": false,
+                "def": false
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.configUpdate",
+            "type": "state",
+            "common": {
+                "role": "state",
+                "name": "The version of an available update for the Z-Wave JS configuration DB",
+                "type": "string",
+                "read": true,
+                "write": false,
+                "def": false
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.configUpdating",
+            "type": "state",
+            "common": {
+                "role": "state",
+                "name": "Whether the adapter is currently updating the Z-Wave JS configuration DB",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "def": false
+            },
+            "native": {}
+        }
+    ]
 }

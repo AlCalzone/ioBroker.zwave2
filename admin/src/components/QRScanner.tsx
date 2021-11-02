@@ -7,14 +7,13 @@ import React from "react";
 import { useAnimationFrame } from "../lib/useAnimationFrame";
 import parseQR from "jsqr-es6";
 import { useI18n } from "iobroker-react/hooks";
-import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import clsx from "clsx";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
 		width: "auto",
-		padding: theme.spacing(2),
+		// padding: theme.spacing(2),
 		display: "inline-grid",
 		gridTemplateColumns: "1fr auto",
 		gridTemplateRows: "auto auto",
@@ -516,7 +515,7 @@ export const QRScanner: React.FC<QRScannerProps> = (props) => {
 	};
 
 	return (
-		<Paper className={classes.root}>
+		<div className={classes.root}>
 			<Typography variant="body1">
 				{_("Select QR code source")}:
 			</Typography>
@@ -535,6 +534,6 @@ export const QRScanner: React.FC<QRScannerProps> = (props) => {
 					<QRScannerImage {...props} />
 				)}
 			</div>
-		</Paper>
+		</div>
 	);
 };

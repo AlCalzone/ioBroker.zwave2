@@ -3,6 +3,8 @@ import {
 	CommandClasses,
 	createDefaultTransportFormat,
 	MAX_NODES,
+	parseQRCodeString,
+	QRCodeVersion,
 	SecurityClass,
 } from "@zwave-js/core";
 import { JSONTransport } from "@zwave-js/log-transport-json";
@@ -1243,7 +1245,8 @@ export class ZWave2 extends utils.Adapter<true> {
 	private async setExclusionMode(active: boolean): Promise<void> {
 		try {
 			if (active) {
-				await this.driver.controller.beginExclusion();
+				// Also unprovision the node, otherwise it doesn't make much sense
+				await this.driver.controller.beginExclusion(true);
 			} else {
 				await this.driver.controller.stopExclusion();
 			}
@@ -1389,6 +1392,192 @@ export class ZWave2 extends utils.Adapter<true> {
 					return;
 				}
 
+				case "scanQRCode": {
+					if (!this.driverReady) {
+						return respond(
+							responses.ERROR(
+								"The driver is not yet ready to do that!",
+							),
+						);
+					}
+					if (!requireParams("code")) return;
+					const params = obj.message as any as Record<string, any>;
+					const code = params.code as string;
+					const include = !!params.include;
+
+					try {
+						const provisioning = parseQRCodeString(code);
+						const node = this.driver.controller.getNodeByDSK(
+							provisioning.dsk,
+						);
+
+						if (include && node) {
+							// Only respond with "already included" when the node should be included
+							// Otherwise the entry should be added to the provisioning list
+							return respond(
+								responses.RESULT({
+									type: "included",
+									nodeId: node.id,
+								}),
+							);
+						} else if (
+							this.driver.controller.getProvisioningEntry(
+								provisioning.dsk,
+							)
+						) {
+							return respond(
+								responses.RESULT({
+									type: "provisioned",
+									...provisioning,
+								}),
+							);
+						} else if (provisioning.version === QRCodeVersion.S2) {
+							if (!include) {
+								return respond(
+									responses.RESULT({ type: "S2" }),
+								);
+							}
+							// Include S2 node via pre-provisioning info
+							try {
+								const result =
+									await this.driver.controller.beginInclusion(
+										{
+											strategy:
+												InclusionStrategy.Security_S2,
+											provisioning,
+										},
+									);
+								this.setState("info.inclusion", true, true);
+
+								if (result) {
+									return respond(
+										responses.RESULT({ type: "S2" }),
+									);
+								} else {
+									respond(responses.COMMAND_ACTIVE);
+								}
+							} catch (e) {
+								respond(responses.ERROR(getErrorMessage(e)));
+								this.setState("info.inclusion", false, true);
+							}
+						} else if (
+							provisioning.version === QRCodeVersion.SmartStart
+						) {
+							if (!include) {
+								return respond(
+									responses.RESULT({
+										type: "SmartStart",
+										...provisioning,
+									}),
+								);
+							}
+
+							// Add node to provisioning list
+							this.driver.controller.provisionSmartStartNode(
+								provisioning,
+							);
+							return respond(
+								responses.RESULT({
+									type: "SmartStart",
+									...provisioning,
+								}),
+							);
+						}
+					} catch {
+						// ignore
+					}
+					// Not a valid QR code
+					return respond(responses.RESULT({ type: "none" }));
+				}
+
+				case "provisionSmartStartNode": {
+					if (!this.driverReady) {
+						return respond(
+							responses.ERROR(
+								"The driver is not yet ready to do that!",
+							),
+						);
+					}
+
+					if (!requireParams("dsk", "securityClasses")) return;
+					const params = obj.message as any as Record<string, any>;
+					const dsk = params.dsk as string;
+					const securityClasses =
+						params.securityClasses as SecurityClass[];
+					const additionalInfo: Record<string, any> =
+						params.additionalInfo ?? {};
+
+					try {
+						this.driver.controller.provisionSmartStartNode({
+							dsk,
+							securityClasses,
+							...additionalInfo,
+						});
+						respond(responses.OK);
+					} catch (e) {
+						respond(responses.ERROR(getErrorMessage(e)));
+					}
+					return;
+				}
+
+				case "unprovisionSmartStartNode": {
+					if (!this.driverReady) {
+						return respond(
+							responses.ERROR(
+								"The driver is not yet ready to do that!",
+							),
+						);
+					}
+
+					if (!requireParams("dsk")) return;
+					const params = obj.message as any as Record<string, any>;
+					const dsk = params.dsk as string;
+
+					try {
+						this.driver.controller.unprovisionSmartStartNode(dsk);
+						respond(responses.OK);
+					} catch (e) {
+						respond(responses.ERROR(getErrorMessage(e)));
+					}
+					return;
+				}
+
+				case "getProvisioningEntries": {
+					if (!this.driverReady) {
+						return respond(
+							responses.ERROR(
+								"The driver is not yet ready to do that!",
+							),
+						);
+					}
+					const result =
+						this.driver.controller.getProvisioningEntries();
+					// Look up each device if we have the information from the provisioning entry
+					for (const entry of result) {
+						if (
+							typeof entry.manufacturerId === "number" &&
+							typeof entry.productType === "number" &&
+							typeof entry.productId === "number" &&
+							typeof entry.applicationVersion === "string"
+						) {
+							const device =
+								await this.driver.configManager.lookupDevice(
+									entry.manufacturerId,
+									entry.productType,
+									entry.productId,
+									entry.applicationVersion,
+								);
+							if (device) {
+								entry.manufacturer = device.manufacturer;
+								entry.label = device.label;
+								entry.description = device.description;
+							}
+						}
+					}
+
+					return respond(responses.RESULT(result));
+				}
+
 				case "beginInclusion": {
 					if (!this.driverReady) {
 						return respond(
@@ -1518,9 +1707,9 @@ export class ZWave2 extends utils.Adapter<true> {
 					}
 
 					const result = await this.driver.controller.stopInclusion();
+					this.setState("info.inclusion", false, true);
 					if (result) {
 						respond(responses.OK);
-						this.setState("info.inclusion", false, true);
 					} else {
 						respond(responses.COMMAND_ACTIVE);
 					}
