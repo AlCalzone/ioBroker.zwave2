@@ -272,6 +272,7 @@ export const Devices: React.FC<DevicesProps> = (props) => {
 					// avoid flicker while the modal is being hidden
 					setTimeout(() => {
 						api.stopInclusion();
+						setInclusionStatus(undefined);
 					}, 250);
 				},
 			};

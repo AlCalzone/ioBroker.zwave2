@@ -39,7 +39,7 @@ const translations: Translations = {
 };
 
 const Root: React.FC = React.memo(() => {
-	const [value, setValue] = React.useState(1);
+	const [value, setValue] = React.useState(0);
 	const { translate: _ } = useI18n();
 
 	const handleTabChange = (
