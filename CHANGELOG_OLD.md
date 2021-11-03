@@ -1,4 +1,9 @@
 # Older changes
+## 2.2.4 (2021-10-22)
+* Fix: Most unsupporting devices should no longer use `Supervision` by default
+* Minor fixes and stability improvements
+* New and updated configuration files, see [here](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)
+
 ## 2.2.3 (2021-10-21)
 * Admin UI: Improve support for older browsers
 

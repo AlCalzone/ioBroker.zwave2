@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "2.4.0",
+        "version": "2.4.1",
         "news": {
+            "2.4.1": {
+                "en": "Fix: Correctly update UI when canceling an inclusion process\nFix: Check for SmartStart support before using it\nFix: Add missing translations\nFixed the automatic lifeline association for some devices\nNew and updated configuration files, see [here](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.7.3)",
+                "de": "Fix: Die Benutzeroberfläche wird beim Abbrechen eines Inklusionsprozesses jetzt korrekt aktualisiert\nFix: Vorm Nutzen von SmartStart wird geprüft, ob es unterstützt ist\nFix: Fehlende Übersetzungen hinzufügen\nAutomatische Konfiguration der Lifeline für einige Geräte korrigiert\nNeue und aktualisierte Konfigurationsdateien, siehe [hier](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.7.3)",
+                "ru": "Исправлено: правильно обновлять пользовательский интерфейс при отмене процесса включения.\nИсправление: проверьте наличие поддержки SmartStart перед его использованием\nИсправлено: добавить недостающие переводы\nИсправлена автоматическая привязка к линии жизни для некоторых устройств.\nНовые и обновленные файлы конфигурации см. [Здесь](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.7.3)",
+                "pt": "Correção: atualizar corretamente a IU ao cancelar um processo de inclusão\nCorreção: verifique se há suporte para SmartStart antes de usá-lo\nCorreção: Adicionar traduções ausentes\nCorrigida a associação automática da linha de vida para alguns dispositivos\nArquivos de configuração novos e atualizados, veja [aqui](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.7.3)",
+                "nl": "Oplossing: UI correct bijwerken bij het annuleren van een opnameproces\nOplossing: controleer op SmartStart-ondersteuning voordat u het gebruikt\nOplossing: ontbrekende vertalingen toevoegen\nDe automatische koppeling van de reddingslijn voor sommige apparaten opgelost\nNieuwe en bijgewerkte configuratiebestanden, zie [hier](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.7.3)",
+                "fr": "Correctif : Mettre à jour correctement l'interface utilisateur lors de l'annulation d'un processus d'inclusion\nCorrectif : vérifiez la prise en charge de SmartStart avant de l'utiliser\nCorrectif : ajouter les traductions manquantes\nCorrection de l'association automatique de ligne de vie pour certains appareils\nFichiers de configuration nouveaux et mis à jour, voir [ici](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.7.3)",
+                "it": "Correzione: aggiorna correttamente l'interfaccia utente quando si annulla un processo di inclusione\nCorrezione: verifica il supporto SmartStart prima di utilizzarlo\nCorrezione: aggiungi traduzioni mancanti\nRisolto il problema con l'associazione automatica della linea di vita per alcuni dispositivi\nFile di configurazione nuovi e aggiornati, vedere [qui](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.7.3)",
+                "es": "Solución: actualice correctamente la interfaz de usuario al cancelar un proceso de inclusión\nSolución: compruebe la compatibilidad con SmartStart antes de usarlo\nSolución: agregue las traducciones que faltan\nSe corrigió la asociación automática de la línea de vida para algunos dispositivos.\nArchivos de configuración nuevos y actualizados, consulte [aquí](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.7.3)",
+                "pl": "Poprawka: Poprawnie zaktualizuj interfejs użytkownika podczas anulowania procesu włączania\nPoprawka: Przed użyciem sprawdź obsługę SmartStart\nPoprawka: Dodaj brakujące tłumaczenia\nNaprawiono automatyczne skojarzenie linii życia dla niektórych urządzeń\nNowe i zaktualizowane pliki konfiguracyjne, zobacz [tutaj](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.7.3)",
+                "zh-cn": "修复：取消包含过程时正确更新 UI\n修复：使用前检查 SmartStart 支持\n修复：添加缺少的翻译\n修复了某些设备的自动生命线关联\n新的和更新的配置文件，见[这里](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.7.3)"
+            },
             "2.4.0": {
                 "en": "Add support for SmartStart and inclusion of nodes with QR codes",
                 "de": "Unterstützung für SmartStart und Inklusion von Geräten mittels QR-Codes",
@@ -74,18 +86,6 @@
                 "es": "Interfaz de usuario de administrador: mejora la compatibilidad con navegadores más antiguos",
                 "pl": "Interfejs administratora: popraw obsługę starszych przeglądarek",
                 "zh-cn": "管理 UI：改进对旧浏览器的支持"
-            },
-            "2.2.2": {
-                "en": "Fix: Config from different instances no longer override each other",
-                "de": "Konfigurationen verschiedener Instanzen überschreiben sich nicht mehr gegenseitig",
-                "ru": "Исправлено: конфигурации из разных экземпляров больше не перекрывают друг друга.",
-                "pt": "Correção: a configuração de diferentes instâncias não se sobrepõe mais",
-                "nl": "Oplossing: configuratie van verschillende instanties overschrijven elkaar niet langer",
-                "fr": "Correction : les configurations de différentes instances ne se substituent plus les unes aux autres",
-                "it": "Correzione: la configurazione da istanze diverse non si sovrascrive più a vicenda",
-                "es": "Solución: la configuración de diferentes instancias ya no se anulan entre sí",
-                "pl": "Poprawka: Konfiguracje z różnych instancji już się nie zastępują",
-                "zh-cn": "修复：来自不同实例的配置不再相互覆盖"
             }
         },
         "title": "Z-Wave 2",
@@ -113,15 +113,8 @@
             "pl": "Lepsza integracja Z-Wave",
             "zh-cn": "更好的Z-Wave集成"
         },
-        "authors": [
-            "AlCalzone <d.griesel@gmx.net>"
-        ],
-        "keywords": [
-            "zwave",
-            "z-wave",
-            "zwave2",
-            "z-wave 2"
-        ],
+        "authors": ["AlCalzone <d.griesel@gmx.net>"],
+        "keywords": ["zwave", "z-wave", "zwave2", "z-wave 2"],
         "license": "MIT",
         "platform": "Javascript/Node.js",
         "main": "build/main.js",
