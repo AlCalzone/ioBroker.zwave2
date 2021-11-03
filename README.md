@@ -40,6 +40,9 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	Placeholder for next versions:
 	### __WORK IN PROGRESS__
 -->
+### 2.3.3 (2021-11-03)
+* Limit `zwave-js` version to 8.6.x to prevent accidental breaking changes
+
 ### 2.3.2 (2021-10-26)
 * Try to detect sticks (like UZB and UZB1) that are incompatible with soft-reset and automatically disable it
 
@@ -54,9 +57,6 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 * Fix: Most unsupporting devices should no longer use `Supervision` by default
 * Minor fixes and stability improvements
 * New and updated configuration files, see [here](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)
-
-### 2.2.3 (2021-10-21)
-* Admin UI: Improve support for older browsers
 
 ## License
 
