@@ -49,6 +49,7 @@ import {
 	InclusionStrategy,
 	InclusionUserCallbacks,
 	RFRegion,
+	ZWaveFeature,
 } from "zwave-js/Controller";
 import { Firmware, guessFirmwareFileFormat } from "zwave-js/Utils";
 import type {
@@ -1392,6 +1393,22 @@ export class ZWave2 extends utils.Adapter<true> {
 					return;
 				}
 
+				case "supportsSmartStart": {
+					if (!this.driverReady) {
+						return respond(
+							responses.ERROR(
+								"The driver is not yet ready to answer that!",
+							),
+						);
+					}
+					const supportsSmartStart =
+						!!this.driver.controller.supportsFeature(
+							ZWaveFeature.SmartStart,
+						);
+
+					return respond(responses.RESULT(supportsSmartStart));
+				}
+
 				case "scanQRCode": {
 					if (!this.driverReady) {
 						return respond(
@@ -1410,6 +1427,10 @@ export class ZWave2 extends utils.Adapter<true> {
 						const node = this.driver.controller.getNodeByDSK(
 							provisioning.dsk,
 						);
+						const supportsSmartStart =
+							!!this.driver.controller.supportsFeature(
+								ZWaveFeature.SmartStart,
+							);
 
 						if (include && node) {
 							// Only respond with "already included" when the node should be included
@@ -1421,6 +1442,7 @@ export class ZWave2 extends utils.Adapter<true> {
 								}),
 							);
 						} else if (
+							supportsSmartStart &&
 							this.driver.controller.getProvisioningEntry(
 								provisioning.dsk,
 							)
@@ -1431,7 +1453,10 @@ export class ZWave2 extends utils.Adapter<true> {
 									...provisioning,
 								}),
 							);
-						} else if (provisioning.version === QRCodeVersion.S2) {
+						} else if (
+							!supportsSmartStart ||
+							provisioning.version === QRCodeVersion.S2
+						) {
 							if (!include) {
 								return respond(
 									responses.RESULT({ type: "S2" }),

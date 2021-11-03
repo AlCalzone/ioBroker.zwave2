@@ -197,5 +197,8 @@
     "Added SmartStart device": "Adicionado dispositivo SmartStart",
     "Successfully added SmartStart device to provisioning list.": "Dispositivo SmartStart adicionado com sucesso à lista de provisionamento.",
     "It will be included automatically when it announces itself.": "Ele será incluído automaticamente quando se anunciar.",
-    "Failed to scan QR code": "Falha ao ler o código QR"
+    "Failed to scan QR code": "Falha ao ler o código QR",
+    "Already provisioned": "Já provisionado",
+    "Already included": "Já incluído",
+    "The controller does not support SmartStart!": "O controlador não é compatível com SmartStart!"
 }

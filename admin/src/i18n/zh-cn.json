@@ -197,5 +197,8 @@
     "Added SmartStart device": "添加了 SmartStart 设备",
     "Successfully added SmartStart device to provisioning list.": "已成功将 SmartStart 设备添加到配置列表。",
     "It will be included automatically when it announces itself.": "它将在宣布自己时自动包含在内。",
-    "Failed to scan QR code": "无法扫描二维码"
+    "Failed to scan QR code": "无法扫描二维码",
+    "Already provisioned": "已配置",
+    "Already included": "已包含",
+    "The controller does not support SmartStart!": "控制器不支持 SmartStart！"
 }

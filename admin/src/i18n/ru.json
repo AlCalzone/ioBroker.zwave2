@@ -197,5 +197,8 @@
     "Added SmartStart device": "Добавлено устройство SmartStart",
     "Successfully added SmartStart device to provisioning list.": "Устройство SmartStart успешно добавлено в список инициализации.",
     "It will be included automatically when it announces itself.": "Он будет включен автоматически, когда объявит о себе.",
-    "Failed to scan QR code": "Не удалось отсканировать QR-код"
+    "Failed to scan QR code": "Не удалось отсканировать QR-код",
+    "Already provisioned": "Уже подготовлено",
+    "Already included": "Уже включены",
+    "The controller does not support SmartStart!": "Контроллер не поддерживает SmartStart!"
 }

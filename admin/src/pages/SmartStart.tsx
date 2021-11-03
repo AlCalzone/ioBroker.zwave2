@@ -22,7 +22,7 @@ import { QRScanner } from "../components/QRScanner";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
-import { NotRunning } from "../components/Messages";
+import { Message, NotRunning } from "../components/Messages";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -52,6 +52,13 @@ export const SmartStart: React.FC<SmartStartProps> = (props) => {
 	const api = useAPI();
 	const { showModal } = useDialogs();
 	const { alive: adapterRunning, connected: driverReady } = useAdapter();
+
+	// Check for SmartStart support
+	const [supportsSmartStart, setSupportsSmartStart] =
+		React.useState<boolean>(false);
+	React.useEffect(() => {
+		if (driverReady) api.supportsSmartStart().then(setSupportsSmartStart);
+	}, [driverReady, api]);
 
 	const [entries, setEntries] =
 		React.useState<SmartStartProvisioningEntry[]>();
@@ -184,6 +191,13 @@ export const SmartStart: React.FC<SmartStartProps> = (props) => {
 
 	if (!adapterRunning || !driverReady) return <NotRunning />;
 	if (!entries || !props.devices) return <CircularProgress />;
+	if (!supportsSmartStart) {
+		return (
+			<Message>
+				{_("The controller does not support SmartStart!")}
+			</Message>
+		);
+	}
 
 	return (
 		<div className={classes.root}>

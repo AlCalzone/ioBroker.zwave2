@@ -167,6 +167,14 @@ export class API {
 		}
 	}
 
+	public async supportsSmartStart(): Promise<boolean> {
+		const { error, result } = await this.connection.sendTo<
+			SendToResult<boolean | undefined>
+		>(this.namespace, "supportsSmartStart");
+		if (error) throw error;
+		return !!result;
+	}
+
 	public async scanQRCode(
 		code: string,
 		include: boolean,

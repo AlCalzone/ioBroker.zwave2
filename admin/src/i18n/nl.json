@@ -197,5 +197,8 @@
     "Added SmartStart device": "SmartStart-apparaat toegevoegd",
     "Successfully added SmartStart device to provisioning list.": "SmartStart-apparaat is toegevoegd aan de inrichtingslijst.",
     "It will be included automatically when it announces itself.": "Het wordt automatisch opgenomen wanneer het zichzelf aankondigt.",
-    "Failed to scan QR code": "Kan QR-code niet scannen"
+    "Failed to scan QR code": "Kan QR-code niet scannen",
+    "Already provisioned": "Reeds ingericht",
+    "Already included": "Reeds inbegrepen",
+    "The controller does not support SmartStart!": "De controller ondersteunt SmartStart niet!"
 }

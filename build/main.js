@@ -767,6 +767,13 @@ class ZWave2 extends import_adapter_core.default.Adapter {
           }
           return;
         }
+        case "supportsSmartStart": {
+          if (!this.driverReady) {
+            return respond(responses.ERROR("The driver is not yet ready to answer that!"));
+          }
+          const supportsSmartStart = !!this.driver.controller.supportsFeature(import_Controller.ZWaveFeature.SmartStart);
+          return respond(responses.RESULT(supportsSmartStart));
+        }
         case "scanQRCode": {
           if (!this.driverReady) {
             return respond(responses.ERROR("The driver is not yet ready to do that!"));
@@ -779,16 +786,17 @@ class ZWave2 extends import_adapter_core.default.Adapter {
           try {
             const provisioning = (0, import_core.parseQRCodeString)(code);
             const node = this.driver.controller.getNodeByDSK(provisioning.dsk);
+            const supportsSmartStart = !!this.driver.controller.supportsFeature(import_Controller.ZWaveFeature.SmartStart);
             if (include && node) {
               return respond(responses.RESULT({
                 type: "included",
                 nodeId: node.id
               }));
-            } else if (this.driver.controller.getProvisioningEntry(provisioning.dsk)) {
+            } else if (supportsSmartStart && this.driver.controller.getProvisioningEntry(provisioning.dsk)) {
               return respond(responses.RESULT(__spreadValues({
                 type: "provisioned"
               }, provisioning)));
-            } else if (provisioning.version === import_core.QRCodeVersion.S2) {
+            } else if (!supportsSmartStart || provisioning.version === import_core.QRCodeVersion.S2) {
               if (!include) {
                 return respond(responses.RESULT({type: "S2"}));
               }
