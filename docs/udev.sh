@@ -11,7 +11,8 @@ if [ $# -ne 2 ]; then
     echo ""
     echo "  USB_PATH is the physical device path of the USB stick and should be specified"
     echo "           using /dev/serial/by-id/... paths"
-    echo "  CONTAINER_PATH is the path inside the virtual machine, e.g. /dev/zwave"
+    echo "  CONTAINER_PATH is the path inside the virtual machine without leading /dev/."
+    echo "           For example entering zwave will create a symlink at /dev/zwave"
     echo ""
     exit 1
 fi
@@ -24,6 +25,13 @@ then
     echo "ERROR: $USB_PATH is not a serial device"
     exit 1
 fi
+
+if [[ "$CONTAINER_PATH" == /dev/* ]]
+then
+    echo "ERROR: $CONTAINER_PATH must be given without leading /dev/"
+    exit 1
+fi
+
 
 if ! command -v udevadm &> /dev/null
 then
@@ -40,7 +48,7 @@ then
     exit 1
 fi
 
-CMD="SUBSYSTEM=\"tty\", $ID_VENDOR, $ID_PRODUCT, SYMLINK+=\"$CONTAINER_PATH\", MODE=\"0666\""
+CMD="SUBSYSTEM==\"tty\", $ID_VENDOR, $ID_PRODUCT, SYMLINK+=\"$CONTAINER_PATH\", MODE=\"0666\""
 
 echo "This is your udev rule, copy it:"
 echo ""

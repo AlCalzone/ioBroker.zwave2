@@ -12,7 +12,7 @@ curl -sL https://raw.githubusercontent.com/AlCalzone/ioBroker.zwave2/master/docs
 Das Skript gibt am Ende eine Zeile mit der neuen `udev`-Regel aus, die in etwa so aussieht:
 
 ```
-SUBSYSTEM="tty", ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="ea60", SYMLINK+="/dev/zwave", MODE="0666"
+SUBSYSTEM=="tty", ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="ea60", SYMLINK+="/dev/zwave", MODE="0666"
 ```
 
 Wie es weitergeht, hängt von der genutzten VM ab.
@@ -24,7 +24,7 @@ Wie es weitergeht, hängt von der genutzten VM ab.
 Hier kann es nötig sein, die Regel um die Benutzergruppe zu ergänzen, die später Zugriff haben soll. Um bspw. der Gruppe `users` Zugriff zu geben, die Regel um `, GROUP="users"` ergänzen:
 
 ```
-SUBSYSTEM="tty", ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="ea60", SYMLINK+="/dev/zwave", MODE="0666", GROUP="users"
+SUBSYSTEM=="tty", ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="ea60", SYMLINK+="/dev/zwave", MODE="0666", GROUP="users"
 ```
 
 Anschließend die Datei anlegen:
@@ -44,7 +44,7 @@ und die obige Regel einfügen. Mit <kbd>STRG</kbd>+<kbd>X</kbd>, gefolgt von <kb
 Zunächst muss der Gruppe `users` Zugriff auf den USB-Stick gegeben werden, dazu die Regel um `, GROUP="users"` ergänzen:
 
 ```
-SUBSYSTEM="tty", ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="ea60", SYMLINK+="/dev/zwave", MODE="0666", GROUP="users"
+SUBSYSTEM=="tty", ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="ea60", SYMLINK+="/dev/zwave", MODE="0666", GROUP="users"
 ```
 
 Anschließend die Datei anlegen:

@@ -12,7 +12,7 @@ curl -sL https://raw.githubusercontent.com/AlCalzone/ioBroker.zwave2/master/docs
 The script prints a line with the new `udev` rule at the end, which looks something like this:
 
 ```
-SUBSYSTEM="tty", ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="ea60", SYMLINK+="/dev/zwave", MODE="0666"
+SUBSYSTEM=="tty", ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="ea60", SYMLINK+="/dev/zwave", MODE="0666"
 ```
 
 How to proceed depends on the VM used.
@@ -24,7 +24,7 @@ How to proceed depends on the VM used.
 Here it may be necessary to add the user group that should have access later to the rule. For example, to give access to the group `users`, add `, GROUP="users"` to the rule:
 
 ```
-SUBSYSTEM="tty", ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="ea60", SYMLINK+="/dev/zwave", MODE="0666", GROUP="users"
+SUBSYSTEM=="tty", ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="ea60", SYMLINK+="/dev/zwave", MODE="0666", GROUP="users"
 ```
 
 Then create the file:
@@ -44,7 +44,7 @@ and insert the above rule. Save with <kbd>CTRL</kbd>+<kbd>X</kbd> followed by <k
 First you have to give the group `users` access to the USB stick, for this add `, GROUP="users"` to the rule:
 
 ```
-SUBSYSTEM="tty", ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="ea60", SYMLINK+="/dev/zwave", MODE="0666", GROUP="users"
+SUBSYSTEM=="tty", ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="ea60", SYMLINK+="/dev/zwave", MODE="0666", GROUP="users"
 ```
 
 Then create the file:
