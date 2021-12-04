@@ -634,7 +634,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
         }
         const {native} = obj;
         const valueId = native.valueId;
-        if (!(valueId && valueId.commandClass && valueId.property)) {
+        if (!(valueId && typeof valueId.commandClass === "number" && typeof valueId.property === "number")) {
           this.log.error(`Value ID missing or incomplete in object definition ${id}!`);
           return;
         }

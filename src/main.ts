@@ -1192,7 +1192,13 @@ export class ZWave2 extends utils.Adapter<true> {
 				const { native } = obj;
 
 				const valueId: ValueID | undefined = native.valueId;
-				if (!(valueId && valueId.commandClass && valueId.property)) {
+				if (
+					!(
+						valueId &&
+						typeof valueId.commandClass === "number" &&
+						typeof valueId.property === "number"
+					)
+				) {
 					this.log.error(
 						`Value ID missing or incomplete in object definition ${id}!`,
 					);
