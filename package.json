@@ -1,6 +1,6 @@
 {
   "name": "iobroker.zwave2",
-  "version": "2.4.1",
+  "version": "2.4.2-beta.0",
   "description": "A better Z-Wave integration for ioBroker",
   "author": {
     "name": "AlCalzone",
@@ -31,14 +31,14 @@
     "io-package.json"
   ],
   "engines": {
-    "node": ">=12.22.2 <16.9.0 || >16.9.0"
+    "node": ">=12.22.2 <13 || >=14.13.0 <15 || >= 16 <16.9.0 || >16.9.0"
   },
   "dependencies": {
     "@iobroker/adapter-core": "^2.5.1",
     "@zwave-js/log-transport-json": "^1.0.0",
     "alcalzone-shared": "^4.0.1",
     "fs-extra": "^10.0.0",
-    "zwave-js": "~8.7.3"
+    "zwave-js": "~8.9.0-beta.3"
   },
   "devDependencies": {
     "@alcalzone/release-script": "~3.4.1",
