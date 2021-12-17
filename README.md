@@ -40,6 +40,9 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	Placeholder for next versions:
 	### __WORK IN PROGRESS__
 -->
+### __WORK IN PROGRESS__
+* Fixed the check for incomplete or incorrect value IDs
+
 ### 2.4.2-beta.0 (2021-12-16)
 * Experimental: The handling of messages has been rewritten from scratch and simplified. This may cause some unintended behavior.
 * Avoid interruption of the communication with a node by other nodes requesting responses from the controller

@@ -1196,7 +1196,8 @@ export class ZWave2 extends utils.Adapter<true> {
 					!(
 						valueId &&
 						typeof valueId.commandClass === "number" &&
-						typeof valueId.property === "number"
+						(typeof valueId.property === "number" ||
+							typeof valueId.property === "string")
 					)
 				) {
 					this.log.error(
