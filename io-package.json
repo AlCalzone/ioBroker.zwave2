@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "2.4.2-beta.0",
+        "version": "2.4.2-beta.1",
         "news": {
+            "2.4.2-beta.1": {
+                "en": "Fixed the check for incomplete or incorrect value IDs",
+                "de": "Die Prüfung auf unvollständige oder falsche value IDs wurde korrigiert",
+                "ru": "Исправлена проверка на неполные или неправильные идентификаторы значений.",
+                "pt": "Corrigida a verificação de IDs de valor incompletos ou incorretos",
+                "nl": "De controle op onvolledige of onjuiste waarde-ID's gerepareerd",
+                "fr": "Correction de la vérification des ID de valeur incomplets ou incorrects",
+                "it": "Risolto il problema con il controllo degli ID dei valori incompleti o errati",
+                "es": "Se corrigió la verificación de ID de valor incompletos o incorrectos",
+                "pl": "Naprawiono sprawdzanie pod kątem niekompletnych lub nieprawidłowych identyfikatorów wartości",
+                "zh-cn": "修复了对不完整或不正确的值 ID 的检查"
+            },
             "2.4.2-beta.0": {
                 "en": "Experimental: The handling of messages has been rewritten from scratch and simplified. This may cause some unintended behavior.\nAvoid interruption of the communication with a node by other nodes requesting responses from the controller\nImproved reliability of encrypted communication\nBattery-powered devices are nore sent to sleep more reliably\nFixed encoding of some configuration parameters\nFix: Limit allowed Node.js versions to `12.22.2+`, `14.13.0+`, `16+` and forbid installation on development Node.js versions\nFixed some crashes\nFixed an issue where healing the network would fail due to a too low timeout\nImproved detection of sticks that do not support soft reset\nNew and updated configuration files, see [here](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.8.0) and [here](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.9.0-beta.3)",
                 "de": "Experimentell: Die Handhabung von Kommandos wurde von Grund auf neu geschrieben und vereinfacht. Dadurch kann es jedoch zu unbeabsichtigtem Verhalten kommen.\nVermeidung von Unterbrechungen der Kommunikation mit einem Node durch andere Nodes, die währenddessen eine Antwort vom Controller anfordern\nVerbesserte Zuverlässigkeit der verschlüsselten Kommunikation\nBatteriebetriebene Geräte werden nun zuverlässiger in den Schlaf geschickt\nSerialisierung einiger Konfigurationsparameter korrigiert\nBehoben: Die erlaubten Node.js-Versionen wurden auf `12.22.2+`, `14.13.0+`, `16+` begrenzt und die Installation auf Entwickler-Node.js-Versionen werden jetzt verhindert.\nEinige Abstürze behoben\nEin Problem wurde behoben, bei dem das Heilen des Netzwerks aufgrund eines zu niedrigen Timeouts fehlschlug\nVerbesserte Erkennung von Sticks, die keinen Soft-Reset unterstützen\nNeue und aktualisierte Konfigurationsdateien, siehe [hier](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.8.0) und [hier](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.9.0-beta.3)",
@@ -74,18 +86,6 @@
                 "es": "Agregue la función de reinicio suave (reinicio) para el controlador\nArchivos de configuración nuevos y actualizados, consulte [aquí] (https://github.com/zwave-js/node-zwave-js/releases/tag/v8.6.0)",
                 "pl": "Dodaj funkcję miękkiego resetu (restart) dla kontrolera\nNowe i zaktualizowane pliki konfiguracyjne, zobacz [tutaj](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.6.0)",
                 "zh-cn": "为控制器增加软复位（重启）功能\n新的和更新的配置文件，见[这里](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.6.0)"
-            },
-            "2.2.4": {
-                "en": "Fix: Most unsupporting devices should no longer use `Supervision` by default\nMinor fixes and stability improvements\nNew and updated configuration files, see [here](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)",
-                "de": "Fix: Für die meisten Geräte, die es nicht unterstützen, wird nicht mehr standardmäßig `Supervision` verwendet\nKleinere Korrekturen und Stabilitätsverbesserungen\nNeue und aktualisierte Konfigurationsdateien, siehe [hier](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)",
-                "ru": "Исправлено: большинство неподдерживаемых устройств больше не должны использовать «Контроль» по умолчанию.\nМелкие исправления и улучшения стабильности\nНовые и обновленные файлы конфигурации см. [Здесь] (https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)",
-                "pt": "Correção: a maioria dos dispositivos incompatíveis não deve mais usar `Supervision` por padrão\nPequenas correções e melhorias de estabilidade\nArquivos de configuração novos e atualizados, veja [aqui] (https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)",
-                "nl": "Oplossing: de meeste niet-ondersteunde apparaten zouden niet langer standaard 'Supervisie' moeten gebruiken\nKleine fixes en stabiliteitsverbeteringen\nNieuwe en bijgewerkte configuratiebestanden, zie [hier](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)",
-                "fr": "Correction : la plupart des appareils non compatibles ne devraient plus utiliser la « supervision » par défaut\nCorrections mineures et améliorations de la stabilité\nFichiers de configuration nouveaux et mis à jour, voir [ici](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)",
-                "it": "Correzione: la maggior parte dei dispositivi non supportati non dovrebbe più utilizzare \"Supervisione\" per impostazione predefinita\nCorrezioni minori e miglioramenti della stabilità\nFile di configurazione nuovi e aggiornati, vedere [qui](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)",
-                "es": "Solución: la mayoría de los dispositivos no compatibles ya no deberían usar \"Supervisión\" de forma predeterminada\nPequeñas correcciones y mejoras de estabilidad.\nArchivos de configuración nuevos y actualizados, consulte [aquí] (https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)",
-                "pl": "Poprawka: większość nieobsługujących urządzeń nie powinna już domyślnie używać `Nadzór`\nDrobne poprawki i ulepszenia stabilności\nNowe i zaktualizowane pliki konfiguracyjne, zobacz [tutaj](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)",
-                "zh-cn": "修复：默认情况下，大多数不支持的设备不应再使用“监督”\n小修复和稳定性改进\n新的和更新的配置文件，见[这里](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.5.1)"
             }
         },
         "title": "Z-Wave 2",

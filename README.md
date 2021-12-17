@@ -40,7 +40,7 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	Placeholder for next versions:
 	### __WORK IN PROGRESS__
 -->
-### __WORK IN PROGRESS__
+### 2.4.2-beta.1 (2021-12-17)
 * Fixed the check for incomplete or incorrect value IDs
 
 ### 2.4.2-beta.0 (2021-12-16)
@@ -67,9 +67,6 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 
 ### 2.3.2 (2021-10-26)
 * Try to detect sticks (like UZB and UZB1) that are incompatible with soft-reset and automatically disable it
-
-### 2.3.1 (2021-10-25)
-* Add option to disable soft-reset, mention better solution in troubleshooting docs
 
 ## License
 

@@ -1,4 +1,7 @@
 # Older changes
+## 2.3.1 (2021-10-25)
+* Add option to disable soft-reset, mention better solution in troubleshooting docs
+
 ## 2.3.0 (2021-10-25)
 * Add soft reset (restart) function for the controller
 * New and updated configuration files, see [here](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.6.0)
