@@ -1,4 +1,7 @@
 # Older changes
+## 2.3.2 (2021-10-26)
+* Try to detect sticks (like UZB and UZB1) that are incompatible with soft-reset and automatically disable it
+
 ## 2.3.1 (2021-10-25)
 * Add option to disable soft-reset, mention better solution in troubleshooting docs
 
