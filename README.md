@@ -40,6 +40,11 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	Placeholder for next versions:
 	### __WORK IN PROGRESS__
 -->
+### __WORK IN PROGRESS__
+* Fix: Additional node-related commands now respect and update the node status
+* Fixed an issue where the communication could get stuck after aborting a command
+* New and updated configuration files, see [here](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.9.0) and [here](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.9.1)
+
 ### 2.4.2-beta.1 (2021-12-17)
 * Fixed the check for incomplete or incorrect value IDs
 
