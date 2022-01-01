@@ -41,7 +41,7 @@
     "zwave-js": "^8.9.1"
   },
   "devDependencies": {
-    "@alcalzone/release-script": "~3.4.1",
+    "@alcalzone/release-script": "~3.4.2",
     "@alcalzone/release-script-plugin-iobroker": "~3.4.1",
     "@alcalzone/release-script-plugin-license": "~3.4.1",
     "@alcalzone/release-script-plugin-manual-review": "~3.4.1",
