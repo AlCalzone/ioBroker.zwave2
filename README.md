@@ -40,7 +40,7 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	Placeholder for next versions:
 	### __WORK IN PROGRESS__
 -->
-### __WORK IN PROGRESS__
+### 2.4.3 (2022-01-18)
 * Updated translations
 * Updated `zwave-js` from `8.9.1` to `8.11.2`. Check out the [releases](https://github.com/zwave-js/node-zwave-js/releases) for a detailed overview over the new and changed configuration files.
 * Add support for `Humidity Control Mode CC`
@@ -78,14 +78,11 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 * Fixed the automatic lifeline association for some devices
 * New and updated configuration files, see [here](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.7.3)
 
-### 2.4.0 (2021-11-02)
-* Add support for SmartStart and inclusion of nodes with QR codes
-
 ## License
 
 MIT License
 
-Copyright (c) 2019-2021 AlCalzone
+Copyright (c) 2019-2022 AlCalzone
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

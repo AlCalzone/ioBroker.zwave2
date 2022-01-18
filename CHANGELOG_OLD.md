@@ -1,4 +1,7 @@
 # Older changes
+## 2.4.0 (2021-11-02)
+* Add support for SmartStart and inclusion of nodes with QR codes
+
 ## 2.3.2 (2021-10-26)
 * Try to detect sticks (like UZB and UZB1) that are incompatible with soft-reset and automatically disable it
 
