@@ -1,12 +1,12 @@
+import type { AdapterInstance } from "@iobroker/adapter-core";
 import { filter as objFilter } from "alcalzone-shared/objects";
-import type { ZWave2 } from "../main";
 
 export class Global {
-	private static _adapter: ZWave2;
-	public static get adapter(): ZWave2 {
+	private static _adapter: AdapterInstance<true, any>;
+	public static get adapter(): AdapterInstance<true, any> {
 		return Global._adapter;
 	}
-	public static set adapter(adapter: ZWave2) {
+	public static set adapter(adapter: AdapterInstance<true, any>) {
 		Global._adapter = adapter;
 	}
 

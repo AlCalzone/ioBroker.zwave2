@@ -1,8 +1,8 @@
+import type { AdapterInstance } from "@iobroker/adapter-core";
 import { distinct } from "alcalzone-shared/arrays";
 import fs from "fs-extra";
 import path from "path";
 import { Driver } from "zwave-js";
-import type { ZWave2 } from "../main";
 
 function isSerialPort(path: string): boolean {
 	// get only serial port names
@@ -11,7 +11,9 @@ function isSerialPort(path: string): boolean {
 	return fs.statSync(path).isCharacterDevice();
 }
 
-export async function enumerateSerialPorts(adapter: ZWave2): Promise<string[]> {
+export async function enumerateSerialPorts(
+	adapter: AdapterInstance<any, any>,
+): Promise<string[]> {
 	const result: string[] = [];
 
 	// On Linux, search the /dev dir for serial ports

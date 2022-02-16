@@ -96,7 +96,7 @@ import {
 	PushMessage,
 } from "./lib/shared";
 
-export class ZWave2 extends utils.Adapter<true> {
+class ZWave2 extends utils.Adapter<true> {
 	public constructor(options: Partial<utils.AdapterOptions> = {}) {
 		super({
 			...options,

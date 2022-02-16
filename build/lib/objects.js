@@ -1,14 +1,12 @@
-var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __defProps = Object.defineProperties;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __getOwnPropSymbols = Object.getOwnPropertySymbols;
-var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __propIsEnum = Object.prototype.propertyIsEnumerable;
-var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, {enumerable: true, configurable: true, writable: true, value}) : obj[key] = value;
+var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
 var __spreadValues = (a, b) => {
   for (var prop in b || (b = {}))
     if (__hasOwnProp.call(b, prop))
@@ -21,7 +19,7 @@ var __spreadValues = (a, b) => {
   return a;
 };
 var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
-var __markAsModule = (target) => __defProp(target, "__esModule", {value: true});
+var __markAsModule = (target) => __defProp(target, "__esModule", { value: true });
 var __objRest = (source, exclude) => {
   var target = {};
   for (var prop in source)
@@ -36,21 +34,23 @@ var __objRest = (source, exclude) => {
 };
 var __export = (target, all) => {
   for (var name in all)
-    __defProp(target, name, {get: all[name], enumerable: true});
+    __defProp(target, name, { get: all[name], enumerable: true });
 };
-var __reExport = (target, module2, desc) => {
+var __reExport = (target, module2, copyDefault, desc) => {
   if (module2 && typeof module2 === "object" || typeof module2 === "function") {
     for (let key of __getOwnPropNames(module2))
-      if (!__hasOwnProp.call(target, key) && key !== "default")
-        __defProp(target, key, {get: () => module2[key], enumerable: !(desc = __getOwnPropDesc(module2, key)) || desc.enumerable});
+      if (!__hasOwnProp.call(target, key) && (copyDefault || key !== "default"))
+        __defProp(target, key, { get: () => module2[key], enumerable: !(desc = __getOwnPropDesc(module2, key)) || desc.enumerable });
   }
   return target;
 };
-var __toModule = (module2) => {
-  return __reExport(__markAsModule(__defProp(module2 != null ? __create(__getProtoOf(module2)) : {}, "default", module2 && module2.__esModule && "default" in module2 ? {get: () => module2.default, enumerable: true} : {value: module2, enumerable: true})), module2);
-};
-__markAsModule(exports);
-__export(exports, {
+var __toCommonJS = /* @__PURE__ */ ((cache) => {
+  return (module2, temp) => {
+    return cache && cache.get(module2) || (temp = __reExport(__markAsModule({}), module2, 1), cache && cache.set(module2, temp), temp);
+  };
+})(typeof WeakMap !== "undefined" ? /* @__PURE__ */ new WeakMap() : 0);
+var objects_exports = {};
+__export(objects_exports, {
   DEVICE_ID_BROADCAST: () => DEVICE_ID_BROADCAST,
   ccNameToChannelIdFragment: () => ccNameToChannelIdFragment,
   computeChannelId: () => computeChannelId,
@@ -77,14 +77,14 @@ __export(exports, {
   setNodeStatus: () => setNodeStatus,
   setRFRegionState: () => setRFRegionState
 });
-var import_core = __toModule(require("@zwave-js/core"));
-var import_objects = __toModule(require("alcalzone-shared/objects"));
-var import_strings = __toModule(require("alcalzone-shared/strings"));
-var import_typeguards = __toModule(require("alcalzone-shared/typeguards"));
-var import_zwave_js = __toModule(require("zwave-js"));
-var import_Node = __toModule(require("zwave-js/Node"));
-var import_global = __toModule(require("./global"));
-var import_shared = __toModule(require("./shared"));
+var import_core = require("@zwave-js/core");
+var import_objects = require("alcalzone-shared/objects");
+var import_strings = require("alcalzone-shared/strings");
+var import_typeguards = require("alcalzone-shared/typeguards");
+var import_zwave_js = require("zwave-js");
+var import_Node = require("zwave-js/Node");
+var import_global = require("./global");
+var import_shared = require("./shared");
 function nodeStatusToStatusState(status) {
   switch (status) {
     case import_Node.NodeStatus.Awake:
@@ -189,7 +189,7 @@ function nodeToNative(node) {
     type: __spreadValues({
       basic: node.deviceClass.basic.label,
       generic: node.deviceClass.generic.label
-    }, node.deviceClass.specific.key !== 0 ? {specific: node.deviceClass.specific.label} : {})
+    }, node.deviceClass.specific.key !== 0 ? { specific: node.deviceClass.specific.label } : {})
   }), {
     endpointIndizes: node.getEndpointIndizes(),
     securityClasses: securityClassesToRecord(node),
@@ -238,7 +238,7 @@ async function removeNode(nodeId) {
     await import_global.Global.adapter.delForeignObjectAsync(deviceId);
   } catch (e) {
   }
-  const existingObjs = __spreadValues(__spreadValues({}, await import_global.Global.$$(`${deviceId}.*`, {type: "channel"})), await import_global.Global.$$(`${deviceId}.*`, {type: "state"}));
+  const existingObjs = __spreadValues(__spreadValues({}, await import_global.Global.$$(`${deviceId}.*`, { type: "channel" })), await import_global.Global.$$(`${deviceId}.*`, { type: "state" }));
   for (const [id, obj] of (0, import_objects.entries)(existingObjs)) {
     if (obj.type === "state") {
       try {
@@ -317,10 +317,10 @@ async function extendNotificationValue(node, args) {
 async function extendMetadata(node, args) {
   const stateId = computeStateId(node.id, args);
   const metadata = "metadata" in args && args.metadata || node.getValueMetadata(args);
-  await extendMetadataInternal(stateId, metadata, args, {nodeId: node.id});
+  await extendMetadataInternal(stateId, metadata, args, { nodeId: node.id });
 }
 async function extendVirtualMetadata(node, deviceId, _a) {
-  var _b = _a, {metadata, ccVersion} = _b, valueId = __objRest(_b, ["metadata", "ccVersion"]);
+  var _b = _a, { metadata, ccVersion } = _b, valueId = __objRest(_b, ["metadata", "ccVersion"]);
   const stateId = computeVirtualStateId(deviceId, valueId);
   await extendMetadataInternal(stateId, metadata, valueId, node.id === import_core.NODE_ID_BROADCAST ? {
     broadcast: true
@@ -531,7 +531,7 @@ async function setNotificationValue(nodeId, notificationLabel, eventLabel, prope
   }, true);
 }
 async function extendNotification_NotificationCC(node, args) {
-  const {label, eventLabel, parameters} = args;
+  const { label, eventLabel, parameters } = args;
   if (parameters == void 0) {
     await setNotificationValue(node.id, label, eventLabel, void 0, true);
   } else if (Buffer.isBuffer(parameters)) {
@@ -560,6 +560,7 @@ async function setRFRegionState(rfRegion) {
   });
   await import_global.Global.adapter.setStateAsync(stateId, rfRegion != null ? rfRegion : null, true);
 }
+module.exports = __toCommonJS(objects_exports);
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   DEVICE_ID_BROADCAST,
