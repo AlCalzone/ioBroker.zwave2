@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "2.4.3",
+        "version": "2.4.4",
         "news": {
+            "2.4.4": {
+                "en": "Update `zwave-js` to `8.11.6`\nAfter healing, battery-powered nodes are sent back to sleep again\nAdded a workaround for thermostats that don't advertise all their supported thermostat modes. When such a thermostat enters such an \"unsupported\" mode, the mode is now dynamically added to the list of supported modes.\nNew and updated configuration files, see [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) for details",
+                "de": "`zwave-js` auf `8.11.6` aktualisiert\n Nach dem Heilen werden batteriebetriebene Geräte wieder schlafen geschickt.\n Es wurde ein Workaround für Thermostate hinzugefügt, die nicht alle ihre unterstützten Thermostatmodi verraten. Wenn ein solches Thermostat in einen angeblich "nicht unterstützten" Modus geht, wird dieser nun dynamisch zur Liste der unterstützten Modi hinzugefügt.\n Neue und aktualisierte Konfigurationsdateien, siehe [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) für Details",
+                "ru": "Обновите zwave-js до версии 8.11.6.\nПосле лечения узлы с батарейным питанием снова отправляются в спящий режим.\nДобавлен обходной путь для термостатов, которые не объявляют все поддерживаемые ими режимы термостата. Когда такой термостат переходит в такой «неподдерживаемый» режим, этот режим теперь динамически добавляется в список поддерживаемых режимов.\nНовые и обновленные файлы конфигурации, подробности см. в [релизах Z-Wave JS](https://github.com/zwave-js/node-zwave-js/releases).",
+                "pt": "Atualize `zwave-js` para `8.11.6`\nApós a cura, os nós alimentados por bateria são enviados de volta ao modo de suspensão novamente\nAdicionada uma solução alternativa para termostatos que não anunciam todos os modos de termostato compatíveis. Quando esse termostato entra em um modo \"não suportado\", o modo agora é adicionado dinamicamente à lista de modos suportados.\nArquivos de configuração novos e atualizados, consulte [versões Z-Wave JS](https://github.com/zwave-js/node-zwave-js/releases) para obter detalhes",
+                "nl": "Update `zwave-js` naar `8.11.6`\nNa genezing worden nodes op batterijen weer in slaapstand gestuurd\nEen tijdelijke oplossing toegevoegd voor thermostaten die niet alle ondersteunde thermostaatmodi adverteren. Wanneer zo'n thermostaat in zo'n \"niet-ondersteunde\" modus komt, wordt de modus nu dynamisch toegevoegd aan de lijst met ondersteunde modi.\nNieuwe en bijgewerkte configuratiebestanden, zie [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) voor details",
+                "fr": "Mettre à jour `zwave-js` vers `8.11.6`\nAprès la guérison, les nœuds alimentés par batterie sont remis en veille\nAjout d'une solution de contournement pour les thermostats qui n'annoncent pas tous leurs modes de thermostat pris en charge. Lorsqu'un tel thermostat entre dans un tel mode \"non pris en charge\", le mode est désormais dynamiquement ajouté à la liste des modes pris en charge.\nFichiers de configuration nouveaux et mis à jour, voir [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) pour plus de détails",
+                "it": "Aggiorna `zwave-js` a `8.11.6`\nDopo la guarigione, i nodi alimentati a batteria vengono rimandati nuovamente in stato di stop\nAggiunta una soluzione alternativa per i termostati che non pubblicizzano tutte le modalità di termostato supportate. Quando un tale termostato entra in una tale modalità \"non supportata\", la modalità viene ora aggiunta dinamicamente all'elenco delle modalità supportate.\nFile di configurazione nuovi e aggiornati, vedere [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) per i dettagli",
+                "es": "Actualice `zwave-js` a `8.11.6`\nDespués de la curación, los nodos alimentados por batería se vuelven a poner en reposo.\nSe agregó una solución alternativa para los termostatos que no anuncian todos los modos de termostato admitidos. Cuando un termostato de este tipo ingresa a un modo \"no compatible\", el modo ahora se agrega dinámicamente a la lista de modos compatibles.\nArchivos de configuración nuevos y actualizados, consulte [Lanzamientos de Z-Wave JS](https://github.com/zwave-js/node-zwave-js/releases) para obtener detalles",
+                "pl": "Zaktualizuj `zwave-js` do `8.11.6`\nPo wyleczeniu węzły zasilane bateryjnie są ponownie usypiane\nDodano obejście dla termostatów, które nie reklamują wszystkich obsługiwanych trybów termostatu. Gdy taki termostat wejdzie w taki „nieobsługiwany” tryb, tryb ten jest teraz dynamicznie dodawany do listy obsługiwanych trybów.\nNowe i zaktualizowane pliki konfiguracyjne, zobacz [Wersje Z-Wave JS](https://github.com/zwave-js/node-zwave-js/releases) po szczegóły",
+                "zh-cn": "将“zwave-js”更新为“8.11.6”\n愈合后，电池供电的节点再次被送回睡眠状态\n为不宣传所有受支持的恒温器模式的恒温器添加了解决方法。当这样的恒温器进入这样的“不支持”模式时，该模式现在被动态添加到支持的模式列表中。\n新的和更新的配置文件，详见[Z-Wave JS 发布](https://github.com/zwave-js/node-zwave-js/releases)"
+            },
             "2.4.3": {
                 "en": "Updated translations\nUpdated `zwave-js` from `8.9.1` to `8.11.2`. Check out the [releases](https://github.com/zwave-js/node-zwave-js/releases) for a detailed overview over the new and changed configuration files.\nAdd support for `Humidity Control Mode CC`\nAdd support for `Humidity Control Operating State CC`\nAdd support for `Humidity Control Setpoint CC`\nWork around an issue where some devices could not be interviewed due to an incorrect `Version CC` response.\nFixed an issue where `Supervision Get` requests were not answered for sleeping nodes\nRe-interviewing sleeping nodes now only resets the known information when the node wakes up\nThe `colors` dependency was recently [corrupted on purpose](https://www.theverge.com/2022/1/9/22874949/developer-corrupts-open-source-libraries-projects-affected). This patch updates all dependencies that depended on an affected version, directly or indirectly.",
                 "de": "Übersetzungen aktualisiert\n`zwave-js` wurde von `8.9.1` auf `8.11.2` wurde aktualisiert. Eine detaillierte Übersicht über die neuen und geänderten Konfigurationsdateien ist unter [releases](https://github.com/zwave-js/node-zwave-js/releases) zu finden.\nUnterstützung für `Humidity Control Mode CC` hinzugefügt\nUnterstützung für `Humidity Control Operating State CC` hinzugefügt\nUnterstützung für `Humidity Control Setpoint CC` zugefügt\nWorkaround für einige Geräte, die aufgrund fehlerhafter `Version CC`-Antworten nicht interviewt werden konnten.\nEin Problem wurde behoben, bei dem `Supervision Get`-Anfragen für schlafende Knoten nicht beantwortet wurden.\nEin Re-Interview schlafender Knoten setzt die bekannten Informationen nun erst zurück, wenn der Knoten aufwacht\nDie `colors`-Abhängigkeit wurde kürzlich [absichtlich beschädigt](https://www.theverge.com/2022/1/9/22874949/developer-corrupts-open-source-libraries-projects-affected). Alle Abhängigkeiten, die direkt oder indirekt von einer betroffenen Version abhängen, wurden aktualisiert oder getauscht, um das Problem zu beheben.",
@@ -74,18 +86,6 @@
                 "es": "Agregue soporte para SmartStart e inclusión de nodos con códigos QR",
                 "pl": "Dodaj obsługę SmartStart i dołączanie węzłów z kodami QR",
                 "zh-cn": "添加对 SmartStart 的支持并包含带有二维码的节点"
-            },
-            "2.3.2": {
-                "en": "Try to detect sticks (like UZB and UZB1) that are incompatible with soft-reset and automatically disable it",
-                "de": "Es wird versucht, Sticks (wie UZB und UZB1) zu erkennen, die mit Soft-Reset nicht kompatibel sind, und die Funktion automatisch zu deaktivieren",
-                "ru": "Попытайтесь обнаружить палки (например, UZB и UZB1), несовместимые с soft-reset, и автоматически отключите его.",
-                "pt": "Tente detectar varas (como UZB e UZB1) que são incompatíveis com soft-reset e desabilite-o automaticamente",
-                "nl": "Probeer sticks (zoals UZB en UZB1) te detecteren die niet compatibel zijn met soft-reset en schakel deze automatisch uit",
-                "fr": "Essayez de détecter les bâtons (comme UZB et UZB1) qui sont incompatibles avec la réinitialisation logicielle et désactivez-le automatiquement",
-                "it": "Prova a rilevare gli stick (come UZB e UZB1) che sono incompatibili con il soft-reset e disabilitalo automaticamente",
-                "es": "Intente detectar sticks (como UZB y UZB1) que sean incompatibles con el reinicio por software y deshabilítelo automáticamente",
-                "pl": "Spróbuj wykryć drążki (takie jak UZB i UZB1), które nie są kompatybilne z miękkim resetem i automatycznie go wyłącz",
-                "zh-cn": "尝试检测与软复位不兼容的棒（如 UZB 和 UZB1）并自动禁用它"
             }
         },
         "title": "Z-Wave 2",
@@ -113,8 +113,15 @@
             "pl": "Lepsza integracja Z-Wave",
             "zh-cn": "更好的Z-Wave集成"
         },
-        "authors": ["AlCalzone <d.griesel@gmx.net>"],
-        "keywords": ["zwave", "z-wave", "zwave2", "z-wave 2"],
+        "authors": [
+            "AlCalzone <d.griesel@gmx.net>"
+        ],
+        "keywords": [
+            "zwave",
+            "z-wave",
+            "zwave2",
+            "z-wave 2"
+        ],
         "license": "MIT",
         "platform": "Javascript/Node.js",
         "main": "build/main.js",
