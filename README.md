@@ -40,6 +40,13 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	Placeholder for next versions:
 	### __WORK IN PROGRESS__
 -->
+
+### __WORK IN PROGRESS__
+* Update `zwave-js` to `8.11.6`
+* After healing, battery-powered nodes are sent back to sleep again
+* Added a workaround for thermostats that don't advertise all their supported thermostat modes. When such a thermostat enters such an "unsupported" mode, the mode is now dynamically added to the list of supported modes.
+* New and updated configuration files, see [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) for details
+
 ### 2.4.3 (2022-01-18)
 * Updated translations
 * Updated `zwave-js` from `8.9.1` to `8.11.2`. Check out the [releases](https://github.com/zwave-js/node-zwave-js/releases) for a detailed overview over the new and changed configuration files.
