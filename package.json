@@ -75,7 +75,7 @@
     "chai-as-promised": "^7.1.1",
     "clsx": "^1.1.1",
     "d3": "^7.2.1",
-    "esbuild": "^0.14.10",
+    "esbuild": "^0.14.23",
     "esbuild-register": "^3.3.2",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
