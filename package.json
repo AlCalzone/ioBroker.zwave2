@@ -84,7 +84,7 @@
     "iobroker-react": "github:AlCalzone/iobroker-react",
     "jsqr-es6": "^1.4.0-1",
     "lodash": "^4.17.21",
-    "mocha": "^9.1.3",
+    "mocha": "^9.2.1",
     "nyc": "^15.1.0",
     "prettier": "^2.5.1",
     "react": "^17.0.2",
