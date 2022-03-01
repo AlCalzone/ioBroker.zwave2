@@ -38,7 +38,7 @@
     "@zwave-js/log-transport-json": "^1.0.0",
     "alcalzone-shared": "^4.0.1",
     "fs-extra": "^10.0.0",
-    "zwave-js": "~8.11.6"
+    "zwave-js": "~8.11.7"
   },
   "devDependencies": {
     "@alcalzone/release-script": "~3.5.2",
