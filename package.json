@@ -78,7 +78,7 @@
     "esbuild": "^0.14.23",
     "esbuild-register": "^3.3.2",
     "eslint": "^7.32.0",
-    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-prettier": "^8.4.0",
     "eslint-plugin-prettier": "^4.0.0",
     "estrella": "^1.4.1",
     "iobroker-react": "github:AlCalzone/iobroker-react",
