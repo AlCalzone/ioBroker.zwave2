@@ -1,4 +1,4 @@
-import utils from "@iobroker/adapter-core";
+import * as utils from "@iobroker/adapter-core";
 import {
 	CommandClasses,
 	createDefaultTransportFormat,
@@ -96,7 +96,7 @@ import {
 	PushMessage,
 } from "./lib/shared";
 
-export class ZWave2 extends utils.Adapter<true> {
+class ZWave2 extends utils.Adapter<true> {
 	public constructor(options: Partial<utils.AdapterOptions> = {}) {
 		super({
 			...options,
@@ -593,8 +593,8 @@ export class ZWave2 extends utils.Adapter<true> {
 				})
 			).rows.map((r) => r.value),
 		]
-			.filter((o): o is ioBroker.Object => !!o)
-			.map((o) => o._id);
+			.map((o) => o?._id)
+			.filter((id): id is string => !!id);
 
 		const orphanedIds = objectIds.filter(
 			(oid) =>

@@ -8,7 +8,7 @@ var __getOwnPropSymbols = Object.getOwnPropertySymbols;
 var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __propIsEnum = Object.prototype.propertyIsEnumerable;
-var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, {enumerable: true, configurable: true, writable: true, value}) : obj[key] = value;
+var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
 var __spreadValues = (a, b) => {
   for (var prop in b || (b = {}))
     if (__hasOwnProp.call(b, prop))
@@ -21,52 +21,44 @@ var __spreadValues = (a, b) => {
   return a;
 };
 var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
-var __markAsModule = (target) => __defProp(target, "__esModule", {value: true});
-var __export = (target, all) => {
-  for (var name in all)
-    __defProp(target, name, {get: all[name], enumerable: true});
-};
-var __reExport = (target, module2, desc) => {
+var __markAsModule = (target) => __defProp(target, "__esModule", { value: true });
+var __reExport = (target, module2, copyDefault, desc) => {
   if (module2 && typeof module2 === "object" || typeof module2 === "function") {
     for (let key of __getOwnPropNames(module2))
-      if (!__hasOwnProp.call(target, key) && key !== "default")
-        __defProp(target, key, {get: () => module2[key], enumerable: !(desc = __getOwnPropDesc(module2, key)) || desc.enumerable});
+      if (!__hasOwnProp.call(target, key) && (copyDefault || key !== "default"))
+        __defProp(target, key, { get: () => module2[key], enumerable: !(desc = __getOwnPropDesc(module2, key)) || desc.enumerable });
   }
   return target;
 };
-var __toModule = (module2) => {
-  return __reExport(__markAsModule(__defProp(module2 != null ? __create(__getProtoOf(module2)) : {}, "default", module2 && module2.__esModule && "default" in module2 ? {get: () => module2.default, enumerable: true} : {value: module2, enumerable: true})), module2);
+var __toESM = (module2, isNodeMode) => {
+  return __reExport(__markAsModule(__defProp(module2 != null ? __create(__getProtoOf(module2)) : {}, "default", !isNodeMode && module2 && module2.__esModule ? { get: () => module2.default, enumerable: true } : { value: module2, enumerable: true })), module2);
 };
-__markAsModule(exports);
-__export(exports, {
-  ZWave2: () => ZWave2
-});
-var import_adapter_core = __toModule(require("@iobroker/adapter-core"));
-var import_core = __toModule(require("@zwave-js/core"));
-var import_log_transport_json = __toModule(require("@zwave-js/log-transport-json"));
-var import_shared = __toModule(require("@zwave-js/shared"));
-var import_deferred_promise = __toModule(require("alcalzone-shared/deferred-promise"));
-var import_objects = __toModule(require("alcalzone-shared/objects"));
-var import_typeguards = __toModule(require("alcalzone-shared/typeguards"));
-var import_fs_extra = __toModule(require("fs-extra"));
-var import_path = __toModule(require("path"));
-var import_zwave_js = __toModule(require("zwave-js"));
-var import_Controller = __toModule(require("zwave-js/Controller"));
-var import_Utils = __toModule(require("zwave-js/Utils"));
-var import_global = __toModule(require("./lib/global"));
-var import_objects2 = __toModule(require("./lib/objects"));
-var import_serialPorts = __toModule(require("./lib/serialPorts"));
-var import_shared2 = __toModule(require("./lib/shared"));
-class ZWave2 extends import_adapter_core.default.Adapter {
+var utils = __toESM(require("@iobroker/adapter-core"));
+var import_core = require("@zwave-js/core");
+var import_log_transport_json = require("@zwave-js/log-transport-json");
+var import_shared = require("@zwave-js/shared");
+var import_deferred_promise = require("alcalzone-shared/deferred-promise");
+var import_objects = require("alcalzone-shared/objects");
+var import_typeguards = require("alcalzone-shared/typeguards");
+var import_fs_extra = __toESM(require("fs-extra"));
+var import_path = __toESM(require("path"));
+var import_zwave_js = require("zwave-js");
+var import_Controller = require("zwave-js/Controller");
+var import_Utils = require("zwave-js/Utils");
+var import_global = require("./lib/global");
+var import_objects2 = require("./lib/objects");
+var import_serialPorts = require("./lib/serialPorts");
+var import_shared2 = require("./lib/shared");
+class ZWave2 extends utils.Adapter {
   constructor(options = {}) {
     super(__spreadProps(__spreadValues({}, options), {
       name: "zwave2",
       objects: true
     }));
     this.driverReady = false;
-    this.readyNodes = new Set();
+    this.readyNodes = /* @__PURE__ */ new Set();
     this.virtualNodesUpdated = false;
-    this.initialNodeInterviewStages = new Map();
+    this.initialNodeInterviewStages = /* @__PURE__ */ new Map();
     this.onNodeNotification = async (...params) => {
       if (params[1] === import_core.CommandClasses.Notification) {
         const [node, , args] = params;
@@ -75,7 +67,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
       }
     };
     this.pushPayloads = [];
-    this.pushCallbacks = new Map();
+    this.pushCallbacks = /* @__PURE__ */ new Map();
     this.pushToFrontendBusy = false;
     this.on("ready", this.onReady.bind(this));
     this.on("objectChange", this.onObjectChange.bind(this));
@@ -85,10 +77,10 @@ class ZWave2 extends import_adapter_core.default.Adapter {
   }
   async onReady() {
     import_global.Global.adapter = this;
-    const cacheDir = import_path.default.join(import_adapter_core.default.getAbsoluteInstanceDataDir(this), "cache");
+    const cacheDir = import_path.default.join(utils.getAbsoluteInstanceDataDir(this), "cache");
     if (!!this.config.clearCache) {
       await import_fs_extra.default.remove(cacheDir);
-      this.updateConfig({clearCache: false});
+      this.updateConfig({ clearCache: false });
       return;
     }
     await this.subscribeStatesAsync("*");
@@ -166,7 +158,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
         }
       }
       const nodeIdRegex = new RegExp(`^${this.name}\\.${this.instance}\\.Node_(\\d+)`);
-      const existingNodeIds = Object.keys(await import_global.Global.$$(`${this.namespace}.*`, {type: "device"})).map((id) => {
+      const existingNodeIds = Object.keys(await import_global.Global.$$(`${this.namespace}.*`, { type: "device" })).map((id) => {
         var _a;
         return (_a = id.match(nodeIdRegex)) == null ? void 0 : _a[1];
       }).filter((id) => !!id).map((id) => parseInt(id, 10)).filter((id, index, all) => all.indexOf(id) === index);
@@ -305,7 +297,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
     await this.extendVirtualNodeObjectsAndStates(node, import_objects2.DEVICE_ID_BROADCAST, allValueIDs);
     await this.cleanupVirtualNodeObjects(import_objects2.DEVICE_ID_BROADCAST, allValueIDs);
     const multicastNodes = await this.getMulticastNodeDefinitions();
-    for (const {objId, nodeIds} of multicastNodes) {
+    for (const { objId, nodeIds } of multicastNodes) {
       node = this.driver.controller.getMulticastGroup(nodeIds.filter((n) => this.driver.controller.nodes.has(n)));
       const allValueIDs2 = node.getDefinedValueIDs();
       const deviceId = objId.substr(this.namespace.length + 1);
@@ -334,7 +326,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
       if (missingNodes.length) {
         this.log.warn(`Multicast group ${d._id} references missing nodes ${missingNodes.join(", ")}!`);
       }
-      ret.push({objId: d._id, nodeIds: d.native.nodeIds});
+      ret.push({ objId: d._id, nodeIds: d.native.nodeIds });
     }
     return ret;
   }
@@ -348,7 +340,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
         startkey: `${this.namespace}.Group_`,
         endkey: `${this.namespace}.Group_\u9999`
       })).rows.map((r) => r.value)
-    ].filter((o) => !!o).map((o) => o._id);
+    ].map((o) => o == null ? void 0 : o._id).filter((id) => !!id);
     const orphanedIds = objectIds.filter((oid) => !multicastGroupIds.some((gid) => oid.startsWith(gid + ".")));
     for (const id of orphanedIds) {
       this.log.debug(`Deleting orphaned multicast object ${id}`);
@@ -603,7 +595,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
     if (error instanceof import_zwave_js.ZWaveError && error.code === import_zwave_js.ZWaveErrorCodes.Driver_Failed) {
       this.log.error(`Restarting the adapter in a second...`);
       setTimeout(() => {
-        this.terminate(import_adapter_core.default.EXIT_CODES.START_IMMEDIATELY_AFTER_STOP);
+        this.terminate(utils.EXIT_CODES.START_IMMEDIATELY_AFTER_STOP);
       }, 1e3);
     }
   }
@@ -632,7 +624,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
           this.log.error(`Object definition for state ${id} is missing!`);
           return;
         }
-        const {native} = obj;
+        const { native } = obj;
         const valueId = native.valueId;
         if (!(valueId && typeof valueId.commandClass === "number" && (typeof valueId.property === "number" || typeof valueId.property === "string"))) {
           this.log.error(`Value ID missing or incomplete in object definition ${id}!`);
@@ -662,7 +654,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
         }
         try {
           await node.setValue(valueId, newValue);
-          await this.setStateAsync(id, {val: state.val, ack: true});
+          await this.setStateAsync(id, { val: state.val, ack: true });
         } catch (e) {
           this.log.error((0, import_shared2.getErrorMessage)(e));
         }
@@ -706,15 +698,15 @@ class ZWave2 extends import_adapter_core.default.Adapter {
         this.sendTo(obj.from, obj.command, response, obj.callback);
     };
     const responses = {
-      ACK: {error: null},
-      OK: {error: null, result: "ok"},
-      ERROR_UNKNOWN_COMMAND: {error: "Unknown command!"},
+      ACK: { error: null },
+      OK: { error: null, result: "ok" },
+      ERROR_UNKNOWN_COMMAND: { error: "Unknown command!" },
       MISSING_PARAMETER: (paramName) => {
-        return {error: 'missing parameter "' + paramName + '"!'};
+        return { error: 'missing parameter "' + paramName + '"!' };
       },
-      COMMAND_ACTIVE: {error: "command already active"},
-      RESULT: (result) => ({error: null, result}),
-      ERROR: (error) => ({error})
+      COMMAND_ACTIVE: { error: "command already active" },
+      RESULT: (result) => ({ error: null, result }),
+      ERROR: (error) => ({ error })
     };
     function requireParams(...params) {
       if (!params.length)
@@ -798,7 +790,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
               }, provisioning)));
             } else if (!supportsSmartStart || provisioning.version === import_core.QRCodeVersion.S2) {
               if (!include) {
-                return respond(responses.RESULT({type: "S2"}));
+                return respond(responses.RESULT({ type: "S2" }));
               }
               try {
                 const result = await this.driver.controller.beginInclusion({
@@ -807,7 +799,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
                 });
                 this.setState("info.inclusion", true, true);
                 if (result) {
-                  return respond(responses.RESULT({type: "S2"}));
+                  return respond(responses.RESULT({ type: "S2" }));
                 } else {
                   respond(responses.COMMAND_ACTIVE);
                 }
@@ -828,7 +820,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
             }
           } catch {
           }
-          return respond(responses.RESULT({type: "none"}));
+          return respond(responses.RESULT({ type: "none" }));
         }
         case "provisionSmartStartNode": {
           if (!this.driverReady) {
@@ -954,7 +946,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
           }
           this.pushToFrontend({
             type: "inclusion",
-            status: {type: "busy"}
+            status: { type: "busy" }
           });
           respond(responses.ACK);
           return;
@@ -970,7 +962,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
           (_d = this.grantSecurityClassesPromise) == null ? void 0 : _d.resolve(grant);
           this.pushToFrontend({
             type: "inclusion",
-            status: {type: "busy"}
+            status: { type: "busy" }
           });
           respond(responses.ACK);
           return;
@@ -1036,7 +1028,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
           return;
         }
         case "clearCache": {
-          this.updateConfig({clearCache: true});
+          this.updateConfig({ clearCache: true });
           respond(responses.OK);
           return;
         }
@@ -1223,7 +1215,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
           }
           if (!requireParams("nodeId"))
             return;
-          const {nodeId} = obj.message;
+          const { nodeId } = obj.message;
           try {
             await this.driver.controller.nodes.get(nodeId).refreshInfo();
             this.readyNodes.delete(nodeId);
@@ -1239,7 +1231,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
           }
           if (!requireParams("nodeId", "filename", "firmware"))
             return;
-          const {nodeId, filename, firmware} = obj.message;
+          const { nodeId, filename, firmware } = obj.message;
           if ((0, import_typeguards.isArray)(firmware) && firmware.every((byte) => typeof byte === "number")) {
             const rawData = Buffer.from(firmware);
             let actualFirmware;
@@ -1270,7 +1262,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
           }
           if (!requireParams("nodeId"))
             return;
-          const {nodeId} = obj.message;
+          const { nodeId } = obj.message;
           try {
             await this.driver.controller.nodes.get(nodeId).abortFirmwareUpdate();
             this.log.info(`Node ${nodeId}: Firmware update aborted`);
@@ -1397,9 +1389,5 @@ if (module.parent) {
 }
 process.on("unhandledRejection", (r) => {
   throw r;
-});
-// Annotate the CommonJS export names for ESM import in node:
-0 && (module.exports = {
-  ZWave2
 });
 //# sourceMappingURL=main.js.map
