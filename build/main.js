@@ -33,7 +33,7 @@ var __reExport = (target, module2, copyDefault, desc) => {
 var __toESM = (module2, isNodeMode) => {
   return __reExport(__markAsModule(__defProp(module2 != null ? __create(__getProtoOf(module2)) : {}, "default", !isNodeMode && module2 && module2.__esModule ? { get: () => module2.default, enumerable: true } : { value: module2, enumerable: true })), module2);
 };
-var import_adapter_core = __toESM(require("@iobroker/adapter-core"));
+var utils = __toESM(require("@iobroker/adapter-core"));
 var import_core = require("@zwave-js/core");
 var import_log_transport_json = require("@zwave-js/log-transport-json");
 var import_shared = require("@zwave-js/shared");
@@ -49,7 +49,7 @@ var import_global = require("./lib/global");
 var import_objects2 = require("./lib/objects");
 var import_serialPorts = require("./lib/serialPorts");
 var import_shared2 = require("./lib/shared");
-class ZWave2 extends import_adapter_core.default.Adapter {
+class ZWave2 extends utils.Adapter {
   constructor(options = {}) {
     super(__spreadProps(__spreadValues({}, options), {
       name: "zwave2",
@@ -77,7 +77,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
   }
   async onReady() {
     import_global.Global.adapter = this;
-    const cacheDir = import_path.default.join(import_adapter_core.default.getAbsoluteInstanceDataDir(this), "cache");
+    const cacheDir = import_path.default.join(utils.getAbsoluteInstanceDataDir(this), "cache");
     if (!!this.config.clearCache) {
       await import_fs_extra.default.remove(cacheDir);
       this.updateConfig({ clearCache: false });
@@ -595,7 +595,7 @@ class ZWave2 extends import_adapter_core.default.Adapter {
     if (error instanceof import_zwave_js.ZWaveError && error.code === import_zwave_js.ZWaveErrorCodes.Driver_Failed) {
       this.log.error(`Restarting the adapter in a second...`);
       setTimeout(() => {
-        this.terminate(import_adapter_core.default.EXIT_CODES.START_IMMEDIATELY_AFTER_STOP);
+        this.terminate(utils.EXIT_CODES.START_IMMEDIATELY_AFTER_STOP);
       }, 1e3);
     }
   }
