@@ -41,13 +41,13 @@
     "zwave-js": "~8.11.2"
   },
   "devDependencies": {
-    "@alcalzone/release-script": "~3.5.0",
-    "@alcalzone/release-script-plugin-iobroker": "~3.5.0",
-    "@alcalzone/release-script-plugin-license": "~3.5.0",
-    "@alcalzone/release-script-plugin-manual-review": "~3.5.0",
+    "@alcalzone/release-script": "~3.5.3",
+    "@alcalzone/release-script-plugin-iobroker": "~3.5.3",
+    "@alcalzone/release-script-plugin-license": "~3.5.3",
+    "@alcalzone/release-script-plugin-manual-review": "~3.5.3",
     "@iobroker/adapter-dev": "^1.0.0",
     "@iobroker/socket-client": "1.0.8",
-    "@iobroker/testing": "^2.5.2",
+    "@iobroker/testing": "^2.5.4",
     "@material-ui/core": "^4.12.3",
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.60",
@@ -95,7 +95,6 @@
     "sinon": "^12.0.1",
     "sinon-chai": "^3.7.0",
     "source-map-support": "^0.5.21",
-    "tiny-glob": "^0.2.9",
     "typescript": "~4.5.4",
     "uuid": "^8.3.2"
   },
