@@ -1,4 +1,11 @@
 # Older changes
+## 2.4.1 (2021-11-03)
+* Fix: Correctly update UI when canceling an inclusion process
+* Fix: Check for SmartStart support before using it
+* Fix: Add missing translations
+* Fixed the automatic lifeline association for some devices
+* New and updated configuration files, see [here](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.7.3)
+
 ## 2.4.0 (2021-11-02)
 * Add support for SmartStart and inclusion of nodes with QR codes
 
