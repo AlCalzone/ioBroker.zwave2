@@ -133,6 +133,7 @@
         "loglevel": "info",
         "mode": "daemon",
         "type": "hardware",
+        "eraseOnUpload": true,
         "compact": true,
         "materialize": true,
         "materializeTab": true,
