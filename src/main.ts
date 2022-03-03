@@ -593,8 +593,8 @@ class ZWave2 extends utils.Adapter<true> {
 				})
 			).rows.map((r) => r.value),
 		]
-			.filter((o): o is ioBroker.Object => !!o)
-			.map((o) => o._id);
+			.map((o) => o?._id)
+			.filter((id): id is string => !!id);
 
 		const orphanedIds = objectIds.filter(
 			(oid) =>

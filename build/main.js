@@ -340,7 +340,7 @@ class ZWave2 extends utils.Adapter {
         startkey: `${this.namespace}.Group_`,
         endkey: `${this.namespace}.Group_\u9999`
       })).rows.map((r) => r.value)
-    ].filter((o) => !!o).map((o) => o._id);
+    ].map((o) => o == null ? void 0 : o._id).filter((id) => !!id);
     const orphanedIds = objectIds.filter((oid) => !multicastGroupIds.some((gid) => oid.startsWith(gid + ".")));
     for (const id of orphanedIds) {
       this.log.debug(`Deleting orphaned multicast object ${id}`);
