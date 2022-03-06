@@ -40,6 +40,12 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	Placeholder for next versions:
 	### __WORK IN PROGRESS__
 -->
+### __WORK IN PROGRESS__
+Updated `zwave-js` to `9.0.0-beta.3`. This includes the following changes:
+* Worked around an issue where certain 500-series controllers take too long to respond when attempting communication with unreachable nodes
+* Node queries now timeout faster if no response is received. This should avoid battery-powered nodes to go back to sleep mid-interview.
+* Add support for `Irrigation CC`
+
 ### 2.4.5 (2022-02-20)
 * Update `zwave-js` to `8.11.6`
 * After healing, battery-powered nodes are sent back to sleep again
