@@ -1,0 +1,4 @@
+{
+	"reactFormat": "esm",
+	"reactPattern": "src/{index,tab,log}.tsx"
+}
