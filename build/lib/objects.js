@@ -19,7 +19,6 @@ var __spreadValues = (a, b) => {
   return a;
 };
 var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
-var __markAsModule = (target) => __defProp(target, "__esModule", { value: true });
 var __objRest = (source, exclude) => {
   var target = {};
   for (var prop in source)
@@ -36,19 +35,15 @@ var __export = (target, all) => {
   for (var name in all)
     __defProp(target, name, { get: all[name], enumerable: true });
 };
-var __reExport = (target, module2, copyDefault, desc) => {
-  if (module2 && typeof module2 === "object" || typeof module2 === "function") {
-    for (let key of __getOwnPropNames(module2))
-      if (!__hasOwnProp.call(target, key) && (copyDefault || key !== "default"))
-        __defProp(target, key, { get: () => module2[key], enumerable: !(desc = __getOwnPropDesc(module2, key)) || desc.enumerable });
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
   }
-  return target;
+  return to;
 };
-var __toCommonJS = /* @__PURE__ */ ((cache) => {
-  return (module2, temp) => {
-    return cache && cache.get(module2) || (temp = __reExport(__markAsModule({}), module2, 1), cache && cache.set(module2, temp), temp);
-  };
-})(typeof WeakMap !== "undefined" ? /* @__PURE__ */ new WeakMap() : 0);
+var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var objects_exports = {};
 __export(objects_exports, {
   DEVICE_ID_BROADCAST: () => DEVICE_ID_BROADCAST,
@@ -77,6 +72,7 @@ __export(objects_exports, {
   setNodeStatus: () => setNodeStatus,
   setRFRegionState: () => setRFRegionState
 });
+module.exports = __toCommonJS(objects_exports);
 var import_core = require("@zwave-js/core");
 var import_objects = require("alcalzone-shared/objects");
 var import_strings = require("alcalzone-shared/strings");
@@ -560,7 +556,6 @@ async function setRFRegionState(rfRegion) {
   });
   await import_global.Global.adapter.setStateAsync(stateId, rfRegion != null ? rfRegion : null, true);
 }
-module.exports = __toCommonJS(objects_exports);
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   DEVICE_ID_BROADCAST,

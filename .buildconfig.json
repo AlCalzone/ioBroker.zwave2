@@ -1,4 +1,5 @@
 {
 	"reactFormat": "esm",
-	"reactPattern": "src/{index,tab,log}.tsx"
+	"reactPattern": "src/{index,tab,log}.tsx",
+	"reactSplitting": true
 }
