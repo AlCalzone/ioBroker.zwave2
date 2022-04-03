@@ -1,0 +1,4 @@
+{
+	"reactPattern": "src/*.tsx",
+	"reactFormat": "esm"
+}

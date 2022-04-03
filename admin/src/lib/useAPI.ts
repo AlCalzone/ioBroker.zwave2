@@ -1,7 +1,7 @@
-import type { Connection } from "@iobroker/socket-client";
 import type { SecurityClass } from "@zwave-js/core";
 import { isArray } from "alcalzone-shared/typeguards";
 import { useConnection, useGlobals } from "iobroker-react/hooks";
+import type { Connection } from "iobroker-react/socket-client";
 import React from "react";
 import { v4 as uuidv4 } from "uuid";
 import type {
@@ -33,7 +33,7 @@ export interface Endpoint {
 	associations?: Record<number, AssociationAddress[]>;
 }
 
-export type SendToResult<T extends any = any> =
+export type SendToResult<T = any> =
 	| {
 			error: string | Error;
 			result?: undefined;
@@ -427,7 +427,7 @@ export class API {
 			this.namespace + ".Node_\u9999",
 			"device",
 		);
-		for (const _device of Object.values(devices)) {
+		for (const _device of Object.values<any>(devices)) {
 			const device: Device = { id: _device._id, value: _device };
 			const nodeId = _device.native.id as number;
 			if (options.ready) {
