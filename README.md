@@ -40,7 +40,7 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	Placeholder for next versions:
 	### __WORK IN PROGRESS__
 -->
-### __WORK IN PROGRESS__
+### 2.5.0 (2022-04-03)
 Updated `zwave-js` to `9.0.1`. This includes many changes, including the following:
 * Worked around an issue where certain 500-series controllers take too long to respond when attempting communication with unreachable nodes
 * Node queries now timeout faster if no response is received. This should avoid battery-powered nodes to go back to sleep mid-interview.
@@ -75,18 +75,6 @@ Updated `zwave-js` to `9.0.1`. This includes many changes, including the followi
 
 ### 2.4.2-beta.1 (2021-12-17)
 * Fixed the check for incomplete or incorrect value IDs
-
-### 2.4.2-beta.0 (2021-12-16)
-* Experimental: The handling of messages has been rewritten from scratch and simplified. This may cause some unintended behavior.
-* Avoid interruption of the communication with a node by other nodes requesting responses from the controller
-* Improved reliability of encrypted communication
-* Battery-powered devices are nore sent to sleep more reliably
-* Fixed encoding of some configuration parameters
-* Fix: Limit allowed Node.js versions to `12.22.2+`, `14.13.0+`, `16+` and forbid installation on development Node.js versions
-* Fixed some crashes
-* Fixed an issue where healing the network would fail due to a too low timeout
-* Improved detection of sticks that do not support soft reset
-* New and updated configuration files, see [here](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.8.0) and [here](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.9.0-beta.3)
 
 ## License
 
