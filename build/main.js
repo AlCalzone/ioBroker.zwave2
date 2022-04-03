@@ -21,18 +21,15 @@ var __spreadValues = (a, b) => {
   return a;
 };
 var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
-var __markAsModule = (target) => __defProp(target, "__esModule", { value: true });
-var __reExport = (target, module2, copyDefault, desc) => {
-  if (module2 && typeof module2 === "object" || typeof module2 === "function") {
-    for (let key of __getOwnPropNames(module2))
-      if (!__hasOwnProp.call(target, key) && (copyDefault || key !== "default"))
-        __defProp(target, key, { get: () => module2[key], enumerable: !(desc = __getOwnPropDesc(module2, key)) || desc.enumerable });
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
   }
-  return target;
+  return to;
 };
-var __toESM = (module2, isNodeMode) => {
-  return __reExport(__markAsModule(__defProp(module2 != null ? __create(__getProtoOf(module2)) : {}, "default", !isNodeMode && module2 && module2.__esModule ? { get: () => module2.default, enumerable: true } : { value: module2, enumerable: true })), module2);
-};
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target, mod));
 var utils = __toESM(require("@iobroker/adapter-core"));
 var import_core = require("@zwave-js/core");
 var import_log_transport_json = require("@zwave-js/log-transport-json");
@@ -92,13 +89,8 @@ class ZWave2 extends utils.Adapter {
       this.log.warn("No serial port configured. Please select one in the adapter settings!");
       return;
     }
-    const timeouts = this.config.driver_increaseTimeouts ? {
-      ack: 2e3,
-      response: 3e3
-    } : void 0;
-    const attempts = this.config.driver_increaseSendAttempts ? {
-      sendData: 5
-    } : void 0;
+    const timeouts = this.config.driver_increaseTimeouts ? { ack: 2e3 } : void 0;
+    const attempts = this.config.driver_increaseSendAttempts ? { sendData: 5 } : void 0;
     const securityKeys = {};
     const S0_Legacy = this.config.networkKey || this.config.networkKey_S0;
     if (typeof S0_Legacy === "string" && S0_Legacy.length === 32) {
@@ -180,6 +172,7 @@ class ZWave2 extends utils.Adapter {
       });
     } catch {
     }
+    this.driver.enableErrorReporting();
     try {
       await this.driver.start();
     } catch (e) {
@@ -281,7 +274,7 @@ class ZWave2 extends utils.Adapter {
     await (0, import_objects2.setNodeReady)(node.id, true);
     const allValueIDs = node.getDefinedValueIDs();
     await this.extendNodeObjectsAndStates(node, allValueIDs);
-    if (!node.isControllerNode()) {
+    if (!node.isControllerNode) {
       await this.cleanupNodeObjectsAndStates(node, allValueIDs);
     }
     await this.updateVirtualNodes();
@@ -352,7 +345,7 @@ class ZWave2 extends utils.Adapter {
   }
   async extendNodeObjectsAndStates(node, allValueIDs) {
     await (0, import_objects2.extendNode)(node);
-    if (node.isControllerNode())
+    if (node.isControllerNode)
       return;
     allValueIDs != null ? allValueIDs : allValueIDs = node.getDefinedValueIDs();
     const uniqueCCs = allValueIDs.map((vid) => [vid.commandClass, vid.commandClassName]).filter(([cc], index, arr) => arr.findIndex(([_cc]) => _cc === cc) === index);

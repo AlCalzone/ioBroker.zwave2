@@ -155,16 +155,11 @@ class ZWave2 extends utils.Adapter<true> {
 		// Apply adapter configuration
 		const timeouts: Partial<ZWaveOptions["timeouts"]> | undefined = this
 			.config.driver_increaseTimeouts
-			? {
-					ack: 2000,
-					response: 3000,
-			  }
+			? { ack: 2000 }
 			: undefined;
 		const attempts: Partial<ZWaveOptions["attempts"]> | undefined = this
 			.config.driver_increaseSendAttempts
-			? {
-					sendData: 5,
-			  }
+			? { sendData: 5 }
 			: undefined;
 
 		const securityKeys: ZWaveOptions["securityKeys"] = {};
@@ -312,6 +307,8 @@ class ZWave2 extends utils.Adapter<true> {
 		} catch {
 			// ignore
 		}
+
+		this.driver.enableErrorReporting();
 
 		try {
 			await this.driver.start();
@@ -483,7 +480,7 @@ class ZWave2 extends utils.Adapter<true> {
 		const allValueIDs = node.getDefinedValueIDs();
 		await this.extendNodeObjectsAndStates(node, allValueIDs);
 		// The controller node has no states and channels we need to clean up
-		if (!node.isControllerNode()) {
+		if (!node.isControllerNode) {
 			await this.cleanupNodeObjectsAndStates(node, allValueIDs);
 		}
 
@@ -619,7 +616,7 @@ class ZWave2 extends utils.Adapter<true> {
 		await extendNode(node);
 
 		// Skip channel and state creation for the controller node
-		if (node.isControllerNode()) return;
+		if (node.isControllerNode) return;
 
 		// Collect all objects and states we have values for
 		allValueIDs ??= node.getDefinedValueIDs();
