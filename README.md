@@ -41,10 +41,15 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	### __WORK IN PROGRESS__
 -->
 ### __WORK IN PROGRESS__
-Updated `zwave-js` to `9.0.0-beta.3`. This includes the following changes:
+Updated `zwave-js` to `9.0.1`. This includes many changes, including the following:
 * Worked around an issue where certain 500-series controllers take too long to respond when attempting communication with unreachable nodes
 * Node queries now timeout faster if no response is received. This should avoid battery-powered nodes to go back to sleep mid-interview.
 * Add support for `Irrigation CC`
+* The legacy network cache file `<homeid>.json` was converted to an appendonly `.jsonl` file in order to prevent data loss
+* Almost all CC API methods now validate their arguments, making it safer to execute custom commands from user code
+* User codes and network keys are no longer included in logfiles
+* Support for legacy devices which only support the obsolete `Multi Channel CC V1`
+* New and updated configuration files, see [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) for details
 
 ### 2.4.5 (2022-02-20)
 * Update `zwave-js` to `8.11.6`
