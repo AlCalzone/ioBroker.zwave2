@@ -238,8 +238,7 @@
                 "name": "The installed version of the Z-Wave JS configuration DB",
                 "type": "string",
                 "read": true,
-                "write": false,
-                "def": false
+                "write": false
             },
             "native": {}
         },
@@ -251,8 +250,7 @@
                 "name": "The version of an available update for the Z-Wave JS configuration DB",
                 "type": "string",
                 "read": true,
-                "write": false,
-                "def": false
+                "write": false
             },
             "native": {}
         },
