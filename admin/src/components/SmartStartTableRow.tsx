@@ -6,8 +6,6 @@ import React from "react";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
-import { isValidDSK } from "@zwave-js/core/build/security/DSK";
-import { SecurityClass } from "@zwave-js/core/build/security/SecurityClass";
 import { arrayEquals } from "../lib/tools";
 import Tooltip from "@material-ui/core/Tooltip";
 import Button from "@material-ui/core/Button";
@@ -19,6 +17,7 @@ import clsx from "clsx";
 import { getErrorMessage } from "../../../src/lib/shared";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import Typography from "@material-ui/core/Typography";
+import { isValidDSK, SecurityClass } from "@zwave-js/core/safe";
 
 const useStyles = makeStyles((theme) => ({
 	cell: {
