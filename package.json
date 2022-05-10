@@ -41,10 +41,10 @@
     "zwave-js": "^9.2.2"
   },
   "devDependencies": {
-    "@alcalzone/release-script": "~3.5.8",
-    "@alcalzone/release-script-plugin-iobroker": "~3.5.7",
-    "@alcalzone/release-script-plugin-license": "~3.5.8",
-    "@alcalzone/release-script-plugin-manual-review": "~3.5.3",
+    "@alcalzone/release-script": "~3.5.9",
+    "@alcalzone/release-script-plugin-iobroker": "~3.5.9",
+    "@alcalzone/release-script-plugin-license": "~3.5.9",
+    "@alcalzone/release-script-plugin-manual-review": "~3.5.9",
     "@iobroker/adapter-dev": "git+https://git@github.com/ioBroker/adapter-dev.git#e04da4c",
     "@iobroker/testing": "^2.5.6",
     "@material-ui/core": "^4.12.3",
