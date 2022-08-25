@@ -88,6 +88,15 @@ nano /etc/pve/lxc/XXX.conf
 
 und die folgenden Zeilen einfügen, dabei falls nötig die 7 mit der Zahl aus dem vorherigen Schritt und `/dev/zwave` mit dem tatsächlichen Pfad ersetzen.
 
+**Proxmox v7 und neuer:**
+
+```
+lxc.cgroup2.devices.allow: c 7:* rwm
+lxc.mount.entry: /dev/zwave dev/zwave none bind,optional,create=file
+```
+
+**Ältere Versionen:**
+
 ```
 lxc.cgroup.devices.allow: c 7:* rwm
 lxc.mount.entry: /dev/zwave dev/zwave none bind,optional,create=file
