@@ -48,7 +48,7 @@
     "@alcalzone/release-script-plugin-iobroker": "~3.5.9",
     "@alcalzone/release-script-plugin-license": "~3.5.9",
     "@alcalzone/release-script-plugin-manual-review": "~3.5.9",
-    "@iobroker/adapter-dev": "git+https://git@github.com/ioBroker/adapter-dev.git#e04da4c",
+    "@iobroker/adapter-dev": "^1.0.1",
     "@iobroker/testing": "^2.5.6",
     "@material-ui/core": "^4.12.3",
     "@material-ui/icons": "^4.11.2",

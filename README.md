@@ -40,6 +40,18 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	Placeholder for next versions:
 	### __WORK IN PROGRESS__
 -->
+### __WORK IN PROGRESS__
+Updated `zwave-js` to `10.0.0`. This includes a ton of changes, including:
+* Dropped support for Node.js 12
+* Several improvements to secure communication, especially with Security S2
+* Changed how nodes are sent to sleep, preventing the queue from stalling when the node is already sleeping
+* Changed how `Supervision CC Reports` are sent out, preventing the queue from stalling
+* Obfuscated more sensitive data in logfiles
+* Fixed a bug where commands that should be discarded would still store their values
+* Improved the handling of incoming commands which are received out of order
+* Made it possible to disable SmartStart provisioning entries. When excluding a node, its provisioning entry will now be disabled instead of removed.
+* New and updated configuration files, see [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) for details
+
 ### 2.6.0 (2022-05-10)
 Updated `zwave-js` to `9.2.2`. Notable changes include:
 * The `doorStatus/latchStatus/boltStatus` states are no longer created if unsupported by the door lock
