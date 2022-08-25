@@ -1,31 +1,31 @@
-import { makeStyles } from "@material-ui/core/styles";
-import { useAdapter, useDialogs, useI18n } from "iobroker-react/hooks";
-import React from "react";
+import Button from "@material-ui/core/Button";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogTitle from "@material-ui/core/DialogTitle";
 import Paper from "@material-ui/core/Paper";
-import TableContainer from "@material-ui/core/TableContainer";
+import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
-import TableRow from "@material-ui/core/TableRow";
-import TableHead from "@material-ui/core/TableHead";
-import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
-import { SmartStartTableRow } from "../components/SmartStartTableRow";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Typography from "@material-ui/core/Typography";
+import AddAPhotoIcon from "@material-ui/icons/AddAPhoto";
+import Alert from "@material-ui/lab/Alert";
+import type { SecurityClass } from "@zwave-js/core";
+import { useAdapter, useDialogs, useI18n } from "iobroker-react/hooks";
+import { useCallback, useEffect, useState } from "react";
 import {
 	ProvisioningEntryStatus,
 	SmartStartProvisioningEntry,
 } from "zwave-js/safe";
-import { Device, useAPI } from "../lib/useAPI";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import type { SecurityClass } from "@zwave-js/core";
-import Alert from "@material-ui/lab/Alert";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import AddAPhotoIcon from "@material-ui/icons/AddAPhoto";
-import Dialog from "@material-ui/core/Dialog";
-import { QRScanner } from "../components/QRScanner";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogActions from "@material-ui/core/DialogActions";
 import { Message, NotRunning } from "../components/Messages";
+import { QRScanner } from "../components/QRScanner";
+import { SmartStartTableRow } from "../components/SmartStartTableRow";
+import { Device, useAPI } from "../lib/useAPI";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -58,15 +58,14 @@ export const SmartStart: React.FC<SmartStartProps> = (props) => {
 
 	// Check for SmartStart support
 	const [supportsSmartStart, setSupportsSmartStart] =
-		React.useState<boolean>(false);
-	React.useEffect(() => {
+		useState<boolean>(false);
+	useEffect(() => {
 		if (driverReady) api.supportsSmartStart().then(setSupportsSmartStart);
 	}, [driverReady, api]);
 
-	const [entries, setEntries] =
-		React.useState<SmartStartProvisioningEntry[]>();
+	const [entries, setEntries] = useState<SmartStartProvisioningEntry[]>();
 
-	const updateEntries = React.useCallback(async () => {
+	const updateEntries = useCallback(async () => {
 		const entries = await api.getProvisioningEntries();
 		entries.sort((a, b) => {
 			const nodeIdA = a.nodeId || 999999;
@@ -79,11 +78,11 @@ export const SmartStart: React.FC<SmartStartProps> = (props) => {
 	}, [api, setEntries]);
 
 	// Update entries initially and when the devices change
-	React.useEffect(() => {
+	useEffect(() => {
 		updateEntries();
 	}, [api, props.devices]);
 
-	const provisionNode = React.useCallback(
+	const provisionNode = useCallback(
 		async (
 			status: ProvisioningEntryStatus,
 			dsk: string,
@@ -101,7 +100,7 @@ export const SmartStart: React.FC<SmartStartProps> = (props) => {
 		[api, updateEntries],
 	);
 
-	const unprovisionNode = React.useCallback(
+	const unprovisionNode = useCallback(
 		async (dsk: string) => {
 			const result = await showModal(
 				_("Unprovision node?"),
@@ -117,7 +116,7 @@ export const SmartStart: React.FC<SmartStartProps> = (props) => {
 		[api, updateEntries],
 	);
 
-	const reprovisionNode = React.useCallback(
+	const reprovisionNode = useCallback(
 		async (
 			status: ProvisioningEntryStatus,
 			oldDsk: string,
@@ -139,12 +138,12 @@ export const SmartStart: React.FC<SmartStartProps> = (props) => {
 		[api, updateEntries],
 	);
 
-	const [scannerNotification, setScannerNotification] = React.useState<{
+	const [scannerNotification, setScannerNotification] = useState<{
 		message: string;
 		severity: "success" | "info" | "warning" | "error";
 	}>();
-	const [lastScanned, setLastScanned] = React.useState<string>();
-	const [showQRCodeScanner, setShowQRCodeScanner] = React.useState(false);
+	const [lastScanned, setLastScanned] = useState<string>();
+	const [showQRCodeScanner, setShowQRCodeScanner] = useState(false);
 	const closeQRCodeScanner = () => {
 		setShowQRCodeScanner(false);
 		setTimeout(() => setScannerNotification(undefined), 250);

@@ -1,19 +1,19 @@
 import { AppBar, Tab, Tabs } from "@material-ui/core";
-import React from "react";
-import ReactDOM from "react-dom";
 import { IoBrokerApp } from "iobroker-react/app";
+import { useI18n } from "iobroker-react/hooks";
 import type { Translations } from "iobroker-react/i18n";
+import ReactDOM from "react-dom";
 import { TabPanel } from "./components/TabPanel";
 import { Associations } from "./pages/Associations";
 import { Devices } from "./pages/Devices";
 import { NetworkMap } from "./pages/NetworkMap";
-import { useI18n } from "iobroker-react/hooks";
 
+import { memo, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { ZWaveLogs } from "./pages/ZWaveLogs";
 import { useDevices } from "./lib/useDevices";
 import { Groups } from "./pages/Groups";
 import { SmartStart } from "./pages/SmartStart";
+import { ZWaveLogs } from "./pages/ZWaveLogs";
 
 function ErrorFallback({ error, resetErrorBoundary }) {
 	return (
@@ -38,8 +38,8 @@ const translations: Translations = {
 	"zh-cn": require("./i18n/zh-cn.json"),
 };
 
-const Root: React.FC = React.memo(() => {
-	const [value, setValue] = React.useState(0);
+const Root: React.FC = memo(() => {
+	const [value, setValue] = useState(0);
 	const { translate: _ } = useI18n();
 
 	const handleTabChange = (

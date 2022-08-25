@@ -1,18 +1,18 @@
-import React from "react";
-import type { AssociationGroup } from "@zwave-js/cc/safe";
-import { padStart } from "alcalzone-shared/strings";
-import { useI18n } from "iobroker-react/hooks";
-import { Dropdown, DropdownOption } from "iobroker-react/components";
-import ButtonGroup from "@material-ui/core/ButtonGroup";
-import Tooltip from "@material-ui/core/Tooltip";
 import Button from "@material-ui/core/Button";
-import AddIcon from "@material-ui/icons/Add";
-import SaveIcon from "@material-ui/icons/Save";
-import RestoreIcon from "@material-ui/icons/Restore";
-import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+import ButtonGroup from "@material-ui/core/ButtonGroup";
+import { makeStyles, styled } from "@material-ui/core/styles";
 import MuiTableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
-import { makeStyles, styled } from "@material-ui/core/styles";
+import Tooltip from "@material-ui/core/Tooltip";
+import AddIcon from "@material-ui/icons/Add";
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+import RestoreIcon from "@material-ui/icons/Restore";
+import SaveIcon from "@material-ui/icons/Save";
+import type { AssociationGroup } from "@zwave-js/cc/safe";
+import { padStart } from "alcalzone-shared/strings";
+import { Dropdown, DropdownOption } from "iobroker-react/components";
+import { useI18n } from "iobroker-react/hooks";
+import { useEffect, useMemo, useState } from "react";
 import { getErrorMessage } from "../../../src/lib/shared";
 
 export interface AssociationRowProps {
@@ -54,21 +54,19 @@ const TableCell = styled(MuiTableCell)(({ theme }) => ({
 export const AssociationRow: React.FC<AssociationRowProps> = (props) => {
 	const { translate: _ } = useI18n();
 
-	const [sourceEndpoint, setSourceEndpoint] = React.useState(
-		props.sourceEndpoint,
-	);
-	const [group, setGroup] = React.useState(props.group);
-	const [nodeId, setNodeId] = React.useState(props.nodeId);
-	const [endpoint, setEndpoint] = React.useState(props.endpoint);
+	const [sourceEndpoint, setSourceEndpoint] = useState(props.sourceEndpoint);
+	const [group, setGroup] = useState(props.group);
+	const [nodeId, setNodeId] = useState(props.nodeId);
+	const [endpoint, setEndpoint] = useState(props.endpoint);
 
-	const [isValid, setValid] = React.useState(false);
-	const [hasChanges, setHasChanges] = React.useState(false);
-	const [isBusy, setBusy] = React.useState(false);
+	const [isValid, setValid] = useState(false);
+	const [hasChanges, setHasChanges] = useState(false);
+	const [isBusy, setBusy] = useState(false);
 
 	const groups =
 		(sourceEndpoint != undefined && props.groups.get(sourceEndpoint)) || [];
 
-	React.useEffect(() => {
+	useEffect(() => {
 		setHasChanges(
 			sourceEndpoint !== props.sourceEndpoint ||
 				group !== props.group ||
@@ -98,7 +96,7 @@ export const AssociationRow: React.FC<AssociationRowProps> = (props) => {
 	}));
 
 	// Update the source endpoint dropdown when necessary
-	const sourceEndpointOptions = React.useMemo(() => {
+	const sourceEndpointOptions = useMemo(() => {
 		const newEndpointOptions: DropdownOption[] = [
 			{ value: 0, label: _("Root device") },
 		];
@@ -114,7 +112,7 @@ export const AssociationRow: React.FC<AssociationRowProps> = (props) => {
 	}, [props.endpoints]);
 
 	// Update the target endpoint dropdown when necessary
-	const targetEndpointOptions = React.useMemo(() => {
+	const targetEndpointOptions = useMemo(() => {
 		const endpointIndizes =
 			props.nodes.find((n) => n.nodeId === nodeId)?.endpointIndizes ?? [];
 		// The endpoint indizes don't include the root endpoint, so we need to add it manually

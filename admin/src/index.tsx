@@ -1,21 +1,21 @@
-import React from "react";
 import ReactDOM from "react-dom";
 
 // import { OnSettingsChangedCallback } from "./pages/settings";
-import { SettingsApp } from "iobroker-react/app";
-import { useSettings, useI18n } from "iobroker-react/hooks";
-import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
-import SyncIcon from "@material-ui/icons/Sync";
 import Button from "@material-ui/core/Button";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import { UpdateDeviceConfig } from "./components/UpdateDeviceConfig";
-import { TooltipIcon } from "./components/TooltipIcon";
+import Grid from "@material-ui/core/Grid";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
+import SyncIcon from "@material-ui/icons/Sync";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import { SettingsApp } from "iobroker-react/app";
+import { useI18n, useSettings } from "iobroker-react/hooks";
 import type { Translations } from "iobroker-react/i18n";
+import { Fragment, memo, useEffect, useState } from "react";
+import { TooltipIcon } from "./components/TooltipIcon";
+import { UpdateDeviceConfig } from "./components/UpdateDeviceConfig";
 import { useAPI } from "./lib/useAPI";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -65,7 +65,7 @@ const networkKeyFields = [
 	[7 /* SecurityClass.S0_Legacy */, "networkKey_S0", "S0 (Legacy)"],
 ] as const;
 
-const SettingsPageContent: React.FC = React.memo(() => {
+const SettingsPageContent: React.FC = memo(() => {
 	const { settings, originalSettings, setSettings } =
 		useSettings<ioBroker.AdapterConfig>();
 	const classes = useStyles();
@@ -132,8 +132,8 @@ const SettingsPageContent: React.FC = React.memo(() => {
 		handleChange(which, pastedData);
 	};
 
-	const [serialPorts, setSerialPorts] = React.useState<string[]>([]);
-	React.useEffect(() => {
+	const [serialPorts, setSerialPorts] = useState<string[]>([]);
+	useEffect(() => {
 		api.listSerialPorts()
 			.then((ports) => {
 				if (ports.length) {
@@ -279,9 +279,7 @@ const SettingsPageContent: React.FC = React.memo(() => {
 
 					{networkKeyFields.map(
 						([securityClass, property, label]) => (
-							<React.Fragment
-								key={`security-class-${securityClass}`}
-							>
+							<Fragment key={`security-class-${securityClass}`}>
 								<TextField
 									className={classes.keyGrid_TextField}
 									label={label}
@@ -320,7 +318,7 @@ const SettingsPageContent: React.FC = React.memo(() => {
 								>
 									{_("Generate key")}
 								</Button>
-							</React.Fragment>
+							</Fragment>
 						),
 					)}
 				</Grid>

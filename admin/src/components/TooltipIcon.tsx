@@ -1,7 +1,6 @@
-import Tooltip from "@material-ui/core/Tooltip";
-import React from "react";
-import LiveHelpIcon from "@material-ui/icons/LiveHelp";
 import { makeStyles } from "@material-ui/core/styles";
+import Tooltip from "@material-ui/core/Tooltip";
+import LiveHelpIcon from "@material-ui/icons/LiveHelp";
 
 const useStyles = makeStyles((theme) => ({
 	tooltip: {

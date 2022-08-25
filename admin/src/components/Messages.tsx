@@ -1,6 +1,5 @@
-import React from "react";
-import { useI18n } from "iobroker-react/hooks";
 import Typography from "@material-ui/core/Typography";
+import { useI18n } from "iobroker-react/hooks";
 
 export const Message: React.FC = (props) => {
 	return (

@@ -1,23 +1,23 @@
+import Button from "@material-ui/core/Button";
+import ButtonGroup from "@material-ui/core/ButtonGroup";
+import { makeStyles } from "@material-ui/core/styles";
+import Tooltip from "@material-ui/core/Tooltip";
+import CloudDownloadIcon from "@material-ui/icons/CloudDownload";
+import GetAppIcon from "@material-ui/icons/GetApp";
 import LaunchIcon from "@material-ui/icons/Launch";
-import React from "react";
+import LockIcon from "@material-ui/icons/Lock";
+import PauseIcon from "@material-ui/icons/Pause";
+import PlayArrowIcon from "@material-ui/icons/PlayArrow";
+import ansi from "ansicolor";
+import clsx from "clsx";
+import { useGlobals, useI18n } from "iobroker-react/hooks";
+import throttle from "lodash/throttle";
+import { useCallback, useEffect, useRef, useState } from "react";
+import AutoSizer from "react-virtualized-auto-sizer";
+import { VariableSizeList as Window } from "react-window";
+import type { PushMessage } from "../../../src/lib/shared";
 import { useAPI } from "../lib/useAPI";
 import { usePush } from "../lib/usePush";
-import type { PushMessage } from "../../../src/lib/shared";
-import ansi from "ansicolor";
-import { makeStyles } from "@material-ui/core/styles";
-import PlayArrowIcon from "@material-ui/icons/PlayArrow";
-import PauseIcon from "@material-ui/icons/Pause";
-import ButtonGroup from "@material-ui/core/ButtonGroup";
-import Button from "@material-ui/core/Button";
-import GetAppIcon from "@material-ui/icons/GetApp";
-import LockIcon from "@material-ui/icons/Lock";
-import CloudDownloadIcon from "@material-ui/icons/CloudDownload";
-import { useGlobals, useI18n } from "iobroker-react/hooks";
-import clsx from "clsx";
-import Tooltip from "@material-ui/core/Tooltip";
-import { VariableSizeList as Window } from "react-window";
-import AutoSizer from "react-virtualized-auto-sizer";
-import throttle from "lodash/throttle";
 
 const lineHeight = 18;
 
@@ -64,9 +64,9 @@ export const ZWaveLogs: React.FC = () => {
 	const { translate: _ } = useI18n();
 	const { instance } = useGlobals();
 
-	const windowRef = React.useRef<Window>(null);
+	const windowRef = useRef<Window>(null);
 
-	const [logs, setLogs] = React.useState<string[]>([]);
+	const [logs, setLogs] = useState<string[]>([]);
 	const addLog = (log: string) => {
 		setLogs((logs) => {
 			return [...logs, log];
@@ -83,18 +83,18 @@ export const ZWaveLogs: React.FC = () => {
 		);
 	}
 
-	const [enabled, setEnabled] = React.useState(false);
-	const [autoScroll, setAutoScroll] = React.useState(true);
+	const [enabled, setEnabled] = useState(false);
+	const [autoScroll, setAutoScroll] = useState(true);
 	const scrollToBottom = throttle(() => {
 		windowRef.current?.scrollToItem(logs.length - 1, "end");
 	}, 100);
-	React.useEffect(() => {
+	useEffect(() => {
 		if (autoScroll && logs.length > 0) {
 			scrollToBottom();
 		}
 	}, [logs.length, autoScroll]);
 
-	const onPush = React.useCallback(
+	const onPush = useCallback(
 		(payload: PushMessage) => {
 			if (payload.type === "log") {
 				const pseudoHtml = ansi.parse(payload.info.message).spans;
@@ -112,14 +112,14 @@ export const ZWaveLogs: React.FC = () => {
 	usePush(onPush);
 
 	// Enable subscribing and unsubscribing
-	const subscribeLogs = React.useCallback(() => {
+	const subscribeLogs = useCallback(() => {
 		if (enabled) return;
 		api.subscribeLogs().then(() => {
 			addLog(_("Subscribed to logs..."));
 			setEnabled(true);
 		});
 	}, [api, enabled]);
-	const unsubscribeLogs = React.useCallback(() => {
+	const unsubscribeLogs = useCallback(() => {
 		if (!enabled) return;
 		api.unsubscribeLogs().then(() => {
 			addLog(_("Unsubscribed logs..."));
@@ -127,13 +127,13 @@ export const ZWaveLogs: React.FC = () => {
 		});
 	}, [api, enabled]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		subscribeLogs();
 		return unsubscribeLogs;
 	}, []);
 
 	// Enable downloading
-	const downloadLogs = React.useCallback(() => {
+	const downloadLogs = useCallback(() => {
 		const element = document.createElement("a");
 		const plaintext = logs.join("\n").replace(/\<.*?\>/g, "");
 		const file = new Blob([plaintext], { type: "text/plain" });
@@ -147,7 +147,7 @@ export const ZWaveLogs: React.FC = () => {
 		element.click();
 	}, [logs]);
 
-	const openWindow = React.useCallback(() => {
+	const openWindow = useCallback(() => {
 		window.open(
 			"log_window.html",
 			`zwave_log_${instance}`,

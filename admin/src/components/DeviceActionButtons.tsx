@@ -1,11 +1,10 @@
 import Button from "@material-ui/core/Button";
-import React from "react";
-import PlusIcon from "@material-ui/icons/Add";
-import MinusIcon from "@material-ui/icons/Remove";
-import NetworkCheckIcon from "@material-ui/icons/NetworkCheck";
-import { useI18n } from "iobroker-react/hooks";
 import { makeStyles, Theme } from "@material-ui/core/styles";
+import PlusIcon from "@material-ui/icons/Add";
+import NetworkCheckIcon from "@material-ui/icons/NetworkCheck";
+import MinusIcon from "@material-ui/icons/Remove";
 import clsx from "clsx";
+import { useI18n } from "iobroker-react/hooks";
 
 interface DeviceActionButtonsProps {
 	state: DeviceActionButtonsState;

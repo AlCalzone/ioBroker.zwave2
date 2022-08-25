@@ -1,14 +1,14 @@
-import React from "react";
-import { useI18n } from "iobroker-react/hooks";
-import type { RFRegion } from "zwave-js";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
+import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
-import Button from "@material-ui/core/Button";
-import { Dropdown } from "iobroker-react/components";
-import Typography from "@material-ui/core/Typography";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogTitle from "@material-ui/core/DialogTitle";
 import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+import { Dropdown } from "iobroker-react/components";
+import { useI18n } from "iobroker-react/hooks";
+import { useMemo, useState } from "react";
+import type { RFRegion } from "zwave-js";
 
 export interface SetRFRegionDialogContentProps {
 	open: boolean;
@@ -34,9 +34,9 @@ export const SetRFRegionDialog: React.FC<SetRFRegionDialogContentProps> = (
 
 	const classes = useStyles();
 
-	const [region, setRegion] = React.useState<RFRegion>(props.region);
+	const [region, setRegion] = useState<RFRegion>(props.region);
 
-	const options = React.useMemo(() => {
+	const options = useMemo(() => {
 		return Object.entries(props.regions).map(([key, value]) => ({
 			value: key,
 			label: value,

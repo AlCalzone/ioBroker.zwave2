@@ -1,14 +1,14 @@
-import ToggleButton from "@material-ui/lab/ToggleButton";
-import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
+import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
 import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
 import VideocamIcon from "@material-ui/icons/Videocam";
-import { makeStyles } from "@material-ui/core/styles";
-import React from "react";
-import { useAnimationFrame } from "../lib/useAnimationFrame";
-import parseQR from "jsqr-es6";
-import { useI18n } from "iobroker-react/hooks";
-import Typography from "@material-ui/core/Typography";
+import ToggleButton from "@material-ui/lab/ToggleButton";
+import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import clsx from "clsx";
+import { useI18n } from "iobroker-react/hooks";
+import parseQR from "jsqr-es6";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useAnimationFrame } from "../lib/useAnimationFrame";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -94,27 +94,27 @@ export const QRScannerVideo: React.FC<QRScannerVideoProps> = (props) => {
 	const classes = useStyles();
 	const { translate: _ } = useI18n();
 
-	const [active, setActive] = React.useState(false);
-	const [failed, setFailed] = React.useState(false);
-	const video = React.useRef<HTMLVideoElement>();
+	const [active, setActive] = useState(false);
+	const [failed, setFailed] = useState(false);
+	const video = useRef<HTMLVideoElement>();
 
-	const previewCanvasRef = React.useRef<HTMLCanvasElement>(null);
-	const previewContextRef = React.useRef<CanvasRenderingContext2D>();
-	const detectionCanvasRef = React.useRef<HTMLCanvasElement>(null);
-	const detectionContextRef = React.useRef<CanvasRenderingContext2D>();
+	const previewCanvasRef = useRef<HTMLCanvasElement>(null);
+	const previewContextRef = useRef<CanvasRenderingContext2D>();
+	const detectionCanvasRef = useRef<HTMLCanvasElement>(null);
+	const detectionContextRef = useRef<CanvasRenderingContext2D>();
 
-	const [qr, setQr] = React.useState<string>();
-	React.useEffect(() => {
+	const [qr, setQr] = useState<string>();
+	useEffect(() => {
 		if (qr) props.onDetect(qr);
 	}, [qr]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!previewCanvasRef.current) return;
 		previewContextRef.current =
 			previewCanvasRef.current.getContext("2d") ?? undefined;
 	}, [previewCanvasRef.current]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!detectionCanvasRef.current) return;
 		detectionContextRef.current =
 			detectionCanvasRef.current.getContext("2d") ?? undefined;
@@ -251,7 +251,7 @@ export const QRScannerVideo: React.FC<QRScannerVideoProps> = (props) => {
 		detectionArea,
 	]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		video.current = document.createElement("video");
 		let stream: MediaStream | undefined;
 
@@ -294,15 +294,15 @@ export const QRScannerImage: React.FC<QRScannerImageProps> = (props) => {
 	const classes = useStyles();
 	const { translate: _ } = useI18n();
 
-	const fileInputRef = React.useRef<HTMLInputElement>(null);
-	const imageRef = React.useRef<HTMLImageElement>(null);
+	const fileInputRef = useRef<HTMLInputElement>(null);
+	const imageRef = useRef<HTMLImageElement>(null);
 
-	const handleLabelClick = React.useCallback(() => {
+	const handleLabelClick = useCallback(() => {
 		fileInputRef.current?.click();
 	}, [fileInputRef.current]);
 
-	const [fileURL, setFileURL] = React.useState<string>();
-	const handleFileChange = React.useCallback(
+	const [fileURL, setFileURL] = useState<string>();
+	const handleFileChange = useCallback(
 		(e: React.ChangeEvent<HTMLInputElement>) => {
 			const file = e.target.files?.[0];
 			if (!file) return;
@@ -310,13 +310,11 @@ export const QRScannerImage: React.FC<QRScannerImageProps> = (props) => {
 		},
 		[setFileURL],
 	);
-	const [failed, setFailed] = React.useState(false);
+	const [failed, setFailed] = useState(false);
 
-	const [dropState, setDropState] = React.useState<"idle" | "ok" | "nok">(
-		"idle",
-	);
+	const [dropState, setDropState] = useState<"idle" | "ok" | "nok">("idle");
 
-	const handleDragOver = React.useCallback(
+	const handleDragOver = useCallback(
 		(e: React.DragEvent<HTMLDivElement>) => {
 			e.preventDefault();
 
@@ -333,14 +331,14 @@ export const QRScannerImage: React.FC<QRScannerImageProps> = (props) => {
 		},
 		[setDropState],
 	);
-	const handleDragLeave = React.useCallback(
+	const handleDragLeave = useCallback(
 		(e: React.DragEvent<HTMLDivElement>) => {
 			e.preventDefault();
 			setDropState("idle");
 		},
 		[setDropState],
 	);
-	const handleDrop = React.useCallback(
+	const handleDrop = useCallback(
 		(e: React.DragEvent<HTMLDivElement>) => {
 			e.preventDefault();
 			if (dropState !== "ok") return;
@@ -355,29 +353,29 @@ export const QRScannerImage: React.FC<QRScannerImageProps> = (props) => {
 		[dropState, imageRef.current],
 	);
 
-	const previewCanvasRef = React.useRef<HTMLCanvasElement>(null);
-	const previewContextRef = React.useRef<CanvasRenderingContext2D>();
-	const detectionCanvasRef = React.useRef<HTMLCanvasElement>(null);
-	const detectionContextRef = React.useRef<CanvasRenderingContext2D>();
+	const previewCanvasRef = useRef<HTMLCanvasElement>(null);
+	const previewContextRef = useRef<CanvasRenderingContext2D>();
+	const detectionCanvasRef = useRef<HTMLCanvasElement>(null);
+	const detectionContextRef = useRef<CanvasRenderingContext2D>();
 
-	const [qr, setQr] = React.useState<string>();
-	React.useEffect(() => {
+	const [qr, setQr] = useState<string>();
+	useEffect(() => {
 		if (qr) props.onDetect(qr);
 	}, [qr]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!previewCanvasRef.current) return;
 		previewContextRef.current =
 			previewCanvasRef.current.getContext("2d") ?? undefined;
 	}, [previewCanvasRef.current]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!detectionCanvasRef.current) return;
 		detectionContextRef.current =
 			detectionCanvasRef.current.getContext("2d") ?? undefined;
 	}, [detectionCanvasRef.current]);
 
-	const handleImageLoad = React.useCallback(() => {
+	const handleImageLoad = useCallback(() => {
 		if (
 			!imageRef.current ||
 			!previewCanvasRef.current ||
@@ -446,7 +444,7 @@ export const QRScannerImage: React.FC<QRScannerImageProps> = (props) => {
 		setFailed,
 	]);
 
-	const handleImageError = React.useCallback(() => {
+	const handleImageError = useCallback(() => {
 		setFailed(true);
 	}, [setFailed]);
 
@@ -505,7 +503,7 @@ export const QRScanner: React.FC<QRScannerProps> = (props) => {
 	const classes = useStyles();
 	const { translate: _ } = useI18n();
 
-	const [mode, setMode] = React.useState<"image" | "video">("image");
+	const [mode, setMode] = useState<"image" | "video">("image");
 
 	const handleChange = (
 		event: React.MouseEvent<HTMLElement>,

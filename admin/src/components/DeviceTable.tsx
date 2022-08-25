@@ -7,7 +7,6 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import { useI18n } from "iobroker-react/hooks";
-import React from "react";
 import type { NetworkHealStatus } from "../../../src/lib/shared";
 import type { Device } from "../lib/useAPI";
 import { DeviceTableRow } from "./DeviceTableRow";

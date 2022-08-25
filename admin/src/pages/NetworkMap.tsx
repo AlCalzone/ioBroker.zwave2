@@ -1,9 +1,9 @@
-import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import { useAdapter } from "iobroker-react/hooks";
+import { useEffect } from "react";
 import { NotRunning } from "../components/Messages";
 import { drawNetworkMap } from "../lib/networkMap";
-import { useAdapter } from "iobroker-react/hooks";
 import { useAPI } from "../lib/useAPI";
-import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
 	map: {
@@ -18,7 +18,7 @@ export const NetworkMap: React.FC = () => {
 	const api = useAPI();
 	const classes = useStyles();
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (adapterRunning && driverReady) {
 			api.getNetworkMap()
 				.then((nodes) => {

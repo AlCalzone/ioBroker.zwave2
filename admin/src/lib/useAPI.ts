@@ -3,7 +3,7 @@ import type { SecurityClass } from "@zwave-js/core";
 import { isArray } from "alcalzone-shared/typeguards";
 import { useConnection, useGlobals } from "iobroker-react/hooks";
 import type { Connection } from "iobroker-react/socket-client";
-import React from "react";
+import { useMemo } from "react";
 import { v4 as uuidv4 } from "uuid";
 import type {
 	InclusionGrant,
@@ -543,7 +543,7 @@ export class API {
 export function useAPI(): API {
 	const { namespace } = useGlobals();
 	const connection = useConnection();
-	const api = React.useMemo(
+	const api = useMemo(
 		() => new API(namespace, connection),
 		[connection, namespace],
 	);

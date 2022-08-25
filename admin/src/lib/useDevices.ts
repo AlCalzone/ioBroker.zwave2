@@ -1,12 +1,12 @@
 import { useConnection, useGlobals } from "iobroker-react/hooks";
-import React from "react";
+import { createContext, useEffect, useState } from "react";
 import { Device, useAPI } from "./useAPI";
 export interface DevicesContextData {
 	devices: Record<number, Device>;
 	updateDevices(): Promise<void>;
 }
 
-export const DevicesContext = React.createContext<DevicesContextData>({
+export const DevicesContext = createContext<DevicesContextData>({
 	devices: {},
 	// eslint-disable-next-line @typescript-eslint/no-empty-function
 	async updateDevices() {},
@@ -21,7 +21,7 @@ export function useDevices(): readonly [
 	() => Promise<void>,
 ] {
 	const connection = useConnection();
-	const [devices, setDevices] = React.useState<Record<number, Device>>();
+	const [devices, setDevices] = useState<Record<number, Device>>();
 	const { namespace } = useGlobals();
 	const api = useAPI();
 
@@ -119,7 +119,7 @@ export function useDevices(): readonly [
 		);
 	}
 
-	React.useEffect(() => {
+	useEffect(() => {
 		(async () => {
 			// Load devices initially
 			await updateDevices();

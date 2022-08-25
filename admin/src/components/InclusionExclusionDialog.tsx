@@ -1,23 +1,23 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import Button from "@material-ui/core/Button";
+import Checkbox from "@material-ui/core/Checkbox";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import { green, yellow } from "@material-ui/core/colors";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 import { makeStyles } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
-import { useGlobals, useI18n, useIoBrokerObject } from "iobroker-react/hooks";
-import React from "react";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import WarningIcon from "@material-ui/icons/Warning";
-import { green, yellow } from "@material-ui/core/colors";
-import clsx from "clsx";
-import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
-import type { InclusionGrant } from "zwave-js/Controller";
 import Alert from "@material-ui/lab/Alert";
+import clsx from "clsx";
+import { useGlobals, useI18n, useIoBrokerObject } from "iobroker-react/hooks";
+import { useCallback, useMemo, useState } from "react";
+import type { InclusionGrant } from "zwave-js/Controller";
 import { QRScanner } from "./QRScanner";
 
 const useStyles = makeStyles((theme) => ({
@@ -132,171 +132,164 @@ interface SelectInclusionStrategyStepProps {
 	onCancel: () => void;
 }
 
-const SelectInclusionStrategyStep: React.FC<SelectInclusionStrategyStepProps> =
-	(props) => {
-		const { translate: _ } = useI18n();
-		const classes = useStyles();
+const SelectInclusionStrategyStep: React.FC<
+	SelectInclusionStrategyStepProps
+> = (props) => {
+	const { translate: _ } = useI18n();
+	const classes = useStyles();
 
-		const [forceSecurity, setForceSecurity] = React.useState(false);
+	const [forceSecurity, setForceSecurity] = useState(false);
 
-		const strategyCaptionDefault = forceSecurity
-			? _(
-					"Security S2 when supported, Security S0 as a fallback, no encryption otherwise.",
-			  )
-			: _(
-					"Security S2 when supported, Security S0 only when necessary, no encryption otherwise.",
-			  );
+	const strategyCaptionDefault = forceSecurity
+		? _(
+				"Security S2 when supported, Security S0 as a fallback, no encryption otherwise.",
+		  )
+		: _(
+				"Security S2 when supported, Security S0 only when necessary, no encryption otherwise.",
+		  );
 
-		// Display a warning when security keys are missing
-		const { namespace } = useGlobals();
-		const [instanceObj] = useIoBrokerObject(`system.adapter.${namespace}`, {
-			subscribe: false,
-		});
-		const settings = instanceObj?.native as
-			| ioBroker.AdapterConfig
-			| undefined;
+	// Display a warning when security keys are missing
+	const { namespace } = useGlobals();
+	const [instanceObj] = useIoBrokerObject(`system.adapter.${namespace}`, {
+		subscribe: false,
+	});
+	const settings = instanceObj?.native as ioBroker.AdapterConfig | undefined;
 
-		const keysMissing =
-			settings &&
-			(!settings.networkKey_S0 ||
-				!settings.networkKey_S2_AccessControl ||
-				!settings.networkKey_S2_Authenticated ||
-				!settings.networkKey_S2_Unauthenticated);
+	const keysMissing =
+		settings &&
+		(!settings.networkKey_S0 ||
+			!settings.networkKey_S2_AccessControl ||
+			!settings.networkKey_S2_Authenticated ||
+			!settings.networkKey_S2_Unauthenticated);
 
-		return (
-			<>
-				<DialogContent className={classes.strategyRoot}>
-					<Typography variant="body2">
+	return (
+		<>
+			<DialogContent className={classes.strategyRoot}>
+				<Typography variant="body2">
+					{_("Z-Wave supports the following security mechanisms:")}
+				</Typography>
+				<ul
+					className={classes.strategyList}
+					style={{ marginTop: "0.5em" }}
+				>
+					<li>
+						<b>Security S2</b> &ndash; {_("fast and secure")}{" "}
+						<b>{_("(recommended)")}</b>
+					</li>
+					<li>
+						<b>Security S0</b> &ndash;{" "}
+						{_("secure, but slow due to a lot of overhead")}{" "}
+						<b>{_("(use only when necessary)")}</b>
+					</li>
+					<li>{_("No encryption")}</li>
+				</ul>
+
+				{keysMissing && (
+					<Alert severity="warning">
 						{_(
-							"Z-Wave supports the following security mechanisms:",
+							"At least one network key is not yet configured. This can cause problems during secure inclusion.",
 						)}
-					</Typography>
-					<ul
-						className={classes.strategyList}
-						style={{ marginTop: "0.5em" }}
+					</Alert>
+				)}
+
+				<Typography
+					variant="body1"
+					className={classes.strategyGridHeadline}
+				>
+					{_("Please choose an inclusion strategy")}:
+				</Typography>
+				<div className={classes.strategyGrid}>
+					<div
+						style={{
+							gridRow: 1,
+							display: "flex",
+							flexFlow: "column",
+						}}
 					>
-						<li>
-							<b>Security S2</b> &ndash; {_("fast and secure")}{" "}
-							<b>{_("(recommended)")}</b>
-						</li>
-						<li>
-							<b>Security S0</b> &ndash;{" "}
-							{_("secure, but slow due to a lot of overhead")}{" "}
-							<b>{_("(use only when necessary)")}</b>
-						</li>
-						<li>{_("No encryption")}</li>
-					</ul>
-
-					{keysMissing && (
-						<Alert severity="warning">
-							{_(
-								"At least one network key is not yet configured. This can cause problems during secure inclusion.",
-							)}
-						</Alert>
-					)}
-
-					<Typography
-						variant="body1"
-						className={classes.strategyGridHeadline}
-					>
-						{_("Please choose an inclusion strategy")}:
-					</Typography>
-					<div className={classes.strategyGrid}>
-						<div
-							style={{
-								gridRow: 1,
-								display: "flex",
-								flexFlow: "column",
-							}}
-						>
-							<Button
-								variant="contained"
-								color="primary"
-								onClick={() =>
-									props.selectStrategy(
-										InclusionStrategy.Default,
-										forceSecurity,
-									)
-								}
-							>
-								{_("Default (secure)")}
-							</Button>
-							<FormControlLabel
-								label={_("Prefer S0 over no encryption")}
-								control={
-									<Checkbox
-										checked={forceSecurity}
-										onChange={(event, checked) =>
-											setForceSecurity(checked)
-										}
-									/>
-								}
-							/>
-						</div>
-						<Typography
-							variant="caption"
-							style={{ alignSelf: "flex-start" }}
-						>
-							{strategyCaptionDefault}
-							<br />
-							{_(
-								"Requires user interaction during the inclusion.",
-							)}
-						</Typography>
-
 						<Button
 							variant="contained"
-							color="secondary"
-							style={{ gridRow: 2 }}
-							onClick={() =>
-								props.selectStrategy(InclusionStrategy.QRCode)
-							}
-						>
-							{_("Scan QR Code")}
-						</Button>
-
-						<Button
-							variant="contained"
-							color="secondary"
-							style={{ gridRow: 3 }}
+							color="primary"
 							onClick={() =>
 								props.selectStrategy(
-									InclusionStrategy.Security_S0,
+									InclusionStrategy.Default,
+									forceSecurity,
 								)
 							}
 						>
-							{_("Security S0")}
+							{_("Default (secure)")}
 						</Button>
-						<Typography style={{ gridRow: 3 }} variant="caption">
-							{_(
-								"Only use S0, even if S2 is available. Allows including devices that require security but don't behave correctly during S2 inclusion.",
-							)}
-						</Typography>
-
-						<Button
-							variant="contained"
-							color="default"
-							style={{ gridRow: 4 }}
-							onClick={() =>
-								props.selectStrategy(InclusionStrategy.Insecure)
+						<FormControlLabel
+							label={_("Prefer S0 over no encryption")}
+							control={
+								<Checkbox
+									checked={forceSecurity}
+									onChange={(event, checked) =>
+										setForceSecurity(checked)
+									}
+								/>
 							}
-						>
-							{_("No encryption")}
-						</Button>
+						/>
 					</div>
-				</DialogContent>
-				<DialogActions>
+					<Typography
+						variant="caption"
+						style={{ alignSelf: "flex-start" }}
+					>
+						{strategyCaptionDefault}
+						<br />
+						{_("Requires user interaction during the inclusion.")}
+					</Typography>
+
 					<Button
 						variant="contained"
-						onClick={props.onCancel}
-						color="primary"
+						color="secondary"
+						style={{ gridRow: 2 }}
+						onClick={() =>
+							props.selectStrategy(InclusionStrategy.QRCode)
+						}
 					>
-						{_("Cancel")}
+						{_("Scan QR Code")}
 					</Button>
-				</DialogActions>
-			</>
-		);
-	};
+
+					<Button
+						variant="contained"
+						color="secondary"
+						style={{ gridRow: 3 }}
+						onClick={() =>
+							props.selectStrategy(InclusionStrategy.Security_S0)
+						}
+					>
+						{_("Security S0")}
+					</Button>
+					<Typography style={{ gridRow: 3 }} variant="caption">
+						{_(
+							"Only use S0, even if S2 is available. Allows including devices that require security but don't behave correctly during S2 inclusion.",
+						)}
+					</Typography>
+
+					<Button
+						variant="contained"
+						color="default"
+						style={{ gridRow: 4 }}
+						onClick={() =>
+							props.selectStrategy(InclusionStrategy.Insecure)
+						}
+					>
+						{_("No encryption")}
+					</Button>
+				</div>
+			</DialogContent>
+			<DialogActions>
+				<Button
+					variant="contained"
+					onClick={props.onCancel}
+					color="primary"
+				>
+					{_("Cancel")}
+				</Button>
+			</DialogActions>
+		</>
+	);
+};
 
 // =============================================================================
 
@@ -310,85 +303,82 @@ interface SelectReplacementStrategyStepProps {
 	onCancel: () => void;
 }
 
-const SelectReplacementStrategyStep: React.FC<SelectReplacementStrategyStepProps> =
-	(props) => {
-		const { translate: _ } = useI18n();
-		const classes = useStyles();
+const SelectReplacementStrategyStep: React.FC<
+	SelectReplacementStrategyStepProps
+> = (props) => {
+	const { translate: _ } = useI18n();
+	const classes = useStyles();
 
-		return (
-			<>
-				<DialogContent className={classes.strategyRoot}>
-					<Typography
-						variant="body1"
-						className={classes.strategyGridHeadline}
-					>
-						{_("Please choose a replacement strategy")}:
-					</Typography>
-					<div className={classes.strategyGrid}>
-						<Button
-							variant="contained"
-							color="primary"
-							style={{ gridRow: 1 }}
-							onClick={() =>
-								props.selectStrategy(
-									InclusionStrategy.Security_S2,
-								)
-							}
-						>
-							{_("Security S2")}
-						</Button>
-						<Typography
-							variant="caption"
-							style={{ alignSelf: "flex-start" }}
-						>
-							{_("fast and secure")}
-							<br />
-							{_("(recommended)")}
-						</Typography>
-
-						<Button
-							variant="contained"
-							color="secondary"
-							style={{ gridRow: 2 }}
-							disabled
-							onClick={() =>
-								props.selectStrategy(
-									InclusionStrategy.Security_S0,
-								)
-							}
-						>
-							{_("Security S0")}
-						</Button>
-						<Typography variant="caption">
-							{_("secure, but slow due to a lot of overhead")}
-							<br />
-							{_("(use only when necessary)")}
-						</Typography>
-
-						<Button
-							variant="contained"
-							color="default"
-							style={{ gridRow: 3 }}
-							onClick={() =>
-								props.selectStrategy(InclusionStrategy.Insecure)
-							}
-						>
-							{_("No encryption")}
-						</Button>
-					</div>
-				</DialogContent>
-				<DialogActions>
+	return (
+		<>
+			<DialogContent className={classes.strategyRoot}>
+				<Typography
+					variant="body1"
+					className={classes.strategyGridHeadline}
+				>
+					{_("Please choose a replacement strategy")}:
+				</Typography>
+				<div className={classes.strategyGrid}>
 					<Button
 						variant="contained"
-						onClick={props.onCancel}
 						color="primary"
+						style={{ gridRow: 1 }}
+						onClick={() =>
+							props.selectStrategy(InclusionStrategy.Security_S2)
+						}
 					>
-						{_("Cancel")}
+						{_("Security S2")}
 					</Button>
-				</DialogActions>
-			</>
-		);
-	};
+					<Typography
+						variant="caption"
+						style={{ alignSelf: "flex-start" }}
+					>
+						{_("fast and secure")}
+						<br />
+						{_("(recommended)")}
+					</Typography>
+
+					<Button
+						variant="contained"
+						color="secondary"
+						style={{ gridRow: 2 }}
+						disabled
+						onClick={() =>
+							props.selectStrategy(InclusionStrategy.Security_S0)
+						}
+					>
+						{_("Security S0")}
+					</Button>
+					<Typography variant="caption">
+						{_("secure, but slow due to a lot of overhead")}
+						<br />
+						{_("(use only when necessary)")}
+					</Typography>
+
+					<Button
+						variant="contained"
+						color="default"
+						style={{ gridRow: 3 }}
+						onClick={() =>
+							props.selectStrategy(InclusionStrategy.Insecure)
+						}
+					>
+						{_("No encryption")}
+					</Button>
+				</div>
+			</DialogContent>
+			<DialogActions>
+				<Button
+					variant="contained"
+					onClick={props.onCancel}
+					color="primary"
+				>
+					{_("Cancel")}
+				</Button>
+			</DialogActions>
+		</>
+	);
+};
 
 // =============================================================================
 
@@ -401,8 +391,8 @@ const ScanQRCodeStep: React.FC<ScanQRCodeStepProps> = (props) => {
 	const classes = useStyles();
 	const { translate: _ } = useI18n();
 
-	const [busy, setBusy] = React.useState(false);
-	const handleScan = React.useCallback(
+	const [busy, setBusy] = useState(false);
+	const handleScan = useCallback(
 		(code: string) => {
 			if (busy) return;
 			setBusy(true);
@@ -487,17 +477,17 @@ const GrantSecurityClassesStep: React.FC<GrantSecurityClassesStepProps> = (
 	const requestS0Legacy = request.securityClasses.includes(7);
 	const requestCSA = request.clientSideAuth;
 
-	const [grantS2AccessControl, setGrantS2AccessControl] = React.useState(
+	const [grantS2AccessControl, setGrantS2AccessControl] = useState(
 		requestS2AccessControl,
 	);
-	const [grantS2Authenticated, setGrantS2Authenticated] = React.useState(
+	const [grantS2Authenticated, setGrantS2Authenticated] = useState(
 		requestS2Authenticated,
 	);
-	const [grantS2Unauthenticated, setGrantS2Unauthenticated] = React.useState(
+	const [grantS2Unauthenticated, setGrantS2Unauthenticated] = useState(
 		requestS2Unauthenticated,
 	);
-	const [grantS0Legacy, setGrantS0Legacy] = React.useState(requestS0Legacy);
-	const [grantCSA, setGrantCSA] = React.useState(requestCSA);
+	const [grantS0Legacy, setGrantS0Legacy] = useState(requestS0Legacy);
+	const [grantCSA, setGrantCSA] = useState(requestCSA);
 
 	// This will be called when the user clicks confirm
 	const handleOk = () => {
@@ -685,8 +675,8 @@ interface ValidateDSKStepProps {
 const ValidateDSKStep: React.FC<ValidateDSKStepProps> = (props) => {
 	const { translate: _ } = useI18n();
 
-	const [pin, setPIN] = React.useState("");
-	const [error, setError] = React.useState(false);
+	const [pin, setPIN] = useState("");
+	const [error, setError] = useState(false);
 
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const pin = event.target.value.replace(/[^0-9]/g, "");
@@ -932,7 +922,7 @@ export const InclusionDialog: React.FC<
 > = (props) => {
 	const { translate: _ } = useI18n();
 
-	const Content = React.useMemo(() => {
+	const Content = useMemo(() => {
 		switch (props.step) {
 			case InclusionExclusionStep.SelectInclusionStrategy:
 				return (
@@ -1021,7 +1011,7 @@ export const InclusionDialog: React.FC<
 		}
 	}, [props.step]);
 
-	const title = React.useMemo(() => {
+	const title = useMemo(() => {
 		switch (props.step) {
 			case InclusionExclusionStep.SelectInclusionStrategy:
 			case InclusionExclusionStep.IncludeDevice:

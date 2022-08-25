@@ -1,11 +1,11 @@
-import React from "react";
+import { useEffect } from "react";
 import { PushCallback, useAPI } from "./useAPI";
 
 /** Hook to handle push functionality from the backend */
 export function usePush(onPush: PushCallback): void {
 	const api = useAPI();
 
-	React.useEffect(() => {
+	useEffect(() => {
 		api.addPushCallback(onPush);
 
 		return () => {
