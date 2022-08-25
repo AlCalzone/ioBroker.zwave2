@@ -119,7 +119,33 @@ class ZWave2 extends utils.Adapter {
       interview: {
         queryAllUserCodes: true
       },
-      enableSoftReset: !this.config.disableSoftReset
+      enableSoftReset: !this.config.disableSoftReset,
+      inclusionUserCallbacks: {
+        validateDSKAndEnterPIN: (dsk) => {
+          this.validateDSKPromise = (0, import_deferred_promise.createDeferredPromise)();
+          this.pushToFrontend({
+            type: "inclusion",
+            status: {
+              type: "validateDSK",
+              dsk
+            }
+          });
+          return this.validateDSKPromise;
+        },
+        grantSecurityClasses: (grant) => {
+          this.grantSecurityClassesPromise = (0, import_deferred_promise.createDeferredPromise)();
+          this.pushToFrontend({
+            type: "inclusion",
+            status: {
+              type: "grantSecurityClasses",
+              request: grant
+            }
+          });
+          return this.grantSecurityClassesPromise;
+        },
+        abort: () => {
+        }
+      }
     });
     this.driver.once("driver ready", async () => {
       this.driverReady = true;
@@ -657,7 +683,9 @@ class ZWave2 extends utils.Adapter {
   async setExclusionMode(active) {
     try {
       if (active) {
-        await this.driver.controller.beginExclusion(true);
+        await this.driver.controller.beginExclusion({
+          strategy: import_Controller.ExclusionStrategy.DisableProvisioningEntry
+        });
       } else {
         await this.driver.controller.stopExclusion();
       }
@@ -677,7 +705,6 @@ class ZWave2 extends utils.Adapter {
     } else {
       if (!this.pushPayloadExpirationTimeout) {
         this.pushPayloadExpirationTimeout = setTimeout(() => {
-          console.warn("push timeout expired");
           this.pushPayloads.splice(0, this.pushPayloads.length);
         }, 2500);
       }
@@ -822,11 +849,19 @@ class ZWave2 extends utils.Adapter {
           if (!requireParams("dsk", "securityClasses"))
             return;
           const params = obj.message;
+          const status = params.status;
           const dsk = params.dsk;
           const securityClasses = params.securityClasses;
           const additionalInfo = (_a = params.additionalInfo) != null ? _a : {};
+          if ("status" in additionalInfo)
+            delete additionalInfo.status;
+          if ("dsk" in additionalInfo)
+            delete additionalInfo.dsk;
+          if ("securityClasses" in additionalInfo)
+            delete additionalInfo.securityClasses;
           try {
             this.driver.controller.provisionSmartStartNode(__spreadValues({
+              status,
               dsk,
               securityClasses
             }, additionalInfo));
@@ -880,37 +915,10 @@ class ZWave2 extends utils.Adapter {
           const forceSecurity = !!params.forceSecurity;
           this.validateDSKPromise = void 0;
           this.grantSecurityClassesPromise = void 0;
-          const userCallbacks = {
-            validateDSKAndEnterPIN: (dsk) => {
-              this.validateDSKPromise = (0, import_deferred_promise.createDeferredPromise)();
-              this.pushToFrontend({
-                type: "inclusion",
-                status: {
-                  type: "validateDSK",
-                  dsk
-                }
-              });
-              return this.validateDSKPromise;
-            },
-            grantSecurityClasses: (grant) => {
-              this.grantSecurityClassesPromise = (0, import_deferred_promise.createDeferredPromise)();
-              this.pushToFrontend({
-                type: "inclusion",
-                status: {
-                  type: "grantSecurityClasses",
-                  request: grant
-                }
-              });
-              return this.grantSecurityClassesPromise;
-            },
-            abort: () => {
-            }
-          };
           try {
             const result = await this.driver.controller.beginInclusion({
               strategy,
-              forceSecurity,
-              userCallbacks
+              forceSecurity
             });
             this.setState("info.inclusion", true, true);
             if (result) {

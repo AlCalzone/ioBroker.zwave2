@@ -18,11 +18,16 @@ import { isArray } from "alcalzone-shared/typeguards";
 import fs from "fs-extra";
 import path from "path";
 import type {
+	AssociationAddress,
+	AssociationGroup,
+	CCAPI,
+	FirmwareUpdateStatus,
 	NodeInterviewFailedEventArgs,
 	NodeStatistics,
 	VirtualNode,
 	VirtualValueID,
 	ZWaveNodeValueNotificationArgs,
+	ZWaveNotificationCallback,
 } from "zwave-js";
 import {
 	Driver,
@@ -34,20 +39,15 @@ import {
 	ZWaveNode,
 	ZWaveOptions,
 } from "zwave-js";
-import type {
-	AssociationAddress,
-	AssociationGroup,
-	CCAPI,
-	FirmwareUpdateStatus,
-	ZWaveNotificationCallback,
-} from "zwave-js/CommandClass";
 import {
 	ControllerStatistics,
+	ExclusionStrategy,
 	HealNodeStatus,
 	InclusionGrant,
 	InclusionResult,
 	InclusionStrategy,
 	InclusionUserCallbacks,
+	ProvisioningEntryStatus,
 	RFRegion,
 	ZWaveFeature,
 } from "zwave-js/Controller";
@@ -193,6 +193,33 @@ class ZWave2 extends utils.Adapter<true> {
 				queryAllUserCodes: true,
 			},
 			enableSoftReset: !this.config.disableSoftReset,
+			inclusionUserCallbacks: {
+				validateDSKAndEnterPIN: (dsk: string) => {
+					this.validateDSKPromise = createDeferredPromise();
+					this.pushToFrontend({
+						type: "inclusion",
+						status: {
+							type: "validateDSK",
+							dsk,
+						},
+					});
+					return this.validateDSKPromise;
+				},
+				grantSecurityClasses: (grant: InclusionGrant) => {
+					this.grantSecurityClassesPromise = createDeferredPromise();
+					this.pushToFrontend({
+						type: "inclusion",
+						status: {
+							type: "grantSecurityClasses",
+							request: grant,
+						},
+					});
+					return this.grantSecurityClassesPromise;
+				},
+				abort: () => {
+					// TODO
+				},
+			},
 		});
 
 		this.driver.once("driver ready", async () => {
@@ -1250,8 +1277,9 @@ class ZWave2 extends utils.Adapter<true> {
 	private async setExclusionMode(active: boolean): Promise<void> {
 		try {
 			if (active) {
-				// Also unprovision the node, otherwise it doesn't make much sense
-				await this.driver.controller.beginExclusion(true);
+				await this.driver.controller.beginExclusion({
+					strategy: ExclusionStrategy.DisableProvisioningEntry,
+				});
 			} else {
 				await this.driver.controller.stopExclusion();
 			}
@@ -1286,7 +1314,7 @@ class ZWave2 extends utils.Adapter<true> {
 			// otherwise start a timer so we can expire the payloads after a while
 			if (!this.pushPayloadExpirationTimeout) {
 				this.pushPayloadExpirationTimeout = setTimeout(() => {
-					console.warn("push timeout expired");
+					// console.warn("push timeout expired");
 					this.pushPayloads.splice(0, this.pushPayloads.length);
 				}, 2500);
 			}
@@ -1530,14 +1558,21 @@ class ZWave2 extends utils.Adapter<true> {
 
 					if (!requireParams("dsk", "securityClasses")) return;
 					const params = obj.message as any as Record<string, any>;
+					const status = params.status as ProvisioningEntryStatus;
 					const dsk = params.dsk as string;
 					const securityClasses =
 						params.securityClasses as SecurityClass[];
 					const additionalInfo: Record<string, any> =
 						params.additionalInfo ?? {};
+					if ("status" in additionalInfo)
+						delete additionalInfo.status;
+					if ("dsk" in additionalInfo) delete additionalInfo.dsk;
+					if ("securityClasses" in additionalInfo)
+						delete additionalInfo.securityClasses;
 
 					try {
 						this.driver.controller.provisionSmartStartNode({
+							status,
 							dsk,
 							securityClasses,
 							...additionalInfo,
@@ -1624,41 +1659,11 @@ class ZWave2 extends utils.Adapter<true> {
 					this.validateDSKPromise = undefined;
 					this.grantSecurityClassesPromise = undefined;
 
-					const userCallbacks: InclusionUserCallbacks = {
-						validateDSKAndEnterPIN: (dsk) => {
-							this.validateDSKPromise = createDeferredPromise();
-							this.pushToFrontend({
-								type: "inclusion",
-								status: {
-									type: "validateDSK",
-									dsk,
-								},
-							});
-							return this.validateDSKPromise;
-						},
-						grantSecurityClasses: (grant) => {
-							this.grantSecurityClassesPromise =
-								createDeferredPromise();
-							this.pushToFrontend({
-								type: "inclusion",
-								status: {
-									type: "grantSecurityClasses",
-									request: grant,
-								},
-							});
-							return this.grantSecurityClassesPromise;
-						},
-						abort: () => {
-							// TODO
-						},
-					};
-
 					try {
 						const result =
 							await this.driver.controller.beginInclusion({
 								strategy: strategy as any,
 								forceSecurity,
-								userCallbacks,
 							});
 						this.setState("info.inclusion", true, true);
 

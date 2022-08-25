@@ -11,13 +11,13 @@ import { entries } from "alcalzone-shared/objects";
 import { padStart } from "alcalzone-shared/strings";
 import { isArray, isObject } from "alcalzone-shared/typeguards";
 import { ControllerStatistics, RFRegion } from "zwave-js";
-import type { ZWaveNotificationCallbackArgs_NotificationCC } from "zwave-js/CommandClass";
 import {
 	NodeStatistics,
 	NodeStatus,
 	VirtualNode,
 	VirtualValueID,
 	ZWaveNode,
+	ZWaveNotificationCallbackArgs_NotificationCC,
 } from "zwave-js/Node";
 import type {
 	TranslatedValueID,

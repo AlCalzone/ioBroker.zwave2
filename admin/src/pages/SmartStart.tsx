@@ -9,7 +9,10 @@ import TableHead from "@material-ui/core/TableHead";
 import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
 import { SmartStartTableRow } from "../components/SmartStartTableRow";
-import type { SmartStartProvisioningEntry } from "zwave-js";
+import {
+	ProvisioningEntryStatus,
+	SmartStartProvisioningEntry,
+} from "zwave-js/safe";
 import { Device, useAPI } from "../lib/useAPI";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import type { SecurityClass } from "@zwave-js/core";
@@ -82,11 +85,13 @@ export const SmartStart: React.FC<SmartStartProps> = (props) => {
 
 	const provisionNode = React.useCallback(
 		async (
+			status: ProvisioningEntryStatus,
 			dsk: string,
 			securityClasses: SecurityClass[],
 			additionalData?: Record<string, any>,
 		) => {
 			await api.provisionSmartStartNode(
+				status,
 				dsk,
 				securityClasses,
 				additionalData,
@@ -114,6 +119,7 @@ export const SmartStart: React.FC<SmartStartProps> = (props) => {
 
 	const reprovisionNode = React.useCallback(
 		async (
+			status: ProvisioningEntryStatus,
 			oldDsk: string,
 			newDsk: string,
 			securityClasses: SecurityClass[],
@@ -123,6 +129,7 @@ export const SmartStart: React.FC<SmartStartProps> = (props) => {
 				await api.unprovisionSmartStartNode(oldDsk);
 			}
 			await api.provisionSmartStartNode(
+				status,
 				newDsk,
 				securityClasses,
 				additionalData,
@@ -152,7 +159,12 @@ export const SmartStart: React.FC<SmartStartProps> = (props) => {
 				});
 			} else if (result.type === "SmartStart") {
 				const { dsk, securityClasses, ...rest } = result;
-				await provisionNode(dsk, securityClasses, rest);
+				await provisionNode(
+					ProvisioningEntryStatus.Active,
+					dsk,
+					securityClasses,
+					rest,
+				);
 				setLastScanned(dsk);
 				setScannerNotification({
 					message: _("Node successfully added to provisioning list"),
@@ -213,7 +225,7 @@ export const SmartStart: React.FC<SmartStartProps> = (props) => {
 
 			<Alert severity="info">
 				{_(
-					"Removing an entry does not automatically exclude the node.",
+					"Removing or disabling an entry does not automatically exclude the node.",
 				)}
 			</Alert>
 
@@ -265,6 +277,9 @@ export const SmartStart: React.FC<SmartStartProps> = (props) => {
 								>
 									#
 								</TableCell>
+								<TableCell style={{ width: "75px" }}>
+									{_("Enabled")}
+								</TableCell>
 								<TableCell style={{ minWidth: "480px" }}>
 									{_("DSK")}
 								</TableCell>
@@ -285,16 +300,19 @@ export const SmartStart: React.FC<SmartStartProps> = (props) => {
 								return (
 									<SmartStartTableRow
 										nodeId={entry.nodeId}
+										status={entry.status}
 										key={`entry-${entry.dsk}`}
 										dsk={entry.dsk}
 										securityClasses={entry.securityClasses}
 										additionalData={additionalData}
 										provision={(
+											status,
 											dsk,
 											secClasses,
 											additional,
 										) =>
 											reprovisionNode(
+												status,
 												entry.dsk,
 												dsk,
 												secClasses,
@@ -311,6 +329,7 @@ export const SmartStart: React.FC<SmartStartProps> = (props) => {
 							<SmartStartTableRow
 								nodeId={undefined}
 								dsk={undefined}
+								status={undefined}
 								securityClasses={[]}
 								provision={provisionNode}
 							/>

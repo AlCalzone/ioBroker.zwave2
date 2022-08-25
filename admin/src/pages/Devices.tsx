@@ -64,7 +64,7 @@ export const Devices: React.FC<DevicesProps> = (props) => {
 
 	const onPush = React.useCallback(
 		(payload: PushMessage) => {
-			console.log("on push", payload);
+			// console.log("on push", payload);
 			if (payload.type === "inclusion") {
 				setInclusionStatus(payload.status);
 				// Always show the inclusion result

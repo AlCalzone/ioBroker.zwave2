@@ -1,13 +1,15 @@
+import type {
+	AssociationAddress,
+	FirmwareUpdateStatus,
+} from "@zwave-js/cc/safe";
 import { padStart } from "alcalzone-shared/strings";
 import type React from "react";
 import type {
-	AssociationAddress,
 	ControllerStatistics,
-	FirmwareUpdateStatus,
 	InclusionGrant,
 	NodeStatistics,
 	SmartStartProvisioningEntry,
-} from "zwave-js";
+} from "zwave-js/safe";
 
 // WARNING: DO NOT IMPORT values FROM "zwave-js" HERE
 // That will break the frontend
