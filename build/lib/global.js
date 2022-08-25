@@ -1,3 +1,4 @@
+"use strict";
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
@@ -30,7 +31,10 @@ class Global {
   }
   static async $$(pattern, options = {}) {
     const { type, role } = options;
-    const objects = await Global._adapter.getForeignObjectsAsync(pattern, type);
+    const objects = await Global._adapter.getForeignObjectsAsync(
+      pattern,
+      type
+    );
     if (role) {
       return (0, import_objects.filter)(objects, (o) => o.common.role === role);
     } else {

@@ -18,6 +18,8 @@ import { getErrorMessage } from "../../../src/lib/shared";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import Typography from "@material-ui/core/Typography";
 import { isValidDSK, SecurityClass } from "@zwave-js/core/safe";
+import { ProvisioningEntryStatus } from "zwave-js/safe";
+import Checkbox from "@material-ui/core/Checkbox";
 
 const useStyles = makeStyles((theme) => ({
 	cell: {
@@ -49,12 +51,14 @@ const useStyles = makeStyles((theme) => ({
 
 export interface SmartStartTableRowProps {
 	nodeId: number | undefined;
+	status: ProvisioningEntryStatus | undefined;
 	dsk: string | undefined;
 	securityClasses: SecurityClass[];
 	additionalData?: Record<string, any>;
 
 	// Will be called when the entry should be saved
 	provision(
+		status: ProvisioningEntryStatus,
 		dsk: string,
 		securityClasses: SecurityClass[],
 		additionalData?: Record<string, any>,
@@ -69,6 +73,9 @@ export const SmartStartTableRow: React.FC<SmartStartTableRowProps> = (
 	const classes = useStyles();
 	const { translate: _ } = useI18n();
 
+	const [status, setStatus] = React.useState(
+		props.status ?? ProvisioningEntryStatus.Active,
+	);
 	const [dsk, setDsk] = React.useState(props.dsk ?? "");
 	const [securityClasses, setSecurityClasses] = React.useState(
 		props.securityClasses,
@@ -80,11 +87,19 @@ export const SmartStartTableRow: React.FC<SmartStartTableRowProps> = (
 
 	React.useEffect(() => {
 		setHasChanges(
-			(dsk !== "" && dsk !== props.dsk) ||
+			status !== (props.status ?? ProvisioningEntryStatus.Active) ||
+				(dsk !== "" && dsk !== props.dsk) ||
 				!arrayEquals(securityClasses, props.securityClasses),
 		);
 		setValid(isValidDSK(dsk) && securityClasses.length > 0);
-	}, [dsk, props.dsk, securityClasses, props.securityClasses]);
+	}, [
+		status,
+		props.status,
+		dsk,
+		props.dsk,
+		securityClasses,
+		props.securityClasses,
+	]);
 
 	const handleDSKChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		let dsk = e.target.value.replace(/[^0-9]/g, "");
@@ -112,6 +127,7 @@ export const SmartStartTableRow: React.FC<SmartStartTableRowProps> = (
 	const isIncluded = props.nodeId != undefined;
 
 	const resetEntry = () => {
+		setStatus(props.status ?? ProvisioningEntryStatus.Active);
 		setDsk(props.dsk ?? "");
 		setSecurityClasses(props.securityClasses);
 	};
@@ -137,7 +153,12 @@ export const SmartStartTableRow: React.FC<SmartStartTableRowProps> = (
 	const provision = async () => {
 		try {
 			setBusy(true);
-			await props.provision(dsk, securityClasses, props.additionalData);
+			await props.provision(
+				status,
+				dsk,
+				securityClasses,
+				props.additionalData,
+			);
 			if (isNewEntry) resetEntry();
 		} catch (e) {
 			alert(_(`The node could not be provisioned!`));
@@ -172,7 +193,7 @@ export const SmartStartTableRow: React.FC<SmartStartTableRowProps> = (
 		<>
 			{!!additionalData && (
 				<TableRow className={classes.additionalData}>
-					<TableCell className={classes.cell}></TableCell>
+					<TableCell className={classes.cell} colSpan={2}></TableCell>
 					<TableCell className={classes.cell} colSpan={2}>
 						<Typography variant="caption">
 							{additionalData}
@@ -188,6 +209,21 @@ export const SmartStartTableRow: React.FC<SmartStartTableRowProps> = (
 				<TableCell className={clsx(classes.cell, classes.idCell)}>
 					{props.nodeId ?? ""}
 				</TableCell>
+				<TableCell className={classes.cell}>
+					{!isNewEntry && (
+						<Checkbox
+							checked={status === ProvisioningEntryStatus.Active}
+							onChange={(event, checked) =>
+								setStatus(
+									checked
+										? ProvisioningEntryStatus.Active
+										: ProvisioningEntryStatus.Inactive,
+								)
+							}
+						/>
+					)}
+				</TableCell>
+
 				<TableCell className={classes.cell}>
 					{isIncluded ? (
 						<Typography variant="body2">{dsk}</Typography>

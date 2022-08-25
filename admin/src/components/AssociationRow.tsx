@@ -1,5 +1,5 @@
 import React from "react";
-import type { AssociationGroup } from "zwave-js/CommandClass";
+import type { AssociationGroup } from "@zwave-js/cc/safe";
 import { padStart } from "alcalzone-shared/strings";
 import { useI18n } from "iobroker-react/hooks";
 import { Dropdown, DropdownOption } from "iobroker-react/components";

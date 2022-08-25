@@ -31,26 +31,26 @@
     "io-package.json"
   ],
   "engines": {
-    "node": ">=12.22.2 <13 || >=14.13.0 <15 || >= 16 <16.9.0 || >16.9.0"
+    "node": ">=14.13.0 <15 || >= 16 <16.9.0 || >16.9.0"
   },
   "dependencies": {
     "@iobroker/adapter-core": "^2.6.0",
-    "@zwave-js/log-transport-json": "^2.0.1",
+    "@zwave-js/log-transport-json": "^3.0.0",
     "alcalzone-shared": "^4.0.1",
     "fs-extra": "^10.0.1",
-    "zwave-js": "^9.2.2"
+    "zwave-js": "~10.0.0"
   },
   "devDependencies": {
     "@alcalzone/release-script": "~3.5.9",
     "@alcalzone/release-script-plugin-iobroker": "~3.5.9",
     "@alcalzone/release-script-plugin-license": "~3.5.9",
     "@alcalzone/release-script-plugin-manual-review": "~3.5.9",
-    "@iobroker/adapter-dev": "git+https://git@github.com/ioBroker/adapter-dev.git#e04da4c",
+    "@iobroker/adapter-dev": "^1.0.1",
     "@iobroker/testing": "^2.5.6",
     "@material-ui/core": "^4.12.3",
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.60",
-    "@tsconfig/node12": "^1.0.9",
+    "@tsconfig/node14": "^1.0.3",
     "@types/chai": "^4.3.1",
     "@types/chai-as-promised": "^7.1.5",
     "@types/d3": "^7.4.0",
@@ -100,7 +100,7 @@
   "scripts": {
     "prebuild": "rimraf build admin/build",
     "build:react": "build-adapter react",
-    "build:ts": "build-adapter ts",
+    "build:ts": "build-adapter all",
     "check": "tsc -p tsconfig.build.json --noEmit",
     "build": "build-adapter all",
     "watch:react": "npm run build:react -- --watch",

@@ -1,3 +1,4 @@
+import type { AssociationAddress, AssociationGroup } from "@zwave-js/cc/safe";
 import type { SecurityClass } from "@zwave-js/core";
 import { isArray } from "alcalzone-shared/typeguards";
 import { useConnection, useGlobals } from "iobroker-react/hooks";
@@ -5,13 +6,12 @@ import type { Connection } from "iobroker-react/socket-client";
 import React from "react";
 import { v4 as uuidv4 } from "uuid";
 import type {
-	AssociationAddress,
-	AssociationGroup,
 	InclusionGrant,
 	InclusionStrategy,
+	ProvisioningEntryStatus,
 	RFRegion,
 	SmartStartProvisioningEntry,
-} from "zwave-js";
+} from "zwave-js/safe";
 import {
 	AssociationDefinition,
 	computeDeviceId,
@@ -187,6 +187,7 @@ export class API {
 	}
 
 	public async provisionSmartStartNode(
+		status: ProvisioningEntryStatus | undefined,
 		dsk: string,
 		securityClasses: SecurityClass[],
 		additionalInfo?: Record<string, any>,
@@ -194,7 +195,7 @@ export class API {
 		const { error, result } = await this.connection.sendTo<SendToResult>(
 			this.namespace,
 			"provisionSmartStartNode",
-			{ dsk, securityClasses, additionalInfo },
+			{ status, dsk, securityClasses, additionalInfo },
 		);
 		if (result !== "ok") {
 			throw error ?? result;
