@@ -1,36 +1,8 @@
+"use strict";
 var __defProp = Object.defineProperty;
-var __defProps = Object.defineProperties;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
 var __getOwnPropNames = Object.getOwnPropertyNames;
-var __getOwnPropSymbols = Object.getOwnPropertySymbols;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __propIsEnum = Object.prototype.propertyIsEnumerable;
-var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues = (a, b) => {
-  for (var prop in b || (b = {}))
-    if (__hasOwnProp.call(b, prop))
-      __defNormalProp(a, prop, b[prop]);
-  if (__getOwnPropSymbols)
-    for (var prop of __getOwnPropSymbols(b)) {
-      if (__propIsEnum.call(b, prop))
-        __defNormalProp(a, prop, b[prop]);
-    }
-  return a;
-};
-var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
-var __objRest = (source, exclude) => {
-  var target = {};
-  for (var prop in source)
-    if (__hasOwnProp.call(source, prop) && exclude.indexOf(prop) < 0)
-      target[prop] = source[prop];
-  if (source != null && __getOwnPropSymbols)
-    for (var prop of __getOwnPropSymbols(source)) {
-      if (exclude.indexOf(prop) < 0 && __propIsEnum.call(source, prop))
-        target[prop] = source[prop];
-    }
-  return target;
-};
 var __export = (target, all) => {
   for (var name in all)
     __defProp(target, name, { get: all[name], enumerable: true });
@@ -127,7 +99,9 @@ function nameToStateId(label) {
   return camelCase(safeName);
 }
 function camelCase(str) {
-  return str.split(" ").map((substr, i) => i === 0 ? substr.toLowerCase() : substr[0].toUpperCase() + substr.slice(1).toLowerCase()).join("");
+  return str.split(" ").map(
+    (substr, i) => i === 0 ? substr.toLowerCase() : substr[0].toUpperCase() + substr.slice(1).toLowerCase()
+  ).join("");
 }
 function ccNameToChannelIdFragment(ccName) {
   return ccName.replace(/[\s]+/g, "_");
@@ -175,23 +149,26 @@ function securityClassesToRecord(node) {
   return ret;
 }
 function nodeToNative(node) {
-  return __spreadProps(__spreadValues({
+  return {
     id: node.id,
     isControllerNode: node.isControllerNode,
     manufacturerId: node.manufacturerId,
     productType: node.productType,
-    productId: node.productId
-  }, node.deviceClass && {
-    type: __spreadValues({
-      basic: node.deviceClass.basic.label,
-      generic: node.deviceClass.generic.label
-    }, node.deviceClass.specific.key !== 0 ? { specific: node.deviceClass.specific.label } : {})
-  }), {
+    productId: node.productId,
+    ...node.deviceClass && {
+      type: {
+        basic: node.deviceClass.basic.label,
+        generic: node.deviceClass.generic.label,
+        ...node.deviceClass.specific.key !== 0 ? { specific: node.deviceClass.specific.label } : {}
+      }
+    },
     endpointIndizes: node.getEndpointIndizes(),
     securityClasses: securityClassesToRecord(node),
     secure: node.isSecure,
-    supportsFirmwareUpdate: node.supportsCC(import_core.CommandClasses["Firmware Update Meta Data"])
-  });
+    supportsFirmwareUpdate: node.supportsCC(
+      import_core.CommandClasses["Firmware Update Meta Data"]
+    )
+  };
 }
 function nodeToCommon(node) {
   return {
@@ -207,9 +184,11 @@ async function extendNode(node) {
   newName = newName && !fallbackNodeNameRegex.test(newName) ? newName : nodeCommon.name;
   const desiredObject = {
     type: "device",
-    common: __spreadProps(__spreadValues(__spreadValues({}, nodeCommon), originalObject == null ? void 0 : originalObject.common), {
+    common: {
+      ...nodeCommon,
+      ...originalObject == null ? void 0 : originalObject.common,
       name: newName
-    }),
+    },
     native: nodeToNative(node)
   };
   await setOrExtendObject(deviceId, desiredObject, originalObject);
@@ -234,7 +213,10 @@ async function removeNode(nodeId) {
     await import_global.Global.adapter.delForeignObjectAsync(deviceId);
   } catch (e) {
   }
-  const existingObjs = __spreadValues(__spreadValues({}, await import_global.Global.$$(`${deviceId}.*`, { type: "channel" })), await import_global.Global.$$(`${deviceId}.*`, { type: "state" }));
+  const existingObjs = {
+    ...await import_global.Global.$$(`${deviceId}.*`, { type: "channel" }),
+    ...await import_global.Global.$$(`${deviceId}.*`, { type: "state" })
+  };
   for (const [id, obj] of (0, import_objects.entries)(existingObjs)) {
     if (obj.type === "state") {
       try {
@@ -274,7 +256,12 @@ async function extendCC(node, cc, ccName) {
   await extendCCInternal(node, computeChannelId(node.id, ccName), cc, ccName);
 }
 async function extendVirtualNodeCC(node, deviceId, cc, ccName) {
-  await extendCCInternal(node, computeVirtualChannelId(deviceId, ccName), cc, ccName);
+  await extendCCInternal(
+    node,
+    computeVirtualChannelId(deviceId, ccName),
+    cc,
+    ccName
+  );
 }
 async function extendValue(node, args, fromCache = false) {
   const stateId = computeStateId(node.id, args);
@@ -293,7 +280,9 @@ async function extendValue(node, args, fromCache = false) {
       await import_global.Global.adapter.setStateAsync(stateId, state);
     }
   } catch (e) {
-    import_global.Global.adapter.log.error(`Cannot set state "${stateId}" in ioBroker: ${(0, import_shared.getErrorMessage)(e)}`);
+    import_global.Global.adapter.log.error(
+      `Cannot set state "${stateId}" in ioBroker: ${(0, import_shared.getErrorMessage)(e)}`
+    );
   }
 }
 async function extendNotificationValue(node, args) {
@@ -307,7 +296,9 @@ async function extendNotificationValue(node, args) {
     };
     await import_global.Global.adapter.setStateAsync(stateId, state);
   } catch (e) {
-    import_global.Global.adapter.log.error(`Cannot set state "${stateId}" in ioBroker: ${(0, import_shared.getErrorMessage)(e)}`);
+    import_global.Global.adapter.log.error(
+      `Cannot set state "${stateId}" in ioBroker: ${(0, import_shared.getErrorMessage)(e)}`
+    );
   }
 }
 async function extendMetadata(node, args) {
@@ -315,14 +306,18 @@ async function extendMetadata(node, args) {
   const metadata = "metadata" in args && args.metadata || node.getValueMetadata(args);
   await extendMetadataInternal(stateId, metadata, args, { nodeId: node.id });
 }
-async function extendVirtualMetadata(node, deviceId, _a) {
-  var _b = _a, { metadata, ccVersion } = _b, valueId = __objRest(_b, ["metadata", "ccVersion"]);
+async function extendVirtualMetadata(node, deviceId, { metadata, ccVersion, ...valueId }) {
   const stateId = computeVirtualStateId(deviceId, valueId);
-  await extendMetadataInternal(stateId, metadata, valueId, node.id === import_core.NODE_ID_BROADCAST ? {
-    broadcast: true
-  } : {
-    nodeIds: node.physicalNodes.map((n) => n.id)
-  });
+  await extendMetadataInternal(
+    stateId,
+    metadata,
+    valueId,
+    node.id === import_core.NODE_ID_BROADCAST ? {
+      broadcast: true
+    } : {
+      nodeIds: node.physicalNodes.map((n) => n.id)
+    }
+  );
 }
 async function extendMetadataInternal(stateId, metadata, valueId, nativePart = {}) {
   const stateType = valueTypeToIOBrokerType(metadata.type);
@@ -344,7 +339,8 @@ async function extendMetadataInternal(stateId, metadata, valueId, nativePart = {
       unit: metadata.unit,
       states: metadata.states
     },
-    native: __spreadProps(__spreadValues({}, nativePart), {
+    native: {
+      ...nativePart,
       valueId: {
         commandClass: valueId.commandClass,
         endpoint: valueId.endpoint,
@@ -352,7 +348,7 @@ async function extendMetadataInternal(stateId, metadata, valueId, nativePart = {
         propertyKey: valueId.propertyKey
       },
       steps: metadata.steps
-    })
+    }
   };
   await setOrExtendObject(stateId, objectDefinition, originalObject);
 }
@@ -429,7 +425,11 @@ async function setControllerStatistics(statistics) {
     },
     native: {}
   });
-  await import_global.Global.adapter.setStateAsync(stateId, statistics ? JSON.stringify(statistics) : null, true);
+  await import_global.Global.adapter.setStateAsync(
+    stateId,
+    statistics ? JSON.stringify(statistics) : null,
+    true
+  );
 }
 async function setNodeStatistics(nodeId, statistics) {
   const channelId = `${(0, import_shared.computeDeviceId)(nodeId)}.info`;
@@ -452,7 +452,11 @@ async function setNodeStatistics(nodeId, statistics) {
     },
     native: {}
   });
-  await import_global.Global.adapter.setStateAsync(stateId, statistics ? JSON.stringify(statistics) : null, true);
+  await import_global.Global.adapter.setStateAsync(
+    stateId,
+    statistics ? JSON.stringify(statistics) : null,
+    true
+  );
 }
 function computeNotificationId(nodeId, notificationLabel, eventLabel, property) {
   return [
@@ -474,7 +478,12 @@ async function setOrExtendObject(id, definition, original) {
 }
 async function setNotificationValue(nodeId, notificationLabel, eventLabel, property, value = true) {
   var _a;
-  const stateId = computeNotificationId(nodeId, notificationLabel, eventLabel, property);
+  const stateId = computeNotificationId(
+    nodeId,
+    notificationLabel,
+    eventLabel,
+    property
+  );
   const originalObject = import_global.Global.adapter.oObjects[`${import_global.Global.adapter.namespace}.${stateId}`];
   const newStateName = import_global.Global.adapter.config.preserveStateNames && (originalObject == null ? void 0 : originalObject.common.name) ? originalObject.common.name : `${notificationLabel}: ${eventLabel}${!!property ? ` (${property})` : ""}`;
   const objectDefinition = {
@@ -521,19 +530,35 @@ async function setNotificationValue(nodeId, notificationLabel, eventLabel, prope
     val = value;
   }
   await setOrExtendObject(stateId, objectDefinition, originalObject);
-  await import_global.Global.adapter.setStateAsync(stateId, {
-    val,
-    expire: (_a = import_global.Global.adapter.config.notificationEventValidity) != null ? _a : 1e3
-  }, true);
+  await import_global.Global.adapter.setStateAsync(
+    stateId,
+    {
+      val,
+      expire: (_a = import_global.Global.adapter.config.notificationEventValidity) != null ? _a : 1e3
+    },
+    true
+  );
 }
 async function extendNotification_NotificationCC(node, args) {
   const { label, eventLabel, parameters } = args;
   if (parameters == void 0) {
     await setNotificationValue(node.id, label, eventLabel, void 0, true);
   } else if (Buffer.isBuffer(parameters)) {
-    await setNotificationValue(node.id, label, eventLabel, void 0, parameters.toString("hex"));
+    await setNotificationValue(
+      node.id,
+      label,
+      eventLabel,
+      void 0,
+      parameters.toString("hex")
+    );
   } else if (parameters instanceof import_core.Duration) {
-    await setNotificationValue(node.id, label, eventLabel, void 0, parameters);
+    await setNotificationValue(
+      node.id,
+      label,
+      eventLabel,
+      void 0,
+      parameters
+    );
   } else {
     for (const [key, value] of Object.entries(parameters)) {
       await setNotificationValue(node.id, label, eventLabel, key, value);

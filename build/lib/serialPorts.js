@@ -1,3 +1,4 @@
+"use strict";
 var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -16,7 +17,10 @@ var __copyProps = (to, from, except, desc) => {
   }
   return to;
 };
-var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target, mod));
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+  mod
+));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var serialPorts_exports = {};
 __export(serialPorts_exports, {
@@ -36,15 +40,21 @@ async function enumerateSerialPorts(adapter) {
   const result = [];
   const devDirName = "/dev";
   try {
-    result.push(...(await import_fs_extra.default.readdir(devDirName)).map((file) => import_path.default.join(devDirName, file)).filter(isSerialPort));
+    result.push(
+      ...(await import_fs_extra.default.readdir(devDirName)).map((file) => import_path.default.join(devDirName, file)).filter(isSerialPort)
+    );
   } catch {
   }
   try {
     result.push(...await import_zwave_js.Driver.enumerateSerialPorts());
   } catch (e) {
     if (e.code === "ENOENT" && /udevadm/.test(e.message)) {
-      adapter.log.warn(`Cannot list serial ports because "udevadm" was not found on PATH!`);
-      adapter.log.warn(`If it is installed, add it to the PATH env variable.`);
+      adapter.log.warn(
+        `Cannot list serial ports because "udevadm" was not found on PATH!`
+      );
+      adapter.log.warn(
+        `If it is installed, add it to the PATH env variable.`
+      );
       adapter.log.warn(`Otherwise, install it using "apt install udev"`);
     }
   }
