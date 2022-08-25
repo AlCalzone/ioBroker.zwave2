@@ -1,12 +1,11 @@
-import React from "react";
-import { useI18n } from "iobroker-react/hooks";
-import DoneIcon from "@material-ui/icons/Done";
-import RedoIcon from "@material-ui/icons/Redo";
-import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
-import AutoRenewIcon from "@material-ui/icons/Autorenew";
-import Tooltip from "@material-ui/core/Tooltip";
-import { blue, red, orange, green } from "@material-ui/core/colors";
+import { blue, green, orange, red } from "@material-ui/core/colors";
 import { makeStyles } from "@material-ui/core/styles";
+import Tooltip from "@material-ui/core/Tooltip";
+import AutoRenewIcon from "@material-ui/icons/Autorenew";
+import DoneIcon from "@material-ui/icons/Done";
+import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
+import RedoIcon from "@material-ui/icons/Redo";
+import { useI18n } from "iobroker-react/hooks";
 
 const useStyles = makeStyles((_theme) => ({
 	healIconPending: {

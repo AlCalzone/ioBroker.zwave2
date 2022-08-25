@@ -1,9 +1,8 @@
 import { makeStyles } from "@material-ui/core/styles";
-import { useI18n } from "iobroker-react/hooks";
-import React from "react";
-import type { ControllerStatistics, NodeStatistics } from "zwave-js";
 import Tooltip, { TooltipProps } from "@material-ui/core/Tooltip";
 import clsx from "clsx";
+import { useI18n } from "iobroker-react/hooks";
+import type { ControllerStatistics, NodeStatistics } from "zwave-js";
 
 const useStyles = makeStyles((theme) => ({
 	tooltip: {
@@ -115,78 +114,74 @@ export interface ControllerStatisticsTooltipProps {
 	children: TooltipProps["children"];
 }
 
-export const ControllerStatisticsTooltip: React.FC<ControllerStatisticsTooltipProps> =
-	(props) => {
-		const classes = useStyles();
-		const { translate: _ } = useI18n();
+export const ControllerStatisticsTooltip: React.FC<
+	ControllerStatisticsTooltipProps
+> = (props) => {
+	const classes = useStyles();
+	const { translate: _ } = useI18n();
 
-		const s = props.statistics ?? {
-			CAN: 0,
-			NAK: 0,
-			messagesDroppedRX: 0,
-			messagesDroppedTX: 0,
-			messagesRX: 0,
-			messagesTX: 0,
-			timeoutACK: 0,
-			timeoutCallback: 0,
-			timeoutResponse: 0,
-		};
-
-		return (
-			<BaseStatisticsTooltip
-				title={
-					<div className={classes.root}>
-						<b>{_("sent")}:</b>
-						<span>
-							{s.messagesTX}
-							{s.messagesDroppedTX > 0 && (
-								<>
-									{" "}
-									<span className={classes.bad}>
-										({s.messagesDroppedTX} {_("dropped")})
-									</span>
-								</>
-							)}
-						</span>
-
-						<b>{_("received")}:</b>
-						<span>
-							{s.messagesRX}
-							{s.messagesDroppedRX > 0 && (
-								<>
-									{" "}
-									<span className={classes.bad}>
-										({s.messagesDroppedRX} {_("dropped")})
-									</span>
-								</>
-							)}
-						</span>
-
-						<b>{_("timeouts")}:</b>
-						<div>
-							ACK:{" "}
-							<span className={classes.bad}>{s.timeoutACK}</span>
-							<br />
-							RES:{" "}
-							<span className={classes.bad}>
-								{s.timeoutResponse}
-							</span>
-							<br />
-							CB:{" "}
-							<span className={classes.bad}>
-								{s.timeoutCallback}
-							</span>
-						</div>
-
-						<b>{_("collisions")}:</b>
-						<span>{s.CAN}</span>
-
-						<b>{_("corrupt")}:</b>
-						<span className={classes.bad}>{s.NAK}</span>
-					</div>
-				}
-			>
-				{props.children}
-			</BaseStatisticsTooltip>
-		);
+	const s = props.statistics ?? {
+		CAN: 0,
+		NAK: 0,
+		messagesDroppedRX: 0,
+		messagesDroppedTX: 0,
+		messagesRX: 0,
+		messagesTX: 0,
+		timeoutACK: 0,
+		timeoutCallback: 0,
+		timeoutResponse: 0,
 	};
+
+	return (
+		<BaseStatisticsTooltip
+			title={
+				<div className={classes.root}>
+					<b>{_("sent")}:</b>
+					<span>
+						{s.messagesTX}
+						{s.messagesDroppedTX > 0 && (
+							<>
+								{" "}
+								<span className={classes.bad}>
+									({s.messagesDroppedTX} {_("dropped")})
+								</span>
+							</>
+						)}
+					</span>
+
+					<b>{_("received")}:</b>
+					<span>
+						{s.messagesRX}
+						{s.messagesDroppedRX > 0 && (
+							<>
+								{" "}
+								<span className={classes.bad}>
+									({s.messagesDroppedRX} {_("dropped")})
+								</span>
+							</>
+						)}
+					</span>
+
+					<b>{_("timeouts")}:</b>
+					<div>
+						ACK: <span className={classes.bad}>{s.timeoutACK}</span>
+						<br />
+						RES:{" "}
+						<span className={classes.bad}>{s.timeoutResponse}</span>
+						<br />
+						CB:{" "}
+						<span className={classes.bad}>{s.timeoutCallback}</span>
+					</div>
+
+					<b>{_("collisions")}:</b>
+					<span>{s.CAN}</span>
+
+					<b>{_("corrupt")}:</b>
+					<span className={classes.bad}>{s.NAK}</span>
+				</div>
+			}
+		>
+			{props.children}
+		</BaseStatisticsTooltip>
+	);
+};

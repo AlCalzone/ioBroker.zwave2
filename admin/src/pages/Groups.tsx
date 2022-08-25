@@ -1,18 +1,17 @@
-import React from "react";
-import { useI18n } from "iobroker-react/hooks";
-import type { Device } from "../lib/useAPI";
-import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-import TableContainer from "@material-ui/core/TableContainer";
-import Table from "@material-ui/core/Table";
-import TableRow from "@material-ui/core/TableRow";
-import TableHead from "@material-ui/core/TableHead";
-import TableCell from "@material-ui/core/TableCell";
-import TableBody from "@material-ui/core/TableBody";
-import { GroupRow } from "../components/GroupRow";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { nameFromGroupObject, useGroups } from "../lib/useGroups";
+import Paper from "@material-ui/core/Paper";
+import { makeStyles } from "@material-ui/core/styles";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
 import Alert from "@material-ui/lab/Alert";
+import { useI18n } from "iobroker-react/hooks";
+import { GroupRow } from "../components/GroupRow";
+import type { Device } from "../lib/useAPI";
+import { nameFromGroupObject, useGroups } from "../lib/useGroups";
 
 const useStyles = makeStyles((theme) => ({
 	root: {

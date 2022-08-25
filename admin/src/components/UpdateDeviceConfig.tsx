@@ -1,14 +1,14 @@
-import React from "react";
-import {
-	useIoBrokerState,
-	useAdapter,
-	useGlobals,
-	useI18n,
-} from "iobroker-react/hooks";
-import GetAppIcon from "@material-ui/icons/GetApp";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
+import GetAppIcon from "@material-ui/icons/GetApp";
+import {
+	useAdapter,
+	useGlobals,
+	useI18n,
+	useIoBrokerState,
+} from "iobroker-react/hooks";
+import { useState } from "react";
 import { useAPI } from "../lib/useAPI";
 
 const useStyles = makeStyles((theme) => ({
@@ -34,7 +34,7 @@ export const UpdateDeviceConfig: React.FC = () => {
 	const [configUpdating] = useIoBrokerState<string>({
 		id: `${namespace}.info.configUpdating`,
 	});
-	const [busy, setBusy] = React.useState(false);
+	const [busy, setBusy] = useState(false);
 
 	async function update(): Promise<void> {
 		setBusy(true);

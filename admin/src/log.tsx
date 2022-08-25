@@ -1,7 +1,7 @@
-import React from "react";
-import ReactDOM from "react-dom";
 import { IoBrokerApp } from "iobroker-react/app";
 import type { Translations } from "iobroker-react/i18n";
+import { memo } from "react";
+import ReactDOM from "react-dom";
 
 import { ErrorBoundary } from "react-error-boundary";
 import { ZWaveLogs } from "./pages/ZWaveLogs";
@@ -29,7 +29,7 @@ const translations: Translations = {
 	"zh-cn": require("./i18n/zh-cn.json"),
 };
 
-const Root: React.FC = React.memo(() => {
+const Root: React.FC = memo(() => {
 	return (
 		<ErrorBoundary FallbackComponent={ErrorFallback}>
 			<ZWaveLogs />

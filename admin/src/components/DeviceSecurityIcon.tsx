@@ -1,7 +1,6 @@
-import React from "react";
-import Tooltip from "@material-ui/core/Tooltip";
-import { green, blue, grey, amber, deepPurple } from "@material-ui/core/colors";
+import { amber, blue, deepPurple, green, grey } from "@material-ui/core/colors";
 import { makeStyles } from "@material-ui/core/styles";
+import Tooltip from "@material-ui/core/Tooltip";
 import LockIcon from "@material-ui/icons/Lock";
 import NoEncryptionIcon from "@material-ui/icons/NoEncryption";
 import clsx from "clsx";

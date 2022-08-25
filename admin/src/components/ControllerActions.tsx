@@ -1,7 +1,10 @@
+import { Typography } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
-import React from "react";
-import { useAPI } from "../lib/useAPI";
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+import LanguageIcon from "@material-ui/icons/Language";
+import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
+import RestorePageIcon from "@material-ui/icons/RestorePage";
 import {
 	useDialogs,
 	useGlobals,
@@ -9,13 +12,10 @@ import {
 	useIoBrokerObject,
 	useIoBrokerState,
 } from "iobroker-react/hooks";
-import { Typography } from "@material-ui/core";
-import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
-import RestorePageIcon from "@material-ui/icons/RestorePage";
-import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
-import LanguageIcon from "@material-ui/icons/Language";
-import { getErrorMessage } from "../../../src/lib/shared";
+import { useCallback, useState } from "react";
 import type { RFRegion } from "zwave-js";
+import { getErrorMessage } from "../../../src/lib/shared";
+import { useAPI } from "../lib/useAPI";
 import { SetRFRegionDialog } from "./SetRFRegionDialog";
 
 const useStyles = makeStyles((theme) => ({
@@ -48,15 +48,14 @@ export const ControllerActions: React.FC<ControllerActionsProps> = (props) => {
 	const { showModal, showNotification } = useDialogs();
 
 	// Handle changing regions
-	const [showSetRFRegionDialog, setShowSetRFRegionDialog] =
-		React.useState(false);
+	const [showSetRFRegionDialog, setShowSetRFRegionDialog] = useState(false);
 	const [rfRegionObject] = useIoBrokerObject(`${namespace}.info.rfRegion`, {
 		subscribe: false,
 	});
 	const [rfRegion] = useIoBrokerState<RFRegion>({
 		id: `${namespace}.info.rfRegion`,
 	});
-	const setRFRegion = React.useCallback(
+	const setRFRegion = useCallback(
 		(region: RFRegion) => {
 			if (isBusy) return;
 			setBusy(true);
@@ -66,13 +65,13 @@ export const ControllerActions: React.FC<ControllerActionsProps> = (props) => {
 	);
 
 	// Handle soft reset
-	const softReset = React.useCallback(() => {
+	const softReset = useCallback(() => {
 		if (isBusy) return;
 		setBusy(true);
 		api.softReset().finally(() => setBusy(false));
 	}, [api, isBusy, setBusy]);
 
-	const clearCache = React.useCallback(async () => {
+	const clearCache = useCallback(async () => {
 		if (isBusy) return;
 
 		try {
@@ -92,7 +91,7 @@ export const ControllerActions: React.FC<ControllerActionsProps> = (props) => {
 		}
 	}, [api, isBusy, showModal, showNotification]);
 
-	const hardReset = React.useCallback(async () => {
+	const hardReset = useCallback(async () => {
 		if (isBusy) return;
 
 		try {

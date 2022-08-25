@@ -8,7 +8,7 @@ import HomeIcon from "@material-ui/icons/Home";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import { useGlobals, useI18n, useIoBrokerState } from "iobroker-react/hooks";
-import React from "react";
+import { useEffect, useState } from "react";
 import type { ControllerStatistics, NodeStatistics } from "zwave-js";
 import { computeDeviceId } from "../../../src/lib/shared";
 import type { Device } from "../lib/useAPI";
@@ -59,7 +59,7 @@ export const DeviceTableRow: React.FC<DeviceTableRowProps> = (props) => {
 	const supportsFirmwareUpdate = !!value.native.supportsFirmwareUpdate;
 	const { secure, securityClasses, isControllerNode } = value.native;
 
-	const [open, setOpen] = React.useState(isControllerNode);
+	const [open, setOpen] = useState(isControllerNode);
 	const classes = useStyles();
 	const { translate: _ } = useI18n();
 
@@ -69,10 +69,10 @@ export const DeviceTableRow: React.FC<DeviceTableRowProps> = (props) => {
 			? `${namespace}.info.statistics`
 			: `${namespace}.${computeDeviceId(nodeId)}.info.statistics`,
 	});
-	const [statistics, setStatistics] = React.useState<
+	const [statistics, setStatistics] = useState<
 		ControllerStatistics | NodeStatistics
 	>();
-	React.useEffect(() => {
+	useEffect(() => {
 		if (stringifiedStatistics) {
 			try {
 				const parsed = JSON.parse(stringifiedStatistics);

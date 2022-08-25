@@ -1,25 +1,25 @@
+import Button from "@material-ui/core/Button";
+import ButtonGroup from "@material-ui/core/ButtonGroup";
+import Checkbox from "@material-ui/core/Checkbox";
+import { makeStyles } from "@material-ui/core/styles";
+import TableCell from "@material-ui/core/TableCell";
+import TableRow from "@material-ui/core/TableRow";
+import TextField from "@material-ui/core/TextField";
+import Tooltip from "@material-ui/core/Tooltip";
+import Typography from "@material-ui/core/Typography";
+import AddIcon from "@material-ui/icons/Add";
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+import RestoreIcon from "@material-ui/icons/Restore";
+import SaveIcon from "@material-ui/icons/Save";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
-import { makeStyles } from "@material-ui/core/styles";
-import { useI18n } from "iobroker-react/hooks";
-import React from "react";
-import TableRow from "@material-ui/core/TableRow";
-import TableCell from "@material-ui/core/TableCell";
-import ButtonGroup from "@material-ui/core/ButtonGroup";
-import { arrayEquals } from "../lib/tools";
-import Tooltip from "@material-ui/core/Tooltip";
-import Button from "@material-ui/core/Button";
-import AddIcon from "@material-ui/icons/Add";
-import SaveIcon from "@material-ui/icons/Save";
-import RestoreIcon from "@material-ui/icons/Restore";
-import TextField from "@material-ui/core/TextField";
-import clsx from "clsx";
-import { getErrorMessage } from "../../../src/lib/shared";
-import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
-import Typography from "@material-ui/core/Typography";
 import { isValidDSK, SecurityClass } from "@zwave-js/core/safe";
+import clsx from "clsx";
+import { useI18n } from "iobroker-react/hooks";
+import { useEffect, useState } from "react";
 import { ProvisioningEntryStatus } from "zwave-js/safe";
-import Checkbox from "@material-ui/core/Checkbox";
+import { getErrorMessage } from "../../../src/lib/shared";
+import { arrayEquals } from "../lib/tools";
 
 const useStyles = makeStyles((theme) => ({
 	cell: {
@@ -73,19 +73,19 @@ export const SmartStartTableRow: React.FC<SmartStartTableRowProps> = (
 	const classes = useStyles();
 	const { translate: _ } = useI18n();
 
-	const [status, setStatus] = React.useState(
+	const [status, setStatus] = useState(
 		props.status ?? ProvisioningEntryStatus.Active,
 	);
-	const [dsk, setDsk] = React.useState(props.dsk ?? "");
-	const [securityClasses, setSecurityClasses] = React.useState(
+	const [dsk, setDsk] = useState(props.dsk ?? "");
+	const [securityClasses, setSecurityClasses] = useState(
 		props.securityClasses,
 	);
 
-	const [isValid, setValid] = React.useState(false);
-	const [hasChanges, setHasChanges] = React.useState(false);
-	const [isBusy, setBusy] = React.useState(false);
+	const [isValid, setValid] = useState(false);
+	const [hasChanges, setHasChanges] = useState(false);
+	const [isBusy, setBusy] = useState(false);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		setHasChanges(
 			status !== (props.status ?? ProvisioningEntryStatus.Active) ||
 				(dsk !== "" && dsk !== props.dsk) ||

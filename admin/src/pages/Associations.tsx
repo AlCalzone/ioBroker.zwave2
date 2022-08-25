@@ -1,10 +1,9 @@
-import React from "react";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import { useAdapter } from "iobroker-react/hooks";
 import type { AssociationDefinition } from "../../../src/lib/shared";
 import { AssociationNodeTable } from "../components/AssociationNodeTable";
 import { NoDevices, NotRunning } from "../components/Messages";
-import { useAdapter } from "iobroker-react/hooks";
 import { Device, useAPI } from "../lib/useAPI";
-import CircularProgress from "@material-ui/core/CircularProgress";
 
 export interface AssociationsProps {
 	devices: Record<number, Device> | undefined;

@@ -1,21 +1,21 @@
 import Button from "@material-ui/core/Button";
+import ButtonGroup from "@material-ui/core/ButtonGroup";
+import LinearProgress from "@material-ui/core/LinearProgress";
 import { makeStyles } from "@material-ui/core/styles";
 import Tooltip from "@material-ui/core/Tooltip";
-import React from "react";
+import Typography from "@material-ui/core/Typography";
+import CloseIcon from "@material-ui/icons/Close";
+import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
+import MemoryIcon from "@material-ui/icons/Memory";
+import PublishIcon from "@material-ui/icons/Publish";
+import RestorePageIcon from "@material-ui/icons/RestorePage";
+import SwapHorizIcon from "@material-ui/icons/SwapHoriz";
+import clsx from "clsx";
+import { useDialogs, useI18n } from "iobroker-react/hooks";
+import { useEffect, useRef, useState } from "react";
 import type { FirmwareUpdateProgress } from "../../../src/lib/shared";
 import { useAPI } from "../lib/useAPI";
-import { useDialogs, useI18n } from "iobroker-react/hooks";
-import PublishIcon from "@material-ui/icons/Publish";
-import ButtonGroup from "@material-ui/core/ButtonGroup";
-import CloseIcon from "@material-ui/icons/Close";
-import RestorePageIcon from "@material-ui/icons/RestorePage";
 import { usePush } from "../lib/usePush";
-import LinearProgress from "@material-ui/core/LinearProgress";
-import Typography from "@material-ui/core/Typography";
-import clsx from "clsx";
-import MemoryIcon from "@material-ui/icons/Memory";
-import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
-import SwapHorizIcon from "@material-ui/icons/SwapHoriz";
 
 export interface NodeActionsProps {
 	nodeId: number;
@@ -63,14 +63,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const NodeActions: React.FC<NodeActionsProps> = (props) => {
-	const [loadedFile, setLoadedFile] = React.useState<LoadedFile>();
-	const [firmwareUpdateActive, setFirmwareUpdateActive] =
-		React.useState(false);
+	const [loadedFile, setLoadedFile] = useState<LoadedFile>();
+	const [firmwareUpdateActive, setFirmwareUpdateActive] = useState(false);
 	const [firmwareUpdateStatus, setFirmwareUpdateStatus] =
-		React.useState<FirmwareUpdateProgress>();
-	const [message, setMessage] = React.useState<string>();
+		useState<FirmwareUpdateProgress>();
+	const [message, setMessage] = useState<string>();
 
-	const input = React.useRef<HTMLInputElement>();
+	const input = useRef<HTMLInputElement>();
 
 	const api = useAPI();
 	const { nodeId, isBusy, setBusy, supportsFirmwareUpdate } = props;
@@ -221,7 +220,7 @@ export const NodeActions: React.FC<NodeActionsProps> = (props) => {
 			: Number.NaN;
 
 	// Notify the user to wake up the device
-	React.useEffect(() => {
+	useEffect(() => {
 		if (firmwareUpdateStatus?.type === "done") return;
 		if (props.status === "asleep" && firmwareUpdateActive) {
 			setMessage(_("wake up device"));

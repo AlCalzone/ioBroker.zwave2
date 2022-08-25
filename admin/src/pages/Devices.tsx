@@ -6,7 +6,7 @@ import {
 	useI18n,
 	useIoBrokerState,
 } from "iobroker-react/hooks";
-import React from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
 	getErrorMessage,
 	InclusionExclusionStatus,
@@ -38,7 +38,7 @@ export const Devices: React.FC<DevicesProps> = (props) => {
 	const { translate: _ } = useI18n();
 	const api = useAPI();
 	const { showNotification } = useDialogs();
-	const [isBusy, setBusy] = React.useState(false);
+	const [isBusy, setBusy] = useState(false);
 
 	const [inclusion] = useIoBrokerState<boolean>({
 		id: `${namespace}.info.inclusion`,
@@ -53,16 +53,16 @@ export const Devices: React.FC<DevicesProps> = (props) => {
 		defaultValue: false,
 	});
 
-	const [networkHealProgress, setNetworkHealProgress] = React.useState<
+	const [networkHealProgress, setNetworkHealProgress] = useState<
 		NonNullable<NetworkHealStatus["progress"]>
 	>({});
 
 	const [inclusionStatus, setInclusionStatus] =
-		React.useState<InclusionExclusionStatus>();
+		useState<InclusionExclusionStatus>();
 	const [showInclusionExclusionModal, setShowInclusionExclusionModal] =
-		React.useState(false);
+		useState(false);
 
-	const onPush = React.useCallback(
+	const onPush = useCallback(
 		(payload: PushMessage) => {
 			// console.log("on push", payload);
 			if (payload.type === "inclusion") {
@@ -86,9 +86,8 @@ export const Devices: React.FC<DevicesProps> = (props) => {
 	usePush(onPush);
 
 	// Enable displaying usage statistics while the device tab is open
-	const [statisticsSubscribed, setStatisticsSubscribed] =
-		React.useState(false);
-	React.useEffect(() => {
+	const [statisticsSubscribed, setStatisticsSubscribed] = useState(false);
+	useEffect(() => {
 		if (adapterRunning && driverReady && !statisticsSubscribed) {
 			setStatisticsSubscribed(true);
 			void api.subscribeStatistics();
@@ -130,7 +129,7 @@ export const Devices: React.FC<DevicesProps> = (props) => {
 		setShowInclusionExclusionModal(true);
 	}
 
-	const closeDialog = React.useCallback(() => {
+	const closeDialog = useCallback(() => {
 		setShowInclusionExclusionModal(false);
 		// avoid flicker while the modal is being hidden
 		setTimeout(() => {

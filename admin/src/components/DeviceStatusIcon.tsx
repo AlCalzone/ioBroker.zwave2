@@ -1,12 +1,11 @@
-import React from "react";
-import { useI18n } from "iobroker-react/hooks";
-import Tooltip from "@material-ui/core/Tooltip";
-import { red, green, lightBlue } from "@material-ui/core/colors";
+import { green, lightBlue, red } from "@material-ui/core/colors";
 import { makeStyles } from "@material-ui/core/styles";
-import WifiIcon from "@material-ui/icons/Wifi";
-import WifiOffIcon from "@material-ui/icons/WifiOff";
+import Tooltip from "@material-ui/core/Tooltip";
 import DeviceUnknownIcon from "@material-ui/icons/DeviceUnknown";
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
+import WifiIcon from "@material-ui/icons/Wifi";
+import WifiOffIcon from "@material-ui/icons/WifiOff";
+import { useI18n } from "iobroker-react/hooks";
 import type { Device } from "../lib/useAPI";
 
 const useStyles = makeStyles((_theme) => ({

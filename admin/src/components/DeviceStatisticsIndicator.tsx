@@ -1,12 +1,12 @@
+import { green, red } from "@material-ui/core/colors";
 import { makeStyles } from "@material-ui/core/styles";
-import React from "react";
+import clsx from "clsx";
+import { useEffect, useState } from "react";
 import type { ControllerStatistics, NodeStatistics } from "zwave-js";
 import {
 	ControllerStatisticsTooltip,
 	NodeStatisticsTooltip,
 } from "./NodeStatisticsTooltip";
-import clsx from "clsx";
-import { red, green } from "@material-ui/core/colors";
 
 type Status = "active" | "error";
 
@@ -85,97 +85,97 @@ const ArrowDown: React.FC<{ status?: Status }> = (props) => {
 	);
 };
 
-export const DeviceStatisticsIndicator: React.FC<DeviceStatisticsIndicatorProps> =
-	(props) => {
-		const [prevStats, setPrevStats] =
-			React.useState<typeof props["statistics"]>();
-		const [txStatus, setTxStatus] = React.useState<Status>();
-		const [rxStatus, setRxStatus] = React.useState<Status>();
+export const DeviceStatisticsIndicator: React.FC<
+	DeviceStatisticsIndicatorProps
+> = (props) => {
+	const [prevStats, setPrevStats] = useState<typeof props["statistics"]>();
+	const [txStatus, setTxStatus] = useState<Status>();
+	const [rxStatus, setRxStatus] = useState<Status>();
 
-		React.useEffect(() => {
-			if (prevStats != undefined && props.statistics != undefined) {
-				if (props.type === "controller") {
-					const prev = prevStats as ControllerStatistics;
-					const cur = props.statistics;
+	useEffect(() => {
+		if (prevStats != undefined && props.statistics != undefined) {
+			if (props.type === "controller") {
+				const prev = prevStats as ControllerStatistics;
+				const cur = props.statistics;
 
-					// Check for changes on the TX side
-					if (
-						prev.NAK < cur.NAK ||
-						prev.messagesDroppedTX < cur.messagesDroppedTX ||
-						prev.timeoutACK < cur.timeoutACK ||
-						prev.timeoutResponse < cur.timeoutResponse ||
-						prev.timeoutCallback < cur.timeoutCallback
-					) {
-						//There was an error transmitting
-						setTxStatus("error");
-					} else if (prev.messagesTX < cur.messagesTX) {
-						// A message was sent
-						setTxStatus("active");
-					}
+				// Check for changes on the TX side
+				if (
+					prev.NAK < cur.NAK ||
+					prev.messagesDroppedTX < cur.messagesDroppedTX ||
+					prev.timeoutACK < cur.timeoutACK ||
+					prev.timeoutResponse < cur.timeoutResponse ||
+					prev.timeoutCallback < cur.timeoutCallback
+				) {
+					//There was an error transmitting
+					setTxStatus("error");
+				} else if (prev.messagesTX < cur.messagesTX) {
+					// A message was sent
+					setTxStatus("active");
+				}
 
-					// Check for changes on the RX side
-					if (prev.messagesDroppedRX < cur.messagesDroppedRX) {
-						//There was an error transmitting
-						setRxStatus("error");
-					} else if (prev.messagesRX < cur.messagesRX) {
-						// A message was sent
-						setRxStatus("active");
-					}
-				} else {
-					const prev = prevStats as NodeStatistics;
-					const cur = props.statistics as NodeStatistics;
+				// Check for changes on the RX side
+				if (prev.messagesDroppedRX < cur.messagesDroppedRX) {
+					//There was an error transmitting
+					setRxStatus("error");
+				} else if (prev.messagesRX < cur.messagesRX) {
+					// A message was sent
+					setRxStatus("active");
+				}
+			} else {
+				const prev = prevStats as NodeStatistics;
+				const cur = props.statistics as NodeStatistics;
 
-					// Check for changes on the TX side
-					if (
-						prev.commandsDroppedTX < cur.commandsDroppedTX ||
-						prev.timeoutResponse < cur.timeoutResponse
-					) {
-						//There was an error transmitting
-						setTxStatus("error");
-					} else if (prev.commandsTX < cur.commandsTX) {
-						// A message was sent
-						setTxStatus("active");
-					}
+				// Check for changes on the TX side
+				if (
+					prev.commandsDroppedTX < cur.commandsDroppedTX ||
+					prev.timeoutResponse < cur.timeoutResponse
+				) {
+					//There was an error transmitting
+					setTxStatus("error");
+				} else if (prev.commandsTX < cur.commandsTX) {
+					// A message was sent
+					setTxStatus("active");
+				}
 
-					// Check for changes on the RX side
-					if (prev.commandsDroppedRX < cur.commandsDroppedRX) {
-						//There was an error transmitting
-						setRxStatus("error");
-					} else if (prev.commandsRX < cur.commandsRX) {
-						// A message was sent
-						setRxStatus("active");
-					}
+				// Check for changes on the RX side
+				if (prev.commandsDroppedRX < cur.commandsDroppedRX) {
+					//There was an error transmitting
+					setRxStatus("error");
+				} else if (prev.commandsRX < cur.commandsRX) {
+					// A message was sent
+					setRxStatus("active");
 				}
 			}
-			setPrevStats(props.statistics);
-		}, [props.statistics, setTxStatus, setRxStatus, prevStats]);
-
-		// Reset the status after 0.5 seconds when the statistics haven't been changed since then
-		React.useEffect(() => {
-			const timeout = setTimeout(() => {
-				setTxStatus(undefined);
-				setRxStatus(undefined);
-			}, 500);
-			return () => clearTimeout(timeout);
-		}, [setTxStatus, setRxStatus, props.statistics]);
-
-		if (props.type === "controller") {
-			return (
-				<ControllerStatisticsTooltip statistics={props.statistics}>
-					<span>
-						<ArrowUp status={txStatus} />
-						<ArrowDown status={rxStatus} />
-					</span>
-				</ControllerStatisticsTooltip>
-			);
-		} else {
-			return (
-				<NodeStatisticsTooltip statistics={props.statistics}>
-					<span>
-						<ArrowUp status={txStatus} />
-						<ArrowDown status={rxStatus} />
-					</span>
-				</NodeStatisticsTooltip>
-			);
 		}
-	};
+		setPrevStats(props.statistics);
+	}, [props.statistics, setTxStatus, setRxStatus, prevStats]);
+
+	// Reset the status after 0.5 seconds when the statistics haven't been changed since then
+	useEffect(() => {
+		const timeout = setTimeout(() => {
+			setTxStatus(undefined);
+			setRxStatus(undefined);
+		}, 500);
+		return () => clearTimeout(timeout);
+	}, [setTxStatus, setRxStatus, props.statistics]);
+
+	if (props.type === "controller") {
+		return (
+			<ControllerStatisticsTooltip statistics={props.statistics}>
+				<span>
+					<ArrowUp status={txStatus} />
+					<ArrowDown status={rxStatus} />
+				</span>
+			</ControllerStatisticsTooltip>
+		);
+	} else {
+		return (
+			<NodeStatisticsTooltip statistics={props.statistics}>
+				<span>
+					<ArrowUp status={txStatus} />
+					<ArrowDown status={rxStatus} />
+				</span>
+			</NodeStatisticsTooltip>
+		);
+	}
+};

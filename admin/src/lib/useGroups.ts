@@ -1,6 +1,6 @@
 import { isArray } from "alcalzone-shared/typeguards";
 import { useConnection, useGlobals } from "iobroker-react/hooks";
-import React from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export type GroupObject = ioBroker.DeviceObject & {
 	native: ioBroker.DeviceObject["native"] & {
@@ -39,7 +39,7 @@ export function useGroups(): Readonly<{
 	deleteGroup: (obj: GroupObject) => Promise<void>;
 }> {
 	const connection = useConnection();
-	const [groups, setGroups] = React.useState<Record<string, GroupObject>>();
+	const [groups, setGroups] = useState<Record<string, GroupObject>>();
 	const { namespace } = useGlobals();
 
 	const onObjectChange: ioBroker.ObjectChangeHandler = async (id, obj) => {
@@ -80,7 +80,7 @@ export function useGroups(): Readonly<{
 		setGroups(groups);
 	}
 
-	const saveGroup = React.useCallback(
+	const saveGroup = useCallback(
 		async (
 			name: string,
 			nodeIds: number[],
@@ -97,14 +97,14 @@ export function useGroups(): Readonly<{
 		[namespace, connection],
 	);
 
-	const deleteGroup = React.useCallback(
+	const deleteGroup = useCallback(
 		async (obj: GroupObject): Promise<void> => {
 			await connection.delObject(obj._id);
 		},
 		[connection],
 	);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		(async () => {
 			// Load groups initially
 			await loadGroups();

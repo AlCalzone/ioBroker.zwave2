@@ -1,26 +1,26 @@
-import React from "react";
-import Checkbox from "@material-ui/core/Checkbox";
-import { padStart } from "alcalzone-shared/strings";
-import { useI18n } from "iobroker-react/hooks";
-import ButtonGroup from "@material-ui/core/ButtonGroup";
-import Tooltip from "@material-ui/core/Tooltip";
 import Button from "@material-ui/core/Button";
-import AddIcon from "@material-ui/icons/Add";
-import SaveIcon from "@material-ui/icons/Save";
-import RestoreIcon from "@material-ui/icons/Restore";
-import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+import ButtonGroup from "@material-ui/core/ButtonGroup";
+import Checkbox from "@material-ui/core/Checkbox";
+import { makeStyles } from "@material-ui/core/styles";
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
-import { makeStyles } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
+import Tooltip from "@material-ui/core/Tooltip";
+import Typography from "@material-ui/core/Typography";
+import AddIcon from "@material-ui/icons/Add";
+import CheckBoxIcon from "@material-ui/icons/CheckBox";
+import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+import RestoreIcon from "@material-ui/icons/Restore";
+import SaveIcon from "@material-ui/icons/Save";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import { padStart } from "alcalzone-shared/strings";
+import clsx from "clsx";
+import { useI18n } from "iobroker-react/hooks";
+import React, { useEffect, useState } from "react";
 import { getErrorMessage } from "../../../src/lib/shared";
 import { arrayEquals } from "../lib/tools";
 import type { Device } from "../lib/useAPI";
-import TextField from "@material-ui/core/TextField";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
-import CheckBoxIcon from "@material-ui/icons/CheckBox";
-import Typography from "@material-ui/core/Typography";
-import clsx from "clsx";
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -59,14 +59,14 @@ const useStyles = makeStyles((theme) => ({
 export const GroupRow: React.FC<GroupRowProps> = (props) => {
 	const { translate: _ } = useI18n();
 
-	const [name, setName] = React.useState(props.name ?? "");
-	const [nodeIds, setNodeIds] = React.useState(props.nodeIds ?? []);
+	const [name, setName] = useState(props.name ?? "");
+	const [nodeIds, setNodeIds] = useState(props.nodeIds ?? []);
 
-	const [isValid, setValid] = React.useState(false);
-	const [hasChanges, setHasChanges] = React.useState(false);
-	const [isBusy, setBusy] = React.useState(false);
+	const [isValid, setValid] = useState(false);
+	const [hasChanges, setHasChanges] = useState(false);
+	const [isBusy, setBusy] = useState(false);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		setHasChanges(
 			(name !== "" && name !== props.name) ||
 				!arrayEquals(nodeIds, props.nodeIds ?? []),

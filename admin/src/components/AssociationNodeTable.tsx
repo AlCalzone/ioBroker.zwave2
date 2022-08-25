@@ -1,20 +1,20 @@
+import Paper from "@material-ui/core/Paper";
+import { makeStyles } from "@material-ui/core/styles";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Typography from "@material-ui/core/Typography";
 import { padStart } from "alcalzone-shared/strings";
-import React from "react";
+import { useI18n } from "iobroker-react/hooks";
+import { useMemo } from "react";
 import type { AssociationGroup } from "zwave-js";
 import type { AssociationDefinition } from "../../../src/lib/shared";
 import type { Device } from "../lib/useAPI";
 import { AssociationRow } from "./AssociationRow";
 import { DeviceStatusIcon } from "./DeviceStatusIcon";
 import { NodeNotReady } from "./Messages";
-import { useI18n } from "iobroker-react/hooks";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Table from "@material-ui/core/Table";
-import Paper from "@material-ui/core/Paper";
-import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles((theme) => ({
 	headline: {
@@ -95,7 +95,7 @@ function AssociationNodeTableContent(props: AssociationNodeTableProps) {
 		supportsMultiChannel,
 		hasAssociations,
 		associations,
-	} = React.useMemo(() => {
+	} = useMemo(() => {
 		const definitions: AssociationDefinition[] = [];
 		let hasAssociations = false;
 		let supportsMultiChannel = false;
@@ -266,7 +266,7 @@ export const AssociationNodeTable: React.FC<AssociationNodeTableProps> = (
 
 	if (ready && !hasSomeAssociationGroups) {
 		// This node doesn't support associations
-		return <React.Fragment></React.Fragment>;
+		return <></>;
 	}
 
 	return (
