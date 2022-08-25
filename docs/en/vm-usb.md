@@ -64,7 +64,7 @@ ls -l /dev/
 
 > a reboot of Proxmox may be necessary.
 
-### Gerät in LXC einbinden
+### Integrate device into LXC
 
 Now determine the ACL ID.
 
@@ -87,6 +87,15 @@ nano /etc/pve/lxc/XXX.conf
 ```
 
 and insert the following lines, replacing `7` with the number from the previous step if necessary and `/dev/zwave` with the actual path.
+
+**Proxmox v7 and newer:**
+
+```
+lxc.cgroup2.devices.allow: c 7:* rwm
+lxc.mount.entry: /dev/zwave dev/zwave none bind,optional,create=file
+```
+
+**Older versions:**
 
 ```
 lxc.cgroup.devices.allow: c 7:* rwm
