@@ -2,6 +2,7 @@ import * as utils from "@iobroker/adapter-core";
 import {
 	CommandClasses,
 	createDefaultTransportFormat,
+	isZWaveError,
 	MAX_NODES,
 	parseQRCodeString,
 	QRCodeVersion,
@@ -178,49 +179,67 @@ class ZWave2 extends utils.Adapter<true> {
 			}
 		}
 
-		this.driver = new Driver(this.config.serialport, {
-			timeouts,
-			attempts,
-			logConfig: {
-				logToFile: !!this.config.writeLogFile,
-			},
-			storage: {
-				cacheDir,
-			},
-			securityKeys,
-			interview: {
-				// TODO: remove this once we have a UI to query user codes
-				queryAllUserCodes: true,
-			},
-			enableSoftReset: !this.config.disableSoftReset,
-			inclusionUserCallbacks: {
-				validateDSKAndEnterPIN: (dsk: string) => {
-					this.validateDSKPromise = createDeferredPromise();
-					this.pushToFrontend({
-						type: "inclusion",
-						status: {
-							type: "validateDSK",
-							dsk,
-						},
-					});
-					return this.validateDSKPromise;
+		try {
+			this.driver = new Driver(this.config.serialport, {
+				timeouts,
+				attempts,
+				logConfig: {
+					logToFile: !!this.config.writeLogFile,
 				},
-				grantSecurityClasses: (grant: InclusionGrant) => {
-					this.grantSecurityClassesPromise = createDeferredPromise();
-					this.pushToFrontend({
-						type: "inclusion",
-						status: {
-							type: "grantSecurityClasses",
-							request: grant,
-						},
-					});
-					return this.grantSecurityClassesPromise;
+				storage: {
+					cacheDir,
 				},
-				abort: () => {
-					// TODO
+				securityKeys,
+				interview: {
+					// TODO: remove this once we have a UI to query user codes
+					queryAllUserCodes: true,
 				},
-			},
-		});
+				enableSoftReset: !this.config.disableSoftReset,
+				inclusionUserCallbacks: {
+					validateDSKAndEnterPIN: (dsk: string) => {
+						this.validateDSKPromise = createDeferredPromise();
+						this.pushToFrontend({
+							type: "inclusion",
+							status: {
+								type: "validateDSK",
+								dsk,
+							},
+						});
+						return this.validateDSKPromise;
+					},
+					grantSecurityClasses: (grant: InclusionGrant) => {
+						this.grantSecurityClassesPromise =
+							createDeferredPromise();
+						this.pushToFrontend({
+							type: "inclusion",
+							status: {
+								type: "grantSecurityClasses",
+								request: grant,
+							},
+						});
+						return this.grantSecurityClassesPromise;
+					},
+					abort: () => {
+						// TODO
+					},
+				},
+			});
+		} catch (e) {
+			if (
+				isZWaveError(e) &&
+				e.code === ZWaveErrorCodes.Driver_InvalidOptions
+			) {
+				this.log.error(`The adapter options are invalid: ${e.message}`);
+			} else {
+				this.log.error(
+					`Failed create the Z-Wave driver: ${getErrorMessage(
+						e,
+						true,
+					)}`,
+				);
+			}
+			return;
+		}
 
 		this.driver.once("driver ready", async () => {
 			this.driverReady = true;

@@ -101,47 +101,61 @@ class ZWave2 extends utils.Adapter {
         securityKeys[secClass] = Buffer.from(key, "hex");
       }
     }
-    this.driver = new import_zwave_js.Driver(this.config.serialport, {
-      timeouts,
-      attempts,
-      logConfig: {
-        logToFile: !!this.config.writeLogFile
-      },
-      storage: {
-        cacheDir
-      },
-      securityKeys,
-      interview: {
-        queryAllUserCodes: true
-      },
-      enableSoftReset: !this.config.disableSoftReset,
-      inclusionUserCallbacks: {
-        validateDSKAndEnterPIN: (dsk) => {
-          this.validateDSKPromise = (0, import_deferred_promise.createDeferredPromise)();
-          this.pushToFrontend({
-            type: "inclusion",
-            status: {
-              type: "validateDSK",
-              dsk
-            }
-          });
-          return this.validateDSKPromise;
+    try {
+      this.driver = new import_zwave_js.Driver(this.config.serialport, {
+        timeouts,
+        attempts,
+        logConfig: {
+          logToFile: !!this.config.writeLogFile
         },
-        grantSecurityClasses: (grant) => {
-          this.grantSecurityClassesPromise = (0, import_deferred_promise.createDeferredPromise)();
-          this.pushToFrontend({
-            type: "inclusion",
-            status: {
-              type: "grantSecurityClasses",
-              request: grant
-            }
-          });
-          return this.grantSecurityClassesPromise;
+        storage: {
+          cacheDir
         },
-        abort: () => {
+        securityKeys,
+        interview: {
+          queryAllUserCodes: true
+        },
+        enableSoftReset: !this.config.disableSoftReset,
+        inclusionUserCallbacks: {
+          validateDSKAndEnterPIN: (dsk) => {
+            this.validateDSKPromise = (0, import_deferred_promise.createDeferredPromise)();
+            this.pushToFrontend({
+              type: "inclusion",
+              status: {
+                type: "validateDSK",
+                dsk
+              }
+            });
+            return this.validateDSKPromise;
+          },
+          grantSecurityClasses: (grant) => {
+            this.grantSecurityClassesPromise = (0, import_deferred_promise.createDeferredPromise)();
+            this.pushToFrontend({
+              type: "inclusion",
+              status: {
+                type: "grantSecurityClasses",
+                request: grant
+              }
+            });
+            return this.grantSecurityClassesPromise;
+          },
+          abort: () => {
+          }
         }
+      });
+    } catch (e) {
+      if ((0, import_core.isZWaveError)(e) && e.code === import_zwave_js.ZWaveErrorCodes.Driver_InvalidOptions) {
+        this.log.error(`The adapter options are invalid: ${e.message}`);
+      } else {
+        this.log.error(
+          `Failed create the Z-Wave driver: ${(0, import_shared2.getErrorMessage)(
+            e,
+            true
+          )}`
+        );
       }
-    });
+      return;
+    }
     this.driver.once("driver ready", async () => {
       this.driverReady = true;
       this.setState("info.connection", true, true);
