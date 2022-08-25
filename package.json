@@ -35,7 +35,10 @@
   },
   "dependencies": {
     "@iobroker/adapter-core": "^2.6.0",
+    "@zwave-js/cc": "*",
+    "@zwave-js/core": "^10.0.0-rc.0",
     "@zwave-js/log-transport-json": "^2.0.1",
+    "@zwave-js/shared": "*",
     "alcalzone-shared": "^4.0.1",
     "fs-extra": "^10.0.1",
     "zwave-js": "^10.0.0-rc.0"
