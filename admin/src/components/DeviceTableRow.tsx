@@ -103,8 +103,8 @@ export const DeviceTableRow: React.FC<DeviceTableRowProps> = (props) => {
 				</TableCell>
 				<TableCell>{value.common.name}</TableCell>
 				<TableCell>
-					{(value.native as any).type.specific ??
-						(value.native as any).type.generic ??
+					{(value.native as any).type?.specific ??
+						(value.native as any).type?.generic ??
 						_("unknown")}
 				</TableCell>
 				<TableCell>
