@@ -40,7 +40,7 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	Placeholder for next versions:
 	### __WORK IN PROGRESS__
 -->
-### __WORK IN PROGRESS__
+### 3.0.0 (2022-08-25)
 Updated `zwave-js` to `10.0.0`. This includes a ton of changes, including:
 * Dropped support for Node.js 12
 * Several improvements to secure communication, especially with Security S2
@@ -91,11 +91,6 @@ Updated `zwave-js` to `9.0.1`. This includes many changes, including the followi
 * Fixed an issue where `Supervision Get` requests were not answered for sleeping nodes
 * Re-interviewing sleeping nodes now only resets the known information when the node wakes up
 * The `colors` dependency was recently [corrupted on purpose](https://www.theverge.com/2022/1/9/22874949/developer-corrupts-open-source-libraries-projects-affected). This patch updates all dependencies that depended on an affected version, directly or indirectly.
-
-### 2.4.2 (2021-12-23)
-* Fix: Additional node-related commands now respect and update the node status
-* Fixed an issue where the communication could get stuck after aborting a command
-* New and updated configuration files, see [here](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.9.0) and [here](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.9.1)
 
 ## License
 
