@@ -1,4 +1,15 @@
 # Older changes
+## 2.4.3 (2022-01-18)
+* Updated translations
+* Updated `zwave-js` from `8.9.1` to `8.11.2`. Check out the [releases](https://github.com/zwave-js/node-zwave-js/releases) for a detailed overview over the new and changed configuration files.
+* Add support for `Humidity Control Mode CC`
+* Add support for `Humidity Control Operating State CC`
+* Add support for `Humidity Control Setpoint CC`
+* Work around an issue where some devices could not be interviewed due to an incorrect `Version CC` response.
+* Fixed an issue where `Supervision Get` requests were not answered for sleeping nodes
+* Re-interviewing sleeping nodes now only resets the known information when the node wakes up
+* The `colors` dependency was recently [corrupted on purpose](https://www.theverge.com/2022/1/9/22874949/developer-corrupts-open-source-libraries-projects-affected). This patch updates all dependencies that depended on an affected version, directly or indirectly.
+
 ## 2.4.2 (2021-12-23)
 * Fix: Additional node-related commands now respect and update the node status
 * Fixed an issue where the communication could get stuck after aborting a command

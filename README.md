@@ -40,6 +40,9 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	Placeholder for next versions:
 	### __WORK IN PROGRESS__
 -->
+### 3.0.1 (2022-08-27)
+* Fixed crashes related to missing or incorrectly loaded dependencies
+
 ### 3.0.0 (2022-08-25)
 Updated `zwave-js` to `10.0.0`. This includes a ton of changes, including:
 * Dropped support for Node.js 12
@@ -80,17 +83,6 @@ Updated `zwave-js` to `9.0.1`. This includes many changes, including the followi
 * After healing, battery-powered nodes are sent back to sleep again
 * Added a workaround for thermostats that don't advertise all their supported thermostat modes. When such a thermostat enters such an "unsupported" mode, the mode is now dynamically added to the list of supported modes.
 * New and updated configuration files, see [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) for details
-
-### 2.4.3 (2022-01-18)
-* Updated translations
-* Updated `zwave-js` from `8.9.1` to `8.11.2`. Check out the [releases](https://github.com/zwave-js/node-zwave-js/releases) for a detailed overview over the new and changed configuration files.
-* Add support for `Humidity Control Mode CC`
-* Add support for `Humidity Control Operating State CC`
-* Add support for `Humidity Control Setpoint CC`
-* Work around an issue where some devices could not be interviewed due to an incorrect `Version CC` response.
-* Fixed an issue where `Supervision Get` requests were not answered for sleeping nodes
-* Re-interviewing sleeping nodes now only resets the known information when the node wakes up
-* The `colors` dependency was recently [corrupted on purpose](https://www.theverge.com/2022/1/9/22874949/developer-corrupts-open-source-libraries-projects-affected). This patch updates all dependencies that depended on an affected version, directly or indirectly.
 
 ## License
 

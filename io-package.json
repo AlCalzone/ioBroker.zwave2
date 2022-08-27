@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "zwave2",
-        "version": "3.0.0",
+        "version": "3.0.1",
         "news": {
+            "3.0.1": {
+                "en": "Fixed crashes related to missing or incorrectly loaded dependencies",
+                "de": "Abstürze im Zusammenhang mit fehlenden oder fehlerhaft geladenen Abhängigkeiten behoben",
+                "ru": "Исправлены сбои, связанные с отсутствующими или неправильно загруженными зависимостями",
+                "pt": "Falhas fixas relacionadas a falta ou dependências incorretamente carregadas",
+                "nl": "Vertaling:",
+                "fr": "Accidents fixes liés à des dépendances manquantes ou mal chargées",
+                "it": "Crash fissi relativi alle dipendenze mancanti o non caricate",
+                "es": "Fallos fijos relacionados con dependencias desaparecidas o cargadas incorrectamente",
+                "pl": "Zniszczone katastrofy związane z brakami lub nieprawidłowymi zależnościami",
+                "zh-cn": "与失踪或装有不当的依赖性有关的固定事故"
+            },
             "3.0.0": {
                 "en": "Updated `zwave-js` to `10.0.0`. This includes a ton of changes, including:\n* Dropped support for Node.js 12\n* Several improvements to secure communication, especially with Security S2\n* Changed how nodes are sent to sleep, preventing the queue from stalling when the node is already sleeping\n* Changed how `Supervision CC Reports` are sent out, preventing the queue from stalling\n* Obfuscated more sensitive data in logfiles\n* Fixed a bug where commands that should be discarded would still store their values\n* Improved the handling of incoming commands which are received out of order\n* Made it possible to disable SmartStart provisioning entries. When excluding a node, its provisioning entry will now be disabled instead of removed.\n* New and updated configuration files, see [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) for details",
                 "de": "`zwave-js` wurde auf `10.0.0` aktualisiert. Dies beinhaltet eine ganze Reihe von Änderungen, darunter:\n* Support für Node.js 12 wurde eingestellt.\n* Zahlreiche Verbesserungen bei der sicheren Kommunikation, insbesondere für Security S2\n* Geräte werden jetzt anders schlafen geschickt, um zu verhindern, dass die Warteschlange blockiert wird, wenn sie bereits schlafen.\n* `Supervision CC Reports` werden nun anders versendet, um zu verhindern, dass die Warteschlange blockiert wird.\n* Mehr sensible Daten in den Logfiles werden unkenntlich gemacht.\n* Ein Fehler wurde behoben, bei dem eingehende Kommandos, die eigentlich verworfen werden sollten, immer noch ihre Werte speichern konnten.\n* Die Verarbeitung von eingehenden Kommandos, die nicht in der richtigen Reihenfolge empfangen werden, wurde verbessert.\n* Es ist nun möglich, SmartStart-Provisioning-Einträge zu deaktivieren. Wenn ein Gerät aus dem Netzwerk entfernt wird, wird sein Provisioning-Eintrag nun deaktiviert anstatt entfernt zu werden.\n* Zahlreiche neue und aktualisierte Konfigurationsdateien, siehe [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) für Details",
@@ -74,18 +86,6 @@
                 "es": "Solución: los comandos adicionales relacionados con el nodo ahora respetan y actualizan el estado del nodo\nSe solucionó un problema por el cual la comunicación podía atascarse después de abortar un comando.\nArchivos de configuración nuevos y actualizados, consulte [aquí](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.9.0) y [aquí](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.9.1)",
                 "pl": "Poprawka: Dodatkowe polecenia związane z węzłem uwzględniają teraz i aktualizują stan węzła\nNaprawiono problem, w którym komunikacja mogła się utknąć po przerwaniu polecenia;\nNowe i zaktualizowane pliki konfiguracyjne, zobacz [tutaj](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.9.0) i [tutaj](https://github.com/zwave-js/node-zwave-js/wydania/tag/v8.9.1)",
                 "zh-cn": "修复：其他节点相关命令现在尊重并更新节点状态\n修复了中止命令后通信可能卡住的问题\n新的和更新的配置文件，见[这里](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.9.0)和[这里](https://github.com/zwave-js/node-zwave-js/releases/tag/v8.9.1)"
-            },
-            "2.4.2-beta.1": {
-                "en": "Fixed the check for incomplete or incorrect value IDs",
-                "de": "Die Prüfung auf unvollständige oder falsche value IDs wurde korrigiert",
-                "ru": "Исправлена проверка на неполные или неправильные идентификаторы значений.",
-                "pt": "Corrigida a verificação de IDs de valor incompletos ou incorretos",
-                "nl": "De controle op onvolledige of onjuiste waarde-ID's gerepareerd",
-                "fr": "Correction de la vérification des ID de valeur incomplets ou incorrects",
-                "it": "Risolto il problema con il controllo degli ID dei valori incompleti o errati",
-                "es": "Se corrigió la verificación de ID de valor incompletos o incorrectos",
-                "pl": "Naprawiono sprawdzanie pod kątem niekompletnych lub nieprawidłowych identyfikatorów wartości",
-                "zh-cn": "修复了对不完整或不正确的值 ID 的检查"
             }
         },
         "title": "Z-Wave 2",
