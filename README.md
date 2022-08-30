@@ -40,7 +40,7 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	Placeholder for next versions:
 	### __WORK IN PROGRESS__
 -->
-### __WORK IN PROGRESS__
+### 3.0.2 (2022-08-30)
 * Fixed some crashes and communication issues
 
 ### 3.0.1 (2022-08-27)
@@ -79,12 +79,6 @@ Updated `zwave-js` to `9.0.1`. This includes many changes, including the followi
 * Almost all CC API methods now validate their arguments, making it safer to execute custom commands from user code
 * User codes and network keys are no longer included in logfiles
 * Support for legacy devices which only support the obsolete `Multi Channel CC V1`
-* New and updated configuration files, see [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) for details
-
-### 2.4.5 (2022-02-20)
-* Update `zwave-js` to `8.11.6`
-* After healing, battery-powered nodes are sent back to sleep again
-* Added a workaround for thermostats that don't advertise all their supported thermostat modes. When such a thermostat enters such an "unsupported" mode, the mode is now dynamically added to the list of supported modes.
 * New and updated configuration files, see [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) for details
 
 ## License
