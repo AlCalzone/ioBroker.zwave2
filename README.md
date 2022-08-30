@@ -40,6 +40,9 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	Placeholder for next versions:
 	### __WORK IN PROGRESS__
 -->
+### __WORK IN PROGRESS__
+* Fixed some crashes and communication issues
+
 ### 3.0.1 (2022-08-27)
 * Fixed crashes related to missing or incorrectly loaded dependencies
 
