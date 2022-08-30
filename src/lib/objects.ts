@@ -510,7 +510,7 @@ function valueTypeToIOBrokerType(
 		case "any":
 			return "mixed";
 		default:
-			if (valueType.endsWith("[]")) return "array";
+			if (valueType?.endsWith("[]")) return "array";
 	}
 	return "mixed";
 }
