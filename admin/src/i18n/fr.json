@@ -34,7 +34,7 @@
     "Define here which SmartStart capable nodes should be part of the network by entering their DSK and granting security classes.": "Définissez ici quels nœuds compatibles SmartStart doivent faire partie du réseau en entrant leur DSK et en accordant des classes de sécurité.",
     "Delete association": "Supprimer l'association",
     "Delete group": "Supprimer le groupe",
-    "Devices": "Dispositifs",
+    "Devices": "Devices",
     "Disable restarting the controller on startup": "Désactiver le redémarrage du contrôleur au démarrage",
     "Do you really want to remove this node from the network?": "Voulez-vous vraiment supprimer ce nœud du réseau ?",
     "Do you really want to remove this node from the provisioning list?": "Voulez-vous vraiment supprimer ce nœud de la liste d'approvisionnement ?",
