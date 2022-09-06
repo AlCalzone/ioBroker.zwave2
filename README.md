@@ -40,7 +40,7 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	Placeholder for next versions:
 	### __WORK IN PROGRESS__
 -->
-### __WORK IN PROGRESS__
+### 3.0.3 (2022-09-06)
 Fixed some more communication issues. If a device isn't working properly after upgrading to 3.x, try to re-interview it.
 
 ### 3.0.2 (2022-08-30)
@@ -71,17 +71,6 @@ Updated `zwave-js` to `9.2.2`. Notable changes include:
 * Retry the initial connection to sticks hosted via TCP
 * When the Z-Wave stick is disconnected while the adapter is running, the adapter will automatically try to reconnect again
 * Improvements to healing and Smart Start
-* New and updated configuration files, see [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) for details
-
-### 2.5.0 (2022-04-03)
-Updated `zwave-js` to `9.0.1`. This includes many changes, including the following:
-* Worked around an issue where certain 500-series controllers take too long to respond when attempting communication with unreachable nodes
-* Node queries now timeout faster if no response is received. This should avoid battery-powered nodes to go back to sleep mid-interview.
-* Add support for `Irrigation CC`
-* The legacy network cache file `<homeid>.json` was converted to an appendonly `.jsonl` file in order to prevent data loss
-* Almost all CC API methods now validate their arguments, making it safer to execute custom commands from user code
-* User codes and network keys are no longer included in logfiles
-* Support for legacy devices which only support the obsolete `Multi Channel CC V1`
 * New and updated configuration files, see [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) for details
 
 ## License
