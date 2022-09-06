@@ -40,6 +40,9 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	Placeholder for next versions:
 	### __WORK IN PROGRESS__
 -->
+### __WORK IN PROGRESS__
+Fixed some more communication issues. If a device isn't working properly after upgrading to 3.x, try to re-interview it.
+
 ### 3.0.2 (2022-08-30)
 * Fixed some crashes and communication issues
 

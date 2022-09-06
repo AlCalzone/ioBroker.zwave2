@@ -3,6 +3,18 @@
     "name": "zwave2",
     "version": "3.0.2",
     "news": {
+      "NEXT": {
+        "en": "Fixed some more communication issues. If a device isn't working properly after upgrading to 3.x, try to re-interview it.",
+        "de": "Weitere Kommunikationsprobleme wurden behoben. Wenn ein Gerät nach dem Upgrade auf 3.x nicht richtig funktioniert, bitte ein erneutes Interview versuchen.",
+        "ru": "Исправлено еще несколько проблем со связью. Если устройство не работает должным образом после обновления до версии 3.x, попробуйте повторно опросить его.",
+        "pt": "Corrigidos mais alguns problemas de comunicação. Se um dispositivo não estiver funcionando corretamente após a atualização para 3.x, tente entrevistá-lo novamente.",
+        "nl": "Nog wat communicatieproblemen opgelost. Als een apparaat niet goed werkt na het upgraden naar 3.x, probeer het dan opnieuw te interviewen.",
+        "fr": "Correction de quelques problèmes de communication supplémentaires. Si un appareil ne fonctionne pas correctement après la mise à niveau vers la version 3.x, essayez de l'interroger à nouveau.",
+        "it": "Risolti altri problemi di comunicazione. Se un dispositivo non funziona correttamente dopo l'aggiornamento a 3.x, prova a intervistarlo nuovamente.",
+        "es": "Se corrigieron algunos problemas de comunicación más. Si un dispositivo no funciona correctamente después de actualizar a 3.x, intente volver a entrevistarlo.",
+        "pl": "Naprawiono kilka innych problemów z komunikacją. Jeśli urządzenie nie działa poprawnie po aktualizacji do wersji 3.x, spróbuj ponownie przeprowadzić z nim wywiad.",
+        "zh-cn": "修复了一些更多的通信问题。如果升级到 3.x 后设备不能正常工作，请尝试重新访问它。"
+      },
       "3.0.2": {
         "en": "Fixed some crashes and communication issues",
         "de": "Einige Crashs und Kommunikationsprobleme behoben",
@@ -113,15 +125,8 @@
       "pl": "Lepsza integracja Z-Wave",
       "zh-cn": "更好的Z-Wave集成"
     },
-    "authors": [
-      "AlCalzone <d.griesel@gmx.net>"
-    ],
-    "keywords": [
-      "zwave",
-      "z-wave",
-      "zwave2",
-      "z-wave 2"
-    ],
+    "authors": ["AlCalzone <d.griesel@gmx.net>"],
+    "keywords": ["zwave", "z-wave", "zwave2", "z-wave 2"],
     "license": "MIT",
     "platform": "Javascript/Node.js",
     "main": "build/main.js",
