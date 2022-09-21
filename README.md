@@ -40,6 +40,12 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	Placeholder for next versions:
 	### __WORK IN PROGRESS__
 -->
+### __WORK IN PROGRESS__
+Updated `zwave-js` to `10.2.0`. This includes the following changes:
+* Fixed an issue where the possible states for `Notification` values could be incomplete
+* Fixed an issue where setting the time on some devices would always use UTC, even this should be done with local time
+* New and updated configuration files, see [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) for details
+
 ### 3.0.3 (2022-09-06)
 Fixed some more communication issues. If a device isn't working properly after upgrading to 3.x, try to re-interview it.
 
