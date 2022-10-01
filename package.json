@@ -34,7 +34,7 @@
     "node": ">=14.13.0 <15 || >= 16 <16.9.0 || >16.9.0"
   },
   "dependencies": {
-    "@iobroker/adapter-core": "^2.6.0",
+    "@iobroker/adapter-core": "^2.6.6",
     "@zwave-js/log-transport-json": "^3.0.0",
     "alcalzone-shared": "^4.0.3",
     "fs-extra": "^10.1.0",
