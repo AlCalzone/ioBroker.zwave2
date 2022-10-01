@@ -76,7 +76,7 @@
     "d3": "^7.6.1",
     "esbuild": "^0.15.6",
     "esbuild-register": "^3.3.3",
-    "eslint": "^8.23.0",
+    "eslint": "^8.24.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
     "iobroker-react": "git+https://git@github.com/AlCalzone/iobroker-react.git#a8dfe47",
