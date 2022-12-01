@@ -37,7 +37,7 @@
     "@iobroker/adapter-core": "^2.6.7",
     "@zwave-js/log-transport-json": "^3.0.0",
     "alcalzone-shared": "^4.0.3",
-    "fs-extra": "^10.1.0",
+    "fs-extra": "^11.1.0",
     "zwave-js": "~10.2.0"
   },
   "devDependencies": {
