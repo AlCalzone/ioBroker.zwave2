@@ -85,7 +85,7 @@
     "Legacy switch compatibility": "Improve compatibility with legacy switches",
     "Lighting, sensors, security systems": "Lighting, sensors, security systems",
     "Like S2 Authenticated, but without verification that the correct device is included": "Like S2 Authenticated, but without verification that the correct device is included",
-    "Name": "Name",
+    "Name": "name",
     "network key confirm": "This will overwrite the existing key and the adapter won't be able to communicate with already-included secure devices. Do you want to continue?",
     "network key tooltip": "16 bytes in hexadecimal form (32 characters 0-9, a-f). Without spaces, without commas, without leading '0x'.",
     "Network keys for secure communication": "Network keys for secure communication",
