@@ -40,6 +40,14 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	Placeholder for next versions:
 	### __WORK IN PROGRESS__
 -->
+### __WORK IN PROGRESS__
+Updated `zwave-js` to `10.5.4`. This includes the following changes:
+* Fixed a memory leak caused by a dependency
+* Fixed an issue where multiple re-interview tasks for sleeping nodes could be queued and would be executed in parallel
+* Fixed an issue where firmware updates could use a too large fragment size after upgrading to v10, causing the update to fail
+* Several improvements related to `Security S2`
+* New and updated configuration files, see [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) for details
+
 ### 3.0.4 (2022-09-21)
 Updated `zwave-js` to `10.2.0`. This includes the following changes:
 * Fixed an issue where the possible states for `Notification` values could be incomplete
@@ -71,7 +79,7 @@ Updated `zwave-js` to `10.0.0`. This includes a ton of changes, including:
 
 MIT License
 
-Copyright (c) 2019-2022 AlCalzone
+Copyright (c) 2019-2023 AlCalzone
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
