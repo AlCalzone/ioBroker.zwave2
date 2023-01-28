@@ -40,7 +40,7 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	Placeholder for next versions:
 	### __WORK IN PROGRESS__
 -->
-### __WORK IN PROGRESS__
+### 3.0.5 (2023-01-28)
 Updated `zwave-js` to `10.5.4`. This includes the following changes:
 * Fixed a memory leak caused by a dependency
 * Fixed an issue where multiple re-interview tasks for sleeping nodes could be queued and would be executed in parallel
@@ -62,18 +62,6 @@ Fixed some more communication issues. If a device isn't working properly after u
 
 ### 3.0.1 (2022-08-27)
 * Fixed crashes related to missing or incorrectly loaded dependencies
-
-### 3.0.0 (2022-08-25)
-Updated `zwave-js` to `10.0.0`. This includes a ton of changes, including:
-* Dropped support for Node.js 12
-* Several improvements to secure communication, especially with Security S2
-* Changed how nodes are sent to sleep, preventing the queue from stalling when the node is already sleeping
-* Changed how `Supervision CC Reports` are sent out, preventing the queue from stalling
-* Obfuscated more sensitive data in logfiles
-* Fixed a bug where commands that should be discarded would still store their values
-* Improved the handling of incoming commands which are received out of order
-* Made it possible to disable SmartStart provisioning entries. When excluding a node, its provisioning entry will now be disabled instead of removed.
-* New and updated configuration files, see [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) for details
 
 ## License
 
