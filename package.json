@@ -37,7 +37,7 @@
     "@iobroker/adapter-core": "^2.6.7",
     "@zwave-js/log-transport-json": "^3.0.0",
     "alcalzone-shared": "^4.0.3",
-    "fs-extra": "^10.1.0",
+    "fs-extra": "^11.1.0",
     "zwave-js": "~10.5.4"
   },
   "devDependencies": {
@@ -55,7 +55,7 @@
     "@types/chai-as-promised": "^7.1.5",
     "@types/d3": "^7.4.0",
     "@types/d3-scale-chromatic": "^3.0.0",
-    "@types/fs-extra": "^9.0.13",
+    "@types/fs-extra": "^11.0.1",
     "@types/lodash": "^4.14.191",
     "@types/mocha": "^10.0.1",
     "@types/node": "^14.18.26",
