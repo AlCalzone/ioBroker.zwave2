@@ -39,17 +39,25 @@ export const Groups: React.FC<GroupsProps> = (props) => {
 	if (!props.devices || !groups) return <CircularProgress />;
 
 	const selectableNodes = Object.values(props.devices).filter((device) => {
-		const { isControllerNode, secure } = device.value.native;
-		return !isControllerNode && !secure;
+		const { isControllerNode, securityClasses, secure, canSleep } =
+			device.value.native;
+		// Sleeping nodes and the controller cannot be targets for multicast
+		if (isControllerNode || canSleep) return false;
+		// Insecure nodes can be used for multicast
+		if (secure === false) return true;
+		// Secure nodes can only be used for multicast if they support S2
+		if (securityClasses["S2_AccessControl"] === true) return true;
+		if (securityClasses["S2_Authenticated"] === true) return true;
+		if (securityClasses["S2_Unauthenticated"] === true) return true;
+		if (securityClasses["S0_Legacy"] === true) return false;
+
+		// Default should be true to avoid https://github.com/AlCalzone/ioBroker.zwave2/issues/815
+		return true;
 	});
 
 	return (
 		<>
-			<Alert severity="info">
-				{_("no multicast S0")}
-				<br />
-				{_("no multicast S2")}
-			</Alert>
+			<Alert severity="info">{_("no multicast explanation")}</Alert>
 
 			<Paper className={classes.root} elevation={2}>
 				<TableContainer className={classes.container}>

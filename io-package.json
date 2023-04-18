@@ -1,265 +1,280 @@
 {
-  "common": {
-    "name": "zwave2",
-    "version": "3.0.5",
-    "news": {
-      "3.0.5": {
-        "en": "Updated `zwave-js` to `10.5.4`. This includes the following changes:\n* Fixed a memory leak caused by a dependency\n* Fixed an issue where multiple re-interview tasks for sleeping nodes could be queued and would be executed in parallel\n* Fixed an issue where firmware updates could use a too large fragment size after upgrading to v10, causing the update to fail\n* Several improvements related to `Security S2`\n* New and updated configuration files, see [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) for details",
-        "de": "`zwave-js` wurde auf Version `10.5.4` aktualisiert. Dies beinhaltet die folgenden Änderungen:\n* Ein durch eine Abhängigkeit verursachtes Speicherleck wurde behoben\n* Es wurde ein Problem behoben, bei dem mehrere Interviews für schlafende Geräte in eine Warteschlange gestellt und parallel ausgeführt werden konnten.\n* Ein Problem wurde behoben, bei dem Firmware-Updates eine zu große Fragmentgröße verwenden konnten, was zu einem Fehlschlag des Updates führte\n* Mehrere Verbesserungen im Zusammenhang mit `Security S2`\n* Neue und aktualisierte Konfigurationsdateien, siehe [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) für Details",
-        "ru": "Обновлено zwave-js до 10.5.4 Это включает в себя следующие изменения:\n* Исправлена утечка памяти, вызванная зависимостью\n* Исправлена проблема, где несколько задач повторного просмотра для спальных узлов могут быть запрошены и будут выполнены параллельно\n* Исправлена проблема, где обновления прошивки могут использовать слишком большой размер фрагмента после обновления до v10, вызывая обновление для неудачи\n* Несколько улучшений, связанных с `Security S2`\n* Новые и обновленные файлы конфигурации, см. [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) для деталей",
-        "pt": "Atualizado zwave-js para 10.5.4 Isso inclui as seguintes alterações:\n* Corrigido um vazamento de memória causado por uma dependência\n* Corrigido um problema em que várias tarefas de re-interview para nós dormindo poderiam ser executadas em paralelo\n* Corrigido um problema em que as atualizações de firmware podem usar um tamanho de fragmento muito grande depois de atualizar para v10, fazendo com que a atualização falhe\n* Várias melhorias relacionadas ao `Security S2`\n* Novos e atualizados arquivos de configuração, consulte [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) para obter detalhes",
-        "nl": "Upded zwave-js tot 10.5.4 Dit bevat de volgende veranderingen:\nQuality over Quantity (QoQ) Releases Vertaling:\n_\nQuality over Quantity (QoQ) Releases Vertaling:\nQuality over Quantity (QoQ) Releases Vertaling:\n♪ New and updated configuration bestanden, see [Z-Wave JS laat los ♪",
-        "fr": "Actualisé zwave-js à 10.5.4 Cela comprend les changements suivants:\n* Une fuite de mémoire due à une dépendance\n* Correction d'un problème où plusieurs tâches de réinterview pour les noeuds de couchage pourraient être filetées et seraient exécutées en parallèle\n* Correction d'un problème où les mises à jour du firmware pourraient utiliser une taille trop grande de fragments après la mise à niveau vers v10, causant la mise à jour à défaut\n* Plusieurs améliorations liées à la sécurité S2\n* Nouveaux fichiers de configuration actualisés, voir [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) pour plus de détails",
-        "it": "Aggiornato zwave-js a 10.5.4 Questo include le seguenti modifiche:\n* Risolto una perdita di memoria causata da una dipendenza\n* Risolto un problema in cui più compiti di riintervista per i nodi addormentati potrebbero essere in coda e sarebbero eseguiti in parallelo\n* Risolto un problema in cui gli aggiornamenti del firmware potrebbero utilizzare una dimensione del frammento troppo grande dopo l'aggiornamento a v10, causando il mancato aggiornamento\n* Diversi miglioramenti relativi a `Security S2`\n* File di configurazione nuovi e aggiornati, vedere [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) per i dettagli",
-        "es": "Actualizado zwave-js a 10.5.4 Esto incluye los siguientes cambios:\n* Fijo una fuga de memoria causada por una dependencia\n* Arreglado un problema en el que se podrían realizar múltiples tareas de reinterview para los nodos dormidos y se ejecutarían en paralelo\n* Arregló un problema donde las actualizaciones de firmware podrían utilizar un tamaño de fragmento demasiado grande después de actualizar a v10, causando que la actualización falla\n* Varias mejoras relacionadas con `Security S2`\n* Archivos de configuración nuevos y actualizados, véase [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) para más detalles",
-        "pl": "Zwave-js to 10,5,4. Obejmuje to następujące zmiany:\n* Fixed wyciek pamięci spowodowany przez zależność\n* Fixed problem, w którym wielokrotne zadania do ponownego przeglądu węzłów snu mogą być kolejkowane i być wykonywane w równoległych zadaniach\n* Fixed problem, w którym aktualizacje oprogramowania mogą wykorzystywać zbyt duży fragmentaryczne rozmiary po upgradzaniu do v10, powodując aktualizację, aby nie powiodły się\n* Kilka ulepszeń związanych z S2`\n* Nowe i aktualizowane pliki konfiguracyjne, zobacz Z-Wave JS (https:/github.com/zwave-js/node-zwave-js/release) dla szczegółów",
-        "uk": "Оновлено zwave-js до 10.5.4 Це включає наступні зміни:\n* Виправлено витік пам'яті, викликане залежностю\n* Виправлено проблему, в якому можуть бути черги кілька завдань з перегляду зображень для спальних вузлів\n* Виправлено проблему, коли оновлення прошивки може використовувати занадто великий розмір фрагмента після оновлення v10, викликаючи оновлення, щоб не вдалося\n* Кілька поліпшень, пов’язаних з `Security S2`\n* Нові та оновлені файли конфігурації, див. [Z-Wave JS релізи](https://github.com/zwave-js/node-zwave-js/releases) для деталей",
-        "zh-cn": "更新的兹瓦韦-js to 10.5.4 这包括下列变化:\n* 由于依赖性引起的记忆泄漏\n* 确定一个问题,即可以对供睡觉的多面审查任务进行审查,同时执行。\n* 确定一个问题,即在升级至 v10之后,可以使用过于庞大的脆弱程度,从而导致更新失败\n* 与“S2'有关的若干改进\n* 新的和更新的组合档案,见[Z-Wave JS Release](https://github.com/zwave-js/node-zwave-js/releases),详细详情"
-      },
-      "3.0.4": {
-        "en": "Updated `zwave-js` to `10.2.0`. This includes the following changes:\n* Fixed an issue where the possible states for `Notification` values could be incomplete\n* Fixed an issue where setting the time on some devices would always use UTC, even this should be done with local time\n* New and updated configuration files, see [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) for details",
-        "de": "`zwave-js` wurde auf `10.2.0` aktualisiert. Dies beinhaltet die folgenden Änderungen:\n* Es wurde ein Problem behoben, bei dem die möglichen Zustände für `Notification`-Werte unvollständig sein konnten.\n* Es wurde ein Fehler behoben, bei dem das Einstellen der Zeit auf einigen Geräten immer UTC verwendet hat, obwohl dies mit der lokalen Zeit geschehen sollte\n* Neue und aktualisierte Konfigurationsdateien, siehe [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) für Details",
-        "ru": "Обновлено zwave-js до 10.2.0 Это включает в себя следующие изменения:\n* Исправлена проблема, где возможные государства для значений уведомлений могут быть неполными\n* Исправлена проблема, где установка времени на некоторых устройствах всегда будет использовать UTC, даже это должно быть сделано с местным временем\n* Новые и обновленные файлы конфигурации, см. [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) для деталей",
-        "pt": "Atualizado zwave-js para 10.2.0 Isso inclui as seguintes alterações:\n* Corrigido um problema onde os possíveis estados para valores de notificação podem ser incompletos\n* Corrigido um problema em que definir o tempo em alguns dispositivos sempre usaria UTC, mesmo isso deve ser feito com o tempo local\n* Novos e atualizados arquivos de configuração, consulte [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) para obter detalhes",
-        "nl": "Update zwave-js tot 10.2. Dit bevat de volgende veranderingen:\nQuality over Quantity (QoQ) Releases Vertaling:\n_\n♪ New and updated configuration bestanden, see [Z-Wave JS laat los ♪",
-        "fr": "Actualisé zwave-js à 10.2.0 Cela comprend les changements suivants:\n* Correction d'un problème où les états possibles des valeurs de notification pourraient être incomplètes\n* Correction d'un problème où le réglage du temps sur certains appareils utiliserait toujours UTC, même cela devrait être fait avec l'heure locale\n* Nouveaux fichiers de configuration actualisés, voir [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) pour plus de détails",
-        "it": "Aggiornato zwave-js a 10.2.0 Questo include le seguenti modifiche:\n* Risolto un problema in cui i possibili stati per i valori di notifica potrebbero essere incompleti\n* Risolto un problema in cui impostare il tempo su alcuni dispositivi sarebbe sempre utilizzare UTC, anche questo dovrebbe essere fatto con l'ora locale\n* File di configurazione nuovi e aggiornati, vedere [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) per i dettagli",
-        "es": "Actualizado zwave-js a 10.2.0 Esto incluye los siguientes cambios:\n* Arregla un problema en el que los posibles estados de los valores de notificación podrían ser incompletos\n* Arreglado un problema donde establecer el tiempo en algunos dispositivos siempre utilizaría UTC, incluso esto debe hacerse con el tiempo local\n* Archivos de configuración nuevos y actualizados, véase [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) para más detalles",
-        "pl": "Zwolniony zwave-js do 10.2.0. Obejmuje to następujące zmiany:\n* Fixed problem, w którym możliwe stany informacji mogą być niekompletne\n* Fixed problem, w którym ustalenie czasu na niektórych urządzeniach byłoby zawsze użyte w UTC, nawet jeśli chodzi o czas lokalny\n* Nowe i aktualizowane pliki konfiguracyjne, zobacz Z-Wave JS (https:/github.com/zwave-js/node-zwave-js/release) dla szczegółów",
-        "zh-cn": "更新的兹瓦韦-js to 102.0 这包括下列变化:\n* 指定一个问题,说明价值的可能国家可能不完善。\n* 在确定某些装置的时间时,通常会使用联合技术委员会,即使应该在当地时间这样做。\n* 新的和更新的组合档案,见[Z-Wave JS Release](https://github.com/zwave-js/node-zwave-js/releases),详细详情"
-      },
-      "3.0.3": {
-        "en": "Fixed some more communication issues. If a device isn't working properly after upgrading to 3.x, try to re-interview it.",
-        "de": "Weitere Kommunikationsprobleme wurden behoben. Wenn ein Gerät nach dem Upgrade auf 3.x nicht richtig funktioniert, bitte ein erneutes Interview versuchen.",
-        "ru": "Исправлено еще несколько проблем со связью. Если устройство не работает должным образом после обновления до версии 3.x, попробуйте повторно опросить его.",
-        "pt": "Corrigidos mais alguns problemas de comunicação. Se um dispositivo não estiver funcionando corretamente após a atualização para 3.x, tente entrevistá-lo novamente.",
-        "nl": "Nog wat communicatieproblemen opgelost. Als een apparaat niet goed werkt na het upgraden naar 3.x, probeer het dan opnieuw te interviewen.",
-        "fr": "Correction de quelques problèmes de communication supplémentaires. Si un appareil ne fonctionne pas correctement après la mise à niveau vers la version 3.x, essayez de l'interroger à nouveau.",
-        "it": "Risolti altri problemi di comunicazione. Se un dispositivo non funziona correttamente dopo l'aggiornamento a 3.x, prova a intervistarlo nuovamente.",
-        "es": "Se corrigieron algunos problemas de comunicación más. Si un dispositivo no funciona correctamente después de actualizar a 3.x, intente volver a entrevistarlo.",
-        "pl": "Naprawiono kilka innych problemów z komunikacją. Jeśli urządzenie nie działa poprawnie po aktualizacji do wersji 3.x, spróbuj ponownie przeprowadzić z nim wywiad.",
-        "zh-cn": "修复了一些更多的通信问题。如果升级到 3.x 后设备不能正常工作，请尝试重新访问它。"
-      },
-      "3.0.2": {
-        "en": "Fixed some crashes and communication issues",
-        "de": "Einige Crashs und Kommunikationsprobleme behoben",
-        "ru": "Исправлены некоторые сбои и проблемы связи",
-        "pt": "Corrigido algumas falhas e problemas de comunicação",
-        "nl": "Vertaling:",
-        "fr": "Correction de certains accidents et problèmes de communication",
-        "it": "Risolto alcuni crash e problemi di comunicazione",
-        "es": "Arreglado algunos fallos y problemas de comunicación",
-        "pl": "Szczegółowe katastrofy i problemy komunikacyjne",
-        "zh-cn": "确定一些事故和通信问题"
-      },
-      "3.0.1": {
-        "en": "Fixed crashes related to missing or incorrectly loaded dependencies",
-        "de": "Abstürze im Zusammenhang mit fehlenden oder fehlerhaft geladenen Abhängigkeiten behoben",
-        "ru": "Исправлены сбои, связанные с отсутствующими или неправильно загруженными зависимостями",
-        "pt": "Falhas fixas relacionadas a falta ou dependências incorretamente carregadas",
-        "nl": "Vertaling:",
-        "fr": "Accidents fixes liés à des dépendances manquantes ou mal chargées",
-        "it": "Crash fissi relativi alle dipendenze mancanti o non caricate",
-        "es": "Fallos fijos relacionados con dependencias desaparecidas o cargadas incorrectamente",
-        "pl": "Zniszczone katastrofy związane z brakami lub nieprawidłowymi zależnościami",
-        "zh-cn": "与失踪或装有不当的依赖性有关的固定事故"
-      },
-      "3.0.0": {
-        "en": "Updated `zwave-js` to `10.0.0`. This includes a ton of changes, including:\n* Dropped support for Node.js 12\n* Several improvements to secure communication, especially with Security S2\n* Changed how nodes are sent to sleep, preventing the queue from stalling when the node is already sleeping\n* Changed how `Supervision CC Reports` are sent out, preventing the queue from stalling\n* Obfuscated more sensitive data in logfiles\n* Fixed a bug where commands that should be discarded would still store their values\n* Improved the handling of incoming commands which are received out of order\n* Made it possible to disable SmartStart provisioning entries. When excluding a node, its provisioning entry will now be disabled instead of removed.\n* New and updated configuration files, see [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) for details",
-        "de": "`zwave-js` wurde auf `10.0.0` aktualisiert. Dies beinhaltet eine ganze Reihe von Änderungen, darunter:\n* Support für Node.js 12 wurde eingestellt.\n* Zahlreiche Verbesserungen bei der sicheren Kommunikation, insbesondere für Security S2\n* Geräte werden jetzt anders schlafen geschickt, um zu verhindern, dass die Warteschlange blockiert wird, wenn sie bereits schlafen.\n* `Supervision CC Reports` werden nun anders versendet, um zu verhindern, dass die Warteschlange blockiert wird.\n* Mehr sensible Daten in den Logfiles werden unkenntlich gemacht.\n* Ein Fehler wurde behoben, bei dem eingehende Kommandos, die eigentlich verworfen werden sollten, immer noch ihre Werte speichern konnten.\n* Die Verarbeitung von eingehenden Kommandos, die nicht in der richtigen Reihenfolge empfangen werden, wurde verbessert.\n* Es ist nun möglich, SmartStart-Provisioning-Einträge zu deaktivieren. Wenn ein Gerät aus dem Netzwerk entfernt wird, wird sein Provisioning-Eintrag nun deaktiviert anstatt entfernt zu werden.\n* Zahlreiche neue und aktualisierte Konfigurationsdateien, siehe [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) für Details",
-        "ru": "Обновлен `zwave-js` до `10.0.0`. Это включает в себя массу изменений, в том числе:\n* Прекращена поддержка Node.js 12.\n* Несколько улучшений для безопасной связи, особенно с Security S2\n* Изменен способ перевода узлов в спящий режим, что предотвращает зависание очереди, когда узел уже находится в спящем режиме.\n* Изменен способ отправки «Отчетов о надзоре», что предотвращает зависание очереди.\n* Запутаны более конфиденциальные данные в лог-файлах\n* Исправлена ​​ошибка, из-за которой команды, которые следует отбросить, сохраняли свои значения.\n* Улучшена обработка входящих команд, полученных не по порядку\n* Сделано возможным отключить записи обеспечения SmartStart. При исключении узла его запись подготовки теперь будет отключена, а не удалена.\n* Новые и обновленные файлы конфигурации, подробности см. в [релизах Z-Wave JS](https://github.com/zwave-js/node-zwave-js/releases).",
-        "pt": "Atualizado `zwave-js` para `10.0.0`. Isso inclui uma tonelada de mudanças, incluindo:\n* Suporte descartado para Node.js 12\n* Várias melhorias na comunicação segura, especialmente com o Security S2\n* Alterado como os nós são enviados para dormir, evitando que a fila pare quando o nó já estiver dormindo\n* Alterado como os `Relatórios CC de Supervisão` são enviados, evitando que a fila fique parada\n* Dados mais sensíveis ofuscados em arquivos de log\n* Corrigido um bug onde comandos que deveriam ser descartados ainda armazenavam seus valores\n* Melhorou o tratamento de comandos recebidos que são recebidos fora de ordem\n* Tornou possível desabilitar as entradas de provisionamento SmartStart. Ao excluir um nó, sua entrada de provisionamento agora será desabilitada em vez de removida.\n* Arquivos de configuração novos e atualizados, consulte [versões Z-Wave JS](https://github.com/zwave-js/node-zwave-js/releases) para obter detalhes",
-        "nl": "`zwave-js` geüpdatet naar `10.0.0`. Dit omvat een heleboel veranderingen, waaronder:\n* Geen ondersteuning meer voor Node.js 12\n* Verschillende verbeteringen aan beveiligde communicatie, vooral met Security S2\n* Gewijzigd hoe knooppunten naar de slaapstand worden gestuurd, waardoor wordt voorkomen dat de wachtrij vastloopt wanneer het knooppunt al slaapt\n* Gewijzigd hoe `Supervisie CC-rapporten` worden verzonden, waardoor de wachtrij niet vastloopt\n* Verduisterde meer gevoelige gegevens in logbestanden\n* Een bug opgelost waarbij commando's die moesten worden weggegooid nog steeds hun waarden opslaan\n* Verbeterde verwerking van inkomende commando's die niet in orde zijn\n* Mogelijk gemaakt om SmartStart-provisioning-items uit te schakelen. Bij het uitsluiten van een knooppunt, wordt het inrichtingsitem nu uitgeschakeld in plaats van verwijderd.\n* Nieuwe en bijgewerkte configuratiebestanden, zie [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) voor details",
-        "fr": "Mise à jour de `zwave-js` vers `10.0.0`. Cela inclut une tonne de changements, notamment :\n* Abandon de la prise en charge de Node.js 12\n* Plusieurs améliorations pour sécuriser la communication, notamment avec Security S2\n* Modification de la façon dont les nœuds sont mis en veille, empêchant la file d'attente de se bloquer lorsque le nœud est déjà en veille\n* Modification de la manière dont les «rapports CC de supervision» sont envoyés, empêchant la file d'attente de se bloquer\n* Obfusqué des données plus sensibles dans les fichiers journaux\n* Correction d'un bug où les commandes qui devraient être ignorées stockaient toujours leurs valeurs\n* Amélioration de la gestion des commandes entrantes qui sont reçues dans le désordre\n* Rendu possible de désactiver les entrées de provisionnement SmartStart. Lors de l'exclusion d'un nœud, son entrée de provisionnement sera désormais désactivée au lieu d'être supprimée.\n* Fichiers de configuration nouveaux et mis à jour, voir [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) pour plus de détails",
-        "it": "Aggiornato `zwave-js` a `10.0.0`. Ciò include un sacco di modifiche, tra cui:\n* Supporto interrotto per Node.js 12\n* Diversi miglioramenti per proteggere la comunicazione, in particolare con Security S2\n* Modificato il modo in cui i nodi vengono inviati in modalità di sospensione, impedendo lo stallo della coda quando il nodo è già in modalità di sospensione\n* Modificato il modo in cui vengono inviati i \"Rapporti CC di supervisione\", impedendo lo stallo della coda\n* Dati più sensibili offuscati nei file di registro\n* Risolto un bug per cui i comandi che dovevano essere scartati conservavano comunque i loro valori\n* Migliorata la gestione dei comandi in arrivo ricevuti fuori servizio\n* Reso possibile disabilitare le voci di provisioning SmartStart. Quando si esclude un nodo, la sua voce di provisioning verrà ora disabilitata anziché rimossa.\n* File di configurazione nuovi e aggiornati, vedere [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) per i dettagli",
-        "es": "Se actualizó `zwave-js` a `10.0.0`. Esto incluye una tonelada de cambios, que incluyen:\n* Soporte eliminado para Node.js 12\n* Varias mejoras en la comunicación segura, especialmente con Security S2\n* Cambió la forma en que los nodos se envían a dormir, evitando que la cola se detenga cuando el nodo ya está durmiendo\n* Se modificó la forma en que se envían los \"Informes CC de supervisión\", lo que evita que la cola se detenga\n* Datos más confidenciales ofuscados en archivos de registro\n* Se corrigió un error por el cual los comandos que deberían descartarse aún almacenarían sus valores\n* Se mejoró el manejo de los comandos entrantes que se reciben fuera de servicio\n* Hizo posible deshabilitar las entradas de aprovisionamiento de SmartStart. Al excluir un nodo, su entrada de aprovisionamiento ahora se deshabilitará en lugar de eliminarse.\n* Archivos de configuración nuevos y actualizados, consulte [Versiones de Z-Wave JS] (https://github.com/zwave-js/node-zwave-js/releases) para obtener más detalles.",
-        "pl": "Zaktualizowano `zwave-js` do `10.0.0`. Obejmuje to mnóstwo zmian, w tym:\n* Zrezygnowano z obsługi Node.js 12\n* Kilka ulepszeń w celu zabezpieczenia komunikacji, zwłaszcza z Security S2\n* Zmieniono sposób, w jaki węzły są wysyłane w stan uśpienia, zapobiegając zawieszaniu się kolejki, gdy węzeł już śpi\n* Zmieniono sposób wysyłania `Raportów nadzoru CC`, zapobiegając zawieszaniu się kolejki\n* Zamaskowane bardziej wrażliwe dane w plikach dziennika\n* Naprawiono błąd, w którym polecenia, które powinny zostać odrzucone, nadal przechowują swoje wartości\n* Poprawiono obsługę przychodzących poleceń, które są odbierane poza kolejnością\n* Umożliwiono wyłączenie wpisów aprowizacji SmartStart. Po wykluczeniu węzła jego wpis aprowizacji zostanie teraz wyłączony, a nie usunięty.\n* Nowe i zaktualizowane pliki konfiguracyjne, zobacz [Wersje Z-Wave JS](https://github.com/zwave-js/node-zwave-js/releases) po szczegóły",
-        "zh-cn": "将“zwave-js”更新为“10.0.0”。这包括大量更改，包括：\n* 放弃对 Node.js 12 的支持\n* 对安全通信的多项改进，尤其是 Security S2\n* 更改了节点被发送到睡眠的方式，防止队列在节点已经处于睡眠状态时停止\n* 更改了“监督抄送报告”的发送方式，防止队列停滞\n* 在日志文件中混淆更敏感的数据\n* 修复了应该丢弃的命令仍会存储其值的错误\n* 改进了对乱序接收的传入命令的处理\n* 可以禁用 SmartStart 配置条目。排除节点时，其配置条目现在将被禁用而不是删除。\n* 新的和更新的配置文件，详见[Z-Wave JS 版本](https://github.com/zwave-js/node-zwave-js/releases)"
-      },
-      "2.6.0": {
-        "en": "Updated `zwave-js` to `9.2.2`. Notable changes include:\n* The `doorStatus/latchStatus/boltStatus` states are no longer created if unsupported by the door lock\n* Fixed an issue where some 500-series controllers would incorrectly be detected as not supporting Smart Start\n* Fixed an issue where some incoming reports would not be processed while an API command was ongoing\n* Fixed an issue where changing the color of some devices would use a random duration\n* Value changes now also get verified when the device sends an intermediate report\n* Retry the initial connection to sticks hosted via TCP\n* When the Z-Wave stick is disconnected while the adapter is running, the adapter will automatically try to reconnect again\n* Improvements to healing and Smart Start\n* New and updated configuration files, see [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) for details",
-        "de": "`zwave-js` auf Version `9.2.2` aktualisiert. Nennenswerte Änderungen:\n* Die Zustände `doorStatus/latchStatus/boltStatus` werden nicht mehr erzeugt, wenn sie nicht vom Schloss unterstützt werden.\n* Es wurde ein Problem behoben, bei dem einige Controller der 500er Serie fälschlicherweise als nicht SmartStart-fähig erkannt wurden.\n* Es wurde ein Problem behoben, bei dem einige eingehende Berichte nicht verarbeitet wurden, während ein API-Befehl ausgeführt wurde.\n* Ein Problem wurde behoben, bei dem das Ändern der Farbe bei einigen Geräten eine zufällige Dauer verwendete.\n* Wertänderungen werden nun auch verifiziert, wenn das Gerät zwischenzeitlich ein Update sendet.\n* Die initiale Verbindung zu Sticks, die über TCP gehostet werden, wird nun wiederholt\n* Wenn der Z-Wave-Stick entfernt wird, während der Adapter läuft, versucht der Adapter automatisch, die Verbindung wiederherzustellen\n* Verbesserungen bei Netzwerk-Heilung und Smart Start\n* Neue und aktualisierte Konfigurationsdateien, siehe [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) für Details",
-        "ru": "Обновлен `zwave-js` до `9.2.2`. Заметные изменения включают:\n* Состояния `doorStatus/latchStatus/boltStatus` больше не создаются, если они не поддерживаются дверным замком.\n* Исправлена ошибка, из-за которой некоторые контроллеры серии 500 ошибочно определялись как не поддерживающие Smart Start.\n* Исправлена ошибка, из-за которой некоторые входящие отчеты не обрабатывались, пока выполнялась команда API.\n* Исправлена ошибка, из-за которой при изменении цвета некоторых устройств использовалась случайная продолжительность.\n* Изменения значений теперь также проверяются, когда устройство отправляет промежуточный отчет.\n* Повторите первоначальное подключение к стикам, размещенным через TCP\n* Когда флешка Z-Wave отсоединяется во время работы адаптера, адаптер автоматически попытается снова подключиться\n* Улучшения лечения и Smart Start\n* Новые и обновленные файлы конфигурации, подробности см. в [релизах Z-Wave JS](https://github.com/zwave-js/node-zwave-js/releases).",
-        "pt": "Atualizado `zwave-js` para `9.2.2`. Mudanças notáveis incluem:\n* Os estados `doorStatus/latchStatus/boltStatus` não são mais criados se não forem suportados pela fechadura da porta\n* Corrigido um problema em que alguns controladores da série 500 eram detectados incorretamente como não suportando o Smart Start\n* Corrigido um problema em que alguns relatórios recebidos não eram processados enquanto um comando de API estava em andamento\n* Corrigido um problema em que alterar a cor de alguns dispositivos usaria uma duração aleatória\n* As alterações de valor agora também são verificadas quando o dispositivo envia um relatório intermediário\n* Tente novamente a conexão inicial com sticks hospedados via TCP\n* Quando o stick Z-Wave é desconectado enquanto o adaptador está em execução, o adaptador tentará se reconectar automaticamente\n* Melhorias na cura e Smart Start\n* Arquivos de configuração novos e atualizados, consulte [versões Z-Wave JS](https://github.com/zwave-js/node-zwave-js/releases) para obter detalhes",
-        "nl": "`zwave-js` geüpdatet naar `9.2.2`. Opmerkelijke veranderingen zijn onder meer:\n* De statussen `doorStatus/latchStatus/boltStatus' worden niet meer gemaakt als ze niet worden ondersteund door het deurslot\n* Probleem opgelost waarbij sommige controllers uit de 500-serie ten onrechte werden gedetecteerd als geen ondersteuning voor Smart Start\n* Probleem opgelost waarbij sommige inkomende rapporten niet werden verwerkt terwijl een API-opdracht aan de gang was\n* Probleem opgelost waarbij het veranderen van de kleur van sommige apparaten een willekeurige duur zou gebruiken\n* Waardewijzigingen worden nu ook geverifieerd wanneer het apparaat een tussentijds rapport verzendt\n* Probeer de eerste verbinding opnieuw met sticks die worden gehost via TCP\n* Wanneer de Z-Wave-stick wordt losgekoppeld terwijl de adapter actief is, probeert de adapter automatisch opnieuw verbinding te maken\n* Verbeteringen aan genezing en Smart Start\n* Nieuwe en bijgewerkte configuratiebestanden, zie [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) voor details",
-        "fr": "Mise à jour de `zwave-js` vers `9.2.2`. Les changements notables incluent :\n* Les états `doorStatus/latchStatus/boltStatus` ne sont plus créés s'ils ne sont pas pris en charge par la serrure de porte\n* Correction d'un problème où certains contrôleurs de la série 500 étaient incorrectement détectés comme ne prenant pas en charge Smart Start\n* Correction d'un problème où certains rapports entrants n'étaient pas traités pendant qu'une commande API était en cours\n* Correction d'un problème où le changement de couleur de certains appareils utilisait une durée aléatoire\n* Les modifications de valeur sont désormais également vérifiées lorsque l'appareil envoie un rapport intermédiaire\n* Réessayez la connexion initiale aux clés hébergées via TCP\n* Lorsque le stick Z-Wave est déconnecté pendant que l'adaptateur fonctionne, l'adaptateur essaiera automatiquement de se reconnecter à nouveau\n* Améliorations de la guérison et du Smart Start\n* Fichiers de configuration nouveaux et mis à jour, voir [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) pour plus de détails",
-        "it": "Aggiornato `zwave-js` a `9.2.2`. Le modifiche notevoli includono:\n* Gli stati `doorStatus/latchStatus/boltStatus` non vengono più creati se non supportati dalla serratura\n* Risolto un problema per cui alcuni controller della serie 500 venivano rilevati erroneamente come non supportano Smart Start\n* Risolto un problema per cui alcuni rapporti in arrivo non venivano elaborati mentre era in corso un comando API\n* Risolto un problema per cui la modifica del colore di alcuni dispositivi utilizzava una durata casuale\n* Le modifiche ai valori ora vengono verificate anche quando il dispositivo invia un rapporto intermedio\n* Riprova la connessione iniziale agli stick ospitati tramite TCP\n* Quando lo stick Z-Wave viene scollegato mentre l'adattatore è in funzione, l'adattatore tenterà automaticamente di ricollegarsi\n* Miglioramenti alla guarigione e allo Smart Start\n* File di configurazione nuovi e aggiornati, vedere [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) per i dettagli",
-        "es": "Se actualizó `zwave-js` a `9.2.2`. Los cambios notables incluyen:\n* Los estados `doorStatus/latchStatus/boltStatus` ya no se crean si no son compatibles con la cerradura de la puerta\n* Se solucionó un problema por el cual algunos controladores de la serie 500 se detectaban incorrectamente como no compatibles con Smart Start\n* Se solucionó un problema por el cual algunos informes entrantes no se procesaban mientras un comando API estaba en curso\n* Se solucionó un problema por el cual cambiar el color de algunos dispositivos usaría una duración aleatoria\n* Los cambios de valor ahora también se verifican cuando el dispositivo envía un informe intermedio\n* Vuelva a intentar la conexión inicial a los dispositivos alojados a través de TCP\n* Cuando el dispositivo Z-Wave se desconecta mientras el adaptador está funcionando, el adaptador intentará volver a conectarse automáticamente\n* Mejoras en la curación y Smart Start\n* Archivos de configuración nuevos y actualizados, consulte [Versiones de Z-Wave JS] (https://github.com/zwave-js/node-zwave-js/releases) para obtener más detalles.",
-        "pl": "Zaktualizowano `zwave-js` do `9.2.2`. Godne uwagi zmiany obejmują:\n* Stany `doorStatus/latchStatus/boltStatus` nie są już tworzone, jeśli nie są obsługiwane przez zamek drzwi\n* Naprawiono problem polegający na tym, że niektóre kontrolery z serii 500 były błędnie wykrywane jako nieobsługujące funkcji Smart Start\n* Naprawiono problem polegający na tym, że niektóre przychodzące raporty nie były przetwarzane podczas wykonywania polecenia API\n* Naprawiono problem polegający na tym, że zmiana koloru niektórych urządzeń powodowała losowy czas trwania\n* Zmiany wartości są teraz weryfikowane również, gdy urządzenie wysyła raport pośredni\n* Spróbuj ponownie nawiązać połączenie z kijami hostowanymi przez TCP\n* Gdy kij Z-Wave zostanie odłączony, gdy adapter jest uruchomiony, adapter automatycznie spróbuje ponownie połączyć się ponownie\n* Ulepszenia leczenia i inteligentnego startu\n* Nowe i zaktualizowane pliki konfiguracyjne, zobacz [Wersje Z-Wave JS](https://github.com/zwave-js/node-zwave-js/releases), aby uzyskać szczegółowe informacje",
-        "zh-cn": "将“zwave-js”更新为“9.2.2”。显着的变化包括：\n* 如果门锁不支持，则不再创建 `doorStatus/latchStatus/boltStatus` 状态\n* 修复部分 500 系列控制器会被错误检测为不支持 Smart Start 的问题\n* 修复了在执行 API 命令时无法处理某些传入报告的问题\n* 修复了更改某些设备的颜色会使用随机持续时间的问题\n* 现在，当设备发送中间报告时，值更改也会得到验证\n* 重试与通过 TCP 托管的棒的初始连接\n* 当适配器运行时 Z-Wave 摇杆断开连接，适配器将自动尝试重新连接\n* 对治疗和智能启动的改进\n* 新的和更新的配置文件，详见[Z-Wave JS 版本](https://github.com/zwave-js/node-zwave-js/releases)"
-      }
+    "common": {
+        "name": "zwave2",
+        "version": "3.0.5",
+        "news": {
+            "3.0.5": {
+                "en": "Updated `zwave-js` to `10.5.4`. This includes the following changes:\n* Fixed a memory leak caused by a dependency\n* Fixed an issue where multiple re-interview tasks for sleeping nodes could be queued and would be executed in parallel\n* Fixed an issue where firmware updates could use a too large fragment size after upgrading to v10, causing the update to fail\n* Several improvements related to `Security S2`\n* New and updated configuration files, see [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) for details",
+                "de": "`zwave-js` wurde auf Version `10.5.4` aktualisiert. Dies beinhaltet die folgenden Änderungen:\n* Ein durch eine Abhängigkeit verursachtes Speicherleck wurde behoben\n* Es wurde ein Problem behoben, bei dem mehrere Interviews für schlafende Geräte in eine Warteschlange gestellt und parallel ausgeführt werden konnten.\n* Ein Problem wurde behoben, bei dem Firmware-Updates eine zu große Fragmentgröße verwenden konnten, was zu einem Fehlschlag des Updates führte\n* Mehrere Verbesserungen im Zusammenhang mit `Security S2`\n* Neue und aktualisierte Konfigurationsdateien, siehe [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) für Details",
+                "ru": "Обновлено zwave-js до 10.5.4 Это включает в себя следующие изменения:\n* Исправлена утечка памяти, вызванная зависимостью\n* Исправлена проблема, где несколько задач повторного просмотра для спальных узлов могут быть запрошены и будут выполнены параллельно\n* Исправлена проблема, где обновления прошивки могут использовать слишком большой размер фрагмента после обновления до v10, вызывая обновление для неудачи\n* Несколько улучшений, связанных с `Security S2`\n* Новые и обновленные файлы конфигурации, см. [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) для деталей",
+                "pt": "Atualizado zwave-js para 10.5.4 Isso inclui as seguintes alterações:\n* Corrigido um vazamento de memória causado por uma dependência\n* Corrigido um problema em que várias tarefas de re-interview para nós dormindo poderiam ser executadas em paralelo\n* Corrigido um problema em que as atualizações de firmware podem usar um tamanho de fragmento muito grande depois de atualizar para v10, fazendo com que a atualização falhe\n* Várias melhorias relacionadas ao `Security S2`\n* Novos e atualizados arquivos de configuração, consulte [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) para obter detalhes",
+                "nl": "Upded zwave-js tot 10.5.4 Dit bevat de volgende veranderingen:\nQuality over Quantity (QoQ) Releases Vertaling:\n_\nQuality over Quantity (QoQ) Releases Vertaling:\nQuality over Quantity (QoQ) Releases Vertaling:\n♪ New and updated configuration bestanden, see [Z-Wave JS laat los ♪",
+                "fr": "Actualisé zwave-js à 10.5.4 Cela comprend les changements suivants:\n* Une fuite de mémoire due à une dépendance\n* Correction d'un problème où plusieurs tâches de réinterview pour les noeuds de couchage pourraient être filetées et seraient exécutées en parallèle\n* Correction d'un problème où les mises à jour du firmware pourraient utiliser une taille trop grande de fragments après la mise à niveau vers v10, causant la mise à jour à défaut\n* Plusieurs améliorations liées à la sécurité S2\n* Nouveaux fichiers de configuration actualisés, voir [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) pour plus de détails",
+                "it": "Aggiornato zwave-js a 10.5.4 Questo include le seguenti modifiche:\n* Risolto una perdita di memoria causata da una dipendenza\n* Risolto un problema in cui più compiti di riintervista per i nodi addormentati potrebbero essere in coda e sarebbero eseguiti in parallelo\n* Risolto un problema in cui gli aggiornamenti del firmware potrebbero utilizzare una dimensione del frammento troppo grande dopo l'aggiornamento a v10, causando il mancato aggiornamento\n* Diversi miglioramenti relativi a `Security S2`\n* File di configurazione nuovi e aggiornati, vedere [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) per i dettagli",
+                "es": "Actualizado zwave-js a 10.5.4 Esto incluye los siguientes cambios:\n* Fijo una fuga de memoria causada por una dependencia\n* Arreglado un problema en el que se podrían realizar múltiples tareas de reinterview para los nodos dormidos y se ejecutarían en paralelo\n* Arregló un problema donde las actualizaciones de firmware podrían utilizar un tamaño de fragmento demasiado grande después de actualizar a v10, causando que la actualización falla\n* Varias mejoras relacionadas con `Security S2`\n* Archivos de configuración nuevos y actualizados, véase [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) para más detalles",
+                "pl": "Zwave-js to 10,5,4. Obejmuje to następujące zmiany:\n* Fixed wyciek pamięci spowodowany przez zależność\n* Fixed problem, w którym wielokrotne zadania do ponownego przeglądu węzłów snu mogą być kolejkowane i być wykonywane w równoległych zadaniach\n* Fixed problem, w którym aktualizacje oprogramowania mogą wykorzystywać zbyt duży fragmentaryczne rozmiary po upgradzaniu do v10, powodując aktualizację, aby nie powiodły się\n* Kilka ulepszeń związanych z S2`\n* Nowe i aktualizowane pliki konfiguracyjne, zobacz Z-Wave JS (https:/github.com/zwave-js/node-zwave-js/release) dla szczegółów",
+                "uk": "Оновлено zwave-js до 10.5.4 Це включає наступні зміни:\n* Виправлено витік пам'яті, викликане залежностю\n* Виправлено проблему, в якому можуть бути черги кілька завдань з перегляду зображень для спальних вузлів\n* Виправлено проблему, коли оновлення прошивки може використовувати занадто великий розмір фрагмента після оновлення v10, викликаючи оновлення, щоб не вдалося\n* Кілька поліпшень, пов’язаних з `Security S2`\n* Нові та оновлені файли конфігурації, див. [Z-Wave JS релізи](https://github.com/zwave-js/node-zwave-js/releases) для деталей",
+                "zh-cn": "更新的兹瓦韦-js to 10.5.4 这包括下列变化:\n* 由于依赖性引起的记忆泄漏\n* 确定一个问题,即可以对供睡觉的多面审查任务进行审查,同时执行。\n* 确定一个问题,即在升级至 v10之后,可以使用过于庞大的脆弱程度,从而导致更新失败\n* 与“S2'有关的若干改进\n* 新的和更新的组合档案,见[Z-Wave JS Release](https://github.com/zwave-js/node-zwave-js/releases),详细详情"
+            },
+            "3.0.4": {
+                "en": "Updated `zwave-js` to `10.2.0`. This includes the following changes:\n* Fixed an issue where the possible states for `Notification` values could be incomplete\n* Fixed an issue where setting the time on some devices would always use UTC, even this should be done with local time\n* New and updated configuration files, see [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) for details",
+                "de": "`zwave-js` wurde auf `10.2.0` aktualisiert. Dies beinhaltet die folgenden Änderungen:\n* Es wurde ein Problem behoben, bei dem die möglichen Zustände für `Notification`-Werte unvollständig sein konnten.\n* Es wurde ein Fehler behoben, bei dem das Einstellen der Zeit auf einigen Geräten immer UTC verwendet hat, obwohl dies mit der lokalen Zeit geschehen sollte\n* Neue und aktualisierte Konfigurationsdateien, siehe [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) für Details",
+                "ru": "Обновлено zwave-js до 10.2.0 Это включает в себя следующие изменения:\n* Исправлена проблема, где возможные государства для значений уведомлений могут быть неполными\n* Исправлена проблема, где установка времени на некоторых устройствах всегда будет использовать UTC, даже это должно быть сделано с местным временем\n* Новые и обновленные файлы конфигурации, см. [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) для деталей",
+                "pt": "Atualizado zwave-js para 10.2.0 Isso inclui as seguintes alterações:\n* Corrigido um problema onde os possíveis estados para valores de notificação podem ser incompletos\n* Corrigido um problema em que definir o tempo em alguns dispositivos sempre usaria UTC, mesmo isso deve ser feito com o tempo local\n* Novos e atualizados arquivos de configuração, consulte [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) para obter detalhes",
+                "nl": "Update zwave-js tot 10.2. Dit bevat de volgende veranderingen:\nQuality over Quantity (QoQ) Releases Vertaling:\n_\n♪ New and updated configuration bestanden, see [Z-Wave JS laat los ♪",
+                "fr": "Actualisé zwave-js à 10.2.0 Cela comprend les changements suivants:\n* Correction d'un problème où les états possibles des valeurs de notification pourraient être incomplètes\n* Correction d'un problème où le réglage du temps sur certains appareils utiliserait toujours UTC, même cela devrait être fait avec l'heure locale\n* Nouveaux fichiers de configuration actualisés, voir [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) pour plus de détails",
+                "it": "Aggiornato zwave-js a 10.2.0 Questo include le seguenti modifiche:\n* Risolto un problema in cui i possibili stati per i valori di notifica potrebbero essere incompleti\n* Risolto un problema in cui impostare il tempo su alcuni dispositivi sarebbe sempre utilizzare UTC, anche questo dovrebbe essere fatto con l'ora locale\n* File di configurazione nuovi e aggiornati, vedere [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) per i dettagli",
+                "es": "Actualizado zwave-js a 10.2.0 Esto incluye los siguientes cambios:\n* Arregla un problema en el que los posibles estados de los valores de notificación podrían ser incompletos\n* Arreglado un problema donde establecer el tiempo en algunos dispositivos siempre utilizaría UTC, incluso esto debe hacerse con el tiempo local\n* Archivos de configuración nuevos y actualizados, véase [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) para más detalles",
+                "pl": "Zwolniony zwave-js do 10.2.0. Obejmuje to następujące zmiany:\n* Fixed problem, w którym możliwe stany informacji mogą być niekompletne\n* Fixed problem, w którym ustalenie czasu na niektórych urządzeniach byłoby zawsze użyte w UTC, nawet jeśli chodzi o czas lokalny\n* Nowe i aktualizowane pliki konfiguracyjne, zobacz Z-Wave JS (https:/github.com/zwave-js/node-zwave-js/release) dla szczegółów",
+                "zh-cn": "更新的兹瓦韦-js to 102.0 这包括下列变化:\n* 指定一个问题,说明价值的可能国家可能不完善。\n* 在确定某些装置的时间时,通常会使用联合技术委员会,即使应该在当地时间这样做。\n* 新的和更新的组合档案,见[Z-Wave JS Release](https://github.com/zwave-js/node-zwave-js/releases),详细详情",
+                "uk": "Оновлено `zwave-js` до `10.2.0`. Це включає такі зміни:\n* Виправлено проблему, через яку можливі стани для значень «Сповіщення» могли бути неповними\n* Виправлено проблему, через яку для встановлення часу на деяких пристроях завжди використовувався UTC, навіть це слід робити за місцевим часом\n* Нові та оновлені конфігураційні файли, подробиці див. [версії Z-Wave JS](https://github.com/zwave-js/node-zwave-js/releases)."
+            },
+            "3.0.3": {
+                "en": "Fixed some more communication issues. If a device isn't working properly after upgrading to 3.x, try to re-interview it.",
+                "de": "Weitere Kommunikationsprobleme wurden behoben. Wenn ein Gerät nach dem Upgrade auf 3.x nicht richtig funktioniert, bitte ein erneutes Interview versuchen.",
+                "ru": "Исправлено еще несколько проблем со связью. Если устройство не работает должным образом после обновления до версии 3.x, попробуйте повторно опросить его.",
+                "pt": "Corrigidos mais alguns problemas de comunicação. Se um dispositivo não estiver funcionando corretamente após a atualização para 3.x, tente entrevistá-lo novamente.",
+                "nl": "Nog wat communicatieproblemen opgelost. Als een apparaat niet goed werkt na het upgraden naar 3.x, probeer het dan opnieuw te interviewen.",
+                "fr": "Correction de quelques problèmes de communication supplémentaires. Si un appareil ne fonctionne pas correctement après la mise à niveau vers la version 3.x, essayez de l'interroger à nouveau.",
+                "it": "Risolti altri problemi di comunicazione. Se un dispositivo non funziona correttamente dopo l'aggiornamento a 3.x, prova a intervistarlo nuovamente.",
+                "es": "Se corrigieron algunos problemas de comunicación más. Si un dispositivo no funciona correctamente después de actualizar a 3.x, intente volver a entrevistarlo.",
+                "pl": "Naprawiono kilka innych problemów z komunikacją. Jeśli urządzenie nie działa poprawnie po aktualizacji do wersji 3.x, spróbuj ponownie przeprowadzić z nim wywiad.",
+                "zh-cn": "修复了一些更多的通信问题。如果升级到 3.x 后设备不能正常工作，请尝试重新访问它。",
+                "uk": "Виправлено ще деякі проблеми зі зв’язком. Якщо пристрій не працює належним чином після оновлення до 3.x, спробуйте ще раз перевірити його."
+            },
+            "3.0.2": {
+                "en": "Fixed some crashes and communication issues",
+                "de": "Einige Crashs und Kommunikationsprobleme behoben",
+                "ru": "Исправлены некоторые сбои и проблемы связи",
+                "pt": "Corrigido algumas falhas e problemas de comunicação",
+                "nl": "Vertaling:",
+                "fr": "Correction de certains accidents et problèmes de communication",
+                "it": "Risolto alcuni crash e problemi di comunicazione",
+                "es": "Arreglado algunos fallos y problemas de comunicación",
+                "pl": "Szczegółowe katastrofy i problemy komunikacyjne",
+                "zh-cn": "确定一些事故和通信问题",
+                "uk": "Виправлено деякі збої та проблеми зі зв’язком"
+            },
+            "3.0.1": {
+                "en": "Fixed crashes related to missing or incorrectly loaded dependencies",
+                "de": "Abstürze im Zusammenhang mit fehlenden oder fehlerhaft geladenen Abhängigkeiten behoben",
+                "ru": "Исправлены сбои, связанные с отсутствующими или неправильно загруженными зависимостями",
+                "pt": "Falhas fixas relacionadas a falta ou dependências incorretamente carregadas",
+                "nl": "Vertaling:",
+                "fr": "Accidents fixes liés à des dépendances manquantes ou mal chargées",
+                "it": "Crash fissi relativi alle dipendenze mancanti o non caricate",
+                "es": "Fallos fijos relacionados con dependencias desaparecidas o cargadas incorrectamente",
+                "pl": "Zniszczone katastrofy związane z brakami lub nieprawidłowymi zależnościami",
+                "zh-cn": "与失踪或装有不当的依赖性有关的固定事故",
+                "uk": "Виправлено збої, пов’язані з відсутніми або неправильно завантаженими залежностями"
+            },
+            "3.0.0": {
+                "en": "Updated `zwave-js` to `10.0.0`. This includes a ton of changes, including:\n* Dropped support for Node.js 12\n* Several improvements to secure communication, especially with Security S2\n* Changed how nodes are sent to sleep, preventing the queue from stalling when the node is already sleeping\n* Changed how `Supervision CC Reports` are sent out, preventing the queue from stalling\n* Obfuscated more sensitive data in logfiles\n* Fixed a bug where commands that should be discarded would still store their values\n* Improved the handling of incoming commands which are received out of order\n* Made it possible to disable SmartStart provisioning entries. When excluding a node, its provisioning entry will now be disabled instead of removed.\n* New and updated configuration files, see [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) for details",
+                "de": "`zwave-js` wurde auf `10.0.0` aktualisiert. Dies beinhaltet eine ganze Reihe von Änderungen, darunter:\n* Support für Node.js 12 wurde eingestellt.\n* Zahlreiche Verbesserungen bei der sicheren Kommunikation, insbesondere für Security S2\n* Geräte werden jetzt anders schlafen geschickt, um zu verhindern, dass die Warteschlange blockiert wird, wenn sie bereits schlafen.\n* `Supervision CC Reports` werden nun anders versendet, um zu verhindern, dass die Warteschlange blockiert wird.\n* Mehr sensible Daten in den Logfiles werden unkenntlich gemacht.\n* Ein Fehler wurde behoben, bei dem eingehende Kommandos, die eigentlich verworfen werden sollten, immer noch ihre Werte speichern konnten.\n* Die Verarbeitung von eingehenden Kommandos, die nicht in der richtigen Reihenfolge empfangen werden, wurde verbessert.\n* Es ist nun möglich, SmartStart-Provisioning-Einträge zu deaktivieren. Wenn ein Gerät aus dem Netzwerk entfernt wird, wird sein Provisioning-Eintrag nun deaktiviert anstatt entfernt zu werden.\n* Zahlreiche neue und aktualisierte Konfigurationsdateien, siehe [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) für Details",
+                "ru": "Обновлен `zwave-js` до `10.0.0`. Это включает в себя массу изменений, в том числе:\n* Прекращена поддержка Node.js 12.\n* Несколько улучшений для безопасной связи, особенно с Security S2\n* Изменен способ перевода узлов в спящий режим, что предотвращает зависание очереди, когда узел уже находится в спящем режиме.\n* Изменен способ отправки «Отчетов о надзоре», что предотвращает зависание очереди.\n* Запутаны более конфиденциальные данные в лог-файлах\n* Исправлена ​​ошибка, из-за которой команды, которые следует отбросить, сохраняли свои значения.\n* Улучшена обработка входящих команд, полученных не по порядку\n* Сделано возможным отключить записи обеспечения SmartStart. При исключении узла его запись подготовки теперь будет отключена, а не удалена.\n* Новые и обновленные файлы конфигурации, подробности см. в [релизах Z-Wave JS](https://github.com/zwave-js/node-zwave-js/releases).",
+                "pt": "Atualizado `zwave-js` para `10.0.0`. Isso inclui uma tonelada de mudanças, incluindo:\n* Suporte descartado para Node.js 12\n* Várias melhorias na comunicação segura, especialmente com o Security S2\n* Alterado como os nós são enviados para dormir, evitando que a fila pare quando o nó já estiver dormindo\n* Alterado como os `Relatórios CC de Supervisão` são enviados, evitando que a fila fique parada\n* Dados mais sensíveis ofuscados em arquivos de log\n* Corrigido um bug onde comandos que deveriam ser descartados ainda armazenavam seus valores\n* Melhorou o tratamento de comandos recebidos que são recebidos fora de ordem\n* Tornou possível desabilitar as entradas de provisionamento SmartStart. Ao excluir um nó, sua entrada de provisionamento agora será desabilitada em vez de removida.\n* Arquivos de configuração novos e atualizados, consulte [versões Z-Wave JS](https://github.com/zwave-js/node-zwave-js/releases) para obter detalhes",
+                "nl": "`zwave-js` geüpdatet naar `10.0.0`. Dit omvat een heleboel veranderingen, waaronder:\n* Geen ondersteuning meer voor Node.js 12\n* Verschillende verbeteringen aan beveiligde communicatie, vooral met Security S2\n* Gewijzigd hoe knooppunten naar de slaapstand worden gestuurd, waardoor wordt voorkomen dat de wachtrij vastloopt wanneer het knooppunt al slaapt\n* Gewijzigd hoe `Supervisie CC-rapporten` worden verzonden, waardoor de wachtrij niet vastloopt\n* Verduisterde meer gevoelige gegevens in logbestanden\n* Een bug opgelost waarbij commando's die moesten worden weggegooid nog steeds hun waarden opslaan\n* Verbeterde verwerking van inkomende commando's die niet in orde zijn\n* Mogelijk gemaakt om SmartStart-provisioning-items uit te schakelen. Bij het uitsluiten van een knooppunt, wordt het inrichtingsitem nu uitgeschakeld in plaats van verwijderd.\n* Nieuwe en bijgewerkte configuratiebestanden, zie [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) voor details",
+                "fr": "Mise à jour de `zwave-js` vers `10.0.0`. Cela inclut une tonne de changements, notamment :\n* Abandon de la prise en charge de Node.js 12\n* Plusieurs améliorations pour sécuriser la communication, notamment avec Security S2\n* Modification de la façon dont les nœuds sont mis en veille, empêchant la file d'attente de se bloquer lorsque le nœud est déjà en veille\n* Modification de la manière dont les «rapports CC de supervision» sont envoyés, empêchant la file d'attente de se bloquer\n* Obfusqué des données plus sensibles dans les fichiers journaux\n* Correction d'un bug où les commandes qui devraient être ignorées stockaient toujours leurs valeurs\n* Amélioration de la gestion des commandes entrantes qui sont reçues dans le désordre\n* Rendu possible de désactiver les entrées de provisionnement SmartStart. Lors de l'exclusion d'un nœud, son entrée de provisionnement sera désormais désactivée au lieu d'être supprimée.\n* Fichiers de configuration nouveaux et mis à jour, voir [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) pour plus de détails",
+                "it": "Aggiornato `zwave-js` a `10.0.0`. Ciò include un sacco di modifiche, tra cui:\n* Supporto interrotto per Node.js 12\n* Diversi miglioramenti per proteggere la comunicazione, in particolare con Security S2\n* Modificato il modo in cui i nodi vengono inviati in modalità di sospensione, impedendo lo stallo della coda quando il nodo è già in modalità di sospensione\n* Modificato il modo in cui vengono inviati i \"Rapporti CC di supervisione\", impedendo lo stallo della coda\n* Dati più sensibili offuscati nei file di registro\n* Risolto un bug per cui i comandi che dovevano essere scartati conservavano comunque i loro valori\n* Migliorata la gestione dei comandi in arrivo ricevuti fuori servizio\n* Reso possibile disabilitare le voci di provisioning SmartStart. Quando si esclude un nodo, la sua voce di provisioning verrà ora disabilitata anziché rimossa.\n* File di configurazione nuovi e aggiornati, vedere [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) per i dettagli",
+                "es": "Se actualizó `zwave-js` a `10.0.0`. Esto incluye una tonelada de cambios, que incluyen:\n* Soporte eliminado para Node.js 12\n* Varias mejoras en la comunicación segura, especialmente con Security S2\n* Cambió la forma en que los nodos se envían a dormir, evitando que la cola se detenga cuando el nodo ya está durmiendo\n* Se modificó la forma en que se envían los \"Informes CC de supervisión\", lo que evita que la cola se detenga\n* Datos más confidenciales ofuscados en archivos de registro\n* Se corrigió un error por el cual los comandos que deberían descartarse aún almacenarían sus valores\n* Se mejoró el manejo de los comandos entrantes que se reciben fuera de servicio\n* Hizo posible deshabilitar las entradas de aprovisionamiento de SmartStart. Al excluir un nodo, su entrada de aprovisionamiento ahora se deshabilitará en lugar de eliminarse.\n* Archivos de configuración nuevos y actualizados, consulte [Versiones de Z-Wave JS] (https://github.com/zwave-js/node-zwave-js/releases) para obtener más detalles.",
+                "pl": "Zaktualizowano `zwave-js` do `10.0.0`. Obejmuje to mnóstwo zmian, w tym:\n* Zrezygnowano z obsługi Node.js 12\n* Kilka ulepszeń w celu zabezpieczenia komunikacji, zwłaszcza z Security S2\n* Zmieniono sposób, w jaki węzły są wysyłane w stan uśpienia, zapobiegając zawieszaniu się kolejki, gdy węzeł już śpi\n* Zmieniono sposób wysyłania `Raportów nadzoru CC`, zapobiegając zawieszaniu się kolejki\n* Zamaskowane bardziej wrażliwe dane w plikach dziennika\n* Naprawiono błąd, w którym polecenia, które powinny zostać odrzucone, nadal przechowują swoje wartości\n* Poprawiono obsługę przychodzących poleceń, które są odbierane poza kolejnością\n* Umożliwiono wyłączenie wpisów aprowizacji SmartStart. Po wykluczeniu węzła jego wpis aprowizacji zostanie teraz wyłączony, a nie usunięty.\n* Nowe i zaktualizowane pliki konfiguracyjne, zobacz [Wersje Z-Wave JS](https://github.com/zwave-js/node-zwave-js/releases) po szczegóły",
+                "zh-cn": "将“zwave-js”更新为“10.0.0”。这包括大量更改，包括：\n* 放弃对 Node.js 12 的支持\n* 对安全通信的多项改进，尤其是 Security S2\n* 更改了节点被发送到睡眠的方式，防止队列在节点已经处于睡眠状态时停止\n* 更改了“监督抄送报告”的发送方式，防止队列停滞\n* 在日志文件中混淆更敏感的数据\n* 修复了应该丢弃的命令仍会存储其值的错误\n* 改进了对乱序接收的传入命令的处理\n* 可以禁用 SmartStart 配置条目。排除节点时，其配置条目现在将被禁用而不是删除。\n* 新的和更新的配置文件，详见[Z-Wave JS 版本](https://github.com/zwave-js/node-zwave-js/releases)",
+                "uk": "Оновлено `zwave-js` до `10.0.0`. Це включає в себе масу змін, зокрема:\n* Припинено підтримку Node.js 12\n* Кілька покращень для безпечного зв’язку, особливо з Security S2\n* Змінено спосіб відправлення вузлів у сплячий режим, запобігаючи зупинці черги, коли вузол уже сплячий\n* Змінено спосіб надсилання звітів `Supervision CC Reports`, запобігаючи зупинці черги\n* Обфусковані більш конфіденційні дані у файлах журналу\n* Виправлено помилку, через яку команди, які слід відхилити, все одно зберігали свої значення\n* Покращено обробку вхідних команд, отриманих не за порядком\n* Зроблено можливим відключення записів ініціалізації SmartStart. Під час виключення вузла його запис про ініціалізацію тепер буде вимкнено, а не видалено.\n* Нові та оновлені конфігураційні файли, подробиці див. [версії Z-Wave JS](https://github.com/zwave-js/node-zwave-js/releases)."
+            },
+            "2.6.0": {
+                "en": "Updated `zwave-js` to `9.2.2`. Notable changes include:\n* The `doorStatus/latchStatus/boltStatus` states are no longer created if unsupported by the door lock\n* Fixed an issue where some 500-series controllers would incorrectly be detected as not supporting Smart Start\n* Fixed an issue where some incoming reports would not be processed while an API command was ongoing\n* Fixed an issue where changing the color of some devices would use a random duration\n* Value changes now also get verified when the device sends an intermediate report\n* Retry the initial connection to sticks hosted via TCP\n* When the Z-Wave stick is disconnected while the adapter is running, the adapter will automatically try to reconnect again\n* Improvements to healing and Smart Start\n* New and updated configuration files, see [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) for details",
+                "de": "`zwave-js` auf Version `9.2.2` aktualisiert. Nennenswerte Änderungen:\n* Die Zustände `doorStatus/latchStatus/boltStatus` werden nicht mehr erzeugt, wenn sie nicht vom Schloss unterstützt werden.\n* Es wurde ein Problem behoben, bei dem einige Controller der 500er Serie fälschlicherweise als nicht SmartStart-fähig erkannt wurden.\n* Es wurde ein Problem behoben, bei dem einige eingehende Berichte nicht verarbeitet wurden, während ein API-Befehl ausgeführt wurde.\n* Ein Problem wurde behoben, bei dem das Ändern der Farbe bei einigen Geräten eine zufällige Dauer verwendete.\n* Wertänderungen werden nun auch verifiziert, wenn das Gerät zwischenzeitlich ein Update sendet.\n* Die initiale Verbindung zu Sticks, die über TCP gehostet werden, wird nun wiederholt\n* Wenn der Z-Wave-Stick entfernt wird, während der Adapter läuft, versucht der Adapter automatisch, die Verbindung wiederherzustellen\n* Verbesserungen bei Netzwerk-Heilung und Smart Start\n* Neue und aktualisierte Konfigurationsdateien, siehe [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) für Details",
+                "ru": "Обновлен `zwave-js` до `9.2.2`. Заметные изменения включают:\n* Состояния `doorStatus/latchStatus/boltStatus` больше не создаются, если они не поддерживаются дверным замком.\n* Исправлена ошибка, из-за которой некоторые контроллеры серии 500 ошибочно определялись как не поддерживающие Smart Start.\n* Исправлена ошибка, из-за которой некоторые входящие отчеты не обрабатывались, пока выполнялась команда API.\n* Исправлена ошибка, из-за которой при изменении цвета некоторых устройств использовалась случайная продолжительность.\n* Изменения значений теперь также проверяются, когда устройство отправляет промежуточный отчет.\n* Повторите первоначальное подключение к стикам, размещенным через TCP\n* Когда флешка Z-Wave отсоединяется во время работы адаптера, адаптер автоматически попытается снова подключиться\n* Улучшения лечения и Smart Start\n* Новые и обновленные файлы конфигурации, подробности см. в [релизах Z-Wave JS](https://github.com/zwave-js/node-zwave-js/releases).",
+                "pt": "Atualizado `zwave-js` para `9.2.2`. Mudanças notáveis incluem:\n* Os estados `doorStatus/latchStatus/boltStatus` não são mais criados se não forem suportados pela fechadura da porta\n* Corrigido um problema em que alguns controladores da série 500 eram detectados incorretamente como não suportando o Smart Start\n* Corrigido um problema em que alguns relatórios recebidos não eram processados enquanto um comando de API estava em andamento\n* Corrigido um problema em que alterar a cor de alguns dispositivos usaria uma duração aleatória\n* As alterações de valor agora também são verificadas quando o dispositivo envia um relatório intermediário\n* Tente novamente a conexão inicial com sticks hospedados via TCP\n* Quando o stick Z-Wave é desconectado enquanto o adaptador está em execução, o adaptador tentará se reconectar automaticamente\n* Melhorias na cura e Smart Start\n* Arquivos de configuração novos e atualizados, consulte [versões Z-Wave JS](https://github.com/zwave-js/node-zwave-js/releases) para obter detalhes",
+                "nl": "`zwave-js` geüpdatet naar `9.2.2`. Opmerkelijke veranderingen zijn onder meer:\n* De statussen `doorStatus/latchStatus/boltStatus' worden niet meer gemaakt als ze niet worden ondersteund door het deurslot\n* Probleem opgelost waarbij sommige controllers uit de 500-serie ten onrechte werden gedetecteerd als geen ondersteuning voor Smart Start\n* Probleem opgelost waarbij sommige inkomende rapporten niet werden verwerkt terwijl een API-opdracht aan de gang was\n* Probleem opgelost waarbij het veranderen van de kleur van sommige apparaten een willekeurige duur zou gebruiken\n* Waardewijzigingen worden nu ook geverifieerd wanneer het apparaat een tussentijds rapport verzendt\n* Probeer de eerste verbinding opnieuw met sticks die worden gehost via TCP\n* Wanneer de Z-Wave-stick wordt losgekoppeld terwijl de adapter actief is, probeert de adapter automatisch opnieuw verbinding te maken\n* Verbeteringen aan genezing en Smart Start\n* Nieuwe en bijgewerkte configuratiebestanden, zie [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) voor details",
+                "fr": "Mise à jour de `zwave-js` vers `9.2.2`. Les changements notables incluent :\n* Les états `doorStatus/latchStatus/boltStatus` ne sont plus créés s'ils ne sont pas pris en charge par la serrure de porte\n* Correction d'un problème où certains contrôleurs de la série 500 étaient incorrectement détectés comme ne prenant pas en charge Smart Start\n* Correction d'un problème où certains rapports entrants n'étaient pas traités pendant qu'une commande API était en cours\n* Correction d'un problème où le changement de couleur de certains appareils utilisait une durée aléatoire\n* Les modifications de valeur sont désormais également vérifiées lorsque l'appareil envoie un rapport intermédiaire\n* Réessayez la connexion initiale aux clés hébergées via TCP\n* Lorsque le stick Z-Wave est déconnecté pendant que l'adaptateur fonctionne, l'adaptateur essaiera automatiquement de se reconnecter à nouveau\n* Améliorations de la guérison et du Smart Start\n* Fichiers de configuration nouveaux et mis à jour, voir [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) pour plus de détails",
+                "it": "Aggiornato `zwave-js` a `9.2.2`. Le modifiche notevoli includono:\n* Gli stati `doorStatus/latchStatus/boltStatus` non vengono più creati se non supportati dalla serratura\n* Risolto un problema per cui alcuni controller della serie 500 venivano rilevati erroneamente come non supportano Smart Start\n* Risolto un problema per cui alcuni rapporti in arrivo non venivano elaborati mentre era in corso un comando API\n* Risolto un problema per cui la modifica del colore di alcuni dispositivi utilizzava una durata casuale\n* Le modifiche ai valori ora vengono verificate anche quando il dispositivo invia un rapporto intermedio\n* Riprova la connessione iniziale agli stick ospitati tramite TCP\n* Quando lo stick Z-Wave viene scollegato mentre l'adattatore è in funzione, l'adattatore tenterà automaticamente di ricollegarsi\n* Miglioramenti alla guarigione e allo Smart Start\n* File di configurazione nuovi e aggiornati, vedere [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) per i dettagli",
+                "es": "Se actualizó `zwave-js` a `9.2.2`. Los cambios notables incluyen:\n* Los estados `doorStatus/latchStatus/boltStatus` ya no se crean si no son compatibles con la cerradura de la puerta\n* Se solucionó un problema por el cual algunos controladores de la serie 500 se detectaban incorrectamente como no compatibles con Smart Start\n* Se solucionó un problema por el cual algunos informes entrantes no se procesaban mientras un comando API estaba en curso\n* Se solucionó un problema por el cual cambiar el color de algunos dispositivos usaría una duración aleatoria\n* Los cambios de valor ahora también se verifican cuando el dispositivo envía un informe intermedio\n* Vuelva a intentar la conexión inicial a los dispositivos alojados a través de TCP\n* Cuando el dispositivo Z-Wave se desconecta mientras el adaptador está funcionando, el adaptador intentará volver a conectarse automáticamente\n* Mejoras en la curación y Smart Start\n* Archivos de configuración nuevos y actualizados, consulte [Versiones de Z-Wave JS] (https://github.com/zwave-js/node-zwave-js/releases) para obtener más detalles.",
+                "pl": "Zaktualizowano `zwave-js` do `9.2.2`. Godne uwagi zmiany obejmują:\n* Stany `doorStatus/latchStatus/boltStatus` nie są już tworzone, jeśli nie są obsługiwane przez zamek drzwi\n* Naprawiono problem polegający na tym, że niektóre kontrolery z serii 500 były błędnie wykrywane jako nieobsługujące funkcji Smart Start\n* Naprawiono problem polegający na tym, że niektóre przychodzące raporty nie były przetwarzane podczas wykonywania polecenia API\n* Naprawiono problem polegający na tym, że zmiana koloru niektórych urządzeń powodowała losowy czas trwania\n* Zmiany wartości są teraz weryfikowane również, gdy urządzenie wysyła raport pośredni\n* Spróbuj ponownie nawiązać połączenie z kijami hostowanymi przez TCP\n* Gdy kij Z-Wave zostanie odłączony, gdy adapter jest uruchomiony, adapter automatycznie spróbuje ponownie połączyć się ponownie\n* Ulepszenia leczenia i inteligentnego startu\n* Nowe i zaktualizowane pliki konfiguracyjne, zobacz [Wersje Z-Wave JS](https://github.com/zwave-js/node-zwave-js/releases), aby uzyskać szczegółowe informacje",
+                "zh-cn": "将“zwave-js”更新为“9.2.2”。显着的变化包括：\n* 如果门锁不支持，则不再创建 `doorStatus/latchStatus/boltStatus` 状态\n* 修复部分 500 系列控制器会被错误检测为不支持 Smart Start 的问题\n* 修复了在执行 API 命令时无法处理某些传入报告的问题\n* 修复了更改某些设备的颜色会使用随机持续时间的问题\n* 现在，当设备发送中间报告时，值更改也会得到验证\n* 重试与通过 TCP 托管的棒的初始连接\n* 当适配器运行时 Z-Wave 摇杆断开连接，适配器将自动尝试重新连接\n* 对治疗和智能启动的改进\n* 新的和更新的配置文件，详见[Z-Wave JS 版本](https://github.com/zwave-js/node-zwave-js/releases)",
+                "uk": "Оновлено `zwave-js` до `9.2.2`. Помітні зміни включають:\n* Стани `doorStatus/latchStatus/boltStatus` більше не створюються, якщо вони не підтримуються дверним замком\n* Виправлено проблему, через яку деякі контролери серії 500 неправильно визначалися як такі, що не підтримують Smart Start\n* Виправлено проблему, через яку деякі вхідні звіти не оброблялися під час виконання команди API\n* Виправлено проблему, через яку зміна кольору деяких пристроїв використовувала випадкову тривалість\n* Зміни значень тепер також перевіряються, коли пристрій надсилає проміжний звіт\n* Повторіть початкове підключення до пам'яті, розміщеної через TCP\n* Якщо джойстик Z-Wave від'єднано під час роботи адаптера, адаптер автоматично спробує знову підключитися\n* Покращення лікування та Smart Start\n* Нові та оновлені конфігураційні файли, подробиці див. [версії Z-Wave JS](https://github.com/zwave-js/node-zwave-js/releases)."
+            }
+        },
+        "title": "Z-Wave 2",
+        "titleLang": {
+            "en": "Z-Wave 2",
+            "de": "Z-Wave 2",
+            "ru": "Z-Wave 2",
+            "pt": "Z-Wave 2",
+            "nl": "Z-Wave 2",
+            "fr": "Z-Wave 2",
+            "it": "Z-Wave 2",
+            "es": "Z-Wave 2",
+            "pl": "Z-Wave 2",
+            "zh-cn": "Z-Wave 2",
+            "uk": "Z-Wave 2"
+        },
+        "desc": {
+            "en": "The better Z-Wave integration",
+            "de": "Die bessere Z-Wave-Integration",
+            "ru": "Лучшая интеграция Z-Wave",
+            "pt": "A melhor integração do Z-Wave",
+            "nl": "De betere Z-Wave-integratie",
+            "fr": "La meilleure intégration Z-Wave",
+            "it": "La migliore integrazione di Z-Wave",
+            "es": "La mejor integración de Z-Wave",
+            "pl": "Lepsza integracja Z-Wave",
+            "zh-cn": "更好的Z-Wave集成",
+            "uk": "Краща інтеграція Z-Wave"
+        },
+        "authors": [
+            "AlCalzone <d.griesel@gmx.net>"
+        ],
+        "keywords": [
+            "zwave",
+            "z-wave",
+            "zwave2",
+            "z-wave 2"
+        ],
+        "license": "MIT",
+        "platform": "Javascript/Node.js",
+        "main": "build/main.js",
+        "icon": "zwave2.svg",
+        "enabled": true,
+        "dataFolder": "zwave2.%INSTANCE%",
+        "extIcon": "https://raw.githubusercontent.com/AlCalzone/ioBroker.zwave2/master/admin/zwave2.svg?sanitize=true",
+        "readme": "https://github.com/AlCalzone/ioBroker.zwave2/blob/master/README.md",
+        "loglevel": "info",
+        "mode": "daemon",
+        "type": "hardware",
+        "eraseOnUpload": true,
+        "compact": true,
+        "materialize": true,
+        "materializeTab": true,
+        "adminTab": {
+            "name": {
+                "en": "Z-Wave",
+                "de": "Z-Wave"
+            },
+            "link": "",
+            "fa-icon": "wifi"
+        },
+        "messagebox": true,
+        "connectionType": "local",
+        "dataSource": "push",
+        "dependencies": [
+            {
+                "js-controller": ">=2.0.0"
+            }
+        ]
     },
-    "title": "Z-Wave 2",
-    "titleLang": {
-      "en": "Z-Wave 2",
-      "de": "Z-Wave 2",
-      "ru": "Z-Wave 2",
-      "pt": "Z-Wave 2",
-      "nl": "Z-Wave 2",
-      "fr": "Z-Wave 2",
-      "it": "Z-Wave 2",
-      "es": "Z-Wave 2",
-      "pl": "Z-Wave 2",
-      "zh-cn": "Z-Wave 2"
+    "native": {
+        "serialport": "",
+        "writeLogFile": false,
+        "networkKey_S0": "",
+        "networkKey_S2_AccessControl": "",
+        "networkKey_S2_Authenticated": "",
+        "networkKey_S2_Unauthenticated": "",
+        "driver_increaseTimeouts": false,
+        "driver_increaseSendAttempts": false,
+        "switchCompat": false,
+        "preserveStateNames": false,
+        "notificationEventValidity": 1000,
+        "disableSoftReset": false
     },
-    "desc": {
-      "en": "The better Z-Wave integration",
-      "de": "Die bessere Z-Wave-Integration",
-      "ru": "Лучшая интеграция Z-Wave",
-      "pt": "A melhor integração do Z-Wave",
-      "nl": "De betere Z-Wave-integratie",
-      "fr": "La meilleure intégration Z-Wave",
-      "it": "La migliore integrazione di Z-Wave",
-      "es": "La mejor integración de Z-Wave",
-      "pl": "Lepsza integracja Z-Wave",
-      "zh-cn": "更好的Z-Wave集成"
-    },
-    "authors": ["AlCalzone <d.griesel@gmx.net>"],
-    "keywords": ["zwave", "z-wave", "zwave2", "z-wave 2"],
-    "license": "MIT",
-    "platform": "Javascript/Node.js",
-    "main": "build/main.js",
-    "icon": "zwave2.svg",
-    "enabled": true,
-    "dataFolder": "zwave2.%INSTANCE%",
-    "extIcon": "https://raw.githubusercontent.com/AlCalzone/ioBroker.zwave2/master/admin/zwave2.svg?sanitize=true",
-    "readme": "https://github.com/AlCalzone/ioBroker.zwave2/blob/master/README.md",
-    "loglevel": "info",
-    "mode": "daemon",
-    "type": "hardware",
-    "eraseOnUpload": true,
-    "compact": true,
-    "materialize": true,
-    "materializeTab": true,
-    "adminTab": {
-      "name": {
-        "en": "Z-Wave",
-        "de": "Z-Wave"
-      },
-      "link": "",
-      "fa-icon": "wifi"
-    },
-    "messagebox": true,
-    "connectionType": "local",
-    "dataSource": "push",
-    "dependencies": [
-      {
-        "js-controller": ">=2.0.0"
-      }
+    "objects": [],
+    "instanceObjects": [
+        {
+            "_id": "info",
+            "type": "channel",
+            "common": {
+                "name": "Information"
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.connection",
+            "type": "state",
+            "common": {
+                "role": "indicator.connected",
+                "name": "Whether the Z-Wave driver is ready",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "def": false
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.inclusion",
+            "type": "state",
+            "common": {
+                "role": "indicator",
+                "name": "Whether the inclusion of nodes is active",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "def": false
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.exclusion",
+            "type": "state",
+            "common": {
+                "role": "state",
+                "name": "Whether the exclusion of nodes is active",
+                "type": "boolean",
+                "read": true,
+                "write": true,
+                "def": false
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.healingNetwork",
+            "type": "state",
+            "common": {
+                "role": "state",
+                "name": "Whether a network heal is currently in progress",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "def": false
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.configVersion",
+            "type": "state",
+            "common": {
+                "role": "state",
+                "name": "The installed version of the Z-Wave JS configuration DB",
+                "type": "string",
+                "read": true,
+                "write": false
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.configUpdate",
+            "type": "state",
+            "common": {
+                "role": "state",
+                "name": "The version of an available update for the Z-Wave JS configuration DB",
+                "type": "string",
+                "read": true,
+                "write": false
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.configUpdating",
+            "type": "state",
+            "common": {
+                "role": "state",
+                "name": "Whether the adapter is currently updating the Z-Wave JS configuration DB",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "def": false
+            },
+            "native": {}
+        }
     ]
-  },
-  "native": {
-    "serialport": "",
-    "writeLogFile": false,
-    "networkKey_S0": "",
-    "networkKey_S2_AccessControl": "",
-    "networkKey_S2_Authenticated": "",
-    "networkKey_S2_Unauthenticated": "",
-    "driver_increaseTimeouts": false,
-    "driver_increaseSendAttempts": false,
-    "switchCompat": false,
-    "preserveStateNames": false,
-    "notificationEventValidity": 1000,
-    "disableSoftReset": false
-  },
-  "objects": [],
-  "instanceObjects": [
-    {
-      "_id": "info",
-      "type": "channel",
-      "common": {
-        "name": "Information"
-      },
-      "native": {}
-    },
-    {
-      "_id": "info.connection",
-      "type": "state",
-      "common": {
-        "role": "indicator.connected",
-        "name": "Whether the Z-Wave driver is ready",
-        "type": "boolean",
-        "read": true,
-        "write": false,
-        "def": false
-      },
-      "native": {}
-    },
-    {
-      "_id": "info.inclusion",
-      "type": "state",
-      "common": {
-        "role": "indicator",
-        "name": "Whether the inclusion of nodes is active",
-        "type": "boolean",
-        "read": true,
-        "write": false,
-        "def": false
-      },
-      "native": {}
-    },
-    {
-      "_id": "info.exclusion",
-      "type": "state",
-      "common": {
-        "role": "state",
-        "name": "Whether the exclusion of nodes is active",
-        "type": "boolean",
-        "read": true,
-        "write": true,
-        "def": false
-      },
-      "native": {}
-    },
-    {
-      "_id": "info.healingNetwork",
-      "type": "state",
-      "common": {
-        "role": "state",
-        "name": "Whether a network heal is currently in progress",
-        "type": "boolean",
-        "read": true,
-        "write": false,
-        "def": false
-      },
-      "native": {}
-    },
-    {
-      "_id": "info.configVersion",
-      "type": "state",
-      "common": {
-        "role": "state",
-        "name": "The installed version of the Z-Wave JS configuration DB",
-        "type": "string",
-        "read": true,
-        "write": false
-      },
-      "native": {}
-    },
-    {
-      "_id": "info.configUpdate",
-      "type": "state",
-      "common": {
-        "role": "state",
-        "name": "The version of an available update for the Z-Wave JS configuration DB",
-        "type": "string",
-        "read": true,
-        "write": false
-      },
-      "native": {}
-    },
-    {
-      "_id": "info.configUpdating",
-      "type": "state",
-      "common": {
-        "role": "state",
-        "name": "Whether the adapter is currently updating the Z-Wave JS configuration DB",
-        "type": "boolean",
-        "read": true,
-        "write": false,
-        "def": false
-      },
-      "native": {}
-    }
-  ]
 }

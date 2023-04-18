@@ -194,6 +194,7 @@ function nodeToNative(node: ZWaveNode): Record<string, any> {
 		endpointIndizes: node.getEndpointIndizes(),
 		securityClasses: securityClassesToRecord(node),
 		secure: node.isSecure,
+		canSleep: node.canSleep,
 		supportsFirmwareUpdate: node.supportsCC(
 			CommandClasses["Firmware Update Meta Data"],
 		),

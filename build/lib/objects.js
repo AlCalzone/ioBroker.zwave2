@@ -165,6 +165,7 @@ function nodeToNative(node) {
     endpointIndizes: node.getEndpointIndizes(),
     securityClasses: securityClassesToRecord(node),
     secure: node.isSecure,
+    canSleep: node.canSleep,
     supportsFirmwareUpdate: node.supportsCC(
       import_core.CommandClasses["Firmware Update Meta Data"]
     )
