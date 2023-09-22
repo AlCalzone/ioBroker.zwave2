@@ -117,7 +117,7 @@
     "Please choose which of the following security classes to grant to the new node.": "Bitte auswählen, welche der folgenden Schlüssel dem neuen Gerät gewährt werden sollen.",
     "Please enter the 5-digit PIN for your device and verify that the rest of the device-specific key (DSK) matches the one on your device or the manual.": "Bitte die 5-stellige PIN für Ihr Gerät eingeben und vergewissern, dass der Rest des gerätespezifischen Schlüssels (DSK) mit dem auf Ihrem Gerät oder im Handbuch übereinstimmt.",
     "Prefer S0 over no encryption": "S0 gegenüber keiner Verschlüsselung bevorzugen",
-    "Preserve state names": "Datenpunkt-Namen nicht überschreiben",
+    "Preserve state names": "Namen der Zustände nicht überschreiben",
     "Provision node": "Gerät provisionieren",
     "Put your device into exclusion mode": "Bitte das Gerät in den Exklusionsmodus versetzen",
     "Put your device into inclusion mode": "Bitte das Gerät in den Inklusionsmodus versetzen",
