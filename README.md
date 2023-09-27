@@ -40,7 +40,7 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	Placeholder for next versions:
 	### __WORK IN PROGRESS__
 -->
-### __WORK IN PROGRESS__
+### 3.1.0 (2023-09-27)
 Updated `zwave-js` to `10.23.6`. This includes the following changes:
 * Added support for `Security S2` multicast
 * Added support for parsing additional information from `Notification CC Reports`. Note that this may change the values reported for Door/Window sensors! If you rely on the old behavior, use the new `Door state (simple)` value instead.
@@ -81,9 +81,6 @@ Fixed some more communication issues. If a device isn't working properly after u
 
 ### 3.0.2 (2022-08-30)
 * Fixed some crashes and communication issues
-
-### 3.0.1 (2022-08-27)
-* Fixed crashes related to missing or incorrectly loaded dependencies
 
 ## License
 

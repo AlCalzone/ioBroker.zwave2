@@ -1,4 +1,7 @@
 # Older changes
+## 3.0.1 (2022-08-27)
+* Fixed crashes related to missing or incorrectly loaded dependencies
+
 ## 3.0.0 (2022-08-25)
 Updated `zwave-js` to `10.0.0`. This includes a ton of changes, including:
 * Dropped support for Node.js 12
