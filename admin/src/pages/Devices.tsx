@@ -8,10 +8,10 @@ import {
 } from "iobroker-react/hooks";
 import { useCallback, useEffect, useState } from "react";
 import {
-	getErrorMessage,
 	InclusionExclusionStatus,
-	NetworkHealStatus,
 	PushMessage,
+	RebuildRoutesStatus,
+	getErrorMessage,
 } from "../../../src/lib/shared";
 import {
 	DeviceActionButtons,
@@ -48,13 +48,13 @@ export const Devices: React.FC<DevicesProps> = (props) => {
 		id: `${namespace}.info.exclusion`,
 		defaultValue: false,
 	});
-	const [healingNetwork] = useIoBrokerState<boolean>({
-		id: `${namespace}.info.healingNetwork`,
+	const [rebuildingRoutes] = useIoBrokerState<boolean>({
+		id: `${namespace}.info.rebuildingRoutes`,
 		defaultValue: false,
 	});
 
-	const [networkHealProgress, setNetworkHealProgress] = useState<
-		NonNullable<NetworkHealStatus["progress"]>
+	const [rebuildRoutesProgress, setRebuildRoutesProgress] = useState<
+		NonNullable<RebuildRoutesStatus["progress"]>
 	>({});
 
 	const [inclusionStatus, setInclusionStatus] =
@@ -71,17 +71,17 @@ export const Devices: React.FC<DevicesProps> = (props) => {
 				if (payload.status.type === "done") {
 					setShowInclusionExclusionModal(true);
 				}
-			} else if (payload.type === "healing") {
-				setNetworkHealProgress(payload.status.progress ?? {});
+			} else if (payload.type === "rebuildRoutes") {
+				setRebuildRoutesProgress(payload.status.progress ?? {});
 				if (payload.status.type === "done") {
 					void showNotification(
-						_("Healing the network was successful!"),
+						_("Rebuilding routes was successful!"),
 						"success",
 					);
 				}
 			}
 		},
-		[setInclusionStatus, setNetworkHealProgress, showNotification],
+		[setInclusionStatus, setRebuildRoutesProgress, showNotification],
 	);
 	usePush(onPush);
 
@@ -100,12 +100,12 @@ export const Devices: React.FC<DevicesProps> = (props) => {
 		};
 	}, [adapterRunning, driverReady, statisticsSubscribed]);
 
-	async function healNetwork() {
-		if (!healingNetwork) {
-			// start the healing progress
+	async function rebuildRoutes() {
+		if (!rebuildingRoutes) {
+			// Start the route rebuilding progress
 			try {
-				setNetworkHealProgress({});
-				await api.beginHealingNetwork();
+				setRebuildRoutesProgress({});
+				await api.beginRebuildingRoutes();
 			} catch (e) {
 				showNotification(getErrorMessage(e), "error");
 				return;
@@ -358,8 +358,8 @@ export const Devices: React.FC<DevicesProps> = (props) => {
 						? DeviceActionButtonsState.Including
 						: isExcluding
 						? DeviceActionButtonsState.Excluding
-						: healingNetwork
-						? DeviceActionButtonsState.Healing
+						: rebuildingRoutes
+						? DeviceActionButtonsState.RebuildingRoutes
 						: DeviceActionButtonsState.Idle
 				}
 				beginInclusion={() => setShowInclusionExclusionModal(true)}
@@ -367,16 +367,16 @@ export const Devices: React.FC<DevicesProps> = (props) => {
 					await setExclusion(true);
 					setShowInclusionExclusionModal(true);
 				}}
-				healNetwork={healNetwork}
-				cancelHealing={() => api.stopHealingNetwork()}
+				rebuildRoutes={rebuildRoutes}
+				stopRebuildingRoutes={() => api.stopRebuildingRoutes()}
 			/>
 
 			<DeviceTable
-				isBusy={isBusy || healingNetwork}
+				isBusy={isBusy || rebuildingRoutes}
 				setBusy={setBusy}
 				devices={devicesAsArray}
-				healingNetwork={healingNetwork}
-				networkHealProgress={networkHealProgress}
+				rebuildingRoutes={rebuildingRoutes}
+				rebuildRoutesProgress={rebuildRoutesProgress}
 				replaceFailedNode={replaceFailedNode}
 			/>
 

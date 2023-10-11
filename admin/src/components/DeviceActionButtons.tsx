@@ -10,15 +10,15 @@ interface DeviceActionButtonsProps {
 	state: DeviceActionButtonsState;
 	beginInclusion: () => void;
 	beginExclusion: () => void;
-	healNetwork: () => void;
-	cancelHealing: () => void;
+	rebuildRoutes: () => void;
+	stopRebuildingRoutes: () => void;
 }
 
 export enum DeviceActionButtonsState {
 	Idle = 0,
 	Including,
 	Excluding,
-	Healing,
+	RebuildingRoutes,
 	Busy,
 }
 
@@ -84,23 +84,23 @@ export const DeviceActionButtons: React.FC<DeviceActionButtonsProps> = (
 				variant="contained"
 				color={"primary"}
 				className={clsx(
-					props.state === DeviceActionButtonsState.Healing &&
+					props.state === DeviceActionButtonsState.RebuildingRoutes &&
 						classes.redButton,
 				)}
 				startIcon={<NetworkCheckIcon />}
 				disabled={
 					props.state !== DeviceActionButtonsState.Idle &&
-					props.state !== DeviceActionButtonsState.Healing
+					props.state !== DeviceActionButtonsState.RebuildingRoutes
 				}
 				onClick={
-					props.state !== DeviceActionButtonsState.Healing
-						? props.healNetwork
-						: props.cancelHealing
+					props.state !== DeviceActionButtonsState.RebuildingRoutes
+						? props.rebuildRoutes
+						: props.stopRebuildingRoutes
 				}
 			>
-				{props.state !== DeviceActionButtonsState.Healing
-					? _("Heal network")
-					: _("Cancel healing")}
+				{props.state !== DeviceActionButtonsState.RebuildingRoutes
+					? _("Rebuild routes")
+					: _("Stop rebuilding routes")}
 			</Button>
 		</div>
 	);

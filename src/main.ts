@@ -18,37 +18,37 @@ import { composeObject } from "alcalzone-shared/objects";
 import { isArray } from "alcalzone-shared/typeguards";
 import fs from "fs-extra";
 import path from "path";
-import type {
+import {
 	AssociationAddress,
 	AssociationGroup,
 	CCAPI,
-	FirmwareUpdateStatus,
-	NodeInterviewFailedEventArgs,
-	NodeStatistics,
-	VirtualNode,
-	VirtualValueID,
-	ZWaveNodeValueNotificationArgs,
-	ZWaveNotificationCallback,
-} from "zwave-js";
-import {
 	Driver,
 	extractFirmware,
+	FirmwareUpdateProgress,
+	FirmwareUpdateResult,
 	InterviewStage,
+	NodeInterviewFailedEventArgs,
+	NodeStatistics,
 	NodeStatus,
+	RemoveNodeReason,
+	VirtualNode,
+	VirtualValueID,
 	ZWaveError,
 	ZWaveErrorCodes,
 	ZWaveNode,
+	ZWaveNodeValueNotificationArgs,
+	ZWaveNotificationCallback,
 	ZWaveOptions,
 } from "zwave-js";
 import {
 	ControllerStatistics,
 	ExclusionStrategy,
-	HealNodeStatus,
 	InclusionGrant,
 	InclusionResult,
 	InclusionStrategy,
 	InclusionUserCallbacks,
 	ProvisioningEntryStatus,
+	RebuildRoutesStatus,
 	RFRegion,
 	ZWaveFeature,
 } from "zwave-js/Controller";
@@ -72,8 +72,8 @@ import {
 	extendCC,
 	extendMetadata,
 	extendNode,
-	extendNotificationValue,
 	extendNotification_NotificationCC,
+	extendNotificationValue,
 	extendValue,
 	extendVirtualMetadata,
 	extendVirtualNodeCC,
@@ -127,6 +127,7 @@ class ZWave2 extends utils.Adapter<true> {
 
 		// Clear cache if we're asked to
 		const cacheDir = path.join(
+			// @ts-expect-error Some bug in the ioBroker typings
 			utils.getAbsoluteInstanceDataDir(this),
 			"cache",
 		);
@@ -144,7 +145,7 @@ class ZWave2 extends utils.Adapter<true> {
 		this.setState("info.connection", false, true);
 		this.setState(`info.inclusion`, false, true);
 		this.setState(`info.exclusion`, false, true);
-		this.setState("info.healingNetwork", false, true);
+		this.setState("info.rebuildingRoutes", false, true);
 
 		if (!this.config.serialport) {
 			this.log.warn(
@@ -258,10 +259,10 @@ class ZWave2 extends utils.Adapter<true> {
 				.on("node added", this.onNodeAdded.bind(this))
 				.on("node removed", this.onNodeRemoved.bind(this))
 				.on(
-					"heal network progress",
-					this.onHealNetworkProgress.bind(this),
+					"rebuild routes progress",
+					this.onRebuildRoutesProgress.bind(this),
 				)
-				.on("heal network done", this.onHealNetworkDone.bind(this))
+				.on("rebuild routes done", this.onRebuildRoutesDone.bind(this))
 				.on(
 					"statistics updated",
 					this.onControllerStatisticsUpdated.bind(this),
@@ -354,8 +355,6 @@ class ZWave2 extends utils.Adapter<true> {
 			// ignore
 		}
 
-		this.driver.enableErrorReporting();
-
 		try {
 			await this.driver.start();
 		} catch (e) {
@@ -425,9 +424,12 @@ class ZWave2 extends utils.Adapter<true> {
 
 	private async onNodeRemoved(
 		node: ZWaveNode,
-		replaced: boolean,
+		reason: RemoveNodeReason,
 	): Promise<void> {
-		if (replaced) {
+		if (
+			reason === RemoveNodeReason.Replaced ||
+			reason === RemoveNodeReason.ProxyReplaced
+		) {
 			this.log.info(`Node ${node.id}: replace started`);
 			this.readyNodes.delete(node.id);
 		} else {
@@ -448,14 +450,14 @@ class ZWave2 extends utils.Adapter<true> {
 		await this.updateVirtualNodes();
 	}
 
-	private async onHealNetworkProgress(
-		progress: ReadonlyMap<number, HealNodeStatus>,
+	private async onRebuildRoutesProgress(
+		progress: ReadonlyMap<number, RebuildRoutesStatus>,
 	): Promise<void> {
 		const allDone = [...progress.values()].every((v) => v !== "pending");
 		// If this is the final progress report, skip it, so the frontend gets the "done" message
 		if (allDone) return;
 		this.pushToFrontend({
-			type: "healing",
+			type: "rebuildRoutes",
 			status: {
 				type: "progress",
 				progress: mapToRecord(progress),
@@ -463,17 +465,17 @@ class ZWave2 extends utils.Adapter<true> {
 		});
 	}
 
-	private async onHealNetworkDone(
-		result: ReadonlyMap<number, HealNodeStatus>,
+	private async onRebuildRoutesDone(
+		result: ReadonlyMap<number, RebuildRoutesStatus>,
 	): Promise<void> {
 		this.pushToFrontend({
-			type: "healing",
+			type: "rebuildRoutes",
 			status: {
 				type: "done",
 				progress: mapToRecord(result),
 			},
 		});
-		this.setState("info.healingNetwork", false, true);
+		this.setState("info.rebuildingRoutes", false, true);
 	}
 
 	private async onControllerStatisticsUpdated(
@@ -1043,30 +1045,28 @@ class ZWave2 extends utils.Adapter<true> {
 
 	private async onNodeFirmwareUpdateProgress(
 		node: ZWaveNode,
-		sentFragments: number,
-		totalFragments: number,
+		progress: FirmwareUpdateProgress,
 	): Promise<void> {
 		this.pushToFrontend({
 			type: "firmwareUpdate",
 			progress: {
 				type: "progress",
-				sentFragments,
-				totalFragments,
+				sentFragments: progress.sentFragments,
+				totalFragments: progress.totalFragments,
 			},
 		});
 	}
 
 	private async onNodeFirmwareUpdateFinished(
 		node: ZWaveNode,
-		status: FirmwareUpdateStatus,
-		waitTime?: number,
+		result: FirmwareUpdateResult,
 	): Promise<void> {
 		this.pushToFrontend({
 			type: "firmwareUpdate",
 			progress: {
 				type: "done",
-				status,
-				waitTime,
+				status: result.status,
+				waitTime: result.waitTime,
 			},
 		});
 	}
@@ -1075,11 +1075,13 @@ class ZWave2 extends utils.Adapter<true> {
 		...params
 	) => {
 		if (params[1] === CommandClasses.Notification) {
-			const [node, , args] = params;
+			const [endpoint, , args] = params;
 			this.log.debug(
-				`Node ${node.id}: received notification: ${args.label} - ${args.eventLabel}`,
+				`Node ${endpoint.nodeId}${
+					endpoint.index > 0 ? `, Endpoint ${endpoint.index}` : ""
+				}: received notification: ${args.label} - ${args.eventLabel}`,
 			);
-			await extendNotification_NotificationCC(node, args);
+			await extendNotification_NotificationCC(endpoint, args);
 		}
 	};
 
@@ -1769,37 +1771,38 @@ class ZWave2 extends utils.Adapter<true> {
 					return;
 				}
 
-				case "beginHealingNetwork": {
+				case "beginRebuildingRoutes": {
 					if (!this.driverReady) {
 						return respond(
 							responses.ERROR(
-								"The driver is not yet ready to heal the network!",
+								"The driver is not yet ready to rebuild routes!",
 							),
 						);
 					}
 
-					const result = this.driver.controller.beginHealingNetwork();
+					const result =
+						this.driver.controller.beginRebuildingRoutes();
 					if (result) {
 						respond(responses.OK);
-						this.setState("info.healingNetwork", true, true);
+						this.setState("info.rebuildingRoutes", true, true);
 					} else {
 						respond(responses.COMMAND_ACTIVE);
 					}
 					return;
 				}
 
-				case "stopHealingNetwork": {
+				case "stopRebuildingRoutes": {
 					if (!this.driverReady) {
 						return respond(
 							responses.ERROR(
-								"The driver is not yet ready to heal the network!",
+								"The driver is not yet ready to rebuild routes!",
 							),
 						);
 					}
 
-					this.driver.controller.stopHealingNetwork();
+					this.driver.controller.stopRebuildingRoutes();
 					respond(responses.OK);
-					this.setState("info.healingNetwork", false, true);
+					this.setState("info.rebuildingRoutes", false, true);
 					return;
 				}
 
@@ -2198,12 +2201,9 @@ class ZWave2 extends utils.Adapter<true> {
 
 						// And try to start the update
 						try {
-							await this.driver.controller.nodes
+							void this.driver.controller.nodes
 								.get(nodeId)!
-								.beginFirmwareUpdate(
-									actualFirmware.data,
-									actualFirmware.firmwareTarget,
-								);
+								.updateFirmware([actualFirmware]);
 							this.log.info(
 								`Node ${nodeId}: Firmware update started`,
 							);

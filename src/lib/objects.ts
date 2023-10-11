@@ -12,6 +12,7 @@ import { padStart } from "alcalzone-shared/strings";
 import { isArray, isObject } from "alcalzone-shared/typeguards";
 import { ControllerStatistics, RFRegion } from "zwave-js";
 import {
+	Endpoint,
 	NodeStatistics,
 	NodeStatus,
 	VirtualNode,
@@ -623,6 +624,7 @@ export async function setNodeStatistics(
 
 export function computeNotificationId(
 	nodeId: number,
+	endpointIndex: number,
 	notificationLabel: string,
 	eventLabel: string,
 	property?: string,
@@ -634,6 +636,7 @@ export function computeNotificationId(
 			nameToStateId(notificationLabel),
 			nameToStateId(eventLabel),
 			property && nameToStateId(property),
+			endpointIndex && padStart(endpointIndex.toString(), 3, "0"),
 		]
 			.filter((s) => !!s)
 			.join("_"),
@@ -657,6 +660,7 @@ async function setOrExtendObject(
 
 async function setNotificationValue(
 	nodeId: number,
+	endpointIndex: number,
 	notificationLabel: string,
 	eventLabel: string,
 	property: string | undefined,
@@ -664,6 +668,7 @@ async function setNotificationValue(
 ): Promise<void> {
 	const stateId = computeNotificationId(
 		nodeId,
+		endpointIndex,
 		notificationLabel,
 		eventLabel,
 		property,
@@ -745,15 +750,23 @@ async function setNotificationValue(
 
 /** Translates a notification for the Notification CC into states */
 export async function extendNotification_NotificationCC(
-	node: ZWaveNode,
+	endpoint: Endpoint,
 	args: ZWaveNotificationCallbackArgs_NotificationCC,
 ): Promise<void> {
 	const { label, eventLabel, parameters } = args;
 	if (parameters == undefined) {
-		await setNotificationValue(node.id, label, eventLabel, undefined, true);
+		await setNotificationValue(
+			endpoint.nodeId,
+			endpoint.index,
+			label,
+			eventLabel,
+			undefined,
+			true,
+		);
 	} else if (Buffer.isBuffer(parameters)) {
 		await setNotificationValue(
-			node.id,
+			endpoint.nodeId,
+			endpoint.index,
 			label,
 			eventLabel,
 			undefined,
@@ -761,7 +774,8 @@ export async function extendNotification_NotificationCC(
 		);
 	} else if (parameters instanceof Duration) {
 		await setNotificationValue(
-			node.id,
+			endpoint.nodeId,
+			endpoint.index,
 			label,
 			eventLabel,
 			undefined,
@@ -769,7 +783,14 @@ export async function extendNotification_NotificationCC(
 		);
 	} else {
 		for (const [key, value] of Object.entries(parameters)) {
-			await setNotificationValue(node.id, label, eventLabel, key, value);
+			await setNotificationValue(
+				endpoint.nodeId,
+				endpoint.index,
+				label,
+				eventLabel,
+				key,
+				value,
+			);
 		}
 	}
 }

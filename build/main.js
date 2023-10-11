@@ -40,28 +40,18 @@ class ZWave2 extends utils.Adapter {
       name: "zwave2",
       objects: true
     });
-    this.driverReady = false;
-    this.readyNodes = /* @__PURE__ */ new Set();
-    this.virtualNodesUpdated = false;
-    this.initialNodeInterviewStages = /* @__PURE__ */ new Map();
-    this.onNodeNotification = async (...params) => {
-      if (params[1] === import_core.CommandClasses.Notification) {
-        const [node, , args] = params;
-        this.log.debug(
-          `Node ${node.id}: received notification: ${args.label} - ${args.eventLabel}`
-        );
-        await (0, import_objects2.extendNotification_NotificationCC)(node, args);
-      }
-    };
-    this.pushPayloads = [];
-    this.pushCallbacks = /* @__PURE__ */ new Map();
-    this.pushToFrontendBusy = false;
     this.on("ready", this.onReady.bind(this));
     this.on("objectChange", this.onObjectChange.bind(this));
     this.on("stateChange", this.onStateChange.bind(this));
     this.on("message", this.onMessage.bind(this));
     this.on("unload", this.onUnload.bind(this));
   }
+  driver;
+  driverReady = false;
+  readyNodes = /* @__PURE__ */ new Set();
+  virtualNodesUpdated = false;
+  initialNodeInterviewStages = /* @__PURE__ */ new Map();
+  configUpdateTimeout;
   async onReady() {
     import_global.Global.adapter = this;
     const cacheDir = import_path.default.join(
@@ -77,7 +67,7 @@ class ZWave2 extends utils.Adapter {
     this.setState("info.connection", false, true);
     this.setState(`info.inclusion`, false, true);
     this.setState(`info.exclusion`, false, true);
-    this.setState("info.healingNetwork", false, true);
+    this.setState("info.rebuildingRoutes", false, true);
     if (!this.config.serialport) {
       this.log.warn(
         "No serial port configured. Please select one in the adapter settings!"
@@ -163,9 +153,9 @@ class ZWave2 extends utils.Adapter {
         `The driver is ready. Found ${this.driver.controller.nodes.size} nodes.`
       );
       this.driver.controller.on("inclusion started", this.onInclusionStarted.bind(this)).on("exclusion started", this.onExclusionStarted.bind(this)).on("inclusion stopped", this.onInclusionStopped.bind(this)).on("exclusion stopped", this.onExclusionStopped.bind(this)).on("inclusion failed", this.onInclusionFailed.bind(this)).on("exclusion failed", this.onExclusionFailed.bind(this)).on("node added", this.onNodeAdded.bind(this)).on("node removed", this.onNodeRemoved.bind(this)).on(
-        "heal network progress",
-        this.onHealNetworkProgress.bind(this)
-      ).on("heal network done", this.onHealNetworkDone.bind(this)).on(
+        "rebuild routes progress",
+        this.onRebuildRoutesProgress.bind(this)
+      ).on("rebuild routes done", this.onRebuildRoutesDone.bind(this)).on(
         "statistics updated",
         this.onControllerStatisticsUpdated.bind(this)
       );
@@ -230,7 +220,6 @@ class ZWave2 extends utils.Adapter {
       });
     } catch {
     }
-    this.driver.enableErrorReporting();
     try {
       await this.driver.start();
     } catch (e) {
@@ -280,8 +269,8 @@ class ZWave2 extends utils.Adapter {
       }
     });
   }
-  async onNodeRemoved(node, replaced) {
-    if (replaced) {
+  async onNodeRemoved(node, reason) {
+    if (reason === import_zwave_js.RemoveNodeReason.Replaced || reason === import_zwave_js.RemoveNodeReason.ProxyReplaced) {
       this.log.info(`Node ${node.id}: replace started`);
       this.readyNodes.delete(node.id);
     } else {
@@ -299,27 +288,27 @@ class ZWave2 extends utils.Adapter {
     this.virtualNodesUpdated = false;
     await this.updateVirtualNodes();
   }
-  async onHealNetworkProgress(progress) {
+  async onRebuildRoutesProgress(progress) {
     const allDone = [...progress.values()].every((v) => v !== "pending");
     if (allDone)
       return;
     this.pushToFrontend({
-      type: "healing",
+      type: "rebuildRoutes",
       status: {
         type: "progress",
         progress: (0, import_shared2.mapToRecord)(progress)
       }
     });
   }
-  async onHealNetworkDone(result) {
+  async onRebuildRoutesDone(result) {
     this.pushToFrontend({
-      type: "healing",
+      type: "rebuildRoutes",
       status: {
         type: "done",
         progress: (0, import_shared2.mapToRecord)(result)
       }
     });
-    this.setState("info.healingNetwork", false, true);
+    this.setState("info.rebuildingRoutes", false, true);
   }
   async onControllerStatisticsUpdated(statistics) {
     await (0, import_objects2.setControllerStatistics)(statistics);
@@ -679,26 +668,35 @@ class ZWave2 extends utils.Adapter {
     this.log.debug(`Node ${node.id}: metadata updated: ${propertyName}`);
     await (0, import_objects2.extendMetadata)(node, args);
   }
-  async onNodeFirmwareUpdateProgress(node, sentFragments, totalFragments) {
+  async onNodeFirmwareUpdateProgress(node, progress) {
     this.pushToFrontend({
       type: "firmwareUpdate",
       progress: {
         type: "progress",
-        sentFragments,
-        totalFragments
+        sentFragments: progress.sentFragments,
+        totalFragments: progress.totalFragments
       }
     });
   }
-  async onNodeFirmwareUpdateFinished(node, status, waitTime) {
+  async onNodeFirmwareUpdateFinished(node, result) {
     this.pushToFrontend({
       type: "firmwareUpdate",
       progress: {
         type: "done",
-        status,
-        waitTime
+        status: result.status,
+        waitTime: result.waitTime
       }
     });
   }
+  onNodeNotification = async (...params) => {
+    if (params[1] === import_core.CommandClasses.Notification) {
+      const [endpoint, , args] = params;
+      this.log.debug(
+        `Node ${endpoint.nodeId}${endpoint.index > 0 ? `, Endpoint ${endpoint.index}` : ""}: received notification: ${args.label} - ${args.eventLabel}`
+      );
+      await (0, import_objects2.extendNotification_NotificationCC)(endpoint, args);
+    }
+  };
   async onNodeStatisticsUpdated(node, statistics) {
     await (0, import_objects2.setNodeStatistics)(node.id, statistics);
   }
@@ -854,6 +852,10 @@ class ZWave2 extends utils.Adapter {
       this.log.error((0, import_shared2.getErrorMessage)(e));
     }
   }
+  pushPayloads = [];
+  pushCallbacks = /* @__PURE__ */ new Map();
+  pushPayloadExpirationTimeout;
+  pushToFrontendBusy = false;
   pushToFrontend(payload) {
     this.pushPayloads.push(payload);
     if (this.pushToFrontendBusy)
@@ -875,6 +877,9 @@ class ZWave2 extends utils.Adapter {
     }
     this.pushToFrontendBusy = false;
   }
+  logTransport;
+  validateDSKPromise;
+  grantSecurityClassesPromise;
   async onMessage(obj) {
     var _a, _b, _c, _d;
     const respond = (response) => {
@@ -1223,34 +1228,34 @@ class ZWave2 extends utils.Adapter {
           }
           return;
         }
-        case "beginHealingNetwork": {
+        case "beginRebuildingRoutes": {
           if (!this.driverReady) {
             return respond(
               responses.ERROR(
-                "The driver is not yet ready to heal the network!"
+                "The driver is not yet ready to rebuild routes!"
               )
             );
           }
-          const result = this.driver.controller.beginHealingNetwork();
+          const result = this.driver.controller.beginRebuildingRoutes();
           if (result) {
             respond(responses.OK);
-            this.setState("info.healingNetwork", true, true);
+            this.setState("info.rebuildingRoutes", true, true);
           } else {
             respond(responses.COMMAND_ACTIVE);
           }
           return;
         }
-        case "stopHealingNetwork": {
+        case "stopRebuildingRoutes": {
           if (!this.driverReady) {
             return respond(
               responses.ERROR(
-                "The driver is not yet ready to heal the network!"
+                "The driver is not yet ready to rebuild routes!"
               )
             );
           }
-          this.driver.controller.stopHealingNetwork();
+          this.driver.controller.stopRebuildingRoutes();
           respond(responses.OK);
-          this.setState("info.healingNetwork", false, true);
+          this.setState("info.rebuildingRoutes", false, true);
           return;
         }
         case "softReset": {
@@ -1594,10 +1599,7 @@ class ZWave2 extends utils.Adapter {
               return respond(responses.ERROR((0, import_shared2.getErrorMessage)(e)));
             }
             try {
-              await this.driver.controller.nodes.get(nodeId).beginFirmwareUpdate(
-                actualFirmware.data,
-                actualFirmware.firmwareTarget
-              );
+              void this.driver.controller.nodes.get(nodeId).updateFirmware([actualFirmware]);
               this.log.info(
                 `Node ${nodeId}: Firmware update started`
               );

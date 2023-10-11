@@ -1,13 +1,13 @@
 import Paper from "@material-ui/core/Paper";
-import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import { makeStyles } from "@material-ui/core/styles";
 import { useI18n } from "iobroker-react/hooks";
-import type { NetworkHealStatus } from "../../../src/lib/shared";
+import type { RebuildRoutesStatus } from "../../../src/lib/shared";
 import type { Device } from "../lib/useAPI";
 import { DeviceTableRow } from "./DeviceTableRow";
 
@@ -27,8 +27,8 @@ const useStyles = makeStyles((theme) => ({
 
 export interface DeviceTableProps {
 	devices: Device[];
-	healingNetwork: boolean;
-	networkHealProgress: NonNullable<NetworkHealStatus["progress"]>;
+	rebuildingRoutes: boolean;
+	rebuildRoutesProgress: NonNullable<RebuildRoutesStatus["progress"]>;
 	isBusy: boolean;
 	setBusy: (isBusy: boolean) => void;
 	replaceFailedNode: (nodeId: number) => void;
@@ -38,7 +38,7 @@ export const DeviceTable: React.FC<DeviceTableProps> = (props) => {
 	const { translate: _ } = useI18n();
 
 	const classes = useStyles();
-	const { devices, healingNetwork, networkHealProgress } = props;
+	const { devices, rebuildingRoutes, rebuildRoutesProgress } = props;
 
 	return (
 		<Paper className={classes.root} elevation={2}>
@@ -64,9 +64,9 @@ export const DeviceTable: React.FC<DeviceTableProps> = (props) => {
 										isBusy={props.isBusy}
 										setBusy={props.setBusy}
 										device={device}
-										healStatus={
-											healingNetwork
-												? networkHealProgress[nodeId]
+										rebuildRoutesStatus={
+											rebuildingRoutes
+												? rebuildRoutesProgress[nodeId]
 												: undefined
 										}
 										replaceFailedNode={() =>
