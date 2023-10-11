@@ -1,7 +1,7 @@
 {
 	// To update the compilation target, install a different version of @tsconfig/node... and reference it here
 	// https://github.com/tsconfig/bases#node-12-tsconfigjson
-	"extends": "@tsconfig/node14/tsconfig.json",
+	"extends": "@tsconfig/node18/tsconfig.json",
 	"compilerOptions": {
 		// do not compile anything, this file is just to configure type checking
 		// the compilation is configured in tsconfig.build.json
@@ -15,13 +15,11 @@
 		"removeComments": false,
 		"jsx": "react-jsx",
 		// Avoid runtime imports that are unnecessary
+		"ignoreDeprecations": "5.0",
 		"importsNotUsedAsValues": "error",
 		// Required for TS debugging
 		"sourceMap": true,
 		"inlineSourceMap": false,
-		// watch=true breaks CI build steps
-		"watch": false,
-		"module": "CommonJS"
 	},
 	"include": [
 		"**/*.ts",
