@@ -127,7 +127,6 @@ class ZWave2 extends utils.Adapter<true> {
 
 		// Clear cache if we're asked to
 		const cacheDir = path.join(
-			// @ts-expect-error Some bug in the ioBroker typings
 			utils.getAbsoluteInstanceDataDir(this),
 			"cache",
 		);
@@ -139,7 +138,8 @@ class ZWave2 extends utils.Adapter<true> {
 			return;
 		}
 
-		await this.subscribeStatesAsync("*");
+		// delete obsolete states
+		this.delObject("info.healingNetwork");
 
 		// Reset all control states
 		this.setState("info.connection", false, true);
@@ -153,6 +153,8 @@ class ZWave2 extends utils.Adapter<true> {
 			);
 			return;
 		}
+
+		await this.subscribeStatesAsync("*");
 
 		// Apply adapter configuration
 		const timeouts: Partial<ZWaveOptions["timeouts"]> | undefined = this
@@ -563,7 +565,7 @@ class ZWave2 extends utils.Adapter<true> {
 				),
 			);
 			const allValueIDs = node.getDefinedValueIDs();
-			const deviceId = objId.substr(this.namespace.length + 1);
+			const deviceId = objId.slice(this.namespace.length + 1);
 			await this.extendVirtualNodeObjectsAndStates(
 				node,
 				deviceId,
@@ -966,7 +968,7 @@ class ZWave2 extends utils.Adapter<true> {
 		args: ZWaveNodeValueAddedArgs,
 	): Promise<void> {
 		let propertyName = computeStateId(node.id, args);
-		propertyName = propertyName.substr(propertyName.lastIndexOf(".") + 1);
+		propertyName = propertyName.slice(propertyName.lastIndexOf(".") + 1);
 		this.log.debug(
 			`Node ${node.id}: value added: ${propertyName} => ${String(
 				args.newValue,
@@ -981,7 +983,7 @@ class ZWave2 extends utils.Adapter<true> {
 		args: ZWaveNodeValueUpdatedArgs,
 	): Promise<void> {
 		let propertyName = computeStateId(node.id, args);
-		propertyName = propertyName.substr(propertyName.lastIndexOf(".") + 1);
+		propertyName = propertyName.slice(propertyName.lastIndexOf(".") + 1);
 		this.log.debug(
 			`Node ${node.id}: value updated: ${propertyName} => ${String(
 				args.newValue,
@@ -996,7 +998,7 @@ class ZWave2 extends utils.Adapter<true> {
 		args: ZWaveNodeValueNotificationArgs,
 	): Promise<void> {
 		let propertyName = computeStateId(node.id, args);
-		propertyName = propertyName.substr(propertyName.lastIndexOf(".") + 1);
+		propertyName = propertyName.slice(propertyName.lastIndexOf(".") + 1);
 		this.log.debug(
 			`Node ${node.id}: value notification: ${propertyName} = ${String(
 				args.value,
@@ -1028,7 +1030,7 @@ class ZWave2 extends utils.Adapter<true> {
 		args: ZWaveNodeValueRemovedArgs,
 	): Promise<void> {
 		let propertyName = computeStateId(node.id, args);
-		propertyName = propertyName.substr(propertyName.lastIndexOf(".") + 1);
+		propertyName = propertyName.slice(propertyName.lastIndexOf(".") + 1);
 		this.log.debug(`Node ${node.id}: value removed: ${propertyName}`);
 		await removeValue(node.id, args);
 	}
@@ -1038,7 +1040,7 @@ class ZWave2 extends utils.Adapter<true> {
 		args: ZWaveNodeMetadataUpdatedArgs,
 	): Promise<void> {
 		let propertyName = computeStateId(node.id, args);
-		propertyName = propertyName.substr(propertyName.lastIndexOf(".") + 1);
+		propertyName = propertyName.slice(propertyName.lastIndexOf(".") + 1);
 		this.log.debug(`Node ${node.id}: metadata updated: ${propertyName}`);
 		await extendMetadata(node, args);
 	}

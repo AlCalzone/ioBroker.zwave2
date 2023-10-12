@@ -359,12 +359,12 @@ export async function extendValue(
 		const state: ioBroker.SettableState = {
 			val: safeValue(args.newValue),
 			ack: true,
-		};
-		// TODO: remove this after JS-Controller 3.2 is stable
-		if (fromCache) {
 			// Set cached values with a lower quality (substitute value from device or instance), so scripts can ignore the update
-			(state as any).q = 0x40;
-		}
+			q: fromCache
+				? ioBroker.STATE_QUALITY.SUBSTITUTE_DEVICE_INSTANCE_VALUE
+				: ioBroker.STATE_QUALITY.GOOD,
+		};
+
 		if (fromCache) {
 			// Avoid queueing too many events when reading from cache
 			await _.adapter.setStateChangedAsync(stateId, state);

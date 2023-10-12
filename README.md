@@ -40,6 +40,21 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	Placeholder for next versions:
 	### __WORK IN PROGRESS__
 -->
+### __WORK IN PROGRESS__
+Updated `zwave-js` to version `12.1.0`:
+* BREAKING: The minimum supported version of Node.js is now 18.0.0
+* BREAKING: For devices that support `Multilevel Switch CC` and `Window Covering CC`, the `Multilevel Switch CC` values are now hidden to be compliant with the Z-Wave specification
+* BREAKING: **Soft-reset** is no longer automatically disabled after the controller fails to respond afterwards. This can prevent the adapter from starting with 500 series controllers in certain setups. Please read [this](https://github.com/AlCalzone/ioBroker.zwave2/blob/master/docs/en/troubleshooting.md#the-adapter-does-not-start-after-updating-to-version-23-or-higher) if you are affected.
+* **Heal network** has been renamed to **Rebuild routes** to better reflect what it actually does
+* Auto-discovered config parameters are now available along with preconfigured ones from a configuration file
+* Some nonsensical reports from devices are now automatically detected and ignored
+* The order node communication during startup has been changed to ensure responsive nodes are ready first
+* Battery-powered devices are now sent to sleep again quicker, resulting in significant battery savings for devices that wake up frequently
+* Unresponsive controllers are now detected and automatically restarted (unless restarting the controller is disabled in the adapter settings)
+* `Notification` values from endpoints are now supported, improving support for multi-channel wall controllers
+* Several improvements related to `Security S2` communication
+* Lots of new and updated configuration files, see [Z-Wave JS releases](https://github.com/zwave-js/node-zwave-js/releases) for details
+
 ### 3.1.0 (2023-09-27)
 Updated `zwave-js` to `10.23.6`. This includes the following changes:
 * Added support for `Security S2` multicast
