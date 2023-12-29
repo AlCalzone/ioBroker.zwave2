@@ -49,8 +49,8 @@ export type PushMessage =
 			status: InclusionExclusionStatus;
 	  }
 	| {
-			type: "healing";
-			status: NetworkHealStatus;
+			type: "rebuildRoutes";
+			status: RebuildRoutesStatus;
 	  }
 	| {
 			type: "firmwareUpdate";
@@ -61,7 +61,7 @@ export type PushMessage =
 			info: ZWaveLogInfo;
 	  };
 
-export interface NetworkHealStatus {
+export interface RebuildRoutesStatus {
 	type: "done" | "progress";
 	progress?: Record<number, "pending" | "done" | "failed" | "skipped">;
 }
@@ -118,6 +118,8 @@ export type ScanQRCodeResult =
 	  };
 export interface FirmwareUpdateProgress {
 	type: "done" | "progress";
+	currentFile?: number;
+	totalFiles?: number;
 	sentFragments?: number;
 	totalFragments?: number;
 	status?: FirmwareUpdateStatus;

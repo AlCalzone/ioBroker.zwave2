@@ -8,18 +8,18 @@ import RedoIcon from "@material-ui/icons/Redo";
 import { useI18n } from "iobroker-react/hooks";
 
 const useStyles = makeStyles((_theme) => ({
-	healIconPending: {
+	rebuildRoutesIconPending: {
 		color: blue[500],
 		animation: "$rotation 1.5s infinite ease-in-out",
 		animationFillMode: "forwards",
 	},
-	healIconFailed: {
+	rebuildRoutesIconFailed: {
 		color: red[500],
 	},
-	healIconSkipped: {
+	rebuildRoutesIconSkipped: {
 		color: orange[800],
 	},
-	healIconDone: {
+	rebuildRoutesIconDone: {
 		color: green[900],
 	},
 
@@ -37,11 +37,13 @@ const useStyles = makeStyles((_theme) => ({
 	},
 }));
 
-interface HealStatusIconProps {
+interface RebuildRoutesStatusIconProps {
 	status: "pending" | "failed" | "skipped" | "done";
 }
 
-export const HealStatusIcon: React.FC<HealStatusIconProps> = (props) => {
+export const RebuildRoutesStatusIcon: React.FC<RebuildRoutesStatusIconProps> = (
+	props,
+) => {
 	const { status } = props;
 	const { translate: _ } = useI18n();
 	const classes = useStyles();
@@ -49,27 +51,31 @@ export const HealStatusIcon: React.FC<HealStatusIconProps> = (props) => {
 		case "done":
 			return (
 				<Tooltip title={_("done")}>
-					<DoneIcon className={classes.healIconDone} />
+					<DoneIcon className={classes.rebuildRoutesIconDone} />
 				</Tooltip>
 			);
 		case "skipped":
 			return (
 				<Tooltip title={_("skipped")}>
-					<RedoIcon className={classes.healIconSkipped} />
+					<RedoIcon className={classes.rebuildRoutesIconSkipped} />
 				</Tooltip>
 			);
 		case "failed":
 			return (
 				<Tooltip title={_("failed")}>
-					<ErrorOutlineIcon className={classes.healIconFailed} />
+					<ErrorOutlineIcon
+						className={classes.rebuildRoutesIconFailed}
+					/>
 				</Tooltip>
 			);
 		case "pending":
 			return (
 				<Tooltip title={_("pending")}>
-					<AutoRenewIcon className={classes.healIconPending} />
+					<AutoRenewIcon
+						className={classes.rebuildRoutesIconPending}
+					/>
 				</Tooltip>
 			);
 	}
-	throw new Error("Unknown heal status");
+	throw new Error("Unknown route rebuilding status");
 };

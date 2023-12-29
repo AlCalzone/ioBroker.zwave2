@@ -1,9 +1,9 @@
 import Collapse from "@material-ui/core/Collapse";
 import IconButton from "@material-ui/core/IconButton";
-import { makeStyles } from "@material-ui/core/styles";
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
 import Tooltip from "@material-ui/core/Tooltip";
+import { makeStyles } from "@material-ui/core/styles";
 import HomeIcon from "@material-ui/icons/Home";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
@@ -16,12 +16,12 @@ import { ControllerActions } from "./ControllerActions";
 import { DeviceSecurityIcon } from "./DeviceSecurityIcon";
 import { DeviceStatisticsIndicator } from "./DeviceStatisticsIndicator";
 import { DeviceStatusIcon } from "./DeviceStatusIcon";
-import { HealStatusIcon } from "./HealStatusIcon";
 import { NodeActions } from "./NodeActions";
+import { RebuildRoutesStatusIcon } from "./RebuildRoutesStatusIcon";
 
 export interface DeviceTableRowProps {
 	device: Device;
-	healStatus: any;
+	rebuildRoutesStatus: any;
 	isBusy: boolean;
 	setBusy: (isBusy: boolean) => void;
 	replaceFailedNode: () => void;
@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const DeviceTableRow: React.FC<DeviceTableRowProps> = (props) => {
-	const { healStatus, device } = props;
+	const { rebuildRoutesStatus, device } = props;
 
 	const { value, status } = device;
 	const nodeId = value.native.id as number;
@@ -121,11 +121,13 @@ export const DeviceTableRow: React.FC<DeviceTableRowProps> = (props) => {
 						<>
 							{/* Whether the device is reachable */}
 							<DeviceStatusIcon status={status} />
-							{/* While healing the network also show the current progress */}
-							{!!healStatus && (
+							{/* While rebuilding routes also show the current progress */}
+							{!!rebuildRoutesStatus && (
 								<>
 									{" "}
-									<HealStatusIcon status={props.healStatus} />
+									<RebuildRoutesStatusIcon
+										status={props.rebuildRoutesStatus}
+									/>
 								</>
 							)}
 						</>

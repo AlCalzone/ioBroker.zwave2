@@ -23,6 +23,7 @@ __export(global_exports, {
 module.exports = __toCommonJS(global_exports);
 var import_objects = require("alcalzone-shared/objects");
 class Global {
+  static _adapter;
   static get adapter() {
     return Global._adapter;
   }

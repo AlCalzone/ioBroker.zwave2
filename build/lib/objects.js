@@ -459,14 +459,15 @@ async function setNodeStatistics(nodeId, statistics) {
     true
   );
 }
-function computeNotificationId(nodeId, notificationLabel, eventLabel, property) {
+function computeNotificationId(nodeId, endpointIndex, notificationLabel, eventLabel, property) {
   return [
     (0, import_shared.computeDeviceId)(nodeId),
     ccNameToChannelIdFragment("Notification"),
     [
       nameToStateId(notificationLabel),
       nameToStateId(eventLabel),
-      property && nameToStateId(property)
+      property && nameToStateId(property),
+      endpointIndex && (0, import_strings.padStart)(endpointIndex.toString(), 3, "0")
     ].filter((s) => !!s).join("_")
   ].join(".");
 }
@@ -477,10 +478,11 @@ async function setOrExtendObject(id, definition, original) {
     await import_global.Global.adapter.extendObjectAsync(id, definition);
   }
 }
-async function setNotificationValue(nodeId, notificationLabel, eventLabel, property, value = true) {
+async function setNotificationValue(nodeId, endpointIndex, notificationLabel, eventLabel, property, value = true) {
   var _a;
   const stateId = computeNotificationId(
     nodeId,
+    endpointIndex,
     notificationLabel,
     eventLabel,
     property
@@ -540,13 +542,21 @@ async function setNotificationValue(nodeId, notificationLabel, eventLabel, prope
     true
   );
 }
-async function extendNotification_NotificationCC(node, args) {
+async function extendNotification_NotificationCC(endpoint, args) {
   const { label, eventLabel, parameters } = args;
   if (parameters == void 0) {
-    await setNotificationValue(node.id, label, eventLabel, void 0, true);
+    await setNotificationValue(
+      endpoint.nodeId,
+      endpoint.index,
+      label,
+      eventLabel,
+      void 0,
+      true
+    );
   } else if (Buffer.isBuffer(parameters)) {
     await setNotificationValue(
-      node.id,
+      endpoint.nodeId,
+      endpoint.index,
       label,
       eventLabel,
       void 0,
@@ -554,7 +564,8 @@ async function extendNotification_NotificationCC(node, args) {
     );
   } else if (parameters instanceof import_core.Duration) {
     await setNotificationValue(
-      node.id,
+      endpoint.nodeId,
+      endpoint.index,
       label,
       eventLabel,
       void 0,
@@ -562,7 +573,14 @@ async function extendNotification_NotificationCC(node, args) {
     );
   } else {
     for (const [key, value] of Object.entries(parameters)) {
-      await setNotificationValue(node.id, label, eventLabel, key, value);
+      await setNotificationValue(
+        endpoint.nodeId,
+        endpoint.index,
+        label,
+        eventLabel,
+        key,
+        value
+      );
     }
   }
 }

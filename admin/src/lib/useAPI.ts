@@ -2,6 +2,7 @@ import type { AssociationAddress, AssociationGroup } from "@zwave-js/cc/safe";
 import type { SecurityClass } from "@zwave-js/core";
 import { isArray } from "alcalzone-shared/typeguards";
 import { useConnection, useGlobals } from "iobroker-react/hooks";
+// @ts-expect-error need to update iobroker-react
 import type { Connection } from "iobroker-react/socket-client";
 import { useMemo } from "react";
 import { v4 as uuidv4 } from "uuid";
@@ -14,10 +15,10 @@ import type {
 } from "zwave-js/safe";
 import {
 	AssociationDefinition,
-	computeDeviceId,
-	getErrorMessage,
 	PushMessage,
 	ScanQRCodeResult,
+	computeDeviceId,
+	getErrorMessage,
 } from "../../../src/lib/shared";
 
 export interface Device {
@@ -61,20 +62,20 @@ export class API {
 
 	private readonly uuid: string;
 
-	public async beginHealingNetwork(): Promise<void> {
+	public async beginRebuildingRoutes(): Promise<void> {
 		const { error, result } = await this.connection.sendTo<SendToResult>(
 			this.namespace,
-			"beginHealingNetwork",
+			"beginRebuildingRoutes",
 		);
 		if (result !== "ok") {
 			throw error ?? result;
 		}
 	}
 
-	public async stopHealingNetwork(): Promise<void> {
+	public async stopRebuildingRoutes(): Promise<void> {
 		const { error, result } = await this.connection.sendTo<SendToResult>(
 			this.namespace,
-			"stopHealingNetwork",
+			"stopRebuildingRoutes",
 		);
 		if (result !== "ok") {
 			throw error ?? result;
