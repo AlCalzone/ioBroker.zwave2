@@ -195,7 +195,7 @@ export const SmartStart: React.FC<SmartStartProps> = (props) => {
 					severity: "info",
 				});
 			}
-		} catch (e) {
+		} catch {
 			// ignore
 		}
 	};

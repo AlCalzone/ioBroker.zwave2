@@ -265,7 +265,7 @@ export async function removeNode(nodeId: number): Promise<void> {
 	const deviceId = `${_.adapter.namespace}.${computeDeviceId(nodeId)}`;
 	try {
 		await _.adapter.delForeignObjectAsync(deviceId);
-	} catch (e) {
+	} catch {
 		/* ok */
 	}
 
@@ -279,13 +279,13 @@ export async function removeNode(nodeId: number): Promise<void> {
 		if (obj.type === "state") {
 			try {
 				await _.adapter.delForeignStateAsync(id);
-			} catch (e) {
+			} catch {
 				/* ok */
 			}
 		}
 		try {
 			await _.adapter.delForeignObjectAsync(id);
-		} catch (e) {
+		} catch {
 			/* ok */
 		}
 	}

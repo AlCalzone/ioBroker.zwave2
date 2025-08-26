@@ -346,7 +346,6 @@ class ZWave2 extends utils.Adapter<true> {
 		try {
 			this.driver.enableStatistics({
 				applicationName: "ioBroker.zwave2",
-				// eslint-disable-next-line @typescript-eslint/no-var-requires
 				applicationVersion: require("iobroker.zwave2/package.json")
 					.version,
 			});
@@ -648,7 +647,7 @@ class ZWave2 extends utils.Adapter<true> {
 			this.log.debug(`Deleting orphaned multicast object ${id}`);
 			try {
 				await this.delObjectAsync(id);
-			} catch (e) {
+			} catch {
 				/* it's fine */
 			}
 		}
@@ -772,7 +771,7 @@ class ZWave2 extends utils.Adapter<true> {
 			this.log.warn(`Deleting orphaned channel ${id}`);
 			try {
 				await this.delObjectAsync(id);
-			} catch (e) {
+			} catch {
 				/* it's fine */
 			}
 		}
@@ -794,12 +793,12 @@ class ZWave2 extends utils.Adapter<true> {
 			this.log.warn(`Deleting orphaned state ${id}`);
 			try {
 				await this.delStateAsync(id);
-			} catch (e) {
+			} catch {
 				/* it's fine */
 			}
 			try {
 				await this.delObjectAsync(id);
-			} catch (e) {
+			} catch {
 				/* it's fine */
 			}
 		}
@@ -853,7 +852,7 @@ class ZWave2 extends utils.Adapter<true> {
 			this.log.warn(`Deleting orphaned channel ${id}`);
 			try {
 				await this.delObjectAsync(id);
-			} catch (e) {
+			} catch {
 				/* it's fine */
 			}
 		}
@@ -870,7 +869,7 @@ class ZWave2 extends utils.Adapter<true> {
 			this.log.warn(`Deleting orphaned virtual state ${id}`);
 			try {
 				await this.delObjectAsync(id);
-			} catch (e) {
+			} catch {
 				/* it's fine */
 			}
 		}
@@ -1148,7 +1147,7 @@ class ZWave2 extends utils.Adapter<true> {
 
 			this.log.info("Cleaned everything up!");
 			callback();
-		} catch (e) {
+		} catch {
 			callback();
 		}
 	}

@@ -253,7 +253,7 @@ export const Devices: React.FC<DevicesProps> = (props) => {
 								),
 							});
 						}
-					} catch (e) {
+					} catch {
 						closeDialog();
 						showNotification(_("Failed to scan QR code"), "error");
 					}

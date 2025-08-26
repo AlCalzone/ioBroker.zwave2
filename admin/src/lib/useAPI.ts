@@ -2,7 +2,6 @@ import type { AssociationAddress, AssociationGroup } from "@zwave-js/cc/safe";
 import type { SecurityClass } from "@zwave-js/core";
 import { isArray } from "alcalzone-shared/typeguards";
 import { useConnection, useGlobals } from "iobroker-react/hooks";
-import type { Connection } from "iobroker-react/socket-client";
 import { useMemo } from "react";
 import { v4 as uuidv4 } from "uuid";
 import type {
@@ -54,7 +53,7 @@ export type PushCallback = (payload: PushMessage) => void;
 export class API {
 	public constructor(
 		private readonly namespace: string,
-		private readonly connection: Connection,
+		private readonly connection: ReturnType<typeof useConnection>,
 	) {
 		this.uuid = uuidv4();
 	}

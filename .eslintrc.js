@@ -15,6 +15,7 @@ module.exports = {
 		// Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
 		"@typescript-eslint/no-parameter-properties": "off",
 		"@typescript-eslint/no-explicit-any": "off",
+		"@typescript-eslint/no-require-imports": "off",
 		"@typescript-eslint/no-use-before-define": [
 			"error",
 			{

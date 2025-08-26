@@ -29,6 +29,10 @@ class Global {
   static set adapter(adapter) {
     Global._adapter = adapter;
   }
+  /**
+   * Kurzschreibweise für die Ermittlung mehrerer Objekte
+   * @param id
+   */
   static async $$(pattern, options = {}) {
     const { type, role } = options;
     const objects = await Global._adapter.getForeignObjectsAsync(

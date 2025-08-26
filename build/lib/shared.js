@@ -40,8 +40,7 @@ function mapToRecord(map) {
   return ret;
 }
 function buffer2hex(buffer) {
-  if (buffer.length === 0)
-    return "";
+  if (buffer.length === 0) return "";
   return `0x${buffer.toString("hex")}`;
 }
 function bufferFromHex(hex) {

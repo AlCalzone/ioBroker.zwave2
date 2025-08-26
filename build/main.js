@@ -14,6 +14,10 @@ var __copyProps = (to, from, except, desc) => {
   return to;
 };
 var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
   isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
   mod
 ));
@@ -53,7 +57,9 @@ class ZWave2 extends utils.Adapter {
         await (0, import_objects2.extendNotification_NotificationCC)(node, args);
       }
     };
+    // This is used to store responses if something changed between two polls
     this.pushPayloads = [];
+    // This is used to store the callback if there was no response yet
     this.pushCallbacks = /* @__PURE__ */ new Map();
     this.pushToFrontendBusy = false;
     this.on("ready", this.onReady.bind(this));
@@ -62,6 +68,9 @@ class ZWave2 extends utils.Adapter {
     this.on("message", this.onMessage.bind(this));
     this.on("unload", this.onUnload.bind(this));
   }
+  /**
+   * Is called when databases are connected and adapter received configuration.
+   */
   async onReady() {
     import_global.Global.adapter = this;
     const cacheDir = import_path.default.join(
@@ -113,6 +122,7 @@ class ZWave2 extends utils.Adapter {
         },
         securityKeys,
         interview: {
+          // TODO: remove this once we have a UI to query user codes
           queryAllUserCodes: true
         },
         enableSoftReset: !this.config.disableSoftReset,
@@ -226,6 +236,7 @@ class ZWave2 extends utils.Adapter {
     try {
       this.driver.enableStatistics({
         applicationName: "ioBroker.zwave2",
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
         applicationVersion: require("iobroker.zwave2/package.json").version
       });
     } catch {
@@ -301,8 +312,7 @@ class ZWave2 extends utils.Adapter {
   }
   async onHealNetworkProgress(progress) {
     const allDone = [...progress.values()].every((v) => v !== "pending");
-    if (allDone)
-      return;
+    if (allDone) return;
     this.pushToFrontend({
       type: "healing",
       status: {
@@ -334,8 +344,7 @@ class ZWave2 extends utils.Adapter {
     ).on("notification", this.onNodeNotification.bind(this)).on("statistics updated", this.onNodeStatisticsUpdated.bind(this));
   }
   async onNodeReady(node) {
-    if (this.readyNodes.has(node.id))
-      return;
+    if (this.readyNodes.has(node.id)) return;
     this.readyNodes.add(node.id);
     this.log.info(`Node ${node.id}: ready to use`);
     await (0, import_objects2.setNodeStatus)(
@@ -351,8 +360,7 @@ class ZWave2 extends utils.Adapter {
     await this.updateVirtualNodes();
   }
   async updateVirtualNodes() {
-    if (this.virtualNodesUpdated)
-      return;
+    if (this.virtualNodesUpdated) return;
     this.virtualNodesUpdated = true;
     this.log.info(`Updating broadcast/multicast node states`);
     let node = this.driver.controller.getBroadcastNode();
@@ -391,8 +399,7 @@ class ZWave2 extends utils.Adapter {
     })).rows.map((r) => r.value).filter((o) => !!o);
     const ret = [];
     for (const d of devices) {
-      if (!d.native.multicast)
-        continue;
+      if (!d.native.multicast) continue;
       if (!(0, import_typeguards.isArray)(d.native.nodeIds) || !d.native.nodeIds.length) {
         continue;
       }
@@ -440,8 +447,7 @@ class ZWave2 extends utils.Adapter {
   }
   async extendNodeObjectsAndStates(node, allValueIDs) {
     await (0, import_objects2.extendNode)(node);
-    if (node.isControllerNode)
-      return;
+    if (node.isControllerNode) return;
     allValueIDs != null ? allValueIDs : allValueIDs = node.getDefinedValueIDs();
     const uniqueCCs = allValueIDs.map((vid) => [vid.commandClass, vid.commandClassName]).filter(
       ([cc], index, arr) => arr.findIndex(([_cc]) => _cc === cc) === index
@@ -458,6 +464,7 @@ class ZWave2 extends utils.Adapter {
             ...valueId,
             newValue: value
           },
+          // The value is cached
           true
         );
       }
@@ -633,8 +640,7 @@ class ZWave2 extends utils.Adapter {
       )}`
     );
     await (0, import_objects2.extendValue)(node, args);
-    if (this.config.switchCompat)
-      await this.syncSwitchStates(node, args);
+    if (this.config.switchCompat) await this.syncSwitchStates(node, args);
   }
   async onNodeValueUpdated(node, args) {
     let propertyName = (0, import_objects2.computeStateId)(node.id, args);
@@ -645,8 +651,7 @@ class ZWave2 extends utils.Adapter {
       )}`
     );
     await (0, import_objects2.extendValue)(node, args);
-    if (this.config.switchCompat)
-      await this.syncSwitchStates(node, args);
+    if (this.config.switchCompat) await this.syncSwitchStates(node, args);
   }
   async onNodeValueNotification(node, args) {
     let propertyName = (0, import_objects2.computeStateId)(node.id, args);
@@ -658,6 +663,7 @@ class ZWave2 extends utils.Adapter {
     );
     await (0, import_objects2.extendNotificationValue)(node, args);
   }
+  /** Overwrites `targetValue` states with `currentValue` */
   async syncSwitchStates(node, args) {
     if ((args.commandClass === import_core.CommandClasses["Binary Switch"] || args.commandClass === import_core.CommandClasses["Multilevel Switch"]) && args.property === "currentValue") {
       await (0, import_objects2.extendValue)(node, {
@@ -722,15 +728,17 @@ class ZWave2 extends utils.Adapter {
         );
       }
     }
-    const hour = new Date().getUTCHours();
+    const hour = (/* @__PURE__ */ new Date()).getUTCHours();
     let timeoutHours = 5 - hour;
-    if (timeoutHours <= 0)
-      timeoutHours += 24;
+    if (timeoutHours <= 0) timeoutHours += 24;
     this.configUpdateTimeout = setTimeout(
       () => this.checkForConfigUpdates(),
       timeoutHours * 3600 * 1e3
     );
   }
+  /**
+   * Is called when adapter shuts down - callback has to be called under any circumstances!
+   */
   async onUnload(callback) {
     try {
       this.log.info("Shutting down driver...");
@@ -754,6 +762,9 @@ class ZWave2 extends utils.Adapter {
       callback();
     }
   }
+  /**
+   * Is called when the Z-Wave lib has a non-critical error
+   */
   async onZWaveError(error) {
     let level = "error";
     if (error instanceof import_zwave_js.ZWaveError && error.code === import_zwave_js.ZWaveErrorCodes.Controller_NodeInsecureCommunication) {
@@ -767,6 +778,9 @@ class ZWave2 extends utils.Adapter {
       }, 1e3);
     }
   }
+  /**
+   * Is called if a subscribed object changes
+   */
   async onObjectChange(id, _obj) {
     const prefix = this.namespace + ".Group_";
     if (id.startsWith(prefix) && id.indexOf(".", prefix.length) === -1) {
@@ -774,6 +788,9 @@ class ZWave2 extends utils.Adapter {
       await this.updateVirtualNodes();
     }
   }
+  /**
+   * Is called if a subscribed state changes
+   */
   async onStateChange(id, state) {
     if (state) {
       if (!state.ack) {
@@ -854,10 +871,10 @@ class ZWave2 extends utils.Adapter {
       this.log.error((0, import_shared2.getErrorMessage)(e));
     }
   }
+  /** Responds to a pending poll from the frontend (if there is a message outstanding) */
   pushToFrontend(payload) {
     this.pushPayloads.push(payload);
-    if (this.pushToFrontendBusy)
-      return;
+    if (this.pushToFrontendBusy) return;
     this.pushToFrontendBusy = true;
     if (this.pushCallbacks.size > 0) {
       const payloads = this.pushPayloads.splice(
@@ -875,6 +892,10 @@ class ZWave2 extends utils.Adapter {
     }
     this.pushToFrontendBusy = false;
   }
+  /**
+   * Some message was sent to this instance over message box. Used by email, pushover, text2speech, ...
+   * Using this method requires "common.message" property to be set to true in io-package.json
+   */
   async onMessage(obj) {
     var _a, _b, _c, _d;
     const respond = (response) => {
@@ -893,8 +914,7 @@ class ZWave2 extends utils.Adapter {
       ERROR: (error) => ({ error })
     };
     function requireParams(...params) {
-      if (!params.length)
-        return true;
+      if (!params.length) return true;
       for (const param of params) {
         if (!(obj.message && obj.message.hasOwnProperty(param))) {
           respond(responses.MISSING_PARAMETER(param));
@@ -932,8 +952,7 @@ class ZWave2 extends utils.Adapter {
           return;
         }
         case "registerPushCallback": {
-          if (!requireParams("uuid"))
-            return;
+          if (!requireParams("uuid")) return;
           const params = obj.message;
           const clearPending = !!params.clearPending;
           if (clearPending) {
@@ -973,8 +992,7 @@ class ZWave2 extends utils.Adapter {
               )
             );
           }
-          if (!requireParams("code"))
-            return;
+          if (!requireParams("code")) return;
           const params = obj.message;
           const code = params.code;
           const include = !!params.include;
@@ -1058,8 +1076,7 @@ class ZWave2 extends utils.Adapter {
               )
             );
           }
-          if (!requireParams("dsk", "securityClasses"))
-            return;
+          if (!requireParams("dsk", "securityClasses")) return;
           const params = obj.message;
           const status = params.status;
           const dsk = params.dsk;
@@ -1067,8 +1084,7 @@ class ZWave2 extends utils.Adapter {
           const additionalInfo = (_a = params.additionalInfo) != null ? _a : {};
           if ("status" in additionalInfo)
             delete additionalInfo.status;
-          if ("dsk" in additionalInfo)
-            delete additionalInfo.dsk;
+          if ("dsk" in additionalInfo) delete additionalInfo.dsk;
           if ("securityClasses" in additionalInfo)
             delete additionalInfo.securityClasses;
           try {
@@ -1092,8 +1108,7 @@ class ZWave2 extends utils.Adapter {
               )
             );
           }
-          if (!requireParams("dsk"))
-            return;
+          if (!requireParams("dsk")) return;
           const params = obj.message;
           const dsk = params.dsk;
           try {
@@ -1138,8 +1153,7 @@ class ZWave2 extends utils.Adapter {
               )
             );
           }
-          if (!requireParams("strategy"))
-            return;
+          if (!requireParams("strategy")) return;
           const params = obj.message;
           const strategy = params.strategy;
           const forceSecurity = !!params.forceSecurity;
@@ -1170,8 +1184,7 @@ class ZWave2 extends utils.Adapter {
               )
             );
           }
-          if (!requireParams("pin"))
-            return;
+          if (!requireParams("pin")) return;
           const params = obj.message;
           const pin = params.pin;
           if (!pin) {
@@ -1194,8 +1207,7 @@ class ZWave2 extends utils.Adapter {
               )
             );
           }
-          if (!requireParams("grant"))
-            return;
+          if (!requireParams("grant")) return;
           const params = obj.message;
           const grant = params.grant;
           (_d = this.grantSecurityClassesPromise) == null ? void 0 : _d.resolve(grant);
@@ -1295,8 +1307,7 @@ class ZWave2 extends utils.Adapter {
               )
             );
           }
-          if (!requireParams("nodeId"))
-            return;
+          if (!requireParams("nodeId")) return;
           const params = obj.message;
           try {
             await this.driver.controller.removeFailedNode(
@@ -1319,8 +1330,7 @@ class ZWave2 extends utils.Adapter {
               )
             );
           }
-          if (!requireParams("nodeId", "strategy"))
-            return;
+          if (!requireParams("nodeId", "strategy")) return;
           const params = obj.message;
           const strategy = params.strategy;
           this.validateDSKPromise = void 0;
@@ -1379,8 +1389,7 @@ class ZWave2 extends utils.Adapter {
               )
             );
           }
-          if (!requireParams("region"))
-            return;
+          if (!requireParams("region")) return;
           const params = obj.message;
           try {
             await this.driver.controller.setRFRegion(params.region);
@@ -1405,8 +1414,7 @@ class ZWave2 extends utils.Adapter {
               )
             );
           }
-          if (!requireParams("nodeId"))
-            return;
+          if (!requireParams("nodeId")) return;
           const params = obj.message;
           try {
             const node = this.driver.controller.nodes.getOrThrow(
@@ -1430,8 +1438,7 @@ class ZWave2 extends utils.Adapter {
               )
             );
           }
-          if (!requireParams("source"))
-            return;
+          if (!requireParams("source")) return;
           const params = obj.message;
           const source = params.source;
           try {
@@ -1454,8 +1461,7 @@ class ZWave2 extends utils.Adapter {
               )
             );
           }
-          if (!requireParams("source"))
-            return;
+          if (!requireParams("source")) return;
           const params = obj.message;
           const source = params.source;
           try {
@@ -1478,8 +1484,7 @@ class ZWave2 extends utils.Adapter {
               )
             );
           }
-          if (!requireParams("nodeId", "association"))
-            return;
+          if (!requireParams("nodeId", "association")) return;
           const params = obj.message;
           const nodeId = params.nodeId;
           const definition = params.association;
@@ -1514,8 +1519,7 @@ class ZWave2 extends utils.Adapter {
               )
             );
           }
-          if (!requireParams("nodeId", "association"))
-            return;
+          if (!requireParams("nodeId", "association")) return;
           const params = obj.message;
           const nodeId = params.nodeId;
           const definition = params.association;
@@ -1550,8 +1554,7 @@ class ZWave2 extends utils.Adapter {
               )
             );
           }
-          if (!requireParams("nodeId"))
-            return;
+          if (!requireParams("nodeId")) return;
           const { nodeId } = obj.message;
           try {
             await this.driver.controller.nodes.get(nodeId).refreshInfo();
@@ -1625,8 +1628,7 @@ class ZWave2 extends utils.Adapter {
               )
             );
           }
-          if (!requireParams("nodeId"))
-            return;
+          if (!requireParams("nodeId")) return;
           const { nodeId } = obj.message;
           try {
             await this.driver.controller.nodes.get(nodeId).abortFirmwareUpdate();

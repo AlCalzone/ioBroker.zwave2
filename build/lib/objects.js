@@ -68,8 +68,7 @@ function nodeStatusToStatusState(status) {
   }
 }
 function safeValue(value) {
-  if (value == void 0)
-    return null;
+  if (value == void 0) return null;
   if (Buffer.isBuffer(value)) {
     return (0, import_shared.buffer2hex)(value);
   } else if ((0, import_typeguards.isArray)(value) || (0, import_typeguards.isObject)(value)) {
@@ -80,8 +79,7 @@ function safeValue(value) {
 const isCamelCasedSafeNameRegex = /^(?!.*[\-_]$)[a-z]([a-zA-Z0-9\-_]+)$/;
 const DEVICE_ID_BROADCAST = "Broadcast";
 function nameToStateId(label) {
-  if (isCamelCasedSafeNameRegex.test(label))
-    return label;
+  if (isCamelCasedSafeNameRegex.test(label)) return label;
   let safeName = label;
   while (true) {
     let replaced = safeName;
@@ -92,8 +90,7 @@ function nameToStateId(label) {
     replaced = replaced.replace(/\s_/g, " ");
     replaced = replaced.replace(/^_\s*/, "");
     replaced = replaced.replace(/\s*_$/, "");
-    if (safeName === replaced)
-      break;
+    if (safeName === replaced) break;
     safeName = replaced;
   }
   return camelCase(safeName);
@@ -142,8 +139,7 @@ const secClassDefinitions = [
 function securityClassesToRecord(node) {
   const ret = {};
   for (const [secClass, cc] of secClassDefinitions) {
-    if (!node.supportsCC(cc))
-      continue;
+    if (!node.supportsCC(cc)) continue;
     ret[import_core.SecurityClass[secClass]] = node.hasSecurityClass(secClass) === true;
   }
   return ret;
@@ -159,9 +155,13 @@ function nodeToNative(node) {
       type: {
         basic: node.deviceClass.basic.label,
         generic: node.deviceClass.generic.label,
-        ...node.deviceClass.specific.key !== 0 ? { specific: node.deviceClass.specific.label } : {}
+        ...node.deviceClass.specific.key !== 0 ? (
+          // Only use the the specific device class if it is not "Unused"
+          { specific: node.deviceClass.specific.label }
+        ) : {}
       }
     },
+    // endpoints: node.getEndpointCount(),
     endpointIndizes: node.getEndpointIndizes(),
     securityClasses: securityClassesToRecord(node),
     secure: node.isSecure,
@@ -323,7 +323,16 @@ async function extendVirtualMetadata(node, deviceId, { metadata, ccVersion, ...v
 async function extendMetadataInternal(stateId, metadata, valueId, nativePart = {}) {
   const stateType = valueTypeToIOBrokerType(metadata.type);
   const originalObject = import_global.Global.adapter.oObjects[`${import_global.Global.adapter.namespace}.${stateId}`];
-  const newStateName = import_global.Global.adapter.config.preserveStateNames && (originalObject == null ? void 0 : originalObject.common.name) ? originalObject.common.name : metadata.label ? `${metadata.label}${valueId.endpoint ? ` (Endpoint ${valueId.endpoint})` : ""}` : stateId;
+  const newStateName = import_global.Global.adapter.config.preserveStateNames && (originalObject == null ? void 0 : originalObject.common.name) ? (
+    // Keep the original name if one exists and it should be preserved
+    originalObject.common.name
+  ) : (
+    // Otherwise try to construct a new name from the metadata
+    metadata.label ? `${metadata.label}${valueId.endpoint ? ` (Endpoint ${valueId.endpoint})` : ""}` : (
+      // and fall back to the state ID if that is missing
+      stateId
+    )
+  );
   const stateRole = (originalObject == null ? void 0 : originalObject.common.role) || metadataToStateRole(stateType, metadata);
   const objectDefinition = {
     type: "state",
@@ -369,8 +378,7 @@ function valueTypeToIOBrokerType(valueType) {
     case "any":
       return "mixed";
     default:
-      if (valueType == null ? void 0 : valueType.endsWith("[]"))
-        return "array";
+      if (valueType == null ? void 0 : valueType.endsWith("[]")) return "array";
   }
   return "mixed";
 }
@@ -486,7 +494,13 @@ async function setNotificationValue(nodeId, notificationLabel, eventLabel, prope
     property
   );
   const originalObject = import_global.Global.adapter.oObjects[`${import_global.Global.adapter.namespace}.${stateId}`];
-  const newStateName = import_global.Global.adapter.config.preserveStateNames && (originalObject == null ? void 0 : originalObject.common.name) ? originalObject.common.name : `${notificationLabel}: ${eventLabel}${!!property ? ` (${property})` : ""}`;
+  const newStateName = import_global.Global.adapter.config.preserveStateNames && (originalObject == null ? void 0 : originalObject.common.name) ? (
+    // Keep the original name if one exists and it should be preserved
+    originalObject.common.name
+  ) : (
+    // Otherwise use the given label (and property name)
+    `${notificationLabel}: ${eventLabel}${!!property ? ` (${property})` : ""}`
+  );
   const objectDefinition = {
     type: "state",
     common: typeof value === "boolean" ? {
@@ -523,10 +537,8 @@ async function setNotificationValue(nodeId, notificationLabel, eventLabel, prope
   let val;
   if (value instanceof import_core.Duration) {
     val = value.toMilliseconds();
-    if (val == void 0)
-      val = "unknown";
-    else
-      val /= 1e3;
+    if (val == void 0) val = "unknown";
+    else val /= 1e3;
   } else {
     val = value;
   }

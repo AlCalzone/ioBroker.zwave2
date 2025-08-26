@@ -43,8 +43,7 @@ const Root: React.FC = memo(() => {
 	const { translate: _ } = useI18n();
 
 	const handleTabChange = (
-		// eslint-disable-next-line @typescript-eslint/ban-types
-		event: React.ChangeEvent<{}>,
+		event: React.ChangeEvent<object>,
 		newValue: number,
 	) => {
 		setValue(newValue);

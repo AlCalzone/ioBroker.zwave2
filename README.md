@@ -40,6 +40,10 @@ Easy usage in ioBroker was kept in mind during the whole development. For exampl
 	Placeholder for next versions:
 	### __WORK IN PROGRESS__
 -->
+### __WORK IN PROGRESS__
+IMPORTANT: This version requires at least Node.js 20 and ioBroker js-controller 6.0 or higher!
+* Updated dependencies
+
 ### 3.1.0 (2023-09-27)
 Updated `zwave-js` to `10.23.6`. This includes the following changes:
 * Added support for `Security S2` multicast
@@ -86,7 +90,7 @@ Fixed some more communication issues. If a device isn't working properly after u
 
 MIT License
 
-Copyright (c) 2019-2023 AlCalzone
+Copyright (c) 2019-2025 AlCalzone
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

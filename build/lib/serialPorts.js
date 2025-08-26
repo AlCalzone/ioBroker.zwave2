@@ -18,6 +18,10 @@ var __copyProps = (to, from, except, desc) => {
   return to;
 };
 var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
   isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
   mod
 ));
@@ -32,8 +36,7 @@ var import_fs_extra = __toESM(require("fs-extra"));
 var import_path = __toESM(require("path"));
 var import_zwave_js = require("zwave-js");
 function isSerialPort(path2) {
-  if (!/(tty(S|ACM|USB|AMA|MFD)|rfcomm)/.test(path2))
-    return false;
+  if (!/(tty(S|ACM|USB|AMA|MFD)|rfcomm)/.test(path2)) return false;
   return import_fs_extra.default.statSync(path2).isCharacterDevice();
 }
 async function enumerateSerialPorts(adapter) {

@@ -88,7 +88,7 @@ const ArrowDown: React.FC<{ status?: Status }> = (props) => {
 export const DeviceStatisticsIndicator: React.FC<
 	DeviceStatisticsIndicatorProps
 > = (props) => {
-	const [prevStats, setPrevStats] = useState<typeof props["statistics"]>();
+	const [prevStats, setPrevStats] = useState<(typeof props)["statistics"]>();
 	const [txStatus, setTxStatus] = useState<Status>();
 	const [rxStatus, setRxStatus] = useState<Status>();
 
