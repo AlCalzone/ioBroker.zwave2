@@ -122,7 +122,10 @@
       "zwave2",
       "z-wave 2"
     ],
-    "license": "MIT",
+    "licenseInformation": {
+      "type": "free",
+      "license": "MIT"
+    },
     "platform": "Javascript/Node.js",
     "main": "build/main.js",
     "icon": "zwave2.svg",
