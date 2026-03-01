@@ -142,8 +142,7 @@
         "en": "Z-Wave",
         "de": "Z-Wave"
       },
-      "link": "",
-      "fa-icon": "wifi"
+      "link": ""
     },
     "messagebox": true,
     "connectionType": "local",
