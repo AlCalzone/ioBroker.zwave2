@@ -9,9 +9,9 @@
   "homepage": "https://github.com/AlCalzone/ioBroker.zwave2",
   "license": "MIT",
   "keywords": [
+    "ioBroker",
     "zwave",
     "z-wave",
-    "iobroker",
     "adapter"
   ],
   "repository": {
