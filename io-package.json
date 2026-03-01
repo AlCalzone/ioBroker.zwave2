@@ -124,7 +124,6 @@
     ],
     "license": "MIT",
     "platform": "Javascript/Node.js",
-    "main": "build/main.js",
     "icon": "zwave2.svg",
     "enabled": true,
     "dataFolder": "zwave2.%INSTANCE%",
