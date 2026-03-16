@@ -131,6 +131,7 @@
     "extIcon": "https://raw.githubusercontent.com/AlCalzone/ioBroker.zwave2/master/admin/zwave2.svg?sanitize=true",
     "readme": "https://github.com/AlCalzone/ioBroker.zwave2/blob/master/README.md",
     "loglevel": "info",
+    "tier": 2,
     "mode": "daemon",
     "type": "hardware",
     "eraseOnUpload": true,
